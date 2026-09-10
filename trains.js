@@ -291,7 +291,17 @@ window.JMAP_TRAINS = function (host) {
     var flat = data.paths[lo + '|' + hi];
     var pts = [], i;
     if (flat) {
-      for (i = 0; i < flat.length; i += 2) pts.push([flat[i], flat[i + 1]]);
+      /* Dropping a point that repeats the one before it. The source traces a
+         stretch from station to station and the snapped station node often
+         repeats the first vertex of the track, so an exported line came out
+         with 262 duplicate pairs in Taiwan alone. A zero-length segment is
+         not wrong, exactly, but it is noise in every tool that reads the
+         file and it makes a length sum need cleaning first. */
+      for (i = 0; i < flat.length; i += 2) {
+        var x = flat[i], y = flat[i + 1], last = pts[pts.length - 1];
+        if (last && last[0] === x && last[1] === y) continue;
+        pts.push([x, y]);
+      }
       return pts.length > 1 ? pts : null;
     }
     var A = data.stations[lo], B = data.stations[hi];
@@ -309,19 +319,61 @@ window.JMAP_TRAINS = function (host) {
      a chord between two stations; a reader plotting this needs to know which
      part of it is a survey and which is an assertion that two places were
      joined. */
-  function lineFeature(li) {
-    var line = data.lines[li];
-    if (!line) return null;
-    var parts = [], straight = 0, routed = 0;
+  /* **A survey and an assertion are not the same line, and a file should not
+     mix them.**
+
+     Most of a stretch is traced along the line GIS. Some of it is a chord: two
+     points across country, drawn because the source could not place the stops
+     between, or because there is no drawn railway there at all. The Korean
+     bundle is the case that matters — it is the 1938 Korea/Manchuria/Japan
+     timetable, and 82 of its 86 chords run to stations in Manchuria and the
+     home islands, where this map has no railway geometry whatever. Hailar to
+     Manzhouli is a thousand kilometres from anything drawn.
+
+     Those chords are what a reader sees as long straight lines cutting across
+     the map, and they cannot be made to follow a railway that is not there. So
+     they come out as **a feature of their own**, with `geometry_kind: 'chord'`,
+     which a reader can style differently or drop outright. The traced part
+     keeps the line's name and is what the line actually was. */
+  /* A stretch is a chord if trains.js had to draw it straight (no path at all)
+     **or** if the source's own "path" is two points across open country. The
+     second is the common case and the one that was missed: the Korean bundle
+     stores its 86 chords as two-point entries in `paths`, so a test of
+     `!data.paths[k]` calls them traced and the file claims a survey it does
+     not have.
+
+     Three kilometres is the same threshold `tools/rail_route.py` uses to
+     decide that a two-point trace is a chord worth rerouting rather than a
+     genuinely short hop between adjacent stations. */
+  var CHORD_KM = 3.0;
+
+  function twoPointChord(c) {
+    if (c.length !== 2) return false;
+    var kx = Math.cos((c[0][1] + c[1][1]) / 2 * Math.PI / 180);
+    var dx = (c[1][0] - c[0][0]) * kx, dy = c[1][1] - c[0][1];
+    return Math.sqrt(dx * dx + dy * dy) * 111.0 > CHORD_KM;
+  }
+
+  function splitParts(li) {
+    var traced = [], chords = [], routed = 0;
     var wasRouted = data.routed || [];
     Object.keys(lineOwns).forEach(function (k) {
       if (lineOwns[k] !== li) return;
       var c = pairCoords.apply(null, k.split('|').map(Number));
       if (!c) return;
-      if (!data.paths[k]) straight++;
-      else if (wasRouted.indexOf(k) >= 0) routed++;
-      parts.push(c);
+      if (!data.paths[k] || twoPointChord(c)) { chords.push(c); return; }
+      if (wasRouted.indexOf(k) >= 0) routed++;
+      traced.push(c);
     });
+    return { traced: traced, chords: chords, routed: routed };
+  }
+
+  function lineFeature(li) {
+    var line = data.lines[li];
+    if (!line) return null;
+    var sp = splitParts(li);
+    var parts = sp.traced.concat(sp.chords);
+    var straight = sp.chords.length, routed = sp.routed;
     if (!parts.length) return null;
     return {
       type: 'Feature',
@@ -343,6 +395,47 @@ window.JMAP_TRAINS = function (host) {
       },
     };
   }
+
+  /* The same line as one or two features: what was surveyed, and — kept
+     apart — what was only asserted. This is what the downloads use; the single
+     `lineFeature` above is left as it was for anything that wants one shape. */
+  function lineFeatures(li) {
+    var line = data.lines[li];
+    if (!line) return [];
+    var sp = splitParts(li);
+    var base = lineFeature(li);
+    if (!base) return [];
+    var out = [];
+    if (sp.traced.length) {
+      var t = JSON.parse(JSON.stringify(base));
+      t.geometry.coordinates = sp.traced;
+      t.properties.geometry_kind = 'traced';
+      t.properties.stretches = sp.traced.length;
+      t.properties.straight = 0;
+      t.properties.routed = sp.routed;
+      t.properties.note = GEO_NOTE;
+      out.push(t);
+    }
+    if (sp.chords.length) {
+      var c = JSON.parse(JSON.stringify(base));
+      c.geometry.coordinates = sp.chords;
+      c.properties.geometry_kind = 'chord';
+      c.properties.stretches = sp.chords.length;
+      c.properties.straight = sp.chords.length;
+      c.properties.routed = 0;
+      c.properties.note = CHORD_NOTE;
+      out.push(c);
+    }
+    return out;
+  }
+
+  var CHORD_NOTE = 'Straight lines between two stations, not a survey. Either '
+    + 'the source could not place the stops between them, or this map draws no '
+    + 'railway there at all \u2014 the Korean bundle is the 1938 Korea, '
+    + 'Manchuria and Japan timetable, and its Manchurian and home-island '
+    + 'stretches have no drawn railway to follow. They are separated from the '
+    + 'traced geometry so they can be styled apart or dropped; do not measure '
+    + 'a distance along them.';
 
   var GEO_NOTE = 'Longitude and latitude, unprojected. The track between two '
     + 'consecutive stops is traced along the line file where the source has '
@@ -1428,11 +1521,13 @@ window.JMAP_TRAINS = function (host) {
     systemFeatures: function () {
       var out = [];
       (data.lines || []).forEach(function (l, i) {
-        var f = lineFeature(i);
-        if (f) out.push(f);
+        lineFeatures(i).forEach(function (f) { out.push(f); });
       });
       return out;
     },
+
+    /* One line, split into the surveyed part and the asserted part. */
+    lineFeatures: function (li) { return lineFeatures(li); },
 
     /* The reader turned Japanese names on or off. Every name this module puts
        on the screen follows that switch, so the strip's line chips are

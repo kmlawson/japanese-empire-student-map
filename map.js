@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '344';
+  var JEM_VERSION = '345';
 
   /* Every file this one fetches, with the version on it.
 
@@ -12145,19 +12145,46 @@
     /* The railway next where there is one under the pointer: the reader who
        right-clicked a line meant the line, not the province it crosses. */
     if (railLine) {
+      /* The surveyed geometry and the asserted chords go out as separate
+         features — see `lineFeatures` in trains.js — so a reader can drop the
+         straight lines rather than measure along them. */
+      const lineFeats = (trainApi.lineFeatures && rh && rh.index !== undefined)
+        ? trainApi.lineFeatures(rh.index) : [railLine];
       menuEl.appendChild(menuItem('Download GeoJSON \u2014 '
         + (railLine.properties.line || 'this line'),
-        function () { saveRailGeoJSON([railLine], railFileName(railLine)); }));
+        function () {
+          saveRailGeoJSON(lineFeats.length ? lineFeats : [railLine],
+                          railFileName(railLine));
+        }));
     }
     if (railSys && trainApi && trainApi.mounted()
         && trainApi.system() === railSys && trainApi.systemFeatures) {
-      var whole = trainApi.systemFeatures();
-      if (whole.length > (railLine ? 1 : 0)) {
+      /* `const`, and not `whole`.
+       *
+       * This was `var whole`, and three hundred lines below it the atom branch
+       * also said `var whole = atomShapes(atomKey)`. `var` is function-scoped,
+       * so those were one variable: by the time the reader clicked this row
+       * the atom branch had already overwritten it with a list of SVG `<path>`
+       * elements, and the closure below — which captured the *variable*, not
+       * its value — handed those to `saveRailGeoJSON`.
+       *
+       * The label was built at menu time and so read correctly ("7 lines");
+       * the file was `JSON.stringify` of a DOM node, which serialises none of
+       * a node and all of its expandos. Every whole-network download for the
+       * life of the feature was ninety bytes of `{"__bb":{},"__bbGen":7}`.
+       *
+       * This is the hazard CLAUDE.md names — a `var` in a 900-line function
+       * being the same `var` as one three hundred lines up, with nothing to
+       * say so until it goes wrong. `const` makes the redeclaration a parse
+       * error instead of a silent aliasing. */
+      const netFeats = trainApi.systemFeatures();
+      if (netFeats.length > (railLine ? 1 : 0)) {
         menuEl.appendChild(menuItem('Download GeoJSON \u2014 all of '
           + (RAIL_LABEL[railSys] || railSys) + '\u2019s railways ('
-          + whole.length + ' lines)',
+          + netFeats.length + ' lines)',
           function () {
-            saveRailGeoJSON(whole, (RAIL_LABEL[railSys] || railSys) + '-railways');
+            saveRailGeoJSON(netFeats,
+                            (RAIL_LABEL[railSys] || railSys) + '-railways');
           }));
       }
     } else if (railSys) {

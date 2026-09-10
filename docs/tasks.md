@@ -19914,3 +19914,68 @@ Checked on Tokyo, Shanghai, Singapore, Manila and Hiroshima.
 `menu` 61 → **78 checks**. Both halves proved by breaking them: making `cityAt`
 return null for a plain dot fails 4, and blanking `name_ja` fails the
 separate-fields check alone. Full suite before the push.
+
+## The railway download wrote DOM nodes, and called a chord a survey
+
+**Every whole-network railway download was ninety bytes.** Not a feature in it:
+
+```json
+{"type":"FeatureCollection","features":[{"__bb":{},"__bbGen":7}]}
+```
+
+`openMenu` had `var whole = trainApi.systemFeatures()` in the railway branch and,
+three hundred lines below, `var whole = atomShapes(atomKey)` in the atom branch.
+`var` is function-scoped, so those are **one variable**. The menu row's closure
+captured the variable rather than its value, and by the time anybody clicked, the
+atom branch had reassigned it to a list of SVG `<path>` elements. `JSON.stringify`
+of a DOM node serialises none of the node and all of its expandos, and `__bb` /
+`__bbGen` are the bbox cache this map hangs on its paths.
+
+The label was built at menu time, so it read "7 lines" and was correct. Nothing
+on screen said otherwise. This is exactly the hazard CLAUDE.md names — a `var`
+in a 900-line function being the same `var` as one three hundred lines up, with
+nothing to say so until it goes wrong — and the fix is `const netFeats`, which
+makes the collision a parse error rather than a silent aliasing.
+
+Measured, Taiwan: **90 bytes → 279,662**, 7 features, none without geometry.
+
+**And the chords claimed to be surveys.** A stretch the transcription could not
+trace is stored as a *two-point path*, so the old test — `!data.paths[k]` — read
+it as traced. Splitting on that alone left Korea reporting 64 traced features and
+no chords at all.
+
+The threshold is `rail_route.py`'s own: a two-point path longer than **3 km** is a
+chord, not a short hop between adjacent stations. With that, Korea's 66 features
+come out **39 traced and 27 chord**, and the chords go into features of their own
+carrying `geometry_kind: 'chord'` and a note saying not to measure along them.
+
+**Why they cannot simply be made to follow the white line, which was the ask.**
+Measured, sampling 200–250 vertices per system against the drawn railway:
+
+| | median | 90th | max |
+|---|---|---|---|
+| Taiwan | 0.00 km | 0.00 km | **0.02 km** |
+| Karafuto | 0.00 km | 0.00 km | **0.05 km** |
+| Korea | 0.00 km | 20.12 km | **338.25 km** |
+
+Taiwan and Karafuto already lie on the white line, and are *denser* than it —
+8,347 vertices against the drawn layer's 4,177, because the drawing is thinned at
+`TRACED_TOL` and the export is not. Nothing to fix there.
+
+Korea diverges because the 1938 bundle is the **Korea, Manchuria and Japan**
+timetable and this map draws railways for three colonies only. Of its 86 chords,
+**82 have an endpoint more than 1.2 km from any drawn Korean rail** — Hailar to
+Manzhouli is 1,020 km from anything on this map, and Sendai, Morioka, Ueno,
+Aomori and Mito are the same story. `rail_route` routes 1 of 83 for exactly this
+reason: there is no railway under the other 82 to route along. They can be
+separated and labelled, which is what this does; they cannot be made to follow a
+line that does not exist.
+
+**Also fixed: repeated vertices.** The source repeats a station's snapped node as
+the first vertex of the track, which put 262 zero-length segments in a Taiwan
+export and 26 in Karafuto. `pairCoords` drops a point identical to the one before
+it. Korea's network file now measures 19,455 vertices with **0 duplicate pairs**.
+
+`trains` 123 → **131 checks**. Both halves proved by breaking them: forcing
+`twoPointChord` to return false fails 2, and the ninety-byte file is what the
+`> 100000 bytes` check was written against.

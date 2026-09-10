@@ -1035,6 +1035,106 @@ const shutDialogs=p=>p.evaluate(()=>{
       await q.close();
     }
     dl.clean();
+
+    /* ============ the file the tools give, over the plain one ============
+     *
+     * Two things went wrong here and both were invisible from the label.
+     *
+     * **The whole network came out as ninety bytes.** `openMenu` said
+     * `var whole = trainApi.systemFeatures()` and, three hundred lines below,
+     * `var whole = atomShapes(atomKey)` — one function-scoped variable, so the
+     * closure handed the atom's SVG nodes to the writer and the file was
+     * `{"__bb":{},"__bbGen":7}`. The row's own label was built earlier and read
+     * "7 lines", which is why nobody noticed.
+     *
+     * **And a chord claimed to be a survey.** A stretch the source could not
+     * trace is stored as a two-point path, so the old test — `!data.paths[k]` —
+     * called it traced. 27 of Korea's 66 features are chords, most of them
+     * running to Manchuria and the home islands where this map draws no
+     * railway at all. They go out as their own features now so a reader can
+     * drop them instead of measuring along them. */
+    console.log('\n— the network file, and a chord that says so —');
+    const net = await browser.newPage();
+    await net.setViewport({width:1280,height:900});
+    await net.evaluateOnNewDocument(SHIM);
+    await net.goto(BASE+'?where=124.5,34.0,131.0,43.0',{waitUntil:'domcontentloaded'});
+    await ready(net);
+    await net.evaluate(()=>{const b=document.querySelector('#opt-kr-rail');
+      if(b&&!b.checked){b.checked=true;b.dispatchEvent(new Event('change',{bubbles:true}));}});
+    await sleep(1800);
+    await net.click('#btn-trains');
+    await sleep(6000);
+    const spot = await net.evaluate(()=>{
+      const G=window.JMAP_GEO;
+      const els=[...document.querySelectorAll('#train-layer .train-line')]
+        .map(e=>({e,L:e.getTotalLength()})).sort((a,b)=>b.L-a.L);
+      for(const {e,L} of els.slice(0,80)){
+        for(const f of [0.5,0.35,0.65,0.2,0.8]){
+          const q=e.getPointAtLength(L*f), ll=G.unproject(q.x,q.y);
+          if(!(ll.lon>126&&ll.lon<129.5&&ll.lat>35&&ll.lat<39)) continue;
+          const s=e.ownerSVGElement.createSVGPoint(); s.x=q.x; s.y=q.y;
+          const scr=s.matrixTransform(e.getScreenCTM());
+          const x=Math.round(scr.x), y=Math.round(scr.y);
+          if(x>60&&x<innerWidth-60&&y>80&&y<innerHeight-60) return {x,y};
+        }
+      }
+      return null;
+    });
+    check('a train line can be right-clicked over the peninsula', !!spot,
+      'no line found inside the viewport');
+    if (spot) {
+      await net.mouse.click(spot.x, spot.y, {button:'right'});
+      await sleep(350);
+      const got = await net.evaluate(async ()=>{
+        const m=document.getElementById('jmap-menu');
+        if(!m) return {err:'no menu'};
+        const b=[...m.querySelectorAll('button')].find(x=>/all of Korea/.test(x.textContent));
+        if(!b) return {err:'no whole-network row',
+                       rows:[...m.querySelectorAll('button')].map(x=>x.textContent)};
+        let caught=null;
+        const realBlob=window.Blob, realURL=URL.createObjectURL;
+        window.Blob=function(parts,opts){caught=String(parts[0]); return new realBlob(parts,opts);};
+        URL.createObjectURL=function(){return 'blob:stub';};
+        b.click();
+        window.Blob=realBlob; URL.createObjectURL=realURL;
+        if(!caught) return {err:'nothing written'};
+        let j=null; try{ j=JSON.parse(caught); }catch(e){ return {err:'not JSON: '+e}; }
+        const fs=j.features||[];
+        const kinds={};
+        fs.forEach(f=>{const k=(f.properties||{}).geometry_kind||'(none)'; kinds[k]=(kinds[k]||0)+1;});
+        let dup=0, verts=0;
+        fs.forEach(f=>(((f.geometry||{}).coordinates)||[]).forEach(part=>{
+          verts+=part.length;
+          for(let i=1;i<part.length;i++)
+            if(part[i][0]===part[i-1][0]&&part[i][1]===part[i-1][1]) dup++;
+        }));
+        const chord=fs.find(f=>(f.properties||{}).geometry_kind==='chord');
+        return {bytes:caught.length, n:fs.length, kinds, dup, verts,
+                bad: fs.filter(f=>!f||!f.geometry||!(f.geometry.coordinates||[]).length).length,
+                chordNote: chord && (chord.properties.note||''),
+                tracedNote: (fs.find(f=>(f.properties||{}).geometry_kind==='traced')||{properties:{}}).properties.note||''};
+      });
+      check('the whole network writes real features, not DOM nodes',
+        !got.err && got.n > 20 && got.bad === 0,
+        JSON.stringify(got).slice(0,180));
+      /* The regression that started this: ninety bytes of expando. */
+      check('  and is not the ninety-byte __bb file', !got.err && got.bytes > 100000,
+        (got.bytes||0) + ' bytes');
+      check('  every feature carrying geometry', !got.err && got.bad === 0,
+        (got.bad||0) + ' with none');
+      check('  and no repeated vertices', !got.err && got.dup === 0,
+        (got.dup||0) + ' duplicate consecutive pairs of ' + (got.verts||0));
+      check('a survey and an assertion are separate features',
+        !got.err && got.kinds && got.kinds.traced > 0 && got.kinds.chord > 0,
+        JSON.stringify(got.kinds));
+      check('  and the chords say plainly not to measure along them',
+        !got.err && /not a survey/.test(got.chordNote||''),
+        (got.chordNote||'').slice(0,70));
+      check('  while the traced part keeps the survey note',
+        !got.err && /unprojected/.test(got.tracedNote||''),
+        (got.tracedNote||'').slice(0,70));
+    }
+    await net.close();
   } finally { await browser.close(); }
   process.exit(report());
 })();

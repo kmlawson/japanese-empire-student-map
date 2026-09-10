@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '344';
+  var JEM_VERSION = '345';
 
 
 
@@ -12145,19 +12145,46 @@
 
 
     if (railLine) {
+
+
+
+      const lineFeats = (trainApi.lineFeatures && rh && rh.index !== undefined)
+        ? trainApi.lineFeatures(rh.index) : [railLine];
       menuEl.appendChild(menuItem('Download GeoJSON \u2014 '
         + (railLine.properties.line || 'this line'),
-        function () { saveRailGeoJSON([railLine], railFileName(railLine)); }));
+        function () {
+          saveRailGeoJSON(lineFeats.length ? lineFeats : [railLine],
+                          railFileName(railLine));
+        }));
     }
     if (railSys && trainApi && trainApi.mounted()
         && trainApi.system() === railSys && trainApi.systemFeatures) {
-      var whole = trainApi.systemFeatures();
-      if (whole.length > (railLine ? 1 : 0)) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      const netFeats = trainApi.systemFeatures();
+      if (netFeats.length > (railLine ? 1 : 0)) {
         menuEl.appendChild(menuItem('Download GeoJSON \u2014 all of '
           + (RAIL_LABEL[railSys] || railSys) + '\u2019s railways ('
-          + whole.length + ' lines)',
+          + netFeats.length + ' lines)',
           function () {
-            saveRailGeoJSON(whole, (RAIL_LABEL[railSys] || railSys) + '-railways');
+            saveRailGeoJSON(netFeats,
+                            (RAIL_LABEL[railSys] || railSys) + '-railways');
           }));
       }
     } else if (railSys) {
