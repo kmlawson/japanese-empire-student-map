@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '353';
+  var JEM_VERSION = '354';
 
 
 
@@ -213,6 +213,7 @@
     twRail: false,
     krRail: false,
     kfRail: false,
+    burmaRail: false,
     jpRail: false,
     jpStations: false,
     air: false,
@@ -1267,6 +1268,7 @@
     twRailGroup = svg.querySelector('#tw-rail');
     krRailGroup = svg.querySelector('#kr-rail');
     kfRailGroup = svg.querySelector('#kf-rail');
+    burmaRailGroup = svg.querySelector('#burma-rail');
     buildYellow1938();
     buildAir();
     buildPopRows();
@@ -2199,6 +2201,11 @@
 
 
 
+
+    railFadeOne(burmaRailGroup, state.burmaRail);
+
+
+
     if (state.jpRail && jpRailState === 'none') loadJpRails();
     railFadeOne(jpRailGroup, state.jpRail && !trainDraws('jp'));
 
@@ -2569,7 +2576,21 @@
 
   function railFadeOne(group, on) {
     if (!group) return;
-    if (!on) { group.style.display = 'none'; return; }
+
+
+
+
+
+
+
+
+
+
+    if (!on) {
+      group.style.display = 'none';
+      group.style.opacity = '0';
+      return;
+    }
     var full = mapW / RAIL_FULL_W, gone = mapW / RAIL_GONE_W;
     var a = view.w <= full ? 1
           : view.w >= gone ? 0
@@ -2821,6 +2842,7 @@
      ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations'],
      ['#opt-kf-rail', 'kfRail'], ['#opt-kf-stations', 'kfStations'],
+     ['#opt-burma-rail', 'burmaRail'],
      ['#opt-jp-rail', 'jpRail'], ['#opt-jp-stations', 'jpStations']]
       .forEach(function (pair) {
         var box = $(pair[0]);
@@ -3499,6 +3521,7 @@
   var twRailGroup = null;
   var krRailGroup = null;
   var kfRailGroup = null;
+  var burmaRailGroup = null;
 
 
   var jpRailGroup = null;
@@ -4725,7 +4748,8 @@
             ['airAll', AIRALL_PLACE, 2], ['airNames', AIRNAMES_PLACE, 2],
             ['hanLabels', HANLABELS_PLACE, 2], ['kfRail', KFRAIL_PLACE, 2],
             ['jpRail', JPRAIL_PLACE, 2], ['jpStations', JPSTA_PLACE, 2],
-            ['kfStations', KFSTA_PLACE, 2]);
+            ['kfStations', KFSTA_PLACE, 2],
+            ['burmaRail', BURMARAIL_PLACE, 2]);
     LABEL_CATS.forEach(function (c) { hi.push(['labels:' + c.id, c.place, 2]); });
     hi.sort(function (a, b) { return a[1] - b[1]; });
     for (var h = 0; h + 1 < hi.length; h++) {
@@ -4870,6 +4894,12 @@
     if (asRead.jpRail) hi += JPRAIL_PLACE;      // Japan's, fetched on demand
     if (asRead.jpStations) hi += JPSTA_PLACE;
     if (asRead.kfStations) hi += KFSTA_PLACE;   // and their stations
+
+
+
+
+
+    if (state.burmaRail) hi += BURMARAIL_PLACE;   // Burma's, lines only
     hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
 
 
@@ -5007,6 +5037,7 @@
     state.airNames = !(Math.floor(hi / AIRNAMES_PLACE) % 2);    // inverted
     state.hanLabels = !!(Math.floor(hi / HANLABELS_PLACE) % 2);
     state.kfRail = !!(Math.floor(hi / KFRAIL_PLACE) % 2);
+    state.burmaRail = !!(Math.floor(hi / BURMARAIL_PLACE) % 2);
     state.kfStations = !!(Math.floor(hi / KFSTA_PLACE) % 2);
     state.theme = THEME_MODES[(Math.floor(hi / THEME_PLACE) % 4) - 1] || 'auto';
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
@@ -7509,7 +7540,34 @@
 
 
 
-    var tHit = (trainApi && trainApi.mounted() && state.mode !== 'quiz')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    var onMarker = !!(hit && hit.rec
+                      && (hit.rec.kind === 'site' || hit.rec.kind === 'gaz'));
+    var tHit = (trainApi && trainApi.mounted() && state.mode !== 'quiz'
+                && !onMarker)
       ? trainApi.hitAt(cx, cy) : null;
     if (tHit && tHit.kind === 'train'
         && tHit.dist < stationDist(hit, got, cx, cy)) {
@@ -8120,6 +8178,21 @@
     var rec = (JMAP.PROVINCES || {})[key];
 
 
+
+
+
+
+
+
+    var parent = target.getAttribute('data-parent') || '';
+    if (rec && parent) {
+      var withParent = {};
+      Object.keys(rec).forEach(function (k) { withParent[k] = rec[k]; });
+      withParent.parent = parent;
+      rec = withParent;
+    }
+
+
     var per = JMAP.PROVINCE_EPOCH && JMAP.PROVINCE_EPOCH[state.epoch];
     var over = per && per[key];
     if (rec && over) {
@@ -8268,6 +8341,18 @@
         if (head.region) line = (line ? line + '  ' : '') + '(' + head.region + ')';
         gp.textContent = line;
         tooltip.appendChild(gp);
+      }
+
+
+
+
+
+      if (head.parent && !head.group) {
+        var pp = document.createElement('span');
+        pp.className = 'sub group';
+        var prot = (JMAP.PROVINCES || {})[head.parent];
+        pp.textContent = (prot && nameOf(shown(prot))) || head.parent;
+        tooltip.appendChild(pp);
       }
       var pv = document.createElement('span');
       pv.className = 'sub prov';
@@ -9081,6 +9166,15 @@
     var chip = $('.chip', infoBox);
     chip.textContent = info ? nameOf(info) : rec.cat;
     chip.style.setProperty('--chip', info ? info.c : 'var(--muted)');
+
+
+
+
+
+
+    if (head.fr && head.fr !== primary && others.indexOf(head.fr) < 0) {
+      others.push(head.fr);
+    }
     $('.primary', infoBox).textContent = primary;
     $('.alt', infoBox).textContent = others.join('  ·  ');
 
@@ -9090,6 +9184,16 @@
 
     var owner = (sub && rec.cat !== 'ccp')
       ? [nameOf(host)].concat(otherNames(host) || []).join('  ') : '';
+
+
+
+
+
+
+    if (owner && head.parent) {
+      var prot = (JMAP.PROVINCES || {})[head.parent];
+      owner = ((prot && nameOf(shown(prot))) || head.parent) + '  ·  ' + owner;
+    }
 
     if (owner && host.rule) owner += '  ·  ' + host.rule;
     $('.prov', infoBox).textContent = owner;
@@ -13960,7 +14064,8 @@
 
 
     railFade();
-    [twRailGroup, krRailGroup, kfRailGroup, jpRailGroup].forEach(function (g) {
+    [twRailGroup, krRailGroup, kfRailGroup, jpRailGroup,
+     burmaRailGroup].forEach(function (g) {
       if (!g) return;
 
 
@@ -14452,6 +14557,9 @@
 
   var JPRAIL_PLACE = 67108864;
   var JPSTA_PLACE = 134217728;
+
+
+  var BURMARAIL_PLACE = 268435456;
   var THEME_MODES = ['light', 'dark'];
 
 
@@ -18079,7 +18187,11 @@
 
 
 
-    var railPairs = [['#opt-air', 'air']];
+
+
+
+
+    var railPairs = [['#opt-air', 'air'], ['#opt-burma-rail', 'burmaRail']];
     var railKeys = {};
     Object.keys(STATION_SYS).forEach(function (k) {
       railPairs.push(['#opt-' + k + '-rail', STATION_SYS[k].rail]);

@@ -69,7 +69,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'trains', 'korea', 'population', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airplay',
              'clipping', 'layerinfo', 'krtrains', 'kftrains', 'layerfind', 'beta', 'hanlabels',
-             'owns', 'jprails'];
+             'owns', 'jprails', 'indochina', 'citytap'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -143,7 +143,10 @@ const GROUPS = {
 
   /* Everything drawn as a dot or read off one: the markers, the gazetteer,
      the sites table and the menu that hangs off a shape. */
-  points: ['pointsize', 'islands', 'menu', 'routes'],
+  /* `citytap` is here as well as in transport: what it guards is the order a
+     tap is answered in, and that is a fact about the dots as much as about the
+     railway they are drawn over. */
+  points: ['pointsize', 'islands', 'menu', 'routes', 'citytap'],
 
   /* The figures — `data/population/` and the cards, tables, choropleths and
      sentences built from them. A dataset added or edited touches these and
@@ -154,12 +157,12 @@ const GROUPS = {
   /* The shapes themselves, and the sheets they are written to. These move when
      `build_map.py` runs, not when somebody edits behaviour. */
   geometry: ['backings', 'projclip', 'provsource', 'taiwan', 'korea', 'relief',
-             'islands', 'mapstrip'],
+             'islands', 'mapstrip', 'indochina'],
 
   /* Railways, stations and the sugar lines. Four data files that change in
      bursts and then sit still for weeks. */
   transport: ['trains', 'krtrains', 'kftrains', 'stations', 'sugar', 'air', 'airplay',
-               'layerinfo', 'hanlabels', 'owns', 'jprails'],
+               'layerinfo', 'hanlabels', 'owns', 'jprails', 'citytap'],
 
   /* What a link carries and what a reload remembers. */
   links: ['layers-url', 'bookmarks', 'cache-keys', 'layerinfo', 'beta', 'hanlabels'],
@@ -229,6 +232,17 @@ const TRIGGERS = [
   [/^tools\/fetch_jp_line_wiki\.py$/, ['transport']],
   [/^tools\/cache\/jp-line-wiki\.json$/, ['transport']],
   [/^data\/jp-rails\//,            []],   // vendored; the build reads it
+  /* Burma's railway: a traced layer read straight out of data/ by the build,
+     with no stations and no tools hanging off it. The trace and the switch that
+     draws it both reach the transport group; `links` because the layer has a
+     place in the `layers=` code and a link has to carry it. */
+  [/^data\/burma\//,              ['transport', 'links']],
+  /* French Indochina: the traced federation. `build_indochina.py` writes the
+     prepared files and `build_map.py` reads them, so a change to either moves
+     the drawn sheet — geometry — and the divisions carry names, notes and the
+     protectorate each was in, which is what the cards read. */
+  [/^data\/indochina\//,          ['geometry', 'core', 'data']],
+  [/^tools\/build_indochina\.py$/, ['geometry', 'core', 'data']],
   [/^tools\/build_(tw|kr|kf)_(trains|stations)\.py$/, ['transport']],
   [/^data\/(tw-1936|kr-1938|kf-1935)-timetable\//, []],   // vendored; the build reads it
   [/^deploy\/timetable\//,         ['transport']],

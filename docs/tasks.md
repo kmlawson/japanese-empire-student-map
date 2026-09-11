@@ -20478,3 +20478,196 @@ slowest thing the map does", which the measurement does not support and which
 would have been quoted later as though somebody had checked it.
 
 `trains` 144 → **150 checks**.
+
+## 171. French Indochina, traced: five protectorates and 94 divisions
+
+The federation is drawn from one hand-traced period coverage now —
+`data/indochina/french-indochina-1930.geojson`, from the 1945 OSS map held at
+Stanford as bv890bn4231 — in place of two sources that disagreed with each
+other.
+
+**What it replaces.** Vietnam was Natural Earth's, cut into Tonkin, Annam and
+Cochinchina by two straight lines standing in for the watershed; Laos and
+Cambodia were geoBoundaries' modern provinces. The two did not draw their
+shared border in the same place, which is why `indochina` had to be in
+`WELD_RINGS`: 165 square units of it, about 4,300 km² down the Annamite chain,
+had a total winding of zero and was painted as sea. `WELD_RINGS` is now empty —
+kept, with its reasoning, for the next atom assembled from two sources.
+
+`TONKIN_CUT` and `COCHIN_CUT` are gone, and `NO_ADMIN_SUBUNITS` is empty: both
+the reasons Indochina was in it have been answered.
+
+**The dissolve is exact.** `tools/build_indochina.py` checks the coverage first
+and it is topologically clean — of 10,681 directed edges every one is unique,
+and the 6,004 on an interior boundary appear once in each direction. So the
+outlines are what is left when those cancel: no tolerance, no snapping, no
+grid. Measured, the sum of the 94 units is **740,568 km²** and the dissolve of
+them is **740,568 km²** — equal, not close. The real federation was about
+737,000.
+
+Written: the resolved coverage (94 features, 10,803 vertices), the 1930 outline
+(4,642 vertices), the 1942 outline (4,230) and the 1941 cession (704). Twenty-one
+degenerate holes came out of the first dissolve — 0.09 km² between them, four-
+and five-point rings where three units meet — and are dropped under
+`HOLE_MIN_KM2`, which is 1.0 km² and applies to holes only. The smallest outer
+ring is an island of 10.2 km², a hundredfold clear of it. The build's own
+`check_no_zero_subpaths` is the other reason: a four-point ring of no area is
+what that exists to catch.
+
+**The unnamed islands.** Two features arrive with no name and one of those with
+no protectorate: 29 islands along 1,400 km of coast. Each joins the nearest
+named province rather than becoming a unit of its own, which is what the
+administration did and invents nothing. The assignment is printed island by
+island. Two are stated outright in `ISLAND_UNIT` because proximity gets them
+wrong: **Phú Quốc** (559 km², the largest in the federation) is 33 km off
+Cambodia and 53 off Cochinchina but was governed from Hà Tiên, and giving it to
+Kampot would have drawn the Cambodian claim as a fact; **Côn Đảo** was the penal
+settlement under the Governor of Cochinchina and part of no province, and
+proximity put it in Bạc Liêu 88 km away. The other 27 are left to proximity and
+listed. Cát Hải is the closest call — Quảng Yên by 0.05° and Kiến An by 0.08°,
+and it was Kiến An's — and is *not* corrected, because the two are neighbours
+drawn in one colour and the difference is a name in a tooltip. An entry in the
+table fixes it if that is worth doing.
+
+**Battambang.** The 1941 cession is flagged on the features and five carry it;
+Battambang does not, and the Tokyo convention of 9 May 1941 took the province
+entire. It is named in `CEDED_TOO` rather than edited into the trace — a build
+tool has no business rewriting the author's file, but it also cannot draw a
+cession it has been told to ignore. If the flag is added upstream the tool says
+so and the set can go. The cession comes to 67,536 km² over six units.
+
+**On the map.** 88 divisions in `indochina` and 6 in `siamgain`, every one
+carrying `data-parent` — the protectorate it was in — which spans the two atoms
+so that pointing at Battambang on the 1930 sheet lifts the whole of Cambodia.
+The four `SUB_CLUSTERS` entries that joined Laos and Cambodia across the
+cession are gone: they were sub-units then and are protectorates now, and
+`data-parent` already does that job across atoms.
+
+With **Administrative** on, hovering the federation shades all five slightly
+differently — the three Vietnamese pieces lightening north to south, the two
+inland protectorates darkening — and the division under the pointer still lifts
+above its own shade. Five steps off the atom's own colour and no further: they
+have to read as one country in five parts. On the 1942 sheet the cession is not
+shaded with them, being Thailand's. The card gives the name, the French form of
+it on the alternates line, the note the trace carries, and the protectorate
+ahead of the federation on the owner line; the tooltip puts the protectorate
+between the province and the country.
+
+Names, French forms and notes go through `texts/territories/sub-units/indochina.csv`
+like every other name on this map. `fill_texts()` writes **blank cells only** and
+addresses rows by `key`, so the author's prose survives the next run: 89 rows
+added, the five protectorate rows left exactly as they were.
+
+`indochina` is a new script, **17 checks**.
+
+### The extent line's hand edits are addressed by coordinate, not by index
+
+Adding the traced Indochina shortened two arcs on the Tonkin frontier by
+thirteen vertices, and the build stopped: **23 of the 124 hand edits to the line
+of maximum extent could not be placed**, against an allowance of 7. Seventeen of
+them were off Sumatra, Java and Christmas Island and two in the Sea of Japan — a
+thousand kilometres from anything that had changed, on line the build draws
+exactly as it drew it before. Nothing had moved. Their *indices* had, all by the
+same thirteen, and `_extent_match` only looked twelve places either side of the
+hint.
+
+The coordinate is the address and the index is a hint — the same rule `texts/`
+lives by. `_extent_match` now takes three looks in order of how sure each is:
+the hint's window landing exactly, then the whole line landing exactly, then the
+hint's window landing near. **An exact match anywhere beats a near one close
+by**, and that ordering is the whole of the fix.
+
+Two things went wrong on the way and are worth recording, because both looked
+right:
+
+* **Rounds rather than per-edit order.** Doing all the exact matches first, then
+  all the wide ones, then all the drifted ones, changed the Canton delta: edits
+  256 and 259 name the same point where the line doubles back, and with the
+  order changed 259 found a vertex instead of colliding — and the *second* pass
+  of edits, which is read off what the first leaves, then could not find the
+  vertex it names. Pass 2 is sequential on pass 1 and cannot be reordered under
+  it.
+* **Skipping taken vertices in the window.** Same cause. Only the whole-line
+  look skips them; it is searching a thousand vertices rather than twenty-five
+  and the nearest *free* one is the whole of what makes it safe. The window
+  looks at everything and lets the caller report a collision, which is what the
+  build has always done and what the author needs told.
+
+Had round 3 stayed in front, it would not merely have failed those edits: it
+would have put four of them on the wrong vertex. The Christmas Island detour is
+fourteen vertices and its four edits sit a few hundred metres apart, so edit
+569, whose own vertex had slipped one place outside its window, matched its
+neighbour's on a drift of 0.4 units; each of the next three took the one after
+it, and 572 was squeezed off the end and reported unplaced — four wrong, of
+which the build could see only the last.
+
+Measured against the build before the change, both passes now reproduce it
+exactly: pass 1 places 102 of 109 moves and 15 of 15 drops with **97 landing on
+the very vertex they name** and the **same 7 held back**; pass 2 places 7 of 7
+and 5 of 5. **18 edits were found outside the hint's window, every one of them
+13 places off**, which is printed so a shift nobody intended is visible rather
+than absorbed.
+
+## 172. Burma's railway, drawn with the others
+
+`data/burma/burma-railway-lines-1930.geojson`, traced for this map: 30 lines,
+6,081 km, and **560 of its 586 vertices survive the build** (96%). One drawing
+for both dates — the metre-gauge network was complete by the 1920s and stood in
+December 1942 where it stood in 1930.
+
+Lines only, as asked. The trace carries a `fid` and nothing else, so there are
+no station squares, no timetable and no train tools, and no line is pressable:
+an empty card is worse than none.
+
+`RAIL_LAYERS` gained a sixth field, the folder its file is in, so a traced layer
+can live in `data/` with the rest of the drawn work instead of in `tools/cache`
+with the fetched ones. That was the whole of the build-side change — the table
+is there so the next railway is a line in it.
+
+Two things it needed that the other four get for free, both found by testing the
+round trip rather than by reading:
+
+* **A listener.** `railPairs` is built out of `STATION_SYS`, and Burma is not in
+  it, having no stations. So the checkbox had no `change` handler at all: it
+  ticked, because a checkbox does, and nothing else happened.
+* **`state`, not `asRead`.** `asRead` exists to write the railways the train
+  tools borrowed as the reader had them; Burma is in neither table, so reading
+  it from there put `undefined` in every link and the switch never travelled.
+
+Verified end to end: switching it on writes `layers=…4fti4g`, and opening that
+link brings the layer back with the group drawn (bbox 61 × 218 map units over
+Burma). `BURMARAIL_PLACE` is 2²⁸ in the high field, off by default, so a link
+written before it existed reads as it always did.
+
+## 170. A city takes the tap before the track under it
+
+Reported: pressing a city with the train tools up opened the line underneath
+it, though the cities are drawn on top.
+
+The train layer takes no pointer events — it cannot, or a transparent ribbon
+along every railway would stop the country being named whenever the pointer
+crossed one — so `handleTap` settles the order by measuring. Measurement does
+not know what is painted on top. The cities are, and were lifted there
+deliberately so a reader following a line can still see the places it runs
+between, which made the hit order contradict the paint order.
+
+One guard, before the three train branches: if `pick` reports a `site` or a
+`gaz`, the tools do not get first refusal. **Asked of the record `pick`
+returned, not of the element tapped** — the first attempt tested
+`target.closest('.site, .gaz')`, which looked right and never fired once,
+because every country carries a transparent `.atom-hit` over it and that is
+what the browser hands back. `pick` is the function that already knows how to
+see past it. The station squares are not in this: they belong to the railway,
+and they already outrank the train on their own account two lines down.
+
+`citytap` is a new script, **8 checks**, and it drives the thing both ways —
+there is no hover on a touch screen and the same fix has had to be made twice
+here before for want of checking the second. It samples the drawn
+`path.train-line` through `getScreenCTM` and looks for a city dot within six
+**screen pixels** of the track, so the threshold means the same at every zoom;
+`getPointAtLength` walks the path in map units and every sample is transformed
+before anything is compared.
+
+Confirmed to have teeth by disabling the guard in the built copy: **Chŏngju
+(mouse) and Masan (finger), each 0.1 px from the track, opened the Ch'ungbuk
+and Kyŏngjŏn Line cards.** With it, they open the city.

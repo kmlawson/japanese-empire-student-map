@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '353';
+  var JEM_VERSION = '354';
 
   /* Every file this one fetches, with the version on it.
 
@@ -213,6 +213,7 @@
     twRail: false,
     krRail: false,
     kfRail: false,
+    burmaRail: false,
     jpRail: false,
     jpStations: false,
     air: false,
@@ -1267,6 +1268,7 @@
     twRailGroup = svg.querySelector('#tw-rail');
     krRailGroup = svg.querySelector('#kr-rail');
     kfRailGroup = svg.querySelector('#kf-rail');
+    burmaRailGroup = svg.querySelector('#burma-rail');
     buildYellow1938();
     buildAir();
     buildPopRows();
@@ -2196,6 +2198,11 @@
     railFadeOne(twRailGroup, state.twRail && !trainDraws('tw'));
     railFadeOne(krRailGroup, state.krRail && !trainDraws('kr'));
     railFadeOne(kfRailGroup, state.kfRail && !trainDraws('kf'));
+    /* Burma's has no train tools to give way to, so there is nothing to gate
+       it on but its own switch. The trace carries thirty lines and no names at
+       all, so there are no stations and nothing to press: it is the shape of
+       the network and that is all it claims to be. */
+    railFadeOne(burmaRailGroup, state.burmaRail);
     /* Fetched here rather than from the checkbox, because there are four ways
        to turn it on — the panel, the button beside the map, a `?layers=` code
        and a restored session — and this is the one place all four arrive at. */
@@ -2569,7 +2576,21 @@
 
   function railFadeOne(group, on) {
     if (!group) return;
-    if (!on) { group.style.display = 'none'; return; }
+    /* **Nought as well as hidden.** Returning here without touching the
+       opacity leaves whatever was last set — and on a group that has never
+       been on, that is nothing at all, which computes to 1. `display: none`
+       means the reader cannot see it either way, so it never showed; what it
+       did was make the layer lie about itself to anything that measures.
+       Burma's railway is the case: it has no train tools to be borrowed by, so
+       it is the one rail group that can sit switched off from the moment the
+       page loads, and `keys` — which watches the flash after `r` by taking the
+       brightest rail group — read its 1 and reported that the lines never came
+       down. */
+    if (!on) {
+      group.style.display = 'none';
+      group.style.opacity = '0';
+      return;
+    }
     var full = mapW / RAIL_FULL_W, gone = mapW / RAIL_GONE_W;
     var a = view.w <= full ? 1
           : view.w >= gone ? 0
@@ -2821,6 +2842,7 @@
      ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations'],
      ['#opt-kf-rail', 'kfRail'], ['#opt-kf-stations', 'kfStations'],
+     ['#opt-burma-rail', 'burmaRail'],
      ['#opt-jp-rail', 'jpRail'], ['#opt-jp-stations', 'jpStations']]
       .forEach(function (pair) {
         var box = $(pair[0]);
@@ -3499,6 +3521,7 @@
   var twRailGroup = null;
   var krRailGroup = null;
   var kfRailGroup = null;
+  var burmaRailGroup = null;
   /* Built, not found: Japan's railways are 1,977 paths fetched on demand,
      where the other three are drawn into japan-empire-map.svg. */
   var jpRailGroup = null;
@@ -4725,7 +4748,8 @@
             ['airAll', AIRALL_PLACE, 2], ['airNames', AIRNAMES_PLACE, 2],
             ['hanLabels', HANLABELS_PLACE, 2], ['kfRail', KFRAIL_PLACE, 2],
             ['jpRail', JPRAIL_PLACE, 2], ['jpStations', JPSTA_PLACE, 2],
-            ['kfStations', KFSTA_PLACE, 2]);
+            ['kfStations', KFSTA_PLACE, 2],
+            ['burmaRail', BURMARAIL_PLACE, 2]);
     LABEL_CATS.forEach(function (c) { hi.push(['labels:' + c.id, c.place, 2]); });
     hi.sort(function (a, b) { return a[1] - b[1]; });
     for (var h = 0; h + 1 < hi.length; h++) {
@@ -4870,6 +4894,12 @@
     if (asRead.jpRail) hi += JPRAIL_PLACE;      // Japan's, fetched on demand
     if (asRead.jpStations) hi += JPSTA_PLACE;
     if (asRead.kfStations) hi += KFSTA_PLACE;   // and their stations
+    /* `state`, not `asRead`. `asRead` is built out of STATION_SYS, and it is
+       there to write the railways the train tools borrowed as the reader had
+       them rather than as the tools left them. Burma has no stations and no
+       tools, so it is in neither — and reading it from there wrote `undefined`
+       into every link, which is to say the switch never travelled at all. */
+    if (state.burmaRail) hi += BURMARAIL_PLACE;   // Burma's, lines only
     hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
     // set when the row is OFF — an old link carries zeroes here and must open
     // with every name switched on, which is what it showed its sender
@@ -5007,6 +5037,7 @@
     state.airNames = !(Math.floor(hi / AIRNAMES_PLACE) % 2);    // inverted
     state.hanLabels = !!(Math.floor(hi / HANLABELS_PLACE) % 2);
     state.kfRail = !!(Math.floor(hi / KFRAIL_PLACE) % 2);
+    state.burmaRail = !!(Math.floor(hi / BURMARAIL_PLACE) % 2);
     state.kfStations = !!(Math.floor(hi / KFSTA_PLACE) % 2);
     state.theme = THEME_MODES[(Math.floor(hi / THEME_PLACE) % 4) - 1] || 'auto';
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
@@ -7509,7 +7540,34 @@
      * means. The line comes after both and before the ground, so tapping the
      * track names the line and tapping beside it names the province.
      */
-    var tHit = (trainApi && trainApi.mounted() && state.mode !== 'quiz')
+    /* **EXCEPT WHERE A CITY IS DRAWN OVER IT.**
+     *
+     * The order above is settled by measurement because the train layer takes
+     * no pointer events — and measurement does not know what is painted on
+     * top. The cities are: they were lifted above the train tools so that a
+     * reader following a line can still see the places it runs between. So a
+     * tap that the browser gave to a city dot was then handed to the track
+     * underneath it, and pressing Pusan on the Kyŏngbu line opened the line.
+     * Reported exactly that way, and it is the paint order and the hit order
+     * disagreeing: whatever is drawn on top is what the finger is pointing at.
+     *
+     * The station squares are not in this. They belong to the railway, they
+     * are drawn with it, and its own `kind` keeps them out — a station is
+     * still a station when the tools are up, and it already outranks the
+     * train on its own account two lines down.
+     *
+     * **Asked of the record `pick` returned, not of the element tapped.** The
+     * element under the finger is almost never the dot: every country carries
+     * a transparent `.atom-hit` over it, and that is what the browser hands
+     * back. `pick` is the function that already knows how to see past it — it
+     * walks `elementsFromPoint` and reports what is really there — so a
+     * `site` or a `gaz` in its answer means the pointer is on a marker, and
+     * nothing else does. Written against the target first, which looked right
+     * and silently never fired. */
+    var onMarker = !!(hit && hit.rec
+                      && (hit.rec.kind === 'site' || hit.rec.kind === 'gaz'));
+    var tHit = (trainApi && trainApi.mounted() && state.mode !== 'quiz'
+                && !onMarker)
       ? trainApi.hitAt(cx, cy) : null;
     if (tHit && tHit.kind === 'train'
         && tHit.dist < stationDist(hit, got, cx, cy)) {
@@ -8118,6 +8176,21 @@
     }
     if (!key) return null;
     var rec = (JMAP.PROVINCES || {})[key];
+    /* The larger unit this one sits in, off the shape. Taiwan's districts have
+       had `data-parent` since the prefectures went in; French Indochina's
+       ninety-four divisions carry it too, naming which of the five
+       protectorates each was part of, and the card and the tooltip are the
+       places a reader finds that out in words rather than by colour. Copied
+       onto a record of our own so the shared `JMAP.PROVINCES` entry is not
+       written to — Luang Prabang is drawn in two atoms and would otherwise
+       take whichever was pointed at last. */
+    var parent = target.getAttribute('data-parent') || '';
+    if (rec && parent) {
+      var withParent = {};
+      Object.keys(rec).forEach(function (k) { withParent[k] = rec[k]; });
+      withParent.parent = parent;
+      rec = withParent;
+    }
     // a handful of sub-units were called something else on one of the two
     // dates, or had not been separated out yet
     var per = JMAP.PROVINCE_EPOCH && JMAP.PROVINCE_EPOCH[state.epoch];
@@ -8268,6 +8341,18 @@
         if (head.region) line = (line ? line + '  ' : '') + '(' + head.region + ')';
         gp.textContent = line;
         tooltip.appendChild(gp);
+      }
+      /* The protectorate, between the province and the country: Quảng Yên,
+         then Tonkin, then French Indochina. The same order the islands take —
+         Ishigaki, the Yaeyamas, the colony — and the same reason: the reader is
+         being walked outwards from the thing under the pointer. Only where the
+         shape carries a parent and the line above has not already said it. */
+      if (head.parent && !head.group) {
+        var pp = document.createElement('span');
+        pp.className = 'sub group';
+        var prot = (JMAP.PROVINCES || {})[head.parent];
+        pp.textContent = (prot && nameOf(shown(prot))) || head.parent;
+        tooltip.appendChild(pp);
       }
       var pv = document.createElement('span');
       pv.className = 'sub prov';
@@ -9081,6 +9166,15 @@
     var chip = $('.chip', infoBox);
     chip.textContent = info ? nameOf(info) : rec.cat;
     chip.style.setProperty('--chip', info ? info.c : 'var(--muted)');
+    /* And the name the administration used for it. French Indochina's
+       divisions carry both — Đắk Lắk was Darlac on every French map of it, and
+       a student reading a period source will meet the second spelling and not
+       the first. It goes on the alternates line with the other scripts,
+       because that line is already "what else this place is called", and only
+       when it is not simply the same word. */
+    if (head.fr && head.fr !== primary && others.indexOf(head.fr) < 0) {
+      others.push(head.fr);
+    }
     $('.primary', infoBox).textContent = primary;
     $('.alt', infoBox).textContent = others.join('  ·  ');
     // and the country underneath, with every name it answers to — except for
@@ -9090,6 +9184,16 @@
     // had not read two lines earlier.
     var owner = (sub && rec.cat !== 'ccp')
       ? [nameOf(host)].concat(otherNames(host) || []).join('  ') : '';
+    /* With the protectorate in front of it where there is one: *Tonkin
+       (protectorate) · French Indochina*. The federation was five of them and
+       which one a province was in is the first thing its name does not tell
+       you — the map says it in colour and this says it in words. Taken from
+       `JMAP.PROVINCES` so the protectorate gets the gloss written for it;
+       falling back to the bare name if nobody has written one. */
+    if (owner && head.parent) {
+      var prot = (JMAP.PROVINCES || {})[head.parent];
+      owner = ((prot && nameOf(shown(prot))) || head.parent) + '  ·  ' + owner;
+    }
     // and, where the name alone does not say it, what kind of rule that was
     if (owner && host.rule) owner += '  ·  ' + host.rule;
     $('.prov', infoBox).textContent = owner;
@@ -13960,7 +14064,8 @@
     // whether either is drawn at all is `railFade`'s business: it depends on
     // the zoom as well as on the switch
     railFade();
-    [twRailGroup, krRailGroup, kfRailGroup, jpRailGroup].forEach(function (g) {
+    [twRailGroup, krRailGroup, kfRailGroup, jpRailGroup,
+     burmaRailGroup].forEach(function (g) {
       if (!g) return;
       /* A LINE WITH TIES, NOT A ROW OF DOTS.
        *
@@ -14452,6 +14557,9 @@
      written before they existed reads as it always did. */
   var JPRAIL_PLACE = 67108864;
   var JPSTA_PLACE = 134217728;
+  /* Burma's, in the high field with the rest of them. Off by default, so a
+     link written before it existed reads as it always did. */
+  var BURMARAIL_PLACE = 268435456;
   var THEME_MODES = ['light', 'dark'];
 
   /* The whole of the switch. `data-theme` on the root element is what
@@ -18079,7 +18187,11 @@
        nothing to mark when the lines are not drawn, so the row is not offered,
        and switching the lines off takes the squares with them rather than
        leaving a checkbox ticked for something invisible. */
-    var railPairs = [['#opt-air', 'air']];
+    /* Burma is named here rather than coming out of STATION_SYS, because it
+       has no stations and so is not in that table: thirty traced lines and not
+       one name on them. Without this its checkbox had no listener at all —
+       it ticked, because a checkbox does, and nothing else happened. */
+    var railPairs = [['#opt-air', 'air'], ['#opt-burma-rail', 'burmaRail']];
     var railKeys = {};
     Object.keys(STATION_SYS).forEach(function (k) {
       railPairs.push(['#opt-' + k + '-rail', STATION_SYS[k].rail]);

@@ -660,6 +660,49 @@ button.plain:hover { background: var(--hover-fill); }
   fill: color-mix(in srgb, var(--c, var(--inactive)) 83%, #fff);
 }
 
+/* The five protectorates of French Indochina, told apart while the federation
+   is under the pointer.
+ *
+ * Everywhere else on this map a country's divisions are one colour and the one
+ * being pointed at lifts. Indochina is not one country: it is a colony and four
+ * protectorates federated under a Governor-General, and which of the five a
+ * province belonged to is the fact a reader most often wants and the one its
+ * name never gives. So with Administrative on, hovering the federation shades
+ * all ninety-four divisions by the protectorate each was in, and the division
+ * under the pointer still lifts above its own shade.
+ *
+ * Five steps off the atom's own colour and no further: they have to read as
+ * one country in five parts, not as five countries. The three Vietnamese
+ * pieces go lighter from north to south — Tonkin, Annam, Cochinchina — and the
+ * two inland protectorates go darker, so the grouping the federation actually
+ * had is the one the eye picks up first.
+ *
+ * On the 1930 sheet this covers the 1941 cession too, without naming it here:
+ * `siamgain` is one of French Indochina's two atoms on that date, so it is
+ * `.hot` with the other, and its six divisions carry the same `data-parent`
+ * the ground they were cut from carries. On the 1942 sheet it is Thailand's
+ * and is not lit at all, which is the right answer there.
+ *
+ * The two `:not()`s keep the rules under `prov-hot` and `parent-hot`, which
+ * are what say *this one* and *this protectorate*. Without them an id selector
+ * and three classes would outrank both and nothing would ever appear to
+ * highlight. */
+#jmap.admin-on .atom.hot [data-parent="Tonkin"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 88%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Annam"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 92%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Cochinchina"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 97%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Cambodia"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 93%, #2a2118);
+}
+#jmap.admin-on .atom.hot [data-parent="Laos"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 87%, #2a2118);
+}
+
 /* A unit inside a larger territory that shares its colour — the land ceded to
    Thailand in 1941, the four northern Malay states — outlined so it can be
    seen and clicked without being coloured as if it were something else. The

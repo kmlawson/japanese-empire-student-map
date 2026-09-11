@@ -563,6 +563,83 @@ def load_traced(fname):
     return out
 
 
+# ---- French Indochina ----------------------------------------------------
+# Traced from the 1945 OSS map held at Stanford as bv890bn4231, and prepared by
+# tools/build_indochina.py: 94 units in five protectorates, the unnamed islands
+# folded into the province nearest each, the 1941 cession marked, and the whole
+# dissolved into the outlines below. Run that tool when the trace changes; this
+# reads what it wrote.
+#
+# It replaces two sources that did not agree. Vietnam was Natural Earth's, cut
+# into Tonkin, Annam and Cochinchina by two straight lines standing in for the
+# watershed; Laos and Cambodia were geoBoundaries' modern provinces. The two
+# drew one border in two places, which is why `indochina` had to be in
+# WELD_RINGS — 165 square units of it, 4,300 km2 down the Annamite chain, had a
+# winding of zero and was painted as sea. One traced coverage has no seam to
+# weld: every interior edge in it is shared exactly, and the outline is what is
+# left when they cancel.
+INDOCHINA_DIR = os.path.join(ROOT, "data", "indochina")
+INDOCHINA_ADMIN = "french-indochina-admin.geojson"
+INDOCHINA_OUTLINE = "french-indochina-1942-dissolved.geojson"
+INDOCHINA_CEDED = "french-indochina-1941-ceded.geojson"
+
+_INDOCHINA = None
+
+
+def load_indochina():
+    """The traced federation: its units, its outline, and the 1941 cession.
+
+    Returns None if the prepared files are missing, and the build goes on
+    without Indochina's divisions rather than stopping — the same courtesy the
+    other traced layers get. The atom itself would be missing too, so the note
+    says which command puts it back.
+    """
+    global _INDOCHINA
+    if _INDOCHINA is not None:
+        return _INDOCHINA or None
+    want = [INDOCHINA_ADMIN, INDOCHINA_OUTLINE, INDOCHINA_CEDED]
+    missing = [f for f in want
+               if not os.path.exists(os.path.join(INDOCHINA_DIR, f))]
+    if missing:
+        sys.stderr.write("note: %s missing from data/indochina/; run "
+                         "tools/build_indochina.py\n" % ", ".join(missing))
+        _INDOCHINA = {}
+        return None
+
+    def read(fname):
+        with open(os.path.join(INDOCHINA_DIR, fname), encoding="utf-8") as fh:
+            return json.load(fh)["features"]
+
+    # One winding for the lot, anticlockwise. The trace draws every ring
+    # clockwise and the dissolve writes outer rings the other way round, per
+    # RFC 7946; a path filled by the non-zero rule with both in it cancels
+    # where they overlap, which is the hole-in-the-country this layer used to
+    # have. Normalising here means no caller has to remember.
+    def ccw(rings):
+        return [r if signed_ring_area(r) > 0 else r[::-1] for r in rings]
+
+    units = []
+    for feat in read(INDOCHINA_ADMIN):
+        pr = feat["properties"]
+        units.append({
+            "name": pr["name"],
+            "french": pr.get("name_french") or "",
+            "note": pr.get("note") or "",
+            "prot": pr["protectorate"],
+            "ceded": bool(pr.get("ceded")),
+            "km2": pr.get("km2") or 0,
+            "rings": ccw(list(iter_rings(feat["geometry"]))),
+        })
+    outline = ccw([r for f in read(INDOCHINA_OUTLINE)
+                   for r in iter_rings(f["geometry"])])
+    ceded = collections.defaultdict(list)
+    for feat in read(INDOCHINA_CEDED):
+        ceded[feat["properties"]["name"]].extend(
+            ccw(list(iter_rings(feat["geometry"]))))
+    _INDOCHINA = {"units": units, "outline": outline, "ceded": dict(ceded)}
+    return _INDOCHINA
+
+
 INDIA_ENCLAVES = {
     "Goa": "goa", "Dādra and Nagar Haveli and Damān and Diu": "goa",
     "Puducherry": "pondicherry",
@@ -868,7 +945,12 @@ NO_BACKING = {"china", "mengjiang",
 # the fill their union rather than a hole. Not applied anywhere else: an atom
 # that means to carry a hole — India's enclaves, the NCA sheet's pacified and
 # unpacified blocks — states it with a winding, and this would fill it in.
-WELD_RINGS = {"indochina"}
+# Nothing is welded now. French Indochina was the only member and it is drawn
+# from one traced coverage, whose units share their edges exactly; see
+# load_indochina(). Kept rather than deleted because the next atom assembled
+# from two disagreeing sources will want it, and the reasoning above is what
+# says when that is the right answer and when uniform winding is not.
+WELD_RINGS = set()
 
 # Atoms drawn whole, with no divisions inside them, because the divisions on
 # hand are not trustworthy for the dates this map draws. Indochina's three
@@ -907,7 +989,24 @@ WELD_RINGS = {"indochina"}
 # nothing named at all had been told less than the map knows. The residencies
 # are dropped where they were read instead, and what is left in
 # `provinces["dei"]` is the eighteen islands.
-NO_ADMIN_SUBUNITS = {"indochina", "siamgain"}
+# French Indochina left this on 11-09. It was here because its Vietnamese
+# divisions were two straight lines standing in for a watershed — a guess in the
+# shape of a fact — and because naming two blocks of the cession Cambodia and
+# Laos put a boundary inside a country otherwise drawn whole. Both reasons are
+# gone: the federation is one traced period coverage, 94 units in five
+# protectorates, and the ceded provinces are units of it like any other. See
+# load_indochina().
+#
+# `siamgain` left with it, for the second reason. Its blocks are the six units
+# the cession actually took — Battambang, Siem Reap, the trans-Mekong strip —
+# and they carry the same names, parents and notes there as the ground they were
+# cut from, so on the 1930 sheet, where this is still Indochina, the divisions
+# run across the cession line without a break in them.
+# Nothing is left in it. It is kept because the question it answers — are
+# these divisions good enough to draw for this date? — is one every new layer
+# has to be asked, and the argument above is where the answer gets written
+# down. An empty set means every atom that has sub-units draws them.
+NO_ADMIN_SUBUNITS = set()
 
 # Sub-units that belong together and should light up together. Hovering
 # Singapore lit the whole Malay peninsula, which says the wrong thing: the
@@ -930,15 +1029,12 @@ SUB_CLUSTERS = {
     ("malaya", "Dindings"): "Straits Settlements",
     ("northborneo", "Labuan"): "Straits Settlements",
     ("christmas", "Christmas Island"): "Straits Settlements",
-    # Laos and Cambodia are each drawn in two atoms: the part that stayed
-    # French, in `indochina`, and the part ceded to Thailand in 1941, in
-    # `siamgain`. On the 1930 map they were one country and hovering one half
-    # showed only that half. The 1942 map is the other way round and the
-    # ceded provinces leave the cluster there — see JMAP.CLUSTER_EPOCH.
-    ("indochina", "Laos"): "Laos",
-    ("siamgain", "Laos"): "Laos",
-    ("indochina", "Cambodia"): "Cambodia",
-    ("siamgain", "Cambodia"): "Cambodia",
+    # Laos and Cambodia were clustered here while each was one sub-unit drawn
+    # in two atoms — the part that stayed French and the part ceded in 1941.
+    # They are protectorates now, not sub-units: the traced coverage gives each
+    # its own provinces, and the two halves are joined by `data-parent` instead,
+    # which spans atoms already and lights the whole protectorate from any
+    # province of it. See SUB_PARENTS and load_indochina().
 }
 
 # Saharat Thai Doem: the Shan states east of the Salween — Kengtung and part
@@ -1078,8 +1174,11 @@ DEI_RESIDENCIES = {
 
 # Vietnam under the French was three: the colony of Cochinchina in the south
 # and the protectorates of Annam and Tonkin. These are the lines between them.
-TONKIN_CUT = ((103.9, 20.2), (106.6, 19.6))
-COCHIN_CUT = ((105.0, 12.4), (109.4, 11.2))
+# Tonkin, Annam and Cochinchina were told apart here by two straight lines
+# standing in for the watershed, `TONKIN_CUT` and `COCHIN_CUT`. They are gone:
+# the federation is drawn from a traced period sheet now, 95 units in five
+# protectorates, and the boundaries are the ones the administration had. See
+# INDOCHINA_UNITS and tools/build_indochina.py.
 
 # Papua, an Australian territory, and New Guinea, a League mandate: the
 # boundary ran from the Dutch border to the coast near Lae. Taken off the same
@@ -1948,39 +2047,108 @@ EXTENT_EDIT_PASSES = [
 ]
 
 
-def _extent_match(pts, hint, want, bad):
-    """The vertex `want` names, looked for around `hint`. None if unsure."""
-    wx, wy = project(*want)
-    lo = max(0, hint - EXTENT_EDIT_WINDOW)
-    hi = min(len(pts), hint + EXTENT_EDIT_WINDOW + 1)
-    if lo >= hi:
-        bad.append("%d: past the end of a %d-point line" % (hint, len(pts)))
-        return None
-    # nearest in the window, and the hint breaks a tie between two vertices
-    # that really are at the same place
-    order = sorted(range(lo, hi),
-                   key=lambda j: (round(math.hypot(pts[j][0] - wx,
-                                                   pts[j][1] - wy), 6),
-                                  abs(j - hint)))
+def _extent_look(pts, idx, hint, wx, wy):
+    """The nearest of `idx` to (wx, wy), and how far off the runner-up is.
+
+    The hint breaks a tie between two vertices that really are at the same
+    place, which happens where the line doubles back on itself.
+    """
+    order = sorted(idx, key=lambda j: (round(math.hypot(pts[j][0] - wx,
+                                                        pts[j][1] - wy), 6),
+                                       abs(j - hint)))
     best = order[0]
     d = math.hypot(pts[best][0] - wx, pts[best][1] - wy)
-    if d <= EXTENT_EDIT_TOL:
-        return best, d
+    second = math.hypot(pts[order[1]][0] - wx, pts[order[1]][1] - wy) \
+        if len(order) > 1 else float('inf')
+    return best, d, second
+
+
+def _extent_match(pts, hint, want, taken, bad):
+    """The vertex `want` names, or None.
+
+    **The coordinate is the address and the index is only a hint**, which is
+    the rule texts/ lives by and for the same reason: an index is true of one
+    version of the line and of nothing else. Three looks, in order of how sure
+    each is, and every one of them skips a vertex an earlier edit has taken:
+
+      1. the hint's own window, landing on the very vertex named
+      2. the whole line, landing on the very vertex named
+      3. the hint's own window, landing near it
+
+    **An exact match anywhere beats a near one close by**, which is what puts
+    (2) in front of (3). An edit downstream of a changed stretch loses its
+    index whether or not the ground under it moved at all: adding the traced
+    Indochina shortened two arcs on the Tonkin frontier by thirteen vertices,
+    and eighteen edits off Sumatra, Java and Christmas Island — a thousand
+    kilometres from anything that changed, on line the build draws exactly as
+    it drew it before — lost theirs, all by the same thirteen.
+
+    Leaving (3) in front would not merely have failed them; it would have put
+    four of them on the wrong vertex. The Christmas Island detour is fourteen
+    vertices and the four edits on it sit a few hundred metres apart, so edit
+    569, whose own vertex had slipped one place outside its window, matched its
+    neighbour's on a drift of 0.4 units. Each of the next three then took the
+    one after it, and 572 was squeezed off the end of the detour and reported
+    unplaced — four edits wrong, of which the build could see only the last.
+
+    (3) is the guess and stays last. The south China coast is the one stretch
+    the build no longer reproduces exactly — `hug_coast` and `enclave_detour`
+    run over ground that has moved — so an edit there lands a unit or two from
+    the vertex it names and has to be allowed to. There is no exact match
+    anywhere on the line for those, so (2) passes them straight through.
+
+    A match from (2) must also be clearly nearer than the runner-up: out on the
+    whole line there is nothing else to say that a vertex is the one meant
+    rather than a different part of the same coast.
+
+    **Only (2) skips the vertices already taken.** (1) and (3) look at the
+    whole window, find whatever they find, and let the caller report a
+    collision — which is what the build has always done, and two edits wanting
+    one vertex is a thing the author needs told about rather than worked
+    around. Skipping the taken ones there quietly re-placed edit 259 in the
+    Canton delta, where the line doubles back and 256 and 259 name the same
+    point: it found the next vertex along instead of colliding, and the second
+    pass of edits — read off what the first leaves — then could not find the
+    vertex *it* names, because 259 had just moved it. (2) has to skip them: it
+    is searching a thousand vertices rather than twenty-five, and the nearest
+    free one is the whole of what makes it safe.
+    """
+    wx, wy = project(*want)
+    if not pts:
+        bad.append("%d: the line is empty" % hint)
+        return None
+    lo = max(0, hint - EXTENT_EDIT_WINDOW)
+    hi = min(len(pts), hint + EXTENT_EDIT_WINDOW + 1)
+    window = list(range(lo, hi))
+
+    near = None
+    if window:
+        best, d, second = _extent_look(pts, window, hint, wx, wy)
+        if d <= EXTENT_EDIT_TOL:
+            return best, d, False
+        near = (best, d, second)
+
+    free = [j for j in range(len(pts)) if j not in taken]
+    if free:
+        best, d, second = _extent_look(pts, free, hint, wx, wy)
+        if d <= EXTENT_EDIT_TOL and second >= max(d * 1.8, EXTENT_EDIT_TOL):
+            return best, d, True
+
+    if near is None:
+        bad.append("%d: past the end of a %d-point line" % (hint, len(pts)))
+        return None
+    best, d, second = near
     if d > EXTENT_EDIT_DRIFT:
         bad.append("%d: %.5f,%.5f is %.2f units from anything nearby -- the "
                    "line has changed shape here, so re-read this one"
                    % (hint, want[0], want[1], d))
         return None
-    # drifted, so make sure it is not the neighbour of the one meant: the
-    # second-nearest has to be clearly further off
-    second = math.hypot(pts[order[1]][0] - wx, pts[order[1]][1] - wy) \
-        if len(order) > 1 else float('inf')
     if second < d * 1.8:
         bad.append("%d: %.5f,%.5f sits between two vertices, %.2f and %.2f "
-                   "units off -- too close to call" % (hint, want[0], want[1],
-                                                       d, second))
+                   "units off -- too close to call"
+                   % (hint, want[0], want[1], d, second))
         return None
-    return best, d
+    return best, d, False
 
 
 def apply_extent_edits(pts):
@@ -2003,32 +2171,30 @@ def _extent_pass(pts, moves, drops, allowed, n):
     bad, drifted = [], []
     out = list(pts)
     taken = {}
-    for hint, was, now in moves:
-        got = _extent_match(pts, hint, was, bad)
-        if not got:
-            continue
-        i, d = got
-        if i in taken:
-            bad.append("%d and %d both matched vertex %d" % (taken[i], hint, i))
-            continue
-        taken[i] = hint
-        if d > EXTENT_EDIT_TOL:
-            drifted.append((hint, i, round(d, 2)))
-        out[i] = project(*now)
     gone = set()
-    for hint, was in drops:
-        got = _extent_match(pts, hint, was, bad)
+    wide = []
+    # Every edit is one job — a move carries where it goes, a drop does not —
+    # so both are matched the same way, in the order they were written down.
+    jobs = [(hint, was, now) for hint, was, now in moves] \
+        + [(hint, was, None) for hint, was in drops]
+    for hint, was, now in jobs:
+        got = _extent_match(pts, hint, was, taken, bad)
         if not got:
             continue
-        i, d = got
+        i, d, far = got
         if i in taken:
-            bad.append("drop %d matched vertex %d, already moved by %d"
-                       % (hint, i, taken[i]))
+            bad.append("%s %d matched vertex %d, already taken by %d"
+                       % ("drop" if now is None else "edit", hint, i, taken[i]))
             continue
         taken[i] = hint
+        if far:
+            wide.append((hint, i))
         if d > EXTENT_EDIT_TOL:
             drifted.append((hint, i, round(d, 2)))
-        gone.add(i)
+        if now is None:
+            gone.add(i)
+        else:
+            out[i] = project(*now)
     if len(bad) > allowed:
         raise SystemExit(
             "extent pass %d: %d could not be placed on the built line, and "
@@ -2040,6 +2206,13 @@ def _extent_pass(pts, moves, drops, allowed, n):
                      "%d landed on the very vertex they name\n"
                      % (n, len(taken) - len(gone), len(moves),
                         len(gone), len(drops), len(taken) - len(drifted)))
+    if wide:
+        shifts = sorted(set(i - h for h, i in wide))
+        sys.stderr.write("  %d found outside the hint's window, by %s place(s)"
+                         " -- the line has the same shape there and a "
+                         "different length before it\n"
+                         % (len(wide),
+                            " and ".join(str(x) for x in shifts)))
     if bad:
         sys.stderr.write("  %d held back, unchanged from before:\n    %s\n"
                          % (len(bad), "\n    ".join(bad)))
@@ -2993,13 +3166,32 @@ KF_RAIL_FILES = {"e1930": "karafuto_railways_1935.geojson",
                  "e1942": "karafuto_railways_1935.geojson"}
 KF_RAIL_TOL = 0.021
 
+# Burma's, traced for this map. One drawing for both dates: the metre-gauge
+# network reached its full extent in the 1920s and stood in December 1942 where
+# it had stood in 1930 — under Japanese control by then, and with the Sittang
+# and Salween bridges down, but the rails in the same places.
+#
+# Thirty lines, 586 vertices, 6,081 km, and not one of them named: the trace
+# carries a `fid` and nothing else. So this layer has no stations, no timetable
+# and no train tools, and a line that is pressed has nothing to say — which is
+# why `RAIL_NAMED` below leaves it out of the pressable set rather than opening
+# an empty card on it.
+BURMA_RAIL_FILES = {"e1930": "burma-railway-lines-1930.geojson",
+                    "e1942": "burma-railway-lines-1930.geojson"}
+BURMA_RAIL_TOL = 0.021
+BURMA_RAIL_DIR = os.path.join(ROOT, "data", "burma")
+
 # Every railway layer the map draws, and the atom whose fill inks its dots.
 # One table so that the next one is a line here rather than a block of code in
-# three places.
+# three places. The last field is the folder the file is in: most are fetched
+# and land in tools/cache, and the hand-traced ones live in data/ with the rest
+# of the drawn work.
 RAIL_LAYERS = [
-    ("tw-rail", "taiwan", TW_RAIL_FILES, TW_RAIL_TOL, "taiwan"),
-    ("kr-rail", "korea", KR_RAIL_FILES, KR_RAIL_TOL, "korea"),
-    ("kf-rail", "karafuto", KF_RAIL_FILES, KF_RAIL_TOL, "karafuto"),
+    ("tw-rail", "taiwan", TW_RAIL_FILES, TW_RAIL_TOL, "taiwan", CACHE),
+    ("kr-rail", "korea", KR_RAIL_FILES, KR_RAIL_TOL, "korea", CACHE),
+    ("kf-rail", "karafuto", KF_RAIL_FILES, KF_RAIL_TOL, "karafuto", CACHE),
+    ("burma-rail", "Burma", BURMA_RAIL_FILES, BURMA_RAIL_TOL, "burma",
+     BURMA_RAIL_DIR),
 ]
 
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
@@ -5213,7 +5405,8 @@ def split_india(ring):
 ADMIN0 = {
     # Korea is drawn from its own period provinces, not from these two
     "Mongolia": "mongolia",
-    "Vietnam": "indochina", "Laos": "indochina", "Cambodia": "indochina",
+    # Vietnam, Laos and Cambodia were here, standing in for Indochina. It is
+    # traced now: see INDOCHINA_UNITS.
     "Thailand": "siam",
     "Myanmar": "burma",
     "Brunei": "brunei",
@@ -5744,33 +5937,10 @@ def main():
         if admin == "Afghanistan" and "afghanistan" in neighbours_1931:
             continue
         rings_here = list(iter_rings(feat["geometry"]))
-        if admin in ("Laos", "Cambodia"):
-            # Drawn from provinces below, minus the 1941 cessions — and the
-            # filler underneath used to be the whole country, cessions and all.
-            # That is the ground Thailand was given, so on the 1942 map it put
-            # Indochina's own colour under Thailand's and, worse, gave
-            # Indochina's outline the shape it had before the cession: hovering
-            # French Indochina drew a black line round Battambang, Siem Reap
-            # and the trans-Mekong strip, which by then were Thailand's. The
-            # filler comes from the provinces now, so it stops where they stop.
-            continue
         groups[key].extend(rings_here)
         if key not in BACKING_FROM_SUBUNITS:
             backing[key].extend(rings_here)
-        if admin == "Vietnam":
-            lap = 0.02
-            tonkin_n = grow_plane(line_plane(*TONKIN_CUT, keep_right=False), lap)
-            tonkin_s = grow_plane(line_plane(*TONKIN_CUT, keep_right=True), lap)
-            cochin_n = grow_plane(line_plane(*COCHIN_CUT, keep_right=False), lap)
-            cochin_s = grow_plane(line_plane(*COCHIN_CUT, keep_right=True), lap)
-            north = [tonkin_n]
-            south = [cochin_s]
-            mid = [tonkin_s, cochin_n]
-            for label, planes in (("Tonkin", north), ("Annam", mid), ("Cochinchina", south)):
-                cut = [c for c in (clip_halfplanes(r, planes) for r in rings_here) if len(c) >= 3]
-                if cut:
-                    provinces["indochina"].append((label, cut))
-        elif admin == "Papua New Guinea":
+        if admin == "Papua New Guinea":
             for label, above in (("NewGuineaMandate", True), ("Papua", False)):
                 cut = [c for c in (clip_to_polyline(r, PAPUA_CUT_LINE, above, 0.02)
                                    for r in rings_here) if len(c) >= 3]
@@ -6257,72 +6427,38 @@ def main():
                                      "replaced by its southern border\n"
                                      % (_n, _name))
 
-    # ---- Laos and Cambodia, minus the territory ceded in 1941 -------------
-    # Drawn province by province rather than as whole countries, so that the
-    # blocks handed to Thailand are cut out of Indochina rather than covered
-    # over by a shape laid on top of them. On the 1930 map the two are put back
-    # together, because the cession had not happened yet; in December 1942 the
-    # outline of Indochina stops where the cession begins.
-    for iso, label in (("KHM", "Cambodia"), ("LAO", "Laos")):
-        path = os.path.join(CACHE, f"adm1_{iso}.json")
-        if not os.path.exists(path):
-            sys.stderr.write(f"note: {path} missing, {label} drawn whole\n")
-            continue
-        keep = []
-        wanted = SIAM_1941_KHM if iso == "KHM" else SIAM_1941_LAO
-        with open(path) as fh:
-            for feat in json.load(fh)["features"]:
-                pname = feat["properties"].get("shapeName")
-                if pname in wanted:
-                    continue
-                if iso == "LAO" and pname == "Champasak":
-                    east = box_planes(SIAM_1941_CHAMPASAK_WEST, -90, 360, 90)
-                    for ring in iter_rings(feat["geometry"]):
-                        piece = clip_halfplanes(ring, east)
-                        if len(piece) >= 3:
-                            keep.append(piece)
-                    continue
-                keep.extend(iter_rings(feat["geometry"]))
-        if keep:
-            groups["indochina"].extend(keep)
-            provinces["indochina"].append((label, keep))
-
-    # ---- territory ceded to Thailand in 1941 -------------------------------
-    # The blocks are gathered under the two names before they are handed over
-    # rather than one block per province: a sub-unit block is what carries a
-    # name on the map, so eight of them meant the map wrote "Cambodia" across
-    # the cession six times and "Laos" twice with the Other layer on, and
-    # meant the selection outline traced every province boundary inside the
-    # cession instead of the two shapes the reader is being shown.
-    _ceded = collections.defaultdict(list)
-    for iso, wanted in (("KHM", SIAM_1941_KHM), ("LAO", SIAM_1941_LAO)):
-        path = os.path.join(CACHE, f"adm1_{iso}.json")
-        if not os.path.exists(path):
-            sys.stderr.write(f"note: {path} missing, Thai gains not drawn\n")
-            continue
-        with open(path) as fh:
-            adm1 = json.load(fh)
-        for feat in adm1["features"]:
-            pname = feat["properties"].get("shapeName")
-            if pname in wanted:
-                rs = list(iter_rings(feat["geometry"]))
-                groups["siamgain"].extend(rs)
-                # on the 1930 map this ground is simply Cambodia and Laos, and
-                # the pointer should say so
-                _ceded["Cambodia" if iso == "KHM" else "Laos"].extend(rs)
-            elif iso == "LAO" and pname == "Champasak":
-                west = box_planes(0, -90, SIAM_1941_CHAMPASAK_WEST, 90)
-                cut = []
-                for ring in iter_rings(feat["geometry"]):
-                    piece = clip_halfplanes(ring, west)
-                    if len(piece) >= 3 and ring_area(piece) > 0.002:
-                        cut.append(piece)
-                if cut:
-                    groups["siamgain"].extend(cut)
-                    _ceded["Laos"].extend(cut)
-    for _label in ("Cambodia", "Laos"):
-        if _ceded.get(_label):
-            provinces["siamgain"].append((_label, _ceded[_label]))
+    # ---- French Indochina, traced -----------------------------------------
+    # One coverage for the whole federation, drawn for the period: 94 units in
+    # five protectorates, with the six the 1941 cession took marked as such.
+    # See load_indochina() for what it replaced and why.
+    #
+    # The cession is a separate atom, `siamgain`, and not because the ground
+    # moved — the geometry is one file and the units either side of the line
+    # share their edges — but because the two sheets have to colour it
+    # differently. In 1930 it is Cambodia and Laos; in December 1942 it is
+    # Thailand's, and the outline of French Indochina has to stop where it
+    # begins. Splitting the units by their own flag does that exactly, where
+    # laying a shape on top of them did not.
+    # The atom takes the prepared outline and not the sum of its units. Both
+    # come to the same ground — the dissolve is exact, every interior edge in
+    # the coverage cancelling against its twin — but the outline is 4,230
+    # vertices where the units are 10,803, and `dissolve()` below would be
+    # asked to find that same answer again on every build, at a quantisation
+    # coarser than the trace.
+    _ic = load_indochina()
+    if _ic:
+        groups["indochina"].extend(_ic["outline"])
+        for _prot, _rings in _ic["ceded"].items():
+            groups["siamgain"].extend(_rings)
+        for _u in _ic["units"]:
+            _key = "siamgain" if _u["ceded"] else "indochina"
+            provinces[_key].append((_u["name"], _u["rings"]))
+            # The protectorate is the larger unit each division sits in, and
+            # `data-parent` is what the map reads to light it. It spans the two
+            # atoms on purpose: Cambodia's ceded provinces carry "Cambodia"
+            # here just as its unceded ones do, so pointing at Battambang on
+            # the 1930 sheet still lifts the whole protectorate.
+            SUB_PARENTS[(_key, _u["name"])] = _u["prot"]
 
     # ---- the Borneo states -------------------------------------------------
     borneo_path = os.path.join(CACHE, "adm1_MYS.json")
@@ -6707,10 +6843,10 @@ def main():
 
     # The same treatment for the railways, one path per epoch per layer.
     rails = {}
-    for _gid, _label, _files, _tol, _over in RAIL_LAYERS:
+    for _gid, _label, _files, _tol, _over, _dir in RAIL_LAYERS:
         _epochs = {}
         for _ep, _name in sorted(_files.items()):
-            _path = os.path.join(CACHE, _name)
+            _path = os.path.join(_dir, _name)
             if not os.path.exists(_path):
                 sys.stderr.write("note: %s missing, that railway layer is empty\n" % _name)
                 continue
