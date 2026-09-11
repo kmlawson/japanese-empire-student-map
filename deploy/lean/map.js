@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '352';
+  var JEM_VERSION = '353';
 
 
 
@@ -2992,6 +2992,13 @@
         svg.insertBefore(marks, markersGroup || null);
       },
       clientToSvg: clientToSvg,
+
+
+
+
+
+
+
 
 
       fitBox: fitSvgBox,
@@ -13518,8 +13525,9 @@
 
 
 
-      note: 'The source\u2019s survey begins in 1950, so railways that closed '
-          + 'before 1950 are likely to be missing from the data.',
+
+
+
       links: links,
     };
   }

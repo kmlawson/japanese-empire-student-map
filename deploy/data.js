@@ -95,6 +95,22 @@ JMAP.LAYER_INFO = [
     id: 'map1942', on_epoch: 'e1942', title: 'Dec 1942 Map',
     note: 'This map is set around December 1942 and gives you a depiction of the colonies, cities, countries, and occupation zones of that time. Some descriptions may differ between this map and those of the 1930 map.\n\n**Important:** When you load railways, airlines, population maps, etc. with this map showing, the additional layers you see are usually not from exactly 1942. Each layer is constructed from its own historical sources. Generally, historical sources from around 1928–1935 are assigned to the 1930 map, while those using sources from around 1936 onwards are assigned to the 1942 map. This means there are anachronisms visible on both maps.'
   },
+  {
+    id: 'jp-rail',
+    source: 'The Japanese lines for 1930 and 1942 are filtered from the dataset provided by the [国土交通省国土数値情報ダウンロードサイト](https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html). The source’s survey begins in 1950, so railways that closed before 1950 are likely to be missing from the data.',
+    flag: 'jpRail',
+    source_url: 'https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html',
+    title: 'Japan Railways',
+    note: 'The railways of Japan proper, drawn per date: lines whose service had begun by 1930 on the 1930 map, and those plus the lines opened between 1931 and 1942 on the December 1942 map. 1,977 lines in all, 1,806 of them open by 1930. Press a line for its name, the year it opened and a link to its article. The source’s survey begins in 1950, so railways that closed before 1950 are likely to be missing from the data, and the course drawn is the later survey rather than the track as it lay at the time.'
+  },
+  {
+    id: 'jp-stations',
+    source: 'The Japanese lines for 1930 and 1942 are filtered from the dataset provided by the [国土交通省国土数値情報ダウンロードサイト](https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html). The source’s survey begins in 1950, so railways that closed before 1950 are likely to be missing from the data.',
+    flag: 'jpStations',
+    source_url: 'https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html',
+    title: 'Japan Stations',
+    note: 'A small square at every station on those lines — 10,639 on the 1930 map and 12,800 on the 1942 one, reduced from 16,262 rows because the source lists a station once for each line calling there. Point at one for its name and the year it opened. A large table, fetched only when this is switched on.'
+  },
 ];
 
 JMAP.CATEGORIES = {

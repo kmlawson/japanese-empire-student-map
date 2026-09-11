@@ -88,6 +88,14 @@ are anachronisms visible on both maps.
 
 ## kf-stations
 
+## jp-rail
+
+The railways of Japan proper, drawn per date: lines whose service had begun by 1930 on the 1930 map, and those plus the lines opened between 1931 and 1942 on the December 1942 map. 1,977 lines in all, 1,806 of them open by 1930. Press a line for its name, the year it opened and a link to its article. The source’s survey begins in 1950, so railways that closed before 1950 are likely to be missing from the data, and the course drawn is the later survey rather than the track as it lay at the time.
+
+## jp-stations
+
+A small square at every station on those lines — 10,639 on the 1930 map and 12,800 on the 1942 one, reduced from 16,262 rows because the source lists a station once for each line calling there. Point at one for its name and the year it opened. A large table, fetched only when this is switched on.
+
 ## tw-sugar
 
 ## train-tools

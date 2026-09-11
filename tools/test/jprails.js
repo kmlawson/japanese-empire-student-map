@@ -171,12 +171,14 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
          and this is the year alone. */
       check('  with the year service began',
         !!c && c.alt.indexOf('opened ' + spot.year) >= 0, JSON.stringify(c && c.alt));
-      /* The layer is filtered on the opening year out of a record that starts
-         in 1950, so it is lines that opened by the date AND survived to 1950.
-         The card has to say so; it is the one caveat that changes what the
-         reader thinks they are looking at. */
-      check('  and the sentence saying the survey begins in 1950',
-        !!c && /1950/.test(c.note || ''), JSON.stringify(c && c.note));
+      /* **And NOT the standing caveat about 1950.** It was on the card once —
+         the same sentence under every one of 1,977 lines, where the reader
+         wanted the line's own name and date. A disclaimer repeated that often
+         is one nobody reads, which is the prose rule in CLAUDE.md. It lives in
+         the layer's own `i` panel and in sources.html now, and the card links
+         the dataset instead. */
+      check('  and not the standing 1950 caveat, which belongs to the layer',
+        !!c && !/1950/.test(c.note || ''), JSON.stringify(c && c.note));
     }
 
     console.log('\n— the name the reader asked for, and where to read more —');

@@ -122,6 +122,45 @@ the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The researched readings merged, and the 1950 caveat put where it belongs
+
+**394 stated readings merged**, and with them 554 article links the title-matching had missed.
+`jp-rails.js` now carries an article for **1,929 of its 1,977 lines and a romanisation for 1,643**,
+against 915 and 910 before. Across the 1,134 (運營會社, 路線名) pairs the cache is at **82%**, from
+48%.
+
+**The 173 inferred readings are held back**, by the author's decision. They are of two kinds and only
+one is weak: `東北線 → 東北本線 (とうほくほんせん)` is the same railway's own reading under its full
+name, while `藻琴線 → 藻琴駅（もことえき）` is the station's reading with せん appended. Both are in
+the agents' output files if they are wanted later; nothing was thrown away.
+
+Two agents did the research, on 297 and 296 lines. The find worth keeping is 音訳の部屋
+(hiramatu-hifuka.com), a librarian's reading dictionary built for audio transcription, which states
+readings for ~580 private-railway lines that Wikipedia does not — 根室線, 関西線, 紀勢線 and the
+Sapporo and Hakodate tram lines among them. Also worth remembering: **ja.wikipedia's DEFAULTSORT is
+not a reading**, being written in 清音 by convention, so 外房線 sorts as そとほうせん and not
+そとぼうせん. Neither agent used it.
+
+Their output was checked rather than taken. The `n'` in *San'yō* and *Den'entoshi* is correct, the
+"non-kana" fields are katakana ケーブル, and the surviving `ou`/`uu` are morpheme boundaries
+(Marunouchi, Matsuura) and not missed macrons.
+
+**The 1950 caveat is off the line card.** It was the same sentence under every one of 1,977 lines,
+where the reader wanted the line's own name and date — a disclaimer repeated that often is one
+nobody reads, which is the prose rule. It is in the layer's own `i` panel (`jp-rail` and
+`jp-stations` are new rows in `layer-info.csv`, taking it from 3 written to 5) and in sources.html.
+The card links the dataset instead.
+
+**And a guard was removed for doing nothing.** Picking a line that spans Honshū looked as though it
+zoomed out far enough to unmount the tools, so `fitBox` was given a limit — and measured, it never
+engaged: fitting the Tōkaidō from a 0.8° view gives 6.6°, well inside the 14.5° at which the tools
+come down, with and without the limit. The disappearing track was the zone test saying Korea while
+the network reached Japan, which `api.bounds` already fixed in 1.352. A guard nobody can reason
+about is worse than none, so it went.
+
+`jprails` 42 checks. Full suite 2,260 across 63 scripts, all passing, 474s.
+
+
 ### The Japanese connections run on real track, and stop pretending to be trains
 
 **131 of the 135 stretches on the Korean timetable's Japanese connections are now drawn along the

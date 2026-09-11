@@ -153,6 +153,11 @@ def wiki_url(rec):
     """
     if not rec:
         return ""
+    # A direct URL found by searching rather than by title-matching. Used only
+    # where the title lookup found nothing, so it never overrides an article
+    # this build resolved itself.
+    if rec.get("wiki_url") and not rec.get("en") and not rec.get("ja"):
+        return rec["wiki_url"]
     if rec.get("en"):
         return "https://en.wikipedia.org/wiki/" + quote(rec["en"].replace(" ", "_"))
     if rec.get("ja"):

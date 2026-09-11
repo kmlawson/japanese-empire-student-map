@@ -14,6 +14,8 @@ kf-rail,Karafuto Railways,kfRail,,"Traced for this map from 最新樺太地圖 a
 tw-stations,Taiwan Railway Stations,twStations,,,
 kr-stations,Korea Railway Stations,krStations,,,
 kf-stations,Karafuto Railway Stations,kfStations,,,
+jp-rail,Japan Railways,jpRail,,"The Japanese lines for 1930 and 1942 are filtered from the dataset provided by the [国土交通省国土数値情報ダウンロードサイト](https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html). The source’s survey begins in 1950, so railways that closed before 1950 are likely to be missing from the data.",https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html
+jp-stations,Japan Stations,jpStations,,"The Japanese lines for 1930 and 1942 are filtered from the dataset provided by the [国土交通省国土数値情報ダウンロードサイト](https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html). The source’s survey begins in 1950, so railways that closed before 1950 are likely to be missing from the data.",https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html
 tw-sugar,Taiwan Sugar Railways,twSugar,,"[〈日治時期糖鐵分布圖〉](https://data.depositar.io/dataset/rd15-09143), Center for GIS, RCHSS, Academia Sinica.",https://data.depositar.io/dataset/rd15-09143
 train-tools,Train Tools,trainTools,,,
 relief,Shaded Relief,relief,,"Shaded relief after [Natural Earth](https://www.naturalearthdata.com/), warped once per projection by tools/build_relief.py.",https://www.naturalearthdata.com/

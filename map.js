@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '352';
+  var JEM_VERSION = '353';
 
   /* Every file this one fetches, with the version on it.
 
@@ -2994,6 +2994,13 @@
       clientToSvg: clientToSvg,
       /* Show the whole of something the tools have picked, in map units and
          only by pulling back. */
+      /* **No clamp here, and that is deliberate.** Picking a line that spans
+         Honshū looked as though it was zooming out far enough to unmount the
+         tools, so a limit was added — and measured, it never engaged: fitting
+         the Tōkaidō from a 0.8° view gives 6.6°, well inside the 14.5° the
+         tools come down at. The disappearing track was the zone test saying
+         Korea while the network reached Japan, which `bounds` above fixes, and
+         a guard that does nothing is a guard nobody can reason about. */
       fitBox: fitSvgBox,
       /* The land the network is drawn over, as it is actually painted — the
          reader's palette, their single-colour setting and their dark screen
@@ -13515,11 +13522,12 @@
       chip: 'Railway line', colour: 'var(--muted)',
       primary: lead,
       alt: bits.join('  \u00b7  '),
-      /* One sentence, per the prose rule — and it is the caveat that matters,
-         because the source's survey begins in 1950 and the reader is looking
-         at a map of 1930. */
-      note: 'The source\u2019s survey begins in 1950, so railways that closed '
-          + 'before 1950 are likely to be missing from the data.',
+      /* **The caveat is not on this card.** It was, and it was the same
+         sentence on every one of 1,977 lines — a standing disclaimer where the
+         reader wanted the line's own name and date, which is exactly what the
+         prose rule warns against. It belongs where a reader goes to ask about
+         the layer rather than about one line, so it is in the layer's own `i`
+         panel and in sources.html, and the card links the dataset instead. */
       links: links,
     };
   }
