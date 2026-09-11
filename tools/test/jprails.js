@@ -165,14 +165,120 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
       check('  named as the source names it',
         !!c && c.primary === spot.name,
         JSON.stringify(c && c.primary) + ' vs ' + JSON.stringify(spot.name));
+      /* The second line carries whatever the map knows besides the headline:
+         the characters where the headline is a romanisation, and the opening
+         year always. A line with no romanisation is headed by its characters
+         and this is the year alone. */
       check('  with the year service began',
-        !!c && c.alt === 'Opened ' + spot.year, JSON.stringify(c && c.alt));
+        !!c && c.alt.indexOf('opened ' + spot.year) >= 0, JSON.stringify(c && c.alt));
       /* The layer is filtered on the opening year out of a record that starts
          in 1950, so it is lines that opened by the date AND survived to 1950.
          The card has to say so; it is the one caveat that changes what the
          reader thinks they are looking at. */
       check('  and the sentence saying the survey begins in 1950',
         !!c && /1950/.test(c.note || ''), JSON.stringify(c && c.note));
+    }
+
+    console.log('\n— the name the reader asked for, and where to read more —');
+    /* **Which name leads is `Kanji labels`, the switch that already decides it
+       for every place name on the map.** Romanisation in front with it off,
+       characters in front with it on, the other underneath either way. The
+       romanisation is taken from the line's own article and never worked out
+       from the characters — CLAUDE.md's rule for station readings — so a line
+       whose article this map could not find has none, and those are skipped
+       here by asking only for a band that carries one. */
+    const named = await p.evaluate(() => {
+      const els = [...document.querySelectorAll('#jp-rail .rail-hit')]
+        .filter(e => e.style.display !== 'none' && e.getAttribute('data-ro'));
+      for (const el of els) {
+        let L; try { L = el.getTotalLength(); } catch (e) { continue; }
+        if (!L) continue;
+        for (const f of [0.5, 0.3, 0.7]) {
+          const q = el.getPointAtLength(L * f);
+          const s2 = el.ownerSVGElement.createSVGPoint(); s2.x = q.x; s2.y = q.y;
+          const c = s2.matrixTransform(el.getScreenCTM());
+          const x = Math.round(c.x), y = Math.round(c.y);
+          if (x > 90 && x < 1310 && y > 140 && y < 730) {
+            const t = document.elementFromPoint(x, y);
+            if (t && t.closest && t.closest('#jp-rail')
+                && t.classList.contains('rail-hit') && t.getAttribute('data-ro')) {
+              return { x, y, name: t.getAttribute('data-name'),
+                       ro: t.getAttribute('data-ro') };
+            }
+          }
+        }
+      }
+      return null;
+    });
+    /* The band is what the pointer lands on, so it has to carry all four
+       attributes. It carried two for a while — a name and a year — and the
+       card could never show a romanisation or an article because the rest was
+       on the drawn path two siblings away. */
+    check('a line carrying a romanisation is pressable', !!named, JSON.stringify(named));
+    if (named) {
+      const readCard = () => p.evaluate(() => {
+        const b = document.querySelector('#info');
+        if (!b || b.hidden) return null;
+        return { primary: (b.querySelector('.primary') || {}).textContent,
+                 alt: (b.querySelector('.alt') || {}).textContent,
+                 links: [...b.querySelectorAll('#info-trains a')].map(a => a.href) };
+      });
+      await p.mouse.click(named.x, named.y);
+      await sleep(900);
+      const c1 = await readCard();
+      check('with Kanji labels off the romanisation leads',
+        !!c1 && c1.primary === named.ro,
+        JSON.stringify(c1 && c1.primary) + ' vs ' + JSON.stringify(named.ro));
+      check('  with the characters and the opening year under it',
+        !!c1 && c1.alt.indexOf(named.name) >= 0 && /opened \d{4}/.test(c1.alt),
+        JSON.stringify(c1 && c1.alt));
+      check('  a link to the article',
+        !!c1 && c1.links.some(h => /wikipedia\.org/.test(h)),
+        JSON.stringify(c1 && c1.links));
+      check('  and a link to the dataset it is drawn from',
+        !!c1 && c1.links.some(h => /nlftp\.mlit\.go\.jp/.test(h)),
+        JSON.stringify(c1 && c1.links));
+
+      await setBox(p, '#opt-han-labels', true);
+      await sleep(2000);
+      await p.mouse.click(named.x, named.y);
+      await sleep(900);
+      const c2 = await readCard();
+      check('with Kanji labels on the characters lead',
+        !!c2 && c2.primary === named.name,
+        JSON.stringify(c2 && c2.primary) + ' vs ' + JSON.stringify(named.name));
+      check('  and the romanisation follows',
+        !!c2 && c2.alt.indexOf(named.ro) >= 0, JSON.stringify(c2 && c2.alt));
+      await setBox(p, '#opt-han-labels', false);
+      await sleep(1200);
+
+      console.log('\n— take it away, with its source —');
+      await p.mouse.click(named.x, named.y, { button: 'right' });
+      await sleep(900);
+      const menu = await p.evaluate(() => {
+        const el = document.querySelector('#jmap-menu');
+        if (!el) return null;
+        return { rows: [...el.querySelectorAll('button')].map(b => b.textContent),
+                 src: [...el.querySelectorAll('.menu-src p')].map(x => x.textContent),
+                 links: [...el.querySelectorAll('.menu-src a')].map(a => a.href) };
+      });
+      const dated = (menu && menu.rows || []).filter(t => /Japan.*railways/.test(t));
+      /* The same three Korea offers: the date on screen, the other date, and
+         both. The layer draws one date and hides the other rather than leaving
+         it out, so all three can be written from what is already here. */
+      check('the menu offers the three dated downloads',
+        dated.length === 3, JSON.stringify(dated));
+      check('and names the railway\'s source beside them',
+        !!menu && menu.src.some(t => /Railway:/.test(t)), JSON.stringify(menu && menu.src));
+      check('  with the dataset linked',
+        !!menu && menu.links.some(h => /nlftp\.mlit\.go\.jp/.test(h)),
+        JSON.stringify(menu && menu.links));
+      await p.keyboard.press('Escape').catch(() => {});
+      await p.evaluate(() => {
+        const m = document.querySelector('#jmap-menu');
+        if (m && m.parentNode) m.parentNode.removeChild(m);
+      });
+      await sleep(400);
     }
 
     console.log('\n— the stations, on their own switch —');

@@ -122,6 +122,66 @@ the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Japan's lines get their articles, their romanisations and their source
+
+Three things asked for on the line cards, and the download menu Korea already had.
+
+**An article and a romanisation per line.** `tools/fetch_jp_line_wiki.py` is new and fills
+`tools/cache/jp-line-wiki.json`, which the build reads; the network is only touched to *fill* the
+cache, so a rebuild costs nothing and the answer does not drift between builds.
+
+The key is **(運営会社, 路線名)**, 1,134 of them, not the name: 152 of the 936 distinct names belong
+to more than one company and 本線 alone is used by 31. The company comes from the source GeoJSON at
+build time and is not shipped to the reader.
+
+**915 of the 1,977 drawn lines carry an article and 910 a romanisation** — 46%. The card links the
+English article where there is one and the Japanese one otherwise, and the foot of every line card
+links the N05 download page, which was the specific ask.
+
+**Two guards, both of which caught real errors.**
+
+*The bare name is only tried where this dataset knows one company for it.* Asking ja.wikipedia for
+大社線 returns JR West's Taisha Line, which is not 一畑電気鉄道's line of that name.
+
+*And a bare-name hit that redirected is refused.* A redirect is benign for a company+line title —
+東北線 goes to 東北本線, the same railway under its full name — but for a bare name it means the name
+had no article of its own and whatever caught it is a guess. 大森線 lands on the Hakodate tram
+*operator*, so that line came out romanised "Hakodate Transportation"; 日田線 lands on 日田彦山線, a
+later line that absorbed it. **173 hits were refused on this rule**, taking the coverage from 61% to
+46% — which is the honest figure rather than the flattering one.
+
+**The romanisation is taken, never derived**, which is CLAUDE.md's rule for station readings applied
+to lines: the English article's title first, the furigana in the Japanese lede otherwise, and
+nothing at all where there is neither. Three bugs in the kana table were caught by reading the
+output rather than trusting it — おう/うう and おお are long (にしおおじ is **Nishiōji**, not
+"Nishiooji"), and 線, 本線, 鉄道, 電車 and 軌道 are words rather than syllables of the name
+(えきまえせん is the **Ekimae Line**, not "Ekimaesen"; びばいてつどうせん the **Bibai Railway Line**).
+
+**The card leads with the reader's own setting.** `Kanji labels` already decides this for every place
+name on the map, so a line follows it rather than inventing a rule: romanisation in front with it
+off, characters in front with it on, the other underneath either way, and the opening year beside
+it. 総武線 reads *Sōbu Line · 総武線 · opened 1894* one way and *総武線 · Sōbu Line · opened 1894* the
+other.
+
+**The three dated downloads, and the source beside them.** `RAIL_INFO.jp` gives Japan the same three
+rows Korea has — the date on screen, the other date, both — and `saveDrawnRail` now understands
+`data-epochs`, so a line on both maps exports correctly for either. Exported features carry the line
+name and opening year, which the traced networks have no equivalent of. The right-click menu names
+the railway's source and links it: that menu already had a source section for shapes and figures, so
+the railway was fed into it as a third kind rather than bolted on beside it.
+
+**A bug worth naming.** The hit band is what the pointer lands on and the card is read straight off
+it, and only two of the four attributes were being copied onto it — so the card could never show a
+romanisation or an article, the data sitting on the drawn path two siblings away. Found by a test
+that asked for a band carrying `data-ro` and got none.
+
+**And the fetcher lost a whole run before it worked.** 1,134 lookups died partway on HTTP 429 with
+the cache written only at the end. It honours `Retry-After` now and saves as it goes, so a refused
+run resumes instead of restarting.
+
+`tools/test/jprails.js` goes from 27 checks to 37.
+
+
 ### Japan's railways and their 12,800 stations
 
 A fourth railway, and the first that is **built** rather than found: Taiwan's, Korea's and Karafuto's

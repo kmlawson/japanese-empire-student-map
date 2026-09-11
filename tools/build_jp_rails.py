@@ -48,12 +48,16 @@ import collections
 import json
 import math
 import os
+from urllib.parse import quote
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(ROOT, "deploy")
 SRC = os.path.join(ROOT, "data", "jp-rails")
 
 LINES_IN = os.path.join(SRC, "japan-railway-lines-1942.geojson")
+# Filled by tools/fetch_jp_line_wiki.py; absent on a machine that has not run
+# it, in which case the lines simply go out without a romanisation or a link.
+WIKI = os.path.join(ROOT, "tools", "cache", "jp-line-wiki.json")
 STATIONS_IN = os.path.join(SRC, "japan-railway-stations-1942.geojson")
 OUT_LINES = os.path.join(SITE, "jp-rails.js")
 OUT_STATIONS = os.path.join(SITE, "jp-stations.js")
@@ -125,9 +129,39 @@ def km(pts):
     return t
 
 
+def load_wiki():
+    """Article and romanisation per (運営会社, 路線名).
+
+    Keyed on the pair because a line name is not unique — 152 of the 936 names
+    in this source belong to more than one company. See the docstring of
+    tools/fetch_jp_line_wiki.py for why the bare name is not enough.
+    """
+    if not os.path.exists(WIKI):
+        return {}
+    return json.load(open(WIKI, encoding="utf-8"))
+
+
+def wiki_url(rec):
+    """The English article where there is one, the Japanese one otherwise.
+
+    Asked for in that order: a reader of this map is reading it in English, so
+    the English article is the more use to them, and the Japanese one is what
+    there is when no English article exists.
+    """
+    if not rec:
+        return ""
+    if rec.get("en"):
+        return "https://en.wikipedia.org/wiki/" + quote(rec["en"].replace(" ", "_"))
+    if rec.get("ja"):
+        return "https://ja.wikipedia.org/wiki/" + quote(rec["ja"].replace(" ", "_"))
+    return ""
+
+
 def build_lines():
     doc = json.load(open(LINES_IN, encoding="utf-8"))
+    wiki = load_wiki()
     out = []
+    linked = romanised = 0
     vin = vout = 0
     worst = 0.0
     km_in = km_out = 0.0
@@ -145,9 +179,20 @@ def build_lines():
         for x, y in kept:
             flat.append(round(x, DP))
             flat.append(round(y, DP))
+        rec = wiki.get(p["運営会社"] + "\t" + p["路線名"]) or {}
+        url = wiki_url(rec)
+        ro = rec.get("romaji") or ""
+        if url:
+            linked += 1
+        if ro:
+            romanised += 1
         out.append({
             "n": p["路線名"],
             "y": year,
+            # Absent rather than empty where nothing was found: the card shows
+            # the characters alone and offers no dead link.
+            **({"ro": ro} if ro else {}),
+            **({"w": url} if url else {}),
             # Which maps it is drawn on, in the string the rest of this map
             # already uses for the question -- "3042" for both, "42" for the
             # later one alone. `stationInEpoch` in map.js reads exactly this,
@@ -155,7 +200,7 @@ def build_lines():
             "e": "3042" if year <= EPOCH_SPLIT else "42",
             "p": flat,
         })
-    return out, vin, vout, worst, km_in, km_out
+    return out, vin, vout, worst, km_in, km_out, linked, romanised
 
 
 def build_stations():
@@ -204,7 +249,7 @@ def write(path, var, head, payload):
 
 
 def main():
-    lines, vin, vout, worst, km_in, km_out = build_lines()
+    lines, vin, vout, worst, km_in, km_out, linked, romanised = build_lines()
     e0 = sum(1 for r in lines if r["e"] == "3042")
     head = (
         "/* Built by tools/build_jp_rails.py -- do not edit.\n"
@@ -240,6 +285,8 @@ def main():
           % (vin, vout, 100.0 * vout / vin, TOL_M, worst))
     print("           track %.0f km in, %.0f km out (%.2f%% shorter)"
           % (km_in, km_out, 100.0 * (km_in - km_out) / km_in))
+    print("wikipedia  %d of %d lines have an article, %d a romanisation"
+          % (linked, len(lines), romanised))
     print("stations   %d rows -> %d places, %d of them on the 1930 map"
           % (rows_in, len(stations), s0))
     print("wrote      %s (%.0f KB) + %s (%.0f KB)"

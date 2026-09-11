@@ -224,6 +224,10 @@ const TRIGGERS = [
      only by the build and nothing the site serves comes from it directly. */
   [/^deploy\/jp-(rails|stations)\.js$/, ['transport']],
   [/^tools\/build_jp_rails\.py$/,  ['transport']],
+  /* The line articles and romanisations: a cache the build reads, and the
+     tool that fills it. Either moving changes what a line card says. */
+  [/^tools\/fetch_jp_line_wiki\.py$/, ['transport']],
+  [/^tools\/cache\/jp-line-wiki\.json$/, ['transport']],
   [/^data\/jp-rails\//,            []],   // vendored; the build reads it
   [/^tools\/build_(tw|kr|kf)_(trains|stations)\.py$/, ['transport']],
   [/^data\/(tw-1936|kr-1938|kf-1935)-timetable\//, []],   // vendored; the build reads it
@@ -432,7 +436,7 @@ else list = pick.map(a => (/^\d+$/.test(a) ? 'run' + (a === '1' ? '' : a) : a));
    140, `layers-url` as 18 and takes 70. All three were being scheduled near
    the *back*, so a run ended with its longest scripts and three idle
    workers. Regenerate from a full run's own per-script line. */
-const SECS = { owns: 1, jprails: 150, stations: 147, relief: 140, demography: 95, population: 97, 'layers-url': 158, names: 62, mapstrip: 56, trains: 79, krtrains: 16, kftrains: 19, japanpop: 44, theme: 40, labels: 40, subnames: 37, labelcats: 35, routes: 34, sugar: 33, twpop1930: 33, pin: 31, epoch: 29, mono: 27, colours: 26, extent: 26, islands: 25, manchupop: 25, keys: 52, legendpick: 22, labuan: 22, provsource: 19, bookmarks: 16, 'cache-keys': 15, backings: 15, taiwan: 15, korea: 14, zoom: 13, menu: 13, pointsize: 11, projclip: 11, taiwanpop: 7, beta: 22, hanlabels: 108, air: 159, airplay: 78, clipping: 24, layerinfo: 34,
+const SECS = { owns: 1, jprails: 190, stations: 147, relief: 140, demography: 95, population: 97, 'layers-url': 158, names: 62, mapstrip: 56, trains: 79, krtrains: 16, kftrains: 19, japanpop: 44, theme: 40, labels: 40, subnames: 37, labelcats: 35, routes: 34, sugar: 33, twpop1930: 33, pin: 31, epoch: 29, mono: 27, colours: 26, extent: 26, islands: 25, manchupop: 25, keys: 52, legendpick: 22, labuan: 22, provsource: 19, bookmarks: 16, 'cache-keys': 15, backings: 15, taiwan: 15, korea: 14, zoom: 13, menu: 13, pointsize: 11, projclip: 11, taiwanpop: 7, beta: 22, hanlabels: 108, air: 159, airplay: 78, clipping: 24, layerinfo: 34,
                run2: 41, run15: 40, run5: 35, run14: 32, run: 19, run3: 28, run9: 30, run10: 25, run11: 24, run12: 19, run8: 19, run13: 18, run4: 17, run6: 12, run7: 5 };
 /* And now measured rather than transcribed. Every run writes what each script
    took (`per`, in runs.jsonl) and the latest figure for a script overrides the

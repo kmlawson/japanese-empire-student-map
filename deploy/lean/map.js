@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '350';
+  var JEM_VERSION = '351';
 
 
 
@@ -2132,8 +2132,12 @@
         'data-epochs': (r.e || '3042') === '42' ? 'e1942' : 'e1930 e1942',
         'data-over': 'japan',
 
+
+
         'data-name': r.n || '',
         'data-year': r.y ? String(r.y) : '',
+        'data-ro': r.ro || '',
+        'data-wiki': r.w || '',
       }));
     });
 
@@ -9150,16 +9154,28 @@
 
 
 
-    if (block.waiting && (!block.rows || !block.rows.length)) {
-      if (!block.head) return;
-      var wait = document.createElement('p');
-      wait.className = 'trains-head trains-waiting';
-      wait.textContent = block.head;
-      host.appendChild(wait);
-      host.hidden = false;
+    if (!block.rows || !block.rows.length) {
+
+
+
+
+
+
+      var said = false;
+      if (block.waiting && block.head) {
+        var wait = document.createElement('p');
+        wait.className = 'trains-head trains-waiting';
+        wait.textContent = block.head;
+        host.appendChild(wait);
+        said = true;
+      }
+      if ((block.links || []).length) {
+        appendCardLinks(host, block);
+        said = true;
+      }
+      host.hidden = !said;
       return;
     }
-    if (!block.rows || !block.rows.length) return;
     if (block.head) {
       var head = document.createElement('p');
       head.className = 'trains-head';
@@ -9233,6 +9249,12 @@
 
 
 
+    appendCardLinks(host, block);
+  }
+
+
+
+  function appendCardLinks(host, block) {
     (block.links || []).forEach(function (l) {
       var a = document.createElement('a');
       a.className = 'note-src';
@@ -12132,20 +12154,27 @@
     var pick = want || state.epoch;
     var feats = [];
     $$('path.rail', g).forEach(function (el) {
-      var ep = el.getAttribute('data-epoch') || state.epoch;
-      if (pick !== 'both' && ep !== pick) return;
+
+
+
+
+
+      var eps = el.getAttribute('data-epochs');
+      var ep;
+      if (eps) {
+        var list = eps.split(' ');
+        if (pick !== 'both' && list.indexOf(pick) < 0) return;
+        ep = pick === 'both' ? list.join(' ') : pick;
+      } else {
+        ep = el.getAttribute('data-epoch') || state.epoch;
+        if (pick !== 'both' && ep !== pick) return;
+      }
       var lines = ringsToLonLat(pathToRings(el.getAttribute('d')));
       lines.forEach(function (c) {
         if (c.length > 1) {
           feats.push({ type: 'Feature',
                        geometry: { type: 'LineString', coordinates: c },
-                       properties: { system: sys,
-                                     railway: RAIL_LABEL[sys] || sys,
-                                     epoch: ep,
-                                     network_year: railYear(sys, ep),
-                                     source: (RAIL_INFO[sys] || {}).source || '',
-                                     source_url: (RAIL_INFO[sys] || {}).url || '',
-                                     note: RAIL_DRAWN_NOTE } });
+                       properties: railDrawnProps(sys, ep, el) });
         }
       });
     });
@@ -12163,6 +12192,30 @@
     }
     return saveRailGeoJSON(feats, name);
   }
+
+
+
+
+
+  function railDrawnProps(sys, ep, el) {
+    var inf = RAIL_INFO[sys] || {};
+    var p = { system: sys, railway: RAIL_LABEL[sys] || sys, epoch: ep,
+              network_year: railYear(sys, ep.split(' ')[0]) || '',
+              source: inf.source || '', source_url: inf.url || '' };
+    var nm = el.getAttribute('data-name');
+    if (nm) {
+      p.line = nm;
+      p.opened = el.getAttribute('data-year') || '';
+      p.note = RAIL_NAMED_NOTE;
+    } else {
+      p.note = RAIL_DRAWN_NOTE;
+    }
+    return p;
+  }
+
+  var RAIL_NAMED_NOTE = 'Read from the drawn network and unprojected, so it '
+    + 'carries the thinning the map draws at. `opened` is the year service '
+    + 'began, which is what this layer is filtered on.';
 
   var RAIL_DRAWN_NOTE = 'Read from the drawn network and unprojected, so it '
     + 'carries the thinning the map draws at, and it has no line names: the '
@@ -12211,6 +12264,11 @@
 
 
 
+
+
+
+  var N05_URL = 'https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html';
+
   var RAIL_INFO = {
     tw: {
       label: 'Taiwan Railways',
@@ -12231,6 +12289,21 @@
       url: 'https://data.depositar.io/dataset/rd15-07030',
       note: 'Drawn per date, because the island gained lines between them: some '
         + 'southern lines are on the 1942 map and not the 1930 one.',
+    },
+    jp: {
+      label: 'Japan Railways',
+
+
+
+      years: { e1930: '1930', e1942: 'December 1942' },
+      source: 'N05 \u9244\u9053\u6642\u7cfb\u30c7\u30fc\u30bf, '
+        + '\u56fd\u571f\u4ea4\u901a\u7701\u56fd\u571f\u6570\u5024\u60c5\u5831'
+        + ', filtered by the year each line opened',
+      url: N05_URL,
+
+
+      note: 'The source\u2019s survey begins in 1950, so railways that closed '
+        + 'before 1950 are likely to be missing from the data.',
     },
     kr: {
       label: 'Korea Railways',
@@ -12608,6 +12681,7 @@
 
 
 
+
     if (el) {
       menuEl.appendChild(menuItem('Download GeoJSON — ' + (name || 'this shape'),
         function () { saveGeoJSON([el], name || atomKey); }));
@@ -12695,7 +12769,20 @@
 
     var srcs = sourcesFor(atomKey);
     var figs = el ? figureSourcesFor(name) : [];
-    if (srcs.length || figs.length) {
+
+
+
+
+
+
+    var rails = [];
+    if (railSys && RAIL_INFO[railSys] && (RAIL_INFO[railSys].source
+                                          || RAIL_INFO[railSys].url)) {
+      rails.push({ short: RAIL_INFO[railSys].source || RAIL_INFO[railSys].label,
+                   url: RAIL_INFO[railSys].url || '',
+                   note: RAIL_INFO[railSys].note || '' });
+    }
+    if (srcs.length || figs.length || rails.length) {
       var sec = document.createElement('div');
       sec.className = 'menu-src';
       var h = document.createElement('p');
@@ -12732,6 +12819,7 @@
       };
       srcs.forEach(function (r) { line(r, 'Shape: '); });
       figs.forEach(function (r) { line(r, 'Figures: '); });
+      rails.forEach(function (r) { line(r, 'Railway: '); });
       var more = document.createElement('p');
       more.className = 'menu-src-more';
       var a2 = document.createElement('a');
@@ -13321,17 +13409,50 @@
     if (!el) return null;
     var name = el.getAttribute('data-name') || '';
     var year = el.getAttribute('data-year') || '';
+    var ro = el.getAttribute('data-ro') || '';
+    var wiki = el.getAttribute('data-wiki') || '';
     if (!name) return null;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    var han = name;
+    var lead = (state.hanLabels || !ro) ? han : ro;
+    var second = (state.hanLabels || !ro) ? (ro || '') : han;
+    var bits = [];
+    if (second) bits.push(second);
+    if (year) bits.push('opened ' + year);
+
+    var links = [];
+    if (wiki) {
+      links.push({ href: wiki,
+                   text: /^https?:\/\/ja\./.test(wiki)
+                     ? 'Read more on Wikipedia (Japanese)'
+                     : 'Read more on Wikipedia' });
+    }
+
+    links.push({ href: N05_URL, text: 'The railway dataset this is drawn from' });
+
     return {
       chip: 'Railway line', colour: 'var(--muted)',
-      primary: name,
-      alt: year ? 'Opened ' + year : '',
+      primary: lead,
+      alt: bits.join('  \u00b7  '),
 
 
 
-      note: 'From the national railway dataset, which records the network from '
-          + '1950 onwards, so lines that closed before then are likely to be '
-          + 'missing and the course drawn is the later survey.',
+      note: 'The source\u2019s survey begins in 1950, so railways that closed '
+          + 'before 1950 are likely to be missing from the data.',
+      links: links,
     };
   }
 
@@ -13826,8 +13947,15 @@
 
 
         if (el.hasAttribute('data-name')) {
-          hit.setAttribute('data-name', el.getAttribute('data-name'));
-          hit.setAttribute('data-year', el.getAttribute('data-year') || '');
+
+
+
+
+
+          ['data-name', 'data-year', 'data-ro', 'data-wiki'].forEach(function (a) {
+            var v = el.getAttribute(a);
+            if (v) hit.setAttribute(a, v); else hit.removeAttribute(a);
+          });
         }
         hit.style.display = on ? '' : 'none';
       });

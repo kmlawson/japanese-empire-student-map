@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '350';
+  var JEM_VERSION = '351';
 
   /* Every file this one fetches, with the version on it.
 
@@ -2131,9 +2131,13 @@
            only. The whole of the date logic, decided in the build. */
         'data-epochs': (r.e || '3042') === '42' ? 'e1942' : 'e1930 e1942',
         'data-over': 'japan',
-        /* What the card says when the reader presses this stretch. */
+        /* What the card says when the reader presses this stretch. `ro` and
+           `w` are absent for the lines no article was found for, and an
+           attribute is simply not written rather than written empty. */
         'data-name': r.n || '',
         'data-year': r.y ? String(r.y) : '',
+        'data-ro': r.ro || '',
+        'data-wiki': r.w || '',
       }));
     });
     /* Under the markers, like every other railway: a station square and a city
@@ -9150,16 +9154,28 @@
        the sentence and stops — no table, no column headings, no Download CSV
        for an empty file. Without this the reader presses a line and the card
        says only what the line was, with no hint that the numbers are coming. */
-    if (block.waiting && (!block.rows || !block.rows.length)) {
-      if (!block.head) return;
-      var wait = document.createElement('p');
-      wait.className = 'trains-head trains-waiting';
-      wait.textContent = block.head;
-      host.appendChild(wait);
-      host.hidden = false;
+    if (!block.rows || !block.rows.length) {
+      /* **A card with nothing to tabulate still has things to say.** Two of
+         them reach here: one waiting for a timetable, which says so, and
+         Japan's lines, which have no figures at all and carry a link to the
+         article and one to the dataset. Without this both fell out of the
+         renderer at the first line and the reader got a name and nothing
+         else. */
+      var said = false;
+      if (block.waiting && block.head) {
+        var wait = document.createElement('p');
+        wait.className = 'trains-head trains-waiting';
+        wait.textContent = block.head;
+        host.appendChild(wait);
+        said = true;
+      }
+      if ((block.links || []).length) {
+        appendCardLinks(host, block);
+        said = true;
+      }
+      host.hidden = !said;
       return;
     }
-    if (!block.rows || !block.rows.length) return;
     if (block.head) {
       var head = document.createElement('p');
       head.className = 'trains-head';
@@ -9233,6 +9249,12 @@
        from. A page of this map's own is passed as `page` and goes through
        `asset` so it carries the build's key; anything else is an absolute
        address and is used as it stands. */
+    appendCardLinks(host, block);
+  }
+
+  /* The links at the foot of a card, shared by the block that has a table and
+     the block that has none. */
+  function appendCardLinks(host, block) {
     (block.links || []).forEach(function (l) {
       var a = document.createElement('a');
       a.className = 'note-src';
@@ -12132,20 +12154,27 @@
     var pick = want || state.epoch;
     var feats = [];
     $$('path.rail', g).forEach(function (el) {
-      var ep = el.getAttribute('data-epoch') || state.epoch;
-      if (pick !== 'both' && ep !== pick) return;
+      /* **Japan's paths name every date they belong to, not one.** 1,806 of
+         its 1,977 lines are on both maps and are written once with
+         `data-epochs`; the three traced networks write a line per date with a
+         single `data-epoch`. Either way `ep` ends up as the date this feature
+         is being exported for, so the file says something true about itself. */
+      var eps = el.getAttribute('data-epochs');
+      var ep;
+      if (eps) {
+        var list = eps.split(' ');
+        if (pick !== 'both' && list.indexOf(pick) < 0) return;
+        ep = pick === 'both' ? list.join(' ') : pick;
+      } else {
+        ep = el.getAttribute('data-epoch') || state.epoch;
+        if (pick !== 'both' && ep !== pick) return;
+      }
       var lines = ringsToLonLat(pathToRings(el.getAttribute('d')));
       lines.forEach(function (c) {
         if (c.length > 1) {
           feats.push({ type: 'Feature',
                        geometry: { type: 'LineString', coordinates: c },
-                       properties: { system: sys,
-                                     railway: RAIL_LABEL[sys] || sys,
-                                     epoch: ep,
-                                     network_year: railYear(sys, ep),
-                                     source: (RAIL_INFO[sys] || {}).source || '',
-                                     source_url: (RAIL_INFO[sys] || {}).url || '',
-                                     note: RAIL_DRAWN_NOTE } });
+                       properties: railDrawnProps(sys, ep, el) });
         }
       });
     });
@@ -12163,6 +12192,30 @@
     }
     return saveRailGeoJSON(feats, name);
   }
+
+  /* What a drawn-network feature says about itself. Japan's lines carry a
+     name and an opening year on the path — it is a dataset of named lines —
+     so the file carries them too and gets a truer note than the one about
+     there being no names. */
+  function railDrawnProps(sys, ep, el) {
+    var inf = RAIL_INFO[sys] || {};
+    var p = { system: sys, railway: RAIL_LABEL[sys] || sys, epoch: ep,
+              network_year: railYear(sys, ep.split(' ')[0]) || '',
+              source: inf.source || '', source_url: inf.url || '' };
+    var nm = el.getAttribute('data-name');
+    if (nm) {
+      p.line = nm;
+      p.opened = el.getAttribute('data-year') || '';
+      p.note = RAIL_NAMED_NOTE;
+    } else {
+      p.note = RAIL_DRAWN_NOTE;
+    }
+    return p;
+  }
+
+  var RAIL_NAMED_NOTE = 'Read from the drawn network and unprojected, so it '
+    + 'carries the thinning the map draws at. `opened` is the year service '
+    + 'began, which is what this layer is filtered on.';
 
   var RAIL_DRAWN_NOTE = 'Read from the drawn network and unprojected, so it '
     + 'carries the thinning the map draws at, and it has no line names: the '
@@ -12211,6 +12264,11 @@
    * These years must agree with `TW_RAIL_FILES`, `KR_RAIL_FILES` and
    * `KF_RAIL_FILES` in tools/build_map.py, which is where the geometry is
    * actually chosen. Change a file there and change the year here. */
+  /* The N05 download page, named once: the line card links it, the railway
+     card links it, the right-click menu names it and every exported feature
+     carries it. */
+  var N05_URL = 'https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html';
+
   var RAIL_INFO = {
     tw: {
       label: 'Taiwan Railways',
@@ -12231,6 +12289,21 @@
       url: 'https://data.depositar.io/dataset/rd15-07030',
       note: 'Drawn per date, because the island gained lines between them: some '
         + 'southern lines are on the 1942 map and not the 1930 one.',
+    },
+    jp: {
+      label: 'Japan Railways',
+      /* The map's own dates. The layer is filtered on the year each line
+         opened, so 1930 is the network as it had been built by then and 1942
+         is that plus what opened in between. */
+      years: { e1930: '1930', e1942: 'December 1942' },
+      source: 'N05 \u9244\u9053\u6642\u7cfb\u30c7\u30fc\u30bf, '
+        + '\u56fd\u571f\u4ea4\u901a\u7701\u56fd\u571f\u6570\u5024\u60c5\u5831'
+        + ', filtered by the year each line opened',
+      url: N05_URL,
+      /* One sentence, and it is the one that changes what the reader thinks
+         they are looking at. */
+      note: 'The source\u2019s survey begins in 1950, so railways that closed '
+        + 'before 1950 are likely to be missing from the data.',
     },
     kr: {
       label: 'Korea Railways',
@@ -12604,6 +12677,7 @@
           function () { saveDrawnRail(railSys, 'both'); }));
       }
     }
+
     /* Unit, then group, then layer — narrowest first, because the reader
        right-clicked one shape and the wider offers are the afterthought. A
        group is only offered where there is one: an island belongs to an
@@ -12695,7 +12769,20 @@
 
     var srcs = sourcesFor(atomKey);
     var figs = el ? figureSourcesFor(name) : [];
-    if (srcs.length || figs.length) {
+    /* **And the railway under the pointer, where there is one.** This menu
+       already names where a shape came from; a reader who right-clicks a
+       railway to take it away is exactly the reader who needs to know where
+       *it* came from, and until now the rail rows offered four downloads with
+       no citation beside them. Same shape of record and the same renderer, so
+       it reads as one section rather than a bolted-on line. */
+    var rails = [];
+    if (railSys && RAIL_INFO[railSys] && (RAIL_INFO[railSys].source
+                                          || RAIL_INFO[railSys].url)) {
+      rails.push({ short: RAIL_INFO[railSys].source || RAIL_INFO[railSys].label,
+                   url: RAIL_INFO[railSys].url || '',
+                   note: RAIL_INFO[railSys].note || '' });
+    }
+    if (srcs.length || figs.length || rails.length) {
       var sec = document.createElement('div');
       sec.className = 'menu-src';
       var h = document.createElement('p');
@@ -12732,6 +12819,7 @@
       };
       srcs.forEach(function (r) { line(r, 'Shape: '); });
       figs.forEach(function (r) { line(r, 'Figures: '); });
+      rails.forEach(function (r) { line(r, 'Railway: '); });
       var more = document.createElement('p');
       more.className = 'menu-src-more';
       var a2 = document.createElement('a');
@@ -13321,17 +13409,50 @@
     if (!el) return null;
     var name = el.getAttribute('data-name') || '';
     var year = el.getAttribute('data-year') || '';
+    var ro = el.getAttribute('data-ro') || '';
+    var wiki = el.getAttribute('data-wiki') || '';
     if (!name) return null;
+
+    /* **Which name leads is the reader's setting, not ours.**
+     *
+     * `Kanji labels` is the switch that says *give me the characters*, and it
+     * already decides this for every place name on the map — `placeName` reads
+     * `state.hanLabels` and puts `han` in front. A railway line is a name like
+     * any other, so it follows the same switch rather than inventing a rule:
+     * characters first with it on, the romanisation first with it off, and the
+     * other one underneath either way.
+     *
+     * A line with no romanisation — one whose article this map could not find,
+     * or found without a reading it could take rather than guess — shows the
+     * characters alone. That is honest about what is known and is what the
+     * station cards already do. */
+    var han = name;
+    var lead = (state.hanLabels || !ro) ? han : ro;
+    var second = (state.hanLabels || !ro) ? (ro || '') : han;
+    var bits = [];
+    if (second) bits.push(second);
+    if (year) bits.push('opened ' + year);
+
+    var links = [];
+    if (wiki) {
+      links.push({ href: wiki,
+                   text: /^https?:\/\/ja\./.test(wiki)
+                     ? 'Read more on Wikipedia (Japanese)'
+                     : 'Read more on Wikipedia' });
+    }
+    /* Asked for: the dataset itself, at the foot of every line's card. */
+    links.push({ href: N05_URL, text: 'The railway dataset this is drawn from' });
+
     return {
       chip: 'Railway line', colour: 'var(--muted)',
-      primary: name,
-      alt: year ? 'Opened ' + year : '',
+      primary: lead,
+      alt: bits.join('  \u00b7  '),
       /* One sentence, per the prose rule — and it is the caveat that matters,
          because the source's survey begins in 1950 and the reader is looking
          at a map of 1930. */
-      note: 'From the national railway dataset, which records the network from '
-          + '1950 onwards, so lines that closed before then are likely to be '
-          + 'missing and the course drawn is the later survey.',
+      note: 'The source\u2019s survey begins in 1950, so railways that closed '
+          + 'before 1950 are likely to be missing from the data.',
+      links: links,
     };
   }
 
@@ -13826,8 +13947,15 @@
            one network apiece and answer with a card about the network — and
            copying an absent attribute writes nothing. */
         if (el.hasAttribute('data-name')) {
-          hit.setAttribute('data-name', el.getAttribute('data-name'));
-          hit.setAttribute('data-year', el.getAttribute('data-year') || '');
+          /* **All four, not two.** The band is what the pointer lands on and
+             `jpLineCard` reads the card straight off it, so a name and a year
+             copied without the romanisation and the article meant a card that
+             could never show either — the data was on the drawn path two
+             siblings away and nothing ever looked there. */
+          ['data-name', 'data-year', 'data-ro', 'data-wiki'].forEach(function (a) {
+            var v = el.getAttribute(a);
+            if (v) hit.setAttribute(a, v); else hit.removeAttribute(a);
+          });
         }
         hit.style.display = on ? '' : 'none';
       });
