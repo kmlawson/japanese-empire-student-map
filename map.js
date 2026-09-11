@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '348';
+  var JEM_VERSION = '349';
 
   /* Every file this one fetches, with the version on it.
 
@@ -408,6 +408,11 @@
   var scalables = [];     // {el, x, y} kept at constant screen size
   var labels = [];        // {rec, el, x, y, dy, size, w, h}
   var selected = null;
+  /* Which line's card is on screen *minus its figures*, because the timetable
+     had not arrived when it was built; -1 for none. Only this one is worth
+     replacing when the file lands — a card the reader has since navigated away
+     from would be the map putting a panel back that they closed. */
+  var trainCardWaiting = -1;
 
   /* A highlight the reader has pinned with a modifier-click, which is a
      different thing from the selection and deliberately outside its life.
@@ -2186,26 +2191,52 @@
     return found;
   }
 
-  /* The system a set of train tools could be opened on, whether or not the
-     switch is on — which is what the button beside the map has to know, since
-     its whole job is to turn that switch on and off. `trainSysFor` answers a
-     narrower question: whether they should be *built*, which additionally
-     needs the reader to have asked. */
-  function trainZone() {
+  /* **ONE SYSTEM, AND WHICH ONE IS NOT LEFT TO THE ORDER OF THE OBJECT.**
+   *
+   * Three networks whose grounds do not touch made this question invisible:
+   * the loop kept the last box that matched and no view ever matched two, so
+   * "last one wins" was never wrong and never examined. Manchuria's box will
+   * be about twenty degrees by fourteen and will contain most of Korea's, so
+   * a view of Seoul would sit in both, and the answer would be whichever key
+   * `Object.keys` happened to hand over second.
+   *
+   * The rule is the smallest box that holds the centre. A reader centred on
+   * Korea means Korea whether or not a larger network reaches over it, and
+   * the general case of that is the most specific ground wins. Area rather
+   * than a hand-kept priority list, so a network added later is ordered by
+   * something true about it rather than by somebody remembering to say where
+   * it goes.
+   *
+   * The single-system guarantee itself is upstream of this: this returns one
+   * key or none, `syncTrainTools` unmounts before it mounts, and
+   * `mountTrainTools` refuses while another is up. tools/test/trains.js holds
+   * all three to it.
+   */
+  function trainBoxAt(useOff) {
     var span = latSpan();
     var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
     if (!isFinite(c.lon) || !isFinite(c.lat)) return '';
-    var found = '';
+    var found = '', bestArea = Infinity;
     Object.keys(TRAIN_SYS).forEach(function (k) {
-      var b = TRAIN_SYS[k].box;
-      if (span > (TRAIN_SYS[k].latOff || TRAIN_LAT_OFF)) return;
-      if (c.lon >= b[0] - TRAIN_BOX_PAD && c.lon <= b[2] + TRAIN_BOX_PAD
-          && c.lat >= b[1] - TRAIN_BOX_PAD && c.lat <= b[3] + TRAIN_BOX_PAD) {
-        found = k;
-      }
+      var cfg = TRAIN_SYS[k], b = cfg.box;
+      var limit = useOff ? (cfg.latOff || TRAIN_LAT_OFF)
+                         : (cfg.latOn || TRAIN_LAT_ON);
+      if (span > limit) return;
+      if (c.lon < b[0] - TRAIN_BOX_PAD || c.lon > b[2] + TRAIN_BOX_PAD
+          || c.lat < b[1] - TRAIN_BOX_PAD || c.lat > b[3] + TRAIN_BOX_PAD) return;
+      var area = (b[2] - b[0]) * (b[3] - b[1]);
+      if (area < bestArea) { bestArea = area; found = k; }
     });
     return found;
   }
+
+  /* The system a set of train tools could be opened on, whether or not the
+     switch is on — which is what the button beside the map has to know, since
+     its whole job is to turn that switch on and off. Always the wider
+     threshold: the button should not vanish from under a reader who has the
+     tools up. `trainSysFor` answers a narrower question — whether they should
+     be *built*, which additionally needs the reader to have asked. */
+  function trainZone() { return trainBoxAt(true); }
 
   var btnStationsSys = '';
   /* Held rather than looked up. This runs on every frame of every gesture and
@@ -2439,6 +2470,10 @@
       sys: 'tw',
       data: 'TW_TRAINS',
       file: 'tw-trains.js',
+      /* The timetable is a second file, fetched only when the reader asks
+         it something; see tools/trains_split.py. */
+      times: 'TW_TIMES',
+      timesFile: 'tw-times.js',
       page: 'timetable/taiwan-1936.html',
       note: 'Timetable of February 1936',
       /* The book itself, named as it is named, with the scan behind it. A
@@ -2456,6 +2491,10 @@
       sys: 'kr',
       data: 'KR_TRAINS',
       file: 'kr-trains.js',
+      /* The timetable is a second file, fetched only when the reader asks
+         it something; see tools/trains_split.py. */
+      times: 'KR_TIMES',
+      timesFile: 'kr-times.js',
       page: 'timetable/korea-1938.html',
       note: 'Timetable of early 1938',
       src: '\u671d\u9bae\u5217\u8eca\u6642\u523b\u8868 (1938)',
@@ -2473,6 +2512,10 @@
       sys: 'kf',
       data: 'KF_TRAINS',
       file: 'kf-trains.js',
+      /* The timetable is a second file, fetched only when the reader asks
+         it something; see tools/trains_split.py. */
+      times: 'KF_TIMES',
+      timesFile: 'kf-times.js',
       page: 'timetable/karafuto-1935.html',
       note: 'Timetable of April 1935',
       src: '\u6a3a\u592a\u570b\u6709\u9435\u9053\u5217\u8eca\u6642\u523b\u8868 (1935)',
@@ -2514,28 +2557,13 @@
   var trainBusy = false;
   var trainFailed = false;      // said once, not on every re-tick
 
-  /* Which system the reader is looking at, or '' — and it depends on whether
-     one is already up, which is the hysteresis. */
+  /* Which system the reader is looking at, or ''. Each has its own idea of
+     close enough — a peninsula ten degrees tall is the subject of a view that
+     would be an ocean to an island of three — and which of its two thresholds
+     applies depends on whether one is already up, which is the hysteresis. */
   function trainSysFor(mounted) {
     if (!state.trainTools) return '';
-    var span = latSpan();
-    var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
-    if (!isFinite(c.lon) || !isFinite(c.lat)) return '';
-    var found = '';
-    Object.keys(TRAIN_SYS).forEach(function (k) {
-      var b = TRAIN_SYS[k].box;
-      /* each system has its own idea of close enough: a peninsula ten
-         degrees tall is the subject of a view that would be an ocean to an
-         island of three */
-      var limit = mounted ? (TRAIN_SYS[k].latOff || TRAIN_LAT_OFF)
-                          : (TRAIN_SYS[k].latOn || TRAIN_LAT_ON);
-      if (span > limit) return;
-      if (c.lon >= b[0] - TRAIN_BOX_PAD && c.lon <= b[2] + TRAIN_BOX_PAD
-          && c.lat >= b[1] - TRAIN_BOX_PAD && c.lat <= b[3] + TRAIN_BOX_PAD) {
-        found = k;
-      }
-    });
-    return found;
+    return trainBoxAt(!!mounted);
   }
 
   /* Called from `rescale`, so on every frame of every gesture: it has to be
@@ -2744,6 +2772,48 @@
     if (!left) { trainLoading = false; mountTrainTools(cfg); }
   }
 
+  /* **THE TIMETABLE, WHEN SOMETHING ASKS IT A QUESTION.**
+
+     The geometry and the timetable used to be one file, and for Korea the
+     timetable was 455 KB of it — fetched, parsed and walked before a single
+     line of track could be drawn, for a reader who might only want to see
+     where the railway went. It is a file of its own now and this is what
+     fetches it: the module calls `loadTimes` from the four places that
+     actually need a time — the clock, a line's figures, a station's
+     departures, and fitting the view to a line the reader has named.
+
+     Failure is said here rather than in the module, because this is the half
+     that knows a `<script>` did not arrive. Said once: a reader who presses
+     play four times has one problem, not four. */
+  var timesFailed = {};
+
+  function loadTimes(cfg) {
+    if (!cfg || !cfg.timesFile) return;
+    var give = function () {
+      if (trainApi && trainApi.mounted() && trainApi.system() === cfg.sys) {
+        trainApi.setTimes(JMAP[cfg.times]);
+      }
+    };
+    if (JMAP[cfg.times]) { give(); return; }
+    loadScript(cfg.timesFile).then(function () {
+      if (JMAP[cfg.times]) give(); else fail();
+    }, fail);
+    function fail() {
+      /* The module first, and unconditionally: it is holding a latch that
+         stops a second request, and a reader who wants to try again is
+         entitled to. The alert below is the part said only once. */
+      if (trainApi && trainApi.mounted() && trainApi.system() === cfg.sys
+          && trainApi.timesFailed) {
+        trainApi.timesFailed();
+      }
+      if (timesFailed[cfg.sys]) return;
+      timesFailed[cfg.sys] = true;
+      window.alert('The timetable could not be loaded. It is in '
+        + cfg.timesFile + ', which has to sit beside index.html. The railway '
+        + 'itself is drawn from ' + cfg.file + ' and is unaffected.');
+    }
+  }
+
   /* What the module is allowed to do to the map. Deliberately narrow: it
      projects, it puts one group in the document, it asks for the current
      scale, and it can switch itself off. It does not touch the view, the
@@ -2791,6 +2861,26 @@
          The block is the same shape `lineCard` hands back for a press on the
          track, and it goes through the same renderer. */
       showCard: function (block) { if (block) showTrainCard(block); },
+      /* The module does not say which system it is; it does not have to, since
+         only one is ever mounted. Looked up here at the moment of asking, and
+         `loadTimes` then holds on to that config — so a file that lands after
+         the reader has moved to another country is dropped rather than handed
+         to whoever is up now. */
+      loadTimes: function () { loadTimes(TRAIN_SYS[trainApi && trainApi.mounted()
+                                                   ? trainApi.system() : '']); },
+      /* It landed, and something on screen was drawn without it: a station's
+         card had no departures block and a line's card said the figures were
+         coming. Both are redrawn — the line card only if it is still the one
+         showing, because the reader may have opened something else while the
+         file was in flight. */
+      timesArrived: function () {
+        if (selected && byId[selected]) fillTrainCard(byId[selected]);
+        if (trainCardWaiting >= 0 && trainApi && trainApi.mounted()) {
+          var li = trainCardWaiting;
+          var card = trainApi.lineCard && trainApi.lineCard(li);
+          if (card) showTrainCard(card);
+        }
+      },
       /* The map keeps its names out from under the floating panels. The bar is
          one, and without saying so every name along the coast it covers would
          be lettered underneath it. */
@@ -8699,6 +8789,7 @@
   function select(id, cluster) {
     markSelected(selected, false);
     selected = null;
+    trainCardWaiting = -1;
     // A tap says which cluster it landed on, because on a touch screen there
     // is no hover to have worked it out already. Every other caller means the
     // last thing the pointer was over.
@@ -8925,7 +9016,21 @@
   function renderTrainBlock(host, block) {
     host.textContent = '';
     host.hidden = true;
-    if (!block || !block.rows || !block.rows.length) return;
+    if (!block) return;
+    /* **A card with no figures because they have not arrived yet.** It gets
+       the sentence and stops — no table, no column headings, no Download CSV
+       for an empty file. Without this the reader presses a line and the card
+       says only what the line was, with no hint that the numbers are coming. */
+    if (block.waiting && (!block.rows || !block.rows.length)) {
+      if (!block.head) return;
+      var wait = document.createElement('p');
+      wait.className = 'trains-head trains-waiting';
+      wait.textContent = block.head;
+      host.appendChild(wait);
+      host.hidden = false;
+      return;
+    }
+    if (!block.rows || !block.rows.length) return;
     if (block.head) {
       var head = document.createElement('p');
       head.className = 'trains-head';
@@ -12992,6 +13097,7 @@
     if (!inf || !infoBox) return;
     markSelected(selected, false);
     selected = null;
+    trainCardWaiting = -1;
     selCluster = null;
     redrawHighlight();
     setRailPicked(sys);
@@ -13093,6 +13199,9 @@
     if (!block || !infoBox) return;
     markSelected(selected, false);
     selected = null;
+    /* A card built while the timetable was still coming says so, and is worth
+       building again when it arrives. Anything else on screen is final. */
+    trainCardWaiting = (block.waiting && block.geoLi >= 0) ? block.geoLi : -1;
     selCluster = null;
     redrawHighlight();
     var chip = $('.chip', infoBox);

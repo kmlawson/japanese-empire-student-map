@@ -122,6 +122,82 @@ the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The timetable is a second file, and one train system at a time
+
+Two changes to the train tools, both aimed at Manchuria: its network is about four times Korea's
+ground, and the investigation that preceded this estimated its bundle at 1.5–2 MB raw.
+
+**The bundle is split.** `*-trains.js` used to be one object with four parts, and measured on
+Korea the timetable was 440 KB of 1,185 — 37% of a file that had to be fetched, parsed and walked
+before a single line of track could be drawn. `tools/trains_split.py` writes it twice now: the
+geometry, the stations, the line names and their colours in `kr-trains.js`, and the timetable alone
+in `kr-times.js`, fetched only when the reader asks it something. Four things do: the clock, a
+line's figures, a station's departures, and fitting the view to a line picked from the strip. All
+four go through `needTimes` in trains.js.
+
+| | before | geometry | timetable deferred |
+| --- | ---: | ---: | ---: |
+| Taiwan | 280 KB / 67 gz | 182 KB / 46 gz | 102 KB / 22 gz — 36% |
+| Korea | 1,210 KB / 311 gz | 766 KB / 217 gz | 455 KB / 97 gz — 37% |
+| Karafuto | 66 KB / 21 gz | 45 KB / 16 gz | 24 KB / 7 gz — 34% |
+
+**What stood in the way was `lineOwns`.** Which line owns a stretch of track — and therefore what
+colour that stretch is drawn in — was worked out at mount time by `buildLines` walking every stop of
+every train, so the *drawing* depended on the timetable. It is computed at build time now and
+shipped as `owns`: 786 stretches for Korea, about 6 KB, against the 455 it lets us defer.
+
+**Measured, over Korea on a throttled connection** (Chrome's slow-4G: 400 Kbps, 150 ms RTT), from
+pressing the tools button: track on screen at **16.4 s**, timetable also in at **25.7 s**. So
+**9.3 seconds** that the reader used to wait before seeing any track at all. The CPU saving at mount
+is small by comparison and is stated rather than implied — `deriveOwns` over Korea's 21,789 stop rows
+is 5.1 ms and parsing the timetable another 2.5 ms, median of seven on this machine. The win is
+bytes, not arithmetic.
+
+While the file is coming the strip says *loading the timetable…* in the place of "31 running" rather
+than claiming zero trains are on the map; a station's card opens with no departures block, which is
+already what the 46 stations the timetable does not know get; and a line's card gives its name and
+what it was with one sentence saying the figures are coming. Each is replaced when the file lands.
+Pressing play before it arrives is remembered and honoured, not refused.
+
+**And one system at a time, decided rather than fallen into.** `trainSysFor` and `trainZone` each
+walked `TRAIN_SYS` keeping the last box that matched. Three networks on ground that does not touch
+made that invisible: no view ever matched two, so "last one wins" was never wrong and never
+examined. Manchuria's box will contain most of Korea's. Both now go through one `trainBoxAt`, and
+the rule is **the smallest box holding the centre** — the most specific ground wins — so a view of
+Seoul means Korea whether or not a larger network reaches over it. Ordered by area rather than by a
+hand-kept priority list, so a network added later is placed by something true about it.
+
+**Tests.** `tools/test/owns.js` is new (1 s, no server) and holds the built `owns` against the
+runtime derivation for all three networks: 1,063 stretches, all agreeing. It compares against
+`deriveOwns` itself rather than a third copy of the rule, which is why that function is exposed on
+the module. Two clauses of the rule are exercised by *no* real network — measured: of those 1,063
+stretches, 26 are run over by more than one line and **none is a tie** — so a synthetic dead heat and
+a synthetic chain break are put to both implementations and their answers compared to each other.
+Both were confirmed to fail when the rule was deliberately broken (`>` to `>=`: 2 failures; ignoring
+the through-working flag: 2 failures).
+
+`tools/test/trains.js` goes from 150 to 178 checks, adding the deferred fetch, the three waiting
+states, the line card by finger, and the single-system guarantee across a move from Taiwan to Korea.
+The finger section **holds `tw-times.js` back by two seconds on purpose**: off a local server it
+arrives inside the pause after a tap, and the first run of that check failed for exactly that
+reason — six rows on a card that was supposed to still be empty. `trains_split.py` and the new
+`*-times.js` files are registered in `TRIGGERS`.
+
+**And a bug found while reading that code, fixed in the same update.** `lineCard` totalled a line's
+kilometres with `if (!lineOwns[key] || lineOwns[key] !== li) return;`. A falsy test reads *owned by
+the first line* as *owned by nobody*, so **line index 0 was left out of its own total** — and index 0
+is the Trunk Line in Taiwan, the Kyŏngbu in Korea and the East Coast Line in Karafuto, which is to
+say the most important line on every network. It did not undercount: the figure was zero, so the
+card showed **Track drawn —**. Measured after the fix: **795 km, 452 km and 99 km**. The guard was
+never needed for what it was there for — an absent key is `undefined`, which is already not equal to
+any index — so it is now simply `if (lineOwns[key] !== li) return;`. It predates the split by a long
+way and was found only because the split made this function worth re-reading.
+
+The check for it reads the card rather than the arithmetic, because the em-dash is what the reader
+saw; putting the old expression back makes it fail with `"—"`, which was confirmed rather than
+assumed.
+
+
 ### Karafuto's railway, its 97 stations and the April 1935 timetable
 
 A third train-tools system beside Taiwan's and Korea's, over southern Sakhalin. The lines are

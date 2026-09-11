@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '348';
+  var JEM_VERSION = '349';
 
 
 
@@ -408,6 +408,11 @@
   var scalables = [];     // {el, x, y} kept at constant screen size
   var labels = [];        // {rec, el, x, y, dy, size, w, h}
   var selected = null;
+
+
+
+
+  var trainCardWaiting = -1;
 
 
 
@@ -2191,21 +2196,47 @@
 
 
 
-  function trainZone() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function trainBoxAt(useOff) {
     var span = latSpan();
     var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
     if (!isFinite(c.lon) || !isFinite(c.lat)) return '';
-    var found = '';
+    var found = '', bestArea = Infinity;
     Object.keys(TRAIN_SYS).forEach(function (k) {
-      var b = TRAIN_SYS[k].box;
-      if (span > (TRAIN_SYS[k].latOff || TRAIN_LAT_OFF)) return;
-      if (c.lon >= b[0] - TRAIN_BOX_PAD && c.lon <= b[2] + TRAIN_BOX_PAD
-          && c.lat >= b[1] - TRAIN_BOX_PAD && c.lat <= b[3] + TRAIN_BOX_PAD) {
-        found = k;
-      }
+      var cfg = TRAIN_SYS[k], b = cfg.box;
+      var limit = useOff ? (cfg.latOff || TRAIN_LAT_OFF)
+                         : (cfg.latOn || TRAIN_LAT_ON);
+      if (span > limit) return;
+      if (c.lon < b[0] - TRAIN_BOX_PAD || c.lon > b[2] + TRAIN_BOX_PAD
+          || c.lat < b[1] - TRAIN_BOX_PAD || c.lat > b[3] + TRAIN_BOX_PAD) return;
+      var area = (b[2] - b[0]) * (b[3] - b[1]);
+      if (area < bestArea) { bestArea = area; found = k; }
     });
     return found;
   }
+
+
+
+
+
+
+
+  function trainZone() { return trainBoxAt(true); }
 
   var btnStationsSys = '';
 
@@ -2439,6 +2470,10 @@
       sys: 'tw',
       data: 'TW_TRAINS',
       file: 'tw-trains.js',
+
+
+      times: 'TW_TIMES',
+      timesFile: 'tw-times.js',
       page: 'timetable/taiwan-1936.html',
       note: 'Timetable of February 1936',
 
@@ -2456,6 +2491,10 @@
       sys: 'kr',
       data: 'KR_TRAINS',
       file: 'kr-trains.js',
+
+
+      times: 'KR_TIMES',
+      timesFile: 'kr-times.js',
       page: 'timetable/korea-1938.html',
       note: 'Timetable of early 1938',
       src: '\u671d\u9bae\u5217\u8eca\u6642\u523b\u8868 (1938)',
@@ -2473,6 +2512,10 @@
       sys: 'kf',
       data: 'KF_TRAINS',
       file: 'kf-trains.js',
+
+
+      times: 'KF_TIMES',
+      timesFile: 'kf-times.js',
       page: 'timetable/karafuto-1935.html',
       note: 'Timetable of April 1935',
       src: '\u6a3a\u592a\u570b\u6709\u9435\u9053\u5217\u8eca\u6642\u523b\u8868 (1935)',
@@ -2516,26 +2559,11 @@
 
 
 
+
+
   function trainSysFor(mounted) {
     if (!state.trainTools) return '';
-    var span = latSpan();
-    var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
-    if (!isFinite(c.lon) || !isFinite(c.lat)) return '';
-    var found = '';
-    Object.keys(TRAIN_SYS).forEach(function (k) {
-      var b = TRAIN_SYS[k].box;
-
-
-
-      var limit = mounted ? (TRAIN_SYS[k].latOff || TRAIN_LAT_OFF)
-                          : (TRAIN_SYS[k].latOn || TRAIN_LAT_ON);
-      if (span > limit) return;
-      if (c.lon >= b[0] - TRAIN_BOX_PAD && c.lon <= b[2] + TRAIN_BOX_PAD
-          && c.lat >= b[1] - TRAIN_BOX_PAD && c.lat <= b[3] + TRAIN_BOX_PAD) {
-        found = k;
-      }
-    });
-    return found;
+    return trainBoxAt(!!mounted);
   }
 
 
@@ -2748,6 +2776,48 @@
 
 
 
+
+
+
+
+
+
+
+
+
+  var timesFailed = {};
+
+  function loadTimes(cfg) {
+    if (!cfg || !cfg.timesFile) return;
+    var give = function () {
+      if (trainApi && trainApi.mounted() && trainApi.system() === cfg.sys) {
+        trainApi.setTimes(JMAP[cfg.times]);
+      }
+    };
+    if (JMAP[cfg.times]) { give(); return; }
+    loadScript(cfg.timesFile).then(function () {
+      if (JMAP[cfg.times]) give(); else fail();
+    }, fail);
+    function fail() {
+
+
+
+      if (trainApi && trainApi.mounted() && trainApi.system() === cfg.sys
+          && trainApi.timesFailed) {
+        trainApi.timesFailed();
+      }
+      if (timesFailed[cfg.sys]) return;
+      timesFailed[cfg.sys] = true;
+      window.alert('The timetable could not be loaded. It is in '
+        + cfg.timesFile + ', which has to sit beside index.html. The railway '
+        + 'itself is drawn from ' + cfg.file + ' and is unaffected.');
+    }
+  }
+
+
+
+
+
   function trainHost() {
     return {
       svgEl: svgEl,
@@ -2791,6 +2861,26 @@
 
 
       showCard: function (block) { if (block) showTrainCard(block); },
+
+
+
+
+
+      loadTimes: function () { loadTimes(TRAIN_SYS[trainApi && trainApi.mounted()
+                                                   ? trainApi.system() : '']); },
+
+
+
+
+
+      timesArrived: function () {
+        if (selected && byId[selected]) fillTrainCard(byId[selected]);
+        if (trainCardWaiting >= 0 && trainApi && trainApi.mounted()) {
+          var li = trainCardWaiting;
+          var card = trainApi.lineCard && trainApi.lineCard(li);
+          if (card) showTrainCard(card);
+        }
+      },
 
 
 
@@ -8699,6 +8789,7 @@
   function select(id, cluster) {
     markSelected(selected, false);
     selected = null;
+    trainCardWaiting = -1;
 
 
 
@@ -8925,7 +9016,21 @@
   function renderTrainBlock(host, block) {
     host.textContent = '';
     host.hidden = true;
-    if (!block || !block.rows || !block.rows.length) return;
+    if (!block) return;
+
+
+
+
+    if (block.waiting && (!block.rows || !block.rows.length)) {
+      if (!block.head) return;
+      var wait = document.createElement('p');
+      wait.className = 'trains-head trains-waiting';
+      wait.textContent = block.head;
+      host.appendChild(wait);
+      host.hidden = false;
+      return;
+    }
+    if (!block.rows || !block.rows.length) return;
     if (block.head) {
       var head = document.createElement('p');
       head.className = 'trains-head';
@@ -12992,6 +13097,7 @@
     if (!inf || !infoBox) return;
     markSelected(selected, false);
     selected = null;
+    trainCardWaiting = -1;
     selCluster = null;
     redrawHighlight();
     setRailPicked(sys);
@@ -13093,6 +13199,9 @@
     if (!block || !infoBox) return;
     markSelected(selected, false);
     selected = null;
+
+
+    trainCardWaiting = (block.waiting && block.geoLi >= 0) ? block.geoLi : -1;
     selCluster = null;
     redrawHighlight();
     var chip = $('.chip', infoBox);

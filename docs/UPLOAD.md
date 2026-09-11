@@ -32,9 +32,12 @@ below are what it holds, named relative to it.
 | `annotate.js` | 61 KB | 17 KB | when **Create** or **Load annotations** is pressed |
 | `relief.js` | 2 KB | 1 KB | when **Topo** is pressed |
 | `trains.js` | 46 KB | 15 KB | when the train tools are asked for |
-| `tw-trains.js` | 278 KB | 67 KB | with them, over Taiwan |
-| `kr-trains.js` | 1,206 KB | 311 KB | with them, over Korea |
-| `kf-trains.js` | 66 KB | 21 KB | with them, over Karafuto |
+| `tw-trains.js` | 182 KB | 46 KB | with them, over Taiwan — the track, the stations and the line colours |
+| `tw-times.js` | 102 KB | 22 KB | and its timetable, when the reader runs the clock or opens a line or a station |
+| `kr-trains.js` | 766 KB | 217 KB | with them, over Korea |
+| `kr-times.js` | 455 KB | 97 KB | and its timetable, on the same terms |
+| `kf-trains.js` | 45 KB | 16 KB | with them, over Karafuto |
+| `kf-times.js` | 24 KB | 7 KB | and its timetable, on the same terms |
 | `tw-stations.js` | 50 KB | 11 KB | when Taiwan's stations are switched on (fetched then, not with the page) |
 | `kr-stations.js` | 229 KB | 38 KB | when Korea's are |
 | `kf-stations.js` | 41 KB | 8 KB | when Karafuto's are |

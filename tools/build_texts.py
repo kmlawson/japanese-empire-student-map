@@ -1487,9 +1487,14 @@ def build_pages():
                # deep zoom over Korea
                "japan-empire-map-korea.svg",
                "annotate.js", "admin.js",
-               # the train tools and their timetable, both fetched only when a
-               # reader zooms in to a railway that has one
+               # the train tools and the network they draw, both fetched only
+               # when a reader zooms in to a railway that has one
                "trains.js", "tw-trains.js", "kr-trains.js", "kf-trains.js",
+               # and the timetables, a second file each since the split: they
+               # need a key of their own rather than the global version,
+               # because a release that does not touch a timetable should not
+               # make a reader fetch 455 KB of Korea again
+               "tw-times.js", "kr-times.js", "kf-times.js",
                # and the station tables, fetched the first time a station
                # layer is switched on
                "tw-stations.js", "kr-stations.js", "kf-stations.js",

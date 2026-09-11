@@ -473,7 +473,11 @@ window.JMAP_TRAINS = function (host) {
 
 
 
-  function buildLines() {
+
+
+
+  function deriveOwns(d) {
+    d = d || data;
     var use = {};                     // "lo|hi" -> counts per line
 
 
@@ -483,12 +487,12 @@ window.JMAP_TRAINS = function (host) {
 
 
 
-    data.trains.forEach(function (t) {
+    d.trains.forEach(function (t) {
       var prev = -1;
       t.st.forEach(function (s) {
         var fl = s[3] || 0;
         if (fl & 1) { prev = -1; return; }   // timed on another line's table
-        var st = data.stations[s[0]];
+        var st = d.stations[s[0]];
         if (!st || st.lon === undefined) return;
         if (prev >= 0 && prev !== s[0]) {
           var lo = Math.min(prev, s[0]), hi = Math.max(prev, s[0]);
@@ -498,9 +502,7 @@ window.JMAP_TRAINS = function (host) {
         prev = s[0];
       });
     });
-    var caseGroup = host.svgEl('g', { 'class': 'train-cases' });
-    var lineGroup = host.svgEl('g', { 'class': 'train-lines' });
-    var shared = 0, drawn = 0, straight = 0, refused = 0;
+    var owns = {}, shared = 0;
     Object.keys(use).forEach(function (k) {
       var counts = use[k];
       var best = -1, bestN = -1, n = 0;
@@ -509,7 +511,34 @@ window.JMAP_TRAINS = function (host) {
         if (counts[li] > bestN) { bestN = counts[li]; best = +li; }
       });
       if (n > 1) shared++;
-      lineOwns[k] = best;
+      owns[k] = best;
+    });
+    return { owns: owns, shared: shared };
+  }
+
+
+
+
+
+
+
+
+
+
+
+  function buildLines() {
+
+
+
+    var got = data.owns
+      ? { owns: data.owns, shared: data.sharedN || 0 }
+      : deriveOwns();
+    var caseGroup = host.svgEl('g', { 'class': 'train-cases' });
+    var lineGroup = host.svgEl('g', { 'class': 'train-lines' });
+    var shared = got.shared, drawn = 0, straight = 0, refused = 0;
+    Object.keys(got.owns).forEach(function (k) {
+      lineOwns[k] = got.owns[k];
+      var best = got.owns[k];
       var pair = k.split('|');
       var traced = !!data.paths[k];
       var seg = segment(+pair[0], +pair[1]);
@@ -569,9 +598,78 @@ window.JMAP_TRAINS = function (host) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var timesPending = false;     // a fetch is out; do not ask for another
+  var playWanted = false;       // play was pressed before the times arrived
+  var fitWanted = false;        // a line was picked before they arrived
+
+  function haveTimes() { return !!(data && data.trains); }
+
+  function needTimes() {
+    if (haveTimes()) return true;
+    if (!timesPending && host.loadTimes) {
+      timesPending = true;
+      host.loadTimes();
+    }
+    return false;
+  }
+
+  function setTimes(arr) {
+    if (!cfg || !arr) return;
+    timesPending = false;
+    data.trains = arr;
+    buildPlans();
+    syncWaiting();
+    render();
+
+
+
+    if (playWanted) { playWanted = false; setPlaying(true); }
+
+
+    if (fitWanted) { fitWanted = false; if (pickLi >= 0) showPick(); }
+    if (host.timesArrived) host.timesArrived();
+  }
+
+
+
+
+  function syncWaiting() {
+    var waiting = !haveTimes();
+    if (bar) bar.classList.toggle('times-waiting', waiting);
+    if (els.play) {
+      els.play.title = waiting ? 'The timetable is still loading'
+                               : (playing ? 'Pause' : 'Play the day');
+      els.play.setAttribute('aria-label', els.play.title);
+    }
+    if (els.count && waiting) els.count.textContent = 'loading the timetable\u2026';
+  }
+
   function buildPlans() {
     plans = [];
+    marks = [];
     var skipped = 0;
+    if (!haveTimes()) return { plans: 0, skippedStops: 0 };
     data.trains.forEach(function (t) {
       var pts = [];
       t.st.forEach(function (s) {
@@ -710,6 +808,12 @@ window.JMAP_TRAINS = function (host) {
 
   function showPick() {
     if (pickLi < 0 || !host.fitBox) return;
+
+
+
+
+    if (!needTimes()) { fitWanted = true; return; }
+    fitWanted = false;
     var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity, n = 0;
     data.trains.forEach(function (t) {
       if (t.li !== pickLi) return;
@@ -800,7 +904,10 @@ window.JMAP_TRAINS = function (host) {
         'translate(' + pos.x.toFixed(1) + ' ' + pos.y.toFixed(1) + ') scale(' + k + ')');
       live++;
     }
-    if (els.count) els.count.textContent = live + ' running';
+    if (els.count) {
+      els.count.textContent = haveTimes() ? live + ' running'
+                                          : 'loading the timetable\u2026';
+    }
     var c = fmt(simMin);
     if (c !== shownClock) { els.clock.textContent = c; shownClock = c; }
   }
@@ -826,6 +933,16 @@ window.JMAP_TRAINS = function (host) {
   }
 
   function setPlaying(on) {
+
+
+
+
+    if (on && !needTimes()) {
+      playWanted = true;
+      syncWaiting();
+      return;
+    }
+    playWanted = false;
     playing = on;
     els.play.textContent = on ? '❙❙' : '▶';
     els.play.setAttribute('aria-label', on ? 'Pause' : 'Play the day');
@@ -1048,9 +1165,33 @@ window.JMAP_TRAINS = function (host) {
 
 
 
+
+
+
+
+
+  function waitingCard(li, line) {
+    return {
+      geoLi: li,
+      chip: 'Railway line', colour: inks[li] || '#555',
+      primary: lineName(li, false),
+      alt: line.n,
+      note: (line.d || '') + (line.x
+        ? ' The map draws this line straight between the cities it can place; the track\'s real alignment is not yet sourced.'
+        : ''),
+      head: 'The timetable is still loading.',
+      waiting: true,
+    };
+  }
+
   function lineCard(li) {
     var line = lineFor(li);
     if (!line) return null;
+
+
+
+
+    if (!needTimes()) return waitingCard(li, line);
     var trains = data.trains.filter(function (t) { return t.li === li; });
     var down = trains.filter(function (t) { return !t.dir; }).length;
     var stops = {};
@@ -1090,7 +1231,14 @@ window.JMAP_TRAINS = function (host) {
 
     var km = 0;
     Object.keys(data.paths).forEach(function (key) {
-      if (!lineOwns[key] || lineOwns[key] !== li) return;
+
+
+
+
+
+
+
+      if (lineOwns[key] !== li) return;
       var flat = data.paths[key];
       for (var i = 2; i < flat.length; i += 2) {
         km += apart({ lon: flat[i - 2], lat: flat[i - 1] },
@@ -1335,6 +1483,11 @@ window.JMAP_TRAINS = function (host) {
 
   function departures(sid) {
     if (!byStation) return null;
+
+
+
+
+    if (!needTimes()) return null;
     var idx = byStation[sid];
     if (idx === undefined) return null;
     var st = data.stations[idx];
@@ -1423,6 +1576,7 @@ window.JMAP_TRAINS = function (host) {
       markLayer.appendChild(trainGroup);
       var planStats = buildPlans();
       buildBar();
+      syncWaiting();
       lastK = host.scale();
       render();
       api.stats = {
@@ -1453,7 +1607,44 @@ window.JMAP_TRAINS = function (host) {
       inks = []; linePaths = []; casePaths = []; chips = []; groundNow = '';
       pickLi = -1;
       shownClock = '';
+
+
+
+      timesPending = false;
+      playWanted = false;
+      fitWanted = false;
     },
+
+
+
+
+    setTimes: setTimes,
+    hasTimes: function () { return haveTimes(); },
+
+
+
+
+
+
+
+
+    timesFailed: function () {
+      timesPending = false;
+      playWanted = false;
+      fitWanted = false;
+      syncWaiting();
+    },
+
+
+
+
+
+
+
+
+
+
+    deriveOwns: deriveOwns,
 
     mounted: function () { return !!cfg; },
     system: function () { return cfg ? cfg.sys : ''; },

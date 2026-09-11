@@ -33,12 +33,14 @@ import shutil
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rail_route
+import trains_split
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 SRC = os.path.join(ROOT, 'data', 'kf-1935-timetable')
 OUT_JS = os.path.join(SITE, 'kf-trains.js')
+OUT_TIMES = os.path.join(SITE, 'kf-times.js')   # the timetable, fetched on demand
 OUT_HTML = os.path.join(SITE, 'timetable', 'karafuto-1935.html')
 
 FOLD = {'內': '内', '奧': '奥', '寶': '宝', '巢': '巣', '廣': '広', '榮': '栄', '樂': '楽',
@@ -322,21 +324,19 @@ def main():
     # railway the map draws; see tools/rail_route.py
     rail_route.fill(bundle, [os.path.join(ROOT, 'tools', 'cache', 'karafuto_railways_1935.geojson')],
                     'Karafuto 1935')
-    with io.open(OUT_JS, 'w', encoding='utf-8', newline='\n') as fh:
-        fh.write("/* Built by tools/build_kf_trains.py -- do not edit.\n"
-                 " * The 1935 Karafuto railway timetable: %d trains over %d lines,\n"
-                 " * calling at %d stations, with the track between consecutive stops.\n"
-                 " * Source: the transcription in data/kf-1935-timetable/, from the\n"
-                 " * 樺太國有鐵道列車時刻表 revised 15 April 1935.\n"
-                 " * Stop rows are [station, arrival, departure, flags] in minutes from\n"
-                 " * midnight, past 1440 meaning the small hours of the next day; flags\n"
-                 " * are 1 timed on another line, 2 passes without stopping, 4 the\n"
-                 " * printed reading is uncertain. Path keys are a pair of station\n"
-                 " * indices, low first, and the coordinates run that way. */\n"
-                 % (len(trains), len(lines), len(stations)))
-        fh.write("window.JMAP = window.JMAP || {};\n")
-        fh.write("JMAP.KF_TRAINS = %s;\n" % json.dumps(bundle, ensure_ascii=False,
-                                                       separators=(',', ':')))
+    head = ("/* Built by tools/build_kf_trains.py -- do not edit.\n"
+            " * The 1935 Karafuto railway timetable: %d trains over %d lines,\n"
+            " * calling at %d stations, with the track between consecutive stops.\n"
+            " * Source: the transcription in data/kf-1935-timetable/, from the\n"
+            " * 樺太國有鐵道列車時刻表 revised 15 April 1935.\n"
+            " * Stop rows are [station, arrival, departure, flags] in minutes from\n"
+            " * midnight, past 1440 meaning the small hours of the next day; flags\n"
+            " * are 1 timed on another line, 2 passes without stopping, 4 the\n"
+            " * printed reading is uncertain. Path keys are a pair of station\n"
+            " * indices, low first, and the coordinates run that way. */\n"
+            % (len(trains), len(lines), len(stations)))
+    trains_split.write(OUT_JS, OUT_TIMES, 'KF_TRAINS', bundle, head,
+                       'Built by tools/build_kf_trains.py -- do not edit.')
 
     # --- the printed tables, as the transcription project builds them, dressed
     os.makedirs(os.path.dirname(OUT_HTML), exist_ok=True)

@@ -1402,6 +1402,315 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('a shared link with both on opens with both on',
       st.on === true && st.tools === true, JSON.stringify(st) + '  ' + href.slice(-60));
     await ta.close();
+
+    /* ============================================================ 12 ===
+       THE TIMETABLE IS A SECOND FILE, AND THE TRACK DOES NOT WAIT FOR IT.
+
+       `tw-trains.js` carries the track, the stations, the line names and —
+       since the split — `owns`, which says what colour each stretch of track
+       is drawn in. `tw-times.js` carries the timetable alone: 36% of the pair
+       for Taiwan and 37% for Korea, fetched only when the reader asks the
+       timetable something.
+
+       What has to hold:
+         * mounting the tools fetches the geometry and NOT the timetable;
+         * the track is drawn, and in the line's own colours, all the same;
+         * a station tapped before it lands opens its card without a
+           departures block, and gains one when the file arrives;
+         * play runs the day.
+
+       tools/test/owns.js holds the built `owns` against the derivation it
+       replaced; this holds the behaviour that the split made possible. */
+    const dp = await browser.newPage();
+    await dp.setViewport({width:1400, height:900});
+    await dp.evaluateOnNewDocument(SHIM);
+    const jsGot = [];
+    dp.on('request', rq => {
+      const f = rq.url().split('/').pop().split('?')[0];
+      if (/^(tw|kr|kf)-(trains|times)\.js$/.test(f)) jsGot.push(f);
+    });
+    await dp.goto(TAIWAN, {waitUntil:'domcontentloaded'});
+    await ready(dp);
+    await sleep(1200);
+    await dp.evaluate(()=>{
+      const r=document.querySelector('#opt-tw-rail');
+      if(r&&!r.checked){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
+    });
+    await sleep(1500);
+    await setSwitch(dp, true);
+    await until(dp, ()=>!!document.querySelector('#train-bar'), null, {timeout:15000});
+    await sleep(900);
+
+    const deferState = ()=>dp.evaluate(()=>{
+      const bar=document.querySelector('#train-bar');
+      const paths=[...document.querySelectorAll('#train-layer .train-line')];
+      const cols={};
+      paths.forEach(l=>{const c=l.getAttribute('stroke');cols[c]=(cols[c]||0)+1;});
+      return {
+        lines:paths.length, colours:Object.keys(cols).length,
+        count: bar?bar.querySelector('.train-count').textContent:'',
+        play: bar?bar.querySelector('.train-play').textContent:'',
+        waiting: bar?bar.classList.contains('times-waiting'):null,
+        marks:[...document.querySelectorAll('#train-marks .train-mark')]
+          .filter(e=>e.style.display!=='none').length,
+        owns: typeof JMAP!=='undefined' && !!(JMAP.TW_TRAINS&&JMAP.TW_TRAINS.owns),
+        bundleTrains: typeof JMAP!=='undefined' && !!(JMAP.TW_TRAINS&&JMAP.TW_TRAINS.trains),
+      };});
+
+    let ds = await deferState();
+    check('the geometry is fetched when the tools mount',
+      jsGot.includes('tw-trains.js'), JSON.stringify(jsGot));
+    check('and the timetable is NOT',
+      !jsGot.includes('tw-times.js'), JSON.stringify(jsGot));
+    check('the bundle carries `owns` and no longer carries `trains`',
+      ds.owns === true && ds.bundleTrains === false,
+      'owns='+ds.owns+' trains='+ds.bundleTrains);
+    check('the track is drawn without the timetable',
+      ds.lines > 100, 'lines='+ds.lines);
+    check('and in the timetable\'s own line colours',
+      ds.colours >= 5, 'colours='+ds.colours);
+    check('the strip says it is loading, rather than claiming "0 running"',
+      /loading/.test(ds.count) && ds.waiting === true, JSON.stringify(ds.count));
+    check('and no train is claimed to be on the map',
+      ds.marks === 0, 'marks='+ds.marks);
+
+    /* A station tapped while the timetable is still a file on a server. The
+       card is drawn — it is a place, and the geometry knows it — with no
+       departures block, which is what `departures` returning null already
+       meant for the 46 stations the timetable does not know. */
+    await dp.evaluate(()=>{
+      const b=document.querySelector('#opt-tw-stations');
+      if(b&&!b.checked){b.checked=true;b.dispatchEvent(new Event('change',{bubbles:true}));}
+    });
+    await sleep(2500);
+    const staSpot = await dp.evaluate(()=>{
+      const sq=[...document.querySelectorAll('#tw-stations .sta-mark')].find(e=>{
+        const r=e.getBoundingClientRect();
+        return r.width>0 && r.left>80 && r.right<innerWidth-80
+            && r.top>100 && r.bottom<innerHeight-170;
+      });
+      if(!sq) return null;
+      const r=sq.getBoundingClientRect();
+      return {x:Math.round(r.left+r.width/2), y:Math.round(r.top+r.height/2)};
+    });
+    check('a station square is on screen to tap', !!staSpot);
+    if (staSpot) {
+      await dp.mouse.click(staSpot.x, staSpot.y);
+      await sleep(700);
+      const openedWith = await dp.evaluate(()=>({
+        open: !document.querySelector('#info').hidden,
+        rows: document.querySelectorAll('#info-trains .trains-table tr').length,
+      }));
+      check('tapped before the timetable lands, its card still opens',
+        openedWith.open === true, JSON.stringify(openedWith));
+      /* And it fills in when the file arrives — asked for by the tap itself. */
+      await until(dp, ()=>
+        document.querySelectorAll('#info-trains .trains-table tr').length>0,
+        null, {timeout:15000}).catch(()=>{});
+      const filled = await dp.evaluate(()=>
+        document.querySelectorAll('#info-trains .trains-table tr').length);
+      check('the tap is what fetched the timetable',
+        jsGot.includes('tw-times.js'), JSON.stringify(jsGot));
+      check('and the departures appear when it lands',
+        filled > 0, 'rows='+filled);
+    }
+
+    await dp.evaluate(()=>document.querySelector('.train-play').click());
+    await sleep(2500);
+    ds = await deferState();
+    check('play runs the day',
+      ds.play === '❙❙' && ds.marks > 0,
+      'play='+JSON.stringify(ds.play)+' marks='+ds.marks);
+    check('and the count is a figure again, not a sentence',
+      /running/.test(ds.count) && ds.waiting === false, JSON.stringify(ds.count));
+
+    /* **LINE 0 IS A LINE, AND ITS OWN TRACK COUNTS TOWARDS IT.**
+
+       `lineCard` totalled a line's kilometres with `if (!lineOwns[key] || ...)`,
+       and a falsy test reads "owned by the first line" as "owned by nobody".
+       So index 0 — the Trunk Line in Taiwan, the Kyŏngbu in Korea, the East
+       Coast Line in Karafuto, which is to say the most important line on every
+       network — was left out of its own total and its card showed Track drawn
+       as an em-dash. Measured after the fix: 795 km, 452 km and 99 km.
+
+       Checked on the card rather than in the arithmetic, because the em-dash
+       is what the reader saw. */
+    const li0 = await dp.evaluate(()=>{
+      const chip=document.querySelector('#train-bar .train-chip[data-li="0"]');
+      if(!chip) return null;
+      chip.click();
+      return chip.textContent;
+    });
+    check('the first line has a chip in the strip', !!li0, JSON.stringify(li0));
+    await sleep(900);
+    const km0 = await dp.evaluate(()=>{
+      const rows=[...document.querySelectorAll('#info-trains .trains-table tr')];
+      const r=rows.find(x=>/Track drawn/.test(x.textContent));
+      return r ? r.cells[r.cells.length-1].textContent.trim() : null;
+    });
+    check('line 0\'s card gives its track in km, not an em-dash',
+      !!km0 && /^\d[\d,]*\s*km$/.test(km0), JSON.stringify(km0));
+
+    /* The built ownership is what the code would have derived — in the
+       browser, from the two files as they were actually served. */
+    const agree = await dp.evaluate(()=>{
+      const probe = window.JMAP_TRAINS({});
+      const d = probe.deriveOwns({stations:JMAP.TW_TRAINS.stations,
+                                  trains:JMAP.TW_TIMES}).owns;
+      const b = JMAP.TW_TRAINS.owns;
+      const ks = Object.keys(d);
+      return {n:ks.length, wrong:ks.filter(x=>b[x]!==d[x]).length};
+    });
+    check('the colours drawn are the colours the timetable implies',
+      agree.wrong === 0 && agree.n > 100, JSON.stringify(agree));
+
+    /* ============================================================ 13 ===
+       ONE SYSTEM AT A TIME.
+
+       Three networks on ground that does not touch made this invisible: the
+       box test kept the last match and no view ever matched two, so "last one
+       wins" was never wrong and never examined. Manchuria's box will contain
+       most of Korea's, so the rule is now the smallest box that holds the
+       centre — the most specific ground wins — and it is held here rather
+       than left to the order of an object's keys. */
+    const onlyOne = ()=>dp.evaluate(()=>({
+      layers: document.querySelectorAll('#train-layer').length,
+      bars: document.querySelectorAll('#train-bar').length,
+      rails: ['tw','kr','kf'].filter(k=>{
+        const b=document.querySelector('#opt-'+k+'-rail');
+        return !!(b && b.checked);
+      }),
+    }));
+    let only = await onlyOne();
+    check('exactly one train layer and one strip are in the document',
+      only.layers === 1 && only.bars === 1, JSON.stringify(only));
+    check('and one railway is switched on, not three',
+      only.rails.length === 1 && only.rails[0] === 'tw', JSON.stringify(only.rails));
+
+    /* Over to Korea, which is the case Manchuria will generalise. */
+    await dp.goto(BASE+'?where=124.5,34.0,131.0,43.0', {waitUntil:'domcontentloaded'});
+    await ready(dp);
+    await sleep(1500);
+    await dp.evaluate(()=>{
+      const r=document.querySelector('#opt-kr-rail');
+      if(r&&!r.checked){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
+    });
+    await sleep(1500);
+    await setSwitch(dp, true);
+    await until(dp, ()=>!!document.querySelector('#train-bar'), null, {timeout:25000})
+      .catch(()=>{});
+    await sleep(1500);
+    only = await onlyOne();
+    check('over Korea it is still exactly one layer and one strip',
+      only.layers === 1 && only.bars === 1, JSON.stringify(only));
+    check('and it is Korea\'s railway that is on, not Taiwan\'s',
+      only.rails.length === 1 && only.rails[0] === 'kr', JSON.stringify(only.rails));
+    check('Korea fetched its own geometry and not its timetable',
+      jsGot.includes('kr-trains.js') && !jsGot.includes('kr-times.js'),
+      JSON.stringify(jsGot));
+    await dp.close();
+
+    /* ============================================================ 14 ===
+       THE SAME TWO PATHS WITH A FINGER, AND THE LINE CARD.
+
+       There is no hover on a touch screen, and this project has shipped the
+       same fix twice for want of checking both — see CLAUDE.md on Labuan. The
+       deferred timetable adds a state that did not exist before (*the tools
+       are up and the file is not here*), so the two ways into it are driven
+       again with a finger.
+
+       And the line card, which the mouse section above did not reach: opening
+       a line before the timetable lands gives a card with the line's name and
+       what it was but no figures, and that card is replaced by the full one
+       when the file arrives rather than left saying the numbers are coming. */
+    const fg = await browser.newPage();
+    await fg.setViewport({width:414, height:820, isMobile:true, hasTouch:true});
+    const fgGot = [];
+    /* **The timetable is held back for two seconds, on purpose.**
+       Off a local server it arrives inside the pause after a tap, so the card
+       was already the finished one by the time the test looked and the
+       waiting state — the entire thing being tested — was never observed. The
+       first run of this failed exactly that way: six rows and `waiting:false`
+       on a card that was supposed to still be empty. A reader on a phone over
+       a slow connection sees the state for several seconds; the test has to
+       be able to see it at all. */
+    await fg.setRequestInterception(true);
+    fg.on('request', rq => {
+      const f = rq.url().split('/').pop().split('?')[0];
+      if (/^tw-(trains|times)\.js$/.test(f)) fgGot.push(f);
+      if (f === 'tw-times.js') setTimeout(()=>rq.continue().catch(()=>{}), 2000);
+      else rq.continue().catch(()=>{});
+    });
+    await fg.goto(TAIWAN, {waitUntil:'domcontentloaded'});
+    await ready(fg);
+    await sleep(1500);
+    await fg.evaluate(()=>{
+      const r=document.querySelector('#opt-tw-rail');
+      if(r&&!r.checked){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}
+    });
+    await sleep(1800);
+    await setSwitch(fg, true);
+    await until(fg, ()=>!!document.querySelector('#train-bar'), null, {timeout:20000})
+      .catch(()=>{});
+    await sleep(1200);
+
+    check('with a finger, the tools come up and the track is drawn',
+      await fg.evaluate(()=>
+        document.querySelectorAll('#train-layer .train-line').length>100));
+    check('and the timetable is still not fetched',
+      !fgGot.includes('tw-times.js'), JSON.stringify(fgGot));
+
+    /* Tap the track. A coloured line answers by a distance test in the module
+       rather than by taking pointer events, so this is the module's own hit
+       path, not the map's. */
+    const trackSpot = await fg.evaluate(()=>{
+      const ln=[...document.querySelectorAll('#train-layer .train-line')].find(e=>{
+        const r=e.getBoundingClientRect();
+        return r.width>4 && r.left>50 && r.right<innerWidth-50
+            && r.top>110 && r.bottom<innerHeight-220;
+      });
+      if(!ln) return null;
+      const r=ln.getBoundingClientRect();
+      return {x:Math.round(r.left+r.width/2), y:Math.round(r.top+r.height/2)};
+    });
+    check('a stretch of coloured track is on screen to tap', !!trackSpot);
+    if (trackSpot) {
+      await fg.touchscreen.tap(trackSpot.x, trackSpot.y);
+      await sleep(700);      // inside the 2s the timetable is held for
+      const first = await fg.evaluate(()=>{
+        const box=document.querySelector('#info');
+        return {
+          open: box && !box.hidden,
+          chip: box ? (box.querySelector('.chip')||{}).textContent : '',
+          name: box ? (box.querySelector('.primary')||{}).textContent : '',
+          waiting: !!document.querySelector('#info-trains .trains-waiting'),
+          rows: document.querySelectorAll('#info-trains .trains-table tr').length,
+        };});
+      check('tapping the track opens the line\'s card',
+        first.open === true && /line/i.test(first.chip||''), JSON.stringify(first));
+      check('  naming the line, which the geometry knows',
+        !!first.name, JSON.stringify(first.name));
+      check('  saying the timetable is still loading, with no empty table',
+        first.waiting === true && first.rows === 0, JSON.stringify(first));
+      check('  and the tap is what asked for the file',
+        fgGot.includes('tw-times.js'), JSON.stringify(fgGot));
+
+      /* And it is replaced, rather than left as a card with no figures. */
+      await until(fg, ()=>
+        document.querySelectorAll('#info-trains .trains-table tr').length>0,
+        null, {timeout:20000}).catch(()=>{});
+      const then = await fg.evaluate(()=>({
+        name: (document.querySelector('#info .primary')||{}).textContent,
+        waiting: !!document.querySelector('#info-trains .trains-waiting'),
+        rows: document.querySelectorAll('#info-trains .trains-table tr').length,
+      }));
+      check('when the timetable lands the card gains its figures',
+        then.rows > 0 && then.waiting === false, JSON.stringify(then));
+      check('  and it is still the same line',
+        then.name === first.name,
+        JSON.stringify(then.name)+' was '+JSON.stringify(first.name));
+    }
+    await fg.close();
   } finally { await browser.close(); }
   process.exit(report());
 })();

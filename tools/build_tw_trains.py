@@ -34,12 +34,14 @@ import re
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rail_route
+import trains_split
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 SRC = os.path.join(ROOT, 'data', 'tw-1936-timetable')
 OUT_JS = os.path.join(SITE, 'tw-trains.js')
+OUT_TIMES = os.path.join(SITE, 'tw-times.js')   # the timetable, fetched on demand
 OUT_HTML = os.path.join(SITE, 'timetable', 'taiwan-1936.html')
 
 # The same fold as KANJI_VARIANTS in map.js. Kept in step by hand; the two
@@ -381,13 +383,8 @@ def build_js(anchors=None):
         ' * printed reading is uncertain. Path keys are a pair of station\n'
         ' * indices, low first, and the coordinates run that way. */\n'
         % (len(out_tr), len(line_names), len(out_st)))
-    body = json.dumps(doc, ensure_ascii=False, separators=(',', ':'))
-    with open(OUT_JS, 'w', encoding='utf-8') as f:
-        f.write(head)
-        f.write('window.JMAP = window.JMAP || {};\n')
-        f.write('JMAP.TW_TRAINS = ')
-        f.write(body)
-        f.write(';\n')
+    trains_split.write(OUT_JS, OUT_TIMES, 'TW_TRAINS', doc, head,
+                       'Built by tools/build_tw_trains.py -- do not edit.')
 
     print('stations   %d, %d matched to tw-stations.js, %d with no coordinate'
           % (len(out_st), matched, coordless))

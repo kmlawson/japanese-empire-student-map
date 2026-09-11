@@ -473,7 +473,11 @@ window.JMAP_TRAINS = function (host) {
      Takao, where the Chaozhou line leaves the trunk — would otherwise be drawn
      twice, one colour hiding the other by document order rather than by
      anything meaningful. */
-  function buildLines() {
+  /* Which line owns each stretch, counted from the timetable — the original
+     derivation, kept because it is the definition and because the build's
+     precomputed answer is held against it by tools/test/owns.js. */
+  function deriveOwns(d) {
+    d = d || data;
     var use = {};                     // "lo|hi" -> counts per line
     /* THE SEQUENCE IS THE ONE THE TRAINS RUN, NOT THE ONE THE TABLE PRINTS.
        22 of the 187 stations have no coordinate, and joining only the pairs
@@ -483,12 +487,12 @@ window.JMAP_TRAINS = function (host) {
        stations that cannot be placed and joining what is left across them
        closes it: 181 stretches of track instead of 156, and all but four of
        them still traced rather than drawn straight. */
-    data.trains.forEach(function (t) {
+    d.trains.forEach(function (t) {
       var prev = -1;
       t.st.forEach(function (s) {
         var fl = s[3] || 0;
         if (fl & 1) { prev = -1; return; }   // timed on another line's table
-        var st = data.stations[s[0]];
+        var st = d.stations[s[0]];
         if (!st || st.lon === undefined) return;
         if (prev >= 0 && prev !== s[0]) {
           var lo = Math.min(prev, s[0]), hi = Math.max(prev, s[0]);
@@ -498,9 +502,7 @@ window.JMAP_TRAINS = function (host) {
         prev = s[0];
       });
     });
-    var caseGroup = host.svgEl('g', { 'class': 'train-cases' });
-    var lineGroup = host.svgEl('g', { 'class': 'train-lines' });
-    var shared = 0, drawn = 0, straight = 0, refused = 0;
+    var owns = {}, shared = 0;
     Object.keys(use).forEach(function (k) {
       var counts = use[k];
       var best = -1, bestN = -1, n = 0;
@@ -509,7 +511,34 @@ window.JMAP_TRAINS = function (host) {
         if (counts[li] > bestN) { bestN = counts[li]; best = +li; }
       });
       if (n > 1) shared++;
-      lineOwns[k] = best;
+      owns[k] = best;
+    });
+    return { owns: owns, shared: shared };
+  }
+
+  /* **AND THE TRACK IS DRAWN WITHOUT THE TIMETABLE.**
+
+     `deriveOwns` above walks every stop of every train, which for Korea is
+     21,789 rows — so the *drawing* used to wait on a 455 KB file it needed
+     one derived fact from. The build writes that fact into the geometry now
+     (`owns`, about 6 KB for Korea; see tools/trains_split.py) and the
+     timetable is fetched only when the reader asks it something.
+
+     The derivation stays as the fallback, for a bundle built before the split
+     and as the thing the test compares against. */
+  function buildLines() {
+    /* `sharedN` — how many stretches more than one line ran over — is counted
+       by the same pass and shipped beside `owns`, so the stat the mount
+       reports is the measured figure either way rather than a sentinel. */
+    var got = data.owns
+      ? { owns: data.owns, shared: data.sharedN || 0 }
+      : deriveOwns();
+    var caseGroup = host.svgEl('g', { 'class': 'train-cases' });
+    var lineGroup = host.svgEl('g', { 'class': 'train-lines' });
+    var shared = got.shared, drawn = 0, straight = 0, refused = 0;
+    Object.keys(got.owns).forEach(function (k) {
+      lineOwns[k] = got.owns[k];
+      var best = got.owns[k];
       var pair = k.split('|');
       var traced = !!data.paths[k];
       var seg = segment(+pair[0], +pair[1]);
@@ -569,9 +598,78 @@ window.JMAP_TRAINS = function (host) {
      a train crosses the gap in a straight run at an even pace rather than
      disappearing, which is the lesser of the two wrongs and is what the
      source's own map does. */
+  /* ------------------------------------------------- the timetable half ---
+
+     THE TRACK IS ON SCREEN AND THE TIMES ARE NOT HERE YET.
+
+     Four things in this module ask the timetable a question: the clock
+     (`buildPlans`, which is what puts a mark on a running train), the line
+     card's figures, a station's departures, and `showPick`, which pulls the
+     view back far enough to hold a line the reader has just named. Nothing
+     else does — the track, the colours, the station squares and the names in
+     the strip are all drawn from the geometry.
+
+     So all four go through here. `needTimes` says whether the answer can be
+     given now, and asks the host to fetch the file if it cannot; `setTimes`
+     is what the host calls when it lands, and it is responsible for going
+     back over whatever was left half-answered.
+
+     A fetch that fails leaves `data.trains` unset and every caller keeps
+     saying *not yet*, which is honest. Saying so out loud is map.js's job,
+     because it is the one that knows a `<script>` failed — it calls
+     `api.timesFailed` on the way, which is only there to drop the latch below
+     so the reader can try again. */
+  var timesPending = false;     // a fetch is out; do not ask for another
+  var playWanted = false;       // play was pressed before the times arrived
+  var fitWanted = false;        // a line was picked before they arrived
+
+  function haveTimes() { return !!(data && data.trains); }
+
+  function needTimes() {
+    if (haveTimes()) return true;
+    if (!timesPending && host.loadTimes) {
+      timesPending = true;
+      host.loadTimes();
+    }
+    return false;
+  }
+
+  function setTimes(arr) {
+    if (!cfg || !arr) return;
+    timesPending = false;
+    data.trains = arr;
+    buildPlans();
+    syncWaiting();
+    render();
+    /* Whatever the reader asked for while it was coming. A card is reopened
+       rather than patched: it was built from a different set of facts and
+       half of it did not exist. */
+    if (playWanted) { playWanted = false; setPlaying(true); }
+    /* And only if that line is still the one lit: a reader who picked another
+       in the meantime, or let go of the first, is not asking for this. */
+    if (fitWanted) { fitWanted = false; if (pickLi >= 0) showPick(); }
+    if (host.timesArrived) host.timesArrived();
+  }
+
+  /* What the strip says while it waits, and what it says once it has stopped
+     waiting. One sentence in the count's place — the reader is looking at a
+     drawn network, not an error. */
+  function syncWaiting() {
+    var waiting = !haveTimes();
+    if (bar) bar.classList.toggle('times-waiting', waiting);
+    if (els.play) {
+      els.play.title = waiting ? 'The timetable is still loading'
+                               : (playing ? 'Pause' : 'Play the day');
+      els.play.setAttribute('aria-label', els.play.title);
+    }
+    if (els.count && waiting) els.count.textContent = 'loading the timetable\u2026';
+  }
+
   function buildPlans() {
     plans = [];
+    marks = [];
     var skipped = 0;
+    if (!haveTimes()) return { plans: 0, skippedStops: 0 };
     data.trains.forEach(function (t) {
       var pts = [];
       t.st.forEach(function (s) {
@@ -710,6 +808,12 @@ window.JMAP_TRAINS = function (host) {
      is picking out the line you are already reading. */
   function showPick() {
     if (pickLi < 0 || !host.fitBox) return;
+    /* **Where the line ran is a question for the timetable**, so this cannot
+       be answered yet — and the reader pressing a line's name has asked to be
+       shown it, which is a request worth honouring late rather than dropping.
+       Remembered here and done in `setTimes`, the same as the play button. */
+    if (!needTimes()) { fitWanted = true; return; }
+    fitWanted = false;
     var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity, n = 0;
     data.trains.forEach(function (t) {
       if (t.li !== pickLi) return;
@@ -800,7 +904,10 @@ window.JMAP_TRAINS = function (host) {
         'translate(' + pos.x.toFixed(1) + ' ' + pos.y.toFixed(1) + ') scale(' + k + ')');
       live++;
     }
-    if (els.count) els.count.textContent = live + ' running';
+    if (els.count) {
+      els.count.textContent = haveTimes() ? live + ' running'
+                                          : 'loading the timetable\u2026';
+    }
     var c = fmt(simMin);
     if (c !== shownClock) { els.clock.textContent = c; shownClock = c; }
   }
@@ -826,6 +933,16 @@ window.JMAP_TRAINS = function (host) {
   }
 
   function setPlaying(on) {
+    /* **Press play and the timetable is fetched, then it plays.** The reader
+       has asked for the one thing the file is for, so the press is remembered
+       and honoured rather than refused — `setTimes` calls back in here. The
+       button shows ▶ meanwhile, because it has not started. */
+    if (on && !needTimes()) {
+      playWanted = true;
+      syncWaiting();
+      return;
+    }
+    playWanted = false;
     playing = on;
     els.play.textContent = on ? '❙❙' : '▶';
     els.play.setAttribute('aria-label', on ? 'Pause' : 'Play the day');
@@ -1048,9 +1165,33 @@ window.JMAP_TRAINS = function (host) {
      counted from the timetable rather than quoted from anywhere, so it says
      what this transcription holds and not what the railway was — the two
      differ wherever the source is short of a station or a working. */
+  /* The same card, minus everything the timetable would have told us. It says
+     what it is, what it is called, what the line was, and one sentence saying
+     the rest is coming — which is more use than a blank panel and much more
+     use than nothing happening when the reader presses the track. It is
+     replaced by the full card when the file lands; see `timesArrived`. */
+  function waitingCard(li, line) {
+    return {
+      geoLi: li,
+      chip: 'Railway line', colour: inks[li] || '#555',
+      primary: lineName(li, false),
+      alt: line.n,
+      note: (line.d || '') + (line.x
+        ? ' The map draws this line straight between the cities it can place; the track\'s real alignment is not yet sourced.'
+        : ''),
+      head: 'The timetable is still loading.',
+      waiting: true,
+    };
+  }
+
   function lineCard(li) {
     var line = lineFor(li);
     if (!line) return null;
+    /* Every figure below is counted from the timetable, so there is no short
+       version of this card to show without it. The name and the note are
+       what the geometry knows, and they are worth more than nothing while
+       the file is on its way. */
+    if (!needTimes()) return waitingCard(li, line);
     var trains = data.trains.filter(function (t) { return t.li === li; });
     var down = trains.filter(function (t) { return !t.dir; }).length;
     var stops = {};
@@ -1090,7 +1231,14 @@ window.JMAP_TRAINS = function (host) {
        does not survive being cut into stretches. */
     var km = 0;
     Object.keys(data.paths).forEach(function (key) {
-      if (!lineOwns[key] || lineOwns[key] !== li) return;
+      /* **Not `!lineOwns[key] ||`, which skipped line 0.** A stretch belongs to
+         a line index, and index 0 is a real line — the Trunk Line in Taiwan,
+         the Gyeongbu in Korea — so a falsy test read "owned by the first line"
+         as "owned by nobody" and left that line's own track out of its own
+         total. Every network has a line 0 and every one of them was
+         undercounted. An absent key is `undefined`, which is already not equal
+         to any index, so the guard was never needed for what it was there for. */
+      if (lineOwns[key] !== li) return;
       var flat = data.paths[key];
       for (var i = 2; i < flat.length; i += 2) {
         km += apart({ lon: flat[i - 2], lat: flat[i - 1] },
@@ -1335,6 +1483,11 @@ window.JMAP_TRAINS = function (host) {
 
   function departures(sid) {
     if (!byStation) return null;
+    /* Null is what map.js already does the right thing with — the station's
+       card is drawn without a timetable block rather than with an empty one —
+       so the fetch is asked for and the card is refreshed when it lands, by
+       `timesArrived`. */
+    if (!needTimes()) return null;
     var idx = byStation[sid];
     if (idx === undefined) return null;
     var st = data.stations[idx];
@@ -1423,6 +1576,7 @@ window.JMAP_TRAINS = function (host) {
       markLayer.appendChild(trainGroup);
       var planStats = buildPlans();
       buildBar();
+      syncWaiting();
       lastK = host.scale();
       render();
       api.stats = {
@@ -1453,7 +1607,44 @@ window.JMAP_TRAINS = function (host) {
       inks = []; linePaths = []; casePaths = []; chips = []; groundNow = '';
       pickLi = -1;
       shownClock = '';
+      /* The fetch that may still be out belongs to the system being taken
+         down: leaving these set would have the next mount believe a file was
+         already on its way, and refuse to ask for its own. */
+      timesPending = false;
+      playWanted = false;
+      fitWanted = false;
     },
+
+    /* The timetable has landed. map.js hands it over rather than writing into
+       the bundle, so a system whose tools have already been taken down while
+       the file was in flight simply drops it — `cfg` is null and this returns. */
+    setTimes: setTimes,
+    hasTimes: function () { return haveTimes(); },
+
+    /* **The fetch failed, and the reader must be able to try again.**
+       `timesPending` stops a second request going out while one is in flight,
+       and without this it would stay set for the life of the mount: a reader
+       who lost the connection for a moment would press play, get nothing, and
+       have no way back short of zooming out and in again. map.js calls this
+       from its own failure path — `loadScript` forgets a failed load, so the
+       next press really does re-fetch rather than replaying the failure. */
+    timesFailed: function () {
+      timesPending = false;
+      playWanted = false;
+      fitWanted = false;
+      syncWaiting();
+    },
+
+    /* **For tools/test/trains.js, and for nothing the map does.**
+     *
+     * The build precomputes `owns` and the drawing reads it, so the rule that
+     * used to be enforced by running is now enforced by a Python
+     * reimplementation of it in tools/trains_split.py. Two copies of a rule
+     * drift, and this one drifts silently: a stretch given to the wrong line
+     * is a slightly wrong colour on a network of eight hundred, which nobody
+     * would report. Exposed so the test can hold the built answer against the
+     * derived one rather than keeping a third copy of the rule itself. */
+    deriveOwns: deriveOwns,
 
     mounted: function () { return !!cfg; },
     system: function () { return cfg ? cfg.sys : ''; },

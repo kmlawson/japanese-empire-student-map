@@ -3179,6 +3179,19 @@ dialog h3 {
   color: var(--muted);
 }
 
+/* The timetable is a second file now and it is not here yet. Lower case and
+   not tracked out, because this is a sentence rather than a column heading —
+   the heading it shares a class with is naming a table that exists. */
+.trains-waiting {
+  text-transform: none;
+  letter-spacing: 0;
+  font-style: italic;
+}
+
+/* And the strip's counter while it waits, for the same reason: it is standing
+   in for "31 running", which is a figure, with a sentence. */
+#train-bar.times-waiting .train-count { font-style: italic; opacity: .75; }
+
 .trains-scroll {
   max-height: min(34vh, 260px);
   /* Both ways. Vertical because 127 trains called at Taihoku; horizontal

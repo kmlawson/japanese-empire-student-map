@@ -38,6 +38,7 @@ import re
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rail_route
+import trains_split
 from urllib.parse import quote
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -45,6 +46,7 @@ ROOT = os.path.dirname(HERE)
 SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 SRC = os.path.join(ROOT, 'data', 'kr-1938-timetable')
 OUT_JS = os.path.join(SITE, 'kr-trains.js')
+OUT_TIMES = os.path.join(SITE, 'kr-times.js')   # the timetable, fetched on demand
 OUT_HTML = os.path.join(SITE, 'timetable', 'korea-1938.html')
 
 # The same fold the transcription project uses to match its names to the GIS
@@ -480,13 +482,8 @@ def build_js(anchors=None):
         ' * indices, low first, and the coordinates run that way. A line with\n'
         ' * x=1 is drawn straight between city points, its alignment unsourced. */\n'
         % (len(out_tr), len(line_names), len(out_st)))
-    body = json.dumps(doc, ensure_ascii=False, separators=(',', ':'))
-    with open(OUT_JS, 'w', encoding='utf-8') as f:
-        f.write(head)
-        f.write('window.JMAP = window.JMAP || {};\n')
-        f.write('JMAP.KR_TRAINS = ')
-        f.write(body)
-        f.write(';\n')
+    trains_split.write(OUT_JS, OUT_TIMES, 'KR_TRAINS', doc, head,
+                       'Built by tools/build_kr_trains.py -- do not edit.')
 
     print('stations   %d, %d matched to kr-stations.js, %d with no coordinate'
           % (len(out_st), matched, coordless))
@@ -499,8 +496,6 @@ def build_js(anchors=None):
     print('lines      %d, %d drawn approximately' % (len(line_names), len(approx)))
     print('           %d of %d segments start within 0.02 deg of their station'
           % (ends_ok, ends_seen))
-    print('wrote      %s (%d KB)' % (os.path.relpath(OUT_JS, ROOT),
-                                     os.path.getsize(OUT_JS) // 1024))
     return doc
 
 
