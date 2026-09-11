@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '347';
+  var JEM_VERSION = '348';
 
 
 
@@ -11051,10 +11051,42 @@
 
   function setTrainTools(on) {
     if (on) clearForTools();
+    var hadAdmin = state.cats.territory;
     state.trainTools = !!on;
     var box = $('#opt-train-tools');
     if (box) box.checked = state.trainTools;
     if (state.trainTools) setAirPlay(false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if (state.trainTools && hadAdmin) {
+      state.cats.territory = false;
+      syncLayerButtons();
+    }
     applyState();
   }
 

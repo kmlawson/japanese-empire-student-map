@@ -1297,6 +1297,111 @@ const shutDialogs=p=>p.evaluate(()=>{
       kfRows && kfRows.length===1 && /1935/.test(kfRows[0]),
       JSON.stringify(kfRows));
     await rc.close();
+
+    /* ======= the divisions come off when the tools go on =======
+     *
+     * Asked for. Two dense layers over the same ground, and the tools are what
+     * the reader just pressed — one railway on plain ground is easier to
+     * follow than one railway over every provincial boundary in Korea.
+     *
+     * Three things to hold. It must happen however the tools are opened, there
+     * being three doors: the map button, the tick in the Layers dialog, and
+     * the button on the railway's own card. It must be **off, not locked** —
+     * the reader can press Administrative again and keep it. And **a shared
+     * link is not a press**: `applyLayerCode` sets the flag directly, so a link
+     * saved with both on has to open with both on, or every link anybody has
+     * already sent quietly loses a layer. */
+    console.log('\n— the divisions come off when the tools go on —');
+    const ta = await browser.newPage();
+    await ta.setViewport({width:1300,height:950});
+    await ta.evaluateOnNewDocument(SHIM);
+    const adminIs = () => ta.evaluate(() => {
+      const b = document.querySelector('#layer-seg button[data-cat="territory"]');
+      return {on: b && b.getAttribute('aria-pressed') === 'true',
+              lit: b && b.classList.contains('on'),
+              tools: !!document.querySelector('#train-bar')};
+    });
+    const armed = async () => {
+      await ta.goto(TAIWAN,{waitUntil:'domcontentloaded'});
+      await ready(ta);
+      await shutDialogs(ta);
+      await ta.evaluate(()=>{const r=document.querySelector('#opt-tw-rail');
+        if(r&&!r.checked){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}});
+      await sleep(2000);
+      await ta.evaluate(()=>{const b=document.querySelector('#layer-seg button[data-cat="territory"]');
+        if(b&&b.getAttribute('aria-pressed')!=='true') b.click();});
+      await sleep(3000);
+    };
+
+    await armed();
+    let st = await adminIs();
+    check('the divisions are on to begin with', st.on === true, JSON.stringify(st));
+    await ta.click('#btn-trains');
+    await sleep(5000);
+    st = await adminIs();
+    check('the map button takes them off', st.on === false && st.tools === true,
+      JSON.stringify(st));
+    /* Off, not locked. */
+    await ta.evaluate(()=>{const b=document.querySelector('#layer-seg button[data-cat="territory"]');
+      if(b) b.click();});
+    await sleep(3000);
+    st = await adminIs();
+    check('  and the reader can put them back, with the tools still up',
+      st.on === true && st.tools === true, JSON.stringify(st));
+
+    await armed();
+    await ta.evaluate(()=>{const b=document.querySelector('#opt-train-tools');
+      b.checked=true; b.dispatchEvent(new Event('change',{bubbles:true}));});
+    await sleep(5000);
+    st = await adminIs();
+    check('the Layers tick takes them off too', st.on === false && st.tools === true,
+      JSON.stringify(st));
+
+    await armed();
+    const railPt = await ta.evaluate(()=>{
+      const els=[...document.querySelectorAll('#tw-rail .rail-hit')]
+        .filter(e=>e.style.display!=='none');
+      for(const el of els){
+        const L=el.getTotalLength();
+        for(const f of [0.5,0.3,0.7]){
+          const q=el.getPointAtLength(L*f);
+          const s=el.ownerSVGElement.createSVGPoint(); s.x=q.x; s.y=q.y;
+          const scr=s.matrixTransform(el.getScreenCTM());
+          const x=Math.round(scr.x), y=Math.round(scr.y);
+          if(x>60&&x<innerWidth-60&&y>90&&y<innerHeight-60) return {x,y};
+        }
+      }
+      return null;
+    });
+    if (railPt) {
+      await ta.mouse.click(railPt.x, railPt.y);
+      await sleep(700);
+      await ta.evaluate(()=>{
+        const b=[...document.querySelectorAll('#info-trains button')]
+          .find(x=>/train tools/i.test(x.textContent));
+        if(b) b.click();
+      });
+      await sleep(5000);
+      st = await adminIs();
+      check('and so does the button on the railway card',
+        st.on === false && st.tools === true, JSON.stringify(st));
+    }
+
+    /* The exemption. A code with both bits set must open with both. */
+    const bothCode = await ta.evaluate(() => {
+      const b = document.querySelector('#layer-seg button[data-cat="territory"]');
+      if (b && b.getAttribute('aria-pressed') !== 'true') b.click();
+      return null;
+    });
+    await sleep(3000);
+    const href = await ta.evaluate(() => location.href);
+    await ta.goto(href, {waitUntil:'domcontentloaded'});
+    await ready(ta);
+    await sleep(5000);
+    st = await adminIs();
+    check('a shared link with both on opens with both on',
+      st.on === true && st.tools === true, JSON.stringify(st) + '  ' + href.slice(-60));
+    await ta.close();
   } finally { await browser.close(); }
   process.exit(report());
 })();

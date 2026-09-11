@@ -20132,3 +20132,44 @@ the map is drawn, not what it claims, and an "i" about a source would have
 nothing to point at.
 
 `changed` 1,666 checks across 41 scripts, all passing, 339s.
+
+## The divisions come off when the train tools go on
+
+Asked for, on the ground that the two together seem to cost speed. The
+behaviour is in: opening the tools by any of the three doors — the map button,
+the tick in the Layers dialog, the button on the railway's own card — takes
+Administrative off.
+
+**Off, not locked.** The button is left alone and a reader who wants the
+provinces under their railway presses it again and keeps them. Nothing puts it
+back when the tools go away, either: restoring a switch the reader may since
+have set themselves is the map arguing with them.
+
+**And a shared link is exempt.** `applyLayerCode` sets `state.trainTools`
+directly rather than through `setTrainTools`, so a link saved with both on opens
+with both on — otherwise every link anybody has already sent would quietly lose
+a layer on opening. Guarded by a check that round-trips the address bar.
+
+### The performance half is not borne out, and the comment says so
+
+Measured over Korea, where the two layers are densest, at **four times CPU
+throttling**, forty synthetic pan steps, three runs each and the median taken:
+
+| | 40 pan steps | runs |
+|---|---|---|
+| tools + divisions | **782 ms** | 765 / 782 / 814 |
+| tools alone | **782 ms** | 782 / 782 / 832 |
+
+Identical, with the runs overlapping. The layer really does come off — **559
+province paths on screen fall to 329** — it simply does not show up in the pan.
+If there is a cost it is somewhere this did not look: a phone, a first fetch, a
+deep zoom.
+
+So the justification written into `setTrainTools` is the *reading* rather than
+the speed: one railway on plain ground is easier to follow than one railway over
+every provincial boundary in Korea. That is worth doing on its own, and it is
+what the comment now claims — an earlier draft asserted the two were "the
+slowest thing the map does", which the measurement does not support and which
+would have been quoted later as though somebody had checked it.
+
+`trains` 144 → **150 checks**.

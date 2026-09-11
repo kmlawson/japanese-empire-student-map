@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '347';
+  var JEM_VERSION = '348';
 
   /* Every file this one fetches, with the version on it.
 
@@ -11051,10 +11051,42 @@
 
   function setTrainTools(on) {
     if (on) clearForTools();
+    var hadAdmin = state.cats.territory;
     state.trainTools = !!on;
     var box = $('#opt-train-tools');
     if (box) box.checked = state.trainTools;
     if (state.trainTools) setAirPlay(false);
+    /* **The divisions come off when the tools go on.**
+     *
+     * Asked for on the ground that the two together seem to cost speed. They
+     * are certainly two dense layers over the same ground — the administrative
+     * sheet is provincial outlines and the tools add a coloured track, a
+     * station square every few kilometres and a mark per running train — and
+     * the tools are what the reader has just asked to look at.
+     *
+     * **The performance half of that is not borne out, and the comment should
+     * say so rather than repeat it.** Measured over Korea, where the two are
+     * densest, at four times CPU throttling, forty synthetic pan steps: 782 ms
+     * with the divisions and 782 ms without, the three runs of each
+     * overlapping (765/782/814 against 782/782/832). The layer does come off —
+     * 559 province paths on screen fall to 329 — it simply does not show up in
+     * the pan. If there is a cost it is somewhere this did not look: a phone,
+     * a first fetch, a deep zoom.
+     *
+     * So what this is actually for is the reading: one railway on plain ground
+     * is easier to follow than one railway over every provincial boundary in
+     * Korea. That is worth doing on its own.
+     *
+     * Off, not locked: the button is left alone and a reader who wants the
+     * provinces under their railway presses it again and keeps them. Nothing
+     * puts it back when the tools go away either — restoring a switch the
+     * reader may since have set themselves is the map arguing with them. And a
+     * shared link is not a press: `applyLayerCode` sets `state.trainTools`
+     * directly, so a link saved with both on opens with both on. */
+    if (state.trainTools && hadAdmin) {
+      state.cats.territory = false;
+      syncLayerButtons();
+    }
     applyState();
   }
 
