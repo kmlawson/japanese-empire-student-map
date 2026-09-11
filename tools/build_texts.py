@@ -1498,6 +1498,9 @@ def build_pages():
                # and the station tables, fetched the first time a station
                # layer is switched on
                "tw-stations.js", "kr-stations.js", "kf-stations.js",
+               # Japan's railways and their 12,800 stations, each fetched
+               # only when its own switch goes on
+               "jp-rails.js", "jp-stations.js",
                # the air player, fetched when a reader asks for the plane tools
                "air-play.js",
                # and the printed tables, which a station's card links to

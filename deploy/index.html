@@ -426,6 +426,10 @@
     <label class="half" title="The railways of Karafuto, southern Sakhalin: the state lines and the two private companies, traced from the network of 1935 and drawn on both dates, the rails having barely moved between them."><input type="checkbox" id="opt-kf-rail"> Karafuto Railways</label>
     <label class="half" id="row-kf-stations" hidden title="A small square at every station on those lines — 97 of them. Point at one for its name in 1935 and the Russian name of the place today, with the reading and the characters under it."><input type="checkbox" id="opt-kf-stations"> Show Karafuto Stations</label>
   </div>
+  <div class="row pair">
+    <label class="half" title="The railways of Japan proper, drawn per date: lines whose service had begun by 1930 on the 1930 map, and those plus the lines opened between 1931 and 1942 on the December 1942 map. Press a line for its name and the year it opened."><input type="checkbox" id="opt-jp-rail"> Japan Railways</label>
+    <label class="half" id="row-jp-stations" hidden title="A small square at every station on those lines &mdash; 10,639 on the 1930 map and 12,800 on the 1942 one. Point at one for its name and the year it opened. A large table: it is fetched only when this is switched on."><input type="checkbox" id="opt-jp-stations"> Show Japan Stations</label>
+  </div>
   <!-- The scheduled air services, which are not railways and are not faded by
        the zoom: they cross the whole map, and the widest view is where they
        read best. -->
@@ -614,7 +618,7 @@
 
   <h3>Feedback</h3>
 
-  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">349</span><span class="beta-tag" hidden> beta</span> · last updated 11 September 2026, 16:13</p>
+  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">350</span><span class="beta-tag" hidden> beta</span> · last updated 11 September 2026, 19:18</p>
 
 <!-- END about -->
 </dialog>
@@ -726,8 +730,8 @@
      tile or timetable does not change map.js's own key and make every
      reader fetch the largest script again. -->
 <!-- BEGIN assets -->
-<script>window.JEM_ASSETS = {"admin.js": "515700d72c", "air-play.js": "4e3fd5d07f", "annotate.js": "4347030471", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "a673d36791", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9ae8468f1f", "kf-stations.js": "5b813d9ab0", "kf-times.js": "7794238211", "kf-trains.js": "dfbd657f59", "kr-stations.js": "bbf1264e10", "kr-times.js": "4d7146a5b5", "kr-trains.js": "cd84272e6b", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/karafuto-1935.html": "5348193a83", "timetable/korea-1938.html": "517d0aa1a9", "timetable/taiwan-1936.html": "1ce3ba8518", "trains.js": "89f0e77d73", "tw-stations.js": "1c5f5eb043", "tw-times.js": "dbd80c98cb", "tw-trains.js": "0534b63f8f"};</script>
+<script>window.JEM_ASSETS = {"admin.js": "515700d72c", "air-play.js": "4e3fd5d07f", "annotate.js": "4347030471", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "a673d36791", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9ae8468f1f", "jp-rails.js": "1299acff63", "jp-stations.js": "94e1778527", "kf-stations.js": "5b813d9ab0", "kf-times.js": "7794238211", "kf-trains.js": "dfbd657f59", "kr-stations.js": "bbf1264e10", "kr-times.js": "4d7146a5b5", "kr-trains.js": "cd84272e6b", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/karafuto-1935.html": "5348193a83", "timetable/korea-1938.html": "517d0aa1a9", "timetable/taiwan-1936.html": "1ce3ba8518", "trains.js": "89f0e77d73", "tw-stations.js": "1c5f5eb043", "tw-times.js": "dbd80c98cb", "tw-trains.js": "0534b63f8f"};</script>
 <!-- END assets -->
-<script src="lean/map.js?v=32ce4ae88b"></script>
+<script src="lean/map.js?v=4ca597bed4"></script>
 </body>
 </html>

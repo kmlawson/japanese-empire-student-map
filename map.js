@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '349';
+  var JEM_VERSION = '350';
 
   /* Every file this one fetches, with the version on it.
 
@@ -213,6 +213,8 @@
     twRail: false,
     krRail: false,
     kfRail: false,
+    jpRail: false,
+    jpStations: false,
     air: false,
     krStations: false,
     twStations: false,
@@ -2063,6 +2065,87 @@
       .catch(function () { sugarState = 'failed'; });
   }
 
+  /* ------------------------------------------- Japan's railways -------- */
+
+  /* **THE ONE RAILWAY THAT IS BUILT RATHER THAN FOUND.**
+
+     Taiwan's, Korea's and Karafuto's are drawn into japan-empire-map.svg and
+     `svg.querySelector` picks them up with the page. Japan's are 1,977 lines
+     and 83,829 vertices — 313 KB gzipped — which is not something to put in
+     front of every reader for a layer that starts off. So they are a file of
+     their own, fetched the first time the switch goes on, and the group is
+     assembled here.
+
+     **The coordinates are written in Mercator on purpose.** Every path in the
+     document carries its Mercator `d` in `__d0`, and that is what
+     `reprojectDocument` and `reprojectGraft` re-project from when the reader
+     changes projection. Building in `project()` — the *current* projection —
+     would store an Albers `d` as though it were Mercator, and the layer would
+     be wrong in two projections out of three the moment anything moved. So
+     `mercFwd` is called directly and the graft is re-projected if the reader
+     is not in Mercator when it lands.
+
+     The epoch is a property of the line rather than of the path: 1,806 of the
+     1,977 were open by 1930 and are on both maps, so they are written once
+     with `data-epochs` naming both. See the note in the rail redraw loop. */
+  var jpRailState = 'none';
+
+  function loadJpRails() {
+    if (jpRailState === 'loading' || jpRailState === 'ready') return;
+    jpRailState = 'loading';
+    loadScript('jp-rails.js').then(function () {
+      if (!JMAP.JP_RAILS || !svg) { jpRailState = 'failed'; return; }
+      buildJpRails();
+      /* Ready *before* the reconcile, because `applyState` reaches `railFade`,
+         which is where the fetch is asked for — and a state that still said
+         `none` would send it round again. */
+      jpRailState = 'ready';
+      /* **`applyState`, not `railFade`.** The paths are in the document but
+         nothing has dressed them yet: the loop that gates them by date, gives
+         each its ink, clones the tie beneath it and lays the wide transparent
+         band over it for the pointer lives in `applyState`, and it had already
+         run for the last time before this group existed. Without this the
+         layer draws every line on both maps and cannot be pressed at all —
+         which is how it first behaved: 1,977 paths shown on the 1930 map,
+         no ties and no hit bands. */
+      applyState();
+      syncStationLayers();
+    }, function () { jpRailState = 'failed'; });
+  }
+
+  function buildJpRails() {
+    if (jpRailGroup) return;
+    var g = svgEl('g', { id: 'jp-rail' });
+    g.style.display = 'none';
+    (JMAP.JP_RAILS || []).forEach(function (r) {
+      var f = r.p, d = '';
+      for (var i = 0; i < f.length; i += 2) {
+        var q = mercFwd(f[i], f[i + 1]);
+        d += (i ? 'L' : 'M') + (Math.round(q.x * 10) / 10) + ' '
+           + (Math.round(q.y * 10) / 10);
+      }
+      if (!d) return;
+      g.appendChild(svgEl('path', {
+        'class': 'rail', d: d, fill: 'none',
+        /* Open by 1930 means both maps; opened 1931-1942 means the later one
+           only. The whole of the date logic, decided in the build. */
+        'data-epochs': (r.e || '3042') === '42' ? 'e1942' : 'e1930 e1942',
+        'data-over': 'japan',
+        /* What the card says when the reader presses this stretch. */
+        'data-name': r.n || '',
+        'data-year': r.y ? String(r.y) : '',
+      }));
+    });
+    /* Under the markers, like every other railway: a station square and a city
+       dot both belong on top of the line they stand on. */
+    svg.insertBefore(g, markersGroup || null);
+    jpRailGroup = g;
+    /* And if the reader is not in Mercator, the `d` just written is not the
+       one they should be looking at. `reprojectGraft` reads `__d0` off each
+       path and moves it, which is exactly what the sugar sheet does. */
+    if (projMode !== 'mercator') reprojectGraft([g]);
+  }
+
   function setSugar(on) {
     state.twSugar = !!on;
     if (state.twSugar) loadSugar();
@@ -2109,6 +2192,11 @@
     railFadeOne(twRailGroup, state.twRail && !trainDraws('tw'));
     railFadeOne(krRailGroup, state.krRail && !trainDraws('kr'));
     railFadeOne(kfRailGroup, state.kfRail && !trainDraws('kf'));
+    /* Fetched here rather than from the checkbox, because there are four ways
+       to turn it on — the panel, the button beside the map, a `?layers=` code
+       and a restored session — and this is the one place all four arrive at. */
+    if (state.jpRail && jpRailState === 'none') loadJpRails();
+    railFadeOne(jpRailGroup, state.jpRail && !trainDraws('jp'));
     /* Not faded by the zoom, unlike the railways. A railway is local ground
        and only means anything once the reader is over it; these five services
        cross the whole map and are most legible at the widest view. */
@@ -2671,7 +2759,8 @@
      ['#opt-han-labels', 'hanLabels'],
      ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations'],
-     ['#opt-kf-rail', 'kfRail'], ['#opt-kf-stations', 'kfStations']]
+     ['#opt-kf-rail', 'kfRail'], ['#opt-kf-stations', 'kfStations'],
+     ['#opt-jp-rail', 'jpRail'], ['#opt-jp-stations', 'jpStations']]
       .forEach(function (pair) {
         var box = $(pair[0]);
         if (box) box.checked = !!state[pair[1]];
@@ -3342,6 +3431,9 @@
   var twRailGroup = null;
   var krRailGroup = null;
   var kfRailGroup = null;
+  /* Built, not found: Japan's railways are 1,977 paths fetched on demand,
+     where the other three are drawn into japan-empire-map.svg. */
+  var jpRailGroup = null;
   var staRecs = [];                   // the station records, to re-register
   var buildStations = null;           // set in buildSiteLabels, called on demand
 
@@ -3425,6 +3517,28 @@
                  jpro: t.ro || '', locro: t.ruen || '', han: t.han,
                  wiki: t.wiki || '',
                  staKind: 'station' };
+      },
+    },
+    /* **Japan's 12,800 stations, and only a name and a year for each.**
+
+       The other three systems carry four or five names apiece because they
+       were transcribed for this map from a printed table. This one is a
+       national dataset of 16,262 rows reduced to one record per place, and
+       what it holds is the name in characters and the year service began —
+       so that is what the card says, and it does not pretend to a
+       romanisation it does not have. */
+    jp: {
+      data: 'JP_STATIONS', file: 'jp-stations.js', gid: 'jp-stations',
+      rail: 'jpRail', on: 'jpStations',
+      row: 'row-jp-stations', box: 'opt-jp-stations',
+      ground: [129.5, 30.9, 146.0, 45.5],
+      rec: function (t) {
+        return { en: t.n, local: t.n, ja: t.n, han: t.n,
+                 jpro: '', locro: '',
+                 /* The year, in the slot every other record puts a date in,
+                    so the card letters it where a reader already looks. */
+                 when: t.y ? String(t.y) : '',
+                 wiki: '', staKind: 'station' };
       },
     },
   };
@@ -4531,6 +4645,7 @@
             ['manchukuo', MANCHUKUO_PLACE, 2], ['mengjiang', MENGJIANG_PLACE, 2],
             ['airAll', AIRALL_PLACE, 2], ['airNames', AIRNAMES_PLACE, 2],
             ['hanLabels', HANLABELS_PLACE, 2], ['kfRail', KFRAIL_PLACE, 2],
+            ['jpRail', JPRAIL_PLACE, 2], ['jpStations', JPSTA_PLACE, 2],
             ['kfStations', KFSTA_PLACE, 2]);
     LABEL_CATS.forEach(function (c) { hi.push(['labels:' + c.id, c.place, 2]); });
     hi.sort(function (a, b) { return a[1] - b[1]; });
@@ -4673,6 +4788,8 @@
     if (!state.airNames) hi += AIRNAMES_PLACE;   // inverted; see LABEL_CATS
     if (state.hanLabels) hi += HANLABELS_PLACE;
     if (asRead.kfRail) hi += KFRAIL_PLACE;      // Karafuto's railways; see the note there
+    if (asRead.jpRail) hi += JPRAIL_PLACE;      // Japan's, fetched on demand
+    if (asRead.jpStations) hi += JPSTA_PLACE;
     if (asRead.kfStations) hi += KFSTA_PLACE;   // and their stations
     hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
     // set when the row is OFF — an old link carries zeroes here and must open
@@ -4801,6 +4918,8 @@
       if (mode) state.pop[g.id] = mode; else delete state.pop[g.id];
     });
     state.twSugar = !!(Math.floor(hi / SUGAR_PLACE) % 2);
+    state.jpRail = !!(Math.floor(hi / JPRAIL_PLACE) % 2);
+    state.jpStations = !!(Math.floor(hi / JPSTA_PLACE) % 2);
     state.air = !!(Math.floor(hi / AIR_PLACE) % 2);
     airPlayWanted = !!(Math.floor(hi / AIRPLAY_PLACE) % 2);
     state.manchukuo = !(Math.floor(hi / MANCHUKUO_PLACE) % 2);   // inverted
@@ -7347,7 +7466,17 @@
        ground, which is the same place in the order the line occupies when the
        tools are up. */
     var plainSys = railSysOf(target);
-    if (plainSys && !trainDraws(plainSys)) { showRailCard(plainSys); return; }
+    if (plainSys && !trainDraws(plainSys)) {
+      /* **Japan answers with the line, not with the network.** The other three
+         are one traced network each and a reader pressing them means "this
+         railway"; Japan's layer is 1,977 named lines from a national dataset,
+         and the thing under the finger is the Tōkaidō or the Chūō. Whose name
+         and opening year are the two facts the source has about it. */
+      var jpCard = plainSys === 'jp' ? jpLineCard(target) : null;
+      if (jpCard) { showTrainCard(jpCard); return; }
+      showRailCard(plainSys);
+      return;
+    }
     if (railPicked) setRailPicked('');
 
     var id = hit ? (hit.rec.rid || hit.rec.id) : null;
@@ -12058,7 +12187,7 @@
      the tools should still be able to take the track away. */
   function railSysOf(target) {
     if (!target || !target.closest) return '';
-    var g = target.closest('#tw-rail, #kr-rail, #kf-rail');
+    var g = target.closest('#tw-rail, #kr-rail, #kf-rail, #jp-rail');
     if (!g) return '';
     return String(g.id || '').replace(/-rail$/, '');
   }
@@ -12067,7 +12196,7 @@
      system for the button beside the map; this is the same name in the
      possessive, and it is the one place that has to change when a fourth
      system arrives. */
-  var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto' };
+  var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto', jp: 'Japan' };
 
   /* **What the white railway is, and which year's network it is.**
    *
@@ -13183,13 +13312,36 @@
     host.appendChild(hint);
   }
 
+  /* One line of Japan's, as the dataset has it: a name and the year service
+     began, and the sentence that says what that year does and does not mean.
+     Returns null if the press did not land on a line carrying a name, so the
+     caller can fall back to the network card. */
+  function jpLineCard(target) {
+    var el = target && target.closest ? target.closest('[data-name]') : null;
+    if (!el) return null;
+    var name = el.getAttribute('data-name') || '';
+    var year = el.getAttribute('data-year') || '';
+    if (!name) return null;
+    return {
+      chip: 'Railway line', colour: 'var(--muted)',
+      primary: name,
+      alt: year ? 'Opened ' + year : '',
+      /* One sentence, per the prose rule — and it is the caveat that matters,
+         because the source's survey begins in 1950 and the reader is looking
+         at a map of 1930. */
+      note: 'From the national railway dataset, which records the network from '
+          + '1950 onwards, so lines that closed before then are likely to be '
+          + 'missing and the course drawn is the later survey.',
+    };
+  }
+
   /* Lit as one thing, because that is what it is. A railway is not a shape with
      an inside; the reader pressed *the network*, and the whole of it answers. */
   var railPicked = '';
 
   function setRailPicked(sys) {
     railPicked = sys || '';
-    ['tw', 'kr', 'kf'].forEach(function (k) {
+    Object.keys(STATION_SYS).forEach(function (k) {
       var g = document.getElementById(k + '-rail');
       if (g) g.classList.toggle('picked', k === railPicked);
     });
@@ -13611,7 +13763,7 @@
     // whether either is drawn at all is `railFade`'s business: it depends on
     // the zoom as well as on the switch
     railFade();
-    [twRailGroup, krRailGroup, kfRailGroup].forEach(function (g) {
+    [twRailGroup, krRailGroup, kfRailGroup, jpRailGroup].forEach(function (g) {
       if (!g) return;
       /* A LINE WITH TIES, NOT A ROW OF DOTS.
        *
@@ -13634,7 +13786,15 @@
        * so nothing else in the file has to know it is there.
        */
       $$('path.rail', g).forEach(function (el) {
-        var on = el.getAttribute('data-epoch') === state.epoch;
+        /* **One path, possibly both dates.** The three traced networks carry a
+           `data-epoch` naming the single date they were drawn for, and a line
+           on both maps is in the file twice. Japan's are built from one
+           dataset in which a line is a line and the date is a property of it,
+           so they carry `data-epochs` — a list — and 1,806 of the 1,977 are on
+           both maps without being written out twice. */
+        var eps = el.getAttribute('data-epochs');
+        var on = eps ? eps.split(' ').indexOf(state.epoch) >= 0
+                     : el.getAttribute('data-epoch') === state.epoch;
         el.style.display = on ? '' : 'none';
         var over = el.getAttribute('data-over');
         el.style.setProperty('--rail-ink', railInk(over));
@@ -13660,6 +13820,14 @@
         if (!hit || !hit.classList || !hit.classList.contains('rail-hit')) {
           hit = svgEl('path', { 'class': 'rail-hit', d: el.getAttribute('d') });
           tie.parentNode.insertBefore(hit, tie.nextSibling);
+        }
+        /* The band is what the pointer lands on, so it has to know what it is
+           standing for. Only Japan's paths carry these — the other three are
+           one network apiece and answer with a card about the network — and
+           copying an absent attribute writes nothing. */
+        if (el.hasAttribute('data-name')) {
+          hit.setAttribute('data-name', el.getAttribute('data-name'));
+          hit.setAttribute('data-year', el.getAttribute('data-year') || '');
         }
         hit.style.display = on ? '' : 'none';
       });
@@ -14075,6 +14243,11 @@
      two places reads as it always did. */
   var KFRAIL_PLACE = 16777216;
   var KFSTA_PLACE = 33554432;
+  /* Japan's railway and its stations, in the high field for the same reason
+     Karafuto's are: the low field ended at bit 29. Off by default, so a link
+     written before they existed reads as it always did. */
+  var JPRAIL_PLACE = 67108864;
+  var JPSTA_PLACE = 134217728;
   var THEME_MODES = ['light', 'dark'];
 
   /* The whole of the switch. `data-theme` on the root element is what

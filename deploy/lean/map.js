@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '349';
+  var JEM_VERSION = '350';
 
 
 
@@ -213,6 +213,8 @@
     twRail: false,
     krRail: false,
     kfRail: false,
+    jpRail: false,
+    jpStations: false,
     air: false,
     krStations: false,
     twStations: false,
@@ -2063,6 +2065,87 @@
       .catch(function () { sugarState = 'failed'; });
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var jpRailState = 'none';
+
+  function loadJpRails() {
+    if (jpRailState === 'loading' || jpRailState === 'ready') return;
+    jpRailState = 'loading';
+    loadScript('jp-rails.js').then(function () {
+      if (!JMAP.JP_RAILS || !svg) { jpRailState = 'failed'; return; }
+      buildJpRails();
+
+
+
+      jpRailState = 'ready';
+
+
+
+
+
+
+
+
+      applyState();
+      syncStationLayers();
+    }, function () { jpRailState = 'failed'; });
+  }
+
+  function buildJpRails() {
+    if (jpRailGroup) return;
+    var g = svgEl('g', { id: 'jp-rail' });
+    g.style.display = 'none';
+    (JMAP.JP_RAILS || []).forEach(function (r) {
+      var f = r.p, d = '';
+      for (var i = 0; i < f.length; i += 2) {
+        var q = mercFwd(f[i], f[i + 1]);
+        d += (i ? 'L' : 'M') + (Math.round(q.x * 10) / 10) + ' '
+           + (Math.round(q.y * 10) / 10);
+      }
+      if (!d) return;
+      g.appendChild(svgEl('path', {
+        'class': 'rail', d: d, fill: 'none',
+
+
+        'data-epochs': (r.e || '3042') === '42' ? 'e1942' : 'e1930 e1942',
+        'data-over': 'japan',
+
+        'data-name': r.n || '',
+        'data-year': r.y ? String(r.y) : '',
+      }));
+    });
+
+
+    svg.insertBefore(g, markersGroup || null);
+    jpRailGroup = g;
+
+
+
+    if (projMode !== 'mercator') reprojectGraft([g]);
+  }
+
   function setSugar(on) {
     state.twSugar = !!on;
     if (state.twSugar) loadSugar();
@@ -2109,6 +2192,11 @@
     railFadeOne(twRailGroup, state.twRail && !trainDraws('tw'));
     railFadeOne(krRailGroup, state.krRail && !trainDraws('kr'));
     railFadeOne(kfRailGroup, state.kfRail && !trainDraws('kf'));
+
+
+
+    if (state.jpRail && jpRailState === 'none') loadJpRails();
+    railFadeOne(jpRailGroup, state.jpRail && !trainDraws('jp'));
 
 
 
@@ -2671,7 +2759,8 @@
      ['#opt-han-labels', 'hanLabels'],
      ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations'],
-     ['#opt-kf-rail', 'kfRail'], ['#opt-kf-stations', 'kfStations']]
+     ['#opt-kf-rail', 'kfRail'], ['#opt-kf-stations', 'kfStations'],
+     ['#opt-jp-rail', 'jpRail'], ['#opt-jp-stations', 'jpStations']]
       .forEach(function (pair) {
         var box = $(pair[0]);
         if (box) box.checked = !!state[pair[1]];
@@ -3342,6 +3431,9 @@
   var twRailGroup = null;
   var krRailGroup = null;
   var kfRailGroup = null;
+
+
+  var jpRailGroup = null;
   var staRecs = [];                   // the station records, to re-register
   var buildStations = null;           // set in buildSiteLabels, called on demand
 
@@ -3425,6 +3517,28 @@
                  jpro: t.ro || '', locro: t.ruen || '', han: t.han,
                  wiki: t.wiki || '',
                  staKind: 'station' };
+      },
+    },
+
+
+
+
+
+
+
+
+    jp: {
+      data: 'JP_STATIONS', file: 'jp-stations.js', gid: 'jp-stations',
+      rail: 'jpRail', on: 'jpStations',
+      row: 'row-jp-stations', box: 'opt-jp-stations',
+      ground: [129.5, 30.9, 146.0, 45.5],
+      rec: function (t) {
+        return { en: t.n, local: t.n, ja: t.n, han: t.n,
+                 jpro: '', locro: '',
+
+
+                 when: t.y ? String(t.y) : '',
+                 wiki: '', staKind: 'station' };
       },
     },
   };
@@ -4531,6 +4645,7 @@
             ['manchukuo', MANCHUKUO_PLACE, 2], ['mengjiang', MENGJIANG_PLACE, 2],
             ['airAll', AIRALL_PLACE, 2], ['airNames', AIRNAMES_PLACE, 2],
             ['hanLabels', HANLABELS_PLACE, 2], ['kfRail', KFRAIL_PLACE, 2],
+            ['jpRail', JPRAIL_PLACE, 2], ['jpStations', JPSTA_PLACE, 2],
             ['kfStations', KFSTA_PLACE, 2]);
     LABEL_CATS.forEach(function (c) { hi.push(['labels:' + c.id, c.place, 2]); });
     hi.sort(function (a, b) { return a[1] - b[1]; });
@@ -4673,6 +4788,8 @@
     if (!state.airNames) hi += AIRNAMES_PLACE;   // inverted; see LABEL_CATS
     if (state.hanLabels) hi += HANLABELS_PLACE;
     if (asRead.kfRail) hi += KFRAIL_PLACE;      // Karafuto's railways; see the note there
+    if (asRead.jpRail) hi += JPRAIL_PLACE;      // Japan's, fetched on demand
+    if (asRead.jpStations) hi += JPSTA_PLACE;
     if (asRead.kfStations) hi += KFSTA_PLACE;   // and their stations
     hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
 
@@ -4801,6 +4918,8 @@
       if (mode) state.pop[g.id] = mode; else delete state.pop[g.id];
     });
     state.twSugar = !!(Math.floor(hi / SUGAR_PLACE) % 2);
+    state.jpRail = !!(Math.floor(hi / JPRAIL_PLACE) % 2);
+    state.jpStations = !!(Math.floor(hi / JPSTA_PLACE) % 2);
     state.air = !!(Math.floor(hi / AIR_PLACE) % 2);
     airPlayWanted = !!(Math.floor(hi / AIRPLAY_PLACE) % 2);
     state.manchukuo = !(Math.floor(hi / MANCHUKUO_PLACE) % 2);   // inverted
@@ -7347,7 +7466,17 @@
 
 
     var plainSys = railSysOf(target);
-    if (plainSys && !trainDraws(plainSys)) { showRailCard(plainSys); return; }
+    if (plainSys && !trainDraws(plainSys)) {
+
+
+
+
+
+      var jpCard = plainSys === 'jp' ? jpLineCard(target) : null;
+      if (jpCard) { showTrainCard(jpCard); return; }
+      showRailCard(plainSys);
+      return;
+    }
     if (railPicked) setRailPicked('');
 
     var id = hit ? (hit.rec.rid || hit.rec.id) : null;
@@ -12058,7 +12187,7 @@
 
   function railSysOf(target) {
     if (!target || !target.closest) return '';
-    var g = target.closest('#tw-rail, #kr-rail, #kf-rail');
+    var g = target.closest('#tw-rail, #kr-rail, #kf-rail, #jp-rail');
     if (!g) return '';
     return String(g.id || '').replace(/-rail$/, '');
   }
@@ -12067,7 +12196,7 @@
 
 
 
-  var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto' };
+  var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto', jp: 'Japan' };
 
 
 
@@ -13185,11 +13314,34 @@
 
 
 
+
+
+  function jpLineCard(target) {
+    var el = target && target.closest ? target.closest('[data-name]') : null;
+    if (!el) return null;
+    var name = el.getAttribute('data-name') || '';
+    var year = el.getAttribute('data-year') || '';
+    if (!name) return null;
+    return {
+      chip: 'Railway line', colour: 'var(--muted)',
+      primary: name,
+      alt: year ? 'Opened ' + year : '',
+
+
+
+      note: 'From the national railway dataset, which records the network from '
+          + '1950 onwards, so lines that closed before then are likely to be '
+          + 'missing and the course drawn is the later survey.',
+    };
+  }
+
+
+
   var railPicked = '';
 
   function setRailPicked(sys) {
     railPicked = sys || '';
-    ['tw', 'kr', 'kf'].forEach(function (k) {
+    Object.keys(STATION_SYS).forEach(function (k) {
       var g = document.getElementById(k + '-rail');
       if (g) g.classList.toggle('picked', k === railPicked);
     });
@@ -13611,7 +13763,7 @@
 
 
     railFade();
-    [twRailGroup, krRailGroup, kfRailGroup].forEach(function (g) {
+    [twRailGroup, krRailGroup, kfRailGroup, jpRailGroup].forEach(function (g) {
       if (!g) return;
 
 
@@ -13634,7 +13786,15 @@
 
 
       $$('path.rail', g).forEach(function (el) {
-        var on = el.getAttribute('data-epoch') === state.epoch;
+
+
+
+
+
+
+        var eps = el.getAttribute('data-epochs');
+        var on = eps ? eps.split(' ').indexOf(state.epoch) >= 0
+                     : el.getAttribute('data-epoch') === state.epoch;
         el.style.display = on ? '' : 'none';
         var over = el.getAttribute('data-over');
         el.style.setProperty('--rail-ink', railInk(over));
@@ -13660,6 +13820,14 @@
         if (!hit || !hit.classList || !hit.classList.contains('rail-hit')) {
           hit = svgEl('path', { 'class': 'rail-hit', d: el.getAttribute('d') });
           tie.parentNode.insertBefore(hit, tie.nextSibling);
+        }
+
+
+
+
+        if (el.hasAttribute('data-name')) {
+          hit.setAttribute('data-name', el.getAttribute('data-name'));
+          hit.setAttribute('data-year', el.getAttribute('data-year') || '');
         }
         hit.style.display = on ? '' : 'none';
       });
@@ -14075,6 +14243,11 @@
 
   var KFRAIL_PLACE = 16777216;
   var KFSTA_PLACE = 33554432;
+
+
+
+  var JPRAIL_PLACE = 67108864;
+  var JPSTA_PLACE = 134217728;
   var THEME_MODES = ['light', 'dark'];
 
 

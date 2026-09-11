@@ -100,3 +100,13 @@ tools/cache/station_wiki_check.json
 # boundaries, of which the map draws two derived files. tools/build_korea_provinces.py
 # makes them and those are what is committed.
 tools/cache/provinces_1930_1942.geojson
+
+# The N05 railway exports Japan's railways are built from: 54 MB of
+# survey-grade lines and stations, of which the build keeps 9.5% — and the two
+# 1930 files are a strict subset of the two 1942 ones and are not read at all.
+# Same rule as the OSM coastlines above: the source stays out and the built
+# deploy/jp-rails.js and deploy/jp-stations.js are what is committed. The
+# dataset is public and sources.md names it and links it, so nothing here is
+# lost — re-download it from the 国土数値情報 site and rerun
+# tools/build_jp_rails.py.
+data/jp-rails/

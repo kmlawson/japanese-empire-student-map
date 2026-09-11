@@ -122,6 +122,72 @@ the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Japan's railways and their 12,800 stations
+
+A fourth railway, and the first that is **built** rather than found: Taiwan's, Korea's and Karafuto's
+are drawn into `japan-empire-map.svg` and picked up with the page, while Japan's are 1,977 lines
+fetched the first time the switch goes on and assembled into `#jp-rail` by `buildJpRails`. The
+stations are a second file on their own switch. Neither is fetched with the page.
+
+| | raw | gzipped |
+| --- | ---: | ---: |
+| `jp-rails.js` — 1,977 lines | 1,626 KB | 313 KB |
+| `jp-stations.js` — 12,800 places | 1,059 KB | 210 KB |
+
+**One file, both dates, and the 1930 export unread.** The source came as four exports. Measured,
+every one of the 1,806 line features in the 1930 export is byte-identical to one in the 1942 export
+and so is every one of its 13,416 stations — 1942 is a strict superset. So only the 1942 files are
+read and the date is decided from `供用開始年`: **1,806 lines and 10,639 stations on the 1930 map**,
+1,977 and 12,800 on the 1942 one. The counts come back as the 1930 export's own totals exactly. A
+line carries `data-epochs` — a list — rather than the single `data-epoch` the traced networks use,
+so a line on both maps is written once instead of twice.
+
+**Thinned at 40 m, which was asked for.** The source is survey-grade: 877,918 vertices over
+62,168 km, **4.06 MB gzipped** against 2.65 MB for the whole of the rest of the site. Four
+tolerances were measured and put to the author with the cost and worst-case error of each; 40 m was
+chosen. It keeps **83,829 of 877,918 vertices (9.5%)**, worst deviation 40.0 m, and the drawn track
+is 64,810 km against the source's 65,074 — **0.41% shorter**. Forty metres is about one screen pixel
+at the deepest zoom a desktop reader can reach and two on a phone. The survival rate is printed on
+every build, per CLAUDE.md.
+
+**What the layer is not.** N05 records the railways of Japan from **1950 onward** and these were
+filtered on the opening year alone, so the course drawn is the later survey and a line that closed
+before 1950 is not in the source at all. The line card says so in one sentence and `sources.md`
+carries the author's wording.
+
+Pressing a line gives **that line's** name and opening year — Japan's layer is a national dataset of
+named lines, and the thing under the finger is the 東北線, not "Japan's railways" — where the other
+three answer with a card about the network. Pressing a station gives its name and the year it
+opened.
+
+**Three bugs found and fixed while building it, all of which looked like something else.**
+
+*Every station square was hidden on the 1930 map.* The marks are drawn with `data-id` and looked up
+in `byId`, and the records had no `id`, so all 12,800 collapsed onto the key `"undefined"`. Whichever
+station happened to be written last then decided the epoch for the whole layer, and it was one opened
+after 1930. Fixed by giving each record an id in the build, in the same shape as the other three
+systems' (`jps00001`, beside `kfs001`).
+
+*Every line was drawn on both maps, with no ties and nothing pressable.* The loop that gates a rail
+path by date, inks it, clones the tie beneath it and lays the hit band over it lives in `applyState`,
+which had already run for the last time before this group existed. The loader called `railFade`,
+which is not that. It calls `applyState` now.
+
+*And one that was not a bug at all.* The layer appeared to switch itself off; it was the test
+pressing Escape to dismiss a dialog it had never opened, and Escape with no card open resets the view
+to the whole empire — where every railway on this map correctly fades out. Recorded in the test's
+header so the next person does not spend the same hour.
+
+**Tests.** `tools/test/jprails.js` is new, 27 checks, ~150 s. The one worth naming is the last pair.
+A first attempt checked the three projections after building the layer in Mercator and **passed with
+`project()` deliberately substituted for `mercFwd`** — because in Mercator the two return the same
+numbers, so the check proved nothing about the thing it was written for. The layer is fetched on
+demand, so a reader can set Albers and *then* switch it on; built with `project()` that writes an
+Albers `d` into `__d0`, the slot every path reserves for its Mercator original, and `reprojectGraft`
+then moves an already-moved path. Building the layer *after* a projection switch catches it at
+**122.7 map units out in Albers and 228.2 in LAEA**, against under 3 when it is right.
+
+
 ### The timetable is a second file, and one train system at a time
 
 Two changes to the train tools, both aimed at Manchuria: its network is about four times Korea's
