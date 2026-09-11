@@ -122,6 +122,70 @@ the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The Japanese connections run on real track, and stop pretending to be trains
+
+**131 of the 135 stretches on the Korean timetable's Japanese connections are now drawn along the
+actual railway, up from 20.** One chord is left — 神戸 to 三ノ宮, 300 m, below the threshold and
+invisible — and three gaps. Every one of the connection stops is placed, from 47 at the start.
+
+`tools/link_kr_japan.py` is new and matches the stops against the Japanese station table on the pair
+(運営会社, 路線名): the line narrows the candidates to those within 2 km of its own track, which
+settles 74 of 159, and the rest are settled by dynamic programming over the stop sequence for the
+shortest total run — a 米原 two hundred kilometres off the route loses on distance rather than on
+anybody asserting it is wrong. The clock then checks the answer rather than choosing it: implied
+speeds come out at 24–42 km/h per line, and the check was confirmed to bite by moving a station
+333 km and watching it dropped. 21 stops are left out, which was explicitly allowed for.
+
+**Four things got it from 20 to 131, and three of them were mine to fix.**
+
+*The graph was in pieces.* N05's 1,977 features come to **241 disconnected components**, so 糸崎 and
+尾道 — adjacent stations 8 km apart on the San'yō — had no path, and 大阪 to 京都 routed 196 km for a
+39 km chord. `rail_route.Network` welds nodes within a tolerance now: at **80 m** the two Yamaguchi
+stretches that had *no path at all* come out at 1.1× and 1.2× the straight line. 150 m was tried and
+gains nothing.
+
+*Route dense, store thin.* Routing over the 40 m lines collapsed to 33 stretches — thinning destroys
+the interior vertices that hold neighbouring features together. Routing on the full source and
+thinning the answer keeps 131 and costs **266 KB gzipped** instead of the 640 the full-resolution
+version wanted.
+
+*Two characters missing from the conversion table.* 橫→横 and 內→内. That is what 橫手 and 尻內 were
+failing on — not a gap in the data.
+
+*And a piece of history.* 周防高森 is on the **岩徳線**, which was the San'yō main line from 1934 to
+1944 — the shorter inland route, before the coastal 柳井線 took the name back. A 1938 timetable runs
+that way, so the Gantoku is part of that connection's geometry. Without it the timetable's own route
+was missing from the map.
+
+Three renames wanted a hand-checked table: 麻里布→岩国 and 宮島→宮島口, both renamed in 1942, and
+川内町→川内. Kept explicit rather than written as a rule — "try dropping 町" would match far more and
+be wrong somewhere nobody would look.
+
+**A ferry is not a railway and its card no longer reads as one.** Four of the connections are
+sailings, and they were being described with "Railway line", "Trains a day", "Track drawn" and
+"stations on the line". The Seikan ferry has no track and nothing that sails it is a train. The
+source names them — a line ending 連絡船 or 連絡線 — so the card now says Ferry, Sailings a day,
+Ports called at, Crossing drawn, First sailing, and *Ports on the crossing*.
+
+**The tools stay up over the network they are drawing.** `TRAIN_SYS.kr.box` says Korea while the
+drawn network now reaches Honshū, so the tools came down the moment anything asked the question over
+Japan — and nothing asked while the reader merely panned, so they survived the pan and died on the
+next layer switch. That read as *turning cities on breaks the train tools*. The module answers where
+its track actually is now (`api.bounds`), counting only the lines that are shown, so the range
+follows the connections switch and contracts again when it is turned off.
+
+**And the connections' names are folded away.** 42 Korean lines plus 32 connecting ones more than
+doubled the legend and buried what the reader came for. A "Show more" under the names reveals them:
+the switch says whether they are *drawn*, the button whether they are *listed*.
+
+`krtrains` 38 → 42 checks, `trains` 180. Full suite 2,260 across 63 scripts, all passing, 483s.
+
+*Still open, and recorded as tasks:* cities above the tools (#164 — not reproduced; the z-order
+already looks right, so the cause is something else), stations meaning both countries over the
+connection (#165), the track vanishing when a line is chosen from an overlap (#167), and the four
+ferries needing sea routes rather than chords across Kyūshū (#169).
+
+
 ### Japan's lines get their articles, their romanisations and their source
 
 Three things asked for on the line cards, and the download menu Korea already had.

@@ -37,6 +37,7 @@ import os
 import re
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import jp_link
 import rail_route
 import trains_split
 from urllib.parse import quote
@@ -44,6 +45,14 @@ from urllib.parse import quote
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
+# The Japanese network, so the connections' chords can be routed along it
+# **The full source, not the thinned lines.** Routing needs the dense graph:
+# thinning it first destroys the interior vertices that hold neighbouring
+# features together and routable stretches fell from 120 to 33. The *answer* is
+# thinned instead, by `simplify_m` below, so what is stored matches the
+# tolerance the map draws at.
+JP_LINES_GEOJSON = os.path.join(ROOT, "data", "jp-rails",
+                                "japan-railway-lines-1942.geojson")
 SRC = os.path.join(ROOT, 'data', 'kr-1938-timetable')
 OUT_JS = os.path.join(SITE, 'kr-trains.js')
 OUT_TIMES = os.path.join(SITE, 'kr-times.js')   # the timetable, fetched on demand
@@ -384,6 +393,17 @@ def build_js(anchors=None):
             rec['lon'] = round(s['lon'], 5)
             rec['lat'] = round(s['lat'], 5)
         rec['li'] = [line_ix[l] for l in s['lines'] if l in line_ix]
+        # **A JAPANESE CONNECTION STANDS AT ITS STATION, NOT AT ITS CITY.**
+        # These stops had no line GIS behind them when they were transcribed,
+        # so they were put at the map's own city point -- Ogōri sat 12.6 km
+        # from where its station is. tools/link_kr_japan.py matches them
+        # against the Japanese station table by the line they are on and the
+        # run the clock implies; a stop it could not settle is not in the cache
+        # and keeps the city point it has now.
+        jl = jp_link.get_for(s.get('label') or s['name'], s.get('lines') or [])
+        if jl:
+            rec['lon'], rec['lat'] = jl['lon'], jl['lat']
+            jp_link.count('placed')
         out_st.append(rec)
 
     out_tr = []
@@ -465,9 +485,52 @@ def build_js(anchors=None):
     # could not be placed, so it joined the two straight — the stretch is
     # routed along the railway the map draws instead. Listed in the bundle as
     # `routed`; see tools/rail_route.py.
+    # **And the Japanese network goes into the same graph.** The connections'
+    # chords run over ground the Korean line files know nothing about, so
+    # without this `fill` has no rails to walk between a pair of Japanese stops
+    # and leaves the chord alone. With it they are routed exactly as a Korean
+    # chord is, and by the same rules -- snapped within SNAP_KM, refused if the
+    # route is more than STRETCH times the straight line.
     rail_route.fill(doc, [os.path.join(ROOT, 'tools', 'cache', f)
                           for f in ('korea_1942_lines_dedup.geojson',
-                                    'korea_1930_lines_dedup.geojson')], 'Korea 1938')
+                                    'korea_1930_lines_dedup.geojson')]
+                         + [JP_LINES_GEOJSON], 'Korea 1938',
+                    # **Welded at the tolerance the geometry is drawn at.**
+                    # N05's 1,977 features come to 241 separate components, so
+                    # 糸崎 and 尾道 — adjacent stations eight kilometres apart on
+                    # the San'yō main line — had no path between them, and Ōsaka
+                    # to Kyōto routed 196 km for a 39 km chord by going round.
+                    # Eighty metres, which is twice the tolerance the lines are
+                    # drawn at: two rails that close are two pixels apart at the
+                    # deepest zoom the map reaches, so welding them asserts very
+                    # little the drawing does not already. Measured against the
+                    # three stretches that were still wrong at 40 m -- 小郡→三田尻
+                    # and 三田尻→德山 had NO PATH at all and come out at 1.1x and
+                    # 1.2x the straight line, which is a real route and not a
+                    # detour; 京都→大津 improves from 1.6x to 1.4x. 150 m was
+                    # tried and gains nothing, so this is the floor rather than
+                    # a number picked for comfort.
+                    weld_m=80,
+                    # The Japanese connections run between cities, not between
+                    # neighbouring halts: a 15 km bridge limit meant for
+                    # Korea's own gaps refused most of them out of hand. A
+                    # route is still only kept when it exists and is no more
+                    # than STRETCH times the straight line.
+                    bridge_km=250,
+                    # stored at the tolerance the Japanese layer is drawn at
+                    simplify_m=40,
+                    # **A little more slack than Korea's own lines get.** The
+                    # default 1.6 was set for stretches between neighbouring
+                    # Korean halts, where the rails run nearly straight. These
+                    # legs are city to city along a coast: Shimonoseki to Ogōri
+                    # is 74.6 km of railway for a 44.9 km chord, which is the
+                    # San'yō following the shore and not a detour. 1.8 takes it
+                    # and still refuses Shinagawa to Shimbashi at 2.4x, which
+                    # really is the route going round.
+                    stretch=1.8)
+    _jl = jp_link.report()
+    print('japan link %d connection stops placed on the Japanese network, '
+          'from a cache of %d' % (_jl['used'], _jl['cached']))
     head = (
         '/* Built by tools/build_kr_trains.py -- do not edit.\n'
         ' * The 1938 Korean railway timetable and its connections: %d trains over %d lines,\n'

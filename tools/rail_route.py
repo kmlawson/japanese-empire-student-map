@@ -45,9 +45,23 @@ def _key(p):
 
 class Network:
     """The railway as a graph: nodes are rounded vertices, edges the pieces
-    of line between them, weighted in kilometres."""
+    of line between them, weighted in kilometres.
 
-    def __init__(self, files):
+    **`weld_m` joins nodes that are close but not identical.** A node is the
+    vertex rounded to five places, about a metre, which is right for a file
+    whose features were traced to share their endpoints — Korea's are. N05,
+    the Japanese source, is not: measured, its 1,977 features come to 241
+    separate components, so 糸崎 and 尾道 have no path between them although
+    they are adjacent stations eight kilometres apart on the same main line,
+    and Ōsaka to Kyōto routes 196 km for a 39 km chord by going round.
+
+    With a weld of a few tens of metres those pieces join. It is a real
+    judgement and not a free one: two railways that pass within the tolerance
+    without connecting will be joined, and a route may then take a turning that
+    did not exist. Kept small for that reason, and the effect is reported.
+    """
+
+    def __init__(self, files, weld_m=0):
         self.adj = {}
         self.segs = []            # (a, b) for snapping, as keys
         seen = set()
@@ -75,6 +89,41 @@ class Network:
                         self.adj.setdefault(a, []).append((b, d))
                         self.adj.setdefault(b, []).append((a, d))
                         self.segs.append(e)
+        if weld_m:
+            self._weld(weld_m)
+
+    def _weld(self, weld_m):
+        """Join nodes within `weld_m` of each other with a zero-cost edge.
+
+        The nodes are left where they are and an edge of no length is added
+        between them, rather than moving one onto the other. Moving nodes would
+        change the drawn geometry of every route through them; this changes
+        only what is reachable, which is the thing that was wrong.
+
+        Buckets of the weld size, and each node looks at its own bucket and the
+        eight around it, so this is linear in the number of nodes rather than
+        quadratic. Reports how many components it closed.
+        """
+        deg = weld_m / 111000.0
+        buck = {}
+        for n in self.adj:
+            buck.setdefault((int(n[0] / deg), int(n[1] / deg)), []).append(n)
+        joined = 0
+        for (bx, by), here in buck.items():
+            near = []
+            for dx in (-1, 0, 1):
+                for dy in (-1, 0, 1):
+                    near += buck.get((bx + dx, by + dy), ())
+            for a in here:
+                for b in near:
+                    if a >= b:
+                        continue
+                    if _km(a, b) * 1000.0 <= weld_m:
+                        self.adj[a].append((b, 0.0))
+                        self.adj[b].append((a, 0.0))
+                        joined += 1
+        sys.stderr.write("rail_route: welded %d node pairs within %.0f m\n"
+                         % (joined, weld_m))
 
     def snap(self, p):
         """The nearest point on any edge to `p`: (foot, edge, km away)."""
@@ -149,13 +198,57 @@ class Network:
         return pts
 
 
-def fill(doc, files, name="the bundle"):
+def _perp_m(p, a, b):
+    latm, lonm = 111132.0, 111320.0 * math.cos(math.radians(p[1]))
+    px, py = p[0] * lonm, p[1] * latm
+    ax, ay = a[0] * lonm, a[1] * latm
+    bx, by = b[0] * lonm, b[1] * latm
+    dx, dy = bx - ax, by - ay
+    if dx == 0 and dy == 0:
+        return math.hypot(px - ax, py - ay)
+    t = max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)))
+    return math.hypot(px - (ax + t * dx), py - (ay + t * dy))
+
+
+def _thin(pts, tol_m):
+    """Douglas-Peucker on a routed stretch.
+
+    **Routed on the dense source, stored at the drawn tolerance.** The route has
+    to be found on the full-resolution network — thinning the *graph* first
+    destroys the interior vertices that hold neighbouring features together,
+    and measured, routing over the 40 m lines fell from 120 stretches to 33.
+    But storing the full-resolution answer put 1.4 MB into kr-trains.js to draw
+    a line finer than the layer it follows. So: dense graph, thinned result.
+    """
+    if len(pts) < 3:
+        return list(pts)
+    keep = [False] * len(pts)
+    keep[0] = keep[-1] = True
+    stack = [(0, len(pts) - 1)]
+    while stack:
+        i, j = stack.pop()
+        if j <= i + 1:
+            continue
+        dmax, idx = 0.0, -1
+        for k in range(i + 1, j):
+            d = _perp_m(pts[k], pts[i], pts[j])
+            if d > dmax:
+                dmax, idx = d, k
+        if dmax > tol_m:
+            keep[idx] = True
+            stack.append((i, idx))
+            stack.append((idx, j))
+    return [p for p, k in zip(pts, keep) if k]
+
+
+def fill(doc, files, name="the bundle", weld_m=0, bridge_km=None, simplify_m=0,
+         stretch=None):
     """Route the chords in `doc` along the rails in `files`. Adds `routed`.
 
     `doc` is the bundle as written: `stations` with lon/lat, `trains` with
     `st` rows of [station, arr, dep, flags], `paths` keyed "lo|hi". Returns
     the list of keys routed and prints what was done."""
-    net = Network(files)
+    net = Network(files, weld_m=weld_m)
     stations = doc["stations"]
     paths = doc["paths"]
     # every pair of consecutive placed stops, as trains.js walks them
@@ -183,8 +276,15 @@ def fill(doc, files, name="the bundle"):
         flat = paths.get(k)
         if flat and len(flat) > 4:
             continue                         # a traced path: left alone
-        if flat is None and chord > BRIDGE_KM:
-            continue                         # trains.js draws nothing here anyway
+        if flat is None and chord > (BRIDGE_KM if bridge_km is None else bridge_km):
+            # trains.js draws nothing between two stops this far apart with no
+            # path, so ordinarily there is nothing to improve on. `bridge_km`
+            # lifts that where a *real* railway is known to run between them:
+            # the Korean tables' Japanese connections are long-distance by
+            # nature — Ōsaka to Kyōto is 39 km and Okayama to Onomichi 72 — and
+            # routing them turns nothing-drawn into the line as it was built.
+            # The STRETCH test below is what keeps that honest.
+            continue
         if flat is not None and chord < CHORD_KM:
             continue                         # a short straight is a short straight
         tried += 1
@@ -192,10 +292,12 @@ def fill(doc, files, name="the bundle"):
         if not pts:
             continue
         length = sum(_km(a, b) for a, b in zip(pts, pts[1:]))
-        if length > STRETCH * chord:
+        if length > (STRETCH if stretch is None else stretch) * chord:
             sys.stderr.write("rail_route: %s %s→%s: rails run %.1f km for a %.1f km chord, kept straight\n"
                              % (name, stations[lo]["n"], stations[hi]["n"], length, chord))
             continue
+        if simplify_m:
+            pts = _thin(pts, simplify_m)
         out = []
         last = None
         for p in pts:

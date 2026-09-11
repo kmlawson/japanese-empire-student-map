@@ -367,6 +367,84 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
     check('no page errors throughout', errs.length === 0, JSON.stringify(errs.slice(0, 3)));
     await p.close();
 
+    console.log('\n— the button beside the map follows the railway it names —');
+    /* **Reported: opening the train tools over Korea hides Japan's lines and
+       leaves the button looking active.**
+     *
+     * Two faults behind it. The button's lit state was `some` — on if *any*
+     * railway anywhere was on — while the name beside it came from whichever
+     * ground the view was over, so the two could disagree the moment there was
+     * a fourth network. And `railZone` kept the first ground in key order,
+     * which put Fukuoka inside Korea's box and offered *Korea's* railways to a
+     * reader looking at Kyushu; Korea's ground has since been pulled north off
+     * the strait, which costs it nothing — its own 850 stations stop at
+     * 34.743 N and Kyushu's north coast is 33.9.
+     *
+     * What the reader asked for is that the other networks go and the button
+     * go with them, and that they can put one back. All three are checked. */
+    const bp = await browser.newPage();
+    await bp.setViewport({ width: 1400, height: 900 });
+    await bp.evaluateOnNewDocument(SHIM);
+    const railBtn = () => bp.evaluate(() => {
+      const b = document.querySelector('#btn-rail');
+      const g = document.querySelector('#jp-rail');
+      return { title: b ? b.title : '', pressed: b ? b.getAttribute('aria-pressed') : '',
+               on: b ? b.classList.contains('on') : null,
+               jpBox: !!(document.querySelector('#opt-jp-rail') || {}).checked,
+               krBox: !!(document.querySelector('#opt-kr-rail') || {}).checked,
+               jpDrawn: g ? getComputedStyle(g).display : '' };
+    });
+
+    /* Kyushu, which is Japan and was being called Korea. */
+    await bp.goto(BASE + '?where=130.0,33.0,131.2,34.2', {waitUntil:'domcontentloaded'});
+    await ready(bp);
+    await sleep(2000);
+    let r = await railBtn();
+    check('over Kyushu the button offers Japan\'s railways, not Korea\'s',
+      /Japan/.test(r.title), JSON.stringify(r.title));
+
+    /* Korea, with both networks on, and then the tools. */
+    await bp.goto(BASE + '?where=124.5,34.6,131.0,43.0', {waitUntil:'domcontentloaded'});
+    await ready(bp);
+    await sleep(1500);
+    await setBox(bp, '#opt-jp-rail', true);
+    await setBox(bp, '#opt-kr-rail', true);
+    await until(bp, () => !!document.querySelector('#jp-rail path.rail'),
+                null, {timeout: 25000}).catch(() => {});
+    await sleep(2000);
+    await setBox(bp, '#opt-train-tools', true);
+    await until(bp, () => !!document.querySelector('#train-bar'), null, {timeout: 25000})
+      .catch(() => {});
+    await sleep(2500);
+    r = await railBtn();
+    check('the tools switch the other network off',
+      r.jpBox === false && r.jpDrawn === 'none', JSON.stringify(r));
+    check('  and leave their own on, which is what they are drawn over',
+      r.krBox === true && /Korea/.test(r.title), JSON.stringify(r));
+
+    /* Over Japan, with Japan's switched off and Korea's still on: the button
+       must report Japan, and Japan is off. This is the one that was wrong. */
+    await bp.goto(BASE + '?where=139,35,140.5,36.2', {waitUntil:'domcontentloaded'});
+    await ready(bp);
+    await sleep(1500);
+    await setBox(bp, '#opt-kr-rail', true);
+    await sleep(2500);
+    r = await railBtn();
+    check('over Japan with only Korea\'s on, the button does not look pressed',
+      /Japan/.test(r.title) && /^Show/.test(r.title) && r.pressed === 'false' && !r.on,
+      JSON.stringify(r));
+
+    /* And the reader can put it back, which is the rest of the ask. */
+    await setBox(bp, '#opt-jp-rail', true);
+    await until(bp, () => !!document.querySelector('#jp-rail path.rail'),
+                null, {timeout: 25000}).catch(() => {});
+    await sleep(2000);
+    r = await railBtn();
+    check('and turning it back on lights it again',
+      /^Hide Japan/.test(r.title) && r.pressed === 'true' && r.on
+        && r.jpDrawn !== 'none', JSON.stringify(r));
+    await bp.close();
+
     console.log('\n— built while the reader is already in another projection —');
     /* **THE CASE THE CHECKS ABOVE CANNOT SEE, AND THE ONLY ONE THAT FAILS.**
      *

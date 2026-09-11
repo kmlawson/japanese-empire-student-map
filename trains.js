@@ -1170,10 +1170,55 @@ window.JMAP_TRAINS = function (host) {
      the rest is coming — which is more use than a blank panel and much more
      use than nothing happening when the reader presses the track. It is
      replaced by the full card when the file lands; see `timesArrived`. */
+  /* **A FERRY IS NOT A RAILWAY AND ITS CARD MUST NOT READ AS ONE.**
+   *
+   * Four of the connections in the Korean tables are sailings — the Kanmon and
+   * Kanpu straits, the Tsugaru crossing to Hakodate, and the Kum estuary — and
+   * they were being described in the words the railway cards use: "Railway
+   * line", "Trains start or end at", "Trains a day", "Track drawn", "stations
+   * on the line". The Seikan ferry does not have track and nothing sails along
+   * it that is a train. Reported with a screenshot of exactly that card.
+   *
+   * The source names them, so nothing has to be inferred: a Japanese line name
+   * ending 連絡船 is a ferry, and 連絡線 is the Kum estuary crossing, which the
+   * timetable also works as a boat. */
+  function isFerry(line) {
+    var n = (line && line.n) || '';
+    return /\u9023\u7d61\u8239$/.test(n) || /\u9023\u7d61\u7dda$/.test(n);
+  }
+
+  /* The words a card uses, so a sailing is described as one. Everything else
+     on these two cards is the same shape and goes through the same renderer. */
+  function cardWords(line) {
+    return isFerry(line) ? {
+      chip: 'Ferry',
+      ends: 'Sailings start or end at ',
+      count: 'Sailings a day',
+      dirs: 'Outward / return',
+      calls: 'Ports called at',
+      dist: 'Crossing drawn',
+      first: 'First sailing',
+      last: 'Last sailing',
+      list: 'Ports on the crossing, with the sailings that called (%d in all)',
+      head: 'A day on it, counted from the ',
+    } : {
+      chip: 'Railway line',
+      ends: 'Trains start or end at ',
+      count: 'Trains a day',
+      dirs: 'Down / up',
+      calls: 'Stations called at',
+      dist: 'Track drawn',
+      first: 'First departure',
+      last: 'Last departure',
+      list: 'Stations on the line, with the trains that stopped (%d in all)',
+      head: 'A day on it, counted from the ',
+    };
+  }
+
   function waitingCard(li, line) {
     return {
       geoLi: li,
-      chip: 'Railway line', colour: inks[li] || '#555',
+      chip: cardWords(line).chip, colour: inks[li] || '#555',
       primary: lineName(li, false),
       alt: line.n,
       note: (line.d || '') + (line.x
@@ -1252,13 +1297,14 @@ window.JMAP_TRAINS = function (host) {
       ends[stationName(st[0][0])] = 1;
       ends[stationName(st[st.length - 1][0])] = 1;
     });
+    var W = cardWords(line);
     var rows = [
-      { cells: ['Trains a day', String(trains.length)] },
-      { cells: ['Down / up', down + ' / ' + (trains.length - down)] },
-      { cells: ['Stations called at', String(Object.keys(stops).length)] },
-      { cells: ['Track drawn', km >= 1 ? Math.round(km) + ' km' : '\u2014'] },
-      { cells: ['First departure', firstT === null ? '\u2014' : fmt(firstT)] },
-      { cells: ['Last departure', lastT === null ? '\u2014' : fmt(lastT)] },
+      { cells: [W.count, String(trains.length)] },
+      { cells: [W.dirs, down + ' / ' + (trains.length - down)] },
+      { cells: [W.calls, String(Object.keys(stops).length)] },
+      { cells: [W.dist, km >= 1 ? Math.round(km) + ' km' : '\u2014'] },
+      { cells: [W.first, firstT === null ? '\u2014' : fmt(firstT)] },
+      { cells: [W.last, lastT === null ? '\u2014' : fmt(lastT)] },
     ];
     /* The stations themselves, in the line's own order, each with the number
        of this line's trains that stopped there. Every station the line reaches
@@ -1273,7 +1319,7 @@ window.JMAP_TRAINS = function (host) {
       /* So the card can offer this line's own geometry; see
          `renderTrainBlock` in map.js. */
       geoLi: li,
-      chip: 'Railway line', colour: inks[li] || '#555',
+      chip: W.chip, colour: inks[li] || '#555',
       primary: lineName(li, false),
       alt: line.n,
       /* Said, rather than left as a row of names. These are where the day's
@@ -1281,7 +1327,7 @@ window.JMAP_TRAINS = function (host) {
          line: the Yilan line's trains start or finish at six different places,
          and a bare list of six looked like a claim that it had six termini. */
       prov: Object.keys(ends).length
-        ? 'Trains start or end at '
+        ? W.ends
           + Object.keys(ends).slice(0, 8)
               .map(function (n) { return placeName(byName[n]); })
               .join('\u3001')
@@ -1292,17 +1338,18 @@ window.JMAP_TRAINS = function (host) {
          which of the two the figures are, so the note does not have to carry
          the caveat as well as the prose. */
       note: (line.d || '') + (line.x
-        ? ' The map draws this line straight between the cities it can place; the track\'s real alignment is not yet sourced.'
+        ? (isFerry(line)
+             ? ' The map draws this crossing straight between the ports; the course the boats actually steered is not yet sourced.'
+             : ' The map draws this line straight between the cities it can place; the track\'s real alignment is not yet sourced.')
         : ''),
-      head: 'A day on it, counted from the ' + (data.issued || data.year) + ' table',
+      head: W.head + (data.issued || data.year) + ' table',
       cols: ['', ''],
       rows: rows,
       /* Under the figures rather than in them: it is a list, not a table, and
          at forty-odd stations it wants to wrap. The number in brackets is how
          many of the line's trains stopped there. */
       list: stopList.length > 1
-        ? { head: 'Stations on the line, with the trains that stopped ('
-                  + trains.length + ' in all)', items: stopList }
+        ? { head: W.list.replace('%d', trains.length), items: stopList }
         : null,
       links: [
         line.w ? { href: line.w,
@@ -1397,6 +1444,29 @@ window.JMAP_TRAINS = function (host) {
       });
       legend.appendChild(chip);
     });
+    /* **THE CONNECTIONS ARE FOLDED AWAY UNTIL ASKED FOR.**
+     *
+     * Korea's own network is 42 lines and the connections are another 32, so
+     * switching them on more than doubled the legend and buried the lines the
+     * reader came for. They are hidden by a class on the legend and a button
+     * under the names reveals them — the switch above says whether they are
+     * *drawn*, this says whether their names are *listed*, and the button only
+     * appears when there is something to list. */
+    var connChips = data.lines.filter(function (l) { return l.x; }).length;
+    if (connChips) {
+      legend.classList.add('conn-folded');
+      els.more = el('button', 'train-more', 'Show ' + connChips + ' more');
+      els.more.type = 'button';
+      els.more.title = 'The lines beyond this network, by name';
+      els.more.setAttribute('aria-expanded', 'false');
+      els.more.addEventListener('click', function () {
+        var open = legend.classList.toggle('conn-folded') === false;
+        els.more.textContent = open ? 'Show fewer' : 'Show ' + connChips + ' more';
+        els.more.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      legend.appendChild(els.more);
+    }
+
     /* The switch, only where there is something for it to switch. */
     var hasConn = data.lines.some(function (l) { return l.x; });
     var connLabel = null;
@@ -1620,6 +1690,40 @@ window.JMAP_TRAINS = function (host) {
        the file was in flight simply drops it — `cfg` is null and this returns. */
     setTimes: setTimes,
     hasTimes: function () { return haveTimes(); },
+
+    /* **WHERE THE DRAWN NETWORK ACTUALLY IS, WHICH IS NOT ITS COUNTRY.**
+
+       `TRAIN_SYS` gives each system a box, and for three networks that was a
+       true statement of where their track lay. Korea's is not any more: its
+       connections are traced along the real Tōkaidō and Tōhoku now, so the
+       drawn network reaches Honshū while the box still says Korea. The tools
+       were unmounted the moment anything asked the question over Japan — and
+       nothing asked it while the reader was merely panning, so they survived
+       the pan and died on the next layer switch, which read as turning cities
+       on breaking the train tools.
+
+       So map.js asks the module where it is instead. Only the stations of
+       lines that are *shown*: with the connections switched off this is the
+       home network again and the range contracts with it, which is what the
+       switch means. */
+    bounds: function () {
+      if (!cfg || !data) return null;
+      var w = 1e9, s2 = 1e9, e = -1e9, n = -1e9, seen = 0;
+      data.stations.forEach(function (st, i) {
+        if (!st || st.lon === undefined) return;
+        var on = (st.li || []).some(function (li) {
+          var l = data.lines[li];
+          return l && (connOn || !l.x);
+        });
+        if (!on) return;
+        seen++;
+        if (st.lon < w) w = st.lon;
+        if (st.lon > e) e = st.lon;
+        if (st.lat < s2) s2 = st.lat;
+        if (st.lat > n) n = st.lat;
+      });
+      return seen > 1 ? { w: w, s: s2, e: e, n: n } : null;
+    },
 
     /* **The fetch failed, and the reader must be able to try again.**
        `timesPending` stops a second request going out while one is in flight,

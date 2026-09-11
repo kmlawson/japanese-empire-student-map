@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '351';
+  var JEM_VERSION = '352';
 
   /* Every file this one fetches, with the version on it.
 
@@ -2257,11 +2257,30 @@
    * width, and the frame meets the ground it covers. */
   function railUnderView() {
     if (railAlpha() <= 0.02) return '';
-    var found = '';
+    return groundHere(function (k) { return !!state[STATION_SYS[k].rail]; });
+  }
+
+  /* **Whose ground is under the view, and the smallest box wins.**
+   *
+   * These loops used to keep the first match in key order, which was invisible
+   * while the three grounds did not touch. Japan's does: Korea's box reaches
+   * to 131.2 E and Kyushu starts at 129.6, so standing over Fukuoka the first
+   * match was `kr` and the button beside the map offered *Korea's* railways to
+   * a reader looking at Japan — and pressing it would have drawn Korea's.
+   *
+   * Same rule as `trainBoxAt` above and for the same reason: the most specific
+   * ground is the one the reader means. Korea's box is 7.2 by 10.1 and Japan's
+   * is 16.5 by 14.6, so over the overlap Korea wins, which is right — that
+   * overlap is the Korea Strait and the ground on the far side of it. */
+  function groundHere(want) {
+    var found = '', best = Infinity;
     Object.keys(STATION_SYS).forEach(function (k) {
       var cfg = STATION_SYS[k];
-      if (found || !state[cfg.rail] || !cfg.ground) return;
-      if (viewMeets(cfg.ground)) found = k;
+      if (!cfg.ground || (want && !want(k))) return;
+      if (!viewMeets(cfg.ground)) return;
+      var g = cfg.ground;
+      var area = (g[2] - g[0]) * (g[3] - g[1]);
+      if (area < best) { best = area; found = k; }
     });
     return found;
   }
@@ -2274,13 +2293,7 @@
      was already showing. */
   function railZone() {
     if (railAlpha() <= 0.02) return '';
-    var found = '';
-    Object.keys(STATION_SYS).forEach(function (k) {
-      var cfg = STATION_SYS[k];
-      if (found || !cfg.ground) return;
-      if (viewMeets(cfg.ground)) found = k;
-    });
-    return found;
+    return groundHere(null);
   }
 
   /* **ONE SYSTEM, AND WHICH ONE IS NOT LEFT TO THE ORDER OF THE OBJECT.**
@@ -2308,11 +2321,37 @@
     var span = latSpan();
     var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
     if (!isFinite(c.lon) || !isFinite(c.lat)) return '';
+    /* **A NETWORK THAT IS UP SAYS WHERE IT IS; THE BOX ONLY GUESSES.**
+     *
+     * Korea's connections are traced along the real Tōkaidō and Tōhoku now, so
+     * the drawn network reaches Honshū while `TRAIN_SYS.kr.box` still says
+     * Korea. Asked the old way, the reader watching those lines over Japan was
+     * outside the zone: the tools came down on the next state change, and the
+     * button beside the map went with them.
+     *
+     * So the mounted system is asked where its track actually is, and that
+     * answer follows the connections switch — off, the range contracts to the
+     * home network again, which is what the switch means. Only the system that
+     * is up can answer; the others are still their boxes, which is all that is
+     * known about them before their file has been fetched. */
+    var upSys = trainApi && trainApi.mounted() ? trainApi.system() : '';
+    var upBox = null;
+    if (upSys && trainApi.bounds) {
+      var bb = trainApi.bounds();
+      if (bb) upBox = [bb.w, bb.s, bb.e, bb.n];
+    }
     var found = '', bestArea = Infinity;
     Object.keys(TRAIN_SYS).forEach(function (k) {
-      var cfg = TRAIN_SYS[k], b = cfg.box;
+      var cfg = TRAIN_SYS[k], b = (k === upSys && upBox) ? upBox : cfg.box;
       var limit = useOff ? (cfg.latOff || TRAIN_LAT_OFF)
                          : (cfg.latOn || TRAIN_LAT_ON);
+      /* A network drawn across two countries is taller than the box it was
+         given, and the span that means "close enough to be the subject" grows
+         with it — otherwise following the Tōkaidō east would take the tools
+         away at the very zoom the reader is using to follow it. */
+      if (k === upSys && upBox) {
+        limit = Math.max(limit, (upBox[3] - upBox[1]) * 1.2);
+      }
       if (span > limit) return;
       if (c.lon < b[0] - TRAIN_BOX_PAD || c.lon > b[2] + TRAIN_BOX_PAD
           || c.lat < b[1] - TRAIN_BOX_PAD || c.lat > b[3] + TRAIN_BOX_PAD) return;
@@ -2375,14 +2414,32 @@
     var railSys = railZone() || railUnderView();
     if (btnRailEl) {
       if (btnRailEl.hidden) btnRailEl.hidden = false;
-      var railOn = Object.keys(STATION_SYS).some(function (k) {
-        return !!state[STATION_SYS[k].rail];
-      });
+      /* **THE BUTTON FOLLOWS THE RAILWAY IT NAMES.**
+       *
+       * This was `some` — lit if *any* railway anywhere was on — and the name
+       * beside it was whichever ground the view was over. The two came apart
+       * the moment there was a fourth network: open the train tools over
+       * Korea and they switch Japan's lines off, correctly and by design, but
+       * the button went on saying "Hide" and went on looking pressed, because
+       * Korea's railway was still on somewhere behind the tools. Reported: the
+       * lines go and the button does not follow them.
+       *
+       * So it reports the state of the system it is naming. `some` survives
+       * only for the case where the view is over nobody's ground in
+       * particular, where the button is a general one and a general answer is
+       * the right one. */
+      var railOn = railSys
+        ? !!state[STATION_SYS[railSys].rail]
+        : Object.keys(STATION_SYS).some(function (k) {
+            return !!state[STATION_SYS[k].rail];
+          });
       var rp = railOn ? 'true' : 'false';
+      /* Named from the registry rather than a hand-kept chain of three, which
+         is why Japan's lines were offered as "the railways" while Taiwan's,
+         Korea's and Karafuto's were offered by name. */
       var rl = (railOn ? 'Hide ' : 'Show ')
-        + (railSys === 'tw' ? 'Taiwan\u2019s railways'
-         : railSys === 'kr' ? 'Korea\u2019s railways'
-         : railSys === 'kf' ? 'Karafuto\u2019s railways' : 'the railways');
+        + (RAIL_LABEL[railSys]
+             ? RAIL_LABEL[railSys] + '\u2019s railways' : 'the railways');
       if (btnRailEl.getAttribute('aria-pressed') !== rp || btnRailEl.title !== rl) {
         btnRailEl.setAttribute('aria-pressed', rp);
         btnRailEl.classList.toggle('on', railOn);
@@ -3475,7 +3532,18 @@
       data: 'KR_STATIONS', file: 'kr-stations.js', gid: 'kr-stations',
       rail: 'krRail', on: 'krStations',
       row: 'row-kr-stations', box: 'opt-kr-stations',
-      ground: [124.0, 33.0, 131.2, 43.1],
+      /* **Pulled north off Kyushu, and it costs nothing.** This was
+         [124.0, 33.0, 131.2, 43.1], which reaches across the Korea Strait far
+         enough to cover Fukuoka — so the button beside the map offered
+         *Korea's* railways to a reader looking at northern Kyushu, and 1,275
+         Japanese stations stood inside a box labelled Korea.
+
+         Measured, Korea's own 850 stations run 124.380–130.534 E and
+         34.743–42.974 N, while Kyushu's north coast is about 33.9 N: the two
+         railways do not overlap in latitude at all. A south edge of 34.6 and
+         an east edge of 130.7 hold every Korean station with room to spare and
+         let go of Japan entirely. */
+      ground: [124.0, 34.6, 130.7, 43.1],
       /* Korea's four names all come from the source. The hanja goes in the
          Japanese slot and the hangul in the Korean one, so the card's second
          line reads 釜山  부산 — the characters and then the name as it is

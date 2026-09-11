@@ -574,12 +574,12 @@
  },
  "九州旅客鉄道（旧国鉄）\t久大線": {
   "co": "九州旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Kyūdai Main Line",
+  "ja": "久大本線",
   "line": "久大線",
   "redirected_to": "久大本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Kyūdai Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "九州旅客鉄道（旧国鉄）\t伊田線": {
   "co": "九州旅客鉄道（旧国鉄）",
@@ -727,12 +727,12 @@
  },
  "九州旅客鉄道（旧国鉄）\t日豊線": {
   "co": "九州旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Nippō Main Line",
+  "ja": "日豊本線",
   "line": "日豊線",
   "redirected_to": "日豊本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Nippō Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "九州旅客鉄道（旧国鉄）\t松浦線": {
   "co": "九州旅客鉄道（旧国鉄）",
@@ -786,12 +786,12 @@
  },
  "九州旅客鉄道（旧国鉄）\t筑豊線": {
   "co": "九州旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Chikuhō Main Line",
+  "ja": "筑豊本線",
   "line": "筑豊線",
   "redirected_to": "筑豊本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Chikuhō Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "九州旅客鉄道（旧国鉄）\t篠栗線": {
   "co": "九州旅客鉄道（旧国鉄）",
@@ -819,21 +819,21 @@
  },
  "九州旅客鉄道（旧国鉄）\t豊肥線": {
   "co": "九州旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Hōhi Main Line",
+  "ja": "豊肥本線",
   "line": "豊肥線",
   "redirected_to": "豊肥本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Hōhi Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "九州旅客鉄道（旧国鉄）\t長崎線": {
   "co": "九州旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Nagasaki Main Line",
+  "ja": "長崎本線",
   "line": "長崎線",
   "redirected_to": "長崎本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Nagasaki Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "九州旅客鉄道（旧国鉄）\t香椎線": {
   "co": "九州旅客鉄道（旧国鉄）",
@@ -1794,12 +1794,12 @@
  },
  "北海道旅客鉄道（旧国鉄）\t函館線": {
   "co": "北海道旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Hakodate Main Line",
+  "ja": "函館本線",
   "line": "函館線",
   "redirected_to": "函館本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Hakodate Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "北海道旅客鉄道（旧国鉄）\t北見線": {
   "co": "北海道旅客鉄道（旧国鉄）",
@@ -1845,21 +1845,21 @@
  },
  "北海道旅客鉄道（旧国鉄）\t宗谷線": {
   "co": "北海道旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Sōya Main Line",
+  "ja": "宗谷本線",
   "line": "宗谷線",
   "redirected_to": "宗谷本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Sōya Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "北海道旅客鉄道（旧国鉄）\t室蘭線": {
   "co": "北海道旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Muroran Main Line",
+  "ja": "室蘭本線",
   "line": "室蘭線",
   "redirected_to": "室蘭本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Muroran Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "北海道旅客鉄道（旧国鉄）\t富良野線": {
   "co": "北海道旅客鉄道（旧国鉄）",
@@ -1880,12 +1880,12 @@
  },
  "北海道旅客鉄道（旧国鉄）\t日高線": {
   "co": "北海道旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Hidaka Main Line",
+  "ja": "日高本線",
   "line": "日高線",
   "redirected_to": "日高本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Hidaka Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "北海道旅客鉄道（旧国鉄）\t札沼線": {
   "co": "北海道旅客鉄道（旧国鉄）",
@@ -1957,12 +1957,12 @@
  },
  "北海道旅客鉄道（旧国鉄）\t留萌線": {
   "co": "北海道旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Rumoi Main Line",
+  "ja": "留萌本線",
   "line": "留萌線",
   "redirected_to": "留萌本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Rumoi Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "北海道旅客鉄道（旧国鉄）\t石勝線": {
   "co": "北海道旅客鉄道（旧国鉄）",
@@ -1974,12 +1974,12 @@
  },
  "北海道旅客鉄道（旧国鉄）\t石北線": {
   "co": "北海道旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Sekihoku Main Line",
+  "ja": "石北本線",
   "line": "石北線",
   "redirected_to": "石北本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Sekihoku Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "北海道旅客鉄道（旧国鉄）\t福山線": {
   "co": "北海道旅客鉄道（旧国鉄）",
@@ -1994,21 +1994,21 @@
  "北海道旅客鉄道（旧国鉄）\t網走線": {
   "co": "北海道旅客鉄道（旧国鉄）",
   "en": "",
-  "ja": "",
+  "ja": "網走本線",
   "kana": "あばしりほんせん",
   "line": "網走線",
   "redirected_to": "網走本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Abashiri Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "北海道旅客鉄道（旧国鉄）\t釧網線": {
   "co": "北海道旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Senmō Main Line",
+  "ja": "釧網本線",
   "line": "釧網線",
   "redirected_to": "釧網本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Senmō Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "北海道炭礦汽船\t北海道炭礦汽船": {
   "co": "北海道炭礦汽船",
@@ -3017,12 +3017,12 @@
  },
  "四国旅客鉄道（旧国鉄）\t予讃本線": {
   "co": "四国旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Yosan Line",
+  "ja": "予讃線",
   "line": "予讃本線",
   "redirected_to": "予讃線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Yosan Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "四国旅客鉄道（旧国鉄）\t予讃線": {
   "co": "四国旅客鉄道（旧国鉄）",
@@ -3042,12 +3042,12 @@
  },
  "四国旅客鉄道（旧国鉄）\t土讃本線": {
   "co": "四国旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Dosan Line",
+  "ja": "土讃線",
   "line": "土讃本線",
   "redirected_to": "土讃線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Dosan Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "四国旅客鉄道（旧国鉄）\t土讃線": {
   "co": "四国旅客鉄道（旧国鉄）",
@@ -3077,12 +3077,12 @@
  },
  "四国旅客鉄道（旧国鉄）\t徳島本線": {
   "co": "四国旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Tokushima Line",
+  "ja": "徳島線",
   "line": "徳島本線",
   "redirected_to": "徳島線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Tokushima Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "四国旅客鉄道（旧国鉄）\t徳島線": {
   "co": "四国旅客鉄道（旧国鉄）",
@@ -3111,12 +3111,12 @@
  },
  "四国旅客鉄道（旧国鉄）\t高徳本線": {
   "co": "四国旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Kōtoku Line",
+  "ja": "高徳線",
   "line": "高徳本線",
   "redirected_to": "高徳線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Kōtoku Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "四国旅客鉄道（旧国鉄）\t高徳線": {
   "co": "四国旅客鉄道（旧国鉄）",
@@ -5770,12 +5770,12 @@
  },
  "東日本旅客鉄道（旧国鉄）\t信越線": {
   "co": "東日本旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Shin'etsu Main Line",
+  "ja": "信越本線",
   "line": "信越線",
   "redirected_to": "信越本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Shin'etsu Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "東日本旅客鉄道（旧国鉄）\t八戸線": {
   "co": "東日本旅客鉄道（旧国鉄）",
@@ -5877,12 +5877,12 @@
  },
  "東日本旅客鉄道（旧国鉄）\t奥羽線": {
   "co": "東日本旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Ōu Main Line",
+  "ja": "奥羽本線",
   "line": "奥羽線",
   "redirected_to": "奥羽本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Ōu Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "東日本旅客鉄道（旧国鉄）\t小本線": {
   "co": "東日本旅客鉄道（旧国鉄）",
@@ -6192,12 +6192,12 @@
  },
  "東日本旅客鉄道（旧国鉄）\t羽越線": {
   "co": "東日本旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Uetsu Main Line",
+  "ja": "羽越本線",
   "line": "羽越線",
   "redirected_to": "羽越本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Uetsu Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "東日本旅客鉄道（旧国鉄）\t花輪線": {
   "co": "東日本旅客鉄道（旧国鉄）",
@@ -7852,12 +7852,12 @@
  },
  "西日本旅客鉄道（旧国鉄）\t北陸線": {
   "co": "西日本旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "Hokuriku Main Line",
+  "ja": "北陸本線",
   "line": "北陸線",
   "redirected_to": "北陸本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "Hokuriku Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "西日本旅客鉄道（旧国鉄）\t可部線": {
   "co": "西日本旅客鉄道（旧国鉄）",
@@ -8022,12 +8022,12 @@
  },
  "西日本旅客鉄道（旧国鉄）\t山陰線": {
   "co": "西日本旅客鉄道（旧国鉄）",
-  "en": "",
-  "ja": "",
+  "en": "San'in Main Line",
+  "ja": "山陰本線",
   "line": "山陰線",
   "redirected_to": "山陰本線",
-  "romaji": "",
-  "via": "bare name redirected, refused"
+  "romaji": "San'in Main Line",
+  "via": "bare name, redirected to its main-line name"
  },
  "西日本旅客鉄道（旧国鉄）\t山陽線": {
   "co": "西日本旅客鉄道（旧国鉄）",

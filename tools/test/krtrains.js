@@ -92,7 +92,12 @@ const shutDialogs=p=>p.evaluate(()=>{
        bounded rather than pinned because the gap-closing across unplaceable
        stations is the map's business and the data's — a change in either
        shows here as a change in the number. */
-    check('a chip per line in the bar', v.chips===74, 'chips='+v.chips);
+    /* **The connections' chips are built but folded.** 42 Korean lines plus 32
+       connecting ones more than doubled the legend and buried the lines the
+       reader came for, so the connecting names sit behind a "Show more" under
+       the list — the switch says whether they are drawn, the button whether
+       they are listed. All 74 exist in the document either way. */
+    check('a chip per line in the bar, built', v.chips===74, 'chips='+v.chips);
     check('the track is drawn, hundreds of stretches', v.lines>600, 'lines='+v.lines);
     check('in many colours', v.colours>=20, 'colours='+v.colours);
     const conn=()=>p.evaluate(()=>{
@@ -104,7 +109,22 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('the connections are built but off by default', cv.built>50 && cv.shown===0 && cv.box && !cv.boxOn && cv.chips===0, JSON.stringify(cv));
     await p.click('#train-conn'); await sleep(300);
     cv=await conn();
-    check('the switch in the bar shows them, faint, with their chips', cv.shown===cv.built && cv.boxOn && cv.chips>20, JSON.stringify(cv));
+    check('the switch in the bar draws them, faint',
+      cv.shown===cv.built && cv.boxOn, JSON.stringify(cv));
+    /* Drawn, but their names still folded: the legend would otherwise open to
+       74 entries the moment the switch was touched. */
+    check('  and their names stay folded until asked for',
+      cv.chips===0, JSON.stringify(cv));
+    const more=await p.$('.train-more');
+    check('  a Show more button offers them', !!more);
+    if (more) {
+      await more.click(); await sleep(400);
+      const open=await conn();
+      check('  pressing it lists all 32', open.chips===32, JSON.stringify(open));
+      await more.click(); await sleep(400);
+      const shut=await conn();
+      check('  and pressing it again folds them back', shut.chips===0, JSON.stringify(shut));
+    }
     await p.click('#train-conn'); await sleep(300);
     cv=await conn();
     check('and puts them away again', cv.shown===0 && !cv.boxOn, JSON.stringify(cv));

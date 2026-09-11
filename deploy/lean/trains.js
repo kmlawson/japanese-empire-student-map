@@ -1170,10 +1170,55 @@ window.JMAP_TRAINS = function (host) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+  function isFerry(line) {
+    var n = (line && line.n) || '';
+    return /\u9023\u7d61\u8239$/.test(n) || /\u9023\u7d61\u7dda$/.test(n);
+  }
+
+
+
+  function cardWords(line) {
+    return isFerry(line) ? {
+      chip: 'Ferry',
+      ends: 'Sailings start or end at ',
+      count: 'Sailings a day',
+      dirs: 'Outward / return',
+      calls: 'Ports called at',
+      dist: 'Crossing drawn',
+      first: 'First sailing',
+      last: 'Last sailing',
+      list: 'Ports on the crossing, with the sailings that called (%d in all)',
+      head: 'A day on it, counted from the ',
+    } : {
+      chip: 'Railway line',
+      ends: 'Trains start or end at ',
+      count: 'Trains a day',
+      dirs: 'Down / up',
+      calls: 'Stations called at',
+      dist: 'Track drawn',
+      first: 'First departure',
+      last: 'Last departure',
+      list: 'Stations on the line, with the trains that stopped (%d in all)',
+      head: 'A day on it, counted from the ',
+    };
+  }
+
   function waitingCard(li, line) {
     return {
       geoLi: li,
-      chip: 'Railway line', colour: inks[li] || '#555',
+      chip: cardWords(line).chip, colour: inks[li] || '#555',
       primary: lineName(li, false),
       alt: line.n,
       note: (line.d || '') + (line.x
@@ -1252,13 +1297,14 @@ window.JMAP_TRAINS = function (host) {
       ends[stationName(st[0][0])] = 1;
       ends[stationName(st[st.length - 1][0])] = 1;
     });
+    var W = cardWords(line);
     var rows = [
-      { cells: ['Trains a day', String(trains.length)] },
-      { cells: ['Down / up', down + ' / ' + (trains.length - down)] },
-      { cells: ['Stations called at', String(Object.keys(stops).length)] },
-      { cells: ['Track drawn', km >= 1 ? Math.round(km) + ' km' : '\u2014'] },
-      { cells: ['First departure', firstT === null ? '\u2014' : fmt(firstT)] },
-      { cells: ['Last departure', lastT === null ? '\u2014' : fmt(lastT)] },
+      { cells: [W.count, String(trains.length)] },
+      { cells: [W.dirs, down + ' / ' + (trains.length - down)] },
+      { cells: [W.calls, String(Object.keys(stops).length)] },
+      { cells: [W.dist, km >= 1 ? Math.round(km) + ' km' : '\u2014'] },
+      { cells: [W.first, firstT === null ? '\u2014' : fmt(firstT)] },
+      { cells: [W.last, lastT === null ? '\u2014' : fmt(lastT)] },
     ];
 
 
@@ -1273,7 +1319,7 @@ window.JMAP_TRAINS = function (host) {
 
 
       geoLi: li,
-      chip: 'Railway line', colour: inks[li] || '#555',
+      chip: W.chip, colour: inks[li] || '#555',
       primary: lineName(li, false),
       alt: line.n,
 
@@ -1281,7 +1327,7 @@ window.JMAP_TRAINS = function (host) {
 
 
       prov: Object.keys(ends).length
-        ? 'Trains start or end at '
+        ? W.ends
           + Object.keys(ends).slice(0, 8)
               .map(function (n) { return placeName(byName[n]); })
               .join('\u3001')
@@ -1292,17 +1338,18 @@ window.JMAP_TRAINS = function (host) {
 
 
       note: (line.d || '') + (line.x
-        ? ' The map draws this line straight between the cities it can place; the track\'s real alignment is not yet sourced.'
+        ? (isFerry(line)
+             ? ' The map draws this crossing straight between the ports; the course the boats actually steered is not yet sourced.'
+             : ' The map draws this line straight between the cities it can place; the track\'s real alignment is not yet sourced.')
         : ''),
-      head: 'A day on it, counted from the ' + (data.issued || data.year) + ' table',
+      head: W.head + (data.issued || data.year) + ' table',
       cols: ['', ''],
       rows: rows,
 
 
 
       list: stopList.length > 1
-        ? { head: 'Stations on the line, with the trains that stopped ('
-                  + trains.length + ' in all)', items: stopList }
+        ? { head: W.list.replace('%d', trains.length), items: stopList }
         : null,
       links: [
         line.w ? { href: line.w,
@@ -1397,6 +1444,29 @@ window.JMAP_TRAINS = function (host) {
       });
       legend.appendChild(chip);
     });
+
+
+
+
+
+
+
+
+    var connChips = data.lines.filter(function (l) { return l.x; }).length;
+    if (connChips) {
+      legend.classList.add('conn-folded');
+      els.more = el('button', 'train-more', 'Show ' + connChips + ' more');
+      els.more.type = 'button';
+      els.more.title = 'The lines beyond this network, by name';
+      els.more.setAttribute('aria-expanded', 'false');
+      els.more.addEventListener('click', function () {
+        var open = legend.classList.toggle('conn-folded') === false;
+        els.more.textContent = open ? 'Show fewer' : 'Show ' + connChips + ' more';
+        els.more.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      legend.appendChild(els.more);
+    }
+
 
     var hasConn = data.lines.some(function (l) { return l.x; });
     var connLabel = null;
@@ -1620,6 +1690,40 @@ window.JMAP_TRAINS = function (host) {
 
     setTimes: setTimes,
     hasTimes: function () { return haveTimes(); },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    bounds: function () {
+      if (!cfg || !data) return null;
+      var w = 1e9, s2 = 1e9, e = -1e9, n = -1e9, seen = 0;
+      data.stations.forEach(function (st, i) {
+        if (!st || st.lon === undefined) return;
+        var on = (st.li || []).some(function (li) {
+          var l = data.lines[li];
+          return l && (connOn || !l.x);
+        });
+        if (!on) return;
+        seen++;
+        if (st.lon < w) w = st.lon;
+        if (st.lon > e) e = st.lon;
+        if (st.lat < s2) s2 = st.lat;
+        if (st.lat > n) n = st.lat;
+      });
+      return seen > 1 ? { w: w, s: s2, e: e, n: n } : null;
+    },
 
 
 

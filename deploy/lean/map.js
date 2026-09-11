@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '351';
+  var JEM_VERSION = '352';
 
 
 
@@ -2257,11 +2257,30 @@
 
   function railUnderView() {
     if (railAlpha() <= 0.02) return '';
-    var found = '';
+    return groundHere(function (k) { return !!state[STATION_SYS[k].rail]; });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function groundHere(want) {
+    var found = '', best = Infinity;
     Object.keys(STATION_SYS).forEach(function (k) {
       var cfg = STATION_SYS[k];
-      if (found || !state[cfg.rail] || !cfg.ground) return;
-      if (viewMeets(cfg.ground)) found = k;
+      if (!cfg.ground || (want && !want(k))) return;
+      if (!viewMeets(cfg.ground)) return;
+      var g = cfg.ground;
+      var area = (g[2] - g[0]) * (g[3] - g[1]);
+      if (area < best) { best = area; found = k; }
     });
     return found;
   }
@@ -2274,13 +2293,7 @@
 
   function railZone() {
     if (railAlpha() <= 0.02) return '';
-    var found = '';
-    Object.keys(STATION_SYS).forEach(function (k) {
-      var cfg = STATION_SYS[k];
-      if (found || !cfg.ground) return;
-      if (viewMeets(cfg.ground)) found = k;
-    });
-    return found;
+    return groundHere(null);
   }
 
 
@@ -2308,11 +2321,37 @@
     var span = latSpan();
     var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
     if (!isFinite(c.lon) || !isFinite(c.lat)) return '';
+
+
+
+
+
+
+
+
+
+
+
+
+
+    var upSys = trainApi && trainApi.mounted() ? trainApi.system() : '';
+    var upBox = null;
+    if (upSys && trainApi.bounds) {
+      var bb = trainApi.bounds();
+      if (bb) upBox = [bb.w, bb.s, bb.e, bb.n];
+    }
     var found = '', bestArea = Infinity;
     Object.keys(TRAIN_SYS).forEach(function (k) {
-      var cfg = TRAIN_SYS[k], b = cfg.box;
+      var cfg = TRAIN_SYS[k], b = (k === upSys && upBox) ? upBox : cfg.box;
       var limit = useOff ? (cfg.latOff || TRAIN_LAT_OFF)
                          : (cfg.latOn || TRAIN_LAT_ON);
+
+
+
+
+      if (k === upSys && upBox) {
+        limit = Math.max(limit, (upBox[3] - upBox[1]) * 1.2);
+      }
       if (span > limit) return;
       if (c.lon < b[0] - TRAIN_BOX_PAD || c.lon > b[2] + TRAIN_BOX_PAD
           || c.lat < b[1] - TRAIN_BOX_PAD || c.lat > b[3] + TRAIN_BOX_PAD) return;
@@ -2375,14 +2414,32 @@
     var railSys = railZone() || railUnderView();
     if (btnRailEl) {
       if (btnRailEl.hidden) btnRailEl.hidden = false;
-      var railOn = Object.keys(STATION_SYS).some(function (k) {
-        return !!state[STATION_SYS[k].rail];
-      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      var railOn = railSys
+        ? !!state[STATION_SYS[railSys].rail]
+        : Object.keys(STATION_SYS).some(function (k) {
+            return !!state[STATION_SYS[k].rail];
+          });
       var rp = railOn ? 'true' : 'false';
+
+
+
       var rl = (railOn ? 'Hide ' : 'Show ')
-        + (railSys === 'tw' ? 'Taiwan\u2019s railways'
-         : railSys === 'kr' ? 'Korea\u2019s railways'
-         : railSys === 'kf' ? 'Karafuto\u2019s railways' : 'the railways');
+        + (RAIL_LABEL[railSys]
+             ? RAIL_LABEL[railSys] + '\u2019s railways' : 'the railways');
       if (btnRailEl.getAttribute('aria-pressed') !== rp || btnRailEl.title !== rl) {
         btnRailEl.setAttribute('aria-pressed', rp);
         btnRailEl.classList.toggle('on', railOn);
@@ -3475,7 +3532,18 @@
       data: 'KR_STATIONS', file: 'kr-stations.js', gid: 'kr-stations',
       rail: 'krRail', on: 'krStations',
       row: 'row-kr-stations', box: 'opt-kr-stations',
-      ground: [124.0, 33.0, 131.2, 43.1],
+
+
+
+
+
+
+
+
+
+
+
+      ground: [124.0, 34.6, 130.7, 43.1],
 
 
 

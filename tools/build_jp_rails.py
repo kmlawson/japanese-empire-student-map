@@ -61,6 +61,9 @@ WIKI = os.path.join(ROOT, "tools", "cache", "jp-line-wiki.json")
 STATIONS_IN = os.path.join(SRC, "japan-railway-stations-1942.geojson")
 OUT_LINES = os.path.join(SITE, "jp-rails.js")
 OUT_STATIONS = os.path.join(SITE, "jp-stations.js")
+# The same lines as GeoJSON, for tools that walk the track rather than
+# draw it -- tools/rail_route.py routes the Korean connections along this.
+THINNED_GEOJSON = os.path.join(ROOT, "tools", "cache", "jp-lines-40m.geojson")
 
 TOL_M = 40.0        # asked for; see the module docstring
 DP = 5              # decimal places: 1.1 m, well under the tolerance above
@@ -239,6 +242,27 @@ def build_stations():
     return rows, len(doc["features"])
 
 
+def write_geojson(path, lines):
+    """The thinned lines as GeoJSON, for anything that needs to walk them.
+
+    The Korean timetable's Japanese connections are routed along this rather
+    than along the 878,000-vertex source: the map draws the 40 m version, so a
+    connection tracing the source would be a denser line lying beside the one
+    it is meant to be following, and it cost 1.4 MB in kr-trains.js to say so.
+    """
+    feats = [{"type": "Feature",
+              "properties": {"n": r["n"], "y": r["y"], "e": r["e"]},
+              "geometry": {"type": "LineString",
+                           "coordinates": [[r["p"][i], r["p"][i + 1]]
+                                           for i in range(0, len(r["p"]), 2)]}}
+             for r in lines if len(r["p"]) >= 4]
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        json.dump({"type": "FeatureCollection", "features": feats}, f,
+                  ensure_ascii=False, separators=(",", ":"))
+    return len(feats)
+
+
 def write(path, var, head, payload):
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write(head)
@@ -264,6 +288,7 @@ def main():
         " * Thinned at %.0f m (Douglas-Peucker), keeping %.1f%% of %d vertices. */\n"
         % (len(lines), e0, len(lines) - e0, TOL_M, 100.0 * vout / vin, vin))
     write(OUT_LINES, "JP_RAILS", head, lines)
+    nfeat = write_geojson(THINNED_GEOJSON, lines)
 
     stations, rows_in = build_stations()
     s0 = sum(1 for r in stations if r["e"] == "3042")
@@ -289,6 +314,8 @@ def main():
           % (linked, len(lines), romanised))
     print("stations   %d rows -> %d places, %d of them on the 1930 map"
           % (rows_in, len(stations), s0))
+    print("routing    %s: %d lines at the drawn tolerance"
+          % (os.path.basename(THINNED_GEOJSON), nfeat))
     print("wrote      %s (%.0f KB) + %s (%.0f KB)"
           % (os.path.basename(OUT_LINES), kb(OUT_LINES),
              os.path.basename(OUT_STATIONS), kb(OUT_STATIONS)))

@@ -1070,12 +1070,32 @@ const shutDialogs=p=>p.evaluate(()=>{
       if(b&&!b.checked){b.checked=true;b.dispatchEvent(new Event('change',{bubbles:true}));}});
     await sleep(1800);
     await net.click('#btn-trains');
-    await sleep(6000);
+    /* **Waited on, not slept through.** This was a flat six seconds, which was
+       enough while Korea's bundle was 766 KB. Tracing the Japanese connections
+       along real track took it to 892 KB and the mount sometimes landed after
+       the sleep, so the probe below found an empty layer and the check failed
+       for a reason that had nothing to do with what it tests. */
+    await until(net, ()=>document.querySelectorAll('#train-layer .train-line').length>100,
+                null, {timeout:30000}).catch(()=>{});
+    await sleep(1500);
     const spot = await net.evaluate(()=>{
       const G=window.JMAP_GEO;
+      /* **Every line, not the eighty longest.** This used to sort by length and
+         look at the top eighty, which worked while the longest stretches on
+         the map were Korean. The timetable's Japanese connections are traced
+         along the real Tōkaidō and Tōhoku now instead of being chords between
+         cities, so the eighty longest are all in Japan and none of them passes
+         through the box below — the probe found nothing and the check failed
+         for a change that improved the map. Length was only ever a way of
+         finding a line with room to click on; the box is what actually
+         decides, so the box does the work. */
       const els=[...document.querySelectorAll('#train-layer .train-line')]
         .map(e=>({e,L:e.getTotalLength()})).sort((a,b)=>b.L-a.L);
-      for(const {e,L} of els.slice(0,80)){
+      for(const {e,L} of els){
+        if(!L) continue;          // getTotalLength is in MAP UNITS, not pixels:
+                                  // a threshold in "pixels" here skips almost
+                                  // every Korean stretch. See CLAUDE.md.
+
         for(const f of [0.5,0.35,0.65,0.2,0.8]){
           const q=e.getPointAtLength(L*f), ll=G.unproject(q.x,q.y);
           if(!(ll.lon>126&&ll.lon<129.5&&ll.lat>35&&ll.lat<39)) continue;
@@ -1087,8 +1107,16 @@ const shutDialogs=p=>p.evaluate(()=>{
       }
       return null;
     });
+    /* A failure that says only "not found" costs an hour to diagnose; this
+       says what it actually saw. */
+    const seen = await net.evaluate(()=>({
+      lines: document.querySelectorAll('#train-layer .train-line').length,
+      bar: !!document.querySelector('#train-bar'),
+      geo: !!window.JMAP_GEO,
+      w: innerWidth, h: innerHeight,
+    }));
     check('a train line can be right-clicked over the peninsula', !!spot,
-      'no line found inside the viewport');
+      'no line found inside the viewport ' + JSON.stringify(seen));
     if (spot) {
       await net.mouse.click(spot.x, spot.y, {button:'right'});
       await sleep(350);

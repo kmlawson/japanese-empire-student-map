@@ -3190,6 +3190,23 @@ dialog h3 {
 
 /* And the strip's counter while it waits, for the same reason: it is standing
    in for "31 running", which is a figure, with a sentence. */
+/* The connection lines' names, folded away until the button under them is
+   pressed: Korea's 42 lines plus 32 connections is a legend nobody reads. The
+   button itself is never folded, or there would be no way back. */
+.train-legend.conn-folded .train-chip-conn { display: none; }
+.train-more {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.78rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0 0.3rem;
+  white-space: nowrap;
+}
+.train-more:hover, .train-more:focus-visible { color: var(--ink); }
+
 #train-bar.times-waiting .train-count { font-style: italic; opacity: .75; }
 
 .trains-scroll {

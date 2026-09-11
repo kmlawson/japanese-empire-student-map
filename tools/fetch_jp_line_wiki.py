@@ -417,12 +417,39 @@ def verify_bare(cache):
         for m in (q.get("normalized") or []):
             final.setdefault(m["from"], m["to"])
         time.sleep(0.6)
-    dropped = 0
+    def same_railway(name, target):
+        """Is this redirect the same line under its other name?
+
+        **The guard was too blunt and threw away the biggest lines in Japan.**
+        東北線, 北陸線, 信越線, 山陰線, 根室線 and thirteen more are all the
+        `X線 → X本線` redirect — a line and the same line called "main line",
+        which is how the national railway names its trunk routes. Refusing
+        those left 4,254 km of the Tōhoku line with no romanisation while the
+        rule was busy protecting against 大森線.
+
+        So the one systematic case is exempted, in both directions: a name is
+        the same railway as itself with 本 inserted before 線, or without it.
+        Nothing looser — 彦山線 → 日田彦山線 and 松浦線 → 松浦鉄道西九州線 both
+        *end with* the name asked for and are both a different line that
+        absorbed it, so "ends with" is not a rule that can be used here.
+        """
+        if not name.endswith("線") or not target.endswith("線"):
+            return False
+        return (target == name[:-1] + "本線") or (name == target[:-1] + "本線")
+
+    dropped = kept = 0
     for k in bare:
         t = cache[k]["ja"]
+        if t in final and final[t] != t and same_railway(cache[k]["line"], final[t]):
+            cache[k]["ja"] = final[t]
+            cache[k]["via"] = "bare name, redirected to its main-line name"
+            kept += 1
+            continue
         if t in final and final[t] != t:
             cache[k].update({"ja": "", "en": "", "romaji": "",
                              "via": "bare name redirected, refused",
                              "redirected_to": final[t]})
             dropped += 1
+    if kept:
+        sys.stderr.write("    kept %d X\u7dda -> X\u672c\u7dda redirects\n" % kept)
     return dropped
