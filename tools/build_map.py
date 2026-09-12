@@ -878,6 +878,30 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "jehol",
 # answer and this layer does not need one, being small enough to draw whole.
 SHARED_EDGE_EXACT = {"indochina", "siamgain"}
 
+# The general answer SHARED_EDGE_EXACT's note asked for: these atoms'
+# sub-units are thinned as one coverage by arc_thin(), which simplifies every
+# shared border once and writes the same line into both of its provinces.
+# Per-ring thinning gave two lines a fraction of a unit apart wherever two
+# units met -- measured with tools/test/arcs.js at 744a068, Siam put 38
+# probes inside two changwat at once and the Philippines 26 -- and the only
+# other cure, not thinning at all, cost Indochina 13,116 vertices.
+#
+# Only for coverages whose units actually share edges in the source. The
+# candidates were measured first (12 September): Siam's changwat share 36.1%
+# of their directed edges vertex-exactly at 1e-6 degrees, the Philippine
+# provinces 18.5%, and widening the match to ~50 m gains nothing -- where
+# these files share a border they share it exactly, so there is no snapping
+# grid to argue about and none is used. An atom whose units never touch gains
+# nothing but also loses nothing: an unshared border is one arc with one
+# owner, thinned by the same band it always had.
+ARC_TOPOLOGY = {"siam", "philippines"}
+
+# Atoms drawn side by side from one traced source, whose cross-atom borders
+# must also be one line. Filled when Indochina and the 1941 cession migrate
+# off SHARED_EDGE_EXACT: the Siem Reap seam a reader reported ran between
+# the two *atoms*, so the pair has to be thinned as a single coverage.
+ARC_JOINT = {}
+
 TRACED_TOL = {"india": 0.021, "nca_pacified": 0.021, "nca_unpacified": 0.021,
               # the Soviet coast is a tracing too, and the band a shape of
               # its size earns — 0.55 units, three kilometres — flattened
@@ -4372,6 +4396,217 @@ def simplify(points, tol):
     return [p for p, k in zip(points, keep) if k]
 
 
+def arc_thin(named, band_for, frame):
+    """One coverage, thinned as a whole: a border two units share is
+    simplified once and written into both.
+
+    `thin()` simplifies each ring on its own, and a shared border appears in
+    two rings -- traversed the opposite way round, starting from a different
+    vertex. Douglas-Peucker keeps different vertices under either change, so
+    one border became two polylines a fraction of a unit apart; the numbers
+    are at ARC_TOPOLOGY. The Indochina fix (SHARED_EDGE_EXACT) was to not
+    thin at all; this is the general answer its note asked for.
+
+    The coverage is cut into arcs -- maximal chains of edges with the same
+    owners -- at nodes: any vertex where the chain's ownership changes or
+    where the vertex has other than two neighbours, which is every tripoint,
+    every border-becomes-coast transition, and every point where two rings
+    touch. Each arc is simplified once, at the finest band any ring using it
+    earns, so a small province never loses its border to a big neighbour's
+    coarser band; arc endpoints are pinned by simplify(), so three units keep
+    meeting at the point where they met. The rings are then reassembled from
+    their own chains, in their own order and winding.
+
+    Nothing is stitched by search, which is what makes this safe on dirty
+    data: a ring is cut where it stands and put back the same way, so a
+    coverage that shares nothing yields arcs with one owner each and comes
+    out exactly as per-ring thinning had it. The worst case is the status
+    quo. Vertices are matched on the same 1e-6-degree grid dissolve() keys
+    on, but *undirected*, because winding cannot be trusted: the Republican
+    provinces file carries 6,114 shared directed edges that run the same way
+    round in both provinces, which reversed-edge matching -- dissolve's rule
+    -- would call unshared.
+
+    After thinning, each arc is respaced in its canonical direction so no
+    two surviving points sit within FINE_PRECISION's eps of each other
+    (Chebyshev, the test ring_to_path applies), endpoints excepted. Without
+    this, ring_to_path's walk -- which drops the later of a close pair *in
+    draw direction* -- would drop a different vertex from each unit's copy
+    and open a hairline of up to eps: the mechanism written up at
+    FINE_PRECISION, where it showed as the flecks around Kwantung. For the
+    same reason a ring holding any shared arc must be written at
+    FINE_PRECISION, not at path_precision's per-ring choice, whose mixed
+    decimal grids would split the pair again; the caller learns which from
+    the returned flags.
+
+    `named` is [(name, [rings])] in source coordinates. `band_for` maps a
+    ring's projected points to its tolerance. Returns (units, stats): units
+    parallel to `named`, each a list of (points, has_shared_arc).
+    """
+    Q = 1e6                    # dissolve()'s grid: 1e-6 deg, a tenth of a metre
+    EPS = FINE_PRECISION[1]
+
+    # Per unit: the rings as (grid keys, projected points), deduplicated on
+    # the grid so a zero-length edge cannot make a vertex its own neighbour.
+    prepared = []
+    total_in = 0
+    for _pname, prings in named:
+        merged = dissolve(prings) if len(prings) > 1 else None
+        rl = []
+        for ring in (merged or prings):
+            ring = clip_halfplanes(normalise_ring(ring), frame)
+            if len(ring) < 3:
+                continue
+            keys, pts = [], []
+            for x, y in ring:
+                k = (round(x * Q), round(y * Q))
+                if keys and k == keys[-1]:
+                    continue
+                keys.append(k)
+                pts.append(project(x, y))
+            if len(keys) > 1 and keys[0] == keys[-1]:
+                keys.pop()
+                pts.pop()
+            if len(keys) < 3:
+                continue
+            total_in += len(keys)
+            rl.append((tuple(keys), pts))
+        prepared.append(rl)
+
+    # Who owns each undirected edge, and what neighbours each vertex has.
+    nbr = {}
+    eown = {}
+    for oi, rl in enumerate(prepared):
+        for keys, _pts in rl:
+            n = len(keys)
+            for i in range(n):
+                a, b = keys[i], keys[(i + 1) % n]
+                nbr.setdefault(a, set()).add(b)
+                nbr.setdefault(b, set()).add(a)
+                e = (a, b) if a <= b else (b, a)
+                eown.setdefault(e, set()).add(oi)
+
+    def owners(a, b):
+        return eown[(a, b) if a <= b else (b, a)]
+
+    nodes = set()
+    for v, ns in nbr.items():
+        if len(ns) != 2:
+            nodes.add(v)
+        else:
+            u, w = ns
+            if owners(v, u) != owners(v, w):
+                nodes.add(v)
+
+    # Cut every ring into chains at its nodes. Identity is the full vertex
+    # sequence, smaller direction first -- endpoints alone would confuse two
+    # different chains between the same pair of nodes, which lakes and
+    # two-unit borders produce routinely. A ring no node touches is one
+    # closed loop: if it is shared (an enclave's outline is also its host's
+    # hole) both copies are rotated to the smallest vertex and the smaller
+    # neighbour, so they meet in one canonical form; a private loop -- every
+    # island -- keeps its own start so that nothing about it changes.
+    arcs = {}
+    plans = []                       # per unit: per ring: (closed, [(canon, flipped)])
+    for rl in prepared:
+        plan = []
+        for keys, pts in rl:
+            band = band_for(pts)
+            n = len(keys)
+            node_idx = [i for i in range(n) if keys[i] in nodes]
+            occ = []
+            if not node_idx:
+                shared = len(owners(keys[0], keys[1])) > 1
+                if shared:
+                    i0 = min(range(n), key=lambda i: keys[i])
+                    fwd = keys[(i0 + 1) % n] <= keys[(i0 - 1) % n]
+                    order = ([(i0 + j) % n for j in range(n)] if fwd
+                             else [(i0 - j) % n for j in range(n)])
+                    ks = tuple(keys[i] for i in order)
+                    ps = [pts[i] for i in order]
+                    flipped = not fwd
+                else:
+                    ks, ps, flipped = keys, pts, False
+                a = arcs.get(ks)
+                if a is None:
+                    arcs[ks] = a = {"pts": ps, "tol": band,
+                                    "shared": shared}
+                else:
+                    a["tol"] = min(a["tol"], band)
+                occ.append((ks, flipped))
+                plan.append((True, occ))
+                continue
+            m = len(node_idx)
+            for j in range(m):
+                i0, i1 = node_idx[j], node_idx[(j + 1) % m]
+                span = (i1 - i0) % n or n     # one node: the whole way round
+                walk = [(i0 + t) % n for t in range(span + 1)]
+                ks = tuple(keys[i] for i in walk)
+                rk = tuple(reversed(ks))
+                flipped = rk < ks
+                canon = rk if flipped else ks
+                a = arcs.get(canon)
+                if a is None:
+                    ps = [pts[i] for i in walk]
+                    if flipped:
+                        ps.reverse()
+                    arcs[canon] = a = {"pts": ps, "tol": band,
+                                       "shared": len(owners(ks[0], ks[1])) > 1}
+                else:
+                    a["tol"] = min(a["tol"], band)
+                occ.append((canon, flipped))
+            plan.append((False, occ))
+        plans.append(plan)
+
+    # Simplify each arc once, then respace it (see the docstring). If the
+    # last point crowds the ones before it, the interior points give way:
+    # the endpoint is a junction and junctions are load-bearing.
+    shared_arcs = 0
+    for a in arcs.values():
+        if a["shared"]:
+            shared_arcs += 1
+        p = simplify(a["pts"], a["tol"]) if len(a["pts"]) >= 4 else a["pts"]
+        keep = [p[0]]
+        for q in p[1:]:
+            if abs(q[0] - keep[-1][0]) < EPS and abs(q[1] - keep[-1][1]) < EPS:
+                continue
+            keep.append(q)
+        last = p[-1]
+        if keep[-1] is not last:
+            while len(keep) > 1 and abs(last[0] - keep[-1][0]) < EPS \
+                    and abs(last[1] - keep[-1][1]) < EPS:
+                keep.pop()
+            keep.append(last)
+        a["thin"] = keep
+
+    # Reassembly: each chain runs node to node, so its last vertex is the
+    # next chain's first and is dropped; the loop closes itself the same way.
+    units = []
+    total_out = 0
+    for plan in plans:
+        rings_out = []
+        for closed, occ in plan:
+            has_shared = any(arcs[c]["shared"] for c, _f in occ)
+            if closed:
+                canon, flipped = occ[0]
+                seg = arcs[canon]["thin"]
+                ring = list(reversed(seg)) if flipped else list(seg)
+            else:
+                ring = []
+                for canon, flipped in occ:
+                    seg = arcs[canon]["thin"]
+                    seg = seg[::-1] if flipped else seg
+                    ring.extend(seg[:-1])
+            if len(ring) >= 3:
+                total_out += len(ring)
+                rings_out.append((ring, has_shared))
+        units.append(rings_out)
+
+    stats = {"vin": total_in, "vout": total_out,
+             "arcs": len(arcs), "shared": shared_arcs}
+    return units, stats
+
+
 def esc(text):
     """Escape a string for an XML attribute.
 
@@ -7287,16 +7522,50 @@ def main():
             return simplify(pts, TRACED_TOL[key]) if len(pts) >= 4 else pts
         if key in FULL_DETAIL or len(pts) < 4:
             return pts
-        return simplify(pts, tol_for(pts))
         # even the smallest islands are worth thinning: the boundary files
         # carry vertices a metre apart, and none of that survives the screen.
         # One SVG unit is one screen pixel at the opening view and the map
         # zooms to 40x, so nothing finer than a fortieth of a unit can ever
-        # be seen; these bands sit just inside that. The smallest band has to be
-        # gentler still, because the French and Portuguese enclaves are one or
-        # two units across and a tolerance that reads as light on an island
-        # would take Mahe down to a triangle.
-        return simplify(pts, args.tolerance * 0.03)
+        # be seen; the bands tol_for hands back sit just inside that, and its
+        # smallest band is gentler still, because the French and Portuguese
+        # enclaves are one or two units across and a tolerance that reads as
+        # light on an island would take Mahe down to a triangle.
+        # (This comment sat below a return for a while, with a second,
+        # unreachable return under it -- a leftover from when the smallest
+        # band was a branch of its own rather than a row of tol_for.)
+        return simplify(pts, tol_for(pts))
+
+    # The coverages routed through arc_thin, thinned once and remembered:
+    # emit() asks for an atom's sub-units once, but Indochina's 1930 sheet is
+    # a second coverage of the same key, so the cache is keyed by which
+    # provinces dict the caller handed over as well. ARC_JOINT groups atoms
+    # cut from one source into a single coverage, and the group is thinned
+    # the first time any of its atoms is asked for.
+    arc_cache = {}
+
+    def arc_provinces(key, source):
+        ck = (key, id(source))
+        if ck not in arc_cache:
+            group = [k for k in ARC_JOINT.get(key, (key,)) if source.get(k)]
+            named = [nr for k in group for nr in source.get(k, [])]
+            # None of these atoms is in TRACED_TOL or FULL_DETAIL -- thin()
+            # never reached those with tol_for either, and routing one here
+            # would silently swap its flat band for the size bands.
+            for k in group:
+                assert k not in TRACED_TOL and k not in FULL_DETAIL, k
+            units, st = arc_thin(named, tol_for, frame)
+            sys.stderr.write(
+                "arc topology %s: %d of %d ring vertices kept (%.1f%%), "
+                "%d arcs, %d shared\n"
+                % ("+".join(group), st["vout"], st["vin"],
+                   100.0 * st["vout"] / max(st["vin"], 1),
+                   st["arcs"], st["shared"]))
+            i = 0
+            for k in group:
+                n = len(source.get(k, []))
+                arc_cache[(k, id(source))] = units[i:i + n]
+                i += n
+        return arc_cache[ck]
 
     whole_pts = {}
 
@@ -7358,20 +7627,37 @@ def main():
         Republican provinces, which go through exactly the same thinning and
         clipping so that the two are comparable."""
         blocks = []
-        for pname, prings in (src if src is not None else provinces).get(key, []):
-            merged = dissolve(prings) if len(prings) > 1 else None
+        source = src if src is not None else provinces
+        arcs = arc_provinces(key, source) if key in ARC_TOPOLOGY else None
+        for pi, (pname, prings) in enumerate(source.get(key, [])):
+            if arcs is not None:
+                # already normalised, clipped, projected and thinned, as one
+                # coverage rather than a ring at a time: see arc_thin. A ring
+                # holding a shared arc is written at FINE_PRECISION or the
+                # write-time dedupe would split the pair the thinning kept
+                # together; a private ring keeps the per-ring precision it
+                # always had, so an island is written exactly as before.
+                ring_iter = [(pts, FINE_PRECISION if shared else None)
+                             for pts, shared in arcs[pi]]
+            else:
+                merged = dissolve(prings) if len(prings) > 1 else None
+                ring_iter = [(r, None) for r in (merged or prings)]
             pieces = []
             kept_pts = []
-            for ring in (merged or prings):
-                ring = clip_halfplanes(normalise_ring(ring), frame)
-                if len(ring) < 3:
-                    continue
-                pts = thin(key, [project(x, y) for x, y in ring])
+            for ring, precision in ring_iter:
+                if arcs is not None:
+                    pts = ring
+                else:
+                    ring = clip_halfplanes(normalise_ring(ring), frame)
+                    if len(ring) < 3:
+                        continue
+                    pts = thin(key, [project(x, y) for x, y in ring])
+                    precision = (FINE_PRECISION
+                                 if key in FULL_DETAIL or key in TRACED_TOL
+                                 else None)
                 if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
                     kept_pts.append(pts)
-                    pieces.append(ring_to_path(
-                        pts, FINE_PRECISION if key in FULL_DETAIL or key in TRACED_TOL
-                    else None))
+                    pieces.append(ring_to_path(pts, precision))
             if pieces:
                 # Where to hang a name. The biggest ring's centroid, and its
                 # area so the caller can sort by it: a province is labelled in
