@@ -20776,3 +20776,97 @@ asked of it. `indochina` 17 → **18 checks**.
   than one block — so what is visible is most likely a hairline: the shared
   edge is simplified twice, once inside `indochina`'s rings and once inside
   `siamgain`'s, and the two results diverge. Not investigated.
+
+## 169. The ferries, measured against the coastline
+
+Asked for as "route them around land". What the measurement found is that
+three of the four never needed it and the fourth was not drawn at all.
+
+**The Kanpu ferry was drawn as nothing.** 釜山 is in these tables twice — once
+as the southern end of the 京釜本線, placed from the Korean line GIS, and once
+as the Korean end of the 關釜連絡船, transcribed from the Japanese pages of the
+same timetable with no coordinate at all. `jp_link` is a table of *Japanese*
+stations and could not help. So the crossing the whole Korean network reaches
+Japan by had one end placed, one end nowhere, and no geometry: it sat in the
+legend with no track under it.
+
+Two fixes, both general rather than special cases:
+
+* **A connection stop with no position takes the position of a stop of the same
+  name that has one.** Twelve were placed this way — 釜山 twice, 京城, 平壤,
+  淸津, 羅津, 九龍, 連山, 新站, 上坪, 麻田, 春陽. Only where there is exactly one
+  candidate: 門司 is on both the 鹿兒島本線 and the 山陽本線 in these tables and
+  they are different points, so a name with two answers keeps nothing and is
+  reported. What is filled and what is left is printed.
+* **A ferry with both ports placed and no crossing drawn gets one.** The
+  stretch between two stops comes out of the transcription, which worked it out
+  from the coordinates it had; nothing went back afterwards. Only a ferry, and
+  only one with exactly two placed ports — a rule that joined any two placed
+  stops on any line would invent track across the Manchurian gaps, where a
+  missing stop is a stop nobody has placed rather than a leg nobody has drawn.
+
+**And no ferry is drawn over land.** Measured against `gis/land.geojson`, which
+is the coast this map draws, sampling the drawn geometry every 500 m:
+
+| | drawn | mid-crossing samples ashore |
+|---|---|---|
+| 關釜 Shimonoseki–Pusan | 215.8 km | **0 of 431** |
+| 青函 Aomori–Hakodate | 105.8 km | **0 of 211** |
+| 關門 Shimonoseki–Moji | 5.1 km | no middle to measure |
+| 長項—群山 | 3.6 km | no middle to measure |
+
+The Shimonoseki–Pusan line passes 34.95 N at Tsushima's longitude, which is
+north of the island, so the chord clears it; the Tsugaru crossing has open
+water the whole way. **So there is nothing to route round, and that is now a
+measurement rather than an assumption** — which is the part worth having.
+
+The two short crossings are over land for most of their length and cannot be
+otherwise: at 5.1 km and 3.6 km they are narrower than the coastline's own
+drawn resolution, which closes both the Kanmon strait and the Kum estuary.
+There is no water there to route through. They are named in
+`NARROWER_THAN_THE_COASTLINE` with that reason, so a fifth crossing nobody has
+thought about fails the test rather than being skipped with them.
+
+The first four kilometres of each end are left out of the test. A ferry runs
+from station to station, Shimonoseki station is 1.4 km from its pier, and a
+harbour reads as land at the scale the coast is drawn — so the approaches are
+ashore in every case and always will be. An earlier draft of this test measured
+the whole line and reported 7 of 211 samples ashore on the Tsugaru crossing,
+which was the harbour at each end and nothing else.
+
+`ferries` is a new script, **8 checks**.
+
+## 171b. The 1930 sheet draws the provinces the cession cuts as one
+
+Reported, with a picture: a seam down the middle of Siem Reap on the 1930 map,
+where the 1941 cession had not happened and the province should be one shape.
+
+`markSplitProvinces` and the `admin-on` stroke already withhold a boundary from
+a province drawn in more than one block, and both halves share their atom's
+`data-id` on that date — so the line was not a boundary being drawn. It was a
+gap. Each half is thinned inside its own atom, so **the edge they share is
+simplified twice and the two results differ by a fraction of a unit**. Drawing
+them in the same colour cannot hide that, and no amount of tuning the stroke
+would have.
+
+So the 1930 sheet gets its own units. `tools/build_indochina.py` writes
+`french-indochina-1930-admin.geojson`: 89 units, the five the cession cuts —
+Luang Prabang, Champasak, Siem Reap, Stung Treng, Kampong Thom — dissolved back
+into one shape each. Exact, because the halves come out of one trace and share
+every vertex of the line between them: **10,638 vertices against the 94 units'
+10,803, which is the seam and nothing else**, and the area is 740,568 km²
+either way.
+
+Both sets go into the administrative sheet and `data-epoch` decides which is
+drawn, the same way the railway layers carry their dates — 89 for 1930, 88 for
+1942, and the cession's own six on the later sheet only. `gateSubEpochs` in
+map.js is the gate, called from `applyState` so it runs on a change of date and
+when the sheet is grafted; the list of dated blocks is held rather than
+re-queried, and cleared when the sheet arrives. A block with no `data-epoch` is
+on both dates and is never touched, which is every sub-unit on the map but
+Indochina's 177 and the cession's 6.
+
+Driven and measured: **1930 draws 89 divisions with Siem Reap as one block and
+nothing in `siamgain`; 1942 draws 88 and 6, with each of the five on both sides
+of the line.** Switching the date back and forth holds. `indochina` 18 → **21
+checks**.

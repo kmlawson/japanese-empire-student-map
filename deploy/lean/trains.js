@@ -1505,7 +1505,6 @@ window.JMAP_TRAINS = function (host) {
       els.more.addEventListener('click', function () {
         foldConn(!legend.classList.contains('conn-folded'));
       });
-      legend.appendChild(els.more);
       foldConn(true);
     }
 
@@ -1546,7 +1545,18 @@ window.JMAP_TRAINS = function (host) {
     row.appendChild(close);
     var row2 = el('div', 'train-row train-row2');
     row2.appendChild(legend);
+
+
+
+
+
+
+
+
+
+
     if (connLabel) row2.appendChild(connLabel);
+    if (els.more) row2.appendChild(els.more);
     row2.appendChild(note);
     row2.appendChild(link);
     bar.appendChild(row);

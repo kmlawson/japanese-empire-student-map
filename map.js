@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '355';
+  var JEM_VERSION = '356';
 
   /* Every file this one fetches, with the version on it.
 
@@ -13912,6 +13912,41 @@
     }
   }
 
+  /* **A DIVISION THAT BELONGS TO ONE DATE.**
+   *
+   * Almost every sub-unit on this map is drawn once and shown on both sheets.
+   * French Indochina is not: the 1941 cession cuts five of its provinces in
+   * two, and on the 1930 sheet — where the cut had not been made — each is one
+   * shape. Both sets are in the administrative file and each block carries the
+   * date it belongs to, so this is the same gate the railway layers get.
+   *
+   * A block with no `data-epoch` is on both dates and is never touched, which
+   * is all of them but Indochina's 183 and the cession's 6.
+   *
+   * It cannot be done by abutting the 1942 halves and leaving them: each is
+   * thinned inside its own atom, so the edge they share is simplified twice
+   * and the results differ by a fraction of a unit. That is the seam that was
+   * reported down the middle of Siem Reap, and no amount of drawing them in
+   * the same colour hides a gap. */
+  var subEpochGated = null;
+  function gateSubEpochs() {
+    if (!svg) return;
+    /* Collected once and held: this runs on every change of state, and
+       `querySelectorAll` over an eight-thousand-node document to find 189
+       paths is work that has the same answer every time. The list is rebuilt
+       when the administrative sheet is grafted, which is the only thing that
+       adds to it. */
+    if (!subEpochGated) {
+      subEpochGated = $$('#land [data-prov][data-epoch]', svg);
+    }
+    for (var i = 0; i < subEpochGated.length; i++) {
+      var el = subEpochGated[i];
+      var mine = el.getAttribute('data-epoch') === state.epoch;
+      var want = mine ? '' : 'none';
+      if (el.style.display !== want) el.style.display = want;
+    }
+  }
+
   function applyState() {
     /* Before anything is measured. The scheme moves `--ocean` and the neutral
        land tokens, and `bumpLayout` below reads the bar's height off the page
@@ -14163,6 +14198,8 @@
     // whether either is drawn at all is `railFade`'s business: it depends on
     // the zoom as well as on the switch
     railFade();
+    // and the divisions that belong to one date only
+    gateSubEpochs();
     [twRailGroup, krRailGroup, kfRailGroup, jpRailGroup,
      burmaRailGroup].forEach(function (g) {
       if (!g) return;
@@ -17481,6 +17518,9 @@
         return;
       }
       adminState = 'ready';
+      /* The sheet is what brings the dated blocks in, so the held list is
+         stale the moment it is grafted. */
+      subEpochGated = null;
       setAdminBusy();
       applyState();
       if (selected) select(selected);

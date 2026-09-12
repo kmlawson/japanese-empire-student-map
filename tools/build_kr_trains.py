@@ -406,6 +406,49 @@ def build_js(anchors=None):
             jp_link.count('placed')
         out_st.append(rec)
 
+    # **A CONNECTION STOP THAT IS ALREADY ON THIS MAP STANDS WHERE IT STANDS.**
+    #
+    # 釜山 is in these tables twice: once as the southern end of the 京釜本線,
+    # placed from the Korean line GIS, and once as the Korean end of the
+    # 關釜連絡船, transcribed from the Japanese pages of the same timetable and
+    # carrying no coordinate at all. `jp_link` cannot help — it is a table of
+    # *Japanese* stations — so the ferry had one end placed and one end nowhere,
+    # and the Kanpu ferry, the crossing the whole Korean network connects to
+    # Japan by, was drawn not as a straight line but as nothing whatever. It sat
+    # in the legend with no track under it.
+    #
+    # So a stop with no position takes the position of a stop of the same name
+    # that has one. Only where there is exactly one candidate: 門司 is on both
+    # the 鹿兒島本線 and the 山陽本線 in these tables and they are different
+    # points, and a name with two answers is the "leave it out" case — it keeps
+    # nothing and is reported, rather than being put at whichever was written
+    # last. What is filled and what is left is printed.
+    _placed = {}
+    for rec in out_st:
+        if rec.get('lon') is None:
+            continue
+        _placed.setdefault(rec['n'], set()).add((rec['lon'], rec['lat']))
+    _filled, _ambig, _nowhere = [], [], []
+    for rec in out_st:
+        if rec.get('lon') is not None:
+            continue
+        spots = _placed.get(rec['n'])
+        if not spots:
+            _nowhere.append(rec['n'])
+        elif len(spots) > 1:
+            _ambig.append(rec['n'])
+        else:
+            rec['lon'], rec['lat'] = next(iter(spots))
+            _filled.append(rec['n'])
+    print('connection stops placed from a station of the same name: %d%s'
+          % (len(_filled), (' -- ' + ', '.join(_filled)) if _filled else ''))
+    if _ambig:
+        print('  left unplaced, the name has more than one position: %s'
+              % ', '.join(sorted(set(_ambig))))
+    if _nowhere:
+        print('  left unplaced, no station of that name is placed: %s'
+              % ', '.join(sorted(set(_nowhere))))
+
     out_tr = []
     for t in trains:
         stops = []
@@ -491,6 +534,51 @@ def build_js(anchors=None):
     # and leaves the chord alone. With it they are routed exactly as a Korean
     # chord is, and by the same rules -- snapped within SNAP_KM, refused if the
     # route is more than STRETCH times the straight line.
+    # **A FERRY WITH BOTH PORTS PLACED AND NO CROSSING DRAWN.**
+    #
+    # The stretch between two stops comes out of the transcription, which
+    # computed it from the coordinates it had. 釜山 had none on the Japanese
+    # pages, so no crossing was written for the 關釜連絡船 -- and once the stop
+    # is placed from its namesake above, the geometry is still missing, because
+    # nothing goes back and works it out. The result was the ferry the whole
+    # Korean network reaches Japan by sitting in the legend with no track under
+    # it at all.
+    #
+    # Drawn as a chord, and that is the right answer here rather than a
+    # shortcoming of one: measured against the coastline the map draws, the
+    # straight line from Shimonoseki to Pusan passes 34.95 N at Tsushima's
+    # longitude, north of the island, and **not one of its 400 sample points
+    # is over land**. 青函 is the same, 104.6 km up the Tsugaru strait with
+    # nothing in the way. The two short crossings -- 關門 at 5.1 km and
+    # 長項—群山 at 3.6 km -- are narrower than the coastline's own drawn
+    # resolution, which closes both: there is no water there to route through
+    # and nothing a detour could avoid. So no ferry needs routing round land,
+    # which is what was asked and is worth having checked rather than assumed.
+    # tools/test/ferries.js holds it.
+    #
+    # Only a ferry, and only a ferry with exactly two placed ports. A line with
+    # three is already drawn port to port by the transcription, and a rule that
+    # joined any two placed stops on any line would invent track across the
+    # Manchurian gaps, where a stop missing from the middle is a stop nobody
+    # has placed rather than a leg nobody has drawn.
+    _fer_added = []
+    for _nm, _li in sorted(line_ix.items(), key=lambda kv: kv[1]):
+        if not (_nm.endswith('\u9023\u7d61\u8239') or _nm.endswith('\u9023\u7d61\u7dda')):
+            continue
+        _ports = [i for i, r in enumerate(out_st)
+                  if _li in (r.get('li') or []) and r.get('lon') is not None]
+        if len(_ports) != 2:
+            continue
+        _lo, _hi = sorted(_ports)
+        if '%d|%d' % (_lo, _hi) in out_pa:
+            continue
+        _a, _b = out_st[_lo], out_st[_hi]
+        out_pa['%d|%d' % (_lo, _hi)] = [_a['lon'], _a['lat'], _b['lon'], _b['lat']]
+        _fer_added.append('%s %s-%s' % (_nm, _a['n'], _b['n']))
+    if _fer_added:
+        print('ferry crossings drawn from their two ports: %s'
+              % '; '.join(_fer_added))
+
     rail_route.fill(doc, [os.path.join(ROOT, 'tools', 'cache', f)
                           for f in ('korea_1942_lines_dedup.geojson',
                                     'korea_1930_lines_dedup.geojson')]

@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '355';
+  var JEM_VERSION = '356';
 
 
 
@@ -13912,6 +13912,41 @@
     }
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var subEpochGated = null;
+  function gateSubEpochs() {
+    if (!svg) return;
+
+
+
+
+
+    if (!subEpochGated) {
+      subEpochGated = $$('#land [data-prov][data-epoch]', svg);
+    }
+    for (var i = 0; i < subEpochGated.length; i++) {
+      var el = subEpochGated[i];
+      var mine = el.getAttribute('data-epoch') === state.epoch;
+      var want = mine ? '' : 'none';
+      if (el.style.display !== want) el.style.display = want;
+    }
+  }
+
   function applyState() {
 
 
@@ -14163,6 +14198,8 @@
 
 
     railFade();
+
+    gateSubEpochs();
     [twRailGroup, krRailGroup, kfRailGroup, jpRailGroup,
      burmaRailGroup].forEach(function (g) {
       if (!g) return;
@@ -17481,6 +17518,9 @@
         return;
       }
       adminState = 'ready';
+
+
+      subEpochGated = null;
       setAdminBusy();
       applyState();
       if (selected) select(selected);

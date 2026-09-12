@@ -69,7 +69,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'trains', 'korea', 'population', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airplay',
              'clipping', 'layerinfo', 'krtrains', 'kftrains', 'layerfind', 'beta', 'hanlabels',
-             'owns', 'jprails', 'indochina', 'citytap'];
+             'owns', 'jprails', 'indochina', 'citytap', 'ferries'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -162,7 +162,8 @@ const GROUPS = {
   /* Railways, stations and the sugar lines. Four data files that change in
      bursts and then sit still for weeks. */
   transport: ['trains', 'krtrains', 'kftrains', 'stations', 'sugar', 'air', 'airplay',
-               'layerinfo', 'hanlabels', 'owns', 'jprails', 'citytap'],
+               'layerinfo', 'hanlabels', 'owns', 'jprails', 'citytap',
+               'ferries'],
 
   /* What a link carries and what a reload remembers. */
   links: ['layers-url', 'bookmarks', 'cache-keys', 'layerinfo', 'beta', 'hanlabels'],
@@ -222,6 +223,12 @@ const TRIGGERS = [
      once in trains.js and once in trains_split.py, and tools/test/owns.js is
      what holds them together. Either one moving has to reach it. */
   [/^tools\/trains_split\.py$/,     ['transport']],
+  /* The coastline the ferries are measured against. It is a published export
+     and the rule below says exports break nothing — true of the others, and
+     not of this one: `tools/test/ferries.js` reads it to decide whether a
+     crossing is drawn over land, so it has to come first. The builder itself
+     is covered by the `build_(tw|kr|kf)_...` rule further down. */
+  [/^deploy\/gis\/land\.geojson$/,  ['transport']],
   /* Japan's railways: a built layer, not a sheet in the SVG, so the data and
      the builder both reach the transport group. The source GeoJSON is read
      only by the build and nothing the site serves comes from it directly. */

@@ -3238,9 +3238,10 @@ dialog h3 {
 
 /* And the strip's counter while it waits, for the same reason: it is standing
    in for "31 running", which is a figure, with a sentence. */
-/* The connection lines' names, folded away until the button under them is
-   pressed: Korea's 42 lines plus 32 connections is a legend nobody reads. The
-   button itself is never folded, or there would be no way back. */
+/* The connection lines' names, folded away until the button beside the switch
+   is pressed: Korea's 42 lines plus 32 connections is a legend nobody reads.
+   The button is not in this box — the box scrolls, and a control that opens a
+   list must not be inside the part of it that can be scrolled out of sight. */
 .train-legend.conn-folded .train-chip-conn { display: none; }
 .train-more {
   border: 0;

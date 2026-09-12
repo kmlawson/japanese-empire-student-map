@@ -580,6 +580,9 @@ def load_traced(fname):
 # left when they cancel.
 INDOCHINA_DIR = os.path.join(ROOT, "data", "indochina")
 INDOCHINA_ADMIN = "french-indochina-admin.geojson"
+# The same coverage with the five provinces the 1941 cession cuts put back
+# together, for the sheet on which it had not been cut. See load_indochina().
+INDOCHINA_ADMIN_1930 = "french-indochina-1930-admin.geojson"
 INDOCHINA_OUTLINE = "french-indochina-1942-dissolved.geojson"
 INDOCHINA_CEDED = "french-indochina-1941-ceded.geojson"
 
@@ -597,7 +600,8 @@ def load_indochina():
     global _INDOCHINA
     if _INDOCHINA is not None:
         return _INDOCHINA or None
-    want = [INDOCHINA_ADMIN, INDOCHINA_OUTLINE, INDOCHINA_CEDED]
+    want = [INDOCHINA_ADMIN, INDOCHINA_ADMIN_1930, INDOCHINA_OUTLINE,
+            INDOCHINA_CEDED]
     missing = [f for f in want
                if not os.path.exists(os.path.join(INDOCHINA_DIR, f))]
     if missing:
@@ -630,13 +634,30 @@ def load_indochina():
             "km2": pr.get("km2") or 0,
             "rings": ccw(list(iter_rings(feat["geometry"]))),
         })
+    # **The 1930 sheet is a different set of units, not the same set drawn
+    # differently.** Luang Prabang, Champasak, Siem Reap, Stung Treng and
+    # Kampong Thom are each one province there and two here, so the two sheets
+    # cannot share a list: on 1930 the five are whole and there is nothing in
+    # `siamgain` at all, and on 1942 the five are cut and the ceded halves are
+    # Thailand's. Both come out of one trace, and the halves share every vertex
+    # of the line between them, so the 1930 shapes are the exact dissolve — 165
+    # vertices fewer than the 94 units, which is the seam and nothing else.
+    whole = []
+    for feat in read(INDOCHINA_ADMIN_1930):
+        pr = feat["properties"]
+        whole.append({
+            "name": pr["name"],
+            "prot": pr["protectorate"],
+            "rings": ccw(list(iter_rings(feat["geometry"]))),
+        })
     outline = ccw([r for f in read(INDOCHINA_OUTLINE)
                    for r in iter_rings(f["geometry"])])
     ceded = collections.defaultdict(list)
     for feat in read(INDOCHINA_CEDED):
         ceded[feat["properties"]["name"]].extend(
             ccw(list(iter_rings(feat["geometry"]))))
-    _INDOCHINA = {"units": units, "outline": outline, "ceded": dict(ceded)}
+    _INDOCHINA = {"units": units, "whole": whole, "outline": outline,
+                  "ceded": dict(ceded)}
     return _INDOCHINA
 
 
@@ -5646,6 +5667,12 @@ def main():
     # Chinese atoms keep their provinces as separate sub-paths, so hovering can
     # name the province as well as the country.
     provinces = collections.defaultdict(list)
+    # A second set of sub-units for the 1930 sheet, where an atom's
+    # divisions were not the same divisions. Only French Indochina uses
+    # it: the 1941 cession cuts five of its provinces in two and on the
+    # 1930 map they were one each. An atom absent from here draws the
+    # same blocks on both dates.
+    provinces_1930 = collections.defaultdict(list)
     # A level *above* the sub-units, for a country whose larger divisions are
     # not the sum of their smaller ones. Taiwan is the only one: a 州 reaches
     # back over the mountains into the 蕃地 while its 郡 are a rind along the
@@ -6453,6 +6480,10 @@ def main():
         for _u in _ic["units"]:
             _key = "siamgain" if _u["ceded"] else "indochina"
             provinces[_key].append((_u["name"], _u["rings"]))
+        # and the 1930 sheet's own units, all of them Indochina's
+        for _u in _ic["whole"]:
+            provinces_1930["indochina"].append((_u["name"], _u["rings"]))
+            SUB_PARENTS[("indochina", _u["name"])] = _u["prot"]
             # The protectorate is the larger unit each division sits in, and
             # `data-parent` is what the map reads to light it. It spans the two
             # atoms on purpose: Cambodia's ceded provinces carry "Cambodia"
@@ -7617,6 +7648,35 @@ def main():
                        f' d="{paths[key]}"/>')
             return
         blocks = [] if key in NO_ADMIN_SUBUNITS else province_paths(key)
+        # **AN ATOM WHOSE DIVISIONS DIFFER BY DATE DRAWS BOTH SETS, GATED.**
+        #
+        # French Indochina is the case, and for now the only one. On the 1930
+        # sheet the five provinces the 1941 cession later cut are one shape
+        # each, and the cession's own atom has no divisions at all; on the 1942
+        # sheet the five are cut and the ceded halves belong to Thailand.
+        #
+        # Both sets are written and `data-epoch` decides which is drawn, the
+        # same way the railway layers carry their dates. Drawing the 1942 pair
+        # on both sheets and relying on the two halves abutting does not work:
+        # each is thinned inside its own atom, so the shared edge is simplified
+        # twice and the two results differ by a fraction of a unit -- which is
+        # the seam a reader reported down the middle of Siem Reap. The 1930
+        # shape has no seam because it has no edge there to thin.
+        epoch_of = {}
+        if key in provinces_1930:
+            early = province_paths(key, provinces_1930)
+            for _b in early:
+                epoch_of[id(_b)] = "e1930"
+            for _b in blocks:
+                epoch_of[id(_b)] = "e1942"
+            blocks = early + blocks
+        elif key == "siamgain":
+            # The cession has divisions on the later sheet only: in 1930 this
+            # ground is inside Indochina's own whole provinces above, and
+            # naming it again here would draw it twice.
+            for _b in blocks:
+                epoch_of[id(_b)] = "e1942"
+
         specks = dots.get(key) or []
         if blocks:
             # Administrative divisions are more than half the weight of this
@@ -7668,10 +7728,14 @@ def main():
             sink = admin_out if (defer and whole) else out
             if sink is admin_out:
                 sink.append(f'  <g data-for="{key}">')
-            for pname, pd, where in blocks:
+            for block in blocks:
+                pname, pd, where = block
                 # an unnamed leftover gets no attribute at all: an empty one
                 # reads as a sub-unit that can never be named or outlined
                 attr = (f' data-prov="{esc(pname)}"' + where) if pname else ""
+                _ep = epoch_of.get(id(block))
+                if _ep:
+                    attr += ' data-epoch="%s"' % _ep
                 if key in SUB_CLIP:
                     attr += f' clip-path="url(#{SUB_CLIP[key]})"'
                 cluster = SUB_CLUSTERS.get((key, pname))

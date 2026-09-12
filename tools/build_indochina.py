@@ -499,6 +499,46 @@ def main():
     write(os.path.join(DATA, "french-indochina-1941-ceded.geojson"), ced_feats,
           "The 1941 cession, one outline per protectorate it came out of.")
 
+    # ---- the 1930 sheet, where the cession has not happened ---------------
+    #
+    # Five provinces are cut by the 1941 line — Luang Prabang, Champasak, Siem
+    # Reap, Stung Treng and Kampong Thom — and the map draws the two sides in
+    # two atoms, because in December 1942 one side is Thailand's. On the 1930
+    # sheet both sides are French Indochina and the cut had not been made, so
+    # the reader should see one province and there was a seam down the middle
+    # of each.
+    #
+    # Dissolved here rather than drawn twice and hidden: the two halves come
+    # out of one traced coverage and share every vertex of the line between
+    # them, so the seam cancels exactly and the result is the province as the
+    # trace has it. Simplifying the two halves separately — which is what the
+    # build does, each inside its own atom — is what made the seam visible in
+    # the first place: the same edge thinned twice gives two slightly different
+    # lines.
+    by_name = collections.defaultdict(list)
+    for k in order:
+        by_name[(units[k]["prot"], units[k]["name"])].append(units[k])
+    whole, split = [], []
+    for (prot, name), group in by_name.items():
+        rings = [r for u in group for r in u["rings"]]
+        note = max((u["note"] for u in group), key=len, default="")
+        if len(group) > 1:
+            rings = [r for poly in to_polygons(dissolve(rings, "1930/" + name),
+                                               "1930/" + name)
+                     for r in poly]
+            split.append(name)
+        whole.append(feature([[r] for r in rings],
+                             {"name": name, "name_french": group[0]["french"],
+                              "protectorate": prot, "note": note,
+                              "ceded": False,
+                              "km2": round(sum(km2(r) for r in rings), 1)}))
+    print("  the 1930 sheet: %d units, %d of them a province the cession cuts "
+          "put back together (%s)"
+          % (len(whole), len(split), ", ".join(sorted(split))))
+    write(os.path.join(DATA, "french-indochina-1930-admin.geojson"), whole,
+          "The coverage as it stood in 1930: the provinces the 1941 cession "
+          "later cut are one shape each.")
+
     fill_texts([units[k] for k in order])
 
 

@@ -42,10 +42,16 @@ const adminOn = async p => {
 const BLOCKS = key => {
   const el = document.getElementById('a-' + key);
   if (!el) return null;
-  return [...el.querySelectorAll('path[data-prov]')].map(x => ({
-    prov: x.getAttribute('data-prov'),
-    parent: x.getAttribute('data-parent') || '',
-  }));
+  /* Drawn, not merely present. Indochina's divisions are in the document
+     twice — once for each date — and `data-epoch` decides which set is shown,
+     so counting the elements would count both. */
+  return [...el.querySelectorAll('path[data-prov]')]
+    .filter(x => x.style.display !== 'none')
+    .map(x => ({
+      prov: x.getAttribute('data-prov'),
+      parent: x.getAttribute('data-parent') || '',
+      epoch: x.getAttribute('data-epoch') || '',
+    }));
 };
 
 /* A point that is really inside a named block, in client coordinates.
@@ -109,10 +115,13 @@ const open = async (p, name) => {
 
     const ic = await p.evaluate(BLOCKS, 'indochina');
     const sg = await p.evaluate(BLOCKS, 'siamgain');
-    check('the federation is drawn division by division', ic && ic.length === 88,
-          ic ? ic.length : 'no atom');
-    check('and the 1941 cession is six more', sg && sg.length === 6,
-          sg ? sg.length : 'no atom');
+    /* **The 1930 sheet draws the federation whole.** The cession had not
+       happened, so the five provinces it later cut are one shape each and the
+       cession's own atom has no divisions at all. */
+    check('the 1930 federation is drawn division by division',
+          ic && ic.length === 89, ic ? ic.length : 'no atom');
+    check('and the ground the cession later took has none of its own',
+          sg && sg.length === 0, sg ? sg.length : 'no atom');
 
     const all = ic.concat(sg);
     check('every division says which protectorate it was in',
@@ -130,13 +139,16 @@ const open = async (p, name) => {
           !all.some(b => five.indexOf(b.prov) >= 0),
           all.filter(b => five.indexOf(b.prov) >= 0).map(b => b.prov).join(','));
 
-    /* One province drawn in two atoms, which is what the cession makes of the
-       five it cuts through. Both halves answer to the one name. */
-    const split = sg.map(b => b.prov)
-      .filter(n => ic.some(b => b.prov === n));
-    check('the provinces the cession cuts are one name in two atoms',
-          split.length === 5 && split.indexOf('Luang Prabang') >= 0,
-          split.join(','));
+    /* And each of the five is one block, not two abutting ones. This is the
+       seam that was reported down the middle of Siem Reap: drawn as a pair,
+       each half is thinned inside its own atom, so the edge they share is
+       simplified twice and the two results differ. */
+    const FIVE = ['Luang Prabang', 'Champasak', 'Siem Reap', 'Stung Treng',
+                  'Kampong Thom'];
+    const twice = FIVE.filter(n =>
+      ic.filter(b => b.prov === n).length !== 1);
+    check('and the five provinces the cession cuts are one shape each in 1930',
+          twice.length === 0, twice.join(',') || 'all five whole');
 
     // ------------------------------------------- the five shades, on hover
     const shades = await p.evaluate(async () => {
@@ -192,8 +204,21 @@ const open = async (p, name) => {
           onThat === 'e1942', onThat);
     await adminOn(p);
     const ic42 = await p.evaluate(BLOCKS, 'indochina');
-    check('the 1942 federation is the same divisions', ic42.length === 88,
-          ic42.length);
+    const sg42 = await p.evaluate(BLOCKS, 'siamgain');
+    check('the 1942 federation is 88 divisions, the cession cut out of it',
+          ic42.length === 88, ic42.length);
+    check('and the cession is six of its own', sg42.length === 6, sg42.length);
+    /* The other way round from 1930: here the five are two blocks, one on each
+       side of the line, because one side is Thailand's. */
+    const FIVE42 = ['Luang Prabang', 'Champasak', 'Siem Reap', 'Stung Treng',
+                    'Kampong Thom'];
+    const paired = FIVE42.filter(n =>
+      ic42.some(b => b.prov === n) && sg42.some(b => b.prov === n));
+    check('and each of the five is drawn on both sides of the 1941 line',
+          paired.length === 5, paired.join(','));
+    check('every drawn division names the date it belongs to',
+          ic42.concat(sg42).every(b => b.epoch === 'e1942'),
+          ic42.concat(sg42).filter(b => b.epoch !== 'e1942').length + ' without');
     const lit = await p.evaluate(() => {
       document.getElementById('a-indochina').classList.add('hot');
       const el = [...document.querySelectorAll('#a-siamgain [data-prov]')][0];

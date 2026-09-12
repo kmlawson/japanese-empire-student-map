@@ -1505,7 +1505,6 @@ window.JMAP_TRAINS = function (host) {
       els.more.addEventListener('click', function () {
         foldConn(!legend.classList.contains('conn-folded'));
       });
-      legend.appendChild(els.more);
       foldConn(true);
     }
 
@@ -1546,7 +1545,18 @@ window.JMAP_TRAINS = function (host) {
     row.appendChild(close);
     var row2 = el('div', 'train-row train-row2');
     row2.appendChild(legend);
+    /* **OUTSIDE THE LIST IT OPENS.**
+     *
+     * It was appended to the legend, which is where it reads as belonging —
+     * and the legend scrolls. Korea's 42 names are four rows deep in a box two
+     * and a half rows tall, so a button at the end of them sat below the fold
+     * of a scrolling strip and a reader looking straight at the tools could not
+     * see it. Reported exactly that way. It goes next to the switch it belongs
+     * to instead, where both are always in view: the switch says whether the
+     * other lines are *drawn* and this says whether they are *listed*, and the
+     * pair reads as one question asked twice. */
     if (connLabel) row2.appendChild(connLabel);
+    if (els.more) row2.appendChild(els.more);
     row2.appendChild(note);
     row2.appendChild(link);
     bar.appendChild(row);
