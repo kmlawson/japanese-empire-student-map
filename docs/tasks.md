@@ -21016,3 +21016,26 @@ before its assignment runs**, which this file is now three-for-three on:
   900-line-plus IIFE, "declare it near what it belongs to" and "declare it
   before anything runs that reads it" are different instructions, and only the
   second is enforced by anything.
+
+## 177a. The railway menu was behind the map
+
+Reported with a picture: the menu drew in the top-left of the page with the map
+over it.
+
+`className = 'pick-menu'` was the whole of the mistake. That class is on the
+airline menu too and **is styled by nothing** — every rule for these menus is
+keyed on the id, `#label-menu` and `#air-menu`. So the railway menu had no
+`position: fixed`, no background and no `z-index`: it laid itself out in the
+document flow at the top of the page, and the map painted over it.
+
+`#rail-menu` is in each of those selector lists now. A class shared by two
+menus and styled by neither is the trap, and the comment above the list says so.
+
+One ordering detail with it: the row has two lines — the network and year, then
+the source under it — so it needs `display: block` against the `flex` those
+menus lay a row out with. Written earlier in the file the flex won and the
+source sat beside the name; the rule is after it now, with the reason on it.
+
+Measured on the open menu: `position: fixed`, `z-index: 60`, an opaque panel
+background, rows `block`, and `elementFromPoint` at the menu's own centre
+returns the menu's own content rather than the map.

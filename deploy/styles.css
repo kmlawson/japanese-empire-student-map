@@ -3243,18 +3243,6 @@ dialog h3 {
    The button is not in this box — the box scrolls, and a control that opens a
    list must not be inside the part of it that can be scrolled out of sight. */
 .train-legend.conn-folded .train-chip-conn { display: none; }
-/* The five railways behind the railway button. Same box as the airline menu —
-   `.pick-menu` — with two lines to a row: the network and the year of *its*
-   network on this sheet, then the source in a few words under it. */
-.rail-menu-name { font-weight: 600; }
-.rail-menu-src {
-  display: block;
-  padding-left: 1.5rem;
-  font-size: 0.74rem;
-  color: var(--muted);
-}
-#rail-menu .row { display: block; }
-
 .train-more {
   border: 0;
   background: none;
@@ -3855,7 +3843,16 @@ dialog h3 {
    Fixed rather than absolute: the bar it hangs from scrolls on a narrow
    screen, and a menu that stays behind while its button moves is worse than
    no menu. map.js positions it against the button on every open. */
+/* `#rail-menu` is in every one of these lists. It was given the class
+   `.pick-menu` and nothing else, on the assumption that the class carried
+   the box — it does not; every rule here is by id. So the menu had no
+   `position: fixed`, no background and no `z-index`: it laid itself out in
+   the document flow at the top of the page and the map painted over it,
+   which is how it was reported. A class used by two menus and styled by
+   neither is the trap; the ids are what the rules are keyed on, so the ids
+   are what have to be listed. */
 #label-menu,
+#rail-menu,
 #air-menu {
   position: fixed;
   z-index: 60;
@@ -3869,8 +3866,9 @@ dialog h3 {
   font-size: 13px;
   color: var(--ink);
 }
-#label-menu[hidden], #air-menu[hidden] { display: none; }
+#label-menu[hidden], #air-menu[hidden], #rail-menu[hidden] { display: none; }
 #label-menu .menu-head,
+#rail-menu .menu-head,
 #air-menu .menu-head {
   padding: 2px 10px 5px;
   color: var(--muted);
@@ -3894,6 +3892,7 @@ dialog h3 {
   border-top: 0;
 }
 #label-menu label,
+#rail-menu label,
 #air-menu label {
   display: flex;
   gap: 8px;
@@ -3903,14 +3902,33 @@ dialog h3 {
   cursor: pointer;
 }
 #label-menu label:hover,
+#rail-menu label:hover,
 #air-menu label:hover { background: var(--hover-fill); }
 #label-menu input,
+#rail-menu input,
 #air-menu input { margin-top: 2px; flex: none; }
+
+/* The five railways behind the railway button: the same box as the airline
+   menu, with two lines to a row — the network and the year of *its* network on
+   this sheet, then the source in a few words under it.
+   **After the `label` rule above, not before it.** Those menus lay a row out
+   with flex; this one needs a block so the second line falls under the first,
+   and written earlier in the file the flex won and the source sat beside the
+   name instead of below it. */
+#rail-menu label.row { display: block; }
+#rail-menu .rail-menu-name { font-weight: 600; }
+#rail-menu .rail-menu-src {
+  display: block;
+  padding-left: 1.55rem;
+  font-size: 11.5px;
+  color: var(--muted);
+}
 
 /* Twenty-two sheets is a long menu, so it scrolls rather than running off the
    screen, and the way back sits at the foot of it. */
-#air-menu { max-height: min(70vh, 30rem); overflow-y: auto; }
-#air-menu .menu-reset {
+#air-menu, #rail-menu { max-height: min(70vh, 30rem); overflow-y: auto; }
+#air-menu .menu-reset,
+#rail-menu .menu-reset {
   display: block;
   width: calc(100% - 12px);
   margin: 6px 6px 2px;

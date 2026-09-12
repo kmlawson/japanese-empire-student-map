@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '358';
+  var JEM_VERSION = '359';
 
 
 
