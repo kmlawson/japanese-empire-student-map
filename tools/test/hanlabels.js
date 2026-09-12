@@ -275,7 +275,15 @@ console.log('\n— one label to a place —');
   const count=t=>seen.filter(x=>x===t).length;
   check('Hankou is named once, not twice', count('漢口')<=1, String(count('漢口')));
   const twins=seen.filter((t,i)=>seen.indexOf(t)!==i);
-  const allowed=['吉林','寧夏'];
+  /* Chiengmai joined the pair class on 12 September: the changwat and its
+     capital genuinely share the name, like Jilin and Ningxia -- in romanised
+     form, since the gazetteer carries no characters for it. Its province
+     label had always been created and left empty, a hair under subFits'
+     width gate; the arc-topology work's finer borders grew the changwat's
+     data-area from 817 to 823 and pushed it over. Both labels are hidden at
+     this state -- the check reads DOM text, not paint -- and the
+     no-overlap-when-drawn rule is the section below. */
+  const allowed=['吉林','寧夏','Chiengmai'];
   const unexpected=[...new Set(twins)].filter(t=>allowed.indexOf(t)<0);
   check('and no other place is written twice', unexpected.length===0,
     JSON.stringify(unexpected.slice(0,6)));
