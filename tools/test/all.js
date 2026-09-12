@@ -69,7 +69,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'trains', 'korea', 'population', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airplay',
              'clipping', 'layerinfo', 'krtrains', 'kftrains', 'layerfind', 'beta', 'hanlabels',
-             'owns', 'jprails', 'indochina', 'citytap', 'ferries'];
+             'owns', 'jprails', 'indochina', 'citytap', 'ferries', 'arcs'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -157,7 +157,7 @@ const GROUPS = {
   /* The shapes themselves, and the sheets they are written to. These move when
      `build_map.py` runs, not when somebody edits behaviour. */
   geometry: ['backings', 'projclip', 'provsource', 'taiwan', 'korea', 'relief',
-             'islands', 'mapstrip', 'indochina'],
+             'islands', 'mapstrip', 'indochina', 'arcs'],
 
   /* Railways, stations and the sugar lines. Four data files that change in
      bursts and then sit still for weeks. */
@@ -457,7 +457,7 @@ else list = pick.map(a => (/^\d+$/.test(a) ? 'run' + (a === '1' ? '' : a) : a));
    140, `layers-url` as 18 and takes 70. All three were being scheduled near
    the *back*, so a run ended with its longest scripts and three idle
    workers. Regenerate from a full run's own per-script line. */
-const SECS = { owns: 1, jprails: 190, stations: 147, relief: 140, demography: 95, population: 97, 'layers-url': 158, names: 62, mapstrip: 56, trains: 79, krtrains: 16, kftrains: 19, japanpop: 44, theme: 40, labels: 40, subnames: 37, labelcats: 35, routes: 34, sugar: 33, twpop1930: 33, pin: 31, epoch: 29, mono: 27, colours: 26, extent: 26, islands: 25, manchupop: 25, keys: 52, legendpick: 22, labuan: 22, provsource: 19, bookmarks: 16, 'cache-keys': 15, backings: 15, taiwan: 15, korea: 14, zoom: 13, menu: 13, pointsize: 11, projclip: 11, taiwanpop: 7, beta: 22, hanlabels: 108, air: 159, airplay: 78, clipping: 24, layerinfo: 34,
+const SECS = { owns: 1, jprails: 190, stations: 147, relief: 140, demography: 95, population: 97, 'layers-url': 158, names: 62, mapstrip: 56, trains: 79, krtrains: 16, kftrains: 19, japanpop: 44, theme: 40, labels: 40, subnames: 37, labelcats: 35, routes: 34, sugar: 33, twpop1930: 33, pin: 31, epoch: 29, mono: 27, colours: 26, extent: 26, islands: 25, manchupop: 25, keys: 52, legendpick: 22, labuan: 22, provsource: 19, bookmarks: 16, 'cache-keys': 15, backings: 15, taiwan: 15, korea: 14, zoom: 13, menu: 13, pointsize: 11, projclip: 11, taiwanpop: 7, beta: 22, hanlabels: 108, air: 159, airplay: 78, clipping: 24, layerinfo: 34, arcs: 2,
                run2: 41, run15: 40, run5: 35, run14: 32, run: 19, run3: 28, run9: 30, run10: 25, run11: 24, run12: 19, run8: 19, run13: 18, run4: 17, run6: 12, run7: 5 };
 /* And now measured rather than transcribed. Every run writes what each script
    took (`per`, in runs.jsonl) and the latest figure for a script overrides the
