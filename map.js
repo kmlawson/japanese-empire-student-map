@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '357';
+  var JEM_VERSION = '358';
 
   /* Every file this one fetches, with the version on it.
 
@@ -12559,7 +12559,15 @@
      system for the button beside the map; this is the same name in the
      possessive, and it is the one place that has to change when a fourth
      system arrives. */
-  var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto', jp: 'Japan' };
+  var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto', jp: 'Japan',
+                     burma: 'Burma' };
+  var RAIL_SWITCH_ROWS = [
+    { sys: 'tw', state: 'twRail' },
+    { sys: 'kr', state: 'krRail' },
+    { sys: 'jp', state: 'jpRail' },
+    { sys: 'kf', state: 'kfRail' },
+    { sys: 'burma', state: 'burmaRail' },
+  ];
 
   /* **What the white railway is, and which year's network it is.**
    *
@@ -12580,6 +12588,26 @@
   var N05_URL = 'https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html';
 
   var RAIL_INFO = {
+    /* Burma, which has no `STATION_SYS` entry to hang this off: the trace
+       names neither its lines nor its stations, so there is nothing to press
+       and no squares to draw, and the layer is the shape of the network and no
+       more. One drawing for both dates — the metre-gauge network was complete
+       by the 1920s and stood in December 1942 where it stood in 1930.
+
+       **Inside the literal, not assigned after it.** Written as
+       `RAIL_INFO.burma = {...}` next to `RAIL_LABEL`, it ran forty-four lines
+       before `var RAIL_INFO` did, threw on a property of `undefined`, and took
+       the whole page down with it. */
+    burma: {
+      label: 'Burma Railways',
+      years: { e1930: '1930', e1942: 'December 1942' },
+      srcShort: 'traced for this map',
+      source: 'traced for this map: 30 lines, 6,081 km, the network as it '
+        + 'stood through both dates. The trace carries no line or station '
+        + 'names.',
+      note: 'Lines only \u2014 there are no stations and no line is '
+        + 'pressable, the trace naming neither.',
+    },
     tw: {
       label: 'Taiwan Railways',
       /* **The map's own dates, not the tracing source's.**
@@ -12594,6 +12622,11 @@
        *
        * The tracing source is named in `source` below, where it belongs. */
       years: { e1930: '1930', e1942: 'December 1942' },
+      /* The source in a handful of words, for the menu behind the button —
+         `source` below is the full citation and is what the card and
+         sources.html print. A menu row has one line and cannot carry a
+         sentence about reprojection. */
+      srcShort: '日治時期鐵路分布圖, Academia Sinica',
       source: '日治時期鐵路分布圖 (Academia Sinica), reprojected to TWD97, with '
         + 'several stretches traced from the 1944 American 1:25,000 sheet',
       url: 'https://data.depositar.io/dataset/rd15-07030',
@@ -12606,6 +12639,7 @@
          opened, so 1930 is the network as it had been built by then and 1942
          is that plus what opened in between. */
       years: { e1930: '1930', e1942: 'December 1942' },
+      srcShort: 'N05 \u9244\u9053\u6642\u7cfb\u5217\u30c7\u30fc\u30bf, \u56fd\u571f\u4ea4\u901a\u7701',
       source: 'N05 \u9244\u9053\u6642\u7cfb\u30c7\u30fc\u30bf, '
         + '\u56fd\u571f\u4ea4\u901a\u7701\u56fd\u571f\u6570\u5024\u60c5\u5831'
         + ', filtered by the year each line opened',
@@ -12618,6 +12652,7 @@
     kr: {
       label: 'Korea Railways',
       years: { e1930: '1930', e1942: '1942' },
+      srcShort: '근대 철도 DB, 김종혁',
       source: '근대 철도 DB (김종혁), filtered by the year each line opened',
       url: 'https://www.hisgeo.info/wiki/%EA%B7%BC%EB%8C%80_%EC%B2%A0%EB%8F%84_DB',
       note: 'Lines open by 1931 on the 1930 map and by 1943 on the December '
@@ -12626,6 +12661,7 @@
     kf: {
       label: 'Karafuto Railways',
       years: { e1930: '1935', e1942: '1935' },
+      srcShort: 'traced for this map, after 樺太路線図',
       source: 'traced for this map from 最新樺太地圖 and the 樺太路線図 at '
         + '時刻表倉庫, checked against the 1947 U.S. Army sheets',
       url: 'https://jikokusouko.pages.dev/index.htm',
@@ -15280,6 +15316,153 @@
     var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
     m.style.left = Math.max(6, left) + 'px';
     m.style.top = top + 'px';
+  }
+
+  /* ---- the five railways, one by one -----------------------------------
+   *
+   * The button beside the map switches every network at once, which is the
+   * right default — a reader who has asked for railways wants them wherever
+   * they go looking. But five networks from five sources is a thing worth
+   * being able to take apart: to draw Korea's without Japan's behind it, or to
+   * ask which survey a line came from and what year it is the network of.
+   *
+   * Held down, or option-clicked, the button opens this. The same two doors
+   * the air button offers, for the same reasons: a phone has no option key and
+   * a desktop has no press-and-hold.
+   *
+   * Each row says the network, the year of *that network* on the sheet being
+   * shown — not the map's date, which is the distinction `RAIL_INFO` exists to
+   * keep: Karafuto is the 1935 network on both sheets, and Taiwan's later one
+   * is 1944's survey drawn for December 1942 — and the source in a handful of
+   * words. The full citation is on the card and in sources.html; a menu row is
+   * one line. */
+  var railMenuOn = false;
+  var railPressLong = false;
+
+  function railMenuEl() {
+    var m = $('#rail-menu');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'rail-menu';
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', 'Which railway networks to draw');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+  function buildRailMenu() {
+    var m = railMenuEl();
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = 'Which railways to draw';
+    m.appendChild(head);
+    RAIL_SWITCH_ROWS.forEach(function (row) {
+      var inf = RAIL_INFO[row.sys] || {};
+      var label = document.createElement('label');
+      label.className = 'row';
+      var el = document.createElement('input');
+      el.type = 'checkbox';
+      el.setAttribute('data-rail-sys', row.sys);
+      el.checked = !!state[row.state];
+      el.addEventListener('change', function () {
+        state[row.state] = el.checked;
+        /* The panel's own checkbox is the same switch and has to follow, and
+           the train tools' record of what the reader had has to follow too —
+           the same rule the button and the panel already share. */
+        var box = $('#opt-' + row.sys + '-rail');
+        if (box) box.checked = el.checked;
+        if (trainBorrowed && trainBorrowed.rail === row.state) {
+          trainBorrowed.hadRail = el.checked;
+        }
+        // the last railway off takes the tools with it, as the button does
+        dropToolsWithRails();
+        applyState();
+        saveState();
+        scheduleUrl();
+      });
+      label.appendChild(el);
+      var name = document.createElement('span');
+      name.className = 'rail-menu-name';
+      var yr = (inf.years && inf.years[state.epoch]) || '';
+      name.textContent = ' ' + (inf.label || RAIL_LABEL[row.sys] || row.sys)
+        + (yr ? '  \u2014  ' + yr : '');
+      label.appendChild(name);
+      if (inf.srcShort) {
+        var src = document.createElement('span');
+        src.className = 'rail-menu-src';
+        src.textContent = inf.srcShort;
+        label.appendChild(src);
+      }
+      /* And the full citation where a reader can reach it, which is what the
+         title attribute is for on a row this small. */
+      if (inf.source) label.title = inf.source;
+      m.appendChild(label);
+    });
+    /* Both ways at once, because "all of them" and "none of them" are the two
+       things a reader most often wants from a list of five. */
+    var all = document.createElement('button');
+    all.type = 'button';
+    all.className = 'plain menu-reset';
+    all.textContent = 'All five, or none';
+    all.addEventListener('click', function () {
+      var any = RAIL_SWITCH_ROWS.some(function (r) { return !!state[r.state]; });
+      RAIL_SWITCH_ROWS.forEach(function (r) {
+        state[r.state] = !any;
+        var box = $('#opt-' + r.sys + '-rail');
+        if (box) box.checked = !any;
+        if (trainBorrowed && trainBorrowed.rail === r.state) {
+          trainBorrowed.hadRail = !any;
+        }
+      });
+      dropToolsWithRails();
+      syncRailMenu();
+      applyState();
+      saveState();
+      scheduleUrl();
+    });
+    m.appendChild(all);
+  }
+
+  function syncRailMenu() {
+    $$('#rail-menu input[data-rail-sys]').forEach(function (el) {
+      var sys = el.getAttribute('data-rail-sys');
+      var row = null;
+      RAIL_SWITCH_ROWS.forEach(function (r) { if (r.sys === sys) row = r; });
+      if (row) el.checked = !!state[row.state];
+    });
+  }
+
+  /* Beside the button, like the air menu and for the same reason: the railway
+     button sits at the right-hand edge of the map, so the menu hangs off its
+     left rather than dropping below it. */
+  function placeRailMenu() {
+    var m = $('#rail-menu'), btn = $('#btn-rail');
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left = b.left - w - 8;
+    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    m.style.left = Math.max(6, left) + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function openRailMenu() {
+    buildRailMenu();
+    var m = railMenuEl();
+    m.hidden = false;
+    railMenuOn = true;
+    placeRailMenu();
+  }
+
+  function closeRailMenu() {
+    var m = $('#rail-menu');
+    if (!m || !railMenuOn) return;
+    m.hidden = true;
+    railMenuOn = false;
   }
 
   function openAirMenu() {
@@ -18032,6 +18215,13 @@
           closeAirMenu();
         }
       }
+      if (railMenuOn) {
+        var rm = $('#rail-menu');
+        var rb = $('#btn-rail');
+        if (!(rm && rm.contains(e.target)) && !(rb && rb.contains(e.target))) {
+          closeRailMenu();
+        }
+      }
       if (!labelMenuOn) return;
       var menu = $('#label-menu');
       if (menu && menu.contains(e.target)) return;
@@ -18040,9 +18230,11 @@
     }, true);
     document.addEventListener('keydown', function (e) {
       if (labelMenuOn && e.key === 'Escape') closeLabelMenu();
+      if (railMenuOn && e.key === 'Escape') closeRailMenu();
     });
     window.addEventListener('resize', function () {
       if (labelMenuOn) placeLabelMenu();
+      if (railMenuOn) placeRailMenu();
     });
 
     $$('#level-seg button').forEach(function (b) {
@@ -18546,7 +18738,36 @@
 
     var btnRail = $('#btn-rail');
     if (btnRail) {
-      btnRail.addEventListener('click', function () {
+      /* Hold it, or option-click it, for the five networks one at a time —
+         the same two doors the air button and the names menu offer, and for
+         the same reason: a phone has no option key and a desktop has no
+         press-and-hold. The long press has already opened the menu by the
+         time the click arrives, so that click has to be swallowed or it would
+         switch every railway on under the menu it just opened. */
+      var railHold = 0;
+      var stopRailHold = function () {
+        if (railHold) { clearTimeout(railHold); railHold = 0; }
+      };
+      btnRail.addEventListener('pointerdown', function () {
+        railPressLong = false;
+        stopRailHold();
+        railHold = setTimeout(function () {
+          railHold = 0;
+          railPressLong = true;
+          if (railMenuOn) closeRailMenu(); else openRailMenu();
+        }, LABEL_HOLD_MS);
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
+        btnRail.addEventListener(ev, stopRailHold);
+      });
+      btnRail.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+      btnRail.addEventListener('click', function (e) {
+        if (railPressLong) { railPressLong = false; return; }
+        if (e.altKey) {
+          if (railMenuOn) closeRailMenu(); else openRailMenu();
+          return;
+        }
+        closeRailMenu();
         /* **One press, every network.** The button used to switch on whichever
            railway the reader happened to be over, so a reader in Korea turned
            on Korea's and found Taiwan's still missing when they went to look

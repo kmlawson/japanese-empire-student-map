@@ -20966,3 +20966,53 @@ blind.
   Not started.
 * **Hiding the off-screen railways**, once the setup-order problem above is
   understood.
+
+## 177. The five railways, one at a time, behind the button
+
+The button beside the map switches every network at once, which is the right
+default — a reader who has asked for railways wants them wherever they go
+looking. But five networks from five surveys is worth being able to take apart:
+to draw Korea's without Japan's behind it, and to ask which survey a line came
+from and what year it is the network of.
+
+Held down, or option-clicked, the button now opens a menu of the five. The same
+two doors the air button and the names menu offer, for the same reason: a phone
+has no option key and a desktop has no press-and-hold. The long press has
+opened the menu by the time the click arrives, so that click is swallowed, or
+it would switch every railway on under the menu it just opened.
+
+Each row says the network, **the year of that network on the sheet being
+shown** — not the map's date, which is the distinction `RAIL_INFO` exists to
+keep — and the source in a handful of words, with the full citation on the
+row's title. Measured on the 1930 sheet:
+
+| | year | source |
+|---|---|---|
+| Taiwan Railways | 1930 | 日治時期鐵路分布圖, Academia Sinica |
+| Korea Railways | 1930 | 근대 철도 DB, 김종혁 |
+| Japan Railways | 1930 | N05 鉄道時系列データ, 国土交通省 |
+| Karafuto Railways | **1935** | traced for this map, after 樺太路線図 |
+| Burma Railways | 1930 | traced for this map |
+
+Karafuto is 1935's network on both sheets and says so, which is the whole
+reason the year is per network and not per map.
+
+`RAIL_SWITCH_ROWS` names the five in one place — the colonies, then Japan, then
+Burma, which is occupied rather than colonial and has no stations either.
+Burma also gains a `RAIL_INFO` entry, which it had been doing without.
+
+Driven both ways, mouse and finger: a long press opens it, ticking Korea there
+ticks the panel's own box, and **All five, or none** takes the lot. No page
+errors either way.
+
+Two mistakes worth recording, both of the same kind — **a module `var` read
+before its assignment runs**, which this file is now three-for-three on:
+
+* `RAIL_INFO.burma = {...}` was written beside `RAIL_LABEL`, forty-four lines
+  *above* `var RAIL_INFO = {`. It threw on a property of `undefined` at load
+  and took the whole page down — the test could not even reach `ready`. It is a
+  key inside the literal now.
+* The same shape as the two failures in 176 and in `railFadeOne`. In a
+  900-line-plus IIFE, "declare it near what it belongs to" and "declare it
+  before anything runs that reads it" are different instructions, and only the
+  second is enforced by anything.

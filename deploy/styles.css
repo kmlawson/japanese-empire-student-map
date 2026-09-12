@@ -3243,6 +3243,18 @@ dialog h3 {
    The button is not in this box — the box scrolls, and a control that opens a
    list must not be inside the part of it that can be scrolled out of sight. */
 .train-legend.conn-folded .train-chip-conn { display: none; }
+/* The five railways behind the railway button. Same box as the airline menu —
+   `.pick-menu` — with two lines to a row: the network and the year of *its*
+   network on this sheet, then the source in a few words under it. */
+.rail-menu-name { font-weight: 600; }
+.rail-menu-src {
+  display: block;
+  padding-left: 1.5rem;
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+#rail-menu .row { display: block; }
+
 .train-more {
   border: 0;
   background: none;

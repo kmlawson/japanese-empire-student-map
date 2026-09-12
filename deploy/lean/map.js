@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '357';
+  var JEM_VERSION = '358';
 
 
 
@@ -12559,7 +12559,15 @@
 
 
 
-  var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto', jp: 'Japan' };
+  var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto', jp: 'Japan',
+                     burma: 'Burma' };
+  var RAIL_SWITCH_ROWS = [
+    { sys: 'tw', state: 'twRail' },
+    { sys: 'kr', state: 'krRail' },
+    { sys: 'jp', state: 'jpRail' },
+    { sys: 'kf', state: 'kfRail' },
+    { sys: 'burma', state: 'burmaRail' },
+  ];
 
 
 
@@ -12580,6 +12588,26 @@
   var N05_URL = 'https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html';
 
   var RAIL_INFO = {
+
+
+
+
+
+
+
+
+
+
+    burma: {
+      label: 'Burma Railways',
+      years: { e1930: '1930', e1942: 'December 1942' },
+      srcShort: 'traced for this map',
+      source: 'traced for this map: 30 lines, 6,081 km, the network as it '
+        + 'stood through both dates. The trace carries no line or station '
+        + 'names.',
+      note: 'Lines only \u2014 there are no stations and no line is '
+        + 'pressable, the trace naming neither.',
+    },
     tw: {
       label: 'Taiwan Railways',
 
@@ -12594,6 +12622,11 @@
 
 
       years: { e1930: '1930', e1942: 'December 1942' },
+
+
+
+
+      srcShort: '日治時期鐵路分布圖, Academia Sinica',
       source: '日治時期鐵路分布圖 (Academia Sinica), reprojected to TWD97, with '
         + 'several stretches traced from the 1944 American 1:25,000 sheet',
       url: 'https://data.depositar.io/dataset/rd15-07030',
@@ -12606,6 +12639,7 @@
 
 
       years: { e1930: '1930', e1942: 'December 1942' },
+      srcShort: 'N05 \u9244\u9053\u6642\u7cfb\u5217\u30c7\u30fc\u30bf, \u56fd\u571f\u4ea4\u901a\u7701',
       source: 'N05 \u9244\u9053\u6642\u7cfb\u30c7\u30fc\u30bf, '
         + '\u56fd\u571f\u4ea4\u901a\u7701\u56fd\u571f\u6570\u5024\u60c5\u5831'
         + ', filtered by the year each line opened',
@@ -12618,6 +12652,7 @@
     kr: {
       label: 'Korea Railways',
       years: { e1930: '1930', e1942: '1942' },
+      srcShort: '근대 철도 DB, 김종혁',
       source: '근대 철도 DB (김종혁), filtered by the year each line opened',
       url: 'https://www.hisgeo.info/wiki/%EA%B7%BC%EB%8C%80_%EC%B2%A0%EB%8F%84_DB',
       note: 'Lines open by 1931 on the 1930 map and by 1943 on the December '
@@ -12626,6 +12661,7 @@
     kf: {
       label: 'Karafuto Railways',
       years: { e1930: '1935', e1942: '1935' },
+      srcShort: 'traced for this map, after 樺太路線図',
       source: 'traced for this map from 最新樺太地圖 and the 樺太路線図 at '
         + '時刻表倉庫, checked against the 1947 U.S. Army sheets',
       url: 'https://jikokusouko.pages.dev/index.htm',
@@ -15280,6 +15316,153 @@
     var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
     m.style.left = Math.max(6, left) + 'px';
     m.style.top = top + 'px';
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var railMenuOn = false;
+  var railPressLong = false;
+
+  function railMenuEl() {
+    var m = $('#rail-menu');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'rail-menu';
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', 'Which railway networks to draw');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+  function buildRailMenu() {
+    var m = railMenuEl();
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = 'Which railways to draw';
+    m.appendChild(head);
+    RAIL_SWITCH_ROWS.forEach(function (row) {
+      var inf = RAIL_INFO[row.sys] || {};
+      var label = document.createElement('label');
+      label.className = 'row';
+      var el = document.createElement('input');
+      el.type = 'checkbox';
+      el.setAttribute('data-rail-sys', row.sys);
+      el.checked = !!state[row.state];
+      el.addEventListener('change', function () {
+        state[row.state] = el.checked;
+
+
+
+        var box = $('#opt-' + row.sys + '-rail');
+        if (box) box.checked = el.checked;
+        if (trainBorrowed && trainBorrowed.rail === row.state) {
+          trainBorrowed.hadRail = el.checked;
+        }
+
+        dropToolsWithRails();
+        applyState();
+        saveState();
+        scheduleUrl();
+      });
+      label.appendChild(el);
+      var name = document.createElement('span');
+      name.className = 'rail-menu-name';
+      var yr = (inf.years && inf.years[state.epoch]) || '';
+      name.textContent = ' ' + (inf.label || RAIL_LABEL[row.sys] || row.sys)
+        + (yr ? '  \u2014  ' + yr : '');
+      label.appendChild(name);
+      if (inf.srcShort) {
+        var src = document.createElement('span');
+        src.className = 'rail-menu-src';
+        src.textContent = inf.srcShort;
+        label.appendChild(src);
+      }
+
+
+      if (inf.source) label.title = inf.source;
+      m.appendChild(label);
+    });
+
+
+    var all = document.createElement('button');
+    all.type = 'button';
+    all.className = 'plain menu-reset';
+    all.textContent = 'All five, or none';
+    all.addEventListener('click', function () {
+      var any = RAIL_SWITCH_ROWS.some(function (r) { return !!state[r.state]; });
+      RAIL_SWITCH_ROWS.forEach(function (r) {
+        state[r.state] = !any;
+        var box = $('#opt-' + r.sys + '-rail');
+        if (box) box.checked = !any;
+        if (trainBorrowed && trainBorrowed.rail === r.state) {
+          trainBorrowed.hadRail = !any;
+        }
+      });
+      dropToolsWithRails();
+      syncRailMenu();
+      applyState();
+      saveState();
+      scheduleUrl();
+    });
+    m.appendChild(all);
+  }
+
+  function syncRailMenu() {
+    $$('#rail-menu input[data-rail-sys]').forEach(function (el) {
+      var sys = el.getAttribute('data-rail-sys');
+      var row = null;
+      RAIL_SWITCH_ROWS.forEach(function (r) { if (r.sys === sys) row = r; });
+      if (row) el.checked = !!state[row.state];
+    });
+  }
+
+
+
+
+  function placeRailMenu() {
+    var m = $('#rail-menu'), btn = $('#btn-rail');
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left = b.left - w - 8;
+    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    m.style.left = Math.max(6, left) + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function openRailMenu() {
+    buildRailMenu();
+    var m = railMenuEl();
+    m.hidden = false;
+    railMenuOn = true;
+    placeRailMenu();
+  }
+
+  function closeRailMenu() {
+    var m = $('#rail-menu');
+    if (!m || !railMenuOn) return;
+    m.hidden = true;
+    railMenuOn = false;
   }
 
   function openAirMenu() {
@@ -18032,6 +18215,13 @@
           closeAirMenu();
         }
       }
+      if (railMenuOn) {
+        var rm = $('#rail-menu');
+        var rb = $('#btn-rail');
+        if (!(rm && rm.contains(e.target)) && !(rb && rb.contains(e.target))) {
+          closeRailMenu();
+        }
+      }
       if (!labelMenuOn) return;
       var menu = $('#label-menu');
       if (menu && menu.contains(e.target)) return;
@@ -18040,9 +18230,11 @@
     }, true);
     document.addEventListener('keydown', function (e) {
       if (labelMenuOn && e.key === 'Escape') closeLabelMenu();
+      if (railMenuOn && e.key === 'Escape') closeRailMenu();
     });
     window.addEventListener('resize', function () {
       if (labelMenuOn) placeLabelMenu();
+      if (railMenuOn) placeRailMenu();
     });
 
     $$('#level-seg button').forEach(function (b) {
@@ -18546,7 +18738,36 @@
 
     var btnRail = $('#btn-rail');
     if (btnRail) {
-      btnRail.addEventListener('click', function () {
+
+
+
+
+
+
+      var railHold = 0;
+      var stopRailHold = function () {
+        if (railHold) { clearTimeout(railHold); railHold = 0; }
+      };
+      btnRail.addEventListener('pointerdown', function () {
+        railPressLong = false;
+        stopRailHold();
+        railHold = setTimeout(function () {
+          railHold = 0;
+          railPressLong = true;
+          if (railMenuOn) closeRailMenu(); else openRailMenu();
+        }, LABEL_HOLD_MS);
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
+        btnRail.addEventListener(ev, stopRailHold);
+      });
+      btnRail.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+      btnRail.addEventListener('click', function (e) {
+        if (railPressLong) { railPressLong = false; return; }
+        if (e.altKey) {
+          if (railMenuOn) closeRailMenu(); else openRailMenu();
+          return;
+        }
+        closeRailMenu();
 
 
 
