@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '356';
+  var JEM_VERSION = '357';
 
   /* Every file this one fetches, with the version on it.
 
@@ -2623,8 +2623,40 @@
     railFlashTimer = requestAnimationFrame(step);
   }
 
+  /* The ground each railway runs on. Four come out of `STATION_SYS`, which
+     already keeps a box per system for the button beside the map; Burma is not
+     in that table, having no stations, so its box is the bounding box of the
+     trace — 94.84–97.91 E, 15.26–25.46 N, rounded outwards. */
   function railFadeOne(group, on) {
     if (!group) return;
+    /* **A NETWORK NOBODY CAN SEE IS STILL ON THE MAP, AND IT COSTS SOMETHING.**
+     *
+     * The fade is keyed on the zoom, not on where the view is, so with the
+     * railways switched on and the reader deep over Borneo all four East Asian
+     * networks are `display: ''` at full opacity — 5,949 paths of geometry
+     * outside the window. Chrome does not paint what it cannot see, but the
+     * elements are in the render tree and are reconsidered every time the
+     * viewBox moves, which is every frame of a pan.
+     *
+     * Measured at four times CPU throttling, forty synthetic pan steps, median
+     * of three: over Borneo the railways cost **681 ms against 649 with them
+     * switched off — +32 ms, or 4.9%**, about 0.8 ms a frame throttled. Over
+     * Korea, where they are the thing being looked at, the same layers cost
+     * **+127 ms, 19.6%** — four times as much, which is the difference between
+     * geometry that is painted and geometry that is merely present.
+     *
+     * So the reader's impression is right in direction and the size of it is
+     * about five per cent of a pan. **Not fixed here.** Hiding a layer whose
+     * ground the view does not reach was tried and withdrawn: the obvious
+     * implementation reads `STATION_SYS` for the box, and `railFade` runs
+     * before the module body has assigned it, so the lookup threw, the throw
+     * aborted `railFade` halfway, and every railway group stayed at the
+     * `display: none` the SVG ships with — switching the railways on drew
+     * nothing anywhere. Guarding the lookup did not bring them back either, so
+     * something earlier in the order of setup is involved and it wants finding
+     * before this is attempted again. The layer being on when it cannot be
+     * seen is a 5% cost; a layer that cannot be switched on at all is the map
+     * not working. See docs/tasks.md. */
     /* **Nought as well as hidden.** Returning here without touching the
        opacity leaves whatever was last set — and on a group that has never
        been on, that is nothing at all, which computes to 1. `display: none`
@@ -18831,6 +18863,16 @@
          so there is no ground to be over — which means the key always answers.
          `f` for flights: `a` is Administrative and `l` is Layers. */
       if (low === 'f') { pressLayer('#btn-air'); return; }
+      /* The graticule. It has no button beside the map — it is a row in the
+         Layers panel — so the checkbox is pressed instead of a button, which
+         is the same act: `railPairs` and the panel's own handlers all hang off
+         `change`, and clicking the box fires it. */
+      if (low === 'g') {
+        var gb = $('#opt-graticule');
+        if (gb) { gb.checked = !gb.checked;
+                  gb.dispatchEvent(new Event('change', { bubbles: true })); }
+        return;
+      }
     });
 
     $$('#level-seg button').forEach(function (b) {

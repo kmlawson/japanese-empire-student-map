@@ -20870,3 +20870,99 @@ Driven and measured: **1930 draws 89 divisions with Siem Reap as one block and
 nothing in `siamgain`; 1942 draws 88 and 6, with each of the five on both sides
 of the line.** Switching the date back and forth holds. `indochina` 18 → **21
 checks**.
+
+## 174. The provinces of Indochina meet again
+
+Reported with a picture of Stung Treng: the boundaries between provinces did
+not line up, though they line up exactly in the traced source.
+
+The cause is `thin()`, which simplifies **each ring on its own**. Two provinces
+sharing a border each carry that border inside their own ring — running the
+opposite way round it, and starting from a different vertex — and
+Douglas–Peucker is not symmetric under either, so the same border thinned twice
+comes out as two different lines. 8,325 of the traced 21,441 vertices survived,
+and where the two copies disagreed the reader saw a sliver or an overlap.
+
+`whole_union` already answers half of this, by laying the country underneath in
+its own colour. It cannot answer the other half: a filler turns a crack into
+solid ground and does nothing about two boundary lines that disagree, or about
+one province lying over the next.
+
+**The only fix that keeps a shared edge shared is not to touch it.**
+`SHARED_EDGE_EXACT` holds `indochina` and `siamgain`, and `thin` returns their
+sub-units' points unchanged. The coverage is one trace in which every interior
+edge appears twice with identical vertices, so the two copies stay identical.
+
+Measured, by probing a quarter of a unit either side of all 2,829 shared
+borders and counting how many provinces each probe falls inside — it should
+always be exactly one:
+
+| | probes in one province | in none (a gap) | in two (an overlap) |
+|---|---|---|---|
+| thinned | 2,810 | **13** | **7** |
+| exact | 2,829 | 1 | **0** |
+
+The one remaining gap is a piece small enough for `sub_min_area` to drop. It
+costs 13,116 vertices across the two dates and takes the administrative sheet
+from 1,516 KB to 1,660.
+
+Not a general answer, and the comment says so. Everything else assembled from
+sub-units comes from files that never shared vertices in the first place, so
+thinning them loses nothing that was there. A topology-preserving simplifier —
+decompose the coverage into arcs, thin each arc once, rebuild the rings — is the
+general answer, and this layer is small enough not to need one.
+
+## 175. `g` for the graticule
+
+One key, and it is the only switch in the Layers panel with a letter of its
+own; the rest of the shortcuts press buttons beside the map. The graticule has
+no button, so the checkbox is clicked and its `change` fired, which is the same
+act — the panel's own handlers hang off that event. Listed in the help and in
+`keys`, which checks that every key the handler answers to is written down.
+
+Driven: `g` ticks the box, draws the layer, and puts `8fhc` in the address; `g`
+again puts it away.
+
+## 176. What the off-screen railways cost, measured
+
+Reported as an impression: the map feels faster with the railways off while
+looking at Borneo. It is right, and it is about five per cent.
+
+The fade is keyed on the zoom, not on where the view is, so with the railways
+on and the reader deep over Borneo all four East Asian networks are `display:
+''` at full opacity — **5,949 paths** of geometry outside the window. Chrome
+does not paint what it cannot see, but the elements are in the render tree and
+are reconsidered every time the viewBox moves, which is every frame of a pan.
+
+Four times CPU throttling, forty synthetic pan steps, median of three runs:
+
+| view | railways on | off | difference |
+|---|---|---|---|
+| **Borneo**, the networks off screen | 681 ms | 649 ms | **+32 ms, +4.9%** |
+| **Korea**, the networks in view | 775 ms | 648 ms | +127 ms, +19.6% |
+
+About 0.8 ms a frame throttled for geometry nobody can see, against four times
+that for geometry being looked at — which is the difference between painting
+and merely being present.
+
+**Attempted and withdrawn.** Hiding a layer whose ground the view does not
+reach is four lines, and it broke the map: the box comes from `STATION_SYS`,
+`railFade` runs before the module body has assigned it, the lookup threw, the
+throw aborted `railFade` halfway, and **every railway group stayed at the
+`display: none` the SVG ships with** — so switching the railways on drew
+nothing, anywhere. Inlining the pad and guarding the lookup did not bring them
+back, so something earlier in the order of setup is involved and wants finding
+first. Reverted, with the measurement and the failure written into
+`railFadeOne` where the next attempt will read it.
+
+A layer drawn when it cannot be seen costs 5% of a pan. A layer that cannot be
+switched on at all is the map not working, and that is not a trade worth making
+blind.
+
+## Still open
+
+* **A long press on the railway button for the five networks one by one**, with
+  each source's short title and year — the shape the air button already has.
+  Not started.
+* **Hiding the off-screen railways**, once the setup-order problem above is
+  understood.

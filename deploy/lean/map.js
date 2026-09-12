@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '356';
+  var JEM_VERSION = '357';
 
 
 
@@ -2623,8 +2623,40 @@
     railFlashTimer = requestAnimationFrame(step);
   }
 
+
+
+
+
   function railFadeOne(group, on) {
     if (!group) return;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -18831,6 +18863,16 @@
 
 
       if (low === 'f') { pressLayer('#btn-air'); return; }
+
+
+
+
+      if (low === 'g') {
+        var gb = $('#opt-graticule');
+        if (gb) { gb.checked = !gb.checked;
+                  gb.dispatchEvent(new Event('change', { bubbles: true })); }
+        return;
+      }
     });
 
     $$('#level-seg button').forEach(function (b) {

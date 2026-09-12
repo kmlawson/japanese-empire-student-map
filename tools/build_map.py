@@ -843,6 +843,41 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "jehol",
 # ninetieth. Half a pixel at that zoom is what the rest of the map is thinned
 # to, and 0.021 units is half a pixel. Exact would cost 231 KB against 63 and
 # would not be visible at any zoom this map allows.
+# Atoms whose sub-units must keep the edges they share, exactly.
+#
+# `thin()` simplifies each ring on its own, and two provinces that share a
+# border each carry that border inside their own ring — running the opposite
+# way round, and starting from a different vertex. Douglas-Peucker is not
+# symmetric under either, so the same border thinned twice comes out as two
+# different lines: they cross, they leave slivers, and the boundary a reader
+# sees is two lines a fraction of a unit apart rather than one. Reported on
+# French Indochina with a picture of Stung Treng, where 8,325 of the traced
+# 21,441 vertices survived and the provinces no longer met.
+#
+# `whole_union` answers the *gap* this leaves, by laying the country underneath
+# in its own colour, and it cannot answer the rest: a filler turns a crack into
+# solid ground and does nothing about two boundary lines that disagree, or
+# about one province overlapping the next.
+#
+# The only fix that keeps a shared edge shared is not to touch it. The units
+# here come from one traced coverage in which every interior edge appears twice
+# with identical vertices, so leaving them alone means the two copies stay
+# identical and the provinces meet where the tracer put them.
+#
+# Measured, by probing a quarter of a unit either side of all 2,829 shared
+# borders and counting how many provinces each probe falls inside -- it should
+# always be exactly one. Thinned: **13 probes in no province at all and 7 in
+# two**, which is twenty places where the coverage had a hole or an overlap.
+# Unthinned: **none in two and one in none**, the one being a piece small
+# enough for `sub_min_area` to drop. It costs 13,116 vertices across the two
+# dates and takes the administrative sheet from 1,516 KB to 1,660.
+#
+# Not a general answer. Everything else assembled from sub-units comes from
+# files that never shared vertices in the first place, so thinning them loses
+# nothing that was there; a topology-preserving simplifier would be the general
+# answer and this layer does not need one, being small enough to draw whole.
+SHARED_EDGE_EXACT = {"indochina", "siamgain"}
+
 TRACED_TOL = {"india": 0.021, "nca_pacified": 0.021, "nca_unpacified": 0.021,
               # the Soviet coast is a tracing too, and the band a shape of
               # its size earns — 0.55 units, three kilometres — flattened
@@ -7246,6 +7281,8 @@ def main():
         erases a fifty-kilometre island altogether. The bands below are the
         ones the archipelagos already used, applied to everything that is
         assembled out of sub-units as well."""
+        if key in SHARED_EDGE_EXACT:
+            return pts          # see SHARED_EDGE_EXACT: the edge is shared
         if key in TRACED_TOL:
             return simplify(pts, TRACED_TOL[key]) if len(pts) >= 4 else pts
         if key in FULL_DETAIL or len(pts) < 4:

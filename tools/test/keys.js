@@ -231,7 +231,7 @@ const open = async (b, url) => {
     check('and it sits above the annotations', i >= 0 && j > i, i + ' vs ' + j);
     /* Every key the map answers to, as the handler has them. */
     const keys = ['Spacebar', 'Shift-drag', 'Escape', 'c', 'a', 'e', 't', 'o',
-                  'r', 'f', '0', '2', 'l', 'n', '?'];
+                  'r', 'f', 'g', '0', '2', 'l', 'n', '?'];
     const missing = keys.filter(k => help.text.indexOf('**' + k + '**') < 0
                                   && help.text.indexOf(k) < 0);
     check('and every key is listed', missing.length === 0, JSON.stringify(missing));

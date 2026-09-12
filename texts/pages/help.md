@@ -53,6 +53,8 @@ box — a space in a description stays a space.
 
 **f** - Air routes on or off.
 
+**g** - The graticule on or off.
+
 **0** - The 1930 map.
 
 **2** - The other date.
