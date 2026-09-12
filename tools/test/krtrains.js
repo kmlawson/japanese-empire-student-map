@@ -88,16 +88,22 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('and it is the Korea data that was fetched',
       fetched.filter(f=>f==='kr-trains.js').length===1 && !fetched.includes('tw-trains.js'), fetched.join());
     check('the bar says which timetable it is', /1938/.test(v.note), v.note);
-    /* 42 Korean lines and 32 connecting ones, every one with a chip; the track count is
+    /* 42 Korean lines and 33 connecting ones, every one with a chip; the track count is
        bounded rather than pinned because the gap-closing across unplaceable
        stations is the map's business and the data's — a change in either
        shows here as a change in the number. */
-    /* **The connections' chips are built but folded.** 42 Korean lines plus 32
+    /* **The connections' chips are built but folded.** 42 Korean lines plus 33
        connecting ones more than doubled the legend and buried the lines the
        reader came for, so the connecting names sit behind a "Show more" under
        the list — the switch says whether they are drawn, the button whether
-       they are listed. All 74 exist in the document either way. */
-    check('a chip per line in the bar, built', v.chips===74, 'chips='+v.chips);
+       they are listed. All 75 exist in the document either way.
+
+       74 until the Kanrei ferry went in: 關麗連絡船 is in the booklet as rows
+       on two 全羅線 columns rather than a table of its own, so the
+       transcription made no line for it and `build_kr_trains.py` states it.
+       A count that moves by one when a line is added is the count doing its
+       job. */
+    check('a chip per line in the bar, built', v.chips===75, 'chips='+v.chips);
     check('the track is drawn, hundreds of stretches', v.lines>600, 'lines='+v.lines);
     check('in many colours', v.colours>=20, 'colours='+v.colours);
     const conn=()=>p.evaluate(()=>{
@@ -112,7 +118,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('the switch in the bar draws them, faint',
       cv.shown===cv.built && cv.boxOn, JSON.stringify(cv));
     /* Drawn, but their names still folded: the legend would otherwise open to
-       74 entries the moment the switch was touched. */
+       75 entries the moment the switch was touched. */
     check('  and their names stay folded until asked for',
       cv.chips===0, JSON.stringify(cv));
     const more=await p.$('.train-more');
@@ -120,7 +126,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     if (more) {
       await more.click(); await sleep(400);
       const open=await conn();
-      check('  pressing it lists all 32', open.chips===32, JSON.stringify(open));
+      check('  pressing it lists all 33', open.chips===33, JSON.stringify(open));
       await more.click(); await sleep(400);
       const shut=await conn();
       check('  and pressing it again folds them back', shut.chips===0, JSON.stringify(shut));

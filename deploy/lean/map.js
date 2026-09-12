@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '360';
+  var JEM_VERSION = '361';
 
 
 
@@ -3509,19 +3509,31 @@
     return 'var(--bg)';
   }
 
-  function railInk(over) {
-    var atom = over && (atomEls[over] || $('#a-' + over, svg));
-    var fill = '';
-    try { fill = atom ? getComputedStyle(atom).fill : ''; } catch (err) { fill = ''; }
-    var m = /(-?[\d.]+)[,\s]+(-?[\d.]+)[,\s]+(-?[\d.]+)/.exec(fill || '');
-    if (!m) return state.colours.raillight || RAIL_LIGHT_DEF;
-    var v = [+m[1], +m[2], +m[3]];
 
+
+
+
+
+
+
+
+  function fillLum(el) {
+    var fill = '';
+    try { fill = el ? getComputedStyle(el).fill : ''; } catch (err) { fill = ''; }
+    var m = /(-?[\d.]+)[,\s]+(-?[\d.]+)[,\s]+(-?[\d.]+)/.exec(fill || '');
+    if (!m) return null;
+    var v = [+m[1], +m[2], +m[3]];
     if (v[0] > 1 || v[1] > 1 || v[2] > 1) v = v.map(function (x) { return x / 255; });
     var lin = v.map(function (x) {
       return x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
     });
-    var lum = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+    return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+  }
+
+  function railInk(over) {
+    var atom = over && (atomEls[over] || $('#a-' + over, svg));
+    var lum = fillLum(atom);
+    if (lum === null) return state.colours.raillight || RAIL_LIGHT_DEF;
 
 
 
@@ -6742,6 +6754,24 @@
 
 
 
+
+
+
+
+
+
+
+
+    var syncCtrl = function (e) { revealAllSubs(!!e.ctrlKey); };
+    window.addEventListener('keydown', function (e) {
+      if (typing(e.target)) return;
+      syncCtrl(e);
+    });
+    window.addEventListener('keyup', syncCtrl);
+    window.addEventListener('blur', function () { revealAllSubs(false); });
+
+
+
     container.addEventListener('contextmenu', function (e) { if (coarse) e.preventDefault(); });
     if (hoverCapable) {
       container.addEventListener('mousemove', onHover);
@@ -8162,6 +8192,9 @@
   }
 
   function setSubsAtom(el) {
+
+
+    if (subsAllOn) { subsAllWas = el; return; }
     if (subsAtom === el) return;
     subsAtoms.forEach(function (a) { a.classList.remove('subs'); });
     subsAtom = el;
@@ -8182,6 +8215,109 @@
     }
     markSplitProvinces();
     liftSubs(subsAtom);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var SUB_INK_DARK = 'rgba(18, 15, 10, .62)';
+  var SUB_INK_LIGHT = 'rgba(255, 255, 255, .72)';
+
+  var SUB_INK_DARK_GROUND = 0.22;
+  var subsAllOn = false, subsAllWas = null;
+
+  function revealAllSubs(on) {
+
+
+
+
+
+
+    on = !!on && !!svg && svg.classList.contains('admin-on');
+    if (on === subsAllOn) return;
+    if (on) {
+      subsAllWas = subsAtom;
+      subsAtoms.forEach(function (a) { a.classList.remove('subs'); });
+      subsAtom = null;
+
+
+      subsAtoms = $$('.atom', svg).filter(function (a) {
+        return !!$('[data-prov]', a);
+      });
+      subsAtoms.forEach(function (a) {
+        a.classList.add('subs');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var lum = fillLum(a);
+        a.style.setProperty('--sub-line',
+          (lum !== null && lum <= SUB_INK_DARK_GROUND) ? SUB_INK_LIGHT : SUB_INK_DARK);
+      });
+      subsAllOn = true;
+      markSplitProvinces();
+      liftSubs(null);
+      return;
+    }
+    subsAtoms.forEach(function (a) {
+      a.classList.remove('subs');
+      a.style.removeProperty('--sub-line');
+    });
+    subsAtoms = [];
+    subsAtom = null;
+    subsAllOn = false;
+
+
+
+
+
+    setSubsAtom(subsAllWas || $('.atom.hot', svg) || null);
+    subsAllWas = null;
   }
 
 
@@ -8255,6 +8391,30 @@
       $$('#land [data-parent="' + want + '"]', svg).forEach(function (n) { out.push(n); });
     }
     return out.length ? out : null;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var selProvEls = [];
+
+  function setSelProv(el) {
+    selProvEls.forEach(function (n) { n.classList.remove('prov-sel'); });
+    selProvEls = el ? (provPeers(el) || []) : [];
+    selProvEls.forEach(function (n) { n.classList.add('prov-sel'); });
+
+
+    redrawHighlight();
   }
 
   function setHotProv(el) {
@@ -8825,10 +8985,17 @@
 
 
 
-  var hiSlots = { territory: null, province: null, selected: null, pinned: null };
-  var hiHost = { territory: null, province: null, selected: null, pinned: null };
 
-  var HI_ORDER = ['territory', 'province', 'selected', 'pinned'];
+
+
+
+  var hiSlots = { territory: null, province: null, selprov: null,
+                  selected: null, pinned: null };
+  var hiHost = { territory: null, province: null, selprov: null,
+                 selected: null, pinned: null };
+
+
+  var HI_ORDER = ['territory', 'province', 'selprov', 'selected', 'pinned'];
 
 
 
@@ -9077,6 +9244,19 @@
     fillSlot('province', slotKey('p', hotProvEl && hotProvEl.getAttribute('data-prov'),
                                  (deep ? ['deep'] : null), hotProv),
              hotProv, 'hi-province' + (deep ? ' hi-inner' : ''));
+
+
+
+
+
+    if (selProvEls.length) {
+      fillSlot('selprov',
+               slotKey('q', selProvEls[0].getAttribute('data-prov'),
+                       null, selProvEls),
+               selProvEls, 'hi-selprov');
+    } else {
+      dropSlot('selprov');
+    }
     if (selected && atomsOf[selected] && seen(selected)) {
 
 
@@ -9224,6 +9404,7 @@
     if (!id || !byId[id]) {
       selCluster = null;
       selProv = null;
+      setSelProv(null);
       infoBox.hidden = true;
       fillPopCard(null);
       fillTrainCard(null);
@@ -9248,6 +9429,7 @@
 
 
     selProv = lastProv || null;
+    setSelProv(selProv && selProv.el);
 
 
 
@@ -9303,9 +9485,17 @@
 
 
 
-    if (head.fr && head.fr !== primary && others.indexOf(head.fr) < 0) {
-      others.push(head.fr);
-    }
+
+
+
+
+
+
+    [head.fr, head.alt].forEach(function (other) {
+      if (other && other !== primary && others.indexOf(other) < 0) {
+        others.push(other);
+      }
+    });
     $('.primary', infoBox).textContent = primary;
     $('.alt', infoBox).textContent = others.join('  ·  ');
 
@@ -9358,6 +9548,29 @@
     var ownNote = isSta ? (shortOf(rec) || '')
                 : sub ? (head.note || split.gloss || shortOf(head) || '')
                       : (rec.note || '');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    var provEl = lastProv && lastProv.el;
+    var mil = (sub && provEl && provEl.getAttribute)
+      ? (provEl.getAttribute('data-mil') || '') : '';
+    if (mil) {
+      ownNote = 'Administrative boundaries as they were on the eve of the '
+        + 'Japanese occupation. This area was under the control of the '
+        + mil + ' during the occupation.'
+        + (ownNote ? '  ' + ownNote : '');
+    }
     var groupNote = isSta ? (rec.note || '') : (sub ? (host.note || '') : '');
     var own = $('.note-own', infoBox);
     var grp = $('.note-group', infoBox);
@@ -16819,6 +17032,7 @@
     if (!byId[id]) return false;
     lastProv = null;
     selProv = null;
+    setSelProv(null);
     if (provKey && svg) {
       var el = $$('#land [data-prov="' + provKey + '"]', svg).filter(function (x) {
         var atom = x.closest ? x.closest('.atom') : null;

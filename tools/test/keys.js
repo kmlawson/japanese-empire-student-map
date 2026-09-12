@@ -230,8 +230,8 @@ const open = async (b, url) => {
     check('there is a Shortcuts section', i >= 0, JSON.stringify(help.heads));
     check('and it sits above the annotations', i >= 0 && j > i, i + ' vs ' + j);
     /* Every key the map answers to, as the handler has them. */
-    const keys = ['Spacebar', 'Shift-drag', 'Escape', 'c', 'a', 'e', 't', 'o',
-                  'r', 'f', 'g', '0', '2', 'l', 'n', '?'];
+    const keys = ['Spacebar', 'Shift-drag', 'Ctrl', 'Escape', 'c', 'a', 'e',
+                  't', 'o', 'r', 'f', 'g', '0', '2', 'l', 'n', '?'];
     const missing = keys.filter(k => help.text.indexOf('**' + k + '**') < 0
                                   && help.text.indexOf(k) < 0);
     check('and every key is listed', missing.length === 0, JSON.stringify(missing));
@@ -240,6 +240,69 @@ const open = async (b, url) => {
       /never while you are typing/i.test(help.text), 'the typing exception is unsaid');
   }
   await p.close();
+
+  /* **CTRL, HELD: EVERY ADMINISTRATIVE BOUNDARY AT ONCE.**
+     The layer draws divisions for the country under the pointer alone, which
+     is right for reading one place and no use for asking where the map has
+     boundaries at all. Held, it shows the lot; let go, it goes back to what
+     the pointer had.
+     Driven on `?layers=8` — the Administrative switch is a category and not a
+     checkbox in the page, and bit 3 of the layer field is what turns it on.
+     Three things are checked, and the first was the bug: the guard asked
+     `state.admin`, which does not exist, so the whole feature silently did
+     nothing. */
+  {
+    const q = await b.newPage();
+    await q.evaluateOnNewDocument(SHIM);
+    await q.setViewport({ width: 1200, height: 900 });
+    const errs = [];
+    q.on('pageerror', e => errs.push(String(e).slice(0, 160)));
+    const counts = () => q.evaluate(() => ({
+      subs: document.querySelectorAll('.atom.subs').length,
+      stroked: [...document.querySelectorAll('.atom.subs > path[data-prov]')]
+        .filter(e => getComputedStyle(e).stroke !== 'none').length,
+    }));
+    await q.goto(HOST + '/index.html?layers=8', { waitUntil: 'domcontentloaded' });
+    await ready(q);
+    await sleep(2500);
+    const rest = await counts();
+    check('at rest only the pointer draws divisions', rest.subs === 0,
+      JSON.stringify(rest));
+    await q.keyboard.down('Control'); await sleep(400);
+    const held = await counts();
+    check('Ctrl held shows every boundary the map has',
+      held.subs > 20 && held.stroked > 200, JSON.stringify(held));
+    await q.keyboard.up('Control'); await sleep(400);
+    check('and letting go puts them away',
+      (await counts()).subs === 0, JSON.stringify(await counts()));
+    /* A reader who alt-tabs away with it down is not still holding it on
+       return — the same caution the space bar has. */
+    await q.keyboard.down('Control'); await sleep(300);
+    await q.evaluate(() => window.dispatchEvent(new Event('blur')));
+    await sleep(300);
+    check('and losing the window releases it', (await counts()).subs === 0,
+      JSON.stringify(await counts()));
+    await q.keyboard.up('Control');
+    check('no page errors with the reveal', errs.length === 0, errs.join(' | '));
+    await q.close();
+  }
+
+  /* And it is a modifier for a layer: with Administrative off it does nothing
+     at all, rather than switching a layer on from a key that is meant to
+     reveal one. */
+  {
+    const q = await b.newPage();
+    await q.evaluateOnNewDocument(SHIM);
+    await q.setViewport({ width: 1200, height: 900 });
+    await q.goto(HOST + '/index.html?layers=0', { waitUntil: 'domcontentloaded' });
+    await ready(q);
+    await sleep(1200);
+    await q.keyboard.down('Control'); await sleep(400);
+    const off = await q.evaluate(() => document.querySelectorAll('.atom.subs').length);
+    await q.keyboard.up('Control');
+    check('with the layer off, Ctrl does nothing', off === 0, String(off));
+    await q.close();
+  }
 
   await b.close();
   process.exit(report());

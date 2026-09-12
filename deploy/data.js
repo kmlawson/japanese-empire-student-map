@@ -4825,6 +4825,177 @@ JMAP.PROVINCES = {
     ja: '浙江 (Sekkō)', zh: '浙江', ko: '저장성', wiki: 'https://en.wikipedia.org/wiki/Zhejiang',
     short: 'Silk from the Hangzhou basin and the country round Lake Tai, tea from the hills'
   },
+  'Noord Banjoemas': {
+    en: 'Noord Banjoemas', wiki: 'https://en.wikipedia.org/wiki/Banyumas_Regency',
+    alt: 'Banyumas'
+  },
+  Pekalongan: {
+    en: 'Pekalongan', wiki: 'https://en.wikipedia.org/wiki/Pekalongan_Regency',
+    short: 'Formed from merger of Pekalongan and Tegal'
+  },
+  Wonosobo: { en: 'Wonosobo', wiki: 'https://en.wikipedia.org/wiki/Wonosobo_Regency' },
+  Semarang: {
+    en: 'Semarang', wiki: 'https://en.wikipedia.org/wiki/Semarang_Regency',
+    short: 'Absorbed much of Blora and some of Koedoes.'
+  },
+  Blora: { en: 'Blora', wiki: 'https://en.wikipedia.org/wiki/Blora_Regency' },
+  Koedoes: { en: 'Koedoes', wiki: 'https://en.wikipedia.org/wiki/Koedoes_Residency', alt: 'Kudus' },
+  Rembang: { en: 'Rembang', wiki: 'https://en.wikipedia.org/wiki/Rembang_Regency' },
+  Kedoe: {
+    en: 'Kedoe', wiki: 'https://en.wikipedia.org/wiki/Kedu_Residency', alt: 'Kedu',
+    short: 'Formed from merger of Kedoe, Bagelen, and part of Wonosobo.'
+  },
+  Bagelen: {
+    en: 'Bagelen', wiki: 'https://en.wikipedia.org/wiki/Purworejo_Regency',
+    short: 'Area also known as Purworejo and Purwareja'
+  },
+  Soerakarta: { en: 'Soerakarta', alt: 'Surakarta' },
+  Klaten: { en: 'Klaten', wiki: 'https://en.wikipedia.org/wiki/Klaten_Regency' },
+  Jogjakarta: {
+    en: 'Jogjakarta', wiki: 'https://en.wikipedia.org/wiki/Yogyakarta_Sultanate',
+    alt: 'Yogyakarta'
+  },
+  Bodjonegoro: {
+    en: 'Bodjonegoro', wiki: 'https://en.wikipedia.org/wiki/Bojonegoro_Regency',
+    short: 'Formed from merger of Bodjonegoro and Grisee.'
+  },
+  Grisee: { en: 'Grisee', wiki: 'https://en.wikipedia.org/wiki/Gresik_Regency', short: 'Also Gresik' },
+  Soerabaja: {
+    en: 'Soerabaja', wiki: 'https://en.wikipedia.org/wiki/Surabaya', alt: 'Surabaya',
+    short: 'Formed from merger of Soerabaja and Modjokerto.'
+  },
+  Madioen: {
+    en: 'Madioen', wiki: 'https://en.wikipedia.org/wiki/Madiun', alt: 'Madiun',
+    short: 'Formed from merger of Madioen and Ponorogo.'
+  },
+  Kediri: {
+    en: 'Kediri', wiki: 'https://en.wikipedia.org/wiki/Kediri_Regency',
+    short: 'Formed from merger of Kediri and Blitar.'
+  },
+  Modjokerto: { en: 'Modjokerto', alt: 'Mojokerto' },
+  Pasoeroean: { en: 'Pasoeroean', wiki: 'https://en.wikipedia.org/wiki/Pasuruan_Regency', alt: 'Pasuruan' },
+  Ponorogo: { en: 'Ponorogo', wiki: 'https://en.wikipedia.org/wiki/Ponorogo_Regency' },
+  Blitar: { en: 'Blitar', wiki: 'https://en.wikipedia.org/wiki/Blitar_Regency' },
+  Malang: {
+    en: 'Malang', wiki: 'https://en.wikipedia.org/wiki/Malang_Regency',
+    short: 'Formed from merger of Malang and Pasoeroean'
+  },
+  Probolinggo: {
+    en: 'Probolinggo', wiki: 'https://en.wikipedia.org/wiki/Probolinggo_Regency',
+    short: 'Also Prabalingga'
+  },
+  Bondowoso: { en: 'Bondowoso', wiki: 'https://en.wikipedia.org/wiki/Bondowoso_Regency' },
+  Djember: { en: 'Djember', wiki: 'https://en.wikipedia.org/wiki/Jember_Regency', alt: 'Jember' },
+  'West-Madoera': { en: 'West-Madoera', wiki: 'https://en.wikipedia.org/wiki/Madoera_Residency', alt: 'Madura' },
+  'Oost-Madoera': { en: 'Oost-Madoera', wiki: 'https://en.wikipedia.org/wiki/Madoera_Residency', alt: 'Madura' },
+  Bantam: { en: 'Bantam', wiki: 'https://en.wikipedia.org/wiki/Banten', alt: 'Banten' },
+  Batavia: {
+    en: 'Batavia', wiki: 'https://en.wikipedia.org/wiki/Batavia,_Dutch_East_Indies',
+    alt: 'Jakarta', short: 'Formed from merger of Batavia and Krawang.'
+  },
+  Buitenzorg: {
+    en: 'Buitenzorg', wiki: 'https://en.wikipedia.org/wiki/Buitenzorg_Residency', alt: 'Bogor',
+    short: 'Formed from merger of West-Priangan and Buitenzorg.'
+  },
+  'West-Priangan': {
+    en: 'West-Priangan', wiki: 'https://en.wikipedia.org/wiki/Preanger_Regencies_Residency',
+    alt: 'Preanger', short: 'Also Parahyangan. Successor to the Preanger Regencies Residency.'
+  },
+  'Midden-Priangan': {
+    en: 'Midden-Priangan', wiki: 'https://en.wikipedia.org/wiki/Preanger_Regencies_Residency',
+    alt: 'Preanger', short: 'Also Parahyangan. Successor to the Preanger Regencies Residency.'
+  },
+  Krawang: { en: 'Krawang', wiki: 'https://en.wikipedia.org/wiki/Karawang_Regency', alt: 'Karawang' },
+  Indramajoe: {
+    en: 'Indramajoe', wiki: 'https://en.wikipedia.org/wiki/Indramayu_Regency', alt: 'Indramayu'
+  },
+  'Oost-Priangan': {
+    en: 'Oost-Priangan', wiki: 'https://en.wikipedia.org/wiki/Preanger_Regencies_Residency',
+    alt: 'Preanger', short: 'Also Parahyangan. Successor to the Preanger Regencies Residency.'
+  },
+  Cheribon: { en: 'Cheribon', short: 'Formed from merger of Cheribon and Indramajoe' },
+  Tegal: { en: 'Tegal' },
+  'Zuid Banjoemas': { en: 'Zuid Banjoemas' },
+  'Atjeh en Onderhoorigheden': {
+    en: 'Atjeh en Onderhoorigheden',
+    wiki: 'https://en.wikipedia.org/wiki/Gouvernment_of_Atjeh_and_Dependencies',
+    alt: 'Atjeh and Dependencies'
+  },
+  Djambi: { en: 'Djambi', wiki: 'https://en.wikipedia.org/wiki/Djambi_Residency', alt: 'Jambi' },
+  Palembang: { en: 'Palembang', alt: 'Palembang' },
+  Tapanoeli: { en: 'Tapanoeli', wiki: 'https://en.wikipedia.org/wiki/Tapanuli_Residency', alt: 'Tapanuli' },
+  'Oostkust van Sumatra': {
+    en: 'Oostkust van Sumatra',
+    wiki: 'https://en.wikipedia.org/wiki/Sumatra%27s_East_Coast_Residency',
+    alt: 'Sumatra\'s East Coast'
+  },
+  'Riouw en Onderhoorigheden': {
+    en: 'Riouw en Onderhoorigheden', wiki: 'https://en.wikipedia.org/wiki/Riau_Residency',
+    alt: 'Riau and Dependencies'
+  },
+  'Bangka en Onderhoorigheden': { en: 'Bangka en Onderhoorigheden', alt: 'Bangka and Dependencies' },
+  'Assistent-Residentie Billiton': { en: 'Assistent-Residentie Billiton', alt: 'Billiton (Belitung) Assistant Residency' },
+  Bengkoelen: {
+    en: 'Bengkoelen', wiki: 'https://en.wikipedia.org/wiki/Benkoelen_Residency',
+    alt: 'Benkoelen', short: 'Also Bencoolen and today Bengkulu.'
+  },
+  'Lampongsche Districten': { en: 'Lampongsche Districten', alt: 'Lampong Districts' },
+  'Sumatra\'s Westkust': {
+    en: 'Sumatra\'s Westkust',
+    wiki: 'https://en.wikipedia.org/wiki/Sumatra%27s_West_Coast_Residency',
+    alt: 'Sumatra\'s West Coast'
+  },
+  Sintang: { en: 'Sintang', alt: 'Sintang' },
+  Bandjermasin: { en: 'Bandjermasin', alt: 'Bandjermasin' },
+  'Zuidoostkust van Borneo': {
+    en: 'Zuidoostkust van Borneo', alt: 'South-East Coast of Borneo',
+    short: 'Afdeeling Pasir en de Tanah Boemboelanden until 1930.'
+  },
+  Doesoenlanden: { en: 'Doesoenlanden', alt: 'Dusun Lands' },
+  Pontianak: { en: 'Pontianak', alt: 'Pontianak' },
+  Singkawang: { en: 'Singkawang', alt: 'Singkawang' },
+  Boeloengan: { en: 'Boeloengan', alt: 'Bulungan' },
+  Samarinda: { en: 'Samarinda', alt: 'Samarinda' },
+  'Hoeloe Soengei': { en: 'Hoeloe Soengei', alt: 'Hulu Sungai' },
+  Koealakapoeas: { en: 'Koealakapoeas', alt: 'Kuala Kapua' },
+  Ketapang: { en: 'Ketapang', alt: 'Ketapang' },
+  'Bali en Lombok': { en: 'Bali en Lombok', alt: 'Bali and Lombok' },
+  'Timor en Onderhoorigheden': {
+    en: 'Timor en Onderhoorigheden',
+    wiki: 'https://en.wikipedia.org/wiki/Timor_and_Dependencies_Residency',
+    alt: 'Timor and Dependencies'
+  },
+  'Celebes en Onderhoorigheden': {
+    en: 'Celebes en Onderhoorigheden', wiki: 'https://en.wikipedia.org/wiki/Dutch_Celebes',
+    alt: 'Celebes and Dependencies'
+  },
+  Manado: { en: 'Manado', alt: 'Manado' },
+  'Gouvernement der Molukken': { en: 'Gouvernement der Molukken' },
+  'West-Java': { en: 'West-Java' },
+  'Midden-Java': { en: 'Midden-Java' },
+  'Oost-Java': { en: 'Oost-Java' },
+  'Westerafdeeling van Borneo': { en: 'Westerafdeeling van Borneo' },
+  'Zuider- en Oosterafdeeling van Borneo': { en: 'Zuider- en Oosterafdeeling van Borneo' },
+  'Djapara-Rembang': {
+    en: 'Djapara-Rembang', wiki: 'https://en.wikipedia.org/wiki/Rembang_Regency',
+    short: 'Absorbed much of Koedoes and some of Blora.'
+  },
+  Besoeki: {
+    en: 'Besoeki', wiki: 'https://en.wikipedia.org/wiki/Bondowoso_Regency',
+    short: 'Formed from merger of Bondowoso and Djember.'
+  },
+  Madoera: {
+    en: 'Madoera', wiki: 'https://en.wikipedia.org/wiki/Madoera_Residency', alt: 'Madura',
+    short: 'Formed from merger of West and Oost-Madoera.'
+  },
+  Priangan: {
+    en: 'Priangan', wiki: 'https://en.wikipedia.org/wiki/Preanger_Regencies_Residency',
+    alt: 'Preanger', short: 'Formed from merger of Midden-Priangan and Oost-Priangan'
+  },
+  Banjoemas: {
+    en: 'Banjoemas', short: 'Formed from a merger of Zuid-Banjoemas, Noord-Banjoemas, Wonosobo.'
+  },
+  'Gouvernement Borneo': { en: 'Gouvernement Borneo' },
   Nanumea: {
     en: 'Nanumea', wiki: 'https://en.wikipedia.org/wiki/Nanumea',
     short: 'An American airfield was built here in 1943',
@@ -6211,30 +6382,6 @@ JMAP.PROVINCES = {
     short: 'Dry, rugged and almost uninhabited between Sumbawa and Flores',
     note: 'Dry, rugged and almost uninhabited between Sumbawa and Flores. The monitor lizard was described for science in 1912 and the Dutch protected it from 1931.'
   },
-  Atjeh: { en: 'Atjeh and Dependencies (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Aceh' },
-  SumatraEastCoast: { en: 'Sumatra’s East Coast and Tapanoeli' },
-  SumatraWestCoast: { en: 'Sumatra’s West Coast', wiki: 'https://en.wikipedia.org/wiki/West_Sumatra' },
-  Riouw: { en: 'Riouw and Dependencies', wiki: 'https://en.wikipedia.org/wiki/Riau_Residency' },
-  Djambi: { en: 'Djambi (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Jambi' },
-  Palembang: { en: 'Palembang (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Palembang' },
-  BankaBilliton: { en: 'Banka and Billiton', wiki: 'https://en.wikipedia.org/wiki/Bangka_Belitung_Islands' },
-  Benkoelen: { en: 'Benkoelen (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Bengkulu' },
-  Lampongs: { en: 'The Lampongs (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Sumatra' },
-  WestJava: {
-    en: 'West Java — Bantam, Batavia, Preanger', wiki: 'https://en.wikipedia.org/wiki/West_Java'
-  },
-  CentralJava: {
-    en: 'Central Java — with the princely land of Soerakarta',
-    wiki: 'https://en.wikipedia.org/wiki/Central_Java'
-  },
-  Jogjakarta: {
-    en: 'Jogjakarta (princely land)', wiki: 'https://en.wikipedia.org/wiki/Yogyakarta_Sultanate'
-  },
-  EastJava: { en: 'East Java — with Madura', wiki: 'https://en.wikipedia.org/wiki/East_Java' },
-  WestBorneo: { en: 'West Borneo', wiki: 'https://en.wikipedia.org/wiki/West_Kalimantan' },
-  SouthEastBorneo: { en: 'South and East Borneo', wiki: 'https://en.wikipedia.org/wiki/South_Kalimantan' },
-  Menado: { en: 'Menado — northern and central Celebes', wiki: 'https://en.wikipedia.org/wiki/Manado' },
-  Celebes: { en: 'Celebes and Dependencies', wiki: 'https://en.wikipedia.org/wiki/Sulawesi' },
   Papua: {
     en: 'Territory of Papua', zh: '巴布亞',
     wiki: 'https://en.wikipedia.org/wiki/Territory_of_Papua',

@@ -33,6 +33,8 @@ box — a space in a description stays a space.
 
 **Shift-drag** - Draws a box and zooms to it. With the annotation tools out it selects the marks inside instead.
 
+**Ctrl** - Hold it with the Administrative layer on and every administrative boundary the map has appears at once, instead of only the country under the pointer. Let go and they go.
+
 **Double-click** - Zooms in a step. Drag up or down after the second press for smooth zoom.
 
 **+ / −** - Zoom in and out a step.

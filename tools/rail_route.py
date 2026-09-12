@@ -242,18 +242,25 @@ def _thin(pts, tol_m):
 
 
 def fill(doc, files, name="the bundle", weld_m=0, bridge_km=None, simplify_m=0,
-         stretch=None):
+         stretch=None, skip_li=None):
     """Route the chords in `doc` along the rails in `files`. Adds `routed`.
 
     `doc` is the bundle as written: `stations` with lon/lat, `trains` with
     `st` rows of [station, arr, dep, flags], `paths` keyed "lo|hi". Returns
-    the list of keys routed and prints what was done."""
+    the list of keys routed and prints what was done.
+
+    `skip_li` is a set of line indices whose trains are left alone whatever
+    rails they pass near. **A ferry is the case it exists for**: nothing
+    sails along a railway, so a crossing that finds a route has found a
+    wrong answer rather than a better one. See the caller."""
     net = Network(files, weld_m=weld_m)
     stations = doc["stations"]
     paths = doc["paths"]
     # every pair of consecutive placed stops, as trains.js walks them
     pairs = set()
     for t in doc["trains"]:
+        if skip_li and t.get("li") in skip_li:
+            continue
         prev = -1
         for s in t["st"]:
             fl = s[3] if len(s) > 3 and s[3] else 0

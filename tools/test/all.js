@@ -69,7 +69,8 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'trains', 'korea', 'population', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airplay',
              'clipping', 'layerinfo', 'krtrains', 'kftrains', 'layerfind', 'beta', 'hanlabels',
-             'owns', 'jprails', 'indochina', 'citytap', 'ferries', 'arcs'];
+             'owns', 'jprails', 'indochina', 'citytap', 'ferries', 'arcs',
+             'dei'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -157,7 +158,7 @@ const GROUPS = {
   /* The shapes themselves, and the sheets they are written to. These move when
      `build_map.py` runs, not when somebody edits behaviour. */
   geometry: ['backings', 'projclip', 'provsource', 'taiwan', 'korea', 'relief',
-             'islands', 'mapstrip', 'indochina', 'arcs'],
+             'islands', 'mapstrip', 'indochina', 'arcs', 'dei'],
 
   /* Railways, stations and the sugar lines. Four data files that change in
      bursts and then sit still for weeks. */
@@ -250,6 +251,14 @@ const TRIGGERS = [
      protectorate each was in, which is what the cards read. */
   [/^data\/indochina\//,          ['geometry', 'core', 'data']],
   [/^tools\/build_indochina\.py$/, ['geometry', 'core', 'data']],
+
+  /* The Netherlands Indies: 65 residencies in eight gouvernements.
+     `build_dei.py` writes the coverage and its exact dissolve, and the shades
+     live in styles.css — where a step mixed too near the lit atom's own
+     colour says a residency belonged to no gouvernement. tools/test/dei.js
+     measures the resolved colours, so both sides matter here. */
+  [/^data\/dei\//,                 ['geometry', 'core', 'data']],
+  [/^tools\/build_dei\.py$/,       ['geometry', 'core', 'data']],
   [/^tools\/build_(tw|kr|kf)_(trains|stations)\.py$/, ['transport']],
   [/^data\/(tw-1936|kr-1938|kf-1935)-timetable\//, []],   // vendored; the build reads it
   [/^deploy\/timetable\//,         ['transport']],

@@ -660,6 +660,28 @@ button.plain:hover { background: var(--hover-fill); }
   fill: color-mix(in srgb, var(--c, var(--inactive)) 83%, #fff);
 }
 
+/* And the one that was *clicked* stays picked out after the pointer has gone.
+   Selecting a province used to leave only the country lit, so a reader with a
+   card open about Bagelen could not see which of Java's thirty-eight it was.
+
+   A step short of the hover's lift, so that moving the pointer over a
+   neighbour still reads as the nearer thing: the chosen unit holds a quieter
+   tint and the hovered one brightens above it. The outline underneath is what
+   says *this one* most plainly — the fill only has to keep saying it after
+   the pointer leaves.
+
+   It is on the atom's own lit colour, `--c`, for the same reason `prov-hot`
+   is: a child's fill replaces the inherited one, and the country is still
+   selected whenever one of its units is. */
+.atom .prov-sel {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 90%, #fff);
+}
+/* Both at once — the reader is hovering the unit they already chose — is the
+   hover's lift, not a third colour. */
+.atom .prov-sel.prov-hot {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 83%, #fff);
+}
+
 /* The five protectorates of French Indochina, told apart while the federation
    is under the pointer.
  *
@@ -701,6 +723,90 @@ button.plain:hover { background: var(--hover-fill); }
 }
 #jmap.admin-on .atom.hot [data-parent="Laos"]:not(.prov-hot):not(.parent-hot) {
   fill: color-mix(in srgb, var(--c, var(--inactive)) 87%, #2a2118);
+}
+
+/* The gouvernements of the Netherlands Indies, told apart the same way.
+ *
+ * The same argument as Indochina's above, and the same mechanism. This colony
+ * had two levels where it had any: fifty of its sixty-five units sat in a
+ * gouvernement — Java's three, the two princely lands beside them, Borneo's
+ * two afdeelingen, and the Moluccas — and the other fifteen were residencies
+ * answering to Batavia with nothing in between. Those fifteen carry no
+ * `data-parent` at all, so nothing here reaches them and pointing at
+ * Palembang lights Palembang: a grouping is drawn where there was one and not
+ * where there was not.
+ *
+ * Java is where this earns its keep. Thirty-eight of the units are on that one
+ * island and at any useful zoom they are a mosaic of same-coloured cells;
+ * which of the three gouvernements a residency belonged to is the fact its
+ * name never gives. West to east goes lighter — West-Java, Midden-Java,
+ * Oost-Java — so the order on the ground is the order in the tone, and the two
+ * princely lands go darker instead of lighter because they were not
+ * gouvernements of the same kind: Jogjakarta and Soerakarta were ruled by
+ * their own houses under Dutch residents.
+ *
+ * Borneo's two afdeelingen take the same two directions, west light and
+ * south-east dark, which is the division the author asked for and the only one
+ * that island had.
+ *
+ * The two `:not()`s keep these under `prov-hot` and `parent-hot` — the classes
+ * that say *this one* and *this group* — exactly as Indochina's do.
+ *
+ * **The steps are spaced off the lit atom's own colour, not off its resting
+ * one.** A hovered atom is already lifted by about eleven per cent toward
+ * white, so a shade mixed at 88 or 89 per cent comes out to the same three
+ * decimal places as the lift itself: measured, `Westerafdeeling van Borneo`
+ * at 89% and the hot atom both resolved to srgb 0.993 0.738 0.452, which
+ * would have told a reader that west Borneo belonged to no gouvernement at
+ * all — the one thing this is here to say. Every white-side step is at least
+ * five points clear of it now, and the check is in tools/test/dei.js. */
+#jmap.admin-on .atom.hot [data-parent="West-Java"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 78%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Midden-Java"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 84%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Oost-Java"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 95%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Soerakarta"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 92%, #2a2118);
+}
+#jmap.admin-on .atom.hot [data-parent="Jogjakarta"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 86%, #2a2118);
+}
+#jmap.admin-on .atom.hot [data-parent="Westerafdeeling van Borneo"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 72%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Zuider- en Oosterafdeeling van Borneo"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 96%, #2a2118);
+}
+#jmap.admin-on .atom.hot [data-parent="Gouvernement der Molukken"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 89%, #2a2118);
+}
+
+/* And on the 1942 sheet the Indies group by the command that held them.
+ *
+ * The gouvernements above are the Dutch administration and they are the 1930
+ * sheet's grouping. By December 1942 the thing a reader wants to see is the
+ * occupation's own division of the archipelago, and it is a cleaner one: three
+ * commands cover all forty-seven units where eight gouvernements covered fifty
+ * of sixty-five. The 17th Army held Java, the 25th held Sumatra, and the Navy
+ * held Borneo, Celebes and everything east — which is why the boundary that
+ * matters here runs between services and not between residencies.
+ *
+ * Three steps, and the Navy's is the pale one because it is the largest and a
+ * dark wash over half the map would read as a different country rather than a
+ * different command. Spaced clear of the lit atom's own colour for the reason
+ * written above. */
+#jmap.admin-on .atom.hot [data-parent="Java 17th Army"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 82%, #2a2118);
+}
+#jmap.admin-on .atom.hot [data-parent="Japanese 25th Army"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 94%, #2a2118);
+}
+#jmap.admin-on .atom.hot [data-parent="Japanese Navy"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 76%, #fff);
 }
 
 /* A unit inside a larger territory that shares its colour — the land ceded to
@@ -800,6 +906,22 @@ button.plain:hover { background: var(--hover-fill); }
   stroke: rgba(30, 24, 16, .7);
   stroke-width: 3.3;
 }
+
+/* The division that was *clicked*, traced and left traced.
+ *
+ * `hi-province` above belongs to the pointer and goes when it leaves; this is
+ * the one that stays while the card is open. A little stronger than the hover
+ * line and a little lighter than the country's selection line at 3.7, so the
+ * three can be told apart where all three are drawn at once: the country
+ * round the outside, the chosen division inside it, and the hovered one
+ * lighter still. */
+#highlight .hi-selprov path,
+#highlight .hi-selprov circle {
+  stroke: rgba(24, 19, 12, .85);
+  stroke-width: 3.5;
+}
+#jmap.saf #highlight .hi-selprov path,
+#jmap.saf #highlight .hi-selprov circle { stroke-width: 5.6; }
 
 /* A prefecture's own shape. It exists to be traced round when one of its
    districts is pointed at, and for nothing else: no fill, no stroke, and out
@@ -2419,7 +2541,20 @@ dialog h3 {
 #a-india .prov-hot { fill: color-mix(in srgb, var(--c, var(--inactive)) 86%, #14110c); }
 
 #jmap.admin-on .atom.subs > path[data-prov]:not(.fine) {
-  stroke: rgba(18, 15, 10, .62);
+  /* `--sub-line` is set per atom only while Ctrl is held and every boundary
+     is showing at once: a near-black line vanishes on the dark blue of the
+     Philippines and the deep red of Japan, so each atom gets the ink that
+     reads on its own colour. Under the pointer nothing sets it and the
+     fallback is the line this layer has always drawn. See revealAllSubs.
+
+     **Not `--sub-ink`**, which is taken: that is the colour a province *name*
+     is written in, declared in `:root` at the top of this file. Using it here
+     meant the fallback never applied — every hovered country's boundaries
+     came out in the solid label colour instead of the soft near-black — and
+     setting it per atom for the reveal would have recoloured the labels
+     inside that atom as well. A custom property is a global name and this one
+     already had a meaning. */
+  stroke: var(--sub-line, rgba(18, 15, 10, .62));
   stroke-width: .8;
 }
 /* Except where a province is drawn in more than one block on this date. The

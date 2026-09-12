@@ -7,120 +7,642 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-Seven entries. Four are work asked for and not yet done; three are measured
-rather than assumed, and everything else that once stood here has been
-closed. Where a fix was a generalisation rather than an answer,
-the source that would settle it is named at the foot of this file.
+Three entries. The seven that stood here were cleared on 12 September 2026,
+each against what the work since had already settled or measured; *The seven
+that were open, and what each came to* below keeps their figures, so nothing
+has to be measured twice.
 
-- **The India–Burma frontier: 469 km² of genuine disagreement left.**
-  Mostly fixed, and the first diagnosis was wrong. Along the Chin Hills and the Chittagong tracts the map
-  shows a lens of sea between the two countries with pink wedges across it, and
-  the hover outline runs in one place while a second, thinner line runs in
-  another. Three findings, each measured.
+- **Hiding the off-screen railways — worth about 5% of a pan, and the recorded
+  diagnosis of the failed attempt is wrong.** The cost is measured in 176: over
+  Borneo, with the networks off screen, the railways add **32 ms to a
+  forty-step pan, 4.9%**, about 0.8 ms a frame at four times throttling, for
+  5,949 paths nobody can see. What is written into `railFadeOne` is that
+  `railFade` runs before the module body has assigned `STATION_SYS`, and it
+  cannot: `loadState()` at `map.js:1132` is the only top-level statement above
+  `var STATION_SYS` (3639) and it is a no-op by its own comment, and `init` is
+  reached through a promise or a fetch — deferred, the comment at 1135 says,
+  *precisely* so that the body is evaluated first. Nothing calls `railFade`
+  until after 3639 has run.
 
-  *The sources disagree a little.* Rasterised at 0.01° and asked for ground in
-  neither country but within 8 km of both, `india-1931` and
-  `burma-modern-modified` leave **469 km²** between them. That is two hands
-  tracing one frontier, and it is small.
+  So the throw was at module-evaluation time and not from `railFade` at all.
+  The shape that fits both symptoms is a lookup table written beside
+  `railFadeOne` around line 2630, a thousand lines above the assignment it
+  reads: it throws *there*, and everything below it — `STATION_SYS` itself,
+  `applyState` — is never defined, so a half-evaluated module leaves every rail
+  group at the `display: none` the SVG ships with. That is the fourth instance
+  of the class, not a new mystery. (The attempt was reverted before it was
+  committed, so it is not in the history to read; this is the mechanism that
+  accounts for the evidence, not a transcript of it.)
 
-  *The cache was stale, and that was the whole of the 4,085 km².*
-  `tools/cache/india-1931.geojson` held 13,058 outer vertices reaching to
-  96.671 E, exported at 17:05 on 20 August; the gpkg holds 13,380 reaching to
-  **97.135 E**, saved at 20:33 the same evening — India was extended eastward,
-  along this very frontier, three and a half hours after the export the map was
-  still reading. Re-exported, the drawn gap falls from **4,085 km² to 469**,
-  which is the source disagreement exactly. The build was faithful all along;
-  it was drawing an older India. The "54 vertices up to 73 km from the source"
-  reported here first were the old tracing measured against the new one.
+  And the guard failed for a second, separate reason: **`viewMeets` returns
+  false for *unknown* as well as for *outside*** — CLAUDE.md names this — so a
+  guarded lookup that yields no box reads as "off screen" and hides the layer
+  just as thoroughly.
 
-  *Why QGIS looks clean.* There the two layers overlap and whichever draws on
-  top hides the disagreement. Here each is its own atom with no filler beneath
-  — China's went for the same reason — so any ground neither covers shows the
-  ocean through it. The wedges are where the two boundaries cross each other
-  repeatedly: covered and uncovered slivers alternating.
+  Three rules for the next attempt, then:
 
-  *The second line is deliberate.* `britishindia` carries `edge: #8f5f6e`,
-  `edgeAtoms: burma`, `edgeClip: 92 20.6 97.4 28.4` — a hairline round Burma
-  inside the Raj, because in 1930 they share a colour and Burma was a province
-  of India until 1937. It is drawn from **Burma's** outline while the hover
-  outline traces the silhouette of the union, which follows **India's** where
-  the two differ. One frontier, two sources, two lines a few kilometres apart.
-  Nothing is broken here; it is the same disagreement seen twice.
+  1. **Look nothing up inside `railFadeOne`.** Its six call sites in `railFade`
+     each know which group they are passing; the box goes in as an argument.
+     Burma and the sugar sheet are not in `STATION_SYS` at all — Burma has no
+     stations and the sugar lines are Taiwan's — so a lookup by key throws for
+     them however early or late it runs.
+  2. **Hide only on a positive answer**: the box is known, the view is known,
+     and the two do not meet. Any unknown means draw it.
+  3. **Pad the box** by enough that a network is up before its edge arrives.
 
-  What to do about it is a separate decision: cut one source to the other, as
-  Burma was cut to India and China, or let one of them own the frontier.
+  A test has to assert the layer comes *back*: switched on over Borneo it is
+  `display: none`, and at Korea's ground it is visible — the second half is the
+  one the failed attempt would have caught. The change itself is small; the test
+  is the greater part of the work.
 
-- **Wire the occupied-zone v3 layer, then re-test what it makes redundant.**
-  `japanese-occupied-territory-1941-2-v3` was to replace the occupied zone
-  because it is clipped properly. Confirm the filename first: what is in
-  `tools/cache/` is `japanese-occupied-territory-1941-2.geojson` and
-  `-vs.geojson`, with no `-v3`. Once it is in, test whether **`clip-china`**
-  (16,406 vertices, 233 KB) and **`clip-off-clients`** are still doing
-  anything, and re-examine the split stroke (`.whole-edge`, `.coast`, 76 KB).
-  Do not assume the clips can go — measure with them removed. They are a
-  frame-rate item as well as a size one: with the land stroke off by default
-  the clips now account for 12-14% of a frame.
+- **水東里 is unplaced, in the middle of the Kum estuary ferry.** The
+  長項—群山 連絡線 has three stops and the middle one is passed (↓) by some
+  sailings, so it is a real landing and not a printing artefact — but nothing
+  places it, and the crossing is drawn port to port as a 3.57 km chord that
+  skips it. Not findable from what is here: the nearest Sudong in the place
+  files is 18 km inland at 126.904, 36.061, which is not on the estuary, and a
+  landing invented to fill the gap would be worse than the gap. It is one of
+  429 unplaced stops in this timetable, and matters more than the others only
+  because on a three-stop line the reader can see the leg that is missing.
 
-- **Export French Indochina to `GIS/French Indochina/`**, beside `China/` and
-  `Japan/`, following the Taiwan pattern — the layer and a `.md` note in a
-  sub-folder of its own. The pieces: Tonkin, Annam and Cochinchina; Cambodia
-  and Laos whole; and the provinces ceded to Thailand in 1941. The note must
-  say that the three-way cut of Vietnam is an approximation of watershed
-  boundaries rather than a traced administrative line, that Angkor is not
-  carved out, and that the coastlines are present-day Natural Earth and not a
-  period source.
-
-- **Reword the contested frontier north of India.** It reads *Frontier not
-  settled*; it should read **Border contested or not clearly defined.** The
-  English string is in four places and all four have to move together, or the
-  legend and the shape will disagree: `texts/categories.csv` lines 13 and 30
-  (the `e1930` and `e1942` legend rows, which carry the string twice each — as
-  the name and as the `orig`), and `texts/territories/1930.csv:64` and
-  `texts/territories/1942.csv:70` (the `contested` row's name). `data.js` is
-  generated from these by `tools/build_texts.py` and must not be edited by
-  hand. The Japanese and Chinese renderings stay as they are unless asked —
-  未確定国境 and 未定國界 already say the same thing more briefly, and the Korean
-  미확정 국경 with them.
-
-  Worth doing at the same time, since it is the same legend row: the swatch
-  beside it is a solid square of #5c554a rather than a sample of the
-  `hatch-unclear` diagonals actually drawn on the map, so the key does not look
-  like the thing it is keying.
-
-- **The Kwantung leasehold: measured, and left.** Sampled by rendered colour
-  over the whole leasehold at a hundred-kilometre view, Manchuria's colour shows
-  through at **three pixels, in two clusters**, at 121.43 E 39.44 N and
-  121.38 E 39.44 N. That is the residue of the cut and the path rounding each
-  moving a vertex a little, it is invisible at any view a reader will use, and
-  closing it means rebuilding the cut to share vertices with its parent. Not
-  worth what it would cost; recorded so nobody measures it again.
-
-- **Okinawa needs a key of its own for the island, apart from the prefecture.**
-  Found by the move to `texts/`, which refuses to let two rows share a key. Two
-  different shapes carry `data-prov="Okinawa"` — the prefecture, drawn when
-  Administrative is on, and the island of Okinawa Hontō in the fine coastline
-  layer — and the sub-unit table is keyed by that one name. `data.js` held an
-  entry for each: the island's read *Okinawa — Naha, and the battle of
-  April–June 1945*, the prefecture's *Okinawa-ken*. The prefecture's came second
-  in the file and silently replaced the island's, so the battle line was never
-  once shown to anybody. Only the prefecture's row is kept for now, so nothing
-  on the map has changed; the fix is a distinct `data-prov` for the fine island
-  in `tools/build_map.py`, after which the battle can be named where a reader
-  zooming in on Okinawa would look for it. What was lost is recorded in
-  `texts/territories/sub-units/ryukyus.md`.
-
-- **Kwangchowwan wants a period source for the lease boundary itself.** The
-  carve is right now — see below, where the traced coastline replaced Natural
-  Earth as the limit on it, and land drawn as sea fell from 2,761 sample points
-  to 442. What is still a guess is the boundary of the lease on land. The
-  leasehold's own file holds six separate pieces round the bay, and where those
-  pieces end is where the map says the lease ended; a period map draws one line
-  round the bay and its shores instead, and that is the thing to trace. This is
-  no longer a fault in the drawing, only a limit on what is being drawn.
+- **Unverified: the station button's own behaviour over Japan.** The tools can
+  only be *opened* over their own ground, so the view has to be panned east
+  after mounting, and a synthesised pointer drag does not move this map — the
+  caution in CLAUDE.md, and it held. What the request was about is verified:
+  Japan's squares draw on Korea's extended network and go when it does. The
+  coupling in `syncMapButtons` and the set-press in the click handler are read
+  and not driven.
 
 ---
 
 ## Done
+
+### 181. The Indies on the later sheet, and the command that held each part
+
+The same source, a year later: `dei-1941-admin.geojson`, the administration as
+it stood on the eve of the occupation, with a `japanese-military` column. Both
+sheets now have their own residencies, gated by `data-epoch` as Indochina's
+are.
+
+**They are different units, not the same units moved.** 65 become **47**: 23
+names gone and 5 new, because Java's residencies were merged wholesale, and the
+source says how in its own notes — *Kedoe* from Kedoe, Bagelen and part of
+Wonosobo; *Besoeki* from Bondowoso and Djember; *Banjoemas* from Zuid- and
+Noord-Banjoemas and Wonosobo. Borneo's two afdeelingen become one Gouvernement
+Borneo of eleven units. So the two dates cannot share a list.
+
+**The outline is not duplicated.** The two dissolves agree to **7 km² of
+junction sliver out of 1,885,666** — the coast is the same coast — so one
+outline serves both dates and the atom keeps the 1930 one.
+
+**Madioen arrived with no geometry**: 47 features and 46 shapes, which would
+have left a hole in the middle of east Java and nothing for its neighbours'
+shared edges to cancel against. Its own note says what it is — *Formed from
+merger of Madioen and Ponorogo* — and both are units of the 1930 coverage, so
+it is rebuilt as the exact union of the two by the same edge cancellation that
+makes every outline here: 27 and 62 vertices in, **78 out**, 11 of shared
+border cancelling, one polygon, 3,451 + 2,980 = **6,430 km²**. That is a
+reconstruction and not a tracing, and it is sound only because the source
+itself says the unit is precisely that sum. `REBUILD_FROM_1930` holds it and
+anything else missing a shape is an error the tool refuses.
+
+**On the later sheet the grouping is the occupying command, not the Dutch
+gouvernement.** Three cover all 47 units where eight gouvernements covered 50
+of 65: the **Java 17th Army** (21), the **25th Army** in Sumatra (10), and the
+**Japanese Navy** across Borneo, Celebes and the east (16). That is the
+division that governed this ground in December 1942; the gouvernements are the
+administration the occupation inherited and they stay the 1930 sheet's
+grouping, where they belong. Eleven groupings across the two sheets, and the
+test measures all eleven resolved colours as distinct and none equal to the lit
+atom's own.
+
+**The card says it in words**, from `data-mil` on the shape rather than from
+`texts/`: *Administrative boundaries as they were on the eve of the Japanese
+occupation. This area was under the control of the Japanese Navy during the
+occupation.* It has to come off the geometry because the two sheets share these
+names — a row written for Palembang serves both dates, and a sentence about the
+occupation put there would appear on a card dated twelve years before it.
+
+**Western Dutch New Guinea has no such sentence, and that is the point.** It is
+inside `Gouvernement der Molukken` and the Japanese never held it, so the
+residency is clipped off that ground with **`clip-ng-unoccupied`** — the
+frame-with-hole clip that already exists and is already applied to this atom on
+this date. Reusing it means the residency stops exactly where the colouring
+does, rather than at a second line that would have to agree with it. The
+unoccupied half is its own atom, `dutchng_free`, and answers for itself.
+
+Three small pieces of machinery, each because the old shape could not say it:
+
+* **`SUB_PARENTS` is asked by date first.** Pontianak sat in the
+  Westerafdeeling van Borneo in 1930, in Gouvernement Borneo in 1941, and
+  under a Japanese command on the later sheet — one name, three answers. The
+  dated key wins and the undated one is the fallback, which is every other
+  atom on this map.
+* **`SUB_MILITARY`** → `data-mil`, written on the later blocks alone.
+* **`SUB_BLOCK_CLIP`** → a clip for one block of one atom on one date, which
+  Dutch New Guinea is the only case of.
+
+**And a regression the count caught.** With two dated sets in one list, the 44
+island names were stamped 1942 along with the later residencies — so Java and
+Ambon would have vanished from the 1930 map. An island is not an
+administrative arrangement: `SUB_BOTH_EPOCHS` holds the names the RING_NAMES
+pass produces and the epoch pass skips them, so they are written once and shown
+on both dates. **156 sub-units: 65 dated 1930, 47 dated 1942, 44 dated by
+nothing.**
+
+`dei` 17 → **21 checks**.
+
+### 183. The Indies' boundaries were painted and then buried
+
+Reported with a picture: the Dutch East Indies showing nothing at all with
+Administrative on, while its neighbours showed theirs. It was real, and the
+first three explanations were wrong.
+
+**Not a stale build.** All five content hashes in `index.html` matched the
+files on disk, and the same folder served to a headless browser reproduced the
+fault exactly — so it was neither cache nor a forgotten build.
+
+**Not the stroke.** Measured on the hovered atom: 109 sub-units,
+`display: inline`, stroke 0.8 px `non-scaling`, one per block. Everything the
+stylesheet is supposed to do, it was doing.
+
+**What proved where the paint was going** was taking the fill off every
+sub-unit in the live page: the whole mesh of residency boundaries appeared at
+once. So the lines were drawn and then covered — by fills, in paint order.
+
+**The cover was the island.** An island block is the whole of Borneo, or the
+whole of Java, as one opaque shape. `RING_NAMES` had always put those at the
+head of `provinces[key]` for exactly this reason, and says so in its comment:
+first in the list means painted first means underneath. Moving the 65 units of
+1930 into `provinces_1930` put them in `early`, and the epoch pass writes
+`early + blocks` — so Borneo-the-island was painted **after** its own eleven
+residencies and buried every one of their borders. The atom's unnamed leftover
+block, the colony's own ground that no residency claimed, was doing the same
+thing from index 67.
+
+The order is now `unnamed + islands + 1930 + 1942`, decided by what each block
+*is* rather than by which list it arrived in — `SUB_BOTH_EPOCHS`, which already
+knows which blocks are islands, is what tells them apart.
+
+**And it fixed the open question in #176 by itself.** With the residencies on
+top they answer the pointer: over south-east Borneo the tooltip now reads
+*Zuidoostkust van Borneo · Zuider- en Oosterafdeeling van Borneo*, with the
+source's own note — *Afdeeling Pasir en de Tanah Boemboelanden until 1930* —
+under it, where before it said *Borneo (Kalimantan)*. On the 1942 sheet the
+same ground reads *Zuidoostkust van Borneo · Japanese Navy · Conquered
+January – March 1942*.
+
+**A second fault found on the way, and a worse one.** The reveal's per-atom
+boundary ink was called `--sub-ink`, and **that name was taken**: `:root`
+declares it as the colour a province *name* is written in. So the stroke rule's
+fallback never applied — every hovered country's boundaries had quietly
+changed from the soft `rgba(18,15,10,.62)` to the solid label colour — and
+setting it per atom for the reveal would have recoloured the labels inside that
+atom too. It is `--sub-line` now. A custom property is a global name, and this
+one already meant something.
+
+**The guard is an order check, not a colour one**, because the colour was
+right throughout: `dei` now asserts that every island is painted before any
+dated residency and that the unnamed leftover comes first of all. A stroke
+test passed while the map showed nothing, and that is the lesson worth keeping
+— `getComputedStyle` says what an element was told, not what the reader sees.
+
+`dei` 21 → **23 checks**. The implicated set: **1,919 checks across 51 scripts
+in 397.1s measured, all passing.**
+
+### 182. Three things about the boundaries, and one report that was not a fault
+
+**The 1930 Indies boundaries were never lost.** Reported as gone; measured
+present. On the 1930 sheet the atom holds 65 blocks carrying `data-epoch`
+`e1930`, every one of them `display: inline` and stroked
+`rgba(18,15,10,.62)` at 0.8px, with the 47 later ones hidden and the 44
+islands shown on both dates. What *could* produce exactly that impression was
+the reveal's release path, and it is fixed: `revealAllSubs(false)` restored
+`subsAllWas`, which is **null whenever Ctrl was pressed with the pointer over
+open water** — so letting go left the map with no divisions at all until the
+reader moved the mouse. It falls back to the atom carrying `hot`, which is
+where the pointer is now.
+
+**A pale line on dark ground.** The reveal put the same near-black line over
+the whole palette, and on the dark blue of the Philippines and the deep red of
+Japan and Korea it disappeared — the one thing a reveal must not do. Each atom
+is now asked how light it is and given the ink that reads on it, as a custom
+property the stroke rule falls back from, set only while the reveal is up so
+the hover keeps the ink it had.
+
+**The threshold is 0.22, and it is not the 0.55 the railways use.** Measured
+across every atom that has divisions, this palette falls in steps with gaps:
+Japan, the Ryukyus and the Kuriles at **0.076**, the Philippines and the
+American Pacific at **0.099**, Korea, Taiwan and the mandate at **0.162** —
+then nothing until Burma and Malaya's dusty rose at **0.264**, Indochina's pale
+blue at **0.407**, the Indies' orange at **0.544**, Siam at 0.564 and China's
+yellow at **0.96**. The three dark grounds are exactly the three that were
+reported, and 0.22 sits in the gap above them. At `railInk`'s 0.55 the Indies'
+light orange came out with a white boundary on it, which is the same mistake
+the other way round; that figure was chosen for a railway line, and the
+luminances its own comment quotes no longer match this palette. **10 atoms take
+the pale ink and 33 the dark.** The Rec. 709 arithmetic is now one function,
+`fillLum`, which `railInk` calls too.
+
+**`Japanese 25th Army`.** The source says `25th Army` and the card's sentence
+did not say whose — the other two carry it already, the Navy by name and the
+17th by Java. Renamed where the file is read, so the attribute, the selector,
+the shade, the sentence and the test are one string rather than a display name
+kept in step with a stored one.
+
+**And the division that was clicked stays picked out.** `prov-hot` follows the
+pointer and goes with it, which is right for a hover and wrong for a choice: a
+reader with a card open about one of Java's residencies could not see which one
+it was, only that the country was lit. `prov-sel` is written at the moment of
+choosing, over the same peers — a province drawn in two blocks is one thing
+chosen — and cleared wherever the selection is. A step short of the hover's
+lift, so moving the pointer onto a neighbour still reads as the nearer thing.
+
+**The line round it, as well as the tint.** Asked for and right: the fill lift
+alone left a reader with a card about a province and a quiet shade to find it
+by, and an outline is what says *this one* most plainly. `hi-selprov` is a
+highlight slot of its own, between the hovered province's and the country's in
+the order so all three can be drawn at once — 3.5 against the hover's 3.3 and
+the country's 3.7. It could not borrow `hi-province`: that slot belongs to the
+pointer and is dropped the moment it leaves, which is the opposite of what a
+selection is. Traced round the same peers as the fill, so a province drawn in
+two blocks gets one line round the pair. `setSelProv` redraws, because the
+card's own call to `redrawHighlight` happens *before* the selection is written
+down.
+
+Driven, and three cautions came out of doing so, each of which had made an
+earlier attempt measure nothing at all:
+
+* the hover is a **`mousemove` on `#map-container`**, not a pointer event on
+  the SVG, and `hoverCapable` gates it — so the test's `matchMedia` shim is
+  load-bearing;
+* a sub-unit **off the edge of the view** has a screen point outside the
+  container, and a click there reaches nothing. Every earlier hover probe in
+  this session failed for that reason and I read it as the hit-testing being
+  undrivable. It is not: aim at something whose centre is on screen;
+* and the selection has to be checked *after* the pointer has left, which is
+  the whole point of it.
+
+`subnames` 14 → **24 checks**. The whole implicated set: **1,964 checks across
+53 scripts in 412.8s measured, all passing.**
+
+**Still open on the Indies, and it is a decision rather than a defect.**
+Clicking central Java selects **Java**, the island, not the residency under the
+pointer — `dei` is in `ARCHIPELAGOS`, so its islands answer on both dates and
+sit in front. The sticky selection works exactly as asked; what it selects
+there is the island. See the task list.
+
+### 180. Ctrl held shows every administrative boundary at once
+
+Asked for beside the space bar, and built the same way. The Administrative
+layer draws divisions for the country under the pointer and no other, which is
+right for reading one place and no use at all for the question *where do we
+have boundaries?* — a reader comparing Java with Sumatra, or looking for the
+colony nobody has drawn yet, had to sweep the pointer over the map and
+remember.
+
+Held, **43 atoms take `subs` and 811 boundaries appear**; let go and it is back
+to what the pointer had. `revealAllSubs` is `setSubsAtom` with the list
+replaced by every atom that has divisions, so it reuses all of it —
+`markSplitProvinces` runs over the lot, which matters, because a province
+drawn in two blocks would otherwise show the cut between them as though it
+were a boundary.
+
+Three cautions, the same three the space bar has: ignored while the reader is
+typing, released on `blur` so alt-tabbing away with it down does not leave the
+map stuck showing everything, and read from `e.ctrlKey` rather than the key's
+own name so letting go during some other combination is still noticed. No
+`preventDefault` — Ctrl alone does nothing in a browser and the combinations it
+starts belong to the reader.
+
+**With Administrative off it does nothing**, deliberately: Ctrl is a modifier
+for a layer, and switching that layer on from the key meant to reveal it would
+be a second, hidden way to change what the map is showing.
+
+**And the first version silently did nothing at all.** The guard asked
+`state.admin` — which does not exist. The switch is `state.cats.territory`, and
+what the drawing keys on is `admin-on`, a class map.js puts on the SVG, whose
+own id is `jmap`. So `#jmap.admin-on` in the stylesheet and
+`svg.classList.toggle('admin-on')` in map.js are the same element, and the flag
+I invented was the only broken thing. It now asks exactly what `liftSubs` eight
+lines above it asks. That is the var-name class of mistake this file is now
+four-for-four on, and the only reason it was caught is that the feature was
+driven rather than read.
+
+It is a desktop affordance and has no touch equivalent, like the space bar:
+there is no Ctrl on a phone. Listed in the help, which `keys` checks —
+`keys` 28 → **34 checks**, five of them on this and one on the layer-off case.
+
+
+### 179. The Netherlands Indies gets its residencies, and its gouvernements
+
+The largest colony on the map had no divisions at all. What stood in for them
+was a note explaining why: `DEI_RESIDENCIES` mapped thirty-four *modern*
+Indonesian provinces onto seventeen units with Bali, the Lesser Sundas, the
+Moluccas and New Guinea in none of them — 563,235 km², 29.7% of the colony,
+carrying no unit — and Java alone had some thirty-five residencies in 1930
+against the four that were drawn. It was dropped rather than drawn, and the
+eighteen island names were all a reader zooming in ever got.
+
+**The new coverage is 65 units**, from `data/dei/dei-admin-1930.geojson`:
+Natural Earth coastlines with the residency boundaries of Robert Cribb's
+*Historical Atlas of Indonesia* (2000), pp. 125-6 (Java), 127 (Sumatra), 129
+(Borneo) and 131 (eastern). `tools/build_dei.py` reads it and writes the two
+files the map takes — the units, and the colony as one shape.
+
+**The dissolve is exact.** 21,250 vertices in the units, 19,117 in the
+outline: 2,133 vertices of shared interior edge cancelling against their
+twins, and the two areas agreeing at **1,885,666 km²** to within a square
+kilometre, which is the check that the cancellation ate only boundaries that
+were really shared. Five junction slivers totalling 1.11 km² were dropped as
+holes. Nothing is snapped and nothing is simplified; `dei` is in
+`SHARED_EDGE_EXACT` with Indochina, so `thin()` leaves its shared borders
+alone.
+
+**One thing had to be normalised first, and it is the same fact twice.** The
+source does not keep a consistent winding — 254 directed edges arrive twice
+the same way round — so the exact dissolve refused it outright. Each polygon
+is turned to RFC 7946 before anything cancels, outer anticlockwise and holes
+clockwise. This is what the arc work found in the Republican provinces file,
+where 6,114 shared edges ran the same way round in both provinces: **winding
+in a hand-assembled coverage cannot be trusted**, and imposing one is cheaper
+than writing a dissolve that does not need one.
+
+**The gouvernements, and where there are none.** Fifty of the sixty-five sat
+inside one of eight — Java's three, Jogjakarta and Soerakarta beside them as
+princely lands under their own houses, Borneo's two afdeelingen, and the
+Moluccas — and fifteen were residencies answering to Batavia with nothing in
+between. Those fifteen carry **no `data-parent` at all**, so pointing at
+Palembang lights Palembang: the grouping is drawn where there was one and not
+where there was not, which is the author's own reading of Sumatra and the
+east. Eight shades in `styles.css`, by the same mechanism as Indochina's five
+protectorates, Java going lighter west to east and the princely lands darker.
+
+**And a measurement that changed one of them.** A hovered atom is already
+lifted about eleven per cent toward white, so a shade mixed at 88 or 89 per
+cent resolves to the *same three decimal places as the lift*: measured through
+`getComputedStyle`, `Westerafdeeling van Borneo` at 89% and the lit atom both
+came out srgb 0.993 0.738 0.452 — which would have told a reader that west
+Borneo belonged to no gouvernement, the one thing the shading is there to say.
+Every white-side step is at least five points clear of it now.
+
+**Ambon, and what "ignore the unclaimed islands" was taken to mean.** The
+coverage's coasts are Natural Earth's own, so drawing both it and Natural
+Earth's Indonesia would draw every island twice. Matched island by island —
+**by bounding box and not by a point**, because the centroid of a deeply bayed
+island is out at sea and the centroid test reported Sumbawa and Flores missing
+when they are plainly there — Natural Earth has **21 of its 264 rings that the
+coverage does not: 2,481 km² and 449 vertices.** They are Ambon, where the
+Moluccas were governed from, the Banda islands, Weh off the tip of Aceh,
+Bawean, Kangean, Karimunjawa and the Lease islands. The instruction was not to
+attach unclaimed islands to a neighbouring province, and they are attached to
+nothing — drawn as the colony with no division on them, which is the truth
+about them and keeps Ambon on the map. The worst true box match measures 0.79
+and the closest false one 0.11, so the half-overlap threshold has a wide
+margin either way.
+
+**The island names survive the residencies.** `RING_NAMES` runs over the
+atom's rings and skips any a sub-unit has claimed, so Java's residencies sit
+on top of the island called Java and both answer for themselves: 109
+sub-units in the sheet, 65 units and 44 islands.
+
+**The card** leads with the Dutch name, because that is what the
+administration used and what a period source says, and carries the
+alternative beside it on the line that already means *what else this is
+called* — Bagelen and Banyumas, Cheribon and Cirebon. 46 of the 65 have one.
+`fr` was Indochina's column for this and `alt` is the general one; both are
+read now. 42 carry a Wikipedia article and 8 a note from the source, all
+through the existing `wiki` and `short` columns.
+
+`texts/territories/sub-units/dei.csv` holds 70 rows — the 65 units and five
+gouvernement names that are not also units, so the line above the country can
+be glossed rather than printed raw. Descriptions are blank and left for a
+person: what a residency *was* is not derivable from its outline.
+`netherlands-indies.csv` and its `.md` are retired with `DEI_RESIDENCIES`;
+none of their seventeen rows had any prose.
+
+`tools/test/dei.js`, 17 checks, in `MAP`, the `geometry` group and `TRIGGERS`.
+The whole implicated set — 53 scripts, **1,944 checks in 394.5s measured** —
+passes, after one failure that was the change working as intended: `hanlabels`
+found **Palembang written twice**, because the residencies are named after the
+towns they were governed from and that town is on the map. It joins Chiengmai
+and the Jilin/Ningxia pair class in that test's allowed list, with the reason
+on it; it is the only one of the sixty-five that collides today, and any
+further residency that gets a city will land in the same check.
+
+**Not verified.** Three things are built and measured but not driven:
+
+* **The hover itself.** The shades are proven at the stylesheet — the classes
+  the hover applies were put on by hand and the eight resolved colours
+  measured — but a synthesised `pointermove` over a residency did not light
+  the atom in this probe, so *pointing at* a Java residency and seeing its
+  gouvernement shade has not been watched happen. The admin paths are not
+  painted until the atom is hot, which is also why the element has no
+  bounding box to aim at until something else has lit it.
+* **The card.** The alternative name and the Wikipedia link are in `data.js`
+  and the code that reads them is one line; neither has been read off a
+  rendered card.
+* **What the pointer should say with Administrative off.** `dei` is in
+  `ARCHIPELAGOS`, so its sub-units live in the main sheet and answer the
+  pointer on both settings — which is right for an island and questionable
+  for a residency. A reader with Administrative off may now be told *Bagelen*
+  where they were told *Java*. It wants checking and probably a gate.
+
+### 178. The fifth ferry, and two ways the other four were drawn wrong
+
+Reported as a reader's arithmetic: *I see only Kanpu and Seikan. Are there four
+of them? Where are they?* There were four in the bundle, there are five in the
+booklet, and of the four that were drawn two were drawn wrongly.
+
+**Where the missing two were.** Both drawn, both correct, both under a pixel.
+Measured at the opening view, 860 px of map across 1,317 map units: 關釜 is
+30.7 px and 青函 16.3, which is what can be seen; **關門 is 0.72 px and
+長項—群山 0.52**. Zoomed to Korea at seven degrees wide they are 6.8 and 4.9 px
+and perfectly visible. Nothing was wrong with them — a 5.1 km strait and a
+3.6 km estuary crossing are half a pixel at a view that holds an empire, and
+the answer to *where are they* is *under the two squares they join*.
+
+**The fifth ferry: 關麗連絡船, 下關港 to 麗水港.** In the booklet and not in the
+bundle, because it has no table of its own: its sailings are printed as ferry
+rows tacked onto the ends of two 全羅線 columns — 下關港發 5.00 / 麗水港着 10.00
+in column 341, and 麗水港發 4.00 / 下關港着 8.00 in column 342. `export_map.py`
+builds lines from tables, so a ferry without one became no line at all. The
+trace it left was a station: **下關港, placed at 130.94, 33.96 and carrying
+`"lines": []`** — a port belonging to nothing, which is what an untranscribed
+ferry looks like from the other end.
+
+Stated in `build_kr_trains.py` rather than patched into `data.js`, which is
+built in the transcription project from `transcription/*.tt` and would lose the
+edit on the next import. Both ports were already placed; all that was added is
+the line they are both on, after which the two-port rule drew the crossing.
+**No departures**, deliberately: those times are in the booklet's 午前/午後
+convention, where the afternoon hours are set in a different weight — 下關港發
+5.00 is the `17:00*` the transcribed rows carry — and 305 km in five hours is
+61 km/h, which no 1938 ferry did. Read as overnight sailings they are sixteen
+and seventeen hours, which is plausible and is not the same as checked; the up
+table also carries a 下關港 發 20:00* that neither reading accounts for.
+
+**And it is the one crossing that genuinely needed routing round land** — the
+thing #169 was asked for and found no instance of. Drawn straight,
+Shimonoseki to Reisui lies **8 km across the middle of Tsushima**: sampled
+every 500 m against the land the map itself draws, 19 mid-crossing samples
+ashore between 147.7 and 160.2 km, at 129.27–129.40 E and 34.34–34.37 N. Two
+waypoints clear it — north of Tsushima's northern tip, then south of Geoje,
+which is the way round a boat for the Korean south coast would go and the way
+`關釜` already passes the same island. **331.9 km against the 304.9 km chord,
+8.8% longer, and not one of 647 mid-crossing samples ashore.** `FERRY_WAY`
+holds them, and the comment says plainly that they are clearance points and
+not a sourced track: the booklet gives two ports and a time and nothing about
+the course between them.
+
+**A ferry was being routed along rails.** `rail_route.fill` treats any path of
+two points as a chord waiting to be improved, and a ferry crossing is two
+points. Three of the four were saved only by there being no track to find —
+the Korea Strait, the Tsugaru Strait and the Kum estuary have none. **關門 was
+not.** Shimonoseki to Moji came out as thirteen points and 6.19 km of railway
+against a 5.12 km strait, wandering inland and back, and the only rails
+between those two stations are the **Kanmon tunnel, which opened in November
+1942** — four years after this timetable. A ferry drawn on a railway says the
+boat went by train, and said it early. `fill` takes a `skip_li` now and the
+five ferry lines are in it.
+
+**And a ferry was drawn between two points that were not its stations.** The
+two-port rule stood down whenever a path already existed, and 關門's did: two
+points from the transcription's `CHORDS`, 130.94 33.96 to 130.96 33.94, which
+are the *city* points the Japanese pages were transcribed against. Both
+stations have been moved since — 下關 to the real station at 130.9217 33.94929
+by `jp_link`, 門司 to 130.93271 33.90419 — so the crossing was drawn 2.89 km
+between two points neither of which was under its own square. It redraws a
+two-point path from the ports now and leaves anything traced alone, which also
+pulled 青函's Aomori end onto its station: 105.65 km to 104.49. **All five
+crossings now begin and end within a metre of their own two squares.**
+
+`ferries` 8 → **12 checks**, and it guards the two new invariants as well as
+the water: every crossing starts and ends on its own squares, and not one is
+routed along rails. `krtrains` 40 → 42, its two pinned counts moved by one
+line each (74 → 75 chips, 32 → 33 connections) with the reason written beside
+them. Transport group: 732 checks across 13 scripts in 196s measured, all
+passing.
+
+### 178a. The Kanrei ferry was in the legend and not on the map
+
+Reported: *I see entries for Changhang-Kunsan and Kanrei ferry but no dots or
+lines.* One was a bug of mine and the other is a pixel.
+
+**The track is not drawn from `paths`.** `buildLines` iterates **`owns`** —
+which line owns each stretch — and `trains_split.line_owns` derives that by
+walking every consecutive pair of stops of every train. A line with no train
+has no stretch in `owns`, so 關麗連絡船 had a crossing in the geometry, a chip
+in the legend, and no line anywhere. Measured: of the five ferry keys,
+`224|225` was the only one absent from `owns`.
+
+That was the cost of a decision made two sections above. The sailings were
+withheld because the printed times are in the booklet's 午前/午後 convention
+and could not be read with confidence — and withholding them **withheld the
+ferry**, which was never the intent. The right answer was already in the
+format: a stop carrying `u` becomes **flag 4, the source reading is
+uncertain**. Both sailings are in now, 下關港 17:00 → 麗水港 10:00 and 麗水港
+16:00 → 下關港 08:00, every one of the four times flagged, because the up
+table's second 下關港 發 `20:00*` is still unaccounted for. `owns` 880 → 881,
+trains 1,666 → 1,668, and the 331.9 km route draws faint over its two
+waypoints.
+
+**The general lesson, and it is the one worth keeping:** suppressing a figure
+because it is uncertain is not the same as suppressing the thing the figure
+belongs to. The flag exists so the map can show the second while doubting the
+first.
+
+`ferries` 12 → **13 checks**, the new one being `owns` membership rather than
+the drawn length — that is what actually failed, and a length match would be
+fragile. `owns` 20 and `krtrains` 42 pass unchanged.
+
+**長項—群山 needed no fix.** It is in `owns`, it is drawn, and it is 3.57 km:
+**0.52 px at the opening view**, 4.9 px at seven degrees wide. Nothing is
+wrong with it.
+
+**The dots are a different layer, and two of the four ports have none.** The
+squares come from `kr-stations.js`, the NIKH GIS of Korean railway stations,
+which placed 693 of the timetable's 1,302 stops. 長項棧橋 and 麗水港 are in it;
+**群山棧橋 and 下關港 are not** — the second because it is Japanese and that
+file is Korean. So each of those two crossings has a square at one end and
+none at the other. Whether a pier the timetable places but no GIS lists should
+get a mark of its own is a question about what the station layer claims to be,
+and is left open rather than answered by adding one.
+
+Left open: **水東里**, the middle stop of the Kum estuary ferry, is still
+unplaced — see the head of this file.
+
+### The seven that were open, and what each came to
+
+Cleared on 12 September 2026. Four were asked for and have been overtaken or
+withdrawn; three were never faults, only measurements, and their figures are
+kept here so that nobody sets out to take them again.
+
+- **The occupied-zone v3 layer, and the clips it was to make redundant.** Both
+  questions are answered above. The layer landed as
+  `japanese-occupied-territory-1941-2-v2.geojson` — 722 rings and 6,461
+  vertices against six generalised blocks, a million square kilometres, with
+  the line of control taken off its own inland edge at a median 1.08 km from
+  the shading. There is no `-v3` and there never was. And `clip-china` is not
+  redundant: taken off, the second half of its job showed — it is China's
+  provinces *and* China's outline, which is what keeps the shading off
+  Mengjiang and Manchukuo, and with Administrative off those two are drawn by
+  backings that sit at the head of the layer stack where nothing later can get
+  underneath them. Checked by sampled pixels: Chahar, Suiyuan, Jehol and
+  Manchuria all read 241,92,75 and Peking 251,128,114. The clip stays.
+
+- **Export French Indochina to `GIS/French Indochina/` (#103).** Withdrawn.
+  Written when the layer was the three-way approximation of Vietnam that the
+  note was going to have to apologise for; the sheet is traced now, 94
+  administrative units with their French names, and the caveats that export was
+  to carry are no longer true of it.
+
+- **Reword the contested frontier north of India (#106).** Withdrawn as
+  written. *Frontier not settled* stands. The four places that would have had
+  to move together — `texts/categories.csv` twice each in the `e1930` and
+  `e1942` legend rows, as name and as `orig`, and the `contested` row of
+  `texts/territories/1930.csv` and `1942.csv` — are recorded here in case it is
+  ever asked for again, since finding them was most of the work. The swatch
+  beside it is still a solid `#5c554a` square rather than a sample of the
+  `hatch-unclear` diagonals.
+
+- **A key of Okinawa's own for the island, apart from the prefecture.**
+  Withdrawn. Two shapes carry `data-prov="Okinawa"` — the prefecture, and
+  Okinawa Hontō in the fine coastline — and the prefecture's row won, so the
+  island's line about the battle of April–June 1945 was never shown to anybody.
+  Only the prefecture's row is kept, which is the state the map is in and has
+  always been in; what was lost is written down in
+  `texts/territories/sub-units/ryukyus.md`, where it can be put back if the
+  distinct `data-prov` is ever wanted.
+
+- **The India–Burma frontier: 469 km² of source disagreement.** Not a fault.
+  The 4,085 km² first reported was a stale cache — `tools/cache/india-1931.geojson`
+  held 13,058 outer vertices reaching 96.671 E, exported at 17:05 on 20 August,
+  against the gpkg's 13,380 reaching **97.135 E** saved at 20:33 the same
+  evening, India having been extended eastward along this very frontier three
+  and a half hours after the export the map was reading. Re-exported, the drawn
+  gap fell to **469 km²**, which is two hands tracing one frontier and is
+  small. The second, thinner line beside it is deliberate: `britishindia`
+  carries `edge: #8f5f6e`, `edgeAtoms: burma`, a hairline round Burma inside
+  the Raj because in 1930 they share a colour — drawn from *Burma's* outline
+  while the hover outline follows *India's*. One frontier, two sources, a few
+  kilometres apart, seen twice. Cutting one source to the other remains
+  available and is nobody's fault to fix.
+
+- **The Kwantung leasehold: three pixels.** Sampled by rendered colour over the
+  whole leasehold at a hundred-kilometre view, Manchuria's colour shows through
+  at three pixels in two clusters, 121.43 E 39.44 N and 121.38 E 39.44 N — the
+  residue of the cut and the path rounding each moving a vertex a little.
+  Invisible at any view a reader will use; closing it means rebuilding the cut
+  to share vertices with its parent. Left, measured.
+
+- **Kwangchowwan's lease boundary on land.** The carve is right: the traced
+  coastline replaced Natural Earth as the limit on it and land drawn as sea
+  fell from 2,761 sample points to 442. What is a guess is the landward
+  boundary — the leasehold's file holds six pieces round the bay and where they
+  end is where the map says the lease ended, while a period map draws one line
+  round the bay and its shores. A limit on what is being drawn, not a fault in
+  the drawing, and it needs a source rather than a decision.
 
 ### Shared borders are one line where it was broken, and measured everywhere else
 
@@ -20827,24 +21349,12 @@ carries three spans for three screen widths and `textContent` is all three run
 together — with a check that the right sheet is showing before anything is
 asked of it. `indochina` 17 → **18 checks**.
 
-## Still open
+## Closed since, both of them
 
-* **169** The Japan–Korea ferries, routed round land. Measured what is there:
-  關門 is 5 km of open strait and 長項—群山 crosses an estuary, both fine as
-  chords; 關釜 runs Shimonoseki (130.922, 33.949) to Pusan (129.04, 35.114) and
-  wants checking against Tsushima; **青函 is the one to fix**, Aomori (140.735,
-  40.830) to Hakodate (140.730, 41.770) as a straight line up a longitude that
-  crosses the Tsugaru peninsula. Four crossings and a handful of waypoints each
-  — a stated table, like `PAPUA_CUT_LINE` and `DINDINGS_HULL`, rather than a
-  router — is the shape this should take.
-* **The 1930 sheet should dissolve the provinces the cession cuts.** Five of
-  them are drawn in two atoms, and on the 1930 sheet, where both are French
-  Indochina, the reader should see one province. `markSplitProvinces` already
-  groups blocks by the atom's `data-id`, which both halves share on that date,
-  and the `admin-on` stroke is already withheld from a province drawn in more
-  than one block — so what is visible is most likely a hairline: the shared
-  edge is simplified twice, once inside `indochina`'s rings and once inside
-  `siamgain`'s, and the two results diverge. Not investigated.
+* **169** was answered by measurement rather than by routing: three of the four
+  crossings never needed it and the fourth was not drawn at all. Next section.
+* **The 1930 sheet's cut provinces** are dissolved — a separate 1930 coverage,
+  gated by `data-epoch`, not a hairline fix. Above.
 
 ## 169. The ferries, measured against the coastline
 
@@ -21028,13 +21538,13 @@ A layer drawn when it cannot be seen costs 5% of a pan. A layer that cannot be
 switched on at all is the map not working, and that is not a trade worth making
 blind.
 
-## Still open
+## What was left of it
 
-* **A long press on the railway button for the five networks one by one**, with
-  each source's short title and year — the shape the air button already has.
-  Not started.
-* **Hiding the off-screen railways**, once the setup-order problem above is
-  understood.
+* **A long press on the railway button for the five networks one by one** was
+  done next, in 177.
+* **Hiding the off-screen railways** is still open, and the "setup-order
+  problem above" is not the right diagnosis — see the head of this file, where
+  the mechanism is worked out and the two traps named.
 
 ## 177. The five railways, one at a time, behind the button
 

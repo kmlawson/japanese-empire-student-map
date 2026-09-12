@@ -283,7 +283,14 @@ console.log('\n— one label to a place —');
      data-area from 817 to 823 and pushed it over. Both labels are hidden at
      this state -- the check reads DOM text, not paint -- and the
      no-overlap-when-drawn rule is the section below. */
-  const allowed=['吉林','寧夏','Chiengmai'];
+  /* Palembang joined it the same way on 12 September, and for the same
+     reason one step further out: the Netherlands Indies' residencies are
+     named after the towns they were governed from, so a residency label and
+     a city label carry one word. Palembang is the only one of the sixty-five
+     that collides today — the city is on the map and the residency is now a
+     sub-unit of it — and any further residency that gets a city will land
+     here too, which is the right place to be told about it. */
+  const allowed=['吉林','寧夏','Chiengmai','Palembang'];
   const unexpected=[...new Set(twins)].filter(t=>allowed.indexOf(t)<0);
   check('and no other place is written twice', unexpected.length===0,
     JSON.stringify(unexpected.slice(0,6)));

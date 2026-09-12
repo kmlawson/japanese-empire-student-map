@@ -661,6 +661,156 @@ def load_indochina():
     return _INDOCHINA
 
 
+# ---- the Netherlands Indies, residency by residency -----------------------
+# Prepared by tools/build_dei.py from data/dei/dei-admin-1930.geojson: 65 units
+# — Natural Earth coastlines with Robert Cribb's residency boundaries laid on
+# them, *Historical Atlas of Indonesia* (2000) pp. 125-6, 127, 129 and 131 —
+# with the whole dissolved exactly for the sheet that has Administrative off.
+#
+# It is the first time this colony has had divisions at all. `DEI_RESIDENCIES`
+# mapped thirty-four *modern* provinces onto seventeen units with Bali, the
+# Lesser Sundas, the Moluccas and New Guinea in none of them, and was dropped
+# rather than drawn; what was left was eighteen island names. The islands stay
+# — an island is a place whatever the Administrative switch says — and the
+# residencies go in front of them.
+#
+# **Fifty of the sixty-five sit in a gouvernement and fifteen do not**, and
+# that is the administration rather than a gap in the file: Java was three
+# gouvernements of residencies with Jogjakarta and Soerakarta beside them as
+# princely lands, Borneo was two afdeelingen, and the rest answered to Batavia
+# with nothing in between. So the shading has something to say over Java and
+# Borneo and nothing to say over Sumatra, Celebes or the east.
+DEI_DIR = os.path.join(ROOT, "data", "dei")
+DEI_ADMIN = "dei-1930-admin.geojson"
+DEI_OUTLINE = "dei-1930-dissolved.geojson"
+# **AND THE LATER SHEET IS A DIFFERENT SET OF UNITS, NOT THE SAME SET MOVED.**
+# Java's residencies were merged wholesale before the occupation -- 65 units
+# become 47, 23 names gone and 5 new -- so the two sheets cannot share a list
+# any more than Indochina's can. The outline is *not* duplicated: the two
+# dissolves agree to 7 km2 of junction sliver out of 1,885,666, because the
+# coast is the same coast, so one outline serves both dates and the atom keeps
+# the 1930 one.
+DEI_ADMIN_1942 = "dei-1942-admin.geojson"
+
+_DEI = None
+
+
+def load_dei():
+    """The 65 residencies, the colony's outline, and a box per island of it.
+
+    Returns None if the prepared files are missing, and the build goes on with
+    the Indies drawn from Natural Earth as before — the same courtesy the
+    other traced layers get.
+    """
+    global _DEI
+    if _DEI is not None:
+        return _DEI or None
+    missing = [f for f in (DEI_ADMIN, DEI_OUTLINE, DEI_ADMIN_1942)
+               if not os.path.exists(os.path.join(DEI_DIR, f))]
+    if missing:
+        sys.stderr.write("note: %s missing from data/dei/; run "
+                         "tools/build_dei.py\n" % ", ".join(missing))
+        _DEI = {}
+        return None
+
+    def read(fname):
+        with open(os.path.join(DEI_DIR, fname), encoding="utf-8") as fh:
+            return json.load(fh)["features"]
+
+    def units_of(fname):
+        out = []
+        for feat in read(fname):
+            pr = feat["properties"]
+            out.append({
+                "name": pr["name"],
+                "gouv": pr.get("gouvernement") or "",
+                "mil": pr.get("japanese_military") or "",
+                "rings": list(iter_rings(feat["geometry"])),
+            })
+        return out
+
+    units = units_of(DEI_ADMIN)
+    later = units_of(DEI_ADMIN_1942)
+    outline, boxes = [], []
+    for feat in read(DEI_OUTLINE):
+        for poly in feat["geometry"]["coordinates"]:
+            outline.extend(poly)
+            xs = [c[0] for c in poly[0]]
+            ys = [c[1] for c in poly[0]]
+            boxes.append((min(xs), min(ys), max(xs), max(ys)))
+    _DEI = {"units": units, "later": later, "outline": outline, "boxes": boxes}
+    return _DEI
+
+
+def dei_counterpart(ring, boxes):
+    """Is this Natural Earth ring an island the prepared coverage also has?
+
+    **Matched by bounding box and not by a point.** The obvious test — is the
+    ring's centroid inside one of the coverage's polygons — gets Sumbawa and
+    Flores wrong, because the centroid of a deeply bayed island is out at sea:
+    it reported 37,502 km2 uncovered, of which 28,918 was those two islands
+    that are plainly there. Both sides of this comparison are drawn from the
+    same Natural Earth coastline, so the same island has very nearly the same
+    box, and overlap of a half is a wide margin either way — the worst true
+    match measures 0.79 and the closest false one 0.11.
+
+    What it leaves is 21 of Natural Earth's 264 rings, 2,481 km2 and 449
+    vertices: **Ambon**, where the Moluccas were governed from, the **Banda**
+    islands, **Weh** off the tip of Aceh, **Bawean**, **Kangean**,
+    **Karimunjawa** and the Lease islands. The author's instruction was not to
+    attach unclaimed islands to a neighbouring province, and they are not
+    attached to anything — they are drawn as the colony with no division on
+    them, which is the truth about them and keeps Ambon on the map.
+    """
+    xs = [c[0] for c in ring]
+    ys = [c[1] for c in ring]
+    a = (min(xs), min(ys), max(xs), max(ys))
+    area_a = (a[2] - a[0]) * (a[3] - a[1])
+    for b in boxes:
+        ix = max(0.0, min(a[2], b[2]) - max(a[0], b[0]))
+        iy = max(0.0, min(a[3], b[3]) - max(a[1], b[1]))
+        inter = ix * iy
+        if not inter:
+            continue
+        union = area_a + (b[2] - b[0]) * (b[3] - b[1]) - inter
+        if union > 0 and inter / union >= 0.5:
+            return True
+    return False
+
+
+# **WHICH JAPANESE COMMAND HELD A DIVISION, FOR THE CARD TO SAY SO.**
+#
+# Written as an attribute rather than into texts/, because it is true of the
+# 1942 sheet and not of the 1930 one while both sets of units carry the same
+# names — Palembang is Palembang on either date. A row in the sub-unit table
+# is shared between the two sheets by design, so a sentence about the
+# occupation put there would appear on a card dated twelve years before it.
+# `data-mil` is emitted on the later blocks alone and map.js builds the
+# sentence from it.
+SUB_MILITARY = {}
+
+# **SUB-UNITS THAT ARE NOT DATED, IN AN ATOM WHOSE OTHERS ARE.**
+#
+# An island is a place and not a division: Java is Java on both sheets. The
+# Indies now carry two sets of residencies, one per date, and `data-epoch`
+# picks between them — and the island names, which sit in the same list, were
+# stamped 1942 along with the later residencies and disappeared from the 1930
+# map. Filled by the RING_NAMES pass below, read by the epoch pass, so a block
+# named here is written once and shown on both dates.
+SUB_BOTH_EPOCHS = set()
+
+# A clip for one block of one atom on one date, where the atom's own is wrong.
+# Dutch New Guinea is the case and the only one: it is inside `Gouvernement
+# der Molukken`, and the western half of it was never occupied — so on the
+# later sheet that residency must not claim the ground the Japanese never
+# held, or the card would tell a reader it was under the Navy. The clip is
+# `clip-ng-unoccupied`, which already exists and is already applied to this
+# atom on this date: a frame with the reporter's traced region punched out of
+# it. Reusing it means the residency stops exactly where the colouring does
+# rather than at a second line that would have to agree with it.
+SUB_BLOCK_CLIP = {("dei", "Gouvernement der Molukken", "e1942"):
+                  "clip-ng-unoccupied"}
+
 INDIA_ENCLAVES = {
     "Goa": "goa", "Dādra and Nagar Haveli and Damān and Diu": "goa",
     "Puducherry": "pondicherry",
@@ -876,7 +1026,7 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "jehol",
 # files that never shared vertices in the first place, so thinning them loses
 # nothing that was there; a topology-preserving simplifier would be the general
 # answer and this layer does not need one, being small enough to draw whole.
-SHARED_EDGE_EXACT = {"indochina", "siamgain"}
+SHARED_EDGE_EXACT = {"indochina", "siamgain", "dei"}
 
 # The general answer SHARED_EDGE_EXACT's note asked for: these atoms'
 # sub-units are thinned as one coverage by arc_thin(), which simplifies every
@@ -1228,29 +1378,14 @@ SIAM_SPLITS = {
 # out as one ring each, so no district boundary is drawn inside either.
 THA_BANGKOK_FILE = "tha_bangkok_2.json"
 
-# The Netherlands Indies below the level of the whole colony. Java had been
-# divided into three provinces since 1926, with Jogjakarta and Surakarta left
-# as princely lands under their own rulers; the Outer Possessions were run as
-# residencies, gathered from 1938 into three great governments. Surakarta
-# cannot be separated from Central Java on modern outlines. The Lesser Sundas,
-# the Moluccas and Dutch New Guinea are left as islands, which is more useful
-# on a map at this scale than the residencies that covered them.
-DEI_RESIDENCIES = {
-    "Aceh": "Atjeh",
-    "North Sumatra": "SumatraEastCoast", "West Sumatra": "SumatraWestCoast",
-    "Riau": "SumatraEastCoast", "Riau Islands": "Riouw", "Jambi": "Djambi",
-    "South Sumatra": "Palembang", "Bangka-Belitung Islands": "BankaBilliton",
-    "Bengkulu": "Benkoelen", "Lampung": "Lampongs",
-    "Banten": "WestJava", "Jakarta Special Capital Region": "WestJava",
-    "West Java": "WestJava", "Central Java": "CentralJava",
-    "Special Region of Yogyakarta": "Jogjakarta", "East Java": "EastJava",
-    "West Kalimantan": "WestBorneo",
-    "Central Kalimantan": "SouthEastBorneo", "South Kalimantan": "SouthEastBorneo",
-    "East Kalimantan": "SouthEastBorneo", "North Kalimantan": "SouthEastBorneo",
-    "North Sulawesi": "Menado", "Gorontalo": "Menado",
-    "Central Sulawesi": "Celebes", "West Sulawesi": "Celebes",
-    "South Sulawesi": "Celebes", "Southeast Sulawesi": "Celebes",
-}
+# `DEI_RESIDENCIES` was here: thirty-four modern Indonesian provinces mapped
+# onto seventeen units, with Bali, the Lesser Sundas, the Moluccas and New
+# Guinea in none of them. It was never drawn in the end — see the note in the
+# Indies section below — and the colony now has its own period coverage, 65
+# units in eight gouvernements from Cribb's atlas. See load_dei(). Its
+# seventeen rows in texts/territories/sub-units/netherlands-indies.csv went
+# with it; none of them had any prose, and the island names were never in that
+# file.
 
 # Vietnam under the French was three: the colony of Cochinchina in the south
 # and the protectorates of Annam and Tonkin. These are the lines between them.
@@ -6234,6 +6369,17 @@ def main():
         if admin == "Afghanistan" and "afghanistan" in neighbours_1931:
             continue
         rings_here = list(iter_rings(feat["geometry"]))
+        # **The Indies keep only what the prepared coverage does not have.**
+        # Its 65 residencies carry Natural Earth's own coastline, so drawing
+        # both would draw every island twice; what Natural Earth has and the
+        # coverage does not is 21 rings of small islands nobody's residency
+        # claimed, and those are the colony's ground with no division on them.
+        # See dei_counterpart().
+        if key == "dei":
+            _dei_prep = load_dei()
+            if _dei_prep:
+                rings_here = [r for r in rings_here
+                              if not dei_counterpart(r, _dei_prep["boxes"])]
         groups[key].extend(rings_here)
         if key not in BACKING_FROM_SUBUNITS:
             backing[key].extend(rings_here)
@@ -6523,13 +6669,56 @@ def main():
             for label, rs in blocks.items():
                 provinces["siam"].append((label, rs))
 
-    # ---- the Netherlands Indies ---------------------------------------------
-    # No residencies. `DEI_RESIDENCIES` maps thirty-four modern provinces onto
-    # seventeen units with Bali, the Lesser Sundas, the Moluccas and New Guinea
-    # in none of them — 563,235 km2, 29.7% of the colony, carrying no unit at
-    # all — and for 1930 Java alone had some thirty-five residencies against
-    # the four that were drawn. The islands name themselves, through
-    # RING_NAMES above.
+    # ---- the Netherlands Indies, residency by residency ---------------------
+    # Sixty-five units where there were none. What stood here was a note
+    # explaining why the colony had no divisions at all: `DEI_RESIDENCIES`
+    # mapped thirty-four *modern* provinces onto seventeen units with Bali,
+    # the Lesser Sundas, the Moluccas and New Guinea in none of them —
+    # 563,235 km2, 29.7% of the colony, carrying no unit — and Java alone had
+    # some thirty-five residencies in 1930 against the four that were drawn.
+    #
+    # The outline is the prepared dissolve and not the sum of the units. Both
+    # come to the same ground, to within a square kilometre of 1,885,666, but
+    # the dissolve is 19,117 vertices where the units are 21,250 and it is
+    # exact: every interior edge in the coverage cancels against its twin, so
+    # there is no seam to weld and nothing for `dissolve()` to work out again
+    # on every build. See load_dei() and tools/build_dei.py.
+    #
+    # The island names stay in front of the residencies. RING_NAMES runs over
+    # the atom's rings and skips any a sub-unit has claimed, so Java's
+    # residencies sit on top of the island called Java and both answer for
+    # themselves — which is what it already does for the Indies and says so.
+    _dei = load_dei()
+    if _dei:
+        groups["dei"].extend(_dei["outline"])
+        backing["dei"].extend(_dei["outline"])
+        # **The 1930 units go in the early list and the 1941 ones in the
+        # default**, which is how `data-epoch` decides between them — the same
+        # arrangement Indochina's two sheets use, and for the same reason: the
+        # two sets are different units, not the same units drawn twice.
+        for _u in _dei["units"]:
+            provinces_1930["dei"].append((_u["name"], _u["rings"]))
+            if _u["gouv"]:
+                SUB_PARENTS[("dei", _u["name"], "e1930")] = _u["gouv"]
+        for _u in _dei["later"]:
+            provinces["dei"].append((_u["name"], _u["rings"]))
+            # **On the later sheet the grouping is the occupying command, not
+            # the Dutch gouvernement.** Three of them cover all 47 units —
+            # the Java 17th Army, the 25th Army in Sumatra, and the Navy
+            # across Borneo and the east — and that is the division that
+            # governed this ground in December 1942. The gouvernements were
+            # the administration the occupation inherited and they are the
+            # 1930 sheet's grouping, where they belong.
+            if _u["mil"]:
+                SUB_PARENTS[("dei", _u["name"], "e1942")] = _u["mil"]
+                SUB_MILITARY[("dei", _u["name"])] = _u["mil"]
+            # The gouvernement is the larger unit a residency sat in, and
+            # `data-parent` is what the map reads to shade and light it. Only
+            # fifty of the sixty-five have one; the other fifteen answered to
+            # Batavia direct and are given no parent rather than a made-up
+            # one, so pointing at Palembang lights Palembang and nothing else.
+            if _u["gouv"]:
+                SUB_PARENTS[("dei", _u["name"])] = _u["gouv"]
 
     # ---- the Philippines, province by province ------------------------------
     ppath = os.path.join(CACHE, "adm2_PHL_1939.json")
@@ -7114,6 +7303,11 @@ def main():
             # Indies do; the named islands go in front of them, so that where
             # the two overlap the finer admin outline is the one on top
             provinces[key][:0] = [(k, v) for k, v in named.items()]
+            # and they are shown on every date this atom has, because a
+            # coastline is not an administrative arrangement. See
+            # SUB_BOTH_EPOCHS.
+            for _k in named:
+                SUB_BOTH_EPOCHS.add((key, _k))
 
     # ---- the rivers of India ------------------------------------------------
     # Natural Earth's rivers, clipped to the subcontinent and Burma in QGIS.
@@ -7991,8 +8185,35 @@ def main():
             for _b in early:
                 epoch_of[id(_b)] = "e1930"
             for _b in blocks:
+                if (key, _b[0]) in SUB_BOTH_EPOCHS:
+                    continue                 # an island, dated by nothing
                 epoch_of[id(_b)] = "e1942"
-            blocks = early + blocks
+            # **AN UNNAMED BLOCK STAYS IN FRONT OF BOTH DATES.**
+            #
+            # A block with no name is the atom's own ground that no sub-unit
+            # claimed, and it is painted with the country's fill — so anything
+            # drawn before it is covered. Putting the earlier date's blocks at
+            # the head of the list put the Indies' 65 residencies *behind* it,
+            # and their boundaries were painted and then buried: a flat orange
+            # island with a crisp coast and nothing inside it, which is how it
+            # was reported. It only shows on an atom that has both an unnamed
+            # leftover and undeferred sub-units, and the Indies are the first
+            # of those — everywhere else the sub-units are in the admin sheet
+            # and never share a paint order with this.
+            # And the islands stay under the residencies, which is where
+            # RING_NAMES put them: an island block is the whole of Borneo or
+            # the whole of Java as one opaque shape, so anything painted
+            # before it is covered by it. `provinces` had them at the head of
+            # its own list for exactly this reason; moving the 1930 units into
+            # `provinces_1930` put `early` in front of them instead, and
+            # Borneo-the-island was painted over its own eleven residencies.
+            # Their strokes were there the whole time — taking the fill off
+            # every sub-unit in the page brought the boundaries straight back,
+            # which is what proved where the paint was going.
+            _bare = [b for b in blocks if not b[0]]
+            _isles = [b for b in blocks if b[0] and (key, b[0]) in SUB_BOTH_EPOCHS]
+            _dated = [b for b in blocks if b[0] and (key, b[0]) not in SUB_BOTH_EPOCHS]
+            blocks = _bare + _isles + early + _dated
         elif key == "siamgain":
             # The cession has divisions on the later sheet only: in 1930 this
             # ground is inside Indochina's own whole provinces above, and
@@ -8064,9 +8285,25 @@ def main():
                 cluster = SUB_CLUSTERS.get((key, pname))
                 if cluster:
                     attr += f' data-cluster="{esc(cluster)}"'
-                parent = SUB_PARENTS.get((key, pname))
+                # **The parent can differ by date.** Pontianak sat in the
+                # Westerafdeeling van Borneo in 1930 and in Gouvernement
+                # Borneo in 1941, and on the later sheet its grouping is the
+                # Japanese command instead — one name, three answers. So the
+                # dated key is asked first and the undated one is the
+                # fallback, which is every other atom on this map.
+                parent = (_ep and SUB_PARENTS.get((key, pname, _ep))) \
+                    or SUB_PARENTS.get((key, pname))
                 if parent:
                     attr += f' data-parent="{esc(parent)}"'
+                # The occupying command, on the later sheet alone: the two
+                # sheets share these names and this is only true of one.
+                if _ep == "e1942":
+                    _mil = SUB_MILITARY.get((key, pname))
+                    if _mil:
+                        attr += f' data-mil="{esc(_mil)}"'
+                _bclip = SUB_BLOCK_CLIP.get((key, pname, _ep))
+                if _bclip:
+                    attr += f' clip-path="url(#{_bclip})"'
                 sink.append(f'      <path{attr} d="{pd}"/>')
             # and the larger divisions, where they are their own shapes.
             #

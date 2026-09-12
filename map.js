@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '360';
+  var JEM_VERSION = '361';
 
   /* Every file this one fetches, with the version on it.
 
@@ -3509,19 +3509,31 @@
     return 'var(--bg)';
   }
 
-  function railInk(over) {
-    var atom = over && (atomEls[over] || $('#a-' + over, svg));
+  /* **HOW LIGHT THE GROUND UNDER A LINE IS, 0 TO 1, OR NULL.**
+   *
+   * Pulled out of `railInk` so that the ink for a boundary and the ink for a
+   * railway are decided by one piece of arithmetic rather than two that could
+   * drift. Rec. 709 luminance off the *computed* fill, because the palette is
+   * the reader's and `color-mix` is resolved by the browser: there is no way
+   * to know a shape's colour without asking for it. `rgb()` gives 0-255 and
+   * `color(srgb …)` gives 0-1, and both arrive here. */
+  function fillLum(el) {
     var fill = '';
-    try { fill = atom ? getComputedStyle(atom).fill : ''; } catch (err) { fill = ''; }
+    try { fill = el ? getComputedStyle(el).fill : ''; } catch (err) { fill = ''; }
     var m = /(-?[\d.]+)[,\s]+(-?[\d.]+)[,\s]+(-?[\d.]+)/.exec(fill || '');
-    if (!m) return state.colours.raillight || RAIL_LIGHT_DEF;
+    if (!m) return null;
     var v = [+m[1], +m[2], +m[3]];
-    // rgb() gives 0-255 and color(srgb …) gives 0-1; both arrive here
     if (v[0] > 1 || v[1] > 1 || v[2] > 1) v = v.map(function (x) { return x / 255; });
     var lin = v.map(function (x) {
       return x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
     });
-    var lum = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+    return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+  }
+
+  function railInk(over) {
+    var atom = over && (atomEls[over] || $('#a-' + over, svg));
+    var lum = fillLum(atom);
+    if (lum === null) return state.colours.raillight || RAIL_LIGHT_DEF;
     /* Which of the two is used stays the map's decision — a line has to read
        against the ground it crosses — but the two themselves are the
        reader's, and they follow the palette like everything else. */
@@ -6739,6 +6751,24 @@
     });
     // a reader who alt-tabs away with it down is not still panning on return
     window.addEventListener('blur', releaseSpace);
+
+    /* **Ctrl, held: every administrative boundary the map has.** The same
+       shape as the space bar above and the same three cautions — ignored
+       while the reader is typing, released on `blur` so alt-tabbing away with
+       it down does not leave the map stuck showing everything, and read from
+       `e.ctrlKey` rather than only from the key's own name so that letting go
+       of it during some other combination is still noticed.
+       `revealAllSubs` does nothing with the Administrative layer off.
+       No `preventDefault`: Ctrl on its own does nothing in a browser, and the
+       combinations it starts — Ctrl+F, Ctrl+R, Ctrl+T — belong to the reader
+       and not to this map. */
+    var syncCtrl = function (e) { revealAllSubs(!!e.ctrlKey); };
+    window.addEventListener('keydown', function (e) {
+      if (typing(e.target)) return;
+      syncCtrl(e);
+    });
+    window.addEventListener('keyup', syncCtrl);
+    window.addEventListener('blur', function () { revealAllSubs(false); });
     /* On a coarse pointer the browser's own menu is never wanted — a long
        press over the map is a press on the map. The handler above has already
        opened ours if there was a shape under it. */
@@ -8162,6 +8192,9 @@
   }
 
   function setSubsAtom(el) {
+    // While every boundary is showing, the pointer moving over a country is
+    // not a reason to take the rest of them away again.
+    if (subsAllOn) { subsAllWas = el; return; }
     if (subsAtom === el) return;
     subsAtoms.forEach(function (a) { a.classList.remove('subs'); });
     subsAtom = el;
@@ -8182,6 +8215,109 @@
     }
     markSplitProvinces();
     liftSubs(subsAtom);
+  }
+
+  /* **CTRL, HELD: EVERY BOUNDARY THE MAP HAS AT ONCE.**
+   *
+   * The Administrative layer draws divisions for the country under the
+   * pointer and no other, which is right for reading one place and wrong for
+   * the question *where do we have boundaries at all?* — a reader comparing
+   * Java with Sumatra, or looking for the colony nobody has drawn yet, has to
+   * sweep the pointer over the whole map and remember what they saw.
+   *
+   * So the same machinery is pointed at every atom instead of one. This is
+   * `setSubsAtom` with the list replaced: the atoms take `subs` exactly as
+   * they do under the pointer, `markSplitProvinces` runs over the lot — which
+   * matters, because a province drawn in two blocks would otherwise show the
+   * cut between them as if it were a boundary — and letting go puts back
+   * whatever the pointer had lit.
+   *
+   * It does nothing with the Administrative layer off. Ctrl is a modifier for
+   * a layer that is not there, and switching one on from a key that is meant
+   * to reveal it would be a second, hidden way to change the map's state. */
+  /* The boundary inks for the reveal. The dark one is the stylesheet's own
+     line, repeated here because this is where the choice between them is
+     made; the pale one is white at the same weight, which is what reads over
+     the dark blues and reds without becoming a second colour on the map. */
+  var SUB_INK_DARK = 'rgba(18, 15, 10, .62)';
+  var SUB_INK_LIGHT = 'rgba(255, 255, 255, .72)';
+  // how dark a ground has to be before a pale line reads better on it
+  var SUB_INK_DARK_GROUND = 0.22;
+  var subsAllOn = false, subsAllWas = null;
+
+  function revealAllSubs(on) {
+    /* **The same test the drawing makes**, and not a second one. There is no
+       `state.admin`: the switch is `state.cats.territory`, and what the
+       stylesheet keys on is `admin-on` — which map.js puts on the SVG, whose
+       own id is `jmap`. Asking a flag that does not exist made this silently
+       do nothing at all, which is the var-name mistake this file keeps
+       making; `liftSubs` a few lines up already asks it this way. */
+    on = !!on && !!svg && svg.classList.contains('admin-on');
+    if (on === subsAllOn) return;
+    if (on) {
+      subsAllWas = subsAtom;
+      subsAtoms.forEach(function (a) { a.classList.remove('subs'); });
+      subsAtom = null;
+      // every atom that has divisions on this date; `data-epoch` has already
+      // hidden the other sheet's, and a hidden path takes no stroke
+      subsAtoms = $$('.atom', svg).filter(function (a) {
+        return !!$('[data-prov]', a);
+      });
+      subsAtoms.forEach(function (a) {
+        a.classList.add('subs');
+        /* **A DARK LINE ON PALE GROUND AND A PALE ONE ON DARK.**
+         *
+         * Under the pointer this question does not arise: one country is lit
+         * at a time and the boundary ink was chosen against the lit colour.
+         * Showing all of them at once puts the same near-black line over the
+         * whole palette, and on the dark blue of the Philippines or the deep
+         * red of Japan and Korea it disappears — which is the one thing a
+         * reveal must not do.
+         *
+         * So each atom is asked how light it is and given the ink that will
+         * read on it, as a custom property the stroke rule falls back from.
+         * The property is `--sub-line` and **not `--sub-ink`**, which already
+         * means the colour a province name is written in: the first version
+         * used that name, so the stroke rule's fallback never applied and
+         * every hovered country's boundaries quietly changed colour.
+         * Set only while the reveal is up, so the hover keeps exactly the ink
+         * it had.
+         *
+         * **The threshold is 0.22 and it is not `railInk`'s 0.55.** Measured
+         * across every atom that has divisions, this palette falls in steps
+         * with gaps in it: Japan, the Ryukyus and the Kuriles at 0.076, the
+         * Philippines and the American Pacific at 0.099, Korea, Taiwan and
+         * the mandate at 0.162 — then nothing at all until the dusty rose of
+         * Burma and Malaya at 0.264, Indochina's pale blue at 0.407, the
+         * Indies' orange at 0.544 and China's yellow at 0.96. The three dark
+         * grounds are the three that were reported, and 0.22 sits in the gap
+         * above them. At railInk's 0.55 the Indies' light orange came out
+         * with a white boundary on it, which is the mistake the other way
+         * round; that figure was chosen for a railway line and its own
+         * comment's stated luminances no longer match this palette. */
+        var lum = fillLum(a);
+        a.style.setProperty('--sub-line',
+          (lum !== null && lum <= SUB_INK_DARK_GROUND) ? SUB_INK_LIGHT : SUB_INK_DARK);
+      });
+      subsAllOn = true;
+      markSplitProvinces();
+      liftSubs(null);
+      return;
+    }
+    subsAtoms.forEach(function (a) {
+      a.classList.remove('subs');
+      a.style.removeProperty('--sub-line');
+    });
+    subsAtoms = [];
+    subsAtom = null;
+    subsAllOn = false;
+    /* Back to whatever the pointer has. **`subsAllWas` is not enough**: it is
+       null whenever the reveal was opened with the pointer over open water,
+       and restoring null leaves the map with no divisions at all until the
+       reader moves the mouse — which reads exactly like the boundaries having
+       been lost. The atom carrying `hot` is where the pointer is now. */
+    setSubsAtom(subsAllWas || $('.atom.hot', svg) || null);
+    subsAllWas = null;
   }
 
   /* A sub-unit's name on this date, the gloss taken off, which is what decides
@@ -8255,6 +8391,30 @@
       $$('#land [data-parent="' + want + '"]', svg).forEach(function (n) { out.push(n); });
     }
     return out.length ? out : null;
+  }
+
+  /* **THE UNIT THAT WAS CLICKED STAYS PICKED OUT, NOT ONLY ITS COUNTRY.**
+   *
+   * `prov-hot` follows the pointer and goes the moment it leaves, which is
+   * right for a hover and wrong for a choice: a reader who clicks Bagelen
+   * gets a card about Bagelen and a map that has forgotten which one it was,
+   * with only the country still lit. So the click writes a second, sticky
+   * class over the same peers — the blocks of one province, because a
+   * province drawn in two pieces is one thing chosen — and it lasts as long
+   * as the card does.
+   *
+   * Kept apart from `prov-hot` rather than reusing it: the hover has to be
+   * free to move over other units while this one stays chosen, and one class
+   * doing both jobs would mean the pointer erasing the selection as it left. */
+  var selProvEls = [];
+
+  function setSelProv(el) {
+    selProvEls.forEach(function (n) { n.classList.remove('prov-sel'); });
+    selProvEls = el ? (provPeers(el) || []) : [];
+    selProvEls.forEach(function (n) { n.classList.add('prov-sel'); });
+    // the outline is drawn from this list, and the card's own call to
+    // `redrawHighlight` happens before the selection is written down
+    redrawHighlight();
   }
 
   function setHotProv(el) {
@@ -8825,10 +8985,17 @@
      whose key has not changed is left alone. Each has a container of its own
      so that rebuilding one does not move it above the others: the selection is
      the stronger statement and has to stay on top of the hover. */
-  var hiSlots = { territory: null, province: null, selected: null, pinned: null };
-  var hiHost = { territory: null, province: null, selected: null, pinned: null };
+  /* `selprov` is the *division* that was clicked, as against `selected`,
+     which is its country. It needs a slot of its own rather than borrowing
+     `province`: that one belongs to the pointer and is dropped the moment the
+     pointer leaves, which is the opposite of what a selection is for. */
+  var hiSlots = { territory: null, province: null, selprov: null,
+                  selected: null, pinned: null };
+  var hiHost = { territory: null, province: null, selprov: null,
+                 selected: null, pinned: null };
   // last, so a pin lies over every line the pointer draws
-  var HI_ORDER = ['territory', 'province', 'selected', 'pinned'];
+  // the chosen division under its country's line, and a pin over both
+  var HI_ORDER = ['territory', 'province', 'selprov', 'selected', 'pinned'];
 
   /* Every id in a slot's key answers for the shape it stands for -- but not
      for whether that shape is still the same shape. A fine coastline grafting
@@ -9077,6 +9244,19 @@
     fillSlot('province', slotKey('p', hotProvEl && hotProvEl.getAttribute('data-prov'),
                                  (deep ? ['deep'] : null), hotProv),
              hotProv, 'hi-province' + (deep ? ' hi-inner' : ''));
+    /* **THE DIVISION THAT WAS CLICKED KEEPS ITS LINE.** The fill lift alone
+       was not enough: an outline is what says *this one* most plainly, and
+       without it a reader who moved the pointer away had a card about a
+       province and a quiet tint to find it by. Same peers as the fill, so a
+       province drawn in two blocks is traced once round the pair. */
+    if (selProvEls.length) {
+      fillSlot('selprov',
+               slotKey('q', selProvEls[0].getAttribute('data-prov'),
+                       null, selProvEls),
+               selProvEls, 'hi-selprov');
+    } else {
+      dropSlot('selprov');
+    }
     if (selected && atomsOf[selected] && seen(selected)) {
       // `litFor` and not `atomsOf`, so that selecting draws round the same
       // ground hovering lights. They disagreed: hovering China on the 1930
@@ -9224,6 +9404,7 @@
     if (!id || !byId[id]) {
       selCluster = null;
       selProv = null;
+      setSelProv(null);
       infoBox.hidden = true;
       fillPopCard(null);
       fillTrainCard(null);
@@ -9248,6 +9429,7 @@
     /* Written down here, at the moment of choosing, and not read off the
        pointer later. See `selProv` above. */
     selProv = lastProv || null;
+    setSelProv(selProv && selProv.el);
     // Whose it was. For all but a handful of sub-units this is the territory
     // of the atom they are drawn in; for a Straits Settlement drawn off
     // somebody else's coast it is the colony it was governed as.
@@ -9303,9 +9485,17 @@
        the first. It goes on the alternates line with the other scripts,
        because that line is already "what else this place is called", and only
        when it is not simply the same word. */
-    if (head.fr && head.fr !== primary && others.indexOf(head.fr) < 0) {
-      others.push(head.fr);
-    }
+    /* `fr` is French Indochina's column and `alt` is the general one, added
+       for the Netherlands Indies: there the *Dutch* name leads, because that
+       is what the administration used and what a period source will say, and
+       the alternative is usually the modern Indonesian spelling — Bagelen and
+       Banyumas, Cheribon and Cirebon. Both go on this line for the same
+       reason and neither goes on it twice. */
+    [head.fr, head.alt].forEach(function (other) {
+      if (other && other !== primary && others.indexOf(other) < 0) {
+        others.push(other);
+      }
+    });
     $('.primary', infoBox).textContent = primary;
     $('.alt', infoBox).textContent = others.join('  ·  ');
     // and the country underneath, with every name it answers to — except for
@@ -9358,6 +9548,29 @@
     var ownNote = isSta ? (shortOf(rec) || '')
                 : sub ? (head.note || split.gloss || shortOf(head) || '')
                       : (rec.note || '');
+    /* **WHAT THE OCCUPATION DID TO THIS GROUND, ON THE SHEET WHERE IT HAD.**
+     *
+     * The Indies' later units are the administration as it stood on the eve
+     * of the occupation, and each carries the Japanese command that held it —
+     * the Java 17th Army, the 25th Army in Sumatra, the Navy across Borneo
+     * and the east. It comes off the shape as `data-mil` rather than out of
+     * `texts/`, because the two sheets share these names: a row written for
+     * Palembang serves 1930 and 1941 alike, and a sentence about the
+     * occupation put there would appear on a card dated twelve years before
+     * it. The attribute is written on the later blocks alone.
+     *
+     * Western Dutch New Guinea has none, and that is the point of the clip
+     * that keeps the Moluccas residency off it: the Japanese never held that
+     * ground, so nothing here says they did. */
+    var provEl = lastProv && lastProv.el;
+    var mil = (sub && provEl && provEl.getAttribute)
+      ? (provEl.getAttribute('data-mil') || '') : '';
+    if (mil) {
+      ownNote = 'Administrative boundaries as they were on the eve of the '
+        + 'Japanese occupation. This area was under the control of the '
+        + mil + ' during the occupation.'
+        + (ownNote ? '  ' + ownNote : '');
+    }
     var groupNote = isSta ? (rec.note || '') : (sub ? (host.note || '') : '');
     var own = $('.note-own', infoBox);
     var grp = $('.note-group', infoBox);
@@ -16819,6 +17032,7 @@
     if (!byId[id]) return false;
     lastProv = null;
     selProv = null;
+    setSelProv(null);
     if (provKey && svg) {
       var el = $$('#land [data-prov="' + provKey + '"]', svg).filter(function (x) {
         var atom = x.closest ? x.closest('.atom') : null;

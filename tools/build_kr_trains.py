@@ -166,6 +166,7 @@ LINE_NOTES = {
     '青函連絡船': 'The ferry between Aomori and Hakodate, four and a half hours across the Tsugaru strait.',
     '關釜連絡船': 'The Fuzan–Shimonoseki ferry, seven and a half hours across the strait, two boats a day each way: the day boat met the 特急 at Shimonoseki and ひかり at Fuzan, the night boat のぞみ and あかつき. Reconstructed from the connecting rows printed over the trains.',
     '長項—群山 連絡線': 'The ferry across the Kum estuary between the Keinan Railway at Chōkō and Gunzan, thirty crossings a day.',
+    '關麗連絡船': 'The second crossing to Japan, Reisui to Shimonoseki, at the foot of the Zenra Line. The booklet prints its two sailings as connecting rows on the Zenra columns rather than a table of its own, so no departures are carried here.',
 }
 
 # The Japanese reading of each line's name, for when the reader has asked for
@@ -201,6 +202,7 @@ LINE_JA = {
     '北陸・信越・羽越本線': 'Hokuriku–Shin\'etsu–Uetsu honsen', '關西本線': 'Kansai honsen',
     '東北本線・常磐線・奧羽本線': 'Tōhoku–Jōban–Ōu honsen', '青函連絡船': 'Seikan renrakusen',
     '關釜連絡船': 'Kanpu renrakusen', '長項—群山 連絡線': 'Chōkō–Gunzan renrakusen',
+    '關麗連絡船': 'Kanrei renrakusen',
 }
 
 LINE_EN = {
@@ -278,10 +280,36 @@ LINE_EN = {
     '青函連絡船': 'Seikan Ferry',
     '關釜連絡船': 'Kanpu Ferry',
     '長項—群山 連絡線': 'Changhang–Kunsan Ferry',
+    '關麗連絡船': 'Kanrei Ferry',
 }
 
 # Korean Wikipedia where it has the article, which is the local language on
 # this map; only lines whose article is known to exist.
+# **THE ONE FERRY THAT HAD TO BE ROUTED ROUND LAND.**
+#
+# Asked for as a general fix and answered by measurement: of the five
+# crossings, four are chords because nothing is in their way. 關釜 passes
+# north of Tsushima, 青函 has open water the whole way, and 關門 and
+# 長項—群山 are narrower than the drawn coastline's own resolution. **關麗 is
+# the exception.** Shimonoseki to Reisui straight lies 8 km across the middle
+# of Tsushima -- sampled every 500 m against the land the map itself draws,
+# 19 mid-crossing samples ashore between 147.7 and 160.2 km, at 129.27-129.40
+# E and 34.34-34.37 N, which is the island.
+#
+# Two waypoints clear it: **north of Tsushima's northern tip, then south of
+# Geoje**, which is the way round a boat for the Korean south coast would go
+# and the way the Kanpu ferry already passes the same island. 331.9 km
+# against the 304.9 km chord -- 8.8% longer -- and **not one of 647
+# mid-crossing samples is ashore**. Measured, not guessed; `tools/test/
+# ferries.js` holds the same probe.
+#
+# These are clearance points and not a sourced track. The booklet gives two
+# ports and a time and says nothing about the course between them; what is
+# asserted here is only that the boat did not sail over Tsushima.
+FERRY_WAY = {
+    '關麗連絡船': ('下關港', [(129.45, 34.80), (128.55, 34.50)]),
+}
+
 LINE_WIKI = {
     '京釜本線': ('ko', '경부선'), '京義本線': ('ko', '경의선'),
     '京元・咸鏡本線': ('ko', '경원선'), '湖南本線': ('ko', '호남선'),
@@ -331,6 +359,86 @@ def build_js(anchors=None):
     # so. Until a source for the alignment arrives that is the honest picture.
     chords = grab(src, 'CHORDS') if 'const CHORDS = ' in src else {}
     approx = set(grab(src, 'APPROX_LINES') if 'const APPROX_LINES = ' in src else [])
+
+    # **THE KANREI FERRY IS IN THE BOOKLET AND WAS NOT IN THE BUNDLE.**
+    #
+    # 關麗連絡船 is the second crossing between Japan and Korea -- 下關港 to
+    # 麗水港, at the foot of the 全羅線 -- and the booklet has it, but not as a
+    # table of its own. Its sailings are printed as ferry rows tacked onto the
+    # ends of two 全羅線 columns: 下關港發 5.00 / 麗水港着 10.00 in column 341,
+    # and 麗水港發 4.00 / 下關港着 8.00 in column 342. `export_map.py` builds
+    # lines from tables, so a ferry with no table of its own became no line at
+    # all, and the only trace it left here was a station: **下關港, placed at
+    # 130.94, 33.96 and carrying `"lines": []`** -- a port belonging to
+    # nothing, which is what an untranscribed ferry looks like from the other
+    # end. Reported by the author, who could see two ferries on the map and
+    # knew there were more.
+    #
+    # Stated here rather than patched into data.js, which is built in the
+    # transcription project from `transcription/*.tt` and would lose the edit
+    # on the next import. Both ports are the transcription's own and already
+    # placed; all this adds is the line they are both on, after which the
+    # two-port rule below draws the crossing without being asked.
+    #
+    # **No sailings, deliberately.** Those times are in the booklet's
+    # 午前/午後 convention, where the afternoon hours are set in a different
+    # weight -- 下關港發 5.00 is the `17:00*` the transcribed rows carry -- and
+    # 305 km in five hours is 61 km/h, which no 1938 ferry did. Read as 17:00
+    # to 10:00 and 16:00 to 08:00 they are overnight crossings of seventeen
+    # and sixteen hours, which is plausible and is not the same thing as
+    # checked: the up table also carries a 下關港 發 20:00*, which those two
+    # readings do not account for. The line and its crossing are what the map
+    # draws; the departures wait on somebody reading the scan.
+    KANREI = '關麗連絡船'
+    if KANREI not in colours:
+        # appended, so every existing line keeps the index the bundle and the
+        # tests already know it by
+        colours[KANREI] = '#7f8c8d'          # the grey the other four ferries use
+        approx.add(KANREI)
+        _ports = [s for s in stations
+                  if s['name'] in ('下關港', '麗水港')]
+        if len(_ports) != 2:
+            raise SystemExit('the Kanrei ferry wants both its ports in '
+                             'data.js and found %d' % len(_ports))
+        for s in _ports:
+            s['lines'] = list(s.get('lines') or []) + [KANREI]
+        # **AND ITS TWO SAILINGS, BECAUSE WITHOUT THEM NOTHING IS DRAWN.**
+        #
+        # The line was added without them at first, on the ground that the
+        # times could not be read with confidence -- and that withheld the
+        # ferry itself, not just its times. The track is not drawn from
+        # `paths`: `buildLines` iterates `owns`, which `trains_split.line_owns`
+        # derives by walking every consecutive pair of stops of every train.
+        # A line with no train has no stretch in `owns`, so it had a crossing
+        # in the geometry, a chip in the legend, and no track anywhere on the
+        # map. Reported by the author, who could see the entry and not the
+        # line.
+        #
+        # So the sailings go in **with the uncertainty flagged rather than the
+        # ferry suppressed**, which is what `u` is for: it becomes flag 4, the
+        # source reading is uncertain, and the reader is told. The booklet
+        # prints 下關港發 5.00 / 麗水港着 10.00 and 麗水港發 4.00 / 下關港着 8.00
+        # in its 午前/午後 convention, where the afternoon hours are set in a
+        # different weight; the transcribed rows carry 下關港 發 `17:00*`,
+        # which fixes 5.00 as 午後五時 and makes both crossings overnight --
+        # seventeen hours and sixteen. 305 km in five hours would be 61 km/h
+        # and no 1938 ferry did that. What is still unaccounted for is the up
+        # table's second 下關港 發 `20:00*`, which is why every one of these
+        # four times is flagged.
+        trains.append({
+            'no': '關麗 1', 'line': KANREI, 'dir': '下り', 'cls': '',
+            'dest': '麗水港', 'marks': '連絡船', 'pages': [13],
+            'stops': [{'s': '下關港', 'd': '17:00', 'dm': 1020, 'u': 1},
+                      # past 1440 is the small hours of the next day, and this
+                      # one arrives the following morning
+                      {'s': '麗水港', 'a': '10:00', 'am': 600 + 1440, 'u': 1}],
+        })
+        trains.append({
+            'no': '關麗 2', 'line': KANREI, 'dir': '上り', 'cls': '',
+            'dest': '下關港', 'marks': '連絡船', 'pages': [13],
+            'stops': [{'s': '麗水港', 'd': '16:00', 'dm': 960, 'u': 1},
+                      {'s': '下關港', 'a': '08:00', 'am': 480 + 1440, 'u': 1}],
+        })
 
     # ONE HANJA CAN BE TWO STATIONS -- kr-stations.js has 豊山, 松亭 and 高山
     # twice, in different provinces -- so a name maps to a list, and the
@@ -570,19 +678,57 @@ def build_js(anchors=None):
         if len(_ports) != 2:
             continue
         _lo, _hi = sorted(_ports)
-        if '%d|%d' % (_lo, _hi) in out_pa:
+        # **A CHORD IS REDRAWN FROM THE PORTS; A TRACING IS NOT TOUCHED.**
+        #
+        # This used to stand down whenever a path already existed, and 關門's
+        # did: two points from the transcription's CHORDS, 130.94 33.96 to
+        # 130.96 33.94, which are the *city* points the pages were transcribed
+        # against. Both stations have been moved since -- 下關 to the real
+        # station at 130.9217 33.94929 by `jp_link`, 門司 to 130.93271
+        # 33.90419 -- so the crossing was drawn 2.89 km between two points
+        # neither of which was under its own square, starting two kilometres
+        # off one end. Anything with more than two points is a traced path and
+        # is left exactly alone.
+        _had = out_pa.get('%d|%d' % (_lo, _hi))
+        if _had and len(_had) > 4:
             continue
         _a, _b = out_st[_lo], out_st[_hi]
-        out_pa['%d|%d' % (_lo, _hi)] = [_a['lon'], _a['lat'], _b['lon'], _b['lat']]
-        _fer_added.append('%s %s-%s' % (_nm, _a['n'], _b['n']))
+        _flat = [_a['lon'], _a['lat']]
+        _way = FERRY_WAY.get(_nm)
+        if _way:
+            _from, _pts = _way
+            # the path runs low index to high index, so the stated order is
+            # reversed when the port it leaves from is the high one
+            _flat += [c for p in (_pts if _a['n'] == _from else reversed(_pts))
+                      for c in p]
+        _flat += [_b['lon'], _b['lat']]
+        out_pa['%d|%d' % (_lo, _hi)] = _flat
+        _fer_added.append('%s %s-%s%s' % (_nm, _a['n'], _b['n'],
+                                          ' via %d waypoints' % len(_way[1])
+                                          if _way else ''))
     if _fer_added:
         print('ferry crossings drawn from their two ports: %s'
               % '; '.join(_fer_added))
 
+    # **AND A FERRY IS NEVER ROUTED ALONG RAILS.**
+    #
+    # The crossing written just above is two points, and `fill` leaves a path
+    # alone only once it has more than two -- so it treated every ferry as a
+    # chord waiting to be improved. Three of the four were saved by there
+    # being no railway to find: the Korea Strait, the Tsugaru Strait and the
+    # Kum estuary have no track across them. **關門 was not.** Shimonoseki to
+    # Moji came out as thirteen points and 6.19 km of railway against a
+    # 5.12 km strait, wandering inland and back -- and the only rails between
+    # those two stations are the Kanmon tunnel, which opened in November 1942
+    # and did not exist for a 1938 timetable. A ferry drawn on a railway says
+    # the boat went by train, and it says it four years early.
+    _ferry_li = {i for n, i in line_ix.items()
+                 if n.endswith('連絡船') or n.endswith('連絡線')}
     rail_route.fill(doc, [os.path.join(ROOT, 'tools', 'cache', f)
                           for f in ('korea_1942_lines_dedup.geojson',
                                     'korea_1930_lines_dedup.geojson')]
                          + [JP_LINES_GEOJSON], 'Korea 1938',
+                    skip_li=_ferry_li,
                     # **Welded at the tolerance the geometry is drawn at.**
                     # N05's 1,977 features come to 241 separate components, so
                     # 糸崎 and 尾道 — adjacent stations eight kilometres apart on

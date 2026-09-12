@@ -130,6 +130,106 @@ const named = p => p.evaluate(() => {
     await p.close();
   }
 
+  /* **THE DIVISION THAT WAS CLICKED STAYS PICKED OUT.**
+     `prov-hot` follows the pointer and goes with it, which is right for a
+     hover and wrong for a choice: a reader with a card open about one of
+     Java's thirty-eight residencies could not see which. `prov-sel` is the
+     sticky one, written at the moment of choosing and cleared wherever the
+     selection is.
+
+     Three cautions learned driving this, all three of which made an earlier
+     attempt measure zero:
+       * the hover is a `mousemove` on `#map-container`, not a pointer event
+         on the SVG, and `hoverCapable` gates it — so the SHIM matters;
+       * a sub-unit off the edge of the view has a screen point outside the
+         container and a click there reaches nothing, so the target is chosen
+         by its centre being **on screen** rather than by its size;
+       * and the selection has to be checked *after* the pointer has moved
+         away, which is the whole point of it. */
+  {
+    const p = await b.newPage();
+    await p.evaluateOnNewDocument(SHIM);
+    await p.setViewport({ width: 1200, height: 900 });
+    const errs = [];
+    p.on('pageerror', e => errs.push(String(e).slice(0, 160)));
+    await p.goto(HOST + '/index.html?layers=8&where=103,19,108,23',
+                 { waitUntil: 'domcontentloaded' });
+    await ready(p);
+    await sleep(2200);
+    const at = await p.evaluate(() => {
+      const svg = document.getElementById('jmap');
+      const m = svg.getScreenCTM();
+      const cr = document.getElementById('map-container').getBoundingClientRect();
+      const pt = svg.createSVGPoint();
+      let best = null;
+      [...document.querySelectorAll('#a-indochina [data-prov]')].forEach(el => {
+        if (getComputedStyle(el).display === 'none') return;
+        const bb = el.getBBox();
+        pt.x = bb.x + bb.width / 2; pt.y = bb.y + bb.height / 2;
+        const s = pt.matrixTransform(m);
+        if (s.x < cr.x + 8 || s.x > cr.right - 8) return;
+        if (s.y < cr.y + 8 || s.y > cr.bottom - 8) return;
+        const area = bb.width * bb.height;
+        if (!best || area > best.area) {
+          best = { x: Math.round(s.x), y: Math.round(s.y), area: area,
+                   aim: el.getAttribute('data-prov') };
+        }
+      });
+      return best;
+    });
+    check('a division of Indochina is on screen to aim at', !!at,
+      at ? at.aim : 'nothing in view');
+    if (at) {
+      await p.mouse.move(at.x - 6, at.y - 6); await sleep(250);
+      await p.mouse.move(at.x, at.y); await sleep(700);
+      const hov = await p.evaluate(() =>
+        document.querySelectorAll('.prov-hot').length);
+      check('  hovering it picks it out', hov > 0, String(hov));
+      check('  and nothing is selected yet', (await p.evaluate(() =>
+        document.querySelectorAll('.prov-sel').length)) === 0);
+      await p.mouse.down(); await sleep(120); await p.mouse.up();
+      await sleep(700);
+      const sel = await p.evaluate(() => ({
+        names: [...document.querySelectorAll('.prov-sel')]
+          .map(e => e.getAttribute('data-prov')),
+        card: (document.querySelector('#info .primary') || {}).textContent || '',
+      }));
+      check('  clicking it selects it', sel.names.length > 0
+        && sel.names.indexOf(at.aim) >= 0, JSON.stringify(sel.names));
+      check('  and the card is about that division', sel.card === at.aim,
+        sel.card + ' vs ' + at.aim);
+      // away from it: the hover goes, the selection stays
+      await p.mouse.move(40, 40); await sleep(200);
+      await p.mouse.move(60, 60); await sleep(500);
+      const after = await p.evaluate(() => ({
+        sel: document.querySelectorAll('.prov-sel').length,
+        fill: (() => {
+          const e = document.querySelector('.prov-sel');
+          return e ? getComputedStyle(e).fill : '';
+        })(),
+        outline: document.querySelectorAll('#highlight .hi-selprov path').length,
+        outlineStroke: (() => {
+          const e = document.querySelector('#highlight .hi-selprov path');
+          return e ? getComputedStyle(e).stroke + ' w='
+                     + getComputedStyle(e).strokeWidth : 'none drawn';
+        })(),
+      }));
+      check('  and it stays picked out when the pointer leaves',
+        after.sel > 0, JSON.stringify(after));
+      check('  with a fill of its own, not the country’s',
+        /srgb|rgb/.test(after.fill), after.fill);
+      /* **And the line round it, which is what says *this one* most
+         plainly.** The fill lift alone left a reader with a card about a
+         province and only a quiet tint to find it by. `hi-selprov` is a
+         highlight slot of its own — `hi-province` belongs to the pointer and
+         is dropped when it leaves. */
+      check('  and the outline round it stays too',
+        after.outline > 0, after.outlineStroke);
+    }
+    check('no page errors selecting a division', errs.length === 0, errs.join(' | '));
+    await p.close();
+  }
+
   await b.close();
   process.exit(report());
 })();
