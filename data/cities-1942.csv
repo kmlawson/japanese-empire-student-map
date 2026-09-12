@@ -273,7 +273,7 @@ taejon,Taiden (Taejŏn),,36.35,127.38,Chōsen,on map (browse layer),small,,capit
 pontianak,Pontianak,,-0.02,109.34,Netherlands East Indies,on map (browse layer),small,,capital-province,West Borneo,,45000,,,45000,1930,inferred from 1930,census (rounded),id_volkstelling,
 urawa,Urawa,浦和 (Urawa),35.86,139.65,Japan,proposed,small,,capital-province,Saitama Prefecture,,,45000,71000,45000,1940,contemporary (1940),estimate,jp_census,
 tottori,Tottori,鳥取 (Tottori),35.5,134.24,Japan,proposed,small,,capital-province,Tottori Prefecture,,,44000,55000,44000,1940,contemporary (1940),estimate,jp_census,
-akyab,Akyab (Sittwe),,20.15,92.9,Burma,on map (browse layer),small,,capital-province,Arakan Division,,38000,,42000,42000,1953,inferred from 1953,estimate,bur_census,
+akyab,Akyab (Sittwe),,20.15,92.9,Burma,on map (browse layer),medium,,capital-province,Arakan Division,,38000,,42000,42000,1953,inferred from 1953,estimate,bur_census,
 yueyang,Yuèyáng (Yochow),,29.36,113.13,Occupied China,on map (browse layer),small,,,,,,40000,50000,40000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 baoji,Bǎojī (Paoki),,34.36,107.14,Free China,on map (browse layer),small,,,,,,40000,90000,40000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 tianshui,Tiānshuǐ (Tienshui),,34.58,105.72,Free China,on map (browse layer),small,,,,,,40000,60000,40000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
@@ -292,7 +292,7 @@ namdinh,Nam Dinh,南定 (Nam Định),20.42,106.17,French Indochina,proposed,sma
 quezoncity,Quezon City,Quezon City,14.68,121.04,Philippines,proposed,small,,,,,,39000,108000,39000,1939,contemporary (1939),census (rounded),ph_census,Designated the new national capital in 1939.
 toyohara,Toyohara (Yuzhno-Sakhalinsk),,46.96,142.73,Karafuto,on map (browse layer),small,,capital-territory,Karafuto,,20000,37000,,37000,1941,contemporary (1941),estimate,jp_teikoku;ndl_digital,
 masan,Masan,마산 / 馬山 (Masan),35.2,128.57,Chōsen,proposed,small,small,,,,,36000,,36000,1940,contemporary (1940),estimate,kr_census,
-prome,Prome (Pyay),ပြည်,18.82,95.22,Burma,proposed,small,,,,,20000,,36000,36000,1953,inferred from 1953,estimate,bur_census,
+prome,Prome (Pyay),ပြည်,18.82,95.22,Burma,proposed,medium,,,,,20000,,36000,36000,1953,inferred from 1953,estimate,bur_census,
 kuching,Kuching,,1.55,110.34,Sarawak,on map (browse layer),small,,capital-territory,Sarawak,,30000,,35000,35000,1947,contemporary (1947),estimate,uk_colonial,
 esutoru,Esutoru (Uglegorsk),恵須取 (Esutoru),49.08,142.07,Karafuto,proposed,small,,,,,,35000,,35000,1941,contemporary (1941),estimate,jp_teikoku;ndl_digital,"Pulp and coal town, the largest settlement of northern Karafuto."
 yilan,Giran (Yilan),宜蘭 (Giran),24.76,121.75,Formosa,proposed,small,,,,,,35000,,38922,1941,contemporary (end of 1941),register,tw_stats1941_t16;tw_51yr,
@@ -333,13 +333,13 @@ suwon,Suigen (Suwŏn),수원 / 水原 (Suigen),37.26,127.01,Chōsen,proposed,sma
 manzhouli,Manchouli (Manzhouli),滿洲里 (Manshūri),49.6,117.45,Manchukuo,proposed,small,,,,,15000,25000,,25000,1940,contemporary (1940),estimate,mk_yearbook,The rail frontier with the Soviet Union on the Chinese Eastern Railway.
 danang,Tourane (Da Nang),沱㶞 (Tourane),16.07,108.22,French Indochina,proposed,small,,,,,25000,,,25000,1936,contemporary (1936),estimate,fr_annuaire,
 meiktila,Meiktila,မိတ္ထီလာ,20.88,95.86,Burma,proposed,small,,,,,15000,,25000,25000,1953,inferred from 1953,estimate,bur_census,The battle of February–March 1945 that broke the Japanese army in Burma; the road and airfield hub behind Mandalay.
-tavoy,Tavoy (Dawei),ထားဝယ်,14.08,98.19,Burma,proposed,small,,capital-province,Tenasserim,,15000,,25000,25000,1953,inferred from 1953,estimate,bur_census,Airfields used against Rangoon in 1942.
+tavoy,Tavoy (Dawei),ထားဝယ်,14.08,98.19,Burma,proposed,medium,,capital-province,Tenasserim,,15000,,25000,25000,1953,inferred from 1953,estimate,bur_census,Airfields used against Rangoon in 1942.
 kualaterengganu,Kuala Terengganu,كوالا ترڠݢانو,5.33,103.14,Malaya (Japanese-occupied),proposed,small,,capital-province,Terengganu,,15000,,25000,25000,1947,contemporary (1947),estimate,my_census1931;my_census1947,"State capital, transferred to Thailand in 1943."
 lingayen,Lingayen,Lingayen,16.02,120.23,Philippines,proposed,small,,capital-province,Pangasinan,,,25000,35000,25000,1939,contemporary (1939),estimate,ph_census,The gulf used for the Japanese landing of December 1941 and the American landing of January 1945.
 cabanatuan,Cabanatuan,Cabanatuan,15.49,120.97,Philippines,proposed,small,,capital-province,Nueva Ecija,,,25000,40000,25000,1939,contemporary (1939),estimate,ph_census,"The largest American prisoner-of-war camp in the Pacific, and the raid that emptied it in January 1945."
 legazpi,Legazpi,Legazpi,13.14,123.73,Philippines,proposed,small,,capital-province,Albay,,,25000,40000,25000,1939,contemporary (1939),estimate,ph_census,A December 1941 landing point.
 baguio,Baguio,,16.41,120.6,Philippines,on map (browse layer),small,,,,,,24000,29000,24000,1939,contemporary (1939),census (rounded),ph_census,
-mergui,Mergui (Myeik),မြိတ်,12.44,98.6,Burma,proposed,small,,,,,15000,,22000,22000,1953,inferred from 1953,estimate,bur_census,
+mergui,Mergui (Myeik),မြိတ်,12.44,98.6,Burma,proposed,medium,,,,,15000,,22000,22000,1953,inferred from 1953,estimate,bur_census,
 yanan,Yán’ān (Yenan),,36.6,109.49,Communist base areas,on map (quiz site),small,,capital-territory,Shen-Kan-Ning Border Region,,,20000,30000,20000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 ominato,Ōminato,大湊 (Ōminato),41.29,141.12,Japan,proposed,small,,,,,,20000,30000,20000,1940,contemporary (1940),estimate,jp_census,The northern naval district guarding the Tsugaru Strait.
 otomari,Ōtomari (Korsakov),大泊 (Ōtomari),46.63,142.78,Karafuto,proposed,small,,,,,,20000,,20000,1941,contemporary (1941),estimate,jp_teikoku;ndl_digital,Karafuto’s ferry port to Hokkaidō.
@@ -353,7 +353,7 @@ aleksandrovsk,Aleksandrovsk-Sakhalinsky,Александровск-Сахали�
 vinh,Vinh,榮 (Vinh),18.68,105.68,French Indochina,proposed,small,,,,,20000,,,20000,1936,contemporary (1936),estimate,fr_annuaire,The Nghe-Tinh soviets of 1930–31.
 songkhla,Songkhla,สงขลา,7.2,100.6,Thailand,proposed,small,,capital-province,Songkhla,,,20000,30000,20000,1937,contemporary (1937),estimate,th_census,"One of the main Japanese landing beaches on the morning of 8 December 1941, and the road to Malaya."
 korat,Nakhon Ratchasima (Korat),นครราชสีมา,14.97,102.1,Thailand,proposed,small,,capital-province,Nakhon Ratchasima,,,20000,30000,20000,1937,contemporary (1937),estimate,th_census,The gateway to the Khorat plateau and the north-east.
-yenangyaung,Yenangyaung,ရေနံချောင်း,20.46,94.87,Burma,proposed,small,,,,,12000,,20000,20000,1953,inferred from 1953,estimate,bur_census,"The Irrawaddy oilfields — a principal reason for the invasion of Burma, and destroyed by the retreating British in April 1942."
+yenangyaung,Yenangyaung,ရေနံချောင်း,20.46,94.87,Burma,proposed,medium,,,,,12000,,20000,20000,1953,inferred from 1953,estimate,bur_census,"The Irrawaddy oilfields — a principal reason for the invasion of Burma, and destroyed by the retreating British in April 1942."
 shillong,Shillong,শিলং,25.58,91.89,British India,proposed,small,,capital-province,Assam,,17000,20000,53000,20000,1941,contemporary (1941),estimate,in_census,"Provincial capital, and the rear base of the Assam front."
 pekanbaru,Pekanbaru,Pakanbaroe,0.51,101.45,Netherlands East Indies,proposed,small,,,,,20000,,,20000,1930,inferred from 1930,estimate,id_volkstelling,"The Sumatra railway, built 1943–45 by prisoner and rōmusha labour and finished on the day of the surrender."
 denpasar,Denpasar (Bali),Denpasar,-8.65,115.22,Netherlands East Indies,proposed,small,,capital-province,Bali & Lombok,,20000,,,20000,1930,inferred from 1930,estimate,id_volkstelling,
@@ -487,3 +487,12 @@ wisselmeren,Wisselmeren (Paniai Lakes),,-3.93,136.38,Dutch East Indies,on map,sm
 bandaneira,Banda Neira,,-4.53,129.90,Dutch East Indies,on map,small,,,,,,,,,,,,,"The Banda Islands: the nutmeg islands, and a KNILM stop out of Ambon."
 darwin,Darwin,,-12.46,130.84,Australia,on map,small,,,,,,,,,,,,,"The northern terminal of the run down from Koepang, and the only Australian point the frame reaches."
 allahabad,Allahabad (Prayagraj),,25.44,81.85,British India,on map,medium,,,,,,,,,,,,,On the KLM trunk from Amsterdam: Jodhpur to Allahabad to Calcutta.
+pagan,Pagan (Bagan),,21.17,94.86,British India,proposed,small,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+ava,Ava (Innwa),,21.85,96.03,British India,proposed,small,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+sagaingtown,Sagaing,,21.88,95.98,British India,proposed,small,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+shwebotown,Shwebo,,22.57,95.70,British India,proposed,small,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+amarapura,Amarapura,,21.90,96.05,British India,proposed,medium,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+insein,Insein,,16.90,96.10,British India,proposed,medium,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+syriam,Syriam (Thanlyin),,16.77,96.25,British India,proposed,medium,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+chauk,Chauk,,20.90,94.82,British India,proposed,medium,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+namtupanghai,Namtu-Panghai,,23.08,97.40,British India,proposed,medium,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md

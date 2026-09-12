@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '361';
+  var JEM_VERSION = '362';
 
   /* Every file this one fetches, with the version on it.
 

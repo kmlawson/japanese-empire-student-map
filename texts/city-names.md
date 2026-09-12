@@ -488,6 +488,9 @@ The seat of the old Lanna kingdom and the northern capital of Siam, from which T
 
 The last royal capital of Burma, taken on 1 May 1942 as the army fell back to India, and retaken on 20 March 1945.
 
+At the census of 1931 it had **147,932** people — 5,917 to the square mile, 905 females per 1,000 males, and 100 foreign-born per mille. It had barely moved in a decade (−0.7% on 1921) and stood 21.7% below its 1891 figure.
+
+
 ## moulmein
 
 Fell on 31 January 1942. Thanbyuzayat, the western railhead of the Burma–Siam railway, lies just south of it.
@@ -1782,3 +1785,39 @@ territory's second port before the war.
 
 The station on the Fly delta, the westernmost place the Australian
 administration kept in Papua.
+
+## pagan
+
+The capital from the ninth century to the thirteenth.
+
+## ava
+
+Royal capital from 1364, and the name Europeans went on calling the kingdom by long after the court had left it.
+
+## sagaingtown
+
+A royal capital in the fourteenth century and again briefly after 1760, across the river from Ava.
+
+## shwebotown
+
+Where Alaungpaya raised the Konbaung dynasty in 1752, and its first capital.
+
+## amarapura
+
+Royal capital from 1783 and again from 1841, until the court moved to Mandalay.
+
+## insein
+
+A suburb of Rangoon with large railway engineering works. The census of 1931 put its growth down to the suburban bus and train services: people working in Rangoon found it cheaper to live here.
+
+## syriam
+
+A suburb of Rangoon which grew on its oil refineries.
+
+## chauk
+
+One of the two chief centres of the oilfields, and not a town at all at the census of 1921.
+
+## namtupanghai
+
+The smelting headquarters of the Burma Corporation’s silver and lead mines.

@@ -208,7 +208,7 @@ hsinchu,"Shinchiku (Xinzhu, Hsinchu)",,24.81,120.97,Formosa,on map (browse layer
 bandjermasin,Bandjermasin (Banjarmasin),,-3.32,114.59,Netherlands East Indies,on map (browse layer),small,,capital-province,South & East Borneo,,66000,,,66000,1930,contemporary (1930),census (rounded),id_volkstelling,
 mito,Mito,水戸 (Mito),36.37,140.47,Japan,proposed,small,,capital-province,Ibaraki Prefecture,,,66000,75000,66000,1940,inferred from 1940,estimate,jp_census,
 kwangju,Kōshū (Kwangju),,35.16,126.85,Chōsen,on map (browse layer),small,,capital-province,South Chŏlla,,,65000,139000,65000,1940,inferred from 1940,census (rounded),kr_census;kr_kosis,
-moulmein,Moulmein,,16.49,97.63,British India,on map (browse layer),small,,capital-province,Tenasserim Division,,65000,,102000,65000,1931,contemporary (1931),estimate,bur_census,
+moulmein,Moulmein,,16.49,97.63,British India,on map (browse layer),medium,,capital-province,Tenasserim Division,,65000,,102000,65000,1931,contemporary (1931),estimate,bur_census,
 buitenzorg,Buitenzorg (Bogor),,-6.6,106.8,Netherlands East Indies,on map (browse layer),small,,,,,65000,,,65000,1930,contemporary (1930),census (rounded),id_volkstelling,
 cuttack,Cuttack,କଟକ,20.46,85.88,British India,proposed,small,,,,,65000,76000,102000,65000,1931,contemporary (1931),estimate,in_census,Provincial capital.
 mokpo,Moppo (Mokp’o),,34.79,126.39,Chōsen,on map (browse layer),small,small,,,,,64000,,64000,1940,inferred from 1940,estimate,kr_census,
@@ -272,9 +272,9 @@ quzhou,Qúzhōu (Chuchow),衢州 (Kushū),28.94,118.87,Republic of China,propose
 beihai,Pakhoi (Beihai),北海 (Hokkai),21.48,109.12,Republic of China,proposed,small,,,,,,40000,50000,40000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 chifeng,Chifeng (Ulanhad),赤峰 (Sekihō),42.26,118.89,Republic of China,proposed,small,,,,,,40000,80000,40000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 namdinh,Nam Dinh,南定 (Nam Định),20.42,106.17,French Indochina,proposed,small,,,,,40000,,,40000,1936,contemporary (1936),estimate,fr_annuaire,"Textile mills, the largest industrial workforce in Tonkin."
-bassein,Bassein (Pathein),ပုသိမ်,16.78,94.73,British India,proposed,small,,capital-province,Irrawaddy Division,,40000,,78000,40000,1931,contemporary (1931),estimate,bur_census,
+bassein,Bassein (Pathein),ပုသိမ်,16.78,94.73,British India,proposed,medium,,capital-province,Irrawaddy Division,,40000,,78000,40000,1931,contemporary (1931),estimate,bur_census,
 malacca,Malacca,,2.19,102.25,Straits Settlements,on map (browse layer),small,,,,,38000,,55000,38000,1931,contemporary (1931),estimate,my_census1931;my_census1947,
-akyab,Akyab (Sittwe),,20.15,92.9,British India,on map (browse layer),small,,capital-province,Arakan Division,,38000,,42000,38000,1931,contemporary (1931),estimate,bur_census,
+akyab,Akyab (Sittwe),,20.15,92.9,British India,on map (browse layer),medium,,capital-province,Arakan Division,,38000,,42000,38000,1931,contemporary (1931),estimate,bur_census,
 masan,Masan,마산 / 馬山 (Masan),35.2,128.57,Chōsen,proposed,small,small,,,,,36000,,36000,1940,inferred from 1940,estimate,kr_census,
 esutoru,Esutoru (Uglegorsk),恵須取 (Esutoru),49.08,142.07,Karafuto,proposed,small,,,,,,35000,,35000,1941,inferred from 1941,estimate,jp_teikoku;ndl_digital,"Pulp and coal town, the largest settlement of northern Karafuto."
 yilan,Giran (Yilan),宜蘭 (Giran),24.76,121.75,Formosa,proposed,small,,,,,,35000,,35000,1940,inferred from 1940,estimate,tw_51yr,
@@ -332,7 +332,7 @@ aleksandrovsk,Aleksandrovsk-Sakhalinsky,Александровск-Сахали�
 vinh,Vinh,榮 (Vinh),18.68,105.68,French Indochina,proposed,small,,,,,20000,,,20000,1936,contemporary (1936),estimate,fr_annuaire,The Nghe-Tinh soviets of 1930–31.
 songkhla,Songkhla,สงขลา,7.2,100.6,Siam,proposed,small,,capital-province,Songkhla,,,20000,30000,20000,1937,inferred from 1937,estimate,th_census,"One of the main Japanese landing beaches on the morning of 8 December 1941, and the road to Malaya."
 korat,Nakhon Ratchasima (Korat),นครราชสีมา,14.97,102.1,Siam,proposed,small,,capital-province,Nakhon Ratchasima,,,20000,30000,20000,1937,inferred from 1937,estimate,th_census,The gateway to the Khorat plateau and the north-east.
-prome,Prome (Pyay),ပြည်,18.82,95.22,British India,proposed,small,,,,,20000,,36000,20000,1931,contemporary (1931),estimate,bur_census,
+prome,Prome (Pyay),ပြည်,18.82,95.22,British India,proposed,medium,,,,,20000,,36000,20000,1931,contemporary (1931),estimate,bur_census,
 taiping,Taiping,تاईڤيڠ,4.85,100.74,Malaya,proposed,small,,,,,20000,,30000,20000,1931,contemporary (1931),estimate,my_census1931;my_census1947,
 pekanbaru,Pekanbaru,Pakanbaroe,0.51,101.45,Netherlands East Indies,proposed,small,,,,,20000,,,20000,1930,contemporary (1930),estimate,id_volkstelling,"The Sumatra railway, built 1943–45 by prisoner and rōmusha labour and finished on the day of the surrender."
 denpasar,Denpasar (Bali),Denpasar,-8.65,115.22,Netherlands East Indies,proposed,small,,capital-province,Bali & Lombok,,20000,,,20000,1930,contemporary (1930),estimate,id_volkstelling,
@@ -359,8 +359,8 @@ battambang,Battambang,បាត់ដំបង,13.1,103.2,French Indochina,propo
 ayutthaya,Ayutthaya,พระนครศรีอยุธยา,14.35,100.58,Siam,proposed,small,,capital-province,Phra Nakhon Si Ayutthaya,,,15000,20000,15000,1937,inferred from 1937,estimate,th_census,The old Siamese capital.
 meiktila,Meiktila,မိတ္ထီလာ,20.88,95.86,British India,proposed,small,,,,,15000,,25000,15000,1931,contemporary (1931),estimate,bur_census,The battle of February–March 1945 that broke the Japanese army in Burma; the road and airfield hub behind Mandalay.
 toungoo,Toungoo,တောင်ငူ,18.94,96.43,British India,proposed,small,,,,,15000,,32000,15000,1931,contemporary (1931),estimate,bur_census,Chennault’s AVG trained here; taken in the 1942 advance.
-tavoy,Tavoy (Dawei),ထားဝယ်,14.08,98.19,British India,proposed,small,,capital-province,Tenasserim,,15000,,25000,15000,1931,contemporary (1931),estimate,bur_census,Airfields used against Rangoon in 1942.
-mergui,Mergui (Myeik),မြိတ်,12.44,98.6,British India,proposed,small,,,,,15000,,22000,15000,1931,contemporary (1931),estimate,bur_census,
+tavoy,Tavoy (Dawei),ထားဝယ်,14.08,98.19,British India,proposed,medium,,capital-province,Tenasserim,,15000,,25000,15000,1931,contemporary (1931),estimate,bur_census,Airfields used against Rangoon in 1942.
+mergui,Mergui (Myeik),မြိတ်,12.44,98.6,British India,proposed,medium,,,,,15000,,22000,15000,1931,contemporary (1931),estimate,bur_census,
 kualaterengganu,Kuala Terengganu,كوالا ترڠݢانو,5.33,103.14,Malaya (Unfederated Malay States),proposed,small,,capital-province,Terengganu,,15000,,25000,15000,1931,contemporary (1931),estimate,my_census1931;my_census1947,"State capital, transferred to Thailand in 1943."
 samarinda,Samarinda,Samarinda,-0.5,117.15,Netherlands East Indies,proposed,small,,,,,15000,,,15000,1930,contemporary (1930),estimate,id_volkstelling,The Kutai oilfields.
 vigan,Vigan,Vigan,17.57,120.39,Philippine Islands (US),proposed,small,,capital-province,Ilocos Sur,,,15000,20000,15000,1939,inferred from 1939,estimate,ph_census,A December 1941 landing point.
@@ -370,7 +370,7 @@ sandakan,Sandakan,Sandakan,5.84,118.12,North Borneo,proposed,small,,capital-prov
 shimoda,Shimoda,,34.67,138.95,Japan,on map (quiz site),small,,,,,,12000,14000,12000,1940,inferred from 1940,estimate,jp_census,
 shigatse,Shigatse,,29.27,88.88,Tibet,on map (browse layer),small,,,,,,12000,,12000,1936,contemporary (1936),estimate,statesmans,
 heihe,Heihe (Sakhalyan/Aigun),黑河 (Kokka),50.25,127.53,Republic of China,proposed,small,,,,,12000,20000,,12000,1930,contemporary (1930),estimate,mk_yearbook,The Amur crossing facing Blagoveshchensk.
-yenangyaung,Yenangyaung,ရေနံချောင်း,20.46,94.87,British India,proposed,small,,,,,12000,,20000,12000,1931,contemporary (1931),estimate,bur_census,"The Irrawaddy oilfields — a principal reason for the invasion of Burma, and destroyed by the retreating British in April 1942."
+yenangyaung,Yenangyaung,ရေနံချောင်း,20.46,94.87,British India,proposed,medium,,,,,12000,,20000,12000,1931,contemporary (1931),estimate,bur_census,"The Irrawaddy oilfields — a principal reason for the invasion of Burma, and destroyed by the retreating British in April 1942."
 ternate,Ternate,Ternate,0.79,127.38,Netherlands East Indies,proposed,small,,capital-province,Ternate,,12000,,,12000,1930,contemporary (1930),estimate,id_volkstelling,The old spice sultanate and residency seat.
 bengkulu,Benkoelen (Bengkulu),Benkoelen,-3.79,102.26,Netherlands East Indies,proposed,small,,capital-province,Bengkulu,,12000,,,12000,1930,contemporary (1930),estimate,id_volkstelling,"Sukarno’s place of exile, 1938–42."
 capas,Capas (Camp O’Donnell),Capas,15.33,120.59,Philippine Islands (US),proposed,small,,,,,,12000,20000,12000,1939,inferred from 1939,estimate,ph_census,"The end of the Bataan Death March, where thousands more died in the weeks that followed."
@@ -485,3 +485,12 @@ wisselmeren,Wisselmeren (Paniai Lakes),,-3.93,136.38,Dutch East Indies,on map,sm
 bandaneira,Banda Neira,,-4.53,129.90,Dutch East Indies,on map,small,,,,,,,,,,,,,"The Banda Islands: the nutmeg islands, and a KNILM stop out of Ambon."
 darwin,Darwin,,-12.46,130.84,Australia,on map,small,,,,,,,,,,,,,"The northern terminal of the run down from Koepang, and the only Australian point the frame reaches."
 allahabad,Allahabad (Prayagraj),,25.44,81.85,British India,on map,medium,,,,,,,,,,,,,On the KLM trunk from Amsterdam: Jodhpur to Allahabad to Calcutta.
+pagan,Pagan (Bagan),,21.17,94.86,British India,proposed,small,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+ava,Ava (Innwa),,21.85,96.03,British India,proposed,small,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+sagaingtown,Sagaing,,21.88,95.98,British India,proposed,small,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+shwebotown,Shwebo,,22.57,95.70,British India,proposed,small,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+amarapura,Amarapura,,21.90,96.05,British India,proposed,medium,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+insein,Insein,,16.90,96.10,British India,proposed,medium,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+syriam,Syriam (Thanlyin),,16.77,96.25,British India,proposed,medium,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+chauk,Chauk,,20.90,94.82,British India,proposed,medium,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md
+namtupanghai,Namtu-Panghai,,23.08,97.40,British India,proposed,medium,,,,,,,,,,,,,named in the 1931 census of Burma as a town of note; see texts/city-names.md

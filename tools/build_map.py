@@ -661,6 +661,57 @@ def load_indochina():
     return _INDOCHINA
 
 
+# ---- Burma, district by district ------------------------------------------
+# Prepared by tools/build_burma.py from data/burma/burma-1931-admin.geojson:
+# the districts of Burma proper with the Shan and Karenni states, from the
+# Imperial Gazetteer of India, Atlas: 1931, digitised by the University of
+# Chicago Digital South Asia Library.
+#
+# It replaces `mmr_divisions.json` — the *modern* divisions of Myanmar, seven
+# shapes standing in for a framework of eighty-five districts — so the reader
+# gets the administration the period had rather than an approximation of it
+# drawn eighty years later.
+#
+# **The outline is not swapped, and that is measured.** The atom keeps its
+# hand-clipped tracing: `burma-modern-modified` overlaps India-1931 by
+# **exactly 0 km2**, because it was cut to it, while this coverage — an
+# independent tracing of the same frontier — overlaps it by **166 km2** and
+# leaves **764 km2** of ground in neither country against the old pair's 353,
+# over 513 scanline rows rather than 61. Sampled at 0.01 degrees between 91
+# and 99 E, 19 and 29 N. CLAUDE.md's worked example is this very frontier and
+# says what to do about it: the clipping was undone once already and put back
+# as fast as it had been done. So the districts are drawn *inside* the outline
+# the map already had, and the dissolve is written for the record and for
+# anyone exporting the layer.
+BURMA_DIR = os.path.join(ROOT, "data", "burma")
+BURMA_ADMIN = "burma-1931-admin-units.geojson"
+
+_BURMA = None
+
+
+def load_burma_admin():
+    """The districts of 1931 and the group each sat in, or None if unbuilt."""
+    global _BURMA
+    if _BURMA is not None:
+        return _BURMA or None
+    path = os.path.join(BURMA_DIR, BURMA_ADMIN)
+    if not os.path.exists(path):
+        sys.stderr.write("note: %s missing from data/burma/; run "
+                         "tools/build_burma.py\n" % BURMA_ADMIN)
+        _BURMA = {}
+        return None
+    with open(path, encoding="utf-8") as fh:
+        feats = json.load(fh)["features"]
+    units = []
+    for feat in feats:
+        pr = feat["properties"]
+        units.append({"name": pr.get("name") or "",
+                      "group": pr.get("group") or "",
+                      "rings": list(iter_rings(feat["geometry"]))})
+    _BURMA = {"units": units}
+    return _BURMA
+
+
 # ---- the Netherlands Indies, residency by residency -----------------------
 # Prepared by tools/build_dei.py from data/dei/dei-admin-1930.geojson: 65 units
 # — Natural Earth coastlines with Robert Cribb's residency boundaries laid on
@@ -1026,7 +1077,7 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "jehol",
 # files that never shared vertices in the first place, so thinning them loses
 # nothing that was there; a topology-preserving simplifier would be the general
 # answer and this layer does not need one, being small enough to draw whole.
-SHARED_EDGE_EXACT = {"indochina", "siamgain", "dei"}
+SHARED_EDGE_EXACT = {"indochina", "siamgain", "dei", "burma"}
 
 # The general answer SHARED_EDGE_EXACT's note asked for: these atoms'
 # sub-units are thinned as one coverage by arc_thin(), which simplifies every
@@ -6599,16 +6650,34 @@ def main():
         groups["pondicherry"].append(list(CHANDERNAGORE))
         provinces["pondicherry"].append(("Chandernagore", [list(CHANDERNAGORE)]))
 
-    # ---- Burma, division by division ---------------------------------------
-    bpath = os.path.join(CACHE, BURMA_DIVISION_FILE)
-    if os.path.exists(bpath):
-        with open(bpath) as fh:
-            for feat in json.load(fh)["features"]:
-                provinces["burma"].append((feat["properties"]["shapeName"],
-                                           list(iter_rings(feat["geometry"]))))
+    # ---- Burma, district by district ---------------------------------------
+    # Eighty-five districts and states where there were seven modern
+    # divisions. See load_burma_admin() for what this replaced and why the
+    # atom's own outline is left alone.
+    _bur = load_burma_admin()
+    if _bur:
+        for _u in _bur["units"]:
+            # The five the source leaves unnamed keep no name here either:
+            # they are real ground, they are needed or the coverage has holes,
+            # and a name invented for them would be the worse error. An
+            # unnamed block gets no `data-prov` and reads as Burma.
+            provinces["burma"].append((_u["name"], _u["rings"]))
+            if _u["group"]:
+                # the Division, the federation or the Karenni states: the
+                # larger unit a district sat in, which is what the map shades
+                # and lights when the pointer is on one of its districts
+                SUB_PARENTS[("burma", _u["name"])] = _u["group"]
     else:
-        sys.stderr.write("note: %s missing, Burma drawn whole\n"
-                         % BURMA_DIVISION_FILE)
+        bpath = os.path.join(CACHE, BURMA_DIVISION_FILE)
+        if os.path.exists(bpath):
+            with open(bpath) as fh:
+                for feat in json.load(fh)["features"]:
+                    provinces["burma"].append(
+                        (feat["properties"]["shapeName"],
+                         list(iter_rings(feat["geometry"]))))
+        else:
+            sys.stderr.write("note: %s missing, Burma drawn whole\n"
+                             % BURMA_DIVISION_FILE)
 
     # ---- the provinces and states of British India -------------------------
     # Drawn from India, Pakistan and Bangladesh together, since Punjab and
@@ -8179,6 +8248,17 @@ def main():
         # twice and the two results differ by a fraction of a unit -- which is
         # the seam a reader reported down the middle of Siem Reap. The 1930
         # shape has no seam because it has no edge there to thin.
+        # **AN UNNAMED BLOCK IS PAINTED FIRST, IN EVERY ATOM.**
+        #
+        # It is the atom's own ground that no sub-unit claimed, filled with
+        # the country's colour, so anything drawn before it is covered — and
+        # the Indies lost every residency boundary that way. The fix was made
+        # inside the epoch branch below, which only runs for an atom that has
+        # two dated sets; Burma has one, its five unnamed states were written
+        # last, and `burma` found them painting over the districts. The rule
+        # belongs here, where it applies to all of them.
+        blocks = ([b for b in blocks if not b[0]]
+                  + [b for b in blocks if b[0]])
         epoch_of = {}
         if key in provinces_1930:
             early = province_paths(key, provinces_1930)
@@ -8210,6 +8290,7 @@ def main():
             # Their strokes were there the whole time — taking the fill off
             # every sub-unit in the page brought the boundaries straight back,
             # which is what proved where the paint was going.
+            # the unnamed ones are already at the front, hoisted above
             _bare = [b for b in blocks if not b[0]]
             _isles = [b for b in blocks if b[0] and (key, b[0]) in SUB_BOTH_EPOCHS]
             _dated = [b for b in blocks if b[0] and (key, b[0]) not in SUB_BOTH_EPOCHS]

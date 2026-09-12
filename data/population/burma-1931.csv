@@ -1,0 +1,45 @@
+scope,key,en,population,race_burma,race_lolo_muhso,race_kuki_chin,race_kachin,race_sak,race_tai,race_chinese,race_palaung_wa,race_mon,race_karen,race_indo_burman,race_indian,race_others,same_as,note
+sub-unit,Akyab,Akyab,637580,327872,,29516,,7048,,,,,,49745,210990,12409,,
+sub-unit,Arakan Hill Distric,Arakan Hill Tracts,21418,2251,,16245,,,,,,,,,,2922,,
+sub-unit,Kyaukpyu,Kyaukpyu,220292,194723,,17935,,,,,,,,3141,4321,172,,
+sub-unit,Sandoway,Sandoway,129245,113526,,8425,,,,,,,,5066,,2228,,
+city,rangoon,Rangoon,400415,122961,,,,,,30626,,,3226,12560,212929,18113,,"The census returns Rangoon town as a district of its own, and this map draws it as a city."
+sub-unit,Pegu,Pegu,489969,366691,,,,,5870,7552,,18292,37292,,50726,3546,,
+sub-unit,Tharawaddy,Tharrawaddy,508319,459348,,,,,3050,2687,,,26702,,13740,2792,,
+sub-unit,Hanthawaddy,Hanthawaddy,408831,297222,,,,,3068,5352,,2453,29754,3422,66573,987,,
+unmapped,Insein,Insein,331452,232929,,,,,6283,5413,,,37630,,44032,5165,,"The map draws no separate shape for Insein district, so its figures appear in this table only."
+sub-unit,Prome,Prome,410651,374755,,13951,,,,2371,,,4629,,12239,2706,,
+sub-unit,Bassein,Bassein,571043,405378,,,,,,6280,,,129114,3662,24096,2513,,
+sub-unit,Henzada,Henzada,613280,531600,,4528,,,,2624,,,60189,,12029,2310,,
+sub-unit,Myaungmya,Myaungmya,444784,289555,,,,,,7330,,,118425,,27442,2032,,
+sub-unit,Maubin,Maubin,371509,238550,,,,,,3610,,,113758,,13471,2120,,
+sub-unit,Pyapon,Pyapôn,334158,270850,,,,,,6106,,,21572,,34236,1394,,
+sub-unit,Salween,Salween,53186,2071,,,,,4119,,,,45753,,,1243,,
+sub-unit,Thaton,Thatôn,532628,136540,,,,,7363,4982,,62090,281232,6483,33697,241,,
+sub-unit,Amherst,Amherst,516233,74179,,,,,17236,11287,,246871,106957,17239,40602,1862,,
+sub-unit,Tavoy,Tavoy,179964,152834,,,,,,3741,,2717,13426,,5615,1631,,
+sub-unit,Mergui,Mergui,161987,100478,,,,,10432,3835,,,21990,7094,9257,8901,,
+sub-unit,Toungoo,Toungoo,428670,283725,,,,,16633,3582,,,88093,4176,30109,2352,,
+sub-unit,Thayetmo,Thayetmyo,274177,246126,,22803,,,,,,,,,3271,1977,,
+sub-unit,Minbu,Minbu,277878,251983,,20961,,,,,,,,,3968,964,,"As printed: the race-groups sum to 277,876 against the printed total of 277,878."
+sub-unit,Magwe,Magwe,499573,476878,,2348,,,,,,,,,16710,3637,,
+sub-unit,Pakokku,Pakôkku,499181,473622,,22149,,,,,,,,,2367,1043,,
+sub-unit,Chin Hills,Chin Hills,171237,,,169243,,,,,,,,,,1994,,
+sub-unit,Mandalay,Mandalay,371636,299011,,4507,,,4608,3153,,,,16459,37725,6173,,
+sub-unit,Kyaukse,Kyauksè,151320,141692,,,,,,,,,,6667,2372,589,,
+sub-unit,Meiktila,Meiktila,309999,300188,,,,,,,,,,2969,5999,843,,
+sub-unit,Myingyan,Myingyan,472557,467843,,,,,,,,,,,3551,1163,,
+sub-unit,Yamethin,Yamèthin,390820,357133,,,,,,,,,4534,12730,12138,4285,,
+sub-unit,Bhamo,Bhamo,121193,31502,,,46727,,34569,2545,,,,,3136,2714,,
+sub-unit,Myitkyina,Myitkyina,171524,37697,5949,,39964,3339,62622,4112,,,,,16721,1120,,
+sub-unit,Shwebo,Shwebo,446790,431816,,,,,,,,,,7939,6015,1020,,
+sub-unit,Sagaing,Sagaing,335965,328794,,,,,,,,,,2538,3669,964,,
+sub-unit,Katha,Katha,254170,134501,,,,39125,61750,2715,4751,,,,6889,4439,,
+sub-unit,Lower Chindwin,Lower Chindwin,383434,379753,,,,,,,,,,,2570,1111,,
+sub-unit,Upper Chindwin,Upper Chindwin,204982,97745,,8589,,,86546,,,,,,5329,6773,,
+unmapped,Northern Shan States,Northern Shan States,616458,47249,9562,,63229,,288659,60550,123277,,,,21253,2679,,"The census returns the Northern Shan States whole and the map draws the states severally, so these figures appear in this table only."
+unmapped,Southern Shan States,Southern Shan States,870230,143274,74859,,,,408758,3899,47524,,177831,,11351,2434,,"The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the race-groups sum to 869,930 against the total of 870,230."
+sub-unit,Karenni States,Karenni,58761,2220,,,,,11383,,,,43081,,,2077,,
+sub-unit,Kantarawadi,Kantarawadi,,,,,,,,,,,,,,,Karenni States,"The census counts Karenni whole, so these are the three states' joint figures."
+sub-unit,Kyebogyi,Kyebogyi,,,,,,,,,,,,,,,Karenni States,"The census counts Karenni whole, so these are the three states' joint figures."
+sub-unit,Bawlake,Bawlake,,,,,,,,,,,,,,,Karenni States,"The census counts Karenni whole, so these are the three states' joint figures."

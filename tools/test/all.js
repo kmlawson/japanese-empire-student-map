@@ -70,7 +70,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airplay',
              'clipping', 'layerinfo', 'krtrains', 'kftrains', 'layerfind', 'beta', 'hanlabels',
              'owns', 'jprails', 'indochina', 'citytap', 'ferries', 'arcs',
-             'dei'];
+             'dei', 'burma'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -158,7 +158,7 @@ const GROUPS = {
   /* The shapes themselves, and the sheets they are written to. These move when
      `build_map.py` runs, not when somebody edits behaviour. */
   geometry: ['backings', 'projclip', 'provsource', 'taiwan', 'korea', 'relief',
-             'islands', 'mapstrip', 'indochina', 'arcs', 'dei'],
+             'islands', 'mapstrip', 'indochina', 'arcs', 'dei', 'burma'],
 
   /* Railways, stations and the sugar lines. Four data files that change in
      bursts and then sit still for weeks. */
@@ -259,6 +259,13 @@ const TRIGGERS = [
      measures the resolved colours, so both sides matter here. */
   [/^data\/dei\//,                 ['geometry', 'core', 'data']],
   [/^tools\/build_dei\.py$/,       ['geometry', 'core', 'data']],
+
+  /* Burma: 85 districts of 1931 in nine groups, clipped to the province's own
+     traced outline. `build_burma.py` writes the coverage and its dissolve;
+     the shades are in styles.css, and the clip is what keeps the districts
+     from growing a second frontier outside the first. tools/test/burma.js. */
+  [/^data\/burma\//,               ['geometry', 'core', 'data', 'transport']],
+  [/^tools\/build_burma\.py$/,     ['geometry', 'core', 'data']],
   [/^tools\/build_(tw|kr|kf)_(trains|stations)\.py$/, ['transport']],
   [/^data\/(tw-1936|kr-1938|kf-1935)-timetable\//, []],   // vendored; the build reads it
   [/^deploy\/timetable\//,         ['transport']],

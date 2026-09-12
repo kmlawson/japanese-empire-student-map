@@ -809,6 +809,75 @@ button.plain:hover { background: var(--hover-fill); }
   fill: color-mix(in srgb, var(--c, var(--inactive)) 76%, #fff);
 }
 
+/* **THE CONTESTED FRONTIER MUST NOT SWALLOW A CLICK MEANT FOR A DISTRICT.**
+ *
+ * The frontiers nobody agreed on are in `ON_TOP`, so they are drawn over
+ * every country they cross — which is right for a statement about a border
+ * and wrong for the pointer: the block in northern Burma lies over Myitkyina
+ * and The Triangle, and it answered for all three. Reported as the districts
+ * being unclickable, which is exactly what it was.
+ *
+ * Only while the Administrative layer is on, because that is when there is
+ * anything underneath worth reaching. With the layer off the block answers
+ * for itself, as it should: the fact that the frontier was never settled is
+ * the only thing the map has to say about that ground.
+ *
+ * `pointer-events` rather than a change to the hit testing, because
+ * `pick()` walks `document.elementsFromPoint`, which leaves out anything the
+ * pointer cannot reach — so the districts come to the front of the stack on
+ * their own. The hit circle goes with it, or the overlay would hand the click
+ * straight back. */
+#jmap.admin-on #a-contested_burma,
+#jmap.admin-on #a-contested,
+#jmap.admin-on #atom-hits [data-atom="contested_burma"],
+#jmap.admin-on #atom-hits [data-atom="contested"] {
+  pointer-events: none;
+}
+
+/* Burma's divisions, the Shan federation and the Karenni states.
+ *
+ * Eighty-five districts on one province of India, and at any useful zoom they
+ * are a mosaic of same-coloured cells: which division a district belonged to
+ * is the fact its name never gives. Seven Divisions, the Federated Shan
+ * States gathered from the five spellings the Gazetteer uses for them, and
+ * Karenni — which was never annexed and is kept apart for that reason.
+ *
+ * The dry zone and the delta go lighter, the hills and the plateau darker, so
+ * the tone carries something of the country rather than being an arbitrary
+ * ladder: Irrawaddy and Pegu palest, Sagaing and the Shan plateau deepest.
+ * Every step is clear of the lit atom's own colour — the Raj's dusty rose sits
+ * at 0.264 luminance, so the darker half has room — and clear of each other.
+ *
+ * The two `:not()`s keep these under `prov-hot` and `parent-hot`, as
+ * Indochina's and the Indies' do. */
+#jmap.admin-on .atom.hot [data-parent="Irrawaddy Division"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 74%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Pegu Division"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 82%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Tenasserim Division"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 90%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Arakan Division"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 97%, #fff);
+}
+#jmap.admin-on .atom.hot [data-parent="Magwe Division"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 95%, #2a2118);
+}
+#jmap.admin-on .atom.hot [data-parent="Mandalay Division"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 89%, #2a2118);
+}
+#jmap.admin-on .atom.hot [data-parent="Sagaing Division"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 83%, #2a2118);
+}
+#jmap.admin-on .atom.hot [data-parent="Federated Shan States"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 77%, #2a2118);
+}
+#jmap.admin-on .atom.hot [data-parent="Karenni States"]:not(.prov-hot):not(.parent-hot) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 70%, #2a2118);
+}
+
 /* A unit inside a larger territory that shares its colour — the land ceded to
    Thailand in 1941, the four northern Malay states — outlined so it can be
    seen and clicked without being coloured as if it were something else. The

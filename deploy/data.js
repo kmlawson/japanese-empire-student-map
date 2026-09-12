@@ -1539,7 +1539,7 @@ JMAP.SITES = [
     id: 'rangoon', en: 'Rangoon (Yangon)', ja: 'ラングーン (Rangūn)', orig: 'ရန်ကုန် (Yangon)',
     zh: '仰光', date: 'Fell 8 March 1942', cat: 'city', lvl: 2, lat: 16.87, lon: 96.2,
     wiki: 'https://en.wikipedia.org/wiki/Yangon', year: 1852,
-    note: 'Capital of British Burma and the port at the head of the Burma Road; its loss cut China’s last land supply line.'
+    note: 'Capital of British Burma and the port at the head of the Burma Road; its loss cut China’s last land supply line. At the census of 1931 it had **400,415** people — 16,146 to the square mile, and 477 females per 1,000 males. **Half of it had been born outside Burma**: 509 per mille, against Mandalay’s 100. It had grown 17.1% in the decade and by 198.4% since 1881.'
   },
   {
     id: 'imphal', en: 'Imphal & Kohima', ja: 'インパール作戦 (Inpāru sakusen)',
@@ -2439,7 +2439,7 @@ JMAP.CITY_NAMES = [
   {
     id: 'mandalay', en: 'Mandalay', ja: 'マンダレー (Mandarē)', zh: '曼德勒', lat: 21.98, lon: 96.08,
     wiki: 'https://en.wikipedia.org/wiki/Mandalay',
-    note: 'The last royal capital of Burma, taken on 1 May 1942 as the army fell back to India, and retaken on 20 March 1945.'
+    note: 'The last royal capital of Burma, taken on 1 May 1942 as the army fell back to India, and retaken on 20 March 1945. At the census of 1931 it had **147,932** people — 5,917 to the square mile, 905 females per 1,000 males, and 100 foreign-born per mille. It had barely moved in a decade (−0.7% on 1921) and stood 21.7% below its 1891 figure.'
   },
   {
     id: 'moulmein', en: 'Moulmein', lat: 16.49, lon: 97.63,
@@ -4231,6 +4231,51 @@ JMAP.CITY_NAMES = [
     wiki: 'https://en.wikipedia.org/wiki/Daru',
     note: 'The station on the Fly delta, the westernmost place the Australian administration kept in Papua.'
   },
+  {
+    id: 'pagan', en: 'Pagan (Bagan)', lat: 21.17, lon: 94.86,
+    wiki: 'https://en.wikipedia.org/wiki/Bagan',
+    note: 'The capital from the ninth century to the thirteenth.'
+  },
+  {
+    id: 'ava', en: 'Ava (Innwa)', lat: 21.85, lon: 96.03,
+    wiki: 'https://en.wikipedia.org/wiki/Inwa',
+    note: 'Royal capital from 1364, and the name Europeans went on calling the kingdom by long after the court had left it.'
+  },
+  {
+    id: 'sagaingtown', en: 'Sagaing', lat: 21.88, lon: 95.98,
+    wiki: 'https://en.wikipedia.org/wiki/Sagaing',
+    note: 'A royal capital in the fourteenth century and again briefly after 1760, across the river from Ava.'
+  },
+  {
+    id: 'shwebotown', en: 'Shwebo', lat: 22.57, lon: 95.70,
+    wiki: 'https://en.wikipedia.org/wiki/Shwebo',
+    note: 'Where Alaungpaya raised the Konbaung dynasty in 1752, and its first capital.'
+  },
+  {
+    id: 'amarapura', en: 'Amarapura', lat: 21.90, lon: 96.05,
+    wiki: 'https://en.wikipedia.org/wiki/Amarapura',
+    note: 'Royal capital from 1783 and again from 1841, until the court moved to Mandalay.'
+  },
+  {
+    id: 'insein', en: 'Insein', lat: 16.90, lon: 96.10,
+    wiki: 'https://en.wikipedia.org/wiki/Insein',
+    note: 'A suburb of Rangoon with large railway engineering works. The census of 1931 put its growth down to the suburban bus and train services: people working in Rangoon found it cheaper to live here.'
+  },
+  {
+    id: 'syriam', en: 'Syriam (Thanlyin)', lat: 16.77, lon: 96.25,
+    wiki: 'https://en.wikipedia.org/wiki/Thanlyin',
+    note: 'A suburb of Rangoon which grew on its oil refineries.'
+  },
+  {
+    id: 'chauk', en: 'Chauk', lat: 20.90, lon: 94.82,
+    wiki: 'https://en.wikipedia.org/wiki/Chauk',
+    note: 'One of the two chief centres of the oilfields, and not a town at all at the census of 1921.'
+  },
+  {
+    id: 'namtupanghai', en: 'Namtu-Panghai', lat: 23.08, lon: 97.40,
+    wiki: 'https://en.wikipedia.org/wiki/Namtu',
+    note: 'The smelting headquarters of the Burma Corporation’s silver and lead mines.'
+  },
 ];
 
 JMAP.FEATURES = [
@@ -4545,52 +4590,134 @@ JMAP.PROVINCES = {
     wiki: 'https://en.wikipedia.org/wiki/Bombay_Presidency'
   },
   Madras: { en: 'Madras Presidency', wiki: 'https://en.wikipedia.org/wiki/Madras_Presidency' },
-  Arakan: {
-    en: 'Arakan Division', zh: '阿拉干省', wiki: 'https://en.wikipedia.org/wiki/Arakan_Division',
-    short: 'The coast west of the Arakan Yoma',
-    note: 'The coast west of the Arakan Yoma, shut off from the rest of Burma by a range with no road across it and reached instead by sea, which is why it looks to the Bay of Bengal and to Chittagong rather than to Rangoon. Akyab, at the mouth of the Kaladan, was one of the great rice ports of the world in the nineteenth century and still shipped the delta\'s crop in these years; behind it the division ran down through Kyaukpyu and Sandoway to the Arakan Hill Tracts, a district of a few thousand people whose Deputy Commissioner was a police officer and which was an Excluded Area after 1937. Seasonal and then permanent migration from Bengal had made Akyab district heavily Muslim, and when the front passed through in 1942 the communal killing that followed emptied whole tracts in both directions.'
-  },
-  Pegu: {
-    en: 'Pegu Division', zh: '勃固省', wiki: 'https://en.wikipedia.org/wiki/Bago_Region',
-    short: 'The lower Sittang and the country round Rangoon',
-    note: 'The lower Sittang and the country round Rangoon: the richest rice ground in Burma and the division through which nearly everything the country sold left it. Rangoon Town was a district in its own right and the division\'s headquarters, the third port of the Indian empire, with the rice mills along the Pazundaung creek, the Burmah Oil refineries at Syriam across the river, and a population more Indian than Burmese for much of this period. Prome and Tharrawaddy behind it are old rice districts, and Tharrawaddy is where Saya San proclaimed himself king in December 1930 and set off the rising that took two years and several divisions of troops to put down. Toungoo is not here: it was Tenasserim\'s, apart from the thirty months between December 1922 and June 1925.'
-  },
-  Irrawaddy: {
-    en: 'Irrawaddy Division', zh: '伊洛瓦底省',
-    wiki: 'https://en.wikipedia.org/wiki/Ayeyarwady_Region',
-    short: 'The delta proper — Bassein, Henzada, Myaungmya, Maubin and Pyapon',
-    note: 'The delta proper — Bassein, Henzada, Myaungmya, Maubin and Pyapon — and the largest single work of land clearance in nineteenth-century Asia: after 1852 the British opened the swamp and tidal forest to settlement, and Burmese cultivators moving down from the dry zone turned it into the rice bowl that fed India and much of the East. The money came from Chettiar bankers out of Madras lending against the land, and when the price of rice collapsed after 1930 the mortgages were foreclosed on a scale that transferred a quarter of the delta\'s paddy to non-agriculturist owners inside a decade. That is the ground the tenancy agitation and the anti-Indian riots of the 1930s grew out of, and the division was also where the Karen Christian communities of the delta lived.'
-  },
-  Tenasserim: {
-    en: 'Tenasserim Division', zh: '丹那沙林省',
-    wiki: 'https://en.wikipedia.org/wiki/Tanintharyi_Region',
-    short: 'The longest of the divisions',
-    note: 'The longest of the divisions, running from Toungoo on the Sittang down the narrow coast almost to the Kra isthmus. Moulmein, in Amherst district, was the second port of Burma and the teak town, where the logs came down the Salween to be sawn and shipped; Tavoy and Mergui in the south had the tin and wolfram that made Burma one of the world\'s larger producers of both in the 1930s, worked in lode mines and by dredge, and the Mergui archipelago\'s eight hundred islands lie off them. At its head is the Salween District — one township of Karen hills round Papun, the smallest district in Burma by population, with no town in it and a police officer for a Deputy Commissioner, and wholly an Excluded Area after 1937.'
-  },
-  Magwe: {
-    en: 'Magwe Division', zh: '馬圭省', wiki: 'https://en.wikipedia.org/wiki/Magway_Region',
-    short: 'The dry zone: the middle Irrawaddy in the rain shadow of the Arakan Yoma',
-    note: 'The dry zone: the middle Irrawaddy in the rain shadow of the Arakan Yoma, where under nine hundred millimetres fall in a year and the crops are sesame, millet, groundnut, beans and cotton rather than rice. Its wealth was oil — the seepages at Yenangyaung had been worked by hereditary hand-diggers for centuries and by the Burmah Oil Company from 1886, and the field supplied the greater part of British India\'s petroleum until the British fired it on 16 April 1942 as they withdrew. Behind it stand the Chin Hills, a district of this division on paper and a country of terraced villages and tribal chiefs in practice, administered under the Chin Hills Regulation of 1896 and an Excluded Area from 1937.'
-  },
-  MandalayDiv: {
-    en: 'Mandalay Division', zh: '曼德勒省', wiki: 'https://en.wikipedia.org/wiki/Mandalay_Region',
-    short: 'The last royal capital, taken in November 1885',
-    note: 'The last royal capital, taken in November 1885, and the cultural centre of Buddhist Burma: the palace inside its moat, the monasteries, the Kuthodaw pagoda with the Tipitaka cut into seven hundred and twenty-nine marble slabs. The division is the other half of the dry zone and depends on irrigation — the Kyaukse weirs are among the oldest working waterworks in South-East Asia, and the canals of Mandalay, Shwebo and Meiktila carried the rice that the rainfall would not. Maymyo, up in the hills at a thousand metres, was where the government of Burma moved for the hot weather, and the division held the army\'s Burmese and Gurkha depots. The palace burned in the fighting of March 1945.'
-  },
+  Myitkyina: { en: 'Myitkyina' },
+  'The Triangle': { en: 'The Triangle' },
+  'Hukawng Valley': { en: 'Hukawng Valley' },
+  Bhamo: { en: 'Bhamo' },
+  'North Hseweni': { en: 'North Hseweni' },
+  'Wa States': { en: 'Wa States' },
+  'South Hseweni': { en: 'South Hseweni' },
+  'Tawng Peng': { en: 'Tawng Peng' },
+  Mongmit: { en: 'Mongmit' },
+  Katha: { en: 'Katha' },
+  'Upper Chindwin': { en: 'Upper Chindwin' },
+  Shwebo: { en: 'Shwebo' },
+  Kenglon: { en: 'Kenglon' },
+  Hsipaw: { en: 'Hsipaw' },
+  'Chin Hills': { en: 'Chin Hills' },
+  'Lower Chindwin': { en: 'Lower Chindwin' },
+  Mandalay: { en: 'Mandalay' },
+  Pakokku: { en: 'Pakokku' },
   Sagaing: {
-    en: 'Sagaing Division', zh: '實皆省', wiki: 'https://en.wikipedia.org/wiki/Sagaing_Region',
-    short: 'The largest division and the emptiest',
+    en: 'Sagaing',
     note: 'The largest division and the emptiest, running from the Shwebo plain up the Chindwin and the Irrawaddy to Putao and the Triangle, and taking in Bhamo and Myitkyina with the Kachin Hill Tracts inside them. It is teak country — the Chindwin forests were the Bombay Burmah Trading Corporation\'s, and it was a quarrel over their leases that gave Britain its pretext for the war of 1885 — with jade at Hpakant, amber in the Hukawng and gold in the northern rivers. Much of it was not administered at all: the 1931 census left 28,118 square miles of the province unenumerated and most of that was here, in the Naga country, the Hukawng, the Triangle and the Putao subdivision. The Kachin Hill Tracts were Part I Excluded Areas from 1937 and the rest of Myitkyina and Bhamo Part II.'
   },
-  ShanStates: {
-    en: 'The Federated Shan States', zh: '撣邦',
-    wiki: 'https://en.wikipedia.org/wiki/Shan_States', short: 'The plateau east of the Sittang',
-    note: 'The plateau east of the Sittang, a thousand metres up and cut through by the Salween gorge, held not as districts but as thirty-three states under their own saohpa, myoza and ngwekunhmu — federated in 1922 under a Commissioner at Taunggyi with a council of chiefs and a Federal Fund fed by a share of each state\'s revenue. Rice grew in the valleys and opium in the hills; the Bawdwin mine at Namtu, worked since the Ming for silver and reopened by Herbert Hoover\'s syndicate before the First World War, was the largest lead and silver producer in the British Empire, with its own railway down to Lashio. The Federation was an Excluded Area under the 1935 Act, outside the Burmese legislature altogether, and beyond it to the east lay the Wa country, which nobody administered and whose boundary with China was not settled until 1941.'
+  Kyaukse: { en: 'Kyaukse' },
+  Manglon: { en: 'Manglon' },
+  'Mong Hsu': { en: 'Mong Hsu' },
+  'Mong-Nawng': { en: 'Mong-Nawng' },
+  'To Nai': { en: 'To Nai' },
+  'Keng Hkam': { en: 'Keng Hkam' },
+  'Mong-Kung': { en: 'Mong-Kung' },
+  'Lawk Sawk': { en: 'Lawk Sawk' },
+  Laihka: { en: 'Laihka' },
+  'Mong Pan': { en: 'Mong Pan' },
+  'Mong Nai': { en: 'Mong Nai' },
+  'Mawk Mai': { en: 'Mawk Mai' },
+  Kantarawadi: { en: 'Kantarawadi' },
+  Kyebogyi: { en: 'Kyebogyi' },
+  Bawlake: { en: 'Bawlake' },
+  Salween: { en: 'Salween' },
+  Thaton: { en: 'Thaton' },
+  'Arakan Hill Distric': { en: 'Arakan Hill Distric' },
+  'Pakokku Hill Tracks': { en: 'Pakokku Hill Tracks' },
+  Akyab: { en: 'Akyab' },
+  Myingyan: { en: 'Myingyan' },
+  Meiktila: { en: 'Meiktila' },
+  Maw: { en: 'Maw' },
+  Myinkyado: { en: 'Myinkyado' },
+  Pangtara: { en: 'Pangtara' },
+  Kyaukpyu: { en: 'Kyaukpyu' },
+  Minbu: { en: 'Minbu' },
+  Magwe: {
+    en: 'Magwe',
+    note: 'The dry zone: the middle Irrawaddy in the rain shadow of the Arakan Yoma, where under nine hundred millimetres fall in a year and the crops are sesame, millet, groundnut, beans and cotton rather than rice. Its wealth was oil — the seepages at Yenangyaung had been worked by hereditary hand-diggers for centuries and by the Burmah Oil Company from 1886, and the field supplied the greater part of British India\'s petroleum until the British fired it on 16 April 1942 as they withdrew. Behind it stand the Chin Hills, a district of this division on paper and a country of terraced villages and tribal chiefs in practice, administered under the Chin Hills Regulation of 1896 and an Excluded Area from 1937.'
   },
-  Karenni: {
-    en: 'The Karenni States — never annexed', zh: '克倫尼',
-    wiki: 'https://en.wikipedia.org/wiki/Karenni_States',
-    note: 'Three small states — Kantarawadi, Bawlake and Kyebogyi — which were never British territory at all. The agreement Britain made with King Mindon on 21 June 1875 declared Western Karenni "separate and independent", and after the annexation of Upper Burma in 1886 Britain held to the position that the Karenni chiefs had never been the king\'s subjects and were not now its own: they took sanads in 1889 and 1892 and were supervised by the Superintendent of the Southern Shan States, but they were left out of the Second Schedule of the 1935 Act entirely, as ground "not part of His Majesty\'s dominions", and the suzerainty lapsed only in 1948. The country is steep and forested, its people Kayah, Kayan, Bre and Padaung, and its one industry of weight was the Mawchi mine, which in the late 1930s was among the largest producers of tungsten in the world.'
+  Yamethin: { en: 'Yamethin' },
+  'Mong Pawn': { en: 'Mong Pawn' },
+  'Mong-Sit': { en: 'Mong-Sit' },
+  Hopong: { en: 'Hopong' },
+  'Lai Hsak': { en: 'Lai Hsak' },
+  Yanghwe: { en: 'Yanghwe' },
+  'Nam Hkok': { en: 'Nam Hkok' },
+  'Nawn Wawn': { en: 'Nawn Wawn' },
+  Wanyin: { en: 'Wanyin' },
+  Hsahtung: { en: 'Hsahtung' },
+  Loilong: { en: 'Loilong' },
+  Kyong: { en: 'Kyong' },
+  'Hsa Mong': { en: 'Hsa Mong' },
+  Mawnang: { en: 'Mawnang' },
+  Pangni: { en: 'Pangni' },
+  Hsikip: { en: 'Hsikip' },
+  Namhkai: { en: 'Namhkai' },
+  Lonpo: { en: 'Lonpo' },
+  Samka: { en: 'Samka' },
+  Namtok: { en: 'Namtok' },
+  Koi: { en: 'Koi' },
+  'Mong-Pai': { en: 'Mong-Pai' },
+  Thayetmo: { en: 'Thayetmo' },
+  Sandoway: { en: 'Sandoway' },
+  Toungoo: { en: 'Toungoo' },
+  Pegu: {
+    en: 'Pegu',
+    note: 'The lower Sittang and the country round Rangoon: the richest rice ground in Burma and the division through which nearly everything the country sold left it. Rangoon Town was a district in its own right and the division\'s headquarters, the third port of the Indian empire, with the rice mills along the Pazundaung creek, the Burmah Oil refineries at Syriam across the river, and a population more Indian than Burmese for much of this period. Prome and Tharrawaddy behind it are old rice districts, and Tharrawaddy is where Saya San proclaimed himself king in December 1930 and set off the rising that took two years and several divisions of troops to put down. Toungoo is not here: it was Tenasserim\'s, apart from the thirty months between December 1922 and June 1925.'
+  },
+  Prome: { en: 'Prome' },
+  Henzada: { en: 'Henzada' },
+  Tharawaddy: { en: 'Tharawaddy' },
+  Hanthawaddy: { en: 'Hanthawaddy' },
+  Bassein: { en: 'Bassein' },
+  Myaungmya: { en: 'Myaungmya' },
+  Maubin: { en: 'Maubin' },
+  Pyapon: { en: 'Pyapon' },
+  Amherst: { en: 'Amherst' },
+  Tavoy: { en: 'Tavoy' },
+  Mergui: { en: 'Mergui' },
+  'Tenasserim Division': {
+    en: 'Tenasserim Division', wiki: 'https://en.wikipedia.org/wiki/Tanintharyi_Region',
+    short: 'The longest of the divisions'
+  },
+  'Arakan Division': {
+    en: 'Arakan Division', wiki: 'https://en.wikipedia.org/wiki/Arakan_Division',
+    short: 'The coast west of the Arakan Yoma'
+  },
+  'Pegu Division': {
+    en: 'Pegu Division', wiki: 'https://en.wikipedia.org/wiki/Bago_Region',
+    short: 'The lower Sittang and the country round Rangoon'
+  },
+  'Irrawaddy Division': {
+    en: 'Irrawaddy Division', wiki: 'https://en.wikipedia.org/wiki/Ayeyarwady_Region',
+    short: 'The delta proper — Bassein, Henzada, Myaungmya, Maubin and Pyapon'
+  },
+  'Sagaing Division': {
+    en: 'Sagaing Division', wiki: 'https://en.wikipedia.org/wiki/Sagaing_Region',
+    short: 'The largest division and the emptiest'
+  },
+  'Mandalay Division': {
+    en: 'Mandalay Division', wiki: 'https://en.wikipedia.org/wiki/Mandalay_Region',
+    short: 'The last royal capital, taken in November 1885'
+  },
+  'Magwe Division': {
+    en: 'Magwe Division', wiki: 'https://en.wikipedia.org/wiki/Magway_Region',
+    short: 'The dry zone: the middle Irrawaddy in the rain shadow of the Arakan Yoma'
+  },
+  'Federated Shan States': {
+    en: 'Federated Shan States', wiki: 'https://en.wikipedia.org/wiki/Shan_States',
+    short: 'The plateau east of the Sittang'
+  },
+  'Karenni States': {
+    en: 'Karenni States', wiki: 'https://en.wikipedia.org/wiki/Karenni_States',
+    short: 'Four states in treaty relations with the Crown, never annexed and never part of Burma proper.'
   },
   Kengtung: {
     en: 'Kengtung State — Kengtung, Monghsat and Tachileik', zh: '景棟',
@@ -9892,7 +10019,7 @@ JMAP.PROVINCE_EPOCH = {
       en: 'Sawankhalok (Sukhothai was merged into it in 1931)',
       wiki: 'https://en.wikipedia.org/wiki/Sukhothai_province'
     },
-    Tenasserim: {
+    'Tenasserim Division': {
       en: 'Tenasserim Division — Thaton, Amherst, Tavoy, Mergui',
       wiki: 'https://en.wikipedia.org/wiki/Tanintharyi_Region'
     },
@@ -9910,12 +10037,21 @@ JMAP.PROVINCE_EPOCH = {
     Akita: {
       short: 'Rice on the Yokote basin and the Ōdate country. 1930 Census Population: 987,706 · Males per 100 Females: 100.47 · % of Total Japan: 1.53 · Per km²: 85'
     },
+    Akyab: { short: '1931 Census Population: 637,580' },
+    Amherst: { short: '1931 Census Population: 516,233' },
     Aomori: {
       short: 'The northern end of Honshū, made out of the Tsugaru and Nanbu country. 1930 Census Population: 879,914 · Males per 100 Females: 100.68 · % of Total Japan: 1.37 · Per km²: 91'
     },
+    'Arakan Hill Distric': { short: '1931 Census Population: 21,418' },
+    Bassein: { short: '1931 Census Population: 571,043' },
+    Bawlake: {
+      short: '1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states\' joint figures.'
+    },
+    Bhamo: { short: '1931 Census Population: 121,193' },
     Chiba: {
       short: 'The Bōsō peninsula, farming and fishing, and the soy-sauce towns: Noda and Chōshi. 1930 Census Population: 1,470,121 · Males per 100 Females: 98.48 · % of Total Japan: 2.28 · Per km²: 285'
     },
+    'Chin Hills': { short: '1931 Census Population: 171,237' },
     Chuseihoku: {
       short: 'The only province in Korea with no coastline. 1930 Census Population: 900,226 · Males per 100 Females: 106.05 · % of Total Korea: 4.3 · Per km²: 121'
     },
@@ -9940,12 +10076,14 @@ JMAP.PROVINCE_EPOCH = {
     Gunma: {
       short: 'The centre of the raw silk that paid for Japan\'s industrialisation: Tomioka. 1930 Census Population: 1,186,080 · Males per 100 Females: 96.02 · % of Total Japan: 1.84 · Per km²: 186'
     },
+    Hanthawaddy: { short: '1931 Census Population: 408,831' },
     Heianhoku: {
       short: 'The north-western march, with the Yalu as its border: the river carried the timber trade. 1930 Census Population: 1,562,791 · Males per 100 Females: 104.91 · % of Total Korea: 7.4 · Per km²: 55'
     },
     Heiannan: {
       short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community. 1930 Census Population: 1,331,705 · Males per 100 Females: 102.24 · % of Total Korea: 6.3 · Per km²: 90'
     },
+    Henzada: { short: '1931 Census Population: 613,280' },
     Hiroshima: {
       short: 'The army\'s western capital: the 5th Division was raised here. 1930 Census Population: 1,692,136 · Males per 100 Females: 102.55 · % of Total Japan: 2.63 · Per km²: 200'
     },
@@ -9979,6 +10117,13 @@ JMAP.PROVINCE_EPOCH = {
     Kankyonan: {
       short: 'A narrow coastal shelf under high mountains. 1930 Census Population: 1,578,491 · Males per 100 Females: 107.62 · % of Total Korea: 7.5 · Per km²: 49'
     },
+    Kantarawadi: {
+      short: '1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states\' joint figures.'
+    },
+    'Karenni States': {
+      short: 'Four states in treaty relations with the Crown, never annexed and never part of Burma proper. 1931 Census Population: 58,761'
+    },
+    Katha: { short: '1931 Census Population: 254,170' },
     Keiki: {
       short: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital. 1930 Census Population: 2,157,413 · Males per 100 Females: 106.64 · % of Total Korea: 10.2 · Per km²: 171'
     },
@@ -10000,11 +10145,25 @@ JMAP.PROVINCE_EPOCH = {
     Kumamoto: {
       short: 'Katō Kiyomasa\'s castle here is the most heavily fortified in Japan. 1930 Census Population: 1,353,993 · Males per 100 Females: 96.26 · % of Total Japan: 2.10 · Per km²: 183'
     },
+    Kyaukpyu: { short: '1931 Census Population: 220,292' },
+    Kyaukse: { short: '1931 Census Population: 151,320' },
+    Kyebogyi: {
+      short: '1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states\' joint figures.'
+    },
     Kyoto: {
       short: 'Kyoto-fu, made of the old capital and the country running north to the Japan Sea. 1930 Census Population: 1,552,832 · Males per 100 Females: 104.21 · % of Total Japan: 2.41 · Per km²: 338'
     },
+    'Lower Chindwin': { short: '1931 Census Population: 383,434' },
+    Magwe: { short: '1931 Census Population: 499,573' },
+    Mandalay: { short: '1931 Census Population: 371,636' },
+    Maubin: { short: '1931 Census Population: 371,509' },
+    Meiktila: { short: '1931 Census Population: 309,999' },
+    Mergui: { short: '1931 Census Population: 161,987' },
     Mie: {
       short: 'The Ise Shrine is here. 1930 Census Population: 1,157,407 · Males per 100 Females: 97.37 · % of Total Japan: 1.80 · Per km²: 201'
+    },
+    Minbu: {
+      short: '1931 Census Population: 277,878 As printed: the race-groups sum to 277,876 against the printed total of 277,878.'
     },
     Miyagi: {
       short: 'The old Date domain. 1930 Census Population: 1,142,784 · Males per 100 Females: 101.39 · % of Total Japan: 1.77 · Per km²: 157'
@@ -10012,6 +10171,9 @@ JMAP.PROVINCE_EPOCH = {
     Miyazaki: {
       short: 'Hyūga, the coast facing the Pacific, poor. 1930 Census Population: 760,467 · Males per 100 Females: 101.53 · % of Total Japan: 1.18 · Per km²: 98'
     },
+    Myaungmya: { short: '1931 Census Population: 444,784' },
+    Myingyan: { short: '1931 Census Population: 472,557' },
+    Myitkyina: { short: '1931 Census Population: 171,524' },
     Nagano: {
       short: 'The silk prefecture. 1930 Census Population: 1,717,118 · Males per 100 Females: 94.07 · % of Total Japan: 2.66 · Per km²: 127'
     },
@@ -10036,15 +10198,22 @@ JMAP.PROVINCE_EPOCH = {
     Osaka: {
       short: 'The merchant city — "the kitchen of the realm" under the Tokugawa. 1930 Census Population: 3,540,017 · Males per 100 Females: 108.95 · % of Total Japan: 5.49 · Per km²: 1851'
     },
+    Pakokku: { short: '1931 Census Population: 499,181' },
+    Pegu: { short: '1931 Census Population: 489,969' },
+    Prome: { short: '1931 Census Population: 410,651' },
+    Pyapon: { short: '1931 Census Population: 334,158' },
     Saga: {
       short: 'The Nabeshima domain. 1930 Census Population: 691,565 · Males per 100 Females: 95.60 · % of Total Japan: 1.07 · Per km²: 283'
     },
+    Sagaing: { short: '1931 Census Population: 335,965' },
     Saishu: {
       short: 'A volcanic island a hundred kilometres off the south coast. 1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168 The 1930 census counts Cheju inside Chŏllanam-do and does not break the island out, so these are that province’s figures.'
     },
     Saitama: {
       short: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo. 1930 Census Population: 1,459,172 · Males per 100 Females: 97.08 · % of Total Japan: 2.26 · Per km²: 384'
     },
+    Salween: { short: '1931 Census Population: 53,186' },
+    Sandoway: { short: '1931 Census Population: 129,245' },
     Shiga: {
       short: 'Lake Biwa, the largest lake in Japan. 1930 Census Population: 691,631 · Males per 100 Females: 95.04 · % of Total Japan: 1.07 · Per km²: 172'
     },
@@ -10054,6 +10223,11 @@ JMAP.PROVINCE_EPOCH = {
     Shizuoka: {
       short: 'Tea and mandarins above the Tōkaidō, and the largest tea crop in the country. 1930 Census Population: 1,797,805 · Males per 100 Females: 100.39 · % of Total Japan: 2.79 · Per km²: 231'
     },
+    Shwebo: { short: '1931 Census Population: 446,790' },
+    Tavoy: { short: '1931 Census Population: 179,964' },
+    Tharawaddy: { short: '1931 Census Population: 508,319' },
+    Thaton: { short: '1931 Census Population: 532,628' },
+    Thayetmo: { short: '1931 Census Population: 274,177' },
     Tochigi: {
       short: 'Nikkō is here — the mausoleum of Ieyasu. 1930 Census Population: 1,141,737 · Males per 100 Females: 97.23 · % of Total Japan: 1.77 · Per km²: 178'
     },
@@ -10066,9 +10240,11 @@ JMAP.PROVINCE_EPOCH = {
     Tottori: {
       short: 'The least populous prefecture in Japan, on the Japan Sea behind the Chūgoku mountains. 1930 Census Population: 489,266 · Males per 100 Females: 95.56 · % of Total Japan: 0.76 · Per km²: 140'
     },
+    Toungoo: { short: '1931 Census Population: 428,670' },
     Toyama: {
       short: 'Water is what this prefecture sold. 1930 Census Population: 778,953 · Males per 100 Females: 96.14 · % of Total Japan: 1.21 · Per km²: 183'
     },
+    'Upper Chindwin': { short: '1931 Census Population: 204,982' },
     Wakayama: {
       short: 'Kii: the Kii peninsula\'s steep forested spine. 1930 Census Population: 830,748 · Males per 100 Females: 99.84 · % of Total Japan: 1.29 · Per km²: 176'
     },
@@ -10081,6 +10257,7 @@ JMAP.PROVINCE_EPOCH = {
     Yamanashi: {
       short: 'A basin ringed by mountains with Kōfu in the middle, the old Kai of Takeda Shingen. 1930 Census Population: 631,042 · Males per 100 Females: 99.88 · % of Total Japan: 0.98 · Per km²: 141'
     },
+    Yamethin: { short: '1931 Census Population: 390,820' },
     Zenrahoku: {
       short: 'The Honam plain, the largest stretch of paddy in Korea. 1930 Census Population: 1,503,695 · Males per 100 Females: 106.99 · % of Total Korea: 7.1 · Per km²: 178'
     },
@@ -17372,6 +17549,718 @@ JMAP.POPULATION = [
       500,
       1500
     ],
+    "jpBreaks": []
+  },
+  {
+    "id": "burma-1931",
+    "epoch": "1930",
+    "group": "burma-1931",
+    "country": "",
+    "caption": "population by race-group at the 1931 census",
+    "note": "Note: The terms for ethnic groups are those of the original census. Where a race-group was too small to be shown on the source's map its figures were included in Others, so an empty cell here is not a zero.",
+    "inShort": true,
+    "tableSkip": [],
+    "fields": [
+      {
+        "c": "race_burma",
+        "label": "Burma Group",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_lolo_muhso",
+        "label": "Lolo-Muhso Group",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_kuki_chin",
+        "label": "Kuki-Chin Group",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_kachin",
+        "label": "Kachin Group",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_sak",
+        "label": "Sak Group",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_tai",
+        "label": "Tai Group",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_chinese",
+        "label": "Chinese Group",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_palaung_wa",
+        "label": "Palaung-Wa",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_mon",
+        "label": "Mon Group",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_karen",
+        "label": "Karen Group",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_indo_burman",
+        "label": "Indo-Burman Races",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_indian",
+        "label": "Indian Races",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "race_others",
+        "label": "Others",
+        "group": "Race-Group",
+        "role": "",
+        "dp": 0
+      }
+    ],
+    "when": "1931",
+    "lineLabel": "Census Population",
+    "compareNote": "",
+    "label": "Burma by district and state, the population by race-group at the 1931 census",
+    "pctOf": "",
+    "source": "Census of India, 1931 Volume XI Burma Part I. Report, pp240-244.",
+    "srcUrl": "",
+    "layer": "Burma by district and state, the population by race-group at the 1931 census",
+    "rows": {
+      "Akyab": {
+        "scope": "sub-unit",
+        "en": "Akyab",
+        "pop": 637580,
+        "x": {
+          "race_burma": 327872,
+          "race_kuki_chin": 29516,
+          "race_sak": 7048,
+          "race_indo_burman": 49745,
+          "race_indian": 210990,
+          "race_others": 12409
+        },
+        "line": "1931 Census Population: 637,580"
+      },
+      "Arakan Hill Distric": {
+        "scope": "sub-unit",
+        "en": "Arakan Hill Tracts",
+        "pop": 21418,
+        "x": {
+          "race_burma": 2251,
+          "race_kuki_chin": 16245,
+          "race_others": 2922
+        },
+        "line": "1931 Census Population: 21,418"
+      },
+      "Kyaukpyu": {
+        "scope": "sub-unit",
+        "en": "Kyaukpyu",
+        "pop": 220292,
+        "x": {
+          "race_burma": 194723,
+          "race_kuki_chin": 17935,
+          "race_indo_burman": 3141,
+          "race_indian": 4321,
+          "race_others": 172
+        },
+        "line": "1931 Census Population: 220,292"
+      },
+      "Sandoway": {
+        "scope": "sub-unit",
+        "en": "Sandoway",
+        "pop": 129245,
+        "x": {
+          "race_burma": 113526,
+          "race_kuki_chin": 8425,
+          "race_indo_burman": 5066,
+          "race_others": 2228
+        },
+        "line": "1931 Census Population: 129,245"
+      },
+      "rangoon": {
+        "scope": "city",
+        "en": "Rangoon",
+        "pop": 400415,
+        "note": "The census returns Rangoon town as a district of its own, and this map draws it as a city.",
+        "x": {
+          "race_burma": 122961,
+          "race_chinese": 30626,
+          "race_karen": 3226,
+          "race_indo_burman": 12560,
+          "race_indian": 212929,
+          "race_others": 18113
+        },
+        "line": "1931 Census Population: 400,415 The census returns Rangoon town as a district of its own, and this map draws it as a city."
+      },
+      "Pegu": {
+        "scope": "sub-unit",
+        "en": "Pegu",
+        "pop": 489969,
+        "x": {
+          "race_burma": 366691,
+          "race_tai": 5870,
+          "race_chinese": 7552,
+          "race_mon": 18292,
+          "race_karen": 37292,
+          "race_indian": 50726,
+          "race_others": 3546
+        },
+        "line": "1931 Census Population: 489,969"
+      },
+      "Tharawaddy": {
+        "scope": "sub-unit",
+        "en": "Tharrawaddy",
+        "pop": 508319,
+        "x": {
+          "race_burma": 459348,
+          "race_tai": 3050,
+          "race_chinese": 2687,
+          "race_karen": 26702,
+          "race_indian": 13740,
+          "race_others": 2792
+        },
+        "line": "1931 Census Population: 508,319"
+      },
+      "Hanthawaddy": {
+        "scope": "sub-unit",
+        "en": "Hanthawaddy",
+        "pop": 408831,
+        "x": {
+          "race_burma": 297222,
+          "race_tai": 3068,
+          "race_chinese": 5352,
+          "race_mon": 2453,
+          "race_karen": 29754,
+          "race_indo_burman": 3422,
+          "race_indian": 66573,
+          "race_others": 987
+        },
+        "line": "1931 Census Population: 408,831"
+      },
+      "Insein": {
+        "scope": "unmapped",
+        "en": "Insein",
+        "pop": 331452,
+        "note": "The map draws no separate shape for Insein district, so its figures appear in this table only.",
+        "x": {
+          "race_burma": 232929,
+          "race_tai": 6283,
+          "race_chinese": 5413,
+          "race_karen": 37630,
+          "race_indian": 44032,
+          "race_others": 5165
+        },
+        "line": "1931 Census Population: 331,452 The map draws no separate shape for Insein district, so its figures appear in this table only."
+      },
+      "Prome": {
+        "scope": "sub-unit",
+        "en": "Prome",
+        "pop": 410651,
+        "x": {
+          "race_burma": 374755,
+          "race_kuki_chin": 13951,
+          "race_chinese": 2371,
+          "race_karen": 4629,
+          "race_indian": 12239,
+          "race_others": 2706
+        },
+        "line": "1931 Census Population: 410,651"
+      },
+      "Bassein": {
+        "scope": "sub-unit",
+        "en": "Bassein",
+        "pop": 571043,
+        "x": {
+          "race_burma": 405378,
+          "race_chinese": 6280,
+          "race_karen": 129114,
+          "race_indo_burman": 3662,
+          "race_indian": 24096,
+          "race_others": 2513
+        },
+        "line": "1931 Census Population: 571,043"
+      },
+      "Henzada": {
+        "scope": "sub-unit",
+        "en": "Henzada",
+        "pop": 613280,
+        "x": {
+          "race_burma": 531600,
+          "race_kuki_chin": 4528,
+          "race_chinese": 2624,
+          "race_karen": 60189,
+          "race_indian": 12029,
+          "race_others": 2310
+        },
+        "line": "1931 Census Population: 613,280"
+      },
+      "Myaungmya": {
+        "scope": "sub-unit",
+        "en": "Myaungmya",
+        "pop": 444784,
+        "x": {
+          "race_burma": 289555,
+          "race_chinese": 7330,
+          "race_karen": 118425,
+          "race_indian": 27442,
+          "race_others": 2032
+        },
+        "line": "1931 Census Population: 444,784"
+      },
+      "Maubin": {
+        "scope": "sub-unit",
+        "en": "Maubin",
+        "pop": 371509,
+        "x": {
+          "race_burma": 238550,
+          "race_chinese": 3610,
+          "race_karen": 113758,
+          "race_indian": 13471,
+          "race_others": 2120
+        },
+        "line": "1931 Census Population: 371,509"
+      },
+      "Pyapon": {
+        "scope": "sub-unit",
+        "en": "Pyapôn",
+        "pop": 334158,
+        "x": {
+          "race_burma": 270850,
+          "race_chinese": 6106,
+          "race_karen": 21572,
+          "race_indian": 34236,
+          "race_others": 1394
+        },
+        "line": "1931 Census Population: 334,158"
+      },
+      "Salween": {
+        "scope": "sub-unit",
+        "en": "Salween",
+        "pop": 53186,
+        "x": {
+          "race_burma": 2071,
+          "race_tai": 4119,
+          "race_karen": 45753,
+          "race_others": 1243
+        },
+        "line": "1931 Census Population: 53,186"
+      },
+      "Thaton": {
+        "scope": "sub-unit",
+        "en": "Thatôn",
+        "pop": 532628,
+        "x": {
+          "race_burma": 136540,
+          "race_tai": 7363,
+          "race_chinese": 4982,
+          "race_mon": 62090,
+          "race_karen": 281232,
+          "race_indo_burman": 6483,
+          "race_indian": 33697,
+          "race_others": 241
+        },
+        "line": "1931 Census Population: 532,628"
+      },
+      "Amherst": {
+        "scope": "sub-unit",
+        "en": "Amherst",
+        "pop": 516233,
+        "x": {
+          "race_burma": 74179,
+          "race_tai": 17236,
+          "race_chinese": 11287,
+          "race_mon": 246871,
+          "race_karen": 106957,
+          "race_indo_burman": 17239,
+          "race_indian": 40602,
+          "race_others": 1862
+        },
+        "line": "1931 Census Population: 516,233"
+      },
+      "Tavoy": {
+        "scope": "sub-unit",
+        "en": "Tavoy",
+        "pop": 179964,
+        "x": {
+          "race_burma": 152834,
+          "race_chinese": 3741,
+          "race_mon": 2717,
+          "race_karen": 13426,
+          "race_indian": 5615,
+          "race_others": 1631
+        },
+        "line": "1931 Census Population: 179,964"
+      },
+      "Mergui": {
+        "scope": "sub-unit",
+        "en": "Mergui",
+        "pop": 161987,
+        "x": {
+          "race_burma": 100478,
+          "race_tai": 10432,
+          "race_chinese": 3835,
+          "race_karen": 21990,
+          "race_indo_burman": 7094,
+          "race_indian": 9257,
+          "race_others": 8901
+        },
+        "line": "1931 Census Population: 161,987"
+      },
+      "Toungoo": {
+        "scope": "sub-unit",
+        "en": "Toungoo",
+        "pop": 428670,
+        "x": {
+          "race_burma": 283725,
+          "race_tai": 16633,
+          "race_chinese": 3582,
+          "race_karen": 88093,
+          "race_indo_burman": 4176,
+          "race_indian": 30109,
+          "race_others": 2352
+        },
+        "line": "1931 Census Population: 428,670"
+      },
+      "Thayetmo": {
+        "scope": "sub-unit",
+        "en": "Thayetmyo",
+        "pop": 274177,
+        "x": {
+          "race_burma": 246126,
+          "race_kuki_chin": 22803,
+          "race_indian": 3271,
+          "race_others": 1977
+        },
+        "line": "1931 Census Population: 274,177"
+      },
+      "Minbu": {
+        "scope": "sub-unit",
+        "en": "Minbu",
+        "pop": 277878,
+        "note": "As printed: the race-groups sum to 277,876 against the printed total of 277,878.",
+        "x": {
+          "race_burma": 251983,
+          "race_kuki_chin": 20961,
+          "race_indian": 3968,
+          "race_others": 964
+        },
+        "line": "1931 Census Population: 277,878 As printed: the race-groups sum to 277,876 against the printed total of 277,878."
+      },
+      "Magwe": {
+        "scope": "sub-unit",
+        "en": "Magwe",
+        "pop": 499573,
+        "x": {
+          "race_burma": 476878,
+          "race_kuki_chin": 2348,
+          "race_indian": 16710,
+          "race_others": 3637
+        },
+        "line": "1931 Census Population: 499,573"
+      },
+      "Pakokku": {
+        "scope": "sub-unit",
+        "en": "Pakôkku",
+        "pop": 499181,
+        "x": {
+          "race_burma": 473622,
+          "race_kuki_chin": 22149,
+          "race_indian": 2367,
+          "race_others": 1043
+        },
+        "line": "1931 Census Population: 499,181"
+      },
+      "Chin Hills": {
+        "scope": "sub-unit",
+        "en": "Chin Hills",
+        "pop": 171237,
+        "x": {
+          "race_kuki_chin": 169243,
+          "race_others": 1994
+        },
+        "line": "1931 Census Population: 171,237"
+      },
+      "Mandalay": {
+        "scope": "sub-unit",
+        "en": "Mandalay",
+        "pop": 371636,
+        "x": {
+          "race_burma": 299011,
+          "race_kuki_chin": 4507,
+          "race_tai": 4608,
+          "race_chinese": 3153,
+          "race_indo_burman": 16459,
+          "race_indian": 37725,
+          "race_others": 6173
+        },
+        "line": "1931 Census Population: 371,636"
+      },
+      "Kyaukse": {
+        "scope": "sub-unit",
+        "en": "Kyauksè",
+        "pop": 151320,
+        "x": {
+          "race_burma": 141692,
+          "race_indo_burman": 6667,
+          "race_indian": 2372,
+          "race_others": 589
+        },
+        "line": "1931 Census Population: 151,320"
+      },
+      "Meiktila": {
+        "scope": "sub-unit",
+        "en": "Meiktila",
+        "pop": 309999,
+        "x": {
+          "race_burma": 300188,
+          "race_indo_burman": 2969,
+          "race_indian": 5999,
+          "race_others": 843
+        },
+        "line": "1931 Census Population: 309,999"
+      },
+      "Myingyan": {
+        "scope": "sub-unit",
+        "en": "Myingyan",
+        "pop": 472557,
+        "x": {
+          "race_burma": 467843,
+          "race_indian": 3551,
+          "race_others": 1163
+        },
+        "line": "1931 Census Population: 472,557"
+      },
+      "Yamethin": {
+        "scope": "sub-unit",
+        "en": "Yamèthin",
+        "pop": 390820,
+        "x": {
+          "race_burma": 357133,
+          "race_karen": 4534,
+          "race_indo_burman": 12730,
+          "race_indian": 12138,
+          "race_others": 4285
+        },
+        "line": "1931 Census Population: 390,820"
+      },
+      "Bhamo": {
+        "scope": "sub-unit",
+        "en": "Bhamo",
+        "pop": 121193,
+        "x": {
+          "race_burma": 31502,
+          "race_kachin": 46727,
+          "race_tai": 34569,
+          "race_chinese": 2545,
+          "race_indian": 3136,
+          "race_others": 2714
+        },
+        "line": "1931 Census Population: 121,193"
+      },
+      "Myitkyina": {
+        "scope": "sub-unit",
+        "en": "Myitkyina",
+        "pop": 171524,
+        "x": {
+          "race_burma": 37697,
+          "race_lolo_muhso": 5949,
+          "race_kachin": 39964,
+          "race_sak": 3339,
+          "race_tai": 62622,
+          "race_chinese": 4112,
+          "race_indian": 16721,
+          "race_others": 1120
+        },
+        "line": "1931 Census Population: 171,524"
+      },
+      "Shwebo": {
+        "scope": "sub-unit",
+        "en": "Shwebo",
+        "pop": 446790,
+        "x": {
+          "race_burma": 431816,
+          "race_indo_burman": 7939,
+          "race_indian": 6015,
+          "race_others": 1020
+        },
+        "line": "1931 Census Population: 446,790"
+      },
+      "Sagaing": {
+        "scope": "sub-unit",
+        "en": "Sagaing",
+        "pop": 335965,
+        "x": {
+          "race_burma": 328794,
+          "race_indo_burman": 2538,
+          "race_indian": 3669,
+          "race_others": 964
+        },
+        "line": "1931 Census Population: 335,965"
+      },
+      "Katha": {
+        "scope": "sub-unit",
+        "en": "Katha",
+        "pop": 254170,
+        "x": {
+          "race_burma": 134501,
+          "race_sak": 39125,
+          "race_tai": 61750,
+          "race_chinese": 2715,
+          "race_palaung_wa": 4751,
+          "race_indian": 6889,
+          "race_others": 4439
+        },
+        "line": "1931 Census Population: 254,170"
+      },
+      "Lower Chindwin": {
+        "scope": "sub-unit",
+        "en": "Lower Chindwin",
+        "pop": 383434,
+        "x": {
+          "race_burma": 379753,
+          "race_indian": 2570,
+          "race_others": 1111
+        },
+        "line": "1931 Census Population: 383,434"
+      },
+      "Upper Chindwin": {
+        "scope": "sub-unit",
+        "en": "Upper Chindwin",
+        "pop": 204982,
+        "x": {
+          "race_burma": 97745,
+          "race_kuki_chin": 8589,
+          "race_tai": 86546,
+          "race_indian": 5329,
+          "race_others": 6773
+        },
+        "line": "1931 Census Population: 204,982"
+      },
+      "Northern Shan States": {
+        "scope": "unmapped",
+        "en": "Northern Shan States",
+        "pop": 616458,
+        "note": "The census returns the Northern Shan States whole and the map draws the states severally, so these figures appear in this table only.",
+        "x": {
+          "race_burma": 47249,
+          "race_lolo_muhso": 9562,
+          "race_kachin": 63229,
+          "race_tai": 288659,
+          "race_chinese": 60550,
+          "race_palaung_wa": 123277,
+          "race_indian": 21253,
+          "race_others": 2679
+        },
+        "line": "1931 Census Population: 616,458 The census returns the Northern Shan States whole and the map draws the states severally, so these figures appear in this table only."
+      },
+      "Southern Shan States": {
+        "scope": "unmapped",
+        "en": "Southern Shan States",
+        "pop": 870230,
+        "note": "The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the race-groups sum to 869,930 against the total of 870,230.",
+        "x": {
+          "race_burma": 143274,
+          "race_lolo_muhso": 74859,
+          "race_tai": 408758,
+          "race_chinese": 3899,
+          "race_palaung_wa": 47524,
+          "race_karen": 177831,
+          "race_indian": 11351,
+          "race_others": 2434
+        },
+        "line": "1931 Census Population: 870,230 The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the race-groups sum to 869,930 against the total of 870,230."
+      },
+      "Karenni States": {
+        "scope": "sub-unit",
+        "en": "Karenni",
+        "pop": 58761,
+        "x": {
+          "race_burma": 2220,
+          "race_tai": 11383,
+          "race_karen": 43081,
+          "race_others": 2077
+        },
+        "line": "1931 Census Population: 58,761"
+      },
+      "Kantarawadi": {
+        "scope": "sub-unit",
+        "en": "Kantarawadi",
+        "pop": 58761,
+        "note": "The census counts Karenni whole, so these are the three states' joint figures.",
+        "sameAs": "Karenni States",
+        "x": {
+          "race_burma": 2220,
+          "race_tai": 11383,
+          "race_karen": 43081,
+          "race_others": 2077
+        },
+        "line": "1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states' joint figures."
+      },
+      "Kyebogyi": {
+        "scope": "sub-unit",
+        "en": "Kyebogyi",
+        "pop": 58761,
+        "note": "The census counts Karenni whole, so these are the three states' joint figures.",
+        "sameAs": "Karenni States",
+        "x": {
+          "race_burma": 2220,
+          "race_tai": 11383,
+          "race_karen": 43081,
+          "race_others": 2077
+        },
+        "line": "1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states' joint figures."
+      },
+      "Bawlake": {
+        "scope": "sub-unit",
+        "en": "Bawlake",
+        "pop": 58761,
+        "note": "The census counts Karenni whole, so these are the three states' joint figures.",
+        "sameAs": "Karenni States",
+        "x": {
+          "race_burma": 2220,
+          "race_tai": 11383,
+          "race_karen": 43081,
+          "race_others": 2077
+        },
+        "line": "1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states' joint figures."
+      }
+    },
+    "breaks": [],
     "jpBreaks": []
   }
 ];

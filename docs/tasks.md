@@ -77,6 +77,112 @@ has to be measured twice.
 
 ## Done
 
+### 186. The release run, and the one failure that was the harness
+
+Recorded because a green claim needs its caveat attached. The whole suite
+before this release: **2,195 checks across 69 scripts in 1907.3s — and one
+script marked FAILED.** It was not a regression.
+
+`trains` ran for **721.9s and printed `DID NOT REPORT`** — no summary, no
+failing check, no output at all. Three others, `stations`, `air` and
+`airplay`, are starred in the table as *retried after failing to start*: they
+could not launch a browser on the first attempt and passed on the second. The
+run took three and a half times the 542.9s the same suite measured earlier in
+the day, which is the signature of a loaded machine and not of a slow test.
+
+Re-run on its own, `trains` passes **180 of 180, exit 0**. So every check in
+the suite passes; what failed was the harness's ability to run four browsers
+at once on this machine at that moment.
+
+Worth knowing for next time: "DID NOT REPORT" is not "failed". The runner
+counts a script that exits without a summary as a failure, which is the right
+default — a silent script is not a passing one — but the two want telling
+apart before anything is concluded from a red line.
+
+### 185. Burma by race-group, from the 1931 Census of India
+
+The district table of Appendix B — the *Schedule for Racial Map*, Census of
+India, 1931 Volume XI Burma Part I. Report, pp240-244 (PDF pages 262–266 of
+the scan) — transcribed whole and wired to the districts that went on the map
+in 184: 41 census units, an All Races total each and its race-groups in the
+census's own terms, thirteen columns from Burma Group to Others.
+
+What was actually done, file by file:
+
+* `data/population/burma-1931.csv` — the dataset, 44 rows: the 41 census
+  units, plus Kantarawadi, Kyebogyi and Bawlake carrying Karenni's figure
+  through `same_as`. 37 units keyed to `burma-admin.csv` sub-units (Karenni to
+  `Karenni States`), Rangoon to the city `rangoon` — the Gazetteer draws no
+  district for it — and Insein and the two Shan States federations as
+  `unmapped`, the census returning the federations whole where the map draws
+  the states severally.
+* `data/population/fields.csv` — thirteen `race_*` columns under one group,
+  `Race-Group`, labelled as the census prints them.
+* `data/population/index.csv` — registered on epoch 1930, `when` 1931, no
+  `group`/`breaks` (the source prints no areas, so there is no density and no
+  choropleth; the card machinery needs no `POP_BITS` bit for that).
+* `data/population/sources/1931-Burma-Race-Groups.md` — the full
+  transcription with the printed percentages, the schedule's own caveats, and
+  the spelling variants (`Indo-Burma Races` at Kyauksè, `Lolo-Muhso` bare at
+  Myitkyina and the Southern Shan States).
+* `texts/pages/sources.md` — a citation bullet beside the Burma admin entry.
+
+Measured, not assumed:
+
+* Every block summed against its printed All Races total: **39 of 41
+  reconcile exactly. Minbu's groups come to 277,876 against a printed 277,878
+  (−2) and the Southern Shan States' to 869,930 against 870,230 (−300).**
+  Both pages were read twice; the figures are carried as printed, each with a
+  one-sentence note saying so, because every printed percentage rounds
+  correctly from the figures as transcribed and cannot say where the misprint
+  lies. Nothing was "corrected". The 41 printed totals sum to 14,647,499; the
+  schedule prints no Burma total, so no whole-province row was invented.
+* Driven in a headless browser: Akyab's hover carries "1931 Census
+  Population: 637,580", its card shows the race-group figures directly with a
+  Population Table button and no density button, the table opens with the
+  thirteen columns, 41 rows, the required note ("Note: The terms for ethnic
+  groups are those of the original census.") under the heading, the source at
+  the foot, Download CSV present and `tableSpec` on the table node;
+  Kantarawadi's card carries the joint 58,761 with its note. No page errors.
+
+Unverified, and said here on purpose: that Kantarawadi, Kyebogyi and Bawlake
+are the whole of the census's "Karenni" is an identification from the
+literature — the schedule names no constituent states. The map keys that could
+carry figures and got none, because no census row matches them with
+confidence: the 45 individual Federated Shan States (the census returns only
+the two federations), Mong-Pai (sometimes counted a Karenni state, but not
+verifiably inside the schedule's Karenni), The Triangle, Hukawng Valley, and
+Pakokku Hill Tracks (the schedule has no row for it; whether its people are
+inside Pakôkku's 499,181 is not stated).
+
+**Checked against the source rather than taken on trust.** Twelve districts
+were re-read from PDF pages 262–263 and compared cell by cell — Akyab,
+Kyaukpyu, Sandoway, Pegu, Tharawaddy, Insein, Prome, Bassein, Henzada,
+Myaungmya, Maubin, Pyapôn, 92 figures in all — and every one matched, as did
+every blank: a group the schedule does not print for a district is empty here
+and not zero, which is what the note in `index.csv` exists to say. One
+apparent discrepancy was mine and not the table's: I read Maubin's Chinese
+Group as 3,510, and 3,610 is right — it is what makes the row sum to its
+printed 371,509 and what the printed 1.0 per cent rounds from, where 3,510
+would round to 0.9.
+
+Every one of the 41 rows was then summed against its own printed total. **Two
+do not reconcile and are carried as printed**: Minbu's parts come to 277,876
+against 277,878, and the Southern Shan States' to 869,930 against 870,230. The
+percentages round correctly either way, so they cannot say where the misprint
+is, and a source is not corrected to make its arithmetic come out.
+
+**Verified in the page, not only in the file.** Clicking Akyab with
+Administrative on gives a card carrying 637,580, the Burma Group's 327,872 and
+the Indian Races' 210,990, the words *Race-Group* and the date, and a
+**Population Table** button. No page errors.
+
+**Left unverified, and said so here**: that Kantarawadi, Kyebogyi and Bawlake
+are the whole of the census's *Karenni* comes from the literature and not from
+these pages, which name no constituent states. `Pakokku Hill Tracks` has no
+schedule row and whether it sits inside Pakôkku's figure is unstated.
+
+
 ### 181. The Indies on the later sheet, and the command that held each part
 
 The same source, a year later: `dei-1941-admin.geojson`, the administration as
@@ -151,6 +257,93 @@ on both dates. **156 sub-units: 65 dated 1930, 47 dated 1942, 44 dated by
 nothing.**
 
 `dei` 17 → **21 checks**.
+
+### 184. Burma, district by district, and why its outline did not change
+
+Eighty-five districts and states from the Imperial Gazetteer of India, Atlas:
+1931, digitised by the University of Chicago Digital South Asia Library, in
+place of `mmr_divisions.json` — seven **modern** Burmese divisions standing in
+for a framework of eighty-five. `tools/build_burma.py` prepares them and their
+exact dissolve.
+
+**Four things in the source had to be settled, and none is a judgement about
+where a boundary runs.**
+
+* **Two zero-area needles.** The coverage refused to dissolve on four directed
+  edges appearing twice — two segments, each written out and back along itself
+  in *both* Myitkyina and the Triangle: 97.98958–97.99375 E at 25.76458 N, and
+  98.28750–98.29375 E at 26.49792 N. A spur of no width is not a border. 11
+  vertices removed, no area touched.
+* **`Hanthawaddy` appears twice**, 4,095 and 4,833 km² either side of Rangoon.
+  One district in two pieces, which this map draws — but the sub-unit key is
+  the name, so the two features are merged into one unit of two polygons.
+* **Five units have no name**, 67 to 415 km², three in the Shan States, one in
+  Karenni, one with no group either. They stay in the coverage, because the
+  dissolve needs every piece, and they are written with **no name**: the map
+  draws them as Burma with no division on them. Inventing a name for a shape
+  the source leaves blank is the worse error.
+* **`Tribal Area` is `The Triangle`**, renamed as asked.
+
+**The outline is not this coverage's, and that was decided by measurement.**
+Sampled at 0.01° between 91 and 99 E, 19 and 29 N:
+
+| | overlaps India-1931 | ground in neither, bounded by both |
+|---|---|---|
+| `burma-modern-modified`, the tracing in use | **0 km²** | 353 km² over 61 rows |
+| this coverage, dissolved | **166 km²** | **764 km²** over 513 rows |
+
+The tracing overlaps India by nothing because it was *cut* to it; this is an
+independent reading of the same frontier and disagrees with India along the
+whole length of it rather than in one place. Swapping it would have put 166
+km² of Burma over India and more than doubled the sea-coloured seam that is
+already the first item in this file's Open list. **CLAUDE.md's worked example
+is this very frontier**, and it says what happened the last time the clipping
+was undone.
+
+So the districts are drawn *inside* the outline the map already had. That
+needed no new machinery: `clip-burma` is built from the tracing and `SUB_CLIP`
+already puts it on every one of Burma's sub-units, so they stop exactly where
+Burma stops and the province has one outline rather than two. The dissolve is
+written for the record and for anyone exporting the layer.
+
+**What the clip costs, measured.** 6,218 km² of the coverage falls outside the
+tracing, and **5,754 of it is north of 27.5°**: the Gazetteer carries Burma to
+28.43 N in the Kachin hills where the traced frontier stops at 27.98, so The
+Triangle and Myitkyina end at the older line. Everywhere else the two agree to
+a thin rind — 142 km² at 22 N is the worst of it and the rest is tens. In the
+other direction 1,089 km² of the tracing has no district on it, of which the
+largest single piece is **Rangoon, 88.6 km² at 96.246 E 16.781 N**: the town
+was its own administration and is not one of the 91 features, so the capital is
+drawn as Burma with no division. The dissolve fills that gap rather than
+leaving a hole — a hole there would show the ocean through the middle of
+Rangoon — and the tool names every gap it fills.
+
+**Nine groups**, and `burma` in `SHARED_EDGE_EXACT` so no interior border is
+thinned twice: the seven Divisions of Burma proper, the **Federated Shan
+States** gathered from the five spellings the Gazetteer uses — plain, North,
+Central, Myelat — and **Karenni**, kept apart because it was never annexed and
+the instruction named the Shan States alone. 6,476 vertices of interior edge
+cancel in the dissolve, 10,647 to 4,171.
+
+**The old table's prose was carried, not dropped.** `burma.csv` described the
+seven modern divisions; those rows are re-keyed onto the groups the districts
+now sit in — *The dry zone: the middle Irrawaddy in the rain shadow* and the
+rest — and `burma.csv` keeps only `Kengtung` and `MongpanEast`, which are
+`saharat`'s on the 1942 sheet. A 1930 override was pointing at the old
+`Tenasserim` key and moved with them.
+
+**And `burma` found a second instance of the Indies' paint-order bug.** The
+fix in 183 was made inside the branch that runs for an atom with two dated
+sets; Burma has one, its five unnamed states were written last, and they were
+painting over the districts. The hoist is unconditional now — an unnamed block
+is painted first in every atom — which is where the rule belonged.
+
+`tools/test/burma.js`, **19 checks**, in `MAP`, the `geometry` group and
+`TRIGGERS`. One thing it records for the next person: the admin sheet is
+**grafted into the atom**, so the `<g data-for="burma">` wrapper the districts
+travel in does not survive and querying for it finds nothing at all.
+
+The implicated set: **1,986 checks across 54 scripts in 371.3s, all passing.**
 
 ### 183. The Indies' boundaries were painted and then buried
 
@@ -21618,3 +21811,4 @@ source sat beside the name; the rule is after it now, with the reason on it.
 Measured on the open menu: `position: fixed`, `z-index: 60`, an opaque panel
 background, rows `block`, and `elementFromPoint` at the menu's own centre
 returns the menu's own content rather than the map.
+

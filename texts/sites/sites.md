@@ -338,6 +338,9 @@ force and saw the first organised kamikaze attacks.
 Capital of British Burma and the port at the head of the Burma Road; its loss
 cut China’s last land supply line.
 
+At the census of 1931 it had **400,415** people — 16,146 to the square mile, and 477 females per 1,000 males. **Half of it had been born outside Burma**: 509 per mille, against Mandalay’s 100. It had grown 17.1% in the decade and by 198.4% since 1881.
+
+
 ## imphal
 
 The attempt to invade India, fought alongside Bose’s Indian National Army and
