@@ -122,6 +122,75 @@ the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Shared borders are one line where it was broken, and measured everywhere else
+
+**The defect.** `thin()` simplified each ring on its own; a border two sub-units share is
+carried inside both rings, opposite way round, different starting vertex, and Douglas-Peucker
+keeps different vertices under either change — so every coverage assembled from sub-units drew
+its interior borders twice, a fraction of a unit apart.
+
+**The instrument first.** `tools/test/arcs.js` (in `MAP`, group `geometry`, 1.3s measured, no
+browser or server) reads the built SVGs and measures, per atom and sheet: edges paired
+vertex-for-vertex at written precision; near misses (an edge of another sub-unit within 0.6
+units) with their median separation; and the quarter-unit membership probe from the Indochina
+work, gaps split by class — beside a paired edge a gap is a hole, beside a near miss it is
+usually a river or another source's border — and counted only inside the country's own backing,
+so a strait is not a defect. `ARCS_DEBUG=1` names each defect's coordinates.
+
+**arc_thin** (`tools/build_map.py`) cuts a coverage into arcs — maximal chains of edges with
+the same owners, split at tripoints, coast transitions and ownership changes — simplifies each
+arc once at the finest band any ring using it earns, junctions pinned, and reassembles every
+ring from its own chains in its own order and winding. Nothing is stitched by search, so dirty
+data degrades to the status quo. Edges are matched *undirected* on dissolve()'s 1e-6-degree
+grid: the Republican provinces file carries 6,114 shared directed edges running the same way
+round in both provinces, so winding cannot be trusted. Each arc is respaced in canonical
+direction and rings holding a shared arc are written at `FINE_PRECISION`, or `ring_to_path`'s
+draw-direction dedupe would reopen the pair (the Kwantung-flecks mechanism). Routed through it:
+**`ARC_TOPOLOGY = {"siam", "philippines"}`**, and nothing else.
+
+- **Siam**: 38 probes inside two changwat at once to **0**; near-miss edges 1,503 to 190.
+  Keeps 6,587 of 149,967 ring vertices (4.4%). What remains unpaired is Bangkok's rim, a
+  different source file, which one-line simplification can never join.
+- **Philippines**: 26 overlaps to **0**; near misses 808 to 169. Keeps 25,178 of 72,642 (34.7%).
+- Build 24.6s before, 25.1s after. Every atom but these two is **byte-identical to main in both
+  sheets**, checked block by block.
+- `hanlabels` caught a threshold move: Chiengmai's changwat label had always been created and
+  left empty, a hair under `subFits`' width gate; the finer borders grew its `data-area` from
+  817 to 823 and filled it in. The changwat and its capital genuinely share the name — the
+  Jilin/Ningxia class — so Chiengmai joins that test's allowed pairs.
+
+**Tried at full scale and withdrawn, with the findings kept:**
+
+- **The Dutch East Indies** went through arc_thin and proved it a no-op: 264 arcs, none shared —
+  the eighteen island units share no edges at all, which also explains why `adm1_IDN` measured
+  only 8.9% edge twinning (that file's interior borders are not what the map draws; the islands
+  come off the coastline source). Routing it produced no benefit and perturbed 21 of 45 units
+  at the ring-closing vertex (the old path let Douglas-Peucker pin the GeoJSON closure
+  duplicate; arc_thin pins the last distinct vertex — neither more faithful). Dropped.
+- **Indochina, and the refund that was claimed for it, which does not exist.** The plan was to
+  take it off `SHARED_EDGE_EXACT` and recover the 13,116 vertices / 144 KB that exactness
+  costs. Measured, that figure was an artefact of comparing against band-thinning, and
+  band-thinning a tracing is unsound: the 1930 file is not vertex-exact along the Kratié
+  frontier (Stung Treng carries 387 vertices to Kratié's 133, 23 coinciding), so the border
+  fell apart into single-owner arcs and Stung Treng's 0.275 band swung a 4.7-unit chord up to
+  0.27 units across Kratié's finer line — 3 probes inside two provinces, on ground the source
+  gives to one. The only sound band for a hand tracing is `TRACED_TOL`'s 0.021, and at 0.021
+  the bytes go *up*: admin +16.8 KB, main +26.9 KB (the backing follows `backing_tol` down, as
+  its contract requires), for a saving of 1,891 vertices and the closing of 9 sub-pixel river
+  gaps. `SHARED_EDGE_EXACT` stays exactly as it was — it already measures 0 overlaps and 0
+  paired gaps on both sheets and across the atom pair.
+
+**Left alone, measured rather than assumed:** British India and the `nca_*` atoms draw no admin
+sub-units at all (`india_traced`). Taiwan and Burma diverge at a median of 0.005 and 0.009
+units — a fifth of a pixel at the deepest zoom — and their few probe defects (8 and 3 overlaps)
+sit a quarter-unit deep, far beyond anything a 0.021 band could carve: source facts, reported
+by the instrument, not thinning defects. China's provinces, Korea, Manchukuo, Mengjiang, Malaya
+and the princely states are `FULL_DETAIL`, never thinned, nothing to fix.
+
+`thin()` also lost the unreachable second return that had sat below its live one since the
+smallest band became a `tol_for` row.
+
+
 ### The researched readings merged, and the 1950 caveat put where it belongs
 
 **394 stated readings merged**, and with them 554 article links the title-matching had missed.
