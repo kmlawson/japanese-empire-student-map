@@ -20671,3 +20671,108 @@ before anything is compared.
 Confirmed to have teeth by disabling the guard in the built copy: **Chŏngju
 (mouse) and Masan (finger), each 0.1 px from the track, opened the Ch'ungbuk
 and Kyŏngjŏn Line cards.** With it, they open the city.
+
+## 173. "More lines" in the strip, and back again
+
+The connection names were folded away behind "Show 32 more" / "Show fewer".
+"Show fewer" named nothing: a reader who had opened the list was told there was
+a smaller version of it, not that the smaller one was the network they came
+for. It is a pair of words now — **More lines** and **Korea's lines only** —
+and the second is built from `RAIL_LABEL` through a new `host.home(sys)`, so it
+reads for whichever network is mounted. The possessive rather than "Korean",
+because it is the form the button beside the map already uses and the only one
+that works for Karafuto.
+
+**The button belongs to the connections.** It appeared whenever a network had
+connections at all, so with the switch off it offered to list lines that were
+not drawn — press it, nothing visible changes, and the strip has taught the
+reader not to trust it. It is hidden with them now (`#train-bar.conn-off
+.train-more`), and switching them off folds the list back: the button goes with
+them, so a reader who had opened the list would otherwise have had no way to
+close it and would have found it already open, under a button offering to open
+it, when they switched the connections back on.
+
+`foldConn` is the one place the class, the words and `aria-expanded` are set,
+because they were set in three and had already disagreed once.
+
+Driven and measured: connections off, no button and 42 chips; on, the button
+appears and it is still 42; pressed, **74 chips of which 32 are connections**
+and the button reads "Korea's lines only"; pressed again, 42; switched off
+while open, folded and hidden; switched back on, folded with "More lines".
+
+## 165. Over Japan with Korea's tools up, stations means both countries'
+
+Two halves, and the first was the substantive one.
+
+**A station layer may be drawn on the extended network's track.** Japan's own
+railway is switched off while Korea's tools are up — one network at a time, by
+design — and `stationsOn` wanted a system's *own* railway, so Japan's squares
+had no line to sit on and were refused. But there is a line there: the
+timetable's own, running into Honshū on traced track since 1.353. `connReaches`
+answers whether it does, by overlapping the tools' `bounds()` — which is the
+box of the stations on the lines actually *shown*, so it contracts when the
+connections are switched off — against the system's own `ground`. No second
+table of which network reaches which, and nothing to keep in step.
+
+**And the switch has to tell the map.** `setConn` changed how far the tools
+reach and told nobody: Japan's station row stayed hidden until some unrelated
+change happened to re-sync it, and once ticked the squares stayed drawn after
+the connections had gone. `host.connChanged` now runs `applyState`. Measured
+before and after: with the connections off Japan's row is hidden; on, it is
+offered with no Japanese railway on at all; ticked, **10,639 squares draw on
+the 1930 sheet**; connections off again, the row goes and the group is hidden.
+
+The second half is the button beside the map. It governed one system — whichever
+ground the view was over — so asking for stations over Japan meant Japan's
+alone and took Korea's away in the same press, the squares on the very line the
+tools were animating. It governs a *set* now: the ground under the view, plus
+the mounted network when its track reaches here. One answer is worked out for
+the set before anything is written, because toggling each on its own state
+would have swapped them over; it is lit only when every member is on, so a
+press always has somewhere to go. It says whose, where there is more than one.
+
+**Unverified: the button's own behaviour over Japan.** The tools can only be
+*opened* over their own ground, so the view has to be panned east after
+mounting — and a synthesised pointer drag does not move this map, which is the
+caution in CLAUDE.md and it held. What is verified is the part the request was
+about: that Japan's squares draw on Korea's extended network and go when it
+does. The coupling in `syncMapButtons` and the set-press in the click handler
+are read but not driven.
+
+## 172a. Burma comes on with the button beside the map, too
+
+Reported: the map-side railway button left Burma behind. Three functions read
+`STATION_SYS` as though it were the registry of railways — the button that
+switches them all on, and the two that ask whether any is on — and Burma is not
+in it, having no stations. `RAIL_ONLY` and `railSwitches()` name it in one place
+instead of three. Measured: one press takes all five from off to on and a second
+takes them back.
+
+## A correction to 171: the 1942 half of the test was testing 1930
+
+`?epoch=1942` is read by nothing. The date is the segmented control in the
+header, so both halves of `tools/test/indochina.js` ran on the 1930 sheet and
+the two checks that say "1942" were not testing it. Switched by
+`#epoch-seg [data-epoch="e1942"]` — by the attribute, because each button
+carries three spans for three screen widths and `textContent` is all three run
+together — with a check that the right sheet is showing before anything is
+asked of it. `indochina` 17 → **18 checks**.
+
+## Still open
+
+* **169** The Japan–Korea ferries, routed round land. Measured what is there:
+  關門 is 5 km of open strait and 長項—群山 crosses an estuary, both fine as
+  chords; 關釜 runs Shimonoseki (130.922, 33.949) to Pusan (129.04, 35.114) and
+  wants checking against Tsushima; **青函 is the one to fix**, Aomori (140.735,
+  40.830) to Hakodate (140.730, 41.770) as a straight line up a longitude that
+  crosses the Tsugaru peninsula. Four crossings and a handful of waypoints each
+  — a stated table, like `PAPUA_CUT_LINE` and `DINDINGS_HULL`, rather than a
+  router — is the shape this should take.
+* **The 1930 sheet should dissolve the provinces the cession cuts.** Five of
+  them are drawn in two atoms, and on the 1930 sheet, where both are French
+  Indochina, the reader should see one province. `markSplitProvinces` already
+  groups blocks by the atom's `data-id`, which both halves share on that date,
+  and the `admin-on` stroke is already withheld from a province drawn in more
+  than one block — so what is visible is most likely a hairline: the shared
+  edge is simplified twice, once inside `indochina`'s rings and once inside
+  `siamgain`'s, and the two results diverge. Not investigated.

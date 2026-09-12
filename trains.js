@@ -98,6 +98,9 @@ window.JMAP_TRAINS = function (host) {
      is remembered in this browser. When the alignments arrive the flag goes
      and so does the switch. */
   var connOn = false;
+  /* The words on the fold button, both of them, set when the strip is built
+     because one of them names the network. Null until then. */
+  var moreWords = null;
   try { connOn = localStorage.getItem('jem-train-conn') === '1'; } catch (e) {}
   var playing = false;
   var raf = 0;
@@ -855,10 +858,29 @@ window.JMAP_TRAINS = function (host) {
     return !!(l && l.x);
   }
 
+  /* Fold the connection names away, or let them out. One function so that the
+     class, the words on the button and what it tells a screen reader are set
+     in the same breath; they were set in three places and had already
+     disagreed once. */
+  function foldConn(shut) {
+    if (!els.legend || !els.more || !moreWords) return;
+    els.legend.classList.toggle('conn-folded', !!shut);
+    els.more.textContent = shut ? moreWords.open : moreWords.shut;
+    els.more.title = shut ? moreWords.openTitle : moreWords.shutTitle;
+    els.more.setAttribute('aria-expanded', shut ? 'false' : 'true');
+  }
+
   function applyConn() {
     if (lineLayer) lineLayer.classList.toggle('conn-off', !connOn);
     if (bar) bar.classList.toggle('conn-off', !connOn);
     if (els.conn) els.conn.checked = connOn;
+    /* **And switching them off puts the list back.** The button is hidden with
+       them — see styles.css — so a reader who had opened the list and then
+       switched the connections off would have no way to close it again, and
+       switching them back on would show it already open with a button offering
+       to open it. `foldConn` is the one place the class and the words are set
+       together, so the two cannot drift apart. */
+    if (!connOn) foldConn(true);
   }
 
   function setConn(on) {
@@ -866,6 +888,14 @@ window.JMAP_TRAINS = function (host) {
     try { localStorage.setItem('jem-train-conn', connOn ? '1' : '0'); } catch (e) {}
     applyConn();
     render();
+    /* **The switch changes how far the tools reach, and the map has to hear
+       about it.** With the connections on, the track runs into Japan, and the
+       station squares over that ground are then squares on a drawn line; with
+       them off, they are squares on nothing. Both facts are the host's to act
+       on — it owns the layers — and nothing here was telling it, so Japan's
+       station row stayed hidden until some unrelated change re-synced it, and
+       the squares stayed drawn after the connections had gone. */
+    if (host.connChanged) host.connChanged(connOn);
   }
 
   function render() {
@@ -1414,6 +1444,7 @@ window.JMAP_TRAINS = function (host) {
     els.count = el('span', 'train-count', '');
 
     var legend = el('div', 'train-legend');
+    els.legend = legend;
     data.lines.forEach(function (l) {
       var chip = el('span', 'train-chip');
       var sw = el('span', 'sw');
@@ -1454,17 +1485,28 @@ window.JMAP_TRAINS = function (host) {
      * appears when there is something to list. */
     var connChips = data.lines.filter(function (l) { return l.x; }).length;
     if (connChips) {
-      legend.classList.add('conn-folded');
-      els.more = el('button', 'train-more', 'Show ' + connChips + ' more');
+      /* The two words the button says, and they are a pair: one names what
+         pressing it will add, the other what pressing it again will leave.
+         "Show fewer" said neither — a reader who had opened the list was told
+         only that there was a smaller version of it, not that the smaller one
+         was the network they came for. */
+      var homeName = host.home ? host.home(cfg && cfg.sys) : '';
+      moreWords = {
+        open: 'More lines',
+        /* The possessive, which is what the rest of the map says: the button
+           beside it already reads "Korea's railways". It is also the only form
+           that works for all four — Karafuto has no adjective. */
+        shut: homeName ? homeName + '\u2019s lines only' : 'This network only',
+        openTitle: 'The ' + connChips + ' lines beyond this network, by name',
+        shutTitle: 'Leave only the lines of this network in the list',
+      };
+      els.more = el('button', 'train-more', moreWords.open);
       els.more.type = 'button';
-      els.more.title = 'The lines beyond this network, by name';
-      els.more.setAttribute('aria-expanded', 'false');
       els.more.addEventListener('click', function () {
-        var open = legend.classList.toggle('conn-folded') === false;
-        els.more.textContent = open ? 'Show fewer' : 'Show ' + connChips + ' more';
-        els.more.setAttribute('aria-expanded', open ? 'true' : 'false');
+        foldConn(!legend.classList.contains('conn-folded'));
       });
       legend.appendChild(els.more);
+      foldConn(true);
     }
 
     /* The switch, only where there is something for it to switch. */
@@ -1752,6 +1794,13 @@ window.JMAP_TRAINS = function (host) {
 
     mounted: function () { return !!cfg; },
     system: function () { return cfg ? cfg.sys : ''; },
+    /* Whether the extended network is drawn. map.js needs it to know how far
+       the tools reach: with the connections on, the track runs into Japan and
+       Manchuria, and the station squares over that ground are then squares on
+       a line the reader can see. `bounds()` above already contracts and
+       expands with this switch; this is the switch itself, for the questions
+       that are about the state rather than the extent. */
+    connOn: function () { return !!(cfg && connOn); },
     playing: function () { return playing; },
 
     /* The zoom changed. The lines look after themselves — a non-scaling stroke

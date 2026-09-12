@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '354';
+  var JEM_VERSION = '355';
 
   /* Every file this one fetches, with the version on it.
 
@@ -2376,7 +2376,11 @@
      be *built*, which additionally needs the reader to have asked. */
   function trainZone() { return trainBoxAt(true); }
 
-  var btnStationsSys = '';
+  /* Which systems the station button beside the map switches: the ground the
+     view is over, and — while the extended network puts track over it — the
+     network the tools are running as well. Both, because that is what a reader
+     over Japan with Korea's timetable up is looking at. */
+  var btnStationsSyss = [];
   /* Held rather than looked up. This runs on every frame of every gesture and
      `querySelector` on a document of eight thousand nodes is not free. */
   var btnStaEl = null, btnTrnEl = null, btnSugarEl = null, btnRailEl = null;
@@ -2437,9 +2441,7 @@
        * the right one. */
       var railOn = railSys
         ? !!state[STATION_SYS[railSys].rail]
-        : Object.keys(STATION_SYS).some(function (k) {
-            return !!state[STATION_SYS[k].rail];
-          });
+        : railSwitches().some(function (k) { return !!state[k]; });
       var rp = railOn ? 'true' : 'false';
       /* Named from the registry rather than a hand-kept chain of three, which
          is why Japan's lines were offered as "the railways" while Taiwan's,
@@ -2479,16 +2481,47 @@
     }
     if (!btnStaEl && !btnTrnEl) return;
     var sys = railUnderView();
-    btnStationsSys = sys;
+    /* **ONE PRESS, BOTH COUNTRIES' SQUARES.**
+     *
+     * With Korea's tools up and the connections on, the reader over Japan is
+     * looking at two networks at once: Japan's ground, and Korea's timetable
+     * running over it. Asking for stations there meant Japan's alone, and the
+     * Korean squares behind — on the line the tools are actually animating —
+     * went out at the same moment, because the button had switched systems
+     * with the view.
+     *
+     * So the button governs the set: the ground under the view, and the
+     * mounted network when its track reaches here. It couples only while the
+     * tools are up *and* the connections are shown, which is the condition
+     * `connReaches` already answers — switch the connections off and the pair
+     * comes apart again, each system its own. */
+    var syss = sys ? [sys] : [];
+    var mounted = (trainApi && trainApi.mounted()) ? trainApi.system() : '';
+    if (mounted && STATION_SYS[mounted] && syss.indexOf(mounted) < 0
+        && connReaches(sys)) {
+      syss.push(mounted);
+    }
+    btnStationsSyss = syss;
     var bs = btnStaEl;
     if (bs) {
-      var on = !!(sys && state[STATION_SYS[sys].on]);
-      var want = !sys;
+      /* Lit when every system it governs is on, so that a press always has
+         somewhere to go: half on reads as off and the next press turns the
+         other half on rather than taking the first away. */
+      var on = syss.length > 0 && syss.every(function (k) {
+        return !!state[STATION_SYS[k].on];
+      });
+      var want = !syss.length;
       if (bs.hidden !== want) bs.hidden = want;
       var pressed = on ? 'true' : 'false';
-      if (bs.getAttribute('aria-pressed') !== pressed) {
+      /* And it says whose, where it is not just the one. */
+      var whose = syss.length > 1
+        ? syss.map(function (k) { return RAIL_LABEL[k] || k; }).join(' and ')
+          + '\u2019s railway stations'
+        : ' railway stations';
+      var label = (on ? 'Hide' : 'Show')
+        + (syss.length > 1 ? ' ' + whose : whose);
+      if (bs.getAttribute('aria-pressed') !== pressed || bs.title !== label) {
         bs.setAttribute('aria-pressed', pressed);
-        var label = (on ? 'Hide' : 'Show') + ' railway stations';
         bs.title = label;
         bs.setAttribute('aria-label', label);
       }
@@ -2540,10 +2573,26 @@
    * not from `applyState`, because the tools borrow the railway while they are
    * up — a rule that fired on any railway being off would take them down in the
    * middle of their own mount. */
+  /* **Every railway switch on the map, whether or not it has stations.**
+   *
+   * `STATION_SYS` is the registry of railway-and-stations pairs, and three
+   * things read it as though it were the registry of *railways*: the button
+   * beside the map, which switches them all on at once, and the two functions
+   * that ask whether any is on. Burma has no stations — its trace names
+   * nothing — so it is not in that table, and the button beside the map left
+   * it behind: a reader who pressed "show the railways" got four networks and
+   * not the fifth. Named here so the next lines-only layer is one entry rather
+   * than three. */
+  var RAIL_ONLY = ['burmaRail'];
+
+  function railSwitches() {
+    return Object.keys(STATION_SYS).map(function (k) {
+      return STATION_SYS[k].rail;
+    }).concat(RAIL_ONLY);
+  }
+
   function railsAllOff() {
-    return !Object.keys(STATION_SYS).some(function (k) {
-      return !!state[STATION_SYS[k].rail];
-    });
+    return !railSwitches().some(function (k) { return !!state[k]; });
   }
 
   function dropToolsWithRails() {
@@ -2993,6 +3042,21 @@
   function trainHost() {
     return {
       svgEl: svgEl,
+      /* Whose network the tools are running, in a word: "Korea", "Taiwan".
+         `RAIL_LABEL` already keeps those for the railway button, so they are
+         written down once. The strip needs it to say *whose* lines it is
+         offering to put away again — "Korean lines only".
+
+         The system is passed in rather than looked up here. The strip asks
+         while it is building itself, which is before `trainApi` has been
+         assigned, so anything reading the mounted system from this side would
+         get `undefined` exactly when the question is asked. */
+      home: function (sys) { return RAIL_LABEL[sys] || ''; },
+      /* The extended network has been switched on or off, so how far the tools
+         reach has changed. That decides which station layers have a line under
+         them and how far the tools' own zone extends, and both are read out of
+         `state` by `applyState`. */
+      connChanged: function () { applyState(); saveState(); },
       project: function (lon, lat) { return project(lon, lat); },
       scale: function () { return view.w / containerSize().w; },
       stage: function () { return $('#stage') || document.body; },
@@ -3647,9 +3711,39 @@
 
   /* Is this system drawn at all — the railway on, and the stations asked for
      on top of it. */
+  /* **Does the extended network put track over this system's ground?**
+   *
+   * With Korea's tools up and the connections switched on, the coloured track
+   * runs into Japan and Manchuria. Japan's own railway is switched off while
+   * the tools are up — one network at a time, deliberately — so its station
+   * squares would have had no line to sit on and were not drawn. But there
+   * *is* a line there: the timetable's own, and a station on it is a station
+   * this map can answer for.
+   *
+   * Asked of the tools rather than written down: `bounds()` is the lon/lat box
+   * of the stations on the lines actually *shown*, so it contracts when the
+   * connections are switched off and there is no second table to keep in step
+   * with which networks reach which. The test is a box overlap against the
+   * system's own `ground`, which is the same box the railway button uses to
+   * know where it is.
+   *
+   * Only the *other* system: the mounted one has its own squares already. */
+  function connReaches(sys) {
+    var cfg = STATION_SYS[sys];
+    if (!cfg || !cfg.ground) return false;
+    if (!trainApi || !trainApi.mounted() || !trainApi.connOn
+        || !trainApi.connOn()) return false;
+    if (trainApi.system() === sys) return false;
+    var b = trainApi.bounds ? trainApi.bounds() : null;
+    if (!b) return false;
+    var g = cfg.ground;
+    return !(b.e < g[0] || b.w > g[2] || b.n < g[1] || b.s > g[3]);
+  }
+
   function stationsOn(sys) {
     var cfg = STATION_SYS[sys];
-    return !!(cfg && state[cfg.rail] && state[cfg.on]);
+    if (!cfg || !state[cfg.on]) return false;
+    return !!state[cfg.rail] || connReaches(sys);
   }
 
   /* The station rows, the groups, and the marks that belong to a date.
@@ -3661,9 +3755,14 @@
   function syncStationLayers() {
     Object.keys(STATION_SYS).forEach(function (sys) {
       var cfg = STATION_SYS[sys];
+      /* The row is offered where there is a line for the squares to sit on —
+         this system's own railway, or the extended network's track running
+         over its ground. Without the second, ticking Japan's stations from
+         the button over Japan was undone here in the same breath. */
+      var line = !!state[cfg.rail] || connReaches(sys);
       var row = $('#' + cfg.row);
-      if (row) row.hidden = !state[cfg.rail];
-      if (!state[cfg.rail] && state[cfg.on]) {
+      if (row) row.hidden = !line;
+      if (!line && state[cfg.on]) {
         state[cfg.on] = false;
         var box = $('#' + cfg.box);
         if (box) box.checked = false;
@@ -18272,19 +18371,27 @@
     var btnSta = $('#btn-stations');
     if (btnSta) {
       btnSta.addEventListener('click', function () {
-        var sys = btnStationsSys;
-        if (!sys) return;
-        var key = STATION_SYS[sys].on;
-        state[key] = !state[key];
-        var box = $('#' + STATION_SYS[sys].box);
-        if (box) box.checked = state[key];
-        /* While the train tools are up the squares are borrowed, and the
-           reader turning them off here is a decision of their own: it has to
-           survive the tools being put away, so what would be given back is
-           moved with it. */
-        if (trainBorrowed && trainBorrowed.on === key) {
-          trainBorrowed.hadOn = state[key];
-        }
+        var syss = btnStationsSyss;
+        if (!syss.length) return;
+        /* One answer for the set, worked out before anything is written: with
+           two systems coupled, a press has to mean the same thing to both, and
+           toggling each on its own state would have swapped them over. */
+        var want = !syss.every(function (k) {
+          return !!state[STATION_SYS[k].on];
+        });
+        syss.forEach(function (sys) {
+          var key = STATION_SYS[sys].on;
+          state[key] = want;
+          var box = $('#' + STATION_SYS[sys].box);
+          if (box) box.checked = want;
+          /* While the train tools are up the squares are borrowed, and the
+             reader turning them off here is a decision of their own: it has to
+             survive the tools being put away, so what would be given back is
+             moved with it. */
+          if (trainBorrowed && trainBorrowed.on === key) {
+            trainBorrowed.hadOn = want;
+          }
+        });
         applyState();
       });
     }
@@ -18373,10 +18480,8 @@
            on Korea's and found Taiwan's still missing when they went to look
            at it — and there is no reason a reader who has asked for railways
            wants them in one country only. Off if any is on, on if none is. */
-        var keys = Object.keys(STATION_SYS).map(function (k) {
-          return STATION_SYS[k].rail;
-        });
-        var boxOf = {};
+        var keys = railSwitches();
+        var boxOf = { burmaRail: '#opt-burma-rail' };
         Object.keys(STATION_SYS).forEach(function (k) {
           boxOf[STATION_SYS[k].rail] = '#opt-' + k + '-rail';
         });

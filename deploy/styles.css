@@ -3129,6 +3129,11 @@ dialog h3 {
 #train-layer.conn-off .train-line-approx,
 #train-layer.conn-off .train-case-approx { display: none; }
 #train-bar.conn-off .train-chip-conn { display: none; }
+/* And the button that lists them goes with them. With the connections
+   switched off there is nothing beyond the network to add to the list, so an
+   offer to add it is an offer that does nothing — and the reader presses it
+   once, sees the list unchanged, and learns not to trust the strip. */
+#train-bar.conn-off .train-more { display: none; }
 .train-conn { white-space: nowrap; font-size: 12px; color: var(--muted); cursor: pointer; }
 .train-conn input { vertical-align: middle; margin: 0 3px 0 0; }
 

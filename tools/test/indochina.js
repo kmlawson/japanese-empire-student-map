@@ -15,6 +15,20 @@
 const { sleep, ready, check, report, SHIM, launch, HOST } = require('./suite.js');
 const BASE = process.env.MAP_URL || HOST + '/index.html';
 
+/* The date is not a URL parameter — `?epoch=1942` is read by nothing and the
+   map opens on 1930 whatever it says, which is how the second half of this
+   file came to test the 1930 sheet twice. The segmented control in the header
+   is the switch. */
+const epoch = async (p, to) => {
+  /* By `data-epoch`, not by the words on the button: each carries three spans
+     for three screen widths and `textContent` is all three run together. */
+  await p.evaluate(t => {
+    const b = document.querySelector('#epoch-seg [data-epoch="' + t + '"]');
+    if (b) b.click();
+  }, to);
+  await sleep(2800);
+};
+
 const adminOn = async p => {
   await p.evaluate(() => {
     const b = [...document.querySelectorAll('#layer-seg button')]
@@ -87,7 +101,7 @@ const open = async (p, name) => {
     p.on('pageerror', e => errs.push(String(e).slice(0, 200)));
 
     // ---------------------------------------------------- 1930, admin on
-    await p.goto(BASE + '?epoch=1930', { waitUntil: 'domcontentloaded' });
+    await p.goto(BASE, { waitUntil: 'domcontentloaded' });
     await ready(p);
     await p.evaluate(() => document.querySelectorAll('dialog[open]')
       .forEach(d => d.close()));
@@ -165,10 +179,17 @@ const open = async (p, name) => {
     check('Kratié is in Cambodia', /Cambodia/.test(noted.prov), noted.prov);
 
     // ------------------------------------------------------------- 1942
-    await p.goto(BASE + '?epoch=1942', { waitUntil: 'domcontentloaded' });
+    await p.goto(BASE, { waitUntil: 'domcontentloaded' });
     await ready(p);
     await p.evaluate(() => document.querySelectorAll('dialog[open]')
       .forEach(d => d.close()));
+    await epoch(p, 'e1942');
+    const onThat = await p.evaluate(() => {
+      const b = document.querySelector('#epoch-seg button.on');
+      return b ? b.getAttribute('data-epoch') : '';
+    });
+    check('the December 1942 sheet is the one showing',
+          onThat === 'e1942', onThat);
     await adminOn(p);
     const ic42 = await p.evaluate(BLOCKS, 'indochina');
     check('the 1942 federation is the same divisions', ic42.length === 88,

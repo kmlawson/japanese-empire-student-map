@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '354';
+  var JEM_VERSION = '355';
 
 
 
@@ -2376,7 +2376,11 @@
 
   function trainZone() { return trainBoxAt(true); }
 
-  var btnStationsSys = '';
+
+
+
+
+  var btnStationsSyss = [];
 
 
   var btnStaEl = null, btnTrnEl = null, btnSugarEl = null, btnRailEl = null;
@@ -2437,9 +2441,7 @@
 
       var railOn = railSys
         ? !!state[STATION_SYS[railSys].rail]
-        : Object.keys(STATION_SYS).some(function (k) {
-            return !!state[STATION_SYS[k].rail];
-          });
+        : railSwitches().some(function (k) { return !!state[k]; });
       var rp = railOn ? 'true' : 'false';
 
 
@@ -2479,16 +2481,47 @@
     }
     if (!btnStaEl && !btnTrnEl) return;
     var sys = railUnderView();
-    btnStationsSys = sys;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    var syss = sys ? [sys] : [];
+    var mounted = (trainApi && trainApi.mounted()) ? trainApi.system() : '';
+    if (mounted && STATION_SYS[mounted] && syss.indexOf(mounted) < 0
+        && connReaches(sys)) {
+      syss.push(mounted);
+    }
+    btnStationsSyss = syss;
     var bs = btnStaEl;
     if (bs) {
-      var on = !!(sys && state[STATION_SYS[sys].on]);
-      var want = !sys;
+
+
+
+      var on = syss.length > 0 && syss.every(function (k) {
+        return !!state[STATION_SYS[k].on];
+      });
+      var want = !syss.length;
       if (bs.hidden !== want) bs.hidden = want;
       var pressed = on ? 'true' : 'false';
-      if (bs.getAttribute('aria-pressed') !== pressed) {
+
+      var whose = syss.length > 1
+        ? syss.map(function (k) { return RAIL_LABEL[k] || k; }).join(' and ')
+          + '\u2019s railway stations'
+        : ' railway stations';
+      var label = (on ? 'Hide' : 'Show')
+        + (syss.length > 1 ? ' ' + whose : whose);
+      if (bs.getAttribute('aria-pressed') !== pressed || bs.title !== label) {
         bs.setAttribute('aria-pressed', pressed);
-        var label = (on ? 'Hide' : 'Show') + ' railway stations';
         bs.title = label;
         bs.setAttribute('aria-label', label);
       }
@@ -2540,10 +2573,26 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+  var RAIL_ONLY = ['burmaRail'];
+
+  function railSwitches() {
+    return Object.keys(STATION_SYS).map(function (k) {
+      return STATION_SYS[k].rail;
+    }).concat(RAIL_ONLY);
+  }
+
   function railsAllOff() {
-    return !Object.keys(STATION_SYS).some(function (k) {
-      return !!state[STATION_SYS[k].rail];
-    });
+    return !railSwitches().some(function (k) { return !!state[k]; });
   }
 
   function dropToolsWithRails() {
@@ -2993,6 +3042,21 @@
   function trainHost() {
     return {
       svgEl: svgEl,
+
+
+
+
+
+
+
+
+
+      home: function (sys) { return RAIL_LABEL[sys] || ''; },
+
+
+
+
+      connChanged: function () { applyState(); saveState(); },
       project: function (lon, lat) { return project(lon, lat); },
       scale: function () { return view.w / containerSize().w; },
       stage: function () { return $('#stage') || document.body; },
@@ -3647,9 +3711,39 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function connReaches(sys) {
+    var cfg = STATION_SYS[sys];
+    if (!cfg || !cfg.ground) return false;
+    if (!trainApi || !trainApi.mounted() || !trainApi.connOn
+        || !trainApi.connOn()) return false;
+    if (trainApi.system() === sys) return false;
+    var b = trainApi.bounds ? trainApi.bounds() : null;
+    if (!b) return false;
+    var g = cfg.ground;
+    return !(b.e < g[0] || b.w > g[2] || b.n < g[1] || b.s > g[3]);
+  }
+
   function stationsOn(sys) {
     var cfg = STATION_SYS[sys];
-    return !!(cfg && state[cfg.rail] && state[cfg.on]);
+    if (!cfg || !state[cfg.on]) return false;
+    return !!state[cfg.rail] || connReaches(sys);
   }
 
 
@@ -3661,9 +3755,14 @@
   function syncStationLayers() {
     Object.keys(STATION_SYS).forEach(function (sys) {
       var cfg = STATION_SYS[sys];
+
+
+
+
+      var line = !!state[cfg.rail] || connReaches(sys);
       var row = $('#' + cfg.row);
-      if (row) row.hidden = !state[cfg.rail];
-      if (!state[cfg.rail] && state[cfg.on]) {
+      if (row) row.hidden = !line;
+      if (!line && state[cfg.on]) {
         state[cfg.on] = false;
         var box = $('#' + cfg.box);
         if (box) box.checked = false;
@@ -18272,19 +18371,27 @@
     var btnSta = $('#btn-stations');
     if (btnSta) {
       btnSta.addEventListener('click', function () {
-        var sys = btnStationsSys;
-        if (!sys) return;
-        var key = STATION_SYS[sys].on;
-        state[key] = !state[key];
-        var box = $('#' + STATION_SYS[sys].box);
-        if (box) box.checked = state[key];
+        var syss = btnStationsSyss;
+        if (!syss.length) return;
+
+
+
+        var want = !syss.every(function (k) {
+          return !!state[STATION_SYS[k].on];
+        });
+        syss.forEach(function (sys) {
+          var key = STATION_SYS[sys].on;
+          state[key] = want;
+          var box = $('#' + STATION_SYS[sys].box);
+          if (box) box.checked = want;
 
 
 
 
-        if (trainBorrowed && trainBorrowed.on === key) {
-          trainBorrowed.hadOn = state[key];
-        }
+          if (trainBorrowed && trainBorrowed.on === key) {
+            trainBorrowed.hadOn = want;
+          }
+        });
         applyState();
       });
     }
@@ -18373,10 +18480,8 @@
 
 
 
-        var keys = Object.keys(STATION_SYS).map(function (k) {
-          return STATION_SYS[k].rail;
-        });
-        var boxOf = {};
+        var keys = railSwitches();
+        var boxOf = { burmaRail: '#opt-burma-rail' };
         Object.keys(STATION_SYS).forEach(function (k) {
           boxOf[STATION_SYS[k].rail] = '#opt-' + k + '-rail';
         });

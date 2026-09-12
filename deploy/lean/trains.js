@@ -98,6 +98,9 @@ window.JMAP_TRAINS = function (host) {
 
 
   var connOn = false;
+
+
+  var moreWords = null;
   try { connOn = localStorage.getItem('jem-train-conn') === '1'; } catch (e) {}
   var playing = false;
   var raf = 0;
@@ -855,10 +858,29 @@ window.JMAP_TRAINS = function (host) {
     return !!(l && l.x);
   }
 
+
+
+
+
+  function foldConn(shut) {
+    if (!els.legend || !els.more || !moreWords) return;
+    els.legend.classList.toggle('conn-folded', !!shut);
+    els.more.textContent = shut ? moreWords.open : moreWords.shut;
+    els.more.title = shut ? moreWords.openTitle : moreWords.shutTitle;
+    els.more.setAttribute('aria-expanded', shut ? 'false' : 'true');
+  }
+
   function applyConn() {
     if (lineLayer) lineLayer.classList.toggle('conn-off', !connOn);
     if (bar) bar.classList.toggle('conn-off', !connOn);
     if (els.conn) els.conn.checked = connOn;
+
+
+
+
+
+
+    if (!connOn) foldConn(true);
   }
 
   function setConn(on) {
@@ -866,6 +888,14 @@ window.JMAP_TRAINS = function (host) {
     try { localStorage.setItem('jem-train-conn', connOn ? '1' : '0'); } catch (e) {}
     applyConn();
     render();
+
+
+
+
+
+
+
+    if (host.connChanged) host.connChanged(connOn);
   }
 
   function render() {
@@ -1414,6 +1444,7 @@ window.JMAP_TRAINS = function (host) {
     els.count = el('span', 'train-count', '');
 
     var legend = el('div', 'train-legend');
+    els.legend = legend;
     data.lines.forEach(function (l) {
       var chip = el('span', 'train-chip');
       var sw = el('span', 'sw');
@@ -1454,17 +1485,28 @@ window.JMAP_TRAINS = function (host) {
 
     var connChips = data.lines.filter(function (l) { return l.x; }).length;
     if (connChips) {
-      legend.classList.add('conn-folded');
-      els.more = el('button', 'train-more', 'Show ' + connChips + ' more');
+
+
+
+
+
+      var homeName = host.home ? host.home(cfg && cfg.sys) : '';
+      moreWords = {
+        open: 'More lines',
+
+
+
+        shut: homeName ? homeName + '\u2019s lines only' : 'This network only',
+        openTitle: 'The ' + connChips + ' lines beyond this network, by name',
+        shutTitle: 'Leave only the lines of this network in the list',
+      };
+      els.more = el('button', 'train-more', moreWords.open);
       els.more.type = 'button';
-      els.more.title = 'The lines beyond this network, by name';
-      els.more.setAttribute('aria-expanded', 'false');
       els.more.addEventListener('click', function () {
-        var open = legend.classList.toggle('conn-folded') === false;
-        els.more.textContent = open ? 'Show fewer' : 'Show ' + connChips + ' more';
-        els.more.setAttribute('aria-expanded', open ? 'true' : 'false');
+        foldConn(!legend.classList.contains('conn-folded'));
       });
       legend.appendChild(els.more);
+      foldConn(true);
     }
 
 
@@ -1752,6 +1794,13 @@ window.JMAP_TRAINS = function (host) {
 
     mounted: function () { return !!cfg; },
     system: function () { return cfg ? cfg.sys : ''; },
+
+
+
+
+
+
+    connOn: function () { return !!(cfg && connOn); },
     playing: function () { return playing; },
 
 
