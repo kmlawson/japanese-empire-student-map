@@ -120,10 +120,16 @@ const shutDialogs=p=>p.evaluate(()=>{
       JSON.stringify(sb));
     check('the Layers panel agrees',
       await p.evaluate(()=>document.querySelector('#opt-tw-stations').checked), '');
-    // and it goes when the reader leaves the island
+    /* And it goes when the railway is no longer drawn. Zooming out used to be
+       enough on its own, the fade taking the lines away at a wide view; the
+       fade is behind `Show active railway lines only at closer zoom` now and
+       off unless the reader asks, so the zoom option is ticked here to put
+       the old behaviour back. What is being checked is unchanged: no lines
+       drawn, no station switch. */
     await p.evaluate(()=>{
+      const x=document.getElementById('opt-rail-zoom'); if(x&&!x.checked)x.click();
       for(let i=0;i<10;i++) document.querySelector('#zoom-out').click();});
-    await sleep(800);
+    await sleep(1000);
     check('and it goes when the railway is no longer drawn', (await btn()).hidden, '');
     check('still nothing fetched by any of that', fetched.length===0, fetched.join());
 
@@ -874,7 +880,17 @@ const shutDialogs=p=>p.evaluate(()=>{
       check('and the tools come up ('+how+')',
         up.box===true && up.bar==='flex', JSON.stringify(up));
       if (how==='the button') {
+        /* **Through the menu the button now opens.** The press used to toggle
+           every network at once; it offers the list instead, so "the button"
+           means the button and then the row in it. What is being guarded —
+           that the last railway going takes the tools with it — is the same
+           either way. */
         await pg.evaluate(()=>document.getElementById('btn-rail').click());
+        await sleep(700);
+        await pg.evaluate(()=>{
+          document.querySelectorAll('#rail-menu input[data-rail-sys]')
+            .forEach(i=>{ if(i.checked) i.click(); });
+        });
       } else {
         await pg.evaluate(()=>{
           const t=document.getElementById('opt-tw-rail'); if(t.checked)t.click();

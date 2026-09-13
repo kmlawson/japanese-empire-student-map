@@ -4165,16 +4165,28 @@ dialog h3 {
    Fixed rather than absolute: the bar it hangs from scrolls on a narrow
    screen, and a menu that stays behind while its button moves is worse than
    no menu. map.js positions it against the button on every open. */
-/* `#rail-menu, #theme-menu` is in every one of these lists. It was given the class
-   `.pick-menu` and nothing else, on the assumption that the class carried
-   the box — it does not; every rule here is by id. So the menu had no
-   `position: fixed`, no background and no `z-index`: it laid itself out in
-   the document flow at the top of the page and the map painted over it,
-   which is how it was reported. A class used by two menus and styled by
-   neither is the trap; the ids are what the rules are keyed on, so the ids
-   are what have to be listed. */
+/* **THE THREE POP-UP MENUS, AND THE COMMA THAT BROKE THEM.**
+
+   These rules were written as `#rail-menu, #theme-menu[hidden]`, and so on
+   down the block — which is two selectors, `#rail-menu` on its own and
+   `#theme-menu[hidden]`. So `#rail-menu` picked up whatever the rule was for
+   and `#theme-menu` got none of it. Three visible faults came out of that one
+   punctuation mark:
+
+     * `display: none` applied to `#rail-menu` **unconditionally**, and then
+       the `label` rule below re-set it to `flex` — so the railway menu
+       ignored its `hidden` attribute entirely and could not be shut. Reported
+       as "I can't make the railway menu disappear".
+     * the theme menu got no row layout at all, so its name and its source ran
+       together as one paragraph. Reported with a picture.
+     * and `#rail-menu` was styled as though it were a `label` and a
+       `.menu-head` and a `.menu-reset`, all at once.
+
+   Every id is written out in full in every list now. It is longer and it is
+   the only form that says what it means. */
 #label-menu,
-#rail-menu, #theme-menu,
+#rail-menu,
+#theme-menu,
 #air-menu {
   position: fixed;
   z-index: 60;
@@ -4188,9 +4200,14 @@ dialog h3 {
   font-size: 13px;
   color: var(--ink);
 }
-#label-menu[hidden], #air-menu[hidden], #rail-menu, #theme-menu[hidden] { display: none; }
+#label-menu[hidden],
+#air-menu[hidden],
+#rail-menu[hidden],
+#theme-menu[hidden] { display: none; }
+
 #label-menu .menu-head,
-#rail-menu, #theme-menu .menu-head,
+#rail-menu .menu-head,
+#theme-menu .menu-head,
 #air-menu .menu-head {
   padding: 2px 10px 5px;
   color: var(--muted);
@@ -4214,7 +4231,8 @@ dialog h3 {
   border-top: 0;
 }
 #label-menu label,
-#rail-menu, #theme-menu label,
+#rail-menu label,
+#theme-menu label,
 #air-menu label {
   display: flex;
   gap: 8px;
@@ -4224,33 +4242,38 @@ dialog h3 {
   cursor: pointer;
 }
 #label-menu label:hover,
-#rail-menu, #theme-menu label:hover,
+#rail-menu label:hover,
+#theme-menu label:hover,
 #air-menu label:hover { background: var(--hover-fill); }
 #label-menu input,
-#rail-menu, #theme-menu input,
+#rail-menu input,
+#theme-menu input,
 #air-menu input { margin-top: 2px; flex: none; }
 
-/* The five railways behind the railway button: the same box as the airline
-   menu, with two lines to a row — the network and the year of *its* network on
-   this sheet, then the source in a few words under it.
-   **After the `label` rule above, not before it.** Those menus lay a row out
-   with flex; this one needs a block so the second line falls under the first,
-   and written earlier in the file the flex won and the source sat beside the
-   name instead of below it. */
-#rail-menu, #theme-menu label.row { display: block; }
-#rail-menu, #theme-menu .rail-menu-name { font-weight: 600; }
-#rail-menu, #theme-menu .rail-menu-src {
-  display: block;
-  padding-left: 1.55rem;
-  font-size: 11.5px;
-  color: var(--muted);
-}
+/* **One design for all three.** The railway menu had a two-line row of its
+   own — the name in bold, the source indented under it — which made the same
+   list of layers look like a different kind of control depending on which
+   button opened it. They are the same thing: a list of sheets, each with
+   where it came from. The airline menu's row is the one they all use, and the
+   source goes in brackets after the name, which is what that menu has always
+   done. */
+/* The name and its citation are one block of text in the row, so they flow
+   and wrap as one sentence; the checkbox is the row's only other child. Three
+   flex children made three columns — a narrow stack of the name beside a
+   narrow stack of the source, which is how it was reported. */
+#rail-menu .menu-text,
+#theme-menu .menu-text { flex: 1 1 auto; min-width: 0; }
+#rail-menu .src,
+#theme-menu .src { color: var(--muted); }
 
 /* Twenty-two sheets is a long menu, so it scrolls rather than running off the
    screen, and the way back sits at the foot of it. */
-#air-menu, #rail-menu, #theme-menu { max-height: min(70vh, 30rem); overflow-y: auto; }
+#air-menu,
+#rail-menu,
+#theme-menu { max-height: min(70vh, 30rem); overflow-y: auto; }
 #air-menu .menu-reset,
-#rail-menu, #theme-menu .menu-reset {
+#rail-menu .menu-reset,
+#theme-menu .menu-reset {
   display: block;
   width: calc(100% - 12px);
   margin: 6px 6px 2px;

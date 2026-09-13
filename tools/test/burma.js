@@ -216,12 +216,20 @@ const GROUPS = {
         await sleep(900);
         const opened = await p.evaluate(() => {
           const m = document.getElementById('theme-menu');
+          const rows = m ? [...m.querySelectorAll('label.row')] : [];
           return { shown: !!m && !m.hidden,
-                   rows: m ? [...m.querySelectorAll('label.row')].length : 0,
+                   rows: rows.map(e => e.textContent.replace(/\s+/g, ' ').trim().slice(0, 34)),
+                   button: !!(m && m.querySelector('.menu-reset')),
                    drawn: !!document.getElementById('thematic') };
         });
-        check('    the press opens the menu, with one theme in it',
-              opened.shown && opened.rows === 1, JSON.stringify(opened));
+        /* One theme and the way out, which is a row like any other rather than
+           a button under the list: turning the layer off is the same kind of
+           act as turning one on, and these are radios. */
+        check('    the press opens the menu, with the one theme and Off in it',
+              opened.shown && opened.rows.length === 2
+              && /1931 Administration/.test(opened.rows[0])
+              && opened.rows[1] === 'Off' && !opened.button,
+              JSON.stringify(opened));
         check('    and draws nothing until something is chosen',
               !opened.drawn, String(opened.drawn));
         await p.evaluate(() => {

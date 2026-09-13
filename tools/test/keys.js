@@ -50,12 +50,30 @@ const open = async (b, url) => {
     [s.city, s.admin, s.events, s.topo, s.other, s.rail].join(' ')
       === 'false false false false false false',
     [s.city, s.admin, s.events, s.topo, s.other, s.rail].join(' '));
-  for (const k of ['c', 'a', 'e', 't', 'o', 'r']) { await p.keyboard.press(k); await sleep(650); }
+  for (const k of ['c', 'a', 'e', 't', 'o']) { await p.keyboard.press(k); await sleep(650); }
   s = await st(p);
-  check('c a e t o each press their own switch, and r the railway',
-    [s.city, s.admin, s.events, s.topo, s.other, s.rail].join(' ')
-      === 'true true true true true true',
-    [s.city, s.admin, s.events, s.topo, s.other, s.rail].join(' '));
+  check('c a e t o each press their own switch',
+    [s.city, s.admin, s.events, s.topo, s.other].join(' ')
+      === 'true true true true true',
+    [s.city, s.admin, s.events, s.topo, s.other].join(' '));
+  /* **`r` opens the railway menu; it no longer switches anything on.** The
+     key presses the button, which is the contract — the shortcut and the
+     control are the same thing — and the button stopped turning on all five
+     networks at once, because that handed a reader who wanted Korea's railway
+     Japan's 5,931 paths too. So what `r` does now is offer the list. */
+  await p.keyboard.press('r'); await sleep(700);
+  const railMenu = await p.evaluate(() => {
+    const m = document.getElementById('rail-menu');
+    return { shown: !!m && !m.hidden && getComputedStyle(m).display !== 'none',
+             rows: m ? m.querySelectorAll('label.row').length : 0,
+             drawn: ['tw-rail', 'kr-rail', 'kf-rail', 'burma-rail', 'jp-rail']
+               .filter(id => { const g = document.getElementById(id);
+                               return g && getComputedStyle(g).display !== 'none'; }) };
+  });
+  check('r offers the railways rather than drawing them',
+    railMenu.shown && railMenu.rows === 5 && railMenu.drawn.length === 0,
+    JSON.stringify(railMenu));
+  await p.keyboard.press('Escape'); await sleep(400);
   await p.keyboard.press('c'); await sleep(650);
   check('and again turns it off', (await st(p)).city === 'false');
 
@@ -98,30 +116,40 @@ const open = async (b, url) => {
      has not changed — they are shown for a moment and let go, so the press is
      seen to have done something. */
   console.log('\n— the railway key at the whole map —');
+  /* **The flash is gone, and so is what it was for.** Out here the fade used
+     to take the lines away, so a press that switched them on changed nothing
+     a reader could see, and they were shown at full strength for a moment to
+     say the press had landed. Two things removed the need for it. The key no
+     longer switches anything on — it offers the list — and the fade itself is
+     off unless the reader asks for it in the Layers pane, so a railway
+     switched on at the whole-empire view is simply drawn. */
   p = await open(b, HOST+'/index.html?layers=0');   // the whole map
   s = await st(p);
   check('the railway is offered at the whole map too', s.railShown === true);
   await p.keyboard.press('r'); await sleep(700);
-  check('and r switches it on there', (await st(p)).rail === 'true');
-  /* **A press that changes nothing on the screen reads as a press that did not
-     work.** Out here the fade has taken the lines away, so switching them on
-     shows them at full strength for a moment and then lets them go. Sampled
-     rather than asserted at one instant: the point is that it was up and then
-     came down. */
-  const flash = await p.evaluate(async () => {
-    const out = [];
-    const rails = () => [...document.querySelectorAll('svg g[id]')]
-      .filter(e => /rail/i.test(e.id));
-    for (let i = 0; i < 24; i++) {
-      await new Promise(r => setTimeout(r, 90));
-      out.push(Math.max.apply(null, rails().map(e => +getComputedStyle(e).opacity).concat([0])));
-    }
-    return out;
+  const wide = await p.evaluate(() => {
+    const m = document.getElementById('rail-menu');
+    return { menu: !!m && !m.hidden && getComputedStyle(m).display !== 'none',
+             rows: m ? m.querySelectorAll('label.row').length : 0 };
   });
-  check('  and the lines are shown for a moment so the press is seen',
-    Math.max.apply(null, flash) > 0.9, flash.map(v => v.toFixed(2)).join(' '));
-  check('  and then let go again',
-    flash[flash.length - 1] <= 0.02, flash[flash.length - 1] + '');
+  check('and r offers them out here as well', wide.menu && wide.rows === 5,
+    JSON.stringify(wide));
+  /* And choosing one draws it at this view, which is the whole point of the
+     fade being off by default: a reader who asks for a railway sees it. */
+  await p.evaluate(() => {
+    const lab = [...document.querySelectorAll('#rail-menu label.row')]
+      .find(e => /Japan/.test(e.textContent));
+    const i = lab && lab.querySelector('input');
+    if (i) i.click();
+  });
+  await sleep(3200);
+  const drawn = await p.evaluate(() => {
+    const g = document.getElementById('jp-rail');
+    return g ? { display: getComputedStyle(g).display, opacity: +(g.style.opacity || 1) } : null;
+  });
+  check('  and the one chosen is drawn at the whole-empire view',
+    !!drawn && drawn.display !== 'none' && drawn.opacity > 0.9,
+    JSON.stringify(drawn));
   await p.close();
 
   /* ------------------------------------------ space, held, pans the map --

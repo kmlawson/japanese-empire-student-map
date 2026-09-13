@@ -22126,3 +22126,149 @@ inline style now, one number in one place, winning.
 Measured over Indochina with **Other** on: the five protectorates at 12px
 upright against Kratié's 10.5px italic, all five drawn at the wide and country
 views and four at the close one, Tonkin being off the screen there.
+
+## 183. What hiding the off-screen railways is worth, measured — and it is nothing
+
+Task 175 says *hide* the railway layers whose ground the view does not reach.
+Driven over Korea, 50 pointer moves each followed by a frame, 4× CPU throttle:
+
+| state | layout | nodes drawn |
+| --- | ---: | ---: |
+| railways off | **55 ms** | 1,329 |
+| railways on | **412 ms** | 6,764 |
+| Japan's network `display: none` | **411 ms** | 1,345 |
+| Japan's network **detached** | **166 ms** | 1,345 |
+
+**Hiding saves nothing**, which is what 175 proposes and what `railFadeOne`
+already does. The cost is in having the nodes in the document. Detaching
+recovers 245 ms of the 357 the railways add; detaching costs 7–25 ms and
+re-attaching 53–64 ms at that throttle, once per toggle.
+
+It is not node count in general: detaching the gazetteer and the air layers —
+6,278 nodes, more than Japan's railway — moves 66 ms to 52. Something about
+those 5,931 paths is expensive and `vector-effect: non-scaling-stroke` is the
+suspect, **untested**.
+
+**And entry 178 named the wrong layer.** It said the cost was Korea's 1,985
+rail paths; Korea's network is six multi-subpath paths, and what arrives when
+the button is pressed over Korea is *Japan's* 5,931 elements, because one
+press switched on every network. The count in 178 came from a selector picking
+up more than the railway. Corrected here.
+
+## 184. The railway button offers the railways instead of switching them on
+
+Which is what the measurement argues for, and the author asked for it in the
+same words: the button opens a menu, as the book beside it does.
+
+* **One press, a list, and the reader chooses.** Nothing is drawn by the press
+  itself. The menu was already there behind a long press and an alt-click,
+  where nobody would find it.
+* **The menu is the airline menu's**, not a design of its own: name, then the
+  source in brackets — the source's own title and the year of the network on
+  this sheet. `srcTitle` is a new field beside `srcShort`, the publisher
+  living in the citation, which is a hover away in `title` and in
+  sources.html. The two-line row and the "All five, or none" button are gone.
+* **The theme menu takes the same row**, its source in brackets after its name.
+* **Opening one menu closes the others.** Three menus hang off buttons a few
+  pixels apart, each up to twenty rows tall; two open at once cover each other
+  and the map. `closeOtherMenus` includes the names menu.
+* **`r` follows the button**, because the key presses it — the shortcut and
+  the control are one thing. `keys` and `jprails` both encoded the old rules
+  and are rewritten around the new ones.
+
+## 185. Three faults from one comma in the stylesheet
+
+`#rail-menu, #theme-menu[hidden]` is two selectors — `#rail-menu` on its own,
+and `#theme-menu` when hidden — and the whole menu block was written that way,
+line after line.
+
+* `display: none` applied to `#rail-menu` **unconditionally**, and the `label`
+  rule below then set it back to `flex`. So the railway menu ignored its
+  `hidden` attribute and could not be shut. **Reported as "I can't make the
+  railway menu disappear".**
+* The theme menu got no row layout at all, so its name and its source ran
+  together as a paragraph. **Reported with a picture.**
+* And `#rail-menu` was styled as though it were a `label`, a `.menu-head` and
+  a `.menu-reset` at once.
+
+Every id is written out in every list now.
+
+## 186. The railways are drawn at every zoom unless the reader asks otherwise
+
+New in the Layers pane: **Show active railway lines only at closer zoom for
+better performance.** Off by default.
+
+The fade was unconditional, and the reasoning held while one press switched on
+all five networks — a smear at the whole-empire view, and several networks in
+the document costing real time. Now that the reader chooses what is drawn, the
+fade is theirs to choose too. `railAlpha` returns 1 outright when the option is
+off, and `railFadeOne` reads `railAlpha` rather than computing the same
+fraction a second time, so the drawing and everything that asks about the
+drawing cannot disagree.
+
+Measured: one railway on at the whole-empire view is `display: inline` at
+opacity 1; tick the option and it is `display: none` at 0.
+
+## 187. The airline menu said things the map was not doing
+
+Opening it with the air routes switched off showed a column of ticks — most of
+the twenty-two, because `airSetOn` answers which sheets *would* be drawn if the
+layer were on. Ticked means drawn now. Nothing is lost: the row's own handler
+switches the layer on as soon as one is ticked. Measured with the routes off:
+22 rows, 0 ticked.
+
+## 188. A source list should look like a document
+
+`sources.html` inherited the map's parchment — right behind a historical map,
+wrong behind a list of citations, where it reads as a different site. White
+ground, dark grey text, blue links, neutral greys in the tables and the code
+spans. The map's accent red stays where it means something, on the map.
+
+## 189. The menu rows were three flex columns, and Off is one of the choices
+
+Reported twice with a picture and still wrong after the first go. The row was
+the control, a span for the name and a second span for the source — **three
+children of a flex row, which lays them out as three columns**, so the name
+wrapped into a narrow stack on the left and the citation into another beside
+it. The airline menu never had the fault because it appends a single text
+node. Name and source are one `.menu-text` span now, the source a `.src`
+inside it, so the row flows and wraps as one sentence. Both menus.
+
+And "No thematic layer" is gone. It sat below the list as a separate button,
+which made turning the layer off a different kind of act from turning one on.
+It is the same act: these are radios and *off* is one of the things they can
+say, so it is a row like the others.
+
+## 190. The unthinned sources, published
+
+`deploy/gis/` holds what the map draws, written back out of the built geometry
+— true to what a reader sees, and thinned to what a browser can pan.
+`deploy/gis/source/` is the other thing: the files the build reads, exactly as
+they came. **21 files, 35 MB**, written by `tools/build_gis_sources.py` and
+listed in sources.md under *Download the geometry*.
+
+**Only what the build actually reads**, and the tool proves it rather than
+trusting the list: each name is checked against `tools/*.py` and a file no
+build script opens stops the build. `data/` holds working files too, and
+publishing one as a source is a claim about the map that is not true. Three
+were left out on that test — `japan-railway-lines-1930.geojson` and its
+stations, because the 1930 network is derived from the 1942 sheets by the
+years each line carries, and `karafuto-1935-lines.geojson`, which nothing
+reads.
+
+**28 MB of the 35 is Japan's two 1942 sheets.** Nothing on the map waits for
+any of this — the links are in Sources and nowhere else — but it is worth
+knowing before it goes to a metered host, so `docs/UPLOAD.md` says so.
+
+Measured on the built page: 21 links, 21 resolve.
+
+**What is not done, and why.** The author asked that the download arrows in
+the Layers pane hand over these unthinned sources. The arrows are `LAYER_GEO`,
+ten rows — the occupation readings, the base areas, Manchukuo, Mengjiang's two
+shapes, the rivers, the extent, the relief, the graticule — and **none of those
+ten has an unthinned source file**: they are traced into the map's own SVG, so
+what the arrow serialises is already the whole of what exists. The unthinned
+sources belong to the administrative coverages and the railways, which are
+reached by right-clicking a shape rather than from the pane. Repointing those
+is a real change and a different one from what was asked for; it is waiting on
+the author.

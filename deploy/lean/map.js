@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '364';
+  var JEM_VERSION = '365';
 
 
 
@@ -243,6 +243,9 @@
 
 
     twSugar: false,
+
+
+    railZoom: false,
 
 
 
@@ -2248,6 +2251,14 @@
 
 
   function railAlpha() {
+
+
+
+
+
+
+
+    if (!state.railZoom) return 1;
     var full = mapW / RAIL_FULL_W, gone = mapW / RAIL_GONE_W;
     return view.w <= full ? 1
          : view.w >= gone ? 0
@@ -2728,10 +2739,9 @@
       group.style.opacity = '0';
       return;
     }
-    var full = mapW / RAIL_FULL_W, gone = mapW / RAIL_GONE_W;
-    var a = view.w <= full ? 1
-          : view.w >= gone ? 0
-          : (gone - view.w) / (gone - full);
+
+
+    var a = railAlpha();
     var left = railFlashEnd - Date.now();
     if (left > 0) {
       a = Math.max(a, left > RAIL_FLASH_FADE ? 1 : left / RAIL_FLASH_FADE);
@@ -2980,7 +2990,8 @@
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations'],
      ['#opt-kf-rail', 'kfRail'], ['#opt-kf-stations', 'kfStations'],
      ['#opt-burma-rail', 'burmaRail'],
-     ['#opt-jp-rail', 'jpRail'], ['#opt-jp-stations', 'jpStations']]
+     ['#opt-jp-rail', 'jpRail'], ['#opt-jp-stations', 'jpStations'],
+     ['#opt-rail-zoom', 'railZoom']]
       .forEach(function (pair) {
         var box = $(pair[0]);
         if (box) box.checked = !!state[pair[1]];
@@ -13381,6 +13392,7 @@
       label: 'Burma Railways',
       years: { e1930: '1930', e1942: 'December 1942' },
       srcShort: 'traced for this map',
+      srcTitle: 'traced for this map',
       source: 'traced for this map: 30 lines, 6,081 km, the network as it '
         + 'stood through both dates. The trace carries no line or station '
         + 'names.',
@@ -13406,6 +13418,7 @@
 
 
       srcShort: '日治時期鐵路分布圖, Academia Sinica',
+      srcTitle: '日治時期鐵路分布圖',
       source: '日治時期鐵路分布圖 (Academia Sinica), reprojected to TWD97, with '
         + 'several stretches traced from the 1944 American 1:25,000 sheet',
       url: 'https://data.depositar.io/dataset/rd15-07030',
@@ -13419,6 +13432,7 @@
 
       years: { e1930: '1930', e1942: 'December 1942' },
       srcShort: 'N05 \u9244\u9053\u6642\u7cfb\u5217\u30c7\u30fc\u30bf, \u56fd\u571f\u4ea4\u901a\u7701',
+      srcTitle: 'N05 \u9244\u9053\u6642\u7cfb\u5217\u30c7\u30fc\u30bf',
       source: 'N05 \u9244\u9053\u6642\u7cfb\u30c7\u30fc\u30bf, '
         + '\u56fd\u571f\u4ea4\u901a\u7701\u56fd\u571f\u6570\u5024\u60c5\u5831'
         + ', filtered by the year each line opened',
@@ -13432,6 +13446,7 @@
       label: 'Korea Railways',
       years: { e1930: '1930', e1942: '1942' },
       srcShort: '근대 철도 DB, 김종혁',
+      srcTitle: '근대 철도 DB',
       source: '근대 철도 DB (김종혁), filtered by the year each line opened',
       url: 'https://www.hisgeo.info/wiki/%EA%B7%BC%EB%8C%80_%EC%B2%A0%EB%8F%84_DB',
       note: 'Lines open by 1931 on the 1930 map and by 1943 on the December '
@@ -13441,6 +13456,7 @@
       label: 'Karafuto Railways',
       years: { e1930: '1935', e1942: '1935' },
       srcShort: 'traced for this map, after 樺太路線図',
+      srcTitle: 'traced for this map, after 樺太路線図',
       source: 'traced for this map from 最新樺太地圖 and the 樺太路線図 at '
         + '時刻表倉庫, checked against the 1947 U.S. Army sheets',
       url: 'https://jikokusouko.pages.dev/index.htm',
@@ -16060,7 +16076,13 @@
       var el = document.createElement('input');
       el.type = 'checkbox';
       el.setAttribute('data-air-set', set.key);
-      el.checked = airSetOn(set.key);
+
+
+
+
+
+
+      el.checked = !!state.air && airSetOn(set.key);
       el.addEventListener('change', function () {
 
 
@@ -16092,7 +16114,7 @@
 
   function syncAirMenu() {
     $$('#air-menu input[data-air-set]').forEach(function (el) {
-      el.checked = airSetOn(el.getAttribute('data-air-set'));
+      el.checked = !!state.air && airSetOn(el.getAttribute('data-air-set'));
     });
   }
 
@@ -16154,6 +16176,14 @@
     head.className = 'menu-head';
     head.textContent = 'Which railways to draw';
     m.appendChild(head);
+
+
+
+
+
+
+
+
     RAIL_SWITCH_ROWS.forEach(function (row) {
       var inf = RAIL_INFO[row.sys] || {};
       var label = document.createElement('label');
@@ -16179,59 +16209,39 @@
         scheduleUrl();
       });
       label.appendChild(el);
-      var name = document.createElement('span');
-      name.className = 'rail-menu-name';
+
+
+
+      var txt = document.createElement('span');
+      txt.className = 'menu-text';
+      txt.appendChild(document.createTextNode(
+        inf.label || RAIL_LABEL[row.sys] || row.sys));
       var yr = (inf.years && inf.years[state.epoch]) || '';
-      name.textContent = ' ' + (inf.label || RAIL_LABEL[row.sys] || row.sys)
-        + (yr ? '  \u2014  ' + yr : '');
-      label.appendChild(name);
-      if (inf.srcShort) {
+      var title = inf.srcTitle || inf.srcShort || '';
+      var paren = [title, yr].filter(Boolean).join(', ');
+      if (paren) {
         var src = document.createElement('span');
-        src.className = 'rail-menu-src';
-        src.textContent = inf.srcShort;
-        label.appendChild(src);
+        src.className = 'src';
+        src.textContent = ' (' + paren + ')';
+        txt.appendChild(src);
       }
+      label.appendChild(txt);
 
 
       if (inf.source) label.title = inf.source;
       m.appendChild(label);
     });
-
-
-    var all = document.createElement('button');
-    all.type = 'button';
-    all.className = 'plain menu-reset';
-    all.textContent = 'All five, or none';
-    all.addEventListener('click', function () {
-      var any = RAIL_SWITCH_ROWS.some(function (r) { return !!state[r.state]; });
-      RAIL_SWITCH_ROWS.forEach(function (r) {
-        state[r.state] = !any;
-        var box = $('#opt-' + r.sys + '-rail');
-        if (box) box.checked = !any;
-        if (trainBorrowed && trainBorrowed.rail === r.state) {
-          trainBorrowed.hadRail = !any;
-        }
-      });
-      dropToolsWithRails();
-      syncRailMenu();
-      applyState();
-      saveState();
-      scheduleUrl();
-    });
-    m.appendChild(all);
   }
 
   function syncRailMenu() {
     $$('#rail-menu input[data-rail-sys]').forEach(function (el) {
-      var sys = el.getAttribute('data-rail-sys');
       var row = null;
-      RAIL_SWITCH_ROWS.forEach(function (r) { if (r.sys === sys) row = r; });
+      RAIL_SWITCH_ROWS.forEach(function (r) {
+        if (r.sys === el.getAttribute('data-rail-sys')) row = r;
+      });
       if (row) el.checked = !!state[row.state];
     });
   }
-
-
-
 
   function placeRailMenu() {
     var m = $('#rail-menu'), btn = $('#btn-rail');
@@ -16276,41 +16286,53 @@
     head.className = 'menu-head';
     head.textContent = 'Thematic layers';
     m.appendChild(head);
-    ids.forEach(function (id) {
-      var rec = themeRec(id) || { en: id };
+
+
+
+
+
+
+
+
+
+    function row(id) {
+      var rec = id ? (themeRec(id) || { en: id }) : null;
       var label = document.createElement('label');
       label.className = 'row';
       var el = document.createElement('input');
       el.type = 'radio';
       el.name = 'theme-pick';
-      el.checked = themeOn() === id;
+      el.checked = id ? (themeOn() === id) : !themeOn();
       el.addEventListener('change', function () {
-        setTheme(el.checked ? id : '');
+        if (!el.checked) return;
+        setTheme(id || '');
         closeThemeMenu();
       });
       label.appendChild(el);
       var txt = document.createElement('span');
-      txt.className = 'name';
-      txt.textContent = rec.en || id;
-      label.appendChild(txt);
-      if (rec.source) {
-        var src = document.createElement('span');
-        src.className = 'src';
-        src.textContent = rec.source;
-        label.appendChild(src);
+      txt.className = 'menu-text';
+      if (!id) {
+        txt.textContent = 'Off';
+      } else {
+        txt.appendChild(document.createTextNode(rec.en || id));
+        if (rec.source) {
+          var src = document.createElement('span');
+          src.className = 'src';
+          src.textContent = ' (' + rec.source + ')';
+          txt.appendChild(src);
+        }
       }
+      label.appendChild(txt);
       m.appendChild(label);
-    });
+    }
 
-    var off = document.createElement('button');
-    off.type = 'button';
-    off.className = 'menu-all';
-    off.textContent = 'No thematic layer';
-    off.addEventListener('click', function () {
-      setTheme('');
-      closeThemeMenu();
-    });
-    m.appendChild(off);
+    ids.forEach(row);
+
+
+
+
+
+    row('');
   }
 
   function placeThemeMenu() {
@@ -16326,6 +16348,7 @@
   }
 
   function openThemeMenu(ids) {
+    closeOtherMenus('theme');
     buildThemeMenu(ids);
     var m = themeMenuNode();
     m.hidden = false;
@@ -16358,7 +16381,21 @@
     loadThemes(function () { openThemeMenu(ids); });
   }
 
+
+
+
+
+
+
+  function closeOtherMenus(keep) {
+    if (keep !== 'air' && airMenuOn) closeAirMenu();
+    if (keep !== 'rail' && railMenuOn) closeRailMenu();
+    if (keep !== 'theme' && themeMenuOn) closeThemeMenu();
+    if (keep !== 'label' && labelMenuOn) closeLabelMenu();
+  }
+
   function openRailMenu() {
+    closeOtherMenus('rail');
     buildRailMenu();
     var m = railMenuEl();
     m.hidden = false;
@@ -16374,6 +16411,7 @@
   }
 
   function openAirMenu() {
+    closeOtherMenus('air');
     buildAirMenu();
     var m = airMenuEl();
     m.hidden = false;
@@ -16389,6 +16427,7 @@
   }
 
   function openLabelMenu() {
+    closeOtherMenus('label');
     var menu = $('#label-menu');
     if (!menu) return;
     syncLabelBoxes();
@@ -19732,40 +19771,18 @@
       btnRail.addEventListener('contextmenu', function (e) { e.preventDefault(); });
       btnRail.addEventListener('click', function (e) {
         if (railPressLong) { railPressLong = false; return; }
-        if (e.altKey) {
-          if (railMenuOn) closeRailMenu(); else openRailMenu();
-          return;
-        }
-        closeRailMenu();
 
 
 
 
 
-        var keys = railSwitches();
-        var boxOf = { burmaRail: '#opt-burma-rail' };
-        Object.keys(STATION_SYS).forEach(function (k) {
-          boxOf[STATION_SYS[k].rail] = '#opt-' + k + '-rail';
-        });
-        var anyOn = keys.some(function (k) { return !!state[k]; });
-        keys.forEach(function (k) {
-          state[k] = !anyOn;
-          var box = $(boxOf[k]);
-          if (box) box.checked = state[k];
 
 
 
-          if (trainBorrowed && trainBorrowed.rail === k) {
-            trainBorrowed.hadRail = state[k];
-          }
-        });
-
-        dropToolsWithRails();
-        applyState();
 
 
-        if (!anyOn && railAlpha() <= 0.02) railFlash();
-        saveState();
+
+        if (railMenuOn) closeRailMenu(); else openRailMenu();
       });
     }
 
@@ -19780,6 +19797,19 @@
       optBacks.addEventListener('change', function () {
         state.backs = optBacks.checked;
         applyState();
+        saveState();
+      });
+    }
+
+
+
+
+    var optRailZoom = $('#opt-rail-zoom');
+    if (optRailZoom) {
+      optRailZoom.checked = !!state.railZoom;
+      optRailZoom.addEventListener('change', function () {
+        state.railZoom = optRailZoom.checked;
+        railFade();
         saveState();
       });
     }

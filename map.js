@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '364';
+  var JEM_VERSION = '365';
 
   /* Every file this one fetches, with the version on it.
 
@@ -243,6 +243,9 @@
        by default and fetched only when asked for: it is the densest layer on
        the map and it is about one industry on one island. */
     twSugar: false,
+    /* Whether the railways fade out at a wide view. Off by default: a reader
+       who has switched a railway on expects to see it. See #opt-rail-zoom. */
+    railZoom: false,
     /* **The thematic layer that is up, by id, or '' for none.**
      *
      * `themeId` and **not `theme`**, which is taken: `state.theme` is the
@@ -2248,6 +2251,14 @@
      of `railFadeOne` so the station button can ask the same question the
      drawing asks, rather than a second one that would answer differently. */
   function railAlpha() {
+    /* **The fade is the reader's to ask for now.** It used to be unconditional
+       — a network read at the whole-empire view is a smear, and several of
+       them in the document cost real time. But since the button stopped
+       switching on all five at once, what is drawn is a choice, and a reader
+       who has asked for one railway expects to see it wherever they are. So
+       the fade lives behind `Show active railway lines only at closer zoom`
+       and is off unless they ask. */
+    if (!state.railZoom) return 1;
     var full = mapW / RAIL_FULL_W, gone = mapW / RAIL_GONE_W;
     return view.w <= full ? 1
          : view.w >= gone ? 0
@@ -2728,10 +2739,9 @@
       group.style.opacity = '0';
       return;
     }
-    var full = mapW / RAIL_FULL_W, gone = mapW / RAIL_GONE_W;
-    var a = view.w <= full ? 1
-          : view.w >= gone ? 0
-          : (gone - view.w) / (gone - full);
+    // one answer, from `railAlpha`, so the drawing and everything that asks
+    // about the drawing cannot disagree
+    var a = railAlpha();
     var left = railFlashEnd - Date.now();
     if (left > 0) {
       a = Math.max(a, left > RAIL_FLASH_FADE ? 1 : left / RAIL_FLASH_FADE);
@@ -2980,7 +2990,8 @@
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations'],
      ['#opt-kf-rail', 'kfRail'], ['#opt-kf-stations', 'kfStations'],
      ['#opt-burma-rail', 'burmaRail'],
-     ['#opt-jp-rail', 'jpRail'], ['#opt-jp-stations', 'jpStations']]
+     ['#opt-jp-rail', 'jpRail'], ['#opt-jp-stations', 'jpStations'],
+     ['#opt-rail-zoom', 'railZoom']]
       .forEach(function (pair) {
         var box = $(pair[0]);
         if (box) box.checked = !!state[pair[1]];
@@ -13381,6 +13392,7 @@
       label: 'Burma Railways',
       years: { e1930: '1930', e1942: 'December 1942' },
       srcShort: 'traced for this map',
+      srcTitle: 'traced for this map',
       source: 'traced for this map: 30 lines, 6,081 km, the network as it '
         + 'stood through both dates. The trace carries no line or station '
         + 'names.',
@@ -13406,6 +13418,7 @@
          sources.html print. A menu row has one line and cannot carry a
          sentence about reprojection. */
       srcShort: '日治時期鐵路分布圖, Academia Sinica',
+      srcTitle: '日治時期鐵路分布圖',
       source: '日治時期鐵路分布圖 (Academia Sinica), reprojected to TWD97, with '
         + 'several stretches traced from the 1944 American 1:25,000 sheet',
       url: 'https://data.depositar.io/dataset/rd15-07030',
@@ -13419,6 +13432,7 @@
          is that plus what opened in between. */
       years: { e1930: '1930', e1942: 'December 1942' },
       srcShort: 'N05 \u9244\u9053\u6642\u7cfb\u5217\u30c7\u30fc\u30bf, \u56fd\u571f\u4ea4\u901a\u7701',
+      srcTitle: 'N05 \u9244\u9053\u6642\u7cfb\u5217\u30c7\u30fc\u30bf',
       source: 'N05 \u9244\u9053\u6642\u7cfb\u30c7\u30fc\u30bf, '
         + '\u56fd\u571f\u4ea4\u901a\u7701\u56fd\u571f\u6570\u5024\u60c5\u5831'
         + ', filtered by the year each line opened',
@@ -13432,6 +13446,7 @@
       label: 'Korea Railways',
       years: { e1930: '1930', e1942: '1942' },
       srcShort: '근대 철도 DB, 김종혁',
+      srcTitle: '근대 철도 DB',
       source: '근대 철도 DB (김종혁), filtered by the year each line opened',
       url: 'https://www.hisgeo.info/wiki/%EA%B7%BC%EB%8C%80_%EC%B2%A0%EB%8F%84_DB',
       note: 'Lines open by 1931 on the 1930 map and by 1943 on the December '
@@ -13441,6 +13456,7 @@
       label: 'Karafuto Railways',
       years: { e1930: '1935', e1942: '1935' },
       srcShort: 'traced for this map, after 樺太路線図',
+      srcTitle: 'traced for this map, after 樺太路線図',
       source: 'traced for this map from 最新樺太地圖 and the 樺太路線図 at '
         + '時刻表倉庫, checked against the 1947 U.S. Army sheets',
       url: 'https://jikokusouko.pages.dev/index.htm',
@@ -16060,7 +16076,13 @@
       var el = document.createElement('input');
       el.type = 'checkbox';
       el.setAttribute('data-air-set', set.key);
-      el.checked = airSetOn(set.key);
+      /* **TICKED MEANS DRAWN.** `airSetOn` answers which sheets *would* be
+         drawn if the layer were on, and with the air routes off that is most
+         of them — so opening the menu showed a column of ticks over a map
+         with no routes on it, which is the menu saying something the map does
+         not. Nothing is lost by making the tick mean "drawn": the handler
+         below switches the layer on as soon as one is ticked. */
+      el.checked = !!state.air && airSetOn(set.key);
       el.addEventListener('change', function () {
         /* Written down whichever way it goes, including back to what the date
            says: "off, and I meant it" and "off, because this is 1930" are the
@@ -16092,7 +16114,7 @@
 
   function syncAirMenu() {
     $$('#air-menu input[data-air-set]').forEach(function (el) {
-      el.checked = airSetOn(el.getAttribute('data-air-set'));
+      el.checked = !!state.air && airSetOn(el.getAttribute('data-air-set'));
     });
   }
 
@@ -16154,6 +16176,14 @@
     head.className = 'menu-head';
     head.textContent = 'Which railways to draw';
     m.appendChild(head);
+    /* **The airline menu's row, because it is the same kind of list.** This
+       had a two-line design of its own — the name in bold, the source
+       indented under it — so the same question, *which sheets shall I draw*,
+       looked like a different control depending on which button opened it.
+       Name, then the source in brackets: the source's own title and the year
+       of the network on this sheet, and nothing else. The publisher and the
+       full citation are a hover away in `title` and in sources.html, which is
+       where a citation belongs. */
     RAIL_SWITCH_ROWS.forEach(function (row) {
       var inf = RAIL_INFO[row.sys] || {};
       var label = document.createElement('label');
@@ -16179,60 +16209,40 @@
         scheduleUrl();
       });
       label.appendChild(el);
-      var name = document.createElement('span');
-      name.className = 'rail-menu-name';
+      /* One text block, not two spans: a flex row with three children lays
+         them out as three columns, which put the name in a narrow stack with
+         the citation beside it. See `buildThemeMenu`. */
+      var txt = document.createElement('span');
+      txt.className = 'menu-text';
+      txt.appendChild(document.createTextNode(
+        inf.label || RAIL_LABEL[row.sys] || row.sys));
       var yr = (inf.years && inf.years[state.epoch]) || '';
-      name.textContent = ' ' + (inf.label || RAIL_LABEL[row.sys] || row.sys)
-        + (yr ? '  \u2014  ' + yr : '');
-      label.appendChild(name);
-      if (inf.srcShort) {
+      var title = inf.srcTitle || inf.srcShort || '';
+      var paren = [title, yr].filter(Boolean).join(', ');
+      if (paren) {
         var src = document.createElement('span');
-        src.className = 'rail-menu-src';
-        src.textContent = inf.srcShort;
-        label.appendChild(src);
+        src.className = 'src';
+        src.textContent = ' (' + paren + ')';
+        txt.appendChild(src);
       }
+      label.appendChild(txt);
       /* And the full citation where a reader can reach it, which is what the
          title attribute is for on a row this small. */
       if (inf.source) label.title = inf.source;
       m.appendChild(label);
     });
-    /* Both ways at once, because "all of them" and "none of them" are the two
-       things a reader most often wants from a list of five. */
-    var all = document.createElement('button');
-    all.type = 'button';
-    all.className = 'plain menu-reset';
-    all.textContent = 'All five, or none';
-    all.addEventListener('click', function () {
-      var any = RAIL_SWITCH_ROWS.some(function (r) { return !!state[r.state]; });
-      RAIL_SWITCH_ROWS.forEach(function (r) {
-        state[r.state] = !any;
-        var box = $('#opt-' + r.sys + '-rail');
-        if (box) box.checked = !any;
-        if (trainBorrowed && trainBorrowed.rail === r.state) {
-          trainBorrowed.hadRail = !any;
-        }
-      });
-      dropToolsWithRails();
-      syncRailMenu();
-      applyState();
-      saveState();
-      scheduleUrl();
-    });
-    m.appendChild(all);
   }
 
   function syncRailMenu() {
     $$('#rail-menu input[data-rail-sys]').forEach(function (el) {
-      var sys = el.getAttribute('data-rail-sys');
       var row = null;
-      RAIL_SWITCH_ROWS.forEach(function (r) { if (r.sys === sys) row = r; });
+      RAIL_SWITCH_ROWS.forEach(function (r) {
+        if (r.sys === el.getAttribute('data-rail-sys')) row = r;
+      });
       if (row) el.checked = !!state[row.state];
     });
   }
 
-  /* Beside the button, like the air menu and for the same reason: the railway
-     button sits at the right-hand edge of the map, so the menu hangs off its
-     left rather than dropping below it. */
   function placeRailMenu() {
     var m = $('#rail-menu'), btn = $('#btn-rail');
     if (!m || !btn) return;
@@ -16276,41 +16286,53 @@
     head.className = 'menu-head';
     head.textContent = 'Thematic layers';
     m.appendChild(head);
-    ids.forEach(function (id) {
-      var rec = themeRec(id) || { en: id };
+
+    /* **THE ROW IS A CHECKBOX AND ONE BLOCK OF TEXT.**
+       It was the checkbox, a span for the name and a second span for the
+       source — three children of a flex row, which lays them out as three
+       columns. So the name wrapped into a narrow stack on the left and the
+       citation into another beside it, which is how it was reported, twice.
+       The airline menu never had the fault because it appends a single text
+       node. Name and source go in one span here, and the source is a `.src`
+       inside it, so it flows as one sentence and wraps as one. */
+    function row(id) {
+      var rec = id ? (themeRec(id) || { en: id }) : null;
       var label = document.createElement('label');
       label.className = 'row';
       var el = document.createElement('input');
       el.type = 'radio';
       el.name = 'theme-pick';
-      el.checked = themeOn() === id;
+      el.checked = id ? (themeOn() === id) : !themeOn();
       el.addEventListener('change', function () {
-        setTheme(el.checked ? id : '');
+        if (!el.checked) return;
+        setTheme(id || '');
         closeThemeMenu();
       });
       label.appendChild(el);
       var txt = document.createElement('span');
-      txt.className = 'name';
-      txt.textContent = rec.en || id;
-      label.appendChild(txt);
-      if (rec.source) {
-        var src = document.createElement('span');
-        src.className = 'src';
-        src.textContent = rec.source;
-        label.appendChild(src);
+      txt.className = 'menu-text';
+      if (!id) {
+        txt.textContent = 'Off';
+      } else {
+        txt.appendChild(document.createTextNode(rec.en || id));
+        if (rec.source) {
+          var src = document.createElement('span');
+          src.className = 'src';
+          src.textContent = ' (' + rec.source + ')';
+          txt.appendChild(src);
+        }
       }
+      label.appendChild(txt);
       m.appendChild(label);
-    });
-    /* And a way out that does not require finding the same radio again. */
-    var off = document.createElement('button');
-    off.type = 'button';
-    off.className = 'menu-all';
-    off.textContent = 'No thematic layer';
-    off.addEventListener('click', function () {
-      setTheme('');
-      closeThemeMenu();
-    });
-    m.appendChild(off);
+    }
+
+    ids.forEach(row);
+    /* **And a way out that is one of the choices, not a button under them.**
+       "No thematic layer" sat below the list as a separate control, which
+       made turning the layer off a different kind of act from turning one on.
+       It is the same act: these are radios, and *off* is one of the things
+       they can say. */
+    row('');
   }
 
   function placeThemeMenu() {
@@ -16326,6 +16348,7 @@
   }
 
   function openThemeMenu(ids) {
+    closeOtherMenus('theme');
     buildThemeMenu(ids);
     var m = themeMenuNode();
     m.hidden = false;
@@ -16358,7 +16381,21 @@
     loadThemes(function () { openThemeMenu(ids); });
   }
 
+  /* **ONE MENU AT A TIME.** These three hang off buttons a few pixels apart
+     and each is up to twenty rows tall, so two of them open at once cover
+     each other and the map behind them. Opening one shuts the others. The
+     names menu is in the list too: it belongs to a button in the bar rather
+     than beside the map, but it is the same kind of thing and there is no
+     reading of the map that wants both. */
+  function closeOtherMenus(keep) {
+    if (keep !== 'air' && airMenuOn) closeAirMenu();
+    if (keep !== 'rail' && railMenuOn) closeRailMenu();
+    if (keep !== 'theme' && themeMenuOn) closeThemeMenu();
+    if (keep !== 'label' && labelMenuOn) closeLabelMenu();
+  }
+
   function openRailMenu() {
+    closeOtherMenus('rail');
     buildRailMenu();
     var m = railMenuEl();
     m.hidden = false;
@@ -16374,6 +16411,7 @@
   }
 
   function openAirMenu() {
+    closeOtherMenus('air');
     buildAirMenu();
     var m = airMenuEl();
     m.hidden = false;
@@ -16389,6 +16427,7 @@
   }
 
   function openLabelMenu() {
+    closeOtherMenus('label');
     var menu = $('#label-menu');
     if (!menu) return;
     syncLabelBoxes();
@@ -19732,40 +19771,18 @@
       btnRail.addEventListener('contextmenu', function (e) { e.preventDefault(); });
       btnRail.addEventListener('click', function (e) {
         if (railPressLong) { railPressLong = false; return; }
-        if (e.altKey) {
-          if (railMenuOn) closeRailMenu(); else openRailMenu();
-          return;
-        }
-        closeRailMenu();
-        /* **One press, every network.** The button used to switch on whichever
-           railway the reader happened to be over, so a reader in Korea turned
-           on Korea's and found Taiwan's still missing when they went to look
-           at it — and there is no reason a reader who has asked for railways
-           wants them in one country only. Off if any is on, on if none is. */
-        var keys = railSwitches();
-        var boxOf = { burmaRail: '#opt-burma-rail' };
-        Object.keys(STATION_SYS).forEach(function (k) {
-          boxOf[STATION_SYS[k].rail] = '#opt-' + k + '-rail';
-        });
-        var anyOn = keys.some(function (k) { return !!state[k]; });
-        keys.forEach(function (k) {
-          state[k] = !anyOn;
-          var box = $(boxOf[k]);
-          if (box) box.checked = state[k];
-          /* While the train tools are up the railway is borrowed, and the
-             reader turning it off here is a decision of their own — the same
-             rule the station button follows. */
-          if (trainBorrowed && trainBorrowed.rail === k) {
-            trainBorrowed.hadRail = state[k];
-          }
-        });
-        // the last railway off takes the tools with it
-        dropToolsWithRails();
-        applyState();
-        /* Switched on where the fade has taken the lines away: show them for a
-           moment so the press is seen to have done something. */
-        if (!anyOn && railAlpha() <= 0.02) railFlash();
-        saveState();
+        /* **THE PRESS OPENS THE MENU; IT SWITCHES NOTHING ON BY ITSELF.**
+           It used to turn on every network at once — off if any was on, on if
+           none was — which was defensible while the alternative was
+           "whichever country you happen to be over". But it handed a reader
+           who wanted Korea's railway Japan's 5,931 paths as well, and that is
+           not free: measured over Korea, having them in the document takes
+           the hover's layout from 55 ms to 412 ms across fifty moves. The
+           menu was already there, behind a long press and an alt-click, where
+           nobody would find it.
+           So the button behaves like the book beside it: one press, a list of
+           what there is, and the reader chooses. */
+        if (railMenuOn) closeRailMenu(); else openRailMenu();
       });
     }
 
@@ -19780,6 +19797,19 @@
       optBacks.addEventListener('change', function () {
         state.backs = optBacks.checked;
         applyState();
+        saveState();
+      });
+    }
+
+    /* Whether the railways fade out at a wide view. The drawing reads
+       `railAlpha`, which reads this, so the switch has only to set it and ask
+       for a redraw. */
+    var optRailZoom = $('#opt-rail-zoom');
+    if (optRailZoom) {
+      optRailZoom.checked = !!state.railZoom;
+      optRailZoom.addEventListener('change', function () {
+        state.railZoom = optRailZoom.checked;
+        railFade();
         saveState();
       });
     }

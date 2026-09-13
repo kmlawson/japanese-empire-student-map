@@ -47,7 +47,21 @@ const st = p => p.evaluate(() => {
   await p.close();
 
   p = await open(b, HOST+'/index.html?layers=' + RAIL);
-  check('at the whole map it is not', (await st(p)).offered === false);
+  /* **Offered at the whole map too, now that the lines are drawn there.** The
+     sugar switch is offered where its railway is drawn, and the railway used
+     to be faded away at this width — so this read "not offered out here". The
+     fade is off unless the reader asks for it, so the railway is drawn and
+     the branch lines that hang off it are on offer with it. Ticking the zoom
+     option puts both back the old way, which is the check below. */
+  check('at the whole map it is offered too, the lines being drawn there',
+    (await st(p)).offered === true);
+  await p.evaluate(() => {
+    const x = document.getElementById('opt-rail-zoom');
+    if (x && !x.checked) x.click();
+  });
+  await sleep(900);
+  check('  and goes when the reader asks for the zoom gate',
+    (await st(p)).offered === false);
   await p.close();
 
   p = await open(b, ISLAND + (1).toString(36));      // no railways
@@ -136,21 +150,43 @@ const st = p => p.evaluate(() => {
     r.order.join(' '));
   check('with the air routes under it', at('btn-air') === at('btn-rail') + 1,
     r.order.join(' '));
+  /* **THE PRESS OFFERS THE RAILWAYS; IT DOES NOT DRAW THEM.** It used to
+     switch on every network at once, which handed a reader who wanted Korea's
+     railway Japan's 5,931 paths as well — 55 ms of hover layout against 412.
+     So the button opens a menu, as the book beside it does, and what is drawn
+     is what the reader ticks. The three things this block guards still hold;
+     they hold one step further along. */
+  await p.evaluate(() => document.querySelector('#btn-rail').click());
+  await sleep(700);
+  const menu = await p.evaluate(() => {
+    const m = document.getElementById('rail-menu');
+    return { shown: !!m && !m.hidden && getComputedStyle(m).display !== 'none',
+             rows: m ? m.querySelectorAll('label.row').length : 0,
+             drawnYet: document.querySelector('#opt-kr-rail').checked };
+  });
+  check('pressing it offers that ground\'s railway rather than drawing it',
+    menu.shown && menu.rows === 5 && menu.drawnYet === false,
+    JSON.stringify(menu));
   const pressed = await p.evaluate(() => {
-    document.querySelector('#btn-rail').click();
+    const lab = [...document.querySelectorAll('#rail-menu label.row')]
+      .find(e => /Korea/.test(e.textContent));
+    const i = lab && lab.querySelector('input');
+    if (i) i.click();
     return new Promise(res => setTimeout(() => res({
       pressed: document.querySelector('#btn-rail').getAttribute('aria-pressed'),
       box: document.querySelector('#opt-kr-rail').checked,
       station: !document.querySelector('#btn-stations').hidden,
       bg: getComputedStyle(document.querySelector('#btn-rail')).backgroundColor,
       plain: getComputedStyle(document.querySelector('#zoom-in')).backgroundColor,
-    }), 1200));
+    }), 1600));
   });
-  check('pressing it draws that ground\'s railway',
-    pressed.pressed === 'true' && pressed.box === true);
+  check('  and ticking it there draws that ground\'s railway',
+    pressed.pressed === 'true' && pressed.box === true,
+    JSON.stringify(pressed));
   check('and the station switch follows it out', pressed.station === true);
-  /* Pressed, it takes the same filled background the station button does:
-     asked for, because a switch that looks the same on and off is not one. */
+  /* Pressed, it takes a filled background rather than the plain one: asked
+     for, because a switch that looks the same on and off is not one. It is
+     the layer buttons' blue now rather than the map's accent. */
   check('a switched-on button is filled, not plain',
     pressed.bg !== pressed.plain, pressed.bg + ' vs ' + pressed.plain);
   await p.close();

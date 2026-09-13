@@ -213,9 +213,14 @@ console.log('\n— the railway layer travels in the address —');
     const atom = document.querySelector('#a-' + el.getAttribute('data-over'));
     return { rail: getComputedStyle(el).stroke, ground: getComputedStyle(atom).fill };
   });
-  /* And it is not drawn at all until the ground is worth it. At the opening
-     view Taiwan is thirteen pixels across and the whole network merged into
-     one white mass — reported as "a big white dot in SW Taiwan". */
+  /* **And whether it is drawn at the opening view is now the reader's.** It
+     never was: Taiwan is thirteen pixels across out here and the network
+     merged into one white mass — reported as "a big white dot in SW Taiwan"
+     — so the fade took it away. That held while one press switched on all
+     five networks; now the reader chooses which railway is drawn, so the fade
+     is theirs to choose too, behind `Show active railway lines only at closer
+     zoom` in the Layers pane. Off by default: somebody who has asked for a
+     railway expects to see it. Both readings are checked. */
   const wide = await open(b, HOST+'/index.html?layers='
     + ((1|(1<<5)|(1<<6)|(1<<8)|(1<<25))>>>0).toString(36));
   const far = await wide.evaluate(() => {
@@ -223,8 +228,19 @@ console.log('\n— the railway layer travels in the address —');
     return { display: getComputedStyle(g).display, ticked:
       document.querySelector('#opt-tw-rail').checked };
   });
-  check('at the opening view the railway is not drawn, though it is switched on',
-    far.ticked && far.display === 'none', JSON.stringify(far));
+  check('at the opening view the railway is drawn, the fade being off by default',
+    far.ticked && far.display !== 'none', JSON.stringify(far));
+  await wide.evaluate(() => {
+    const x = document.getElementById('opt-rail-zoom');
+    if (x && !x.checked) x.click();
+  });
+  await sleep(900);
+  const gated = await wide.evaluate(() => {
+    const g = document.getElementById('tw-rail');
+    return { display: getComputedStyle(g).display };
+  });
+  check('  and the zoom option takes it away again out here',
+    gated.display === 'none', JSON.stringify(gated));
   await wide.close();
 
   const close = await open(b, HOST+'/index.html?layers='

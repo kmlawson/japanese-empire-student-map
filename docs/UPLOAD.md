@@ -58,6 +58,17 @@ and it drifted: the plane tools shipped, the mirror was updated without
 `air-play.js`, and the button was there with nothing behind it. A list nobody
 can forget is worth more than a list somebody remembers.
 
+## The downloads
+
+`deploy/gis/` holds what the map draws, written back out of the built geometry,
+and `deploy/gis/source/` the files the build reads, exactly as they came. A
+reader only reaches them from the links in **Sources**, so nothing on the map
+waits for them and nothing breaks if they are left behind — but the links go
+dead, so upload them with the rest.
+
+`gis/source/` is **35 MB**, and 28 MB of that is Japan's two 1942 railway
+sheets. On a metered host that is worth knowing before it goes up.
+
 ## Two optional extras
 
 `.htaccess` — upload it too if the server is Apache, which DreamHost is. The

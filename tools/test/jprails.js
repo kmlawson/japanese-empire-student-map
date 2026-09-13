@@ -523,12 +523,31 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
     await sleep(1500);
     await setBox(w, '#opt-jp-rail', true);
     await sleep(6000);
+    /* **DRAWN OUT HERE UNLESS THE READER ASKS OTHERWISE.** The fade used to be
+       unconditional: a network read at the whole-empire view is a smear, and
+       several of them in the document cost real time on every pan and hover.
+       Both halves of that changed. The railway button stopped switching on all
+       five at once, so what is in the document is a choice; and the fade moved
+       behind `Show active railway lines only at closer zoom` in the Layers
+       pane, off unless asked for, because a reader who has asked for a railway
+       expects to see it. Checked both ways round here — the old rule is still
+       the rule, it is just no longer the default. */
+    const shown = await w.evaluate(() => {
+      const g = document.querySelector('#jp-rail');
+      return g ? { display: getComputedStyle(g).display,
+                   opacity: getComputedStyle(g).opacity } : null;
+    });
+    check('at the whole-empire view the layer is drawn by default',
+      !!shown && shown.display !== 'none' && +shown.opacity > 0.9,
+      JSON.stringify(shown));
+    await setBox(w, '#opt-rail-zoom', true);
+    await sleep(1200);
     const faded = await w.evaluate(() => {
       const g = document.querySelector('#jp-rail');
       return g ? { display: getComputedStyle(g).display,
                    opacity: getComputedStyle(g).opacity } : null;
     });
-    check('at the whole-empire view the layer fades out, as the others do',
+    check('  and fades out once the zoom option is ticked',
       !!faded && (faded.display === 'none' || +faded.opacity < 0.05),
       JSON.stringify(faded));
     await w.close();

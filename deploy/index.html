@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=fdba134603">
+<link rel="stylesheet" href="styles.css?v=b66e350d7d">
 </head>
 <body>
 
@@ -450,6 +450,14 @@
        names none of its thirty lines, so there is nothing to press and nothing
        to count, and the layer offers the shape of the network and no more. -->
   <label class="row" title="The railways of Burma, traced for this map and drawn on both dates: the metre-gauge network was complete by the 1920s and stood in December 1942 where it had stood in 1930. Lines only \u2014 the trace carries no station or line names."><input type="checkbox" id="opt-burma-rail"> Burma Railways</label>
+  <!-- **Whether the railways fade out when the reader zooms out.** They always
+       did: a network read at the whole-empire view is a smear rather than a
+       line, and keeping several of them in the document costs real time on
+       every pan and every hover. Since the railway button stopped switching
+       on all five at once, the reader chooses what is drawn, so the fade is
+       theirs to choose too — and the default is now *drawn at every zoom*,
+       which is what somebody who has asked for a railway expects. -->
+  <label class="row" title="Railways drawn only once you are zoomed in. They are hidden at wide views, which makes panning and hovering faster when several networks are switched on."><input type="checkbox" id="opt-rail-zoom"> Show active railway lines only at closer zoom for better performance.</label>
   <!-- The scheduled air services, which are not railways and are not faded by
        the zoom: they cross the whole map, and the widest view is where they
        read best. -->
@@ -638,7 +646,7 @@
 
   <h3>Feedback</h3>
 
-  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">364</span><span class="beta-tag" hidden> beta</span> · last updated 13 September 2026, 10:45</p>
+  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">365</span><span class="beta-tag" hidden> beta</span> · last updated 13 September 2026, 13:10</p>
 
 <!-- END about -->
 </dialog>
@@ -756,6 +764,6 @@
 <!-- BEGIN assets -->
 <script>window.JEM_ASSETS = {"admin.js": "515700d72c", "air-play.js": "4e3fd5d07f", "annotate.js": "4347030471", "japan-empire-map-admin.svg": "a9bf9d9f5b", "japan-empire-map-fine.svg": "a673d36791", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "6ef289d746", "jp-rails.js": "0a7c906436", "jp-stations.js": "94e1778527", "kf-stations.js": "5b813d9ab0", "kf-times.js": "7794238211", "kf-trains.js": "dfbd657f59", "kr-stations.js": "bbf1264e10", "kr-times.js": "7a858023f2", "kr-trains.js": "b03852074b", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "themes.js": "47f1818ac3", "timetable/karafuto-1935.html": "5348193a83", "timetable/korea-1938.html": "6bd9860643", "timetable/taiwan-1936.html": "1ce3ba8518", "trains.js": "666b78bf7b", "tw-stations.js": "1c5f5eb043", "tw-times.js": "dbd80c98cb", "tw-trains.js": "0534b63f8f"};</script>
 <!-- END assets -->
-<script src="lean/map.js?v=fce99f6833"></script>
+<script src="lean/map.js?v=b0b20d41ba"></script>
 </body>
 </html>
