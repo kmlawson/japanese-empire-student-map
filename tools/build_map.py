@@ -29,6 +29,7 @@ import array
 import collections
 import hashlib
 import inspect
+import html
 import json
 import math
 import multiprocessing
@@ -3471,6 +3472,25 @@ BURMA_RAIL_DIR = os.path.join(ROOT, "data", "burma")
 MN_RAIL_FILES = {"e1942": "manchuria-1942-lines.geojson"}
 MN_RAIL_TOL = 0.021
 MN_RAIL_DIR = os.path.join(ROOT, "data", "manchuria")
+# Manchuria's lines are pressable by name, as Japan's are: the trace is one
+# feature per line and each carries `name-zh`, so the layer is written one
+# path per line with the name on it, and map.js opens a card for the line
+# under the finger rather than for the network. The readings on the card come
+# from the train bundle when it has been built, keyed by the line's own name
+# without the company prefix; without it the card shows the characters alone.
+MN_RAIL_NAMED = True
+MN_TRAINS_JS = os.path.join(ROOT, "deploy", "mn-trains.js")
+MN_PREFIXES = ("滿鐵社線 ", "滿洲國線 ", "國線 ", "滿鐵 ", "其他 ")
+
+
+def mn_line_readings():
+    """{line name without prefix: (pinyin name, Japanese reading)} from mn-trains.js."""
+    if not os.path.exists(MN_TRAINS_JS):
+        return {}
+    txt = open(MN_TRAINS_JS, encoding="utf-8").read()
+    at = txt.index("JMAP.MN_TRAINS = ")
+    doc = json.loads(txt[at + len("JMAP.MN_TRAINS = "):].strip().rstrip(";"))
+    return {l["n"]: (l.get("en", ""), l.get("ja", "")) for l in doc["lines"]}
 
 # Every railway layer the map draws, and the atom whose fill inks its dots.
 # One table so that the next one is a line here rather than a block of code in
@@ -3478,13 +3498,16 @@ MN_RAIL_DIR = os.path.join(ROOT, "data", "manchuria")
 # and land in tools/cache, and the hand-traced ones live in data/ with the rest
 # of the drawn work.
 RAIL_LAYERS = [
-    ("tw-rail", "taiwan", TW_RAIL_FILES, TW_RAIL_TOL, "taiwan", CACHE),
-    ("kr-rail", "korea", KR_RAIL_FILES, KR_RAIL_TOL, "korea", CACHE),
-    ("kf-rail", "karafuto", KF_RAIL_FILES, KF_RAIL_TOL, "karafuto", CACHE),
-    ("mn-rail", "Manchuria", MN_RAIL_FILES, MN_RAIL_TOL, "manchukuo", MN_RAIL_DIR),
+    ("tw-rail", "taiwan", TW_RAIL_FILES, TW_RAIL_TOL, "taiwan", CACHE, False),
+    ("kr-rail", "korea", KR_RAIL_FILES, KR_RAIL_TOL, "korea", CACHE, False),
+    ("kf-rail", "karafuto", KF_RAIL_FILES, KF_RAIL_TOL, "karafuto", CACHE, False),
+    ("mn-rail", "Manchuria", MN_RAIL_FILES, MN_RAIL_TOL, "manchukuo", MN_RAIL_DIR,
+     MN_RAIL_NAMED),
     ("burma-rail", "Burma", BURMA_RAIL_FILES, BURMA_RAIL_TOL, "burma",
-     BURMA_RAIL_DIR),
+     BURMA_RAIL_DIR, False),
 ]
+# The last field: True writes one path per feature carrying `data-name` (and
+# `data-en`/`data-ja` where a reading is known), False one path per epoch.
 
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
 SEAM_MAX = 0.50            # degrees; wider than this is not a seam but a hole
@@ -7433,7 +7456,8 @@ def main():
 
     # The same treatment for the railways, one path per epoch per layer.
     rails = {}
-    for _gid, _label, _files, _tol, _over, _dir in RAIL_LAYERS:
+    _mn_reads = mn_line_readings()
+    for _gid, _label, _files, _tol, _over, _dir, _named in RAIL_LAYERS:
         _epochs = {}
         for _ep, _name in sorted(_files.items()):
             _path = os.path.join(_dir, _name)
@@ -7442,10 +7466,11 @@ def main():
                 continue
             with open(_path) as fh:
                 _kept = _raw = _dropped = 0
-                _parts = []
+                _parts = []           # merged: path strings; named: (attrs, d)
                 for feat in json.load(fh)["features"]:
                     if not feat.get("geometry"):
                         continue          # a row filtered out of this date
+                    _mine = []
                     for line in iter_lines(feat["geometry"]):
                         _raw += len(line)
                         pts = [project(x, y) for x, y in line]
@@ -7454,8 +7479,23 @@ def main():
                             _dropped += 1
                             continue
                         _kept += len(pts)
-                        _parts.append(line_to_path(pts))
-                _epochs[_ep] = "".join(_parts)
+                        _mine.append(line_to_path(pts))
+                    if not _named:
+                        _parts.extend(_mine)
+                    elif _mine:
+                        _nm = (feat.get("properties") or {}).get("name-zh", "") or ""
+                        _bare = _nm
+                        for _p in MN_PREFIXES:
+                            if _bare.startswith(_p):
+                                _bare = _bare[len(_p):]
+                        _en, _ja = _mn_reads.get(_bare, ("", ""))
+                        _attrs = {"data-name": _nm}
+                        if _en:
+                            _attrs["data-en"] = _en
+                        if _ja:
+                            _attrs["data-ja"] = _ja
+                        _parts.append((_attrs, "".join(_mine)))
+                _epochs[_ep] = _parts if _named else "".join(_parts)
             sys.stderr.write("%s railways %s: %d of %d vertices kept (%.0f%%), "
                              "%d lines dropped\n"
                              % (_label, _ep, _kept, _raw,
@@ -8722,6 +8762,14 @@ def main():
             # atom's *computed* fill and inks the dots against it — white on a
             # dark country, near-black on a pale one — so the rule holds in
             # colour, in mono and in whatever a future railway crosses.
+            if isinstance(_epochs[_ep], list):
+                # one path per named line, so a press can say which it is
+                for _attrs, _d in _epochs[_ep]:
+                    _extra = "".join(f' {k}="{html.escape(v, quote=True)}"'
+                                     for k, v in _attrs.items())
+                    out.append(f'    <path class="rail" data-epoch="{_ep}" '
+                               f'data-over="{_over}"{_extra} fill="none" d="{_d}"/>')
+                continue
             out.append(f'    <path class="rail" data-epoch="{_ep}" '
                        f'data-over="{_over}" fill="none" d="{_epochs[_ep]}"/>')
         out.append("  </g>")

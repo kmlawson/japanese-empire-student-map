@@ -83,6 +83,10 @@ MERGE = {'綏佳線（佳木斯・蓮江口間）・鶴岡線（蓮江口・鶴�
 
 # Tables that are not railways: the ferry across the Liao mouth.
 SKIP_LINES = {'連絡船 河北・營口間'}
+# Lines kept off the map for now, by request, until their trace is drawn: the
+# 北票線 has no geometry and two placed stops, so its trains ran along a chord
+# joined to nothing. On the printed page still; not in the bundle.
+HIDDEN_LINES = {'國線 北票線'}
 
 # The Japanese reading of each line name, for the switch that puts the map into Japanese
 # names; the pinyin name is derived. A line missing here is reported and gets its characters.
@@ -170,7 +174,7 @@ def read_tables():
             x = json.load(fh)
         if x.get('kind') == 'bus' or x.get('clock') == '12':
             continue
-        if x.get('line') in SKIP_LINES:
+        if x.get('line') in SKIP_LINES or x.get('line') in HIDDEN_LINES:
             continue
         x['_id'] = tid
         x['_page'] = page
@@ -526,17 +530,28 @@ def main():
                     continue
                 # `t` already runs on past midnight -- 25:12 for 1.12 the next morning -- by
                 # the transcription's rule that a time below the one before it is tomorrow's.
-                # That rule has no tolerance, so a misprint of a few minutes backwards (19.40
-                # then 19.33 on train 15) became a day at the platform. A day added over a
-                # decrease of less than an hour is taken back and the stop flagged uncertain,
-                # which is what a misprint is; how many are printed at the end.
+                # That rule has no tolerance, so a misprint backwards -- 19.40 then 19.33 on
+                # train 15, 12.21 then 9.03 for 13.09 on train 850 -- became most of a day at
+                # the platform, and the train crawled between two halts for twenty hours. No
+                # train in these tables takes eighteen hours between consecutive timed stops,
+                # so a leg that long is read as a misprint: the day is taken back and the stop
+                # flagged uncertain. How many, and which, are printed at the end.
                 m = minutes(s['t']) - undo
-                if last is not None and m - last >= 1380 and m - 1440 >= last - 60:
+                if last is not None and m - last >= 1080:
                     undo += 1440
                     m -= 1440
                     fl |= 4
                     misprints.append('%s %s %s %s' % (x['_id'], t.get('no', ''), s['st'],
                                                       s.get('printed', '')))
+                    # a few minutes backwards is a leg of nothing, which the
+                    # animation takes; hours backwards (33.03 for 13.09) is a
+                    # figure that cannot be used, so the stop keeps its place in
+                    # the column and loses its time
+                    if m < last - 60:
+                        if st and st[-1][0] == i:
+                            continue
+                        st.append([i, None, None, fl])
+                        continue
                 last = m
                 if st and st[-1][0] == i and s['ev'] == 'dep' and st[-1][1] is not None \
                         and st[-1][2] is None:
@@ -642,8 +657,8 @@ def main():
     if dropped:
         sys.stderr.write('  %d trains dropped for want of two timed stops\n' % dropped)
     if misprints:
-        sys.stderr.write('  %d times a few minutes backwards, read as a misprint rather than a '
-                         'day and flagged uncertain: %s\n' % (len(misprints), '; '.join(misprints)))
+        sys.stderr.write('  %d times printed backwards, read as a misprint rather than a day '
+                         'and flagged uncertain: %s\n' % (len(misprints), '; '.join(misprints)))
     if no_ja:
         sys.stderr.write('  no Japanese reading for: %s\n' % ', '.join(no_ja))
     if strangers:
@@ -652,6 +667,8 @@ def main():
     if undrawn:
         sys.stderr.write('  %d lines not in the traced line file, their trains drawn straight '
                          'between placed stops: %s\n' % (len(undrawn), ', '.join(undrawn)))
+    if HIDDEN_LINES:
+        sys.stderr.write('  kept off the map until traced: %s\n' % ', '.join(sorted(HIDDEN_LINES)))
     sys.stderr.write('timetable/manchuria-1942.html: %d tables, %d page references linked to '
                      'the scan, %d CSV links, %d station readings, %d KB\n'
                      % (n_h2, n_pg, n_dl, len(reads), os.path.getsize(OUT_HTML) // 1024))

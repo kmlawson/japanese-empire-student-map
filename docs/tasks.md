@@ -22365,3 +22365,81 @@ through tables; a touch-screen pass over the new squares, which ride on the
 same `STATION_SYS` machinery as the other three but were not driven with a
 finger here. The layer note and the two `sources.md` entries are the author's
 own text, put in as given.
+
+## 192. Manchuria's lines answer by name, the tools stay put when the map pans, and the button asks which
+
+Four things asked for on the first evening the Manchurian tools were up, and
+one found on the way.
+
+* **A pressed line names itself.** `build_map.py` now writes the Manchurian
+  layer one path per line, each carrying `data-name` as the timetable prints
+  it and `data-en`/`data-ja` from the train bundle where it has been built
+  (`MN_RAIL_NAMED`; the other traced networks are still one path per date).
+  `railLineCard` in map.js is the generic form of `jpLineCard`: characters
+  with *Kanji labels* on, the Japanese reading otherwise, and the rest under
+  it. The hit band copies the two readings along with the four Japan's lines
+  carry, for the same reason as before.
+* **Turn on Train Tools, from any railway card.** The network card offered
+  the tools only when the reader was already close enough for them to draw,
+  which from the view a line is pressed at — the whole of Manchuria — was
+  never. The button is now offered wherever the system has tools and they
+  are off, on the line card too, and if the view is too wide it flies to the
+  network's box first, so the press ends with the tools on screen.
+* **The tools do not change system under a pan.** Asked for. `trainBoxAt`
+  keeps the network that is up as long as its box (its own `bounds()` when
+  mounted) still touches the view; panned clear of it, the tools go *off* —
+  switch and all, `trainPannedAway` — and the reader chooses again. Zooming
+  out past the threshold is unchanged: the layer stands down and the switch
+  stays on. `applyView` now asks `syncTrainTools` on a pan frame as well,
+  since only `rescale` did and a pan never zooms.
+* **The button asks which, when two networks are in view.** `trainCandidates`
+  lists every system within its threshold whose railway is switched on and
+  has track drawn inside the frame — measured on the drawn paths, because
+  Manchuria's *box* reaches to 38.6 N and by the box a reader over the whole
+  peninsula with one railway on was offered two; with
+  more than one — Korea and Manchuria, anywhere along the Yalu — the map
+  button opens `#train-menu`, the rail menu's shape with a radio row per
+  system, and the choice (`trainChoice`) is kept while the tools are on so
+  a zoom out and back brings the same one. A railway card's button chooses
+  its own system. The Layers checkbox and a shared link still take the
+  default without asking.
+* **Which box wins, when the centre is in both.** Found on the way: the
+  smallest box held the centre before, and Korea's, with its pad, reaches
+  Hōten and Kirin, so turning on a city layer over southern Manchuria — any
+  state change — handed the tools to Korea. Now the box the centre is deepest
+  inside wins, measured in units of each box's own half-size: Hōten 0.46
+  against 1.16, P'yŏngyang 0.93 against 0.51.
+* **Train 850 crawled for twenty hours** between 塔哈 and 齊齊哈爾: the
+  transcription's `t` read 33.03 for a printed 13.09 and the next-day rule
+  made it tomorrow. A leg of eighteen hours or more between consecutive
+  timed stops is now read as a misprint (25 of them, listed by the build);
+  a few minutes backwards is kept as a leg of nothing, hours backwards loses
+  its time, and either way the stop is flagged uncertain.
+* **The 北票線 is kept off the map** until it is traced (`HIDDEN_LINES`): with
+  no geometry and two placed stops its trains ran along a chord joined to
+  nothing. It is still on the printed page. 53 lines, 707 trains.
+
+* **The station button offers the layers, one at a time.** Asked for: a
+  press opens `#station-menu`, a radio row per network and one for None, so
+  choosing one puts the others away; the Layers panel keeps the same rule,
+  a ticked station box unticking the rest. Choosing a network whose railway
+  is off switches the railway on with it. `trains.js` (the test) chooses from
+  the menu where it pressed the button before.
+* **Manchuria's station card reads like Korea's and Karafuto's.** The pinyin
+  is now of the printed name — 奉天 is Fèngtiān; Shěnyáng was the modern name's
+  pinyin standing in the reading slot — and the note names the line with its
+  reading, or the junction (four named, the rest counted), and the place
+  today.
+* **A function of a name the module already had.** The first draft declared
+  a second `viewLonLat`, and a function declaration replaces the earlier one
+  for the whole module: `viewMeets` quietly answered from the wrong shape and
+  every map button — stations, sugar, the book — went dark. Caught by the
+  suite before it shipped; the note is in CLAUDE.md.
+
+Tests: `mntrains.js` grows to 58 checks — the line card and its button, the
+tools staying Manchuria's when panned over Korea and going off when panned
+clear (driven with real pointer drags), the train menu opening from the button
+over Hōten with two rows and one press choosing, the box rule over Hōten,
+Kirin and P'yŏngyang, and the station menu's radio rows switching one
+network's squares for another's. `keys` and `sugar` count six rail-menu rows
+now.

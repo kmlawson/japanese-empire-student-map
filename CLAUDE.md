@@ -329,3 +329,19 @@ for.
 This is narrower than the "one or two sentences, not a paragraph" rule above
 and stricter: there, the job is to compress the prose you are writing. Here the
 prose is not yours to write. Length is not the test — authorship is.
+
+## Grep before naming a function in map.js
+
+`map.js` is one twenty-thousand-line function body, and a function
+declaration inside it is hoisted for the whole body: declare a second
+`viewLonLat` a thousand lines below the first and the first is gone
+everywhere, with no error at parse time and none at run time. It happened on
+13 September 2026: a new box test declared `viewLonLat` returning an object
+where the existing one returned an array, `viewMeets` began answering from
+the wrong shape, and every button beside the map — stations, sugar, the book —
+went dark for a whole batch of work. The suite caught it; nothing shipped.
+
+So before adding a function, `grep -n "function <name>"` — and a `var` of
+that name too, for the same reason `const` and `let` are preferred in new
+code: a redeclaration of those is an error at parse time, and this was not.
+

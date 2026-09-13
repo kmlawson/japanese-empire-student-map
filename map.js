@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '366';
+  var JEM_VERSION = '367';
 
   /* Every file this one fetches, with the version on it.
 
@@ -2364,6 +2364,26 @@
    * `mountTrainTools` refuses while another is up. tools/test/trains.js holds
    * all three to it.
    */
+  /* Whether a system's box, with its pad, touches the frame — `viewMeets`
+     with the pad the tools allow. `viewLonLat` is the frame as
+     west/south/east/north, declared above with `viewMeets`; a second function
+     of that name here would replace it for the whole module, which is what
+     happened once and hid every map button. */
+  function boxInView(b, v) {
+    return !!v && !(b[2] + TRAIN_BOX_PAD < v[0] || b[0] - TRAIN_BOX_PAD > v[2]
+                    || b[3] + TRAIN_BOX_PAD < v[1] || b[1] - TRAIN_BOX_PAD > v[3]);
+  }
+
+  /* The system the reader chose when more than one was on offer — from the
+     menu the map button opens, or from a railway's card. Kept while the tools
+     are on, so a zoom out and back brings the same timetable up, and cleared
+     when they go off. */
+  var trainChoice = '';
+  /* Set by `trainBoxAt` when the network that was up has left the view
+     altogether, so `syncTrainTools` knows to switch the tools off rather
+     than merely stand them down. */
+  var trainPannedAway = false;
+
   function trainBoxAt(useOff) {
     var span = latSpan();
     var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
@@ -2387,25 +2407,97 @@
       var bb = trainApi.bounds();
       if (bb) upBox = [bb.w, bb.s, bb.e, bb.n];
     }
-    var found = '', bestArea = Infinity;
+    trainPannedAway = false;
+    /* **A NETWORK THAT IS UP STAYS UP WHILE ANY OF IT IS IN VIEW.** Asked for:
+       panning from Manchuria towards Korea used to swap one timetable for the
+       other under the reader's hands, because the centre had crossed into the
+       other box. Now the network that is up keeps the tools as long as its box
+       still touches the view; when the reader has panned clear of it the tools
+       go *off* — the switch too, not just the layer — and they choose again.
+       Zooming out past the system's own threshold is the other case and is
+       unchanged: the layer stands down and the switch stays on, so zooming
+       back in brings the same timetable back. */
+    if (upSys && TRAIN_SYS[upSys]) {
+      var ucfg = TRAIN_SYS[upSys], ub = upBox || ucfg.box;
+      var ulimit = ucfg.latOff || TRAIN_LAT_OFF;
+      if (upBox) ulimit = Math.max(ulimit, (upBox[3] - upBox[1]) * 1.2);
+      if (span > ulimit) return '';
+      if (boxInView(ub, viewLonLat())) return upSys;
+      trainPannedAway = true;
+      return '';
+    }
+    var found = '', bestScore = Infinity;
     Object.keys(TRAIN_SYS).forEach(function (k) {
-      var cfg = TRAIN_SYS[k], b = (k === upSys && upBox) ? upBox : cfg.box;
+      var cfg = TRAIN_SYS[k], b = cfg.box;
       var limit = useOff ? (cfg.latOff || TRAIN_LAT_OFF)
                          : (cfg.latOn || TRAIN_LAT_ON);
-      /* A network drawn across two countries is taller than the box it was
-         given, and the span that means "close enough to be the subject" grows
-         with it — otherwise following the Tōkaidō east would take the tools
-         away at the very zoom the reader is using to follow it. */
-      if (k === upSys && upBox) {
-        limit = Math.max(limit, (upBox[3] - upBox[1]) * 1.2);
-      }
       if (span > limit) return;
       if (c.lon < b[0] - TRAIN_BOX_PAD || c.lon > b[2] + TRAIN_BOX_PAD
           || c.lat < b[1] - TRAIN_BOX_PAD || c.lat > b[3] + TRAIN_BOX_PAD) return;
-      var area = (b[2] - b[0]) * (b[3] - b[1]);
-      if (area < bestArea) { bestArea = area; found = k; }
+      /* The reader's own choice first, where it is one of the boxes here. */
+      if (k === trainChoice) { bestScore = -1; found = k; return; }
+      /* **THE BOX THE CENTRE IS DEEPEST INSIDE, NOT THE SMALLEST.** Two boxes
+         can hold the centre: Manchuria's holds most of Korea's, and Korea's,
+         with its pad, reaches to 123.4 E and 43.7 N — which is Hōten and
+         Kirin. The smallest box won, so a reader over southern Manchuria got
+         Korea's tools. Measured instead as how far the centre sits from each
+         box's own centre in units of that box's half-size: 0 at the middle, 1
+         on the edge. Over Hōten that is 0.46 for Manchuria against 1.16 for
+         Korea; over P'yŏngyang 0.93 against 0.51. The nearer wins, and a
+         system whose box is inside another's still wins its own ground. */
+      var score = Math.max(Math.abs(c.lon - (b[0] + b[2]) / 2) / Math.max(0.1, (b[2] - b[0]) / 2),
+                           Math.abs(c.lat - (b[1] + b[3]) / 2) / Math.max(0.1, (b[3] - b[1]) / 2));
+      if (score < bestScore) { bestScore = score; found = k; }
     });
     return found;
+  }
+
+  /* Every system whose tools could come up here: close enough by its own
+     threshold, and its box touching the view. More than one — Korea and
+     Manchuria are neighbours — is the case the map button answers with a
+     menu rather than a guess. Deepest first, so [0] is the default. */
+  function trainCandidates() {
+    var span = latSpan();
+    var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
+    var out = [];
+    Object.keys(TRAIN_SYS).forEach(function (k) {
+      var cfg = TRAIN_SYS[k], b = cfg.box;
+      if (span > (cfg.latOn || TRAIN_LAT_ON)) return;
+      /* **In view means drawn and on screen, not a box that touches the
+         frame.** Manchuria's box reaches down to 38.6 N, so by the box a
+         reader over the whole peninsula had two networks "in view" and got
+         the menu for a map with one railway on it. What the reader can see
+         is the plain railway layer: a system is a candidate when its railway
+         is switched on and some of its track is inside the frame — measured
+         on the drawn paths, in map units, which is what `view` is in. */
+      var sta = STATION_SYS[k];
+      if (!sta || !state[sta.rail]) return;
+      var g = document.getElementById(k + '-rail');
+      if (!g) return;
+      var hit = false;
+      $$('path.rail', g).forEach(function (el) {
+        if (hit || el.style.display === 'none') return;
+        var bb;
+        try { bb = el.getBBox(); } catch (err) { return; }
+        if (!bb || !bb.width && !bb.height) return;
+        if (bb.x > view.x + view.w || bb.x + bb.width < view.x
+            || bb.y > view.y + view.h || bb.y + bb.height < view.y) return;
+        hit = true;
+      });
+      if (!hit) return;
+      var score = Math.max(Math.abs(c.lon - (b[0] + b[2]) / 2) / Math.max(0.1, (b[2] - b[0]) / 2),
+                           Math.abs(c.lat - (b[1] + b[3]) / 2) / Math.max(0.1, (b[3] - b[1]) / 2));
+      out.push({ sys: k, score: score });
+    });
+    out.sort(function (a, b) { return a.score - b.score; });
+    var syss = out.map(function (o) { return o.sys; });
+    /* No railway drawn in the frame: the ground under the centre decides, as
+       a shared link or the Layers checkbox would have it. */
+    if (!syss.length) {
+      var z = trainBoxAt(false);
+      if (z) syss.push(z);
+    }
+    return syss;
   }
 
   /* The system a set of train tools could be opened on, whether or not the
@@ -2934,12 +3026,16 @@
        * instead of coloured by line. So the borrow is simply released and the
        * layer stays on — which is also what makes the plain line reappear,
        * `railFade` having stood it down only while the tools were up. */
+      var away = trainPannedAway;
       try {
         trainApi.unmount();
         document.body.classList.remove('trains-up');
-        giveBackStations(!state.trainTools);
+        giveBackStations(!state.trainTools || away);
       } finally { trainBusy = false; }
       fillTrainCard(null);
+      /* Panned clear of the network: the tools are off, not merely down, and
+         the reader chooses again. See `trainBoxAt`. */
+      if (away && state.trainTools) { setTrainTools(false); saveState(); return; }
       if (!want) return;
     }
     if (!want) return;
@@ -5780,6 +5876,10 @@
         var zoomed = rafZoomed;
         rafZoomed = false;
         if (zoomed) rescale();
+        /* A pan asks the tools too — `rescale` only does on a zoom, and a
+           network panned clear of the view has to be noticed. Arithmetic
+           when nothing has changed; see `trainBoxAt`. */
+        if (!zoomed) syncTrainTools();
         applyGazetteer();
         if (zoomed) applySizedSites();
         if (zoomed) gateLabels();
@@ -7987,8 +8087,15 @@
          railway"; Japan's layer is 1,977 named lines from a national dataset,
          and the thing under the finger is the Tōkaidō or the Chūō. Whose name
          and opening year are the two facts the source has about it. */
-      var jpCard = plainSys === 'jp' ? jpLineCard(target) : null;
-      if (jpCard) { showTrainCard(jpCard); return; }
+      var lineCard = plainSys === 'jp' ? jpLineCard(target)
+                                       : railLineCard(plainSys, target);
+      if (lineCard) {
+        showTrainCard(lineCard);
+        /* and the way into the tools, which a line of a system that has
+           them should offer as the network card does */
+        if (plainSys !== 'jp') appendRailButtons($('#info-trains'), plainSys);
+        return;
+      }
       showRailCard(plainSys);
       return;
     }
@@ -12448,6 +12555,7 @@
 
   function setTrainTools(on) {
     if (on) clearForTools();
+    if (!on) trainChoice = '';
     var hadAdmin = state.cats.territory;
     state.trainTools = !!on;
     var box = $('#opt-train-tools');
@@ -14602,15 +14710,23 @@
     var row = document.createElement('p');
     row.className = 'tbar';
 
-    /* The tools, where this ground has any and the reader is close enough for
-       them to draw. Offering a button that does nothing visible would be
-       worse than not offering it. */
-    if (TRAIN_SYS[sys] && trainZone() === sys && !state.trainTools) {
+    /* The tools, where this ground has any: see `appendRailButtons`, which
+       flies to the network if the reader is too far out for them to draw. */
+    if (TRAIN_SYS[sys] && !state.trainTools) {
       var t = document.createElement('button');
       t.type = 'button';
       t.className = 'plain';
-      t.textContent = 'Open the train tools';
-      t.addEventListener('click', function () { setTrainTools(true); });
+      t.textContent = 'Turn on Train Tools';
+      t.addEventListener('click', function () {
+        trainChoice = sys;
+        if (trainZone() !== sys) {
+          var b = TRAIN_SYS[sys].box;
+          view = viewForBox(b[0], b[1], b[2], b[3]);
+          applyView();
+        }
+        setTrainTools(true);
+        saveState();
+      });
       row.appendChild(t);
     }
 
@@ -14684,6 +14800,66 @@
          panel and in sources.html, and the card links the dataset instead. */
       links: links,
     };
+  }
+
+  /* **A named line of a traced network: Manchuria's.** The trace is one
+     feature per line and build_map.py writes each as its own path carrying
+     the name as the timetable prints it, with the pinyin name and the Japanese
+     reading beside it where the train bundle knows them. Which name leads is
+     the reader's setting, as on Japan's lines: characters with `Kanji labels`
+     on, the Japanese reading otherwise, and the rest underneath. Null when
+     the press did not land on a named path, so the network card answers. */
+  function railLineCard(sys, target) {
+    var el = target && target.closest ? target.closest('[data-name]') : null;
+    if (!el) return null;
+    var name = el.getAttribute('data-name') || '';
+    if (!name) return null;
+    var en = el.getAttribute('data-en') || '';
+    var ja = el.getAttribute('data-ja') || '';
+    var lead = (state.hanLabels || !ja) ? name : ja;
+    var bits = [];
+    if (lead !== name) bits.push(name);
+    if (lead !== ja && ja) bits.push(ja);
+    if (en) bits.push(en);
+    var inf = RAIL_INFO[sys] || {};
+    var links = [];
+    if (inf.url) links.push({ href: inf.url, text: 'The timetable this is traced from' });
+    return {
+      chip: 'Railway line', colour: 'var(--muted)',
+      primary: lead,
+      alt: bits.join('  \u00b7  '),
+      links: links,
+    };
+  }
+
+  /* **The way into the train tools, on a railway's card.** Asked for: the
+     button was only offered when the reader was already close enough for the
+     tools to draw, so from the view a reader presses a line at — the whole of
+     Manchuria — there was nothing to press. Now it is offered wherever the
+     system has tools and they are off, and if the view is too wide for them
+     it flies to the network first, so the press always ends with the tools on
+     screen rather than a switch ticked and nothing happening. */
+  function appendRailButtons(host, sys) {
+    if (!host || !TRAIN_SYS[sys] || state.trainTools) return;
+    var row = document.createElement('p');
+    row.className = 'tbar';
+    var t = document.createElement('button');
+    t.type = 'button';
+    t.className = 'plain';
+    t.textContent = 'Turn on Train Tools';
+    t.addEventListener('click', function () {
+      trainChoice = sys;
+      if (trainZone() !== sys) {
+        var b = TRAIN_SYS[sys].box;
+        view = viewForBox(b[0], b[1], b[2], b[3]);
+        applyView();
+      }
+      setTrainTools(true);
+      saveState();
+    });
+    row.appendChild(t);
+    host.appendChild(row);
+    host.hidden = false;
   }
 
   /* Lit as one thing, because that is what it is. A railway is not a shape with
@@ -15220,7 +15396,8 @@
              copied without the romanisation and the article meant a card that
              could never show either — the data was on the drawn path two
              siblings away and nothing ever looked there. */
-          ['data-name', 'data-year', 'data-ro', 'data-wiki'].forEach(function (a) {
+          ['data-name', 'data-year', 'data-ro', 'data-wiki',
+           'data-en', 'data-ja'].forEach(function (a) {
             var v = el.getAttribute(a);
             if (v) hit.setAttribute(a, v); else hit.removeAttribute(a);
           });
@@ -16466,8 +16643,205 @@
   function closeOtherMenus(keep) {
     if (keep !== 'air' && airMenuOn) closeAirMenu();
     if (keep !== 'rail' && railMenuOn) closeRailMenu();
+    if (keep !== 'train' && trainMenuOn) closeTrainMenu();
+    if (keep !== 'stations' && stationMenuOn) closeStationMenu();
     if (keep !== 'theme' && themeMenuOn) closeThemeMenu();
     if (keep !== 'label' && labelMenuOn) closeLabelMenu();
+  }
+
+  /* **WHICH STATIONS.** One network's squares at a time, by request: a
+     radio row per system and one for none. Choosing a system whose railway
+     is off switches the railway on with it — a station with no line under it
+     is a dot in a field, and the row was hidden in the panel for that reason.
+     Same shape and the same doors as the railway menu. */
+  var stationMenuOn = false;
+
+  function stationMenuEl() {
+    var m = $('#station-menu');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'station-menu';
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', 'Which stations to draw');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+  /* One system's stations on and every other's off; '' for none. The
+     railway comes on with them, and what the tools borrowed follows, so the
+     choice survives the tools being put away. */
+  function pickStations(sys) {
+    Object.keys(STATION_SYS).forEach(function (k) {
+      var cfg = STATION_SYS[k];
+      var want = k === sys;
+      state[cfg.on] = want;
+      var box = $('#' + cfg.box);
+      if (box) box.checked = want;
+      if (trainBorrowed && trainBorrowed.on === cfg.on) trainBorrowed.hadOn = want;
+      if (want && !state[cfg.rail] && !connReaches(k)) {
+        state[cfg.rail] = true;
+        var rb = $('#opt-' + k + '-rail');
+        if (rb) rb.checked = true;
+        if (trainBorrowed && trainBorrowed.rail === cfg.rail) trainBorrowed.hadRail = true;
+      }
+    });
+    applyState();
+    saveState();
+    scheduleUrl();
+  }
+
+  function buildStationMenu() {
+    var m = stationMenuEl();
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = 'Which stations to draw';
+    m.appendChild(head);
+    var rows = Object.keys(STATION_SYS).map(function (k) { return [k, RAIL_LABEL[k] || k]; });
+    rows.push(['', 'None']);
+    rows.forEach(function (r) {
+      var sys = r[0];
+      var label = document.createElement('label');
+      label.className = 'row';
+      var el = document.createElement('input');
+      el.type = 'radio';
+      el.name = 'station-pick';
+      el.setAttribute('data-station-sys', sys);
+      el.checked = sys ? !!state[STATION_SYS[sys].on]
+                       : !Object.keys(STATION_SYS).some(function (k) { return state[STATION_SYS[k].on]; });
+      el.addEventListener('change', function () {
+        if (!el.checked) return;
+        pickStations(sys);
+        syncStationMenu();
+      });
+      label.appendChild(el);
+      var txt = document.createElement('span');
+      txt.className = 'menu-text';
+      txt.textContent = sys ? r[1] + '\u2019s stations' : r[1];
+      label.appendChild(txt);
+      m.appendChild(label);
+    });
+  }
+
+  function syncStationMenu() {
+    $$('#station-menu input[data-station-sys]').forEach(function (el) {
+      var sys = el.getAttribute('data-station-sys');
+      el.checked = sys ? !!state[STATION_SYS[sys].on]
+                       : !Object.keys(STATION_SYS).some(function (k) { return state[STATION_SYS[k].on]; });
+    });
+  }
+
+  function placeStationMenu() {
+    var m = $('#station-menu'), btn = $('#btn-stations');
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left = b.left - w - 8;
+    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    m.style.left = Math.max(6, left) + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function openStationMenu() {
+    closeOtherMenus('stations');
+    buildStationMenu();
+    var m = stationMenuEl();
+    m.hidden = false;
+    stationMenuOn = true;
+    placeStationMenu();
+  }
+
+  function closeStationMenu() {
+    var m = $('#station-menu');
+    if (!m || !stationMenuOn) return;
+    m.hidden = true;
+    stationMenuOn = false;
+  }
+
+  /* **WHICH TIMETABLE, WHEN TWO ARE IN VIEW.** The rail menu's shape — a
+     head and a row per choice — and the same doors: it closes on a press
+     outside, on Escape, and when another menu opens. One press on a row is
+     the whole answer, so the rows are radio buttons and the menu goes as soon
+     as one is chosen. */
+  var trainMenuOn = false;
+
+  function trainMenuEl() {
+    var m = $('#train-menu');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'train-menu';
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', 'Which timetable to run');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+  function buildTrainMenu(cands) {
+    var m = trainMenuEl();
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = 'Which train tools to turn on';
+    m.appendChild(head);
+    cands.forEach(function (sys) {
+      var cfg = TRAIN_SYS[sys];
+      var label = document.createElement('label');
+      label.className = 'row';
+      var el = document.createElement('input');
+      el.type = 'radio';
+      el.name = 'train-pick';
+      el.setAttribute('data-train-sys', sys);
+      el.addEventListener('change', function () {
+        if (!el.checked) return;
+        trainChoice = sys;
+        closeTrainMenu();
+        setTrainTools(true);
+        saveState();
+      });
+      label.appendChild(el);
+      var txt = document.createElement('span');
+      txt.className = 'menu-text';
+      txt.appendChild(document.createTextNode(RAIL_LABEL[sys] || sys));
+      var src = document.createElement('span');
+      src.className = 'src';
+      src.textContent = ' (' + (cfg.note || '') + ')';
+      txt.appendChild(src);
+      label.appendChild(txt);
+      m.appendChild(label);
+    });
+  }
+
+  function placeTrainMenu() {
+    var m = $('#train-menu'), btn = $('#btn-trains');
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left = b.left - w - 8;
+    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    m.style.left = Math.max(6, left) + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function openTrainMenu(cands) {
+    closeOtherMenus('train');
+    buildTrainMenu(cands);
+    var m = trainMenuEl();
+    m.hidden = false;
+    trainMenuOn = true;
+    placeTrainMenu();
+  }
+
+  function closeTrainMenu() {
+    var m = $('#train-menu');
+    if (!m || !trainMenuOn) return;
+    m.hidden = true;
+    trainMenuOn = false;
   }
 
   function openRailMenu() {
@@ -19285,6 +19659,20 @@
           closeRailMenu();
         }
       }
+      if (trainMenuOn) {
+        var tnm = $('#train-menu');
+        var tnb = $('#btn-trains');
+        if (!(tnm && tnm.contains(e.target)) && !(tnb && tnb.contains(e.target))) {
+          closeTrainMenu();
+        }
+      }
+      if (stationMenuOn) {
+        var stm = $('#station-menu');
+        var stb = $('#btn-stations');
+        if (!(stm && stm.contains(e.target)) && !(stb && stb.contains(e.target))) {
+          closeStationMenu();
+        }
+      }
       if (themeMenuOn) {
         var tm = $('#theme-menu');
         var tb = $('#btn-theme');
@@ -19301,11 +19689,15 @@
     document.addEventListener('keydown', function (e) {
       if (labelMenuOn && e.key === 'Escape') closeLabelMenu();
       if (railMenuOn && e.key === 'Escape') closeRailMenu();
+      if (trainMenuOn && e.key === 'Escape') closeTrainMenu();
+      if (stationMenuOn && e.key === 'Escape') closeStationMenu();
       if (themeMenuOn && e.key === 'Escape') closeThemeMenu();
     });
     window.addEventListener('resize', function () {
       if (labelMenuOn) placeLabelMenu();
       if (railMenuOn) placeRailMenu();
+      if (trainMenuOn) placeTrainMenu();
+      if (stationMenuOn) placeStationMenu();
       if (themeMenuOn) placeThemeMenu();
     });
 
@@ -19639,6 +20031,18 @@
         box.checked = state[pair[1]];
         box.addEventListener('change', function () {
           state[pair[1]] = box.checked;
+          /* One network's stations at a time: ticking one here unticks the
+             others, as the menu beside the map does. */
+          if (box.checked && !railKeys[pair[1]]) {
+            Object.keys(STATION_SYS).forEach(function (k) {
+              var o = STATION_SYS[k];
+              if (o.on === pair[1] || !state[o.on]) return;
+              state[o.on] = false;
+              var ob = $('#' + o.box);
+              if (ob) ob.checked = false;
+              if (trainBorrowed && trainBorrowed.on === o.on) trainBorrowed.hadOn = false;
+            });
+          }
           /* THE PANEL IS AS MUCH THE READER AS THE BUTTON IS.
              While the train tools are up the railway and the squares are
              borrowed, and what a link carries is what the reader had before
@@ -19706,35 +20110,26 @@
        and the map cannot disagree about what is on. */
     var btnSta = $('#btn-stations');
     if (btnSta) {
+      /* **The button offers the station layers instead of switching them.**
+         Asked for: one network's stations at a time, chosen from a list, the
+         way the railway button lists the railways. A press opens the menu;
+         a row is a radio button, so choosing one puts the others away. */
       btnSta.addEventListener('click', function () {
-        var syss = btnStationsSyss;
-        if (!syss.length) return;
-        /* One answer for the set, worked out before anything is written: with
-           two systems coupled, a press has to mean the same thing to both, and
-           toggling each on its own state would have swapped them over. */
-        var want = !syss.every(function (k) {
-          return !!state[STATION_SYS[k].on];
-        });
-        syss.forEach(function (sys) {
-          var key = STATION_SYS[sys].on;
-          state[key] = want;
-          var box = $('#' + STATION_SYS[sys].box);
-          if (box) box.checked = want;
-          /* While the train tools are up the squares are borrowed, and the
-             reader turning them off here is a decision of their own: it has to
-             survive the tools being put away, so what would be given back is
-             moved with it. */
-          if (trainBorrowed && trainBorrowed.on === key) {
-            trainBorrowed.hadOn = want;
-          }
-        });
-        applyState();
+        if (stationMenuOn) closeStationMenu(); else openStationMenu();
       });
     }
 
     var btnTrn = $('#btn-trains');
     if (btnTrn) {
       btnTrn.addEventListener('click', function () {
+        if (trainMenuOn) { closeTrainMenu(); return; }
+        if (!state.trainTools) {
+          /* Two networks in view — Korea's and Manchuria's are neighbours —
+             is the reader's call, not the map's: the button offers them. */
+          var cands = trainCandidates();
+          if (cands.length > 1) { openTrainMenu(cands); return; }
+          trainChoice = cands[0] || '';
+        }
         setTrainTools(!state.trainTools);
         saveState();
       });

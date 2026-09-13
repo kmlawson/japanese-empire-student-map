@@ -93,12 +93,13 @@ const shutDialogs=p=>p.evaluate(()=>{
       fetched.filter(f=>f==='mn-trains.js').length===1
       && !fetched.includes('kr-trains.js') && !fetched.includes('tw-trains.js'), fetched.join());
     check('the bar says which timetable it is', /1942/.test(v.note), v.note);
-    check('a chip per line in the bar', v.chips===54, 'chips='+v.chips);
+    /* 55 lines in the tables less the 北票線, kept off the map until it is traced */
+    check('a chip per line in the bar', v.chips===53, 'chips='+v.chips);
     check('no connections switch: every line is the network’s own', !v.conn, '');
     /* 692 stretches between placed stops, 663 of them routed along the line file; the rest
        are on lines not yet traced and are drawn straight where the stops are close. */
     check('the track is drawn, hundreds of stretches', v.lines>600, 'lines='+v.lines);
-    check('in many colours', v.colours>40, 'colours='+v.colours);
+    check('in many colours', v.colours>=40, 'colours='+v.colours);
     /* the group itself gives way to the tools' own track while they are up; see railFade */
     check('the railway is borrowed', v.railBox, JSON.stringify({railBox:v.railBox}));
     check('  but the station squares are left as the reader had them',
@@ -110,8 +111,9 @@ const shutDialogs=p=>p.evaluate(()=>{
     let sv=await look(p);
     check('  and the reader can turn the squares on', sv.stations===614 && sv.staBox,
       JSON.stringify({stations:sv.stations,staBox:sv.staBox}));
-    check('  every one of them known to the timetable, so every one shown',
-      sv.shown===sv.stations, JSON.stringify({shown:sv.shown,stations:sv.stations}));
+    /* two of the 614 stand only on the 北票線, which is kept off the map until traced */
+    check('  every one of them known to the timetable is shown, all but the two on the hidden line',
+      sv.shown===sv.stations-2, JSON.stringify({shown:sv.shown,stations:sv.stations}));
     const boxes=await p.evaluate(()=>({
       mn:!!(document.querySelector('#opt-mn-rail')||{}).checked,
       kf:!!(document.querySelector('#opt-kf-rail')||{}).checked,
@@ -217,9 +219,9 @@ const shutDialogs=p=>p.evaluate(()=>{
               readings:document.querySelectorAll('td .rd').length,
               readSample:(document.querySelector('td[data-stn="大連"] .rd')||{}).textContent||''};
     });
-    /* 132 tables on the page; 130 are railway lines and carry the line and direction the
-       map links to, and two are the 河北・營口 ferry, which is printed and not drawn */
-    check('the Manchuria page carries all 132 tables, 130 of them a line’s', pv.tables===132 && pv.anchors===130,
+    /* 132 tables on the page; 128 are railway lines and carry the line and direction the
+       map links to; two are the 河北・營口 ferry and two the 北票線, printed and not drawn */
+    check('the Manchuria page carries all 132 tables, 128 of them a line’s', pv.tables===132 && pv.anchors===128,
       JSON.stringify({tables:pv.tables,anchors:pv.anchors}));
     check('and warns before the tables', pv.warnFirst, '');
     check('it opens in English furniture, the tables in the characters the sheet prints',
@@ -240,7 +242,191 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('no page errors on the timetable', ttErr.length===0, ttErr.join(' | '));
     await q.close();
 
-    /* ---- 8. how far out the tools come up: 15 on, 16.5 off ----------- */
+    /* ---- 8. a line answers by name with the tools down ---------------- */
+    console.log('\n— a pressed line, with the tools down —');
+    {
+      const r = await browser.newPage();
+      await r.evaluateOnNewDocument(SHIM);
+      await r.setViewport({ width: 1300, height: 950 });
+      const rErr = []; r.on('pageerror', e => rErr.push(String(e).slice(0, 200)));
+      await r.goto(BASE + '?where=115,35,136,53', { waitUntil: 'domcontentloaded' });
+      await ready(r);
+      await shutDialogs(r);
+      await r.evaluate(() => {
+        const y = [...document.querySelectorAll('button')].find(b => /Dec 1942/.test(b.textContent));
+        if (y) y.click();
+      });
+      await setSwitch(r, '#opt-mn-rail', true);
+      await sleep(1500);
+      const card = await r.evaluate(() => {
+        const hit = [...document.querySelectorAll('#mn-rail .rail-hit')]
+          .find(h => h.getAttribute('data-name') === '滿鐵社線 連京線');
+        if (!hit) return { no: 'no hit band' };
+        const pt = hit.getPointAtLength(hit.getTotalLength() / 2);
+        const m = hit.getScreenCTM();
+        const x = m.a * pt.x + m.c * pt.y + m.e, y = m.b * pt.x + m.d * pt.y + m.f;
+        const ev = n => hit.dispatchEvent(new PointerEvent(n, { bubbles: true, clientX: x, clientY: y, pointerType: 'mouse' }));
+        ev('pointerover'); ev('pointerdown'); ev('pointerup'); ev('click');
+        const info = document.querySelector('#info');
+        const btn = [...document.querySelectorAll('#info-trains button')].map(b => b.textContent);
+        return { hidden: info.hidden, chip: info.querySelector('.chip').textContent,
+                 primary: info.querySelector('.primary').textContent,
+                 alt: info.querySelector('.alt').textContent, buttons: btn,
+                 tools: !!document.querySelector('#train-bar') };
+      });
+      check('pressing the 連京線 opens a card for the line, not the network',
+        !card.hidden && card.chip === 'Railway line' && card.primary === 'Renkyō-sen',
+        JSON.stringify(card));
+      check('  with the characters and the pinyin name under it',
+        /連京線/.test(card.alt) && /Lianjing Line/.test(card.alt), card.alt);
+      check('  and a Turn on Train Tools button, though the view is too wide for them',
+        card.buttons.indexOf('Turn on Train Tools') >= 0 && !card.tools, JSON.stringify(card.buttons));
+      await r.evaluate(() => {
+        [...document.querySelectorAll('#info-trains button')]
+          .find(b => b.textContent === 'Turn on Train Tools').click();
+      });
+      await sleep(4500);
+      const up = await r.evaluate(() => ({
+        bar: !!document.querySelector('#train-bar'),
+        note: (document.querySelector('.train-note') || {}).textContent || '',
+        span: (() => { const u = new URL(location.href).searchParams.get('where') || ''; const n = u.split(',').map(Number); return n.length === 4 ? n[3] - n[1] : 0; })(),
+      }));
+      check('  pressing it flies to the network and puts the tools up',
+        up.bar && /1942/.test(up.note) && up.span < 16, JSON.stringify(up));
+      check('  no page errors', rErr.length === 0, rErr.join(' | '));
+      await r.close();
+    }
+
+    /* ---- 9. two boxes hold the centre: the one it is deepest in wins ---- */
+    console.log('\n— over the border country —');
+    for (const [name, where, want] of [
+      ['Hōten', '120.4,38.8,126.4,44.8', '1942'],
+      ['Kirin', '123.5,40.8,129.5,46.8', '1942'],
+      ['P\u2019yŏngyang', '122.75,36,128.75,42', '1938'],
+    ]) {
+      const r = await browser.newPage();
+      await r.evaluateOnNewDocument(SHIM);
+      await r.setViewport({ width: 1300, height: 950 });
+      await r.goto(BASE + '?where=' + where, { waitUntil: 'domcontentloaded' });
+      await ready(r);
+      await shutDialogs(r);
+      await setSwitch(r, '#opt-train-tools', true);
+      await sleep(4200);
+      const up = await r.evaluate(() => ({
+        bar: !!document.querySelector('#train-bar'),
+        note: (document.querySelector('.train-note') || {}).textContent || '',
+      }));
+      check('centred on ' + name + ' the tools are the ' + want + ' timetable\u2019s',
+        up.bar && up.note.indexOf(want) >= 0, JSON.stringify(up));
+      await r.close();
+    }
+
+    /* ---- 10. the button asks which, and panning does not switch ------- */
+    console.log('\n— the button over the border country, and panning —');
+    {
+      const r = await browser.newPage();
+      await r.evaluateOnNewDocument(SHIM);
+      await r.setViewport({ width: 1300, height: 950 });
+      const rErr = []; r.on('pageerror', e => rErr.push(String(e).slice(0, 200)));
+      // over Hōten, tools off: both Korea's and Manchuria's boxes are in view
+      await r.goto(BASE + '?where=120.4,38.8,126.4,44.8', { waitUntil: 'domcontentloaded' });
+      await ready(r);
+      await shutDialogs(r);
+      // the button is only offered over a drawn railway, and the menu only
+      // when two drawn networks are in the frame: Korea's and Manchuria's
+      // both run through this one -- on the 1942 map, where Manchuria's is drawn
+      await r.evaluate(() => { const y = [...document.querySelectorAll('button')].find(b => /Dec 1942/.test(b.textContent)); if (y) y.click(); });
+      await sleep(600);
+      await setSwitch(r, '#opt-mn-rail', true);
+      await setSwitch(r, '#opt-kr-rail', true);
+      await sleep(800);
+      const menu = await r.evaluate(() => {
+        const b = document.querySelector('#btn-trains');
+        const offered = !!b && !b.hidden;
+        if (b) b.click();
+        const m = document.querySelector('#train-menu');
+        return { offered, shown: !!m && !m.hidden, rows: m ? [...m.querySelectorAll('input[data-train-sys]')].map(i => i.getAttribute('data-train-sys')) : [],
+                 bar: !!document.querySelector('#train-bar'), box: !!document.querySelector('#opt-train-tools').checked };
+      });
+      check('pressing the train button with two networks in view opens a menu, not the tools',
+        menu.offered && menu.shown && menu.rows.length === 2 && menu.rows.indexOf('mn') >= 0 && menu.rows.indexOf('kr') >= 0
+        && !menu.bar && !menu.box, JSON.stringify(menu));
+      await r.evaluate(() => { document.querySelector('#train-menu input[data-train-sys="mn"]').click(); });
+      await sleep(4500);
+      let up = await r.evaluate(() => ({
+        bar: !!document.querySelector('#train-bar'), menu: !(document.querySelector('#train-menu') || { hidden: true }).hidden,
+        note: (document.querySelector('.train-note') || {}).textContent || '' }));
+      check('  choosing Manchuria closes the menu and puts its tools up', up.bar && !up.menu && /1942/.test(up.note), JSON.stringify(up));
+      // pan south-east by a screen and a half: the centre is now over Korea, but Manchuria is still in view
+      const drag = async (dx, dy) => {
+        await r.mouse.move(650, 700); await r.mouse.down();
+        for (let i = 1; i <= 10; i++) { await r.mouse.move(650 + dx * i / 10, 700 + dy * i / 10); await sleep(20); }
+        await r.mouse.up(); await sleep(300);
+      };
+      await drag(-300, -500);
+      await drag(-300, -500);
+      await sleep(1500);
+      up = await r.evaluate(() => ({ bar: !!document.querySelector('#train-bar'),
+        note: (document.querySelector('.train-note') || {}).textContent || '',
+        c: (() => { const w = (new URL(location.href).searchParams.get('where') || '').split(',').map(Number); return w.length === 4 ? [(w[0] + w[2]) / 2, (w[1] + w[3]) / 2] : null; })() }));
+      check('  panned over Korea with Manchuria still in view: still Manchuria’s tools, not Korea’s',
+        up.bar && /1942/.test(up.note) && up.c && up.c[1] < 43, JSON.stringify(up));
+      // and clear of it altogether: the tools go off, switch and all
+      for (let i = 0; i < 6; i++) await drag(-500, -600);
+      await sleep(1500);
+      up = await r.evaluate(() => ({ bar: !!document.querySelector('#train-bar'), box: !!document.querySelector('#opt-train-tools').checked,
+        c: (() => { const w = (new URL(location.href).searchParams.get('where') || '').split(',').map(Number); return w.length === 4 ? [(w[0] + w[2]) / 2, (w[1] + w[3]) / 2] : null; })() }));
+      check('  panned clear of the network: the tools are off, switch and all', !up.bar && !up.box, JSON.stringify(up));
+      check('  no page errors', rErr.length === 0, rErr.join(' | '));
+      await r.close();
+    }
+
+    /* ---- 11. the station button offers one network's squares at a time --- */
+    console.log('\n— the station menu —');
+    {
+      const r = await browser.newPage();
+      await r.evaluateOnNewDocument(SHIM);
+      await r.setViewport({ width: 1300, height: 950 });
+      const rErr = []; r.on('pageerror', e => rErr.push(String(e).slice(0, 200)));
+      await r.goto(BASE + '?where=118,38,133,51', { waitUntil: 'domcontentloaded' });
+      await ready(r);
+      await shutDialogs(r);
+      await r.evaluate(() => { const y = [...document.querySelectorAll('button')].find(b => /Dec 1942/.test(b.textContent)); if (y) y.click(); });
+      await setSwitch(r, '#opt-mn-rail', true);
+      await sleep(800);
+      const menu = await r.evaluate(() => {
+        const b = document.querySelector('#btn-stations'); const offered = !!b && !b.hidden; if (b) b.click();
+        const m = document.querySelector('#station-menu');
+        return { offered, shown: !!m && !m.hidden,
+                 rows: m ? [...m.querySelectorAll('input[data-station-sys]')].map(i => i.getAttribute('data-station-sys') + (i.checked ? '*' : '')) : [],
+                 radio: m ? [...m.querySelectorAll('input')].every(i => i.type === 'radio') : false };
+      });
+      check('the station button opens a menu of radio rows, one per network and None',
+        menu.offered && menu.shown && menu.radio && menu.rows.length === 6 && menu.rows.indexOf('*') >= 0, JSON.stringify(menu));
+      await r.evaluate(() => document.querySelector('#station-menu input[data-station-sys="mn"]').click());
+      await sleep(1500);
+      let sq = await r.evaluate(() => ({ mn: document.querySelectorAll('#mn-stations .sta-mark').length, box: document.querySelector('#opt-mn-stations').checked }));
+      check('  choosing Manchuria draws its squares', sq.mn === 614 && sq.box, JSON.stringify(sq));
+      await r.evaluate(() => { document.querySelector('#btn-stations').click(); });
+      await sleep(300);
+      await r.evaluate(() => document.querySelector('#station-menu input[data-station-sys="kr"]').click());
+      await sleep(1500);
+      sq = await r.evaluate(() => ({
+        mnShown: [...document.querySelectorAll('#mn-stations .sta-mark')].filter(m => m.getBoundingClientRect().width > 0).length,
+        mnBox: document.querySelector('#opt-mn-stations').checked, krBox: document.querySelector('#opt-kr-stations').checked,
+        krRail: document.querySelector('#opt-kr-rail').checked, kr: document.querySelectorAll('#kr-stations .sta-mark').length }));
+      check('  choosing Korea puts Manchuria’s away and switches Korea’s railway on with its squares',
+        sq.mnShown === 0 && !sq.mnBox && sq.krBox && sq.krRail && sq.kr > 800, JSON.stringify(sq));
+      // and the panel keeps the same rule
+      await setSwitch(r, '#opt-mn-stations', true);
+      await sleep(800);
+      sq = await r.evaluate(() => ({ mnBox: document.querySelector('#opt-mn-stations').checked, krBox: document.querySelector('#opt-kr-stations').checked }));
+      check('  ticking Manchuria’s in the panel unticks Korea’s', sq.mnBox && !sq.krBox, JSON.stringify(sq));
+      check('  no page errors', rErr.length === 0, rErr.join(' | '));
+      await r.close();
+    }
+
+    /* ---- 12. how far out the tools come up: 15 on, 16.5 off ----------- */
     console.log('\n— how far out the tools come up —');
     for (const [span, where, want] of [
       [13, '118,38,133,51', true],

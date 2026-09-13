@@ -23,6 +23,8 @@ import io
 import json
 import os
 import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from build_mn_trains import LINE_JA, split_line as line_and_company
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -48,17 +50,45 @@ def split_line(s):
     return '', s
 
 
+def read_line(full):
+    """'國線 平梅線' -> 'Heibai-sen (平梅線)', the reading the train bundle gives it."""
+    name, _ = line_and_company(full)
+    ja = LINE_JA.get(name)
+    return ('%s (%s)' % (ja, name)) if ja else name
+
+
 def sentence(p, modern):
-    """One or two sentences for the station card: the line and the name today."""
+    """One or two sentences for the station card, in the shape Korea's and
+    Karafuto's have: the line or the junction, and the name of the place today."""
     lines = [l.strip() for l in (p.get('lines') or '').split(';') if l.strip()]
     bits = []
-    if lines:
-        co, name = split_line(lines[0])
+    if len(lines) == 1:
+        co, _ = split_line(lines[0])
         co_en = COMPANY.get(co, '')
-        bits.append('On the %s%s.' % (name, (' (%s)' % co_en) if co_en else ''))
+        bits.append('On the %s%s.' % (read_line(lines[0]), (', ' + co_en) if co_en else ''))
+    elif lines:
+        names = [read_line(l) for l in lines]
+        # a card is read at a glance: 奉天 is a junction of eight lines, and eight
+        # readings with their characters is a paragraph, so four are named
+        if len(names) > 4:
+            bits.append('A junction of the %s and %d other lines.'
+                        % (', the '.join(names[:3]), len(names) - 3))
+        else:
+            bits.append('A junction of the %s and the %s.' % (', the '.join(names[:-1]), names[-1]))
     if modern and modern != p['name']:
         bits.append('Today %s%s.' % (modern, (' (%s)' % p['pinyin']) if p.get('pinyin') else ''))
     return ' '.join(bits)
+
+
+def pinyin_of(name):
+    """The pinyin of the name as printed -- 奉天 is Fèngtiān, whatever the place is
+    called now -- so the card's reading line reads the characters beside it."""
+    try:
+        from pypinyin import lazy_pinyin, Style
+    except ImportError:
+        return ''
+    syl = lazy_pinyin(name, style=Style.TONE)
+    return ''.join(syl).capitalize() if syl else ''
 
 
 def build():
@@ -77,7 +107,7 @@ def build():
             'id': 'mns%03d' % i,
             'han': p['name'],                        # as the timetable prints it
             'shin': modern,                          # the name today
-            'py': p.get('pinyin') or '',
+            'py': pinyin_of(p['name']) or p.get('pinyin') or '',
             'ro': p.get('romaji') or '',
             'kana': r.get('yomi') or '',
             'lon': round(lon, 5), 'lat': round(lat, 5),
@@ -90,9 +120,10 @@ def build():
         fh.write("/* Built by tools/build_mn_stations.py -- do not edit.\n"
                  " * Manchuria's railway stations in July 1942: the %d of them that\n"
                  " * could be placed, named in the characters the timetable prints, in\n"
-                 " * the characters used today, in pinyin, in kana and in romaji -- all\n"
-                 " * from the source. `line` is the line or lines the timetable puts\n"
-                 " * the station on, with the company's prefix as printed. */\n" % len(out))
+                 " * the characters used today, in kana and in romaji from the source,\n"
+                 " * and in the pinyin of the printed name. `line` is the line or lines\n"
+                 " * the timetable puts the station on, with the company's prefix as\n"
+                 " * printed. */\n" % len(out))
         fh.write("window.JMAP = window.JMAP || {};\n")
         fh.write("JMAP.MN_STATIONS = [\n")
         for o in out:

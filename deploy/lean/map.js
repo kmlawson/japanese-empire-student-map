@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '366';
+  var JEM_VERSION = '367';
 
 
 
@@ -2364,6 +2364,26 @@
 
 
 
+
+
+
+
+
+  function boxInView(b, v) {
+    return !!v && !(b[2] + TRAIN_BOX_PAD < v[0] || b[0] - TRAIN_BOX_PAD > v[2]
+                    || b[3] + TRAIN_BOX_PAD < v[1] || b[1] - TRAIN_BOX_PAD > v[3]);
+  }
+
+
+
+
+
+  var trainChoice = '';
+
+
+
+  var trainPannedAway = false;
+
   function trainBoxAt(useOff) {
     var span = latSpan();
     var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
@@ -2387,25 +2407,97 @@
       var bb = trainApi.bounds();
       if (bb) upBox = [bb.w, bb.s, bb.e, bb.n];
     }
-    var found = '', bestArea = Infinity;
+    trainPannedAway = false;
+
+
+
+
+
+
+
+
+
+    if (upSys && TRAIN_SYS[upSys]) {
+      var ucfg = TRAIN_SYS[upSys], ub = upBox || ucfg.box;
+      var ulimit = ucfg.latOff || TRAIN_LAT_OFF;
+      if (upBox) ulimit = Math.max(ulimit, (upBox[3] - upBox[1]) * 1.2);
+      if (span > ulimit) return '';
+      if (boxInView(ub, viewLonLat())) return upSys;
+      trainPannedAway = true;
+      return '';
+    }
+    var found = '', bestScore = Infinity;
     Object.keys(TRAIN_SYS).forEach(function (k) {
-      var cfg = TRAIN_SYS[k], b = (k === upSys && upBox) ? upBox : cfg.box;
+      var cfg = TRAIN_SYS[k], b = cfg.box;
       var limit = useOff ? (cfg.latOff || TRAIN_LAT_OFF)
                          : (cfg.latOn || TRAIN_LAT_ON);
-
-
-
-
-      if (k === upSys && upBox) {
-        limit = Math.max(limit, (upBox[3] - upBox[1]) * 1.2);
-      }
       if (span > limit) return;
       if (c.lon < b[0] - TRAIN_BOX_PAD || c.lon > b[2] + TRAIN_BOX_PAD
           || c.lat < b[1] - TRAIN_BOX_PAD || c.lat > b[3] + TRAIN_BOX_PAD) return;
-      var area = (b[2] - b[0]) * (b[3] - b[1]);
-      if (area < bestArea) { bestArea = area; found = k; }
+
+      if (k === trainChoice) { bestScore = -1; found = k; return; }
+
+
+
+
+
+
+
+
+
+      var score = Math.max(Math.abs(c.lon - (b[0] + b[2]) / 2) / Math.max(0.1, (b[2] - b[0]) / 2),
+                           Math.abs(c.lat - (b[1] + b[3]) / 2) / Math.max(0.1, (b[3] - b[1]) / 2));
+      if (score < bestScore) { bestScore = score; found = k; }
     });
     return found;
+  }
+
+
+
+
+
+  function trainCandidates() {
+    var span = latSpan();
+    var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
+    var out = [];
+    Object.keys(TRAIN_SYS).forEach(function (k) {
+      var cfg = TRAIN_SYS[k], b = cfg.box;
+      if (span > (cfg.latOn || TRAIN_LAT_ON)) return;
+
+
+
+
+
+
+
+      var sta = STATION_SYS[k];
+      if (!sta || !state[sta.rail]) return;
+      var g = document.getElementById(k + '-rail');
+      if (!g) return;
+      var hit = false;
+      $$('path.rail', g).forEach(function (el) {
+        if (hit || el.style.display === 'none') return;
+        var bb;
+        try { bb = el.getBBox(); } catch (err) { return; }
+        if (!bb || !bb.width && !bb.height) return;
+        if (bb.x > view.x + view.w || bb.x + bb.width < view.x
+            || bb.y > view.y + view.h || bb.y + bb.height < view.y) return;
+        hit = true;
+      });
+      if (!hit) return;
+      var score = Math.max(Math.abs(c.lon - (b[0] + b[2]) / 2) / Math.max(0.1, (b[2] - b[0]) / 2),
+                           Math.abs(c.lat - (b[1] + b[3]) / 2) / Math.max(0.1, (b[3] - b[1]) / 2));
+      out.push({ sys: k, score: score });
+    });
+    out.sort(function (a, b) { return a.score - b.score; });
+    var syss = out.map(function (o) { return o.sys; });
+
+
+    if (!syss.length) {
+      var z = trainBoxAt(false);
+      if (z) syss.push(z);
+    }
+    return syss;
   }
 
 
@@ -2934,12 +3026,16 @@
 
 
 
+      var away = trainPannedAway;
       try {
         trainApi.unmount();
         document.body.classList.remove('trains-up');
-        giveBackStations(!state.trainTools);
+        giveBackStations(!state.trainTools || away);
       } finally { trainBusy = false; }
       fillTrainCard(null);
+
+
+      if (away && state.trainTools) { setTrainTools(false); saveState(); return; }
       if (!want) return;
     }
     if (!want) return;
@@ -5780,6 +5876,10 @@
         var zoomed = rafZoomed;
         rafZoomed = false;
         if (zoomed) rescale();
+
+
+
+        if (!zoomed) syncTrainTools();
         applyGazetteer();
         if (zoomed) applySizedSites();
         if (zoomed) gateLabels();
@@ -7987,8 +8087,15 @@
 
 
 
-      var jpCard = plainSys === 'jp' ? jpLineCard(target) : null;
-      if (jpCard) { showTrainCard(jpCard); return; }
+      var lineCard = plainSys === 'jp' ? jpLineCard(target)
+                                       : railLineCard(plainSys, target);
+      if (lineCard) {
+        showTrainCard(lineCard);
+
+
+        if (plainSys !== 'jp') appendRailButtons($('#info-trains'), plainSys);
+        return;
+      }
       showRailCard(plainSys);
       return;
     }
@@ -12448,6 +12555,7 @@
 
   function setTrainTools(on) {
     if (on) clearForTools();
+    if (!on) trainChoice = '';
     var hadAdmin = state.cats.territory;
     state.trainTools = !!on;
     var box = $('#opt-train-tools');
@@ -14604,13 +14712,21 @@
 
 
 
-
-    if (TRAIN_SYS[sys] && trainZone() === sys && !state.trainTools) {
+    if (TRAIN_SYS[sys] && !state.trainTools) {
       var t = document.createElement('button');
       t.type = 'button';
       t.className = 'plain';
-      t.textContent = 'Open the train tools';
-      t.addEventListener('click', function () { setTrainTools(true); });
+      t.textContent = 'Turn on Train Tools';
+      t.addEventListener('click', function () {
+        trainChoice = sys;
+        if (trainZone() !== sys) {
+          var b = TRAIN_SYS[sys].box;
+          view = viewForBox(b[0], b[1], b[2], b[3]);
+          applyView();
+        }
+        setTrainTools(true);
+        saveState();
+      });
       row.appendChild(t);
     }
 
@@ -14684,6 +14800,66 @@
 
       links: links,
     };
+  }
+
+
+
+
+
+
+
+
+  function railLineCard(sys, target) {
+    var el = target && target.closest ? target.closest('[data-name]') : null;
+    if (!el) return null;
+    var name = el.getAttribute('data-name') || '';
+    if (!name) return null;
+    var en = el.getAttribute('data-en') || '';
+    var ja = el.getAttribute('data-ja') || '';
+    var lead = (state.hanLabels || !ja) ? name : ja;
+    var bits = [];
+    if (lead !== name) bits.push(name);
+    if (lead !== ja && ja) bits.push(ja);
+    if (en) bits.push(en);
+    var inf = RAIL_INFO[sys] || {};
+    var links = [];
+    if (inf.url) links.push({ href: inf.url, text: 'The timetable this is traced from' });
+    return {
+      chip: 'Railway line', colour: 'var(--muted)',
+      primary: lead,
+      alt: bits.join('  \u00b7  '),
+      links: links,
+    };
+  }
+
+
+
+
+
+
+
+
+  function appendRailButtons(host, sys) {
+    if (!host || !TRAIN_SYS[sys] || state.trainTools) return;
+    var row = document.createElement('p');
+    row.className = 'tbar';
+    var t = document.createElement('button');
+    t.type = 'button';
+    t.className = 'plain';
+    t.textContent = 'Turn on Train Tools';
+    t.addEventListener('click', function () {
+      trainChoice = sys;
+      if (trainZone() !== sys) {
+        var b = TRAIN_SYS[sys].box;
+        view = viewForBox(b[0], b[1], b[2], b[3]);
+        applyView();
+      }
+      setTrainTools(true);
+      saveState();
+    });
+    row.appendChild(t);
+    host.appendChild(row);
+    host.hidden = false;
   }
 
 
@@ -15220,7 +15396,8 @@
 
 
 
-          ['data-name', 'data-year', 'data-ro', 'data-wiki'].forEach(function (a) {
+          ['data-name', 'data-year', 'data-ro', 'data-wiki',
+           'data-en', 'data-ja'].forEach(function (a) {
             var v = el.getAttribute(a);
             if (v) hit.setAttribute(a, v); else hit.removeAttribute(a);
           });
@@ -16466,8 +16643,205 @@
   function closeOtherMenus(keep) {
     if (keep !== 'air' && airMenuOn) closeAirMenu();
     if (keep !== 'rail' && railMenuOn) closeRailMenu();
+    if (keep !== 'train' && trainMenuOn) closeTrainMenu();
+    if (keep !== 'stations' && stationMenuOn) closeStationMenu();
     if (keep !== 'theme' && themeMenuOn) closeThemeMenu();
     if (keep !== 'label' && labelMenuOn) closeLabelMenu();
+  }
+
+
+
+
+
+
+  var stationMenuOn = false;
+
+  function stationMenuEl() {
+    var m = $('#station-menu');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'station-menu';
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', 'Which stations to draw');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+
+
+
+  function pickStations(sys) {
+    Object.keys(STATION_SYS).forEach(function (k) {
+      var cfg = STATION_SYS[k];
+      var want = k === sys;
+      state[cfg.on] = want;
+      var box = $('#' + cfg.box);
+      if (box) box.checked = want;
+      if (trainBorrowed && trainBorrowed.on === cfg.on) trainBorrowed.hadOn = want;
+      if (want && !state[cfg.rail] && !connReaches(k)) {
+        state[cfg.rail] = true;
+        var rb = $('#opt-' + k + '-rail');
+        if (rb) rb.checked = true;
+        if (trainBorrowed && trainBorrowed.rail === cfg.rail) trainBorrowed.hadRail = true;
+      }
+    });
+    applyState();
+    saveState();
+    scheduleUrl();
+  }
+
+  function buildStationMenu() {
+    var m = stationMenuEl();
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = 'Which stations to draw';
+    m.appendChild(head);
+    var rows = Object.keys(STATION_SYS).map(function (k) { return [k, RAIL_LABEL[k] || k]; });
+    rows.push(['', 'None']);
+    rows.forEach(function (r) {
+      var sys = r[0];
+      var label = document.createElement('label');
+      label.className = 'row';
+      var el = document.createElement('input');
+      el.type = 'radio';
+      el.name = 'station-pick';
+      el.setAttribute('data-station-sys', sys);
+      el.checked = sys ? !!state[STATION_SYS[sys].on]
+                       : !Object.keys(STATION_SYS).some(function (k) { return state[STATION_SYS[k].on]; });
+      el.addEventListener('change', function () {
+        if (!el.checked) return;
+        pickStations(sys);
+        syncStationMenu();
+      });
+      label.appendChild(el);
+      var txt = document.createElement('span');
+      txt.className = 'menu-text';
+      txt.textContent = sys ? r[1] + '\u2019s stations' : r[1];
+      label.appendChild(txt);
+      m.appendChild(label);
+    });
+  }
+
+  function syncStationMenu() {
+    $$('#station-menu input[data-station-sys]').forEach(function (el) {
+      var sys = el.getAttribute('data-station-sys');
+      el.checked = sys ? !!state[STATION_SYS[sys].on]
+                       : !Object.keys(STATION_SYS).some(function (k) { return state[STATION_SYS[k].on]; });
+    });
+  }
+
+  function placeStationMenu() {
+    var m = $('#station-menu'), btn = $('#btn-stations');
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left = b.left - w - 8;
+    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    m.style.left = Math.max(6, left) + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function openStationMenu() {
+    closeOtherMenus('stations');
+    buildStationMenu();
+    var m = stationMenuEl();
+    m.hidden = false;
+    stationMenuOn = true;
+    placeStationMenu();
+  }
+
+  function closeStationMenu() {
+    var m = $('#station-menu');
+    if (!m || !stationMenuOn) return;
+    m.hidden = true;
+    stationMenuOn = false;
+  }
+
+
+
+
+
+
+  var trainMenuOn = false;
+
+  function trainMenuEl() {
+    var m = $('#train-menu');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'train-menu';
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', 'Which timetable to run');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+  function buildTrainMenu(cands) {
+    var m = trainMenuEl();
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = 'Which train tools to turn on';
+    m.appendChild(head);
+    cands.forEach(function (sys) {
+      var cfg = TRAIN_SYS[sys];
+      var label = document.createElement('label');
+      label.className = 'row';
+      var el = document.createElement('input');
+      el.type = 'radio';
+      el.name = 'train-pick';
+      el.setAttribute('data-train-sys', sys);
+      el.addEventListener('change', function () {
+        if (!el.checked) return;
+        trainChoice = sys;
+        closeTrainMenu();
+        setTrainTools(true);
+        saveState();
+      });
+      label.appendChild(el);
+      var txt = document.createElement('span');
+      txt.className = 'menu-text';
+      txt.appendChild(document.createTextNode(RAIL_LABEL[sys] || sys));
+      var src = document.createElement('span');
+      src.className = 'src';
+      src.textContent = ' (' + (cfg.note || '') + ')';
+      txt.appendChild(src);
+      label.appendChild(txt);
+      m.appendChild(label);
+    });
+  }
+
+  function placeTrainMenu() {
+    var m = $('#train-menu'), btn = $('#btn-trains');
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left = b.left - w - 8;
+    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    m.style.left = Math.max(6, left) + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function openTrainMenu(cands) {
+    closeOtherMenus('train');
+    buildTrainMenu(cands);
+    var m = trainMenuEl();
+    m.hidden = false;
+    trainMenuOn = true;
+    placeTrainMenu();
+  }
+
+  function closeTrainMenu() {
+    var m = $('#train-menu');
+    if (!m || !trainMenuOn) return;
+    m.hidden = true;
+    trainMenuOn = false;
   }
 
   function openRailMenu() {
@@ -19285,6 +19659,20 @@
           closeRailMenu();
         }
       }
+      if (trainMenuOn) {
+        var tnm = $('#train-menu');
+        var tnb = $('#btn-trains');
+        if (!(tnm && tnm.contains(e.target)) && !(tnb && tnb.contains(e.target))) {
+          closeTrainMenu();
+        }
+      }
+      if (stationMenuOn) {
+        var stm = $('#station-menu');
+        var stb = $('#btn-stations');
+        if (!(stm && stm.contains(e.target)) && !(stb && stb.contains(e.target))) {
+          closeStationMenu();
+        }
+      }
       if (themeMenuOn) {
         var tm = $('#theme-menu');
         var tb = $('#btn-theme');
@@ -19301,11 +19689,15 @@
     document.addEventListener('keydown', function (e) {
       if (labelMenuOn && e.key === 'Escape') closeLabelMenu();
       if (railMenuOn && e.key === 'Escape') closeRailMenu();
+      if (trainMenuOn && e.key === 'Escape') closeTrainMenu();
+      if (stationMenuOn && e.key === 'Escape') closeStationMenu();
       if (themeMenuOn && e.key === 'Escape') closeThemeMenu();
     });
     window.addEventListener('resize', function () {
       if (labelMenuOn) placeLabelMenu();
       if (railMenuOn) placeRailMenu();
+      if (trainMenuOn) placeTrainMenu();
+      if (stationMenuOn) placeStationMenu();
       if (themeMenuOn) placeThemeMenu();
     });
 
@@ -19641,6 +20033,18 @@
           state[pair[1]] = box.checked;
 
 
+          if (box.checked && !railKeys[pair[1]]) {
+            Object.keys(STATION_SYS).forEach(function (k) {
+              var o = STATION_SYS[k];
+              if (o.on === pair[1] || !state[o.on]) return;
+              state[o.on] = false;
+              var ob = $('#' + o.box);
+              if (ob) ob.checked = false;
+              if (trainBorrowed && trainBorrowed.on === o.on) trainBorrowed.hadOn = false;
+            });
+          }
+
+
 
 
 
@@ -19706,35 +20110,26 @@
 
     var btnSta = $('#btn-stations');
     if (btnSta) {
+
+
+
+
       btnSta.addEventListener('click', function () {
-        var syss = btnStationsSyss;
-        if (!syss.length) return;
-
-
-
-        var want = !syss.every(function (k) {
-          return !!state[STATION_SYS[k].on];
-        });
-        syss.forEach(function (sys) {
-          var key = STATION_SYS[sys].on;
-          state[key] = want;
-          var box = $('#' + STATION_SYS[sys].box);
-          if (box) box.checked = want;
-
-
-
-
-          if (trainBorrowed && trainBorrowed.on === key) {
-            trainBorrowed.hadOn = want;
-          }
-        });
-        applyState();
+        if (stationMenuOn) closeStationMenu(); else openStationMenu();
       });
     }
 
     var btnTrn = $('#btn-trains');
     if (btnTrn) {
       btnTrn.addEventListener('click', function () {
+        if (trainMenuOn) { closeTrainMenu(); return; }
+        if (!state.trainTools) {
+
+
+          var cands = trainCandidates();
+          if (cands.length > 1) { openTrainMenu(cands); return; }
+          trainChoice = cands[0] || '';
+        }
         setTrainTools(!state.trainTools);
         saveState();
       });

@@ -113,10 +113,13 @@ const shutDialogs=p=>p.evaluate(()=>{
     let sb=await btn();
     check('a railway on and in view offers it',
       !sb.hidden && sb.pressed==='false' && /Show/.test(sb.title), JSON.stringify(sb));
+    /* the button opens a menu now, one network's stations at a time */
     await p.click('#btn-stations');
+    await sleep(300);
+    await p.evaluate(()=>document.querySelector('#station-menu input[data-station-sys="tw"]').click());
     await sleep(500);
     sb=await btn();
-    check('and pressing it marks the stops', sb.pressed==='true' && sb.shown>150,
+    check('and choosing Taiwan from its menu marks the stops', sb.pressed==='true' && sb.shown>150,
       JSON.stringify(sb));
     check('the Layers panel agrees',
       await p.evaluate(()=>document.querySelector('#opt-tw-stations').checked), '');
@@ -463,14 +466,18 @@ const shutDialogs=p=>p.evaluate(()=>{
       bv.trn && !bv.trn.hidden && bv.trn.pressed==='true', JSON.stringify(bv.trn));
     check('both are finger sized', bv.sta.w>=40 && bv.sta.h>=40, JSON.stringify(bv.sta));
     await p.click('#btn-stations');
+    await sleep(300);
+    await p.evaluate(()=>document.querySelector('#station-menu input[data-station-sys=""]').click());
     await sleep(400);
     bv=await btns();
-    check('pressing it hides the squares',
+    check('choosing None from its menu hides the squares',
       bv.sta.pressed==='false' && bv.shown===0, JSON.stringify(bv));
     await p.click('#btn-stations');
+    await sleep(300);
+    await p.evaluate(()=>document.querySelector('#station-menu input[data-station-sys="tw"]').click());
     await sleep(400);
     bv=await btns();
-    check('and pressing it again brings them back',
+    check('and choosing Taiwan again brings them back',
       bv.sta.pressed==='true' && bv.shown>150, JSON.stringify(bv));
     await p.click('#btn-trains');
     await sleep(600);
