@@ -111,6 +111,12 @@ JMAP.LAYER_INFO = [
     title: 'Japan Stations',
     note: 'A small square at every station on those lines — 10,639 on the 1930 map and 12,800 on the 1942 one, reduced from 16,262 rows because the source lists a station once for each line calling there. Point at one for its name and the year it opened. A large table, fetched only when this is switched on.'
   },
+  {
+    id: 'theme-burma-rule',
+    source: 'The map at p. xi of *Census of India, 1931 Vol XI Burma Part I Report*.',
+    flag: 'themeId', title: '1931 Administration Map of Burma',
+    note: 'This is from the map on p. xi of *Census of India, 1931 Vol XI Burma Part I Report*. It shows four different categories of territory for British Burma: "unadministered" and "loosely" administered territories (uncontrolled Wa States, Upper Chindwin district including the Hukawng Valley and Naga Hills), the "Triangle", part of the Arakan Hill tracks only brought under administration in 1930, and the Karenni states.'
+  },
 ];
 
 JMAP.CATEGORIES = {
@@ -10163,7 +10169,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The Ise Shrine is here. 1930 Census Population: 1,157,407 · Males per 100 Females: 97.37 · % of Total Japan: 1.80 · Per km²: 201'
     },
     Minbu: {
-      short: '1931 Census Population: 277,878 As printed: the race-groups sum to 277,876 against the printed total of 277,878.'
+      short: '1931 Census Population: 277,878 As printed: the ethnic groups sum to 277,876 against the printed total of 277,878.'
     },
     Miyagi: {
       short: 'The old Date domain. 1930 Census Population: 1,142,784 · Males per 100 Females: 101.39 · % of Total Japan: 1.77 · Per km²: 157'
@@ -17556,99 +17562,99 @@ JMAP.POPULATION = [
     "epoch": "1930",
     "group": "burma-1931",
     "country": "",
-    "caption": "population by race-group at the 1931 census",
-    "note": "Note: The terms for ethnic groups are those of the original census. Where a race-group was too small to be shown on the source's map its figures were included in Others, so an empty cell here is not a zero.",
+    "caption": "population by ethnic group at the 1931 census",
+    "note": "Note: The terms for ethnic groups are those of the original census. Where an ethnic group was too small to be shown on the source's map its figures were included in Others, so an empty cell here is not a zero.",
     "inShort": true,
     "tableSkip": [],
     "fields": [
       {
         "c": "race_burma",
         "label": "Burma Group",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_lolo_muhso",
         "label": "Lolo-Muhso Group",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_kuki_chin",
         "label": "Kuki-Chin Group",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_kachin",
         "label": "Kachin Group",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_sak",
         "label": "Sak Group",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_tai",
         "label": "Tai Group",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_chinese",
         "label": "Chinese Group",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_palaung_wa",
         "label": "Palaung-Wa",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_mon",
         "label": "Mon Group",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_karen",
         "label": "Karen Group",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_indo_burman",
-        "label": "Indo-Burman Races",
-        "group": "Race-Group",
+        "label": "Indo-Burman",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_indian",
-        "label": "Indian Races",
-        "group": "Race-Group",
+        "label": "Indian",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       },
       {
         "c": "race_others",
         "label": "Others",
-        "group": "Race-Group",
+        "group": "Ethnic Groups",
         "role": "",
         "dp": 0
       }
@@ -17656,11 +17662,11 @@ JMAP.POPULATION = [
     "when": "1931",
     "lineLabel": "Census Population",
     "compareNote": "",
-    "label": "Burma by district and state, the population by race-group at the 1931 census",
+    "label": "Burma by district and state, the population by ethnic group at the 1931 census",
     "pctOf": "",
     "source": "Census of India, 1931 Volume XI Burma Part I. Report, pp240-244.",
     "srcUrl": "",
-    "layer": "Burma by district and state, the population by race-group at the 1931 census",
+    "layer": "Burma by district and state, the population by ethnic group at the 1931 census",
     "rows": {
       "Akyab": {
         "scope": "sub-unit",
@@ -17972,14 +17978,14 @@ JMAP.POPULATION = [
         "scope": "sub-unit",
         "en": "Minbu",
         "pop": 277878,
-        "note": "As printed: the race-groups sum to 277,876 against the printed total of 277,878.",
+        "note": "As printed: the ethnic groups sum to 277,876 against the printed total of 277,878.",
         "x": {
           "race_burma": 251983,
           "race_kuki_chin": 20961,
           "race_indian": 3968,
           "race_others": 964
         },
-        "line": "1931 Census Population: 277,878 As printed: the race-groups sum to 277,876 against the printed total of 277,878."
+        "line": "1931 Census Population: 277,878 As printed: the ethnic groups sum to 277,876 against the printed total of 277,878."
       },
       "Magwe": {
         "scope": "sub-unit",
@@ -18192,7 +18198,7 @@ JMAP.POPULATION = [
         "scope": "unmapped",
         "en": "Southern Shan States",
         "pop": 870230,
-        "note": "The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the race-groups sum to 869,930 against the total of 870,230.",
+        "note": "The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the ethnic groups sum to 869,930 against the total of 870,230.",
         "x": {
           "race_burma": 143274,
           "race_lolo_muhso": 74859,
@@ -18203,7 +18209,7 @@ JMAP.POPULATION = [
           "race_indian": 11351,
           "race_others": 2434
         },
-        "line": "1931 Census Population: 870,230 The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the race-groups sum to 869,930 against the total of 870,230."
+        "line": "1931 Census Population: 870,230 The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the ethnic groups sum to 869,930 against the total of 870,230."
       },
       "Karenni States": {
         "scope": "sub-unit",

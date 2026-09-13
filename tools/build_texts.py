@@ -1487,6 +1487,9 @@ def build_pages():
                # deep zoom over Korea
                "japan-empire-map-korea.svg",
                "annotate.js", "admin.js",
+               # the thematic layers, fetched the first time a reader opens
+               # the book beside the map
+               "themes.js",
                # the train tools and the network they draw, both fetched only
                # when a reader zooms in to a railway that has one
                "trains.js", "tw-trains.js", "kr-trains.js", "kf-trains.js",

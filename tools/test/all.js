@@ -266,6 +266,17 @@ const TRIGGERS = [
      from growing a second frontier outside the first. tools/test/burma.js. */
   [/^data\/burma\//,               ['geometry', 'core', 'data', 'transport']],
   [/^tools\/build_burma\.py$/,     ['geometry', 'core', 'data']],
+
+  /* The thematic layers. `build_themes.py` writes deploy/themes.js — category
+     rings in lon/lat and a table of which district each covers — fetched only
+     when a reader opens the book. A theme forces Administrative and the names
+     on, draws over the districts, and adds rows to the key, so it reaches the
+     drawn sheet, the key, and the layer text as well as its own script.
+     tools/test/burma.js drives the one there is. */
+  [/^deploy\/themes\.js$/,        ['geometry', 'core', 'links']],
+  [/^tools\/build_themes\.py$/,   ['geometry', 'core', 'links']],
+  [/^data\/burma\/burma-1931-rule-categories\./, ['geometry', 'core', 'links']],
+
   [/^tools\/build_(tw|kr|kf)_(trains|stations)\.py$/, ['transport']],
   [/^data\/(tw-1936|kr-1938|kf-1935)-timetable\//, []],   // vendored; the build reads it
   [/^deploy\/timetable\//,         ['transport']],

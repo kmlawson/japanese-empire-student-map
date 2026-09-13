@@ -42,6 +42,7 @@ below are what it holds, named relative to it.
 | `kr-stations.js` | 229 KB | 38 KB | when Korea's are |
 | `kf-stations.js` | 41 KB | 8 KB | when Karafuto's are |
 | `jp-rails.js` | 1,706 KB | 328 KB | when **Japan Railways** is switched on — 1,977 lines, never with the page |
+| `themes.js` | 100 KB | 30 KB | when a **thematic layer** is opened from the book beside the map |
 | `jp-stations.js` | 1,059 KB | 210 KB | when **Show Japan Stations** is — 12,800 places |
 | `air-play.js` | 29 KB | 11 KB | when the plane tools are asked for |
 | **total** | **9.4 MB** | **2.65 MB** | |

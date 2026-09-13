@@ -850,6 +850,21 @@ SUB_MILITARY = {}
 # named here is written once and shown on both dates.
 SUB_BOTH_EPOCHS = set()
 
+# **A DIVISION THAT BELONGS TO ONE DATE ONLY, IN AN ATOM THAT IS ON BOTH.**
+#
+# Kengtung is the case. The state was Burma's in 1931 and the whole of it went
+# to Thailand as part of Saharat Thai Doem in 1942, which this map already
+# draws — `a-saharat` carries its own Kengtung. Burma's copy carried no date,
+# so on the December 1942 sheet both were in the document, both answered to
+# the name, and once a district inside a group could write its own name the
+# reader got 景棟 twice.
+#
+# Only Kengtung. Mong Pan was *divided* by the transfer — Saharat's block is
+# `MongpanEast` and the rest stayed Burmese — so dating the whole district
+# here would take Burmese ground off the later map to fix a collision that
+# does not exist.
+SUB_ONLY = {("burma", "Kengtung"): "e1930"}
+
 # A clip for one block of one atom on one date, where the atom's own is wrong.
 # Dutch New Guinea is the case and the only one: it is inside `Gouvernement
 # der Molukken`, and the western half of it was never occupied — so on the
@@ -8295,10 +8310,20 @@ def main():
             _isles = [b for b in blocks if b[0] and (key, b[0]) in SUB_BOTH_EPOCHS]
             _dated = [b for b in blocks if b[0] and (key, b[0]) not in SUB_BOTH_EPOCHS]
             blocks = _bare + _isles + early + _dated
-        elif key == "siamgain":
+        elif key in ("siamgain", "saharat"):
             # The cession has divisions on the later sheet only: in 1930 this
             # ground is inside Indochina's own whole provinces above, and
             # naming it again here would draw it twice.
+            #
+            # **And Saharat Thai Doem for the same reason on the other side.**
+            # In 1930 this atom is one of British India's — `texts/territories/
+            # 1930.csv` lists it under `britishindia` — so its ground is
+            # Burma's, and Burma's own 1931 districts cover it and name it
+            # Kengtung. Its division was drawn and named there too, so the
+            # 1930 map carried Kengtung twice, once out of each atom. It went
+            # unnoticed while a district inside a group wrote no name: the two
+            # labels sat on the same state a few pixels apart and only one of
+            # them was Burma's.
             for _b in blocks:
                 epoch_of[id(_b)] = "e1942"
 
@@ -8358,7 +8383,7 @@ def main():
                 # an unnamed leftover gets no attribute at all: an empty one
                 # reads as a sub-unit that can never be named or outlined
                 attr = (f' data-prov="{esc(pname)}"' + where) if pname else ""
-                _ep = epoch_of.get(id(block))
+                _ep = epoch_of.get(id(block)) or SUB_ONLY.get((key, pname))
                 if _ep:
                     attr += ' data-epoch="%s"' % _ep
                 if key in SUB_CLIP:

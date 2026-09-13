@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '362';
+  var JEM_VERSION = '363';
 
   /* Every file this one fetches, with the version on it.
 
@@ -122,6 +122,18 @@
   var TERR_PX = 13.5;     // label sizes, in screen pixels
   var SITE_PX = 11.5;
   var SUB_PX = 10.5;      // provinces and islands, a step under a country
+  /* **A DIVISION IS NOT A DISTRICT, AND THE TYPE SHOULD SAY SO.**
+     Both are sub-units and both were written the same way, so a reader
+     zoomed into the Irrawaddy delta saw "Irrawaddy Division" and "Bassein"
+     in one voice and had no way to tell the container from the thing
+     contained. A point and a half larger, upright where the district is
+     italic, and letter-spaced in `.grouplabel` — the difference a map makes
+     between a region and a place, which is small on purpose: a division is
+     still a step under the country, and shouting it would only move the
+     problem up a level. Kept here beside SUB_PX rather than in the CSS
+     because the placer boxes a label from `entry.size`, and a size CSS knows
+     and the collision test does not is the two-units bug in another coat. */
+  var GROUP_PX = 12;
   var STA_PX = 8.5;       // stations, the smallest thing on the map that reads
   var STA_SQ = 5;         // the square, in screen pixels: a stop, not a town
   var FEAT_PX = 11;       // seas, deserts, plateaus: the physical map
@@ -231,6 +243,19 @@
        by default and fetched only when asked for: it is the densest layer on
        the map and it is about one industry on one island. */
     twSugar: false,
+    /* **The thematic layer that is up, by id, or '' for none.**
+     *
+     * `themeId` and **not `theme`**, which is taken: `state.theme` is the
+     * light/dark/auto colour setting, and it lives in the shared link's own
+     * bits. Writing a layer id into it would have set the reader's colour
+     * scheme to `burma-rule` and read it back as a mode nobody has. Caught by
+     * `layerinfo`, which found this row in the panel with nothing switched
+     * on — `state.theme` being 'auto' is perfectly truthy.
+     *
+     * A string rather than a boolean because a place may have several themes
+     * and only one is drawn; `layer-info.csv` reads it as a flag, where any
+     * id at all is "on". */
+    themeId: '',
     /* Which demographic map each group is showing, keyed by the *group* in
        data/population/index.csv — `korea-density`, and in time others. The
        value is a mode: `density`, `citizenship`, `occupation`, or absent for
@@ -2384,7 +2409,7 @@
   /* Held rather than looked up. This runs on every frame of every gesture and
      `querySelector` on a document of eight thousand nodes is not free. */
   var btnStaEl = null, btnTrnEl = null, btnSugarEl = null, btnRailEl = null;
-  var btnAirEl = null;
+  var btnAirEl = null, btnThemeEl = null;
   var btnElsFound = false;
 
   /* Called from `railFade`, so on every frame of every gesture. Everything it
@@ -2399,7 +2424,28 @@
       btnSugarEl = $('#btn-sugar');
       btnRailEl = $('#btn-rail');
       btnAirEl = $('#btn-air');
+      btnThemeEl = $('#btn-theme');
     }
+    /* **The book, where the ground under the view has a theme.** Like the
+       sugar button it comes and goes with the country rather than standing
+       there always: a thematic layer is a thing about *this* place, and a
+       book offered over the Pacific would be offering nothing. */
+    if (btnThemeEl) {
+      var mine = themesHere();
+      var haveTheme = mine.length > 0;
+      if (btnThemeEl.hidden !== !haveTheme) btnThemeEl.hidden = !haveTheme;
+      var tp = themeOn() ? 'true' : 'false';
+      if (btnThemeEl.getAttribute('aria-pressed') !== tp) {
+        btnThemeEl.setAttribute('aria-pressed', tp);
+      }
+      btnThemeEl.classList.toggle('on', !!themeOn());
+      var tt = themeOn()
+        ? (themeRec(themeOn()) ? nameOf(themeRec(themeOn())) || themeRec(themeOn()).en : 'Thematic layer')
+        : (mine.length === 1 ? 'Thematic layer for this place'
+                             : 'Thematic layers for this place');
+      if (btnThemeEl.title !== tt) btnThemeEl.title = tt;
+    }
+    themeFollowsView();
     /* Always offered, and filled when the layer is drawn. Unlike the railway
        button there is no zone to be over: these five services cross the whole
        map, so the button never has to appear and disappear. */
@@ -2449,6 +2495,16 @@
       var rl = (railOn ? 'Hide ' : 'Show ')
         + (RAIL_LABEL[railSys]
              ? RAIL_LABEL[railSys] + '\u2019s railways' : 'the railways');
+      /* **AND IT SAYS SO WHEN THE LINES ARE ON AND THERE IS NOTHING TO SEE.**
+         `railFadeOne` takes the track out on the zoom alone — full in at
+         `mapW / RAIL_FULL_W`, gone by `mapW / RAIL_GONE_W` — because a
+         railway read at the whole-empire view is a smear rather than a
+         network. The button knew nothing about that: it stayed lit over an
+         empty map and the reader was left to wonder which of the two was
+         lying. Reported as "the button is on and the lines are not showing".
+         The switch is still on and still worth leaving on, so the state does
+         not change; what changes is that the button admits the reason. */
+      if (railOn && railAlpha() <= 0.02) rl += ' \u2014 zoom in to see them';
       if (btnRailEl.getAttribute('aria-pressed') !== rp || btnRailEl.title !== rl) {
         btnRailEl.setAttribute('aria-pressed', rp);
         btnRailEl.classList.toggle('on', railOn);
@@ -3806,11 +3862,21 @@
       var line = !!state[cfg.rail] || connReaches(sys);
       var row = $('#' + cfg.row);
       if (row) row.hidden = !line;
-      if (!line && state[cfg.on]) {
-        state[cfg.on] = false;
-        var box = $('#' + cfg.box);
-        if (box) box.checked = false;
-      }
+      /* **THE READER'S TICK IS NOT THE MAP'S TO THROW AWAY.**
+         This used to clear `state[cfg.on]` the moment there was no line for
+         the squares to sit on — the reasoning being that a switch left on for
+         a layer that is not drawn is a promise the map is not keeping. In use
+         it is the opposite: `line` follows the *view* through `connReaches`,
+         so panning off the track silently untick the stations, and panning
+         back did not bring them home. The reader had asked once and the map
+         had quietly decided otherwise, which is the "stations on and no
+         stations" this was reported as.
+         So the intent is kept and only the drawing follows the ground: the
+         row goes, the squares go, and both come back where the line does.
+         The checkbox is put back in step with the intent rather than the
+         other way round. */
+      var box = $('#' + cfg.box);
+      if (box && box.checked !== !!state[cfg.on]) box.checked = !!state[cfg.on];
       var on = stationsOn(sys);
       if (on && !cfg.built && buildStations) { buildStations(sys); return; }
       if (!cfg.group) return;
@@ -5957,6 +6023,15 @@
   var SUB_MIN_SIDE = 90;
   var subLabels = [];
   var subLabelled = null;
+  /* Which names the sub-unit layer has already written, as `atom|key`. One
+     district can be several paths — Kengtung is — and each of them offered to
+     write the name, so 景棟 was in `#labels` twice. Dropped with the label in
+     `dropLabelsFor`, or a region taken out and brought back would keep the
+     key and stay nameless. */
+  var subNamed = null;
+  // the divisions, held: see ensureSubLabels
+  var subNodes = null;
+  var subParentNames = null;
 
   /* How many degrees of latitude the window is showing. `unproject` is the
      only honest way to ask: view.h is in map units, and a map unit is a degree
@@ -6028,13 +6103,46 @@
     };
   }
 
+  /* Scoped to the atom: two countries may each have a division of the same
+     name and both should write it. */
+  function nameKeyFor(el, key) {
+    var a = el.closest ? el.closest('.atom') : null;
+    return (a && a.id ? a.id : '?') + '|' + key;
+  }
+
   function ensureSubLabels() {
     if (!subLabelsWanted()) return;
     // the divisions live in a second file until something asks for them, and
     // wanting to read their names is asking
     if (adminState !== 'ready' && adminState !== 'loading') loadAdmin();
     if (!subLabelled) subLabelled = new WeakSet();
+    if (!subNamed) subNamed = {};
     var made = 0;
+    /* **HELD, NOT ASKED FOR AGAIN EVERY FRAME.**
+       This runs from `gateLabels`, which runs on every frame of a pan and of
+       the train tools' animation, and the query walks an eight-thousand-node
+       document to find the eleven hundred divisions — the same answer every
+       time. `subEpochGated` a few hundred lines down had learned this already
+       and this had not; the district-label work made it worse by walking the
+       result twice. Rebuilt when the administrative sheet is grafted, which
+       is the only thing that adds to it. */
+    if (!subNodes) subNodes = $$('#land [data-prov]', svg);
+    var nodes = subNodes;
+    /* **A NAME THAT IS A GROUP'S BELONGS TO THE GROUP.**
+       Gathered before any label is made, because the two are decided in one
+       pass and the member is reached first. `Gouvernement der Molukken` is a
+       group over eight residencies in 1930 and a single unit under the
+       Japanese Navy in 1942, so both wanted the name and both wrote it. The
+       group is the better keeper: it is the coarser thing, and it is on the
+       map on both dates where the member is hidden on one. */
+    if (!subParentNames) {
+      subParentNames = {};
+      for (var pi = 0; pi < nodes.length; pi++) {
+        var pn = nodes[pi].getAttribute('data-parent');
+        if (pn) subParentNames[pn] = 1;
+      }
+    }
+    var parentNames = subParentNames;
     /* A district whose prefecture is named does not write its own name.
      *
      * Taiwan is fifty 郡 and 市 inside eight 州 and 廳, and writing fifty names
@@ -6047,7 +6155,7 @@
      * Collected first, and made below: a group's name goes in the middle of
      * the whole group and not on whichever district happened to come first. */
     var groups = {};
-    $$('#land [data-prov]', svg).forEach(function (el) {
+    nodes.forEach(function (el) {
       if (subLabelled.has(el)) return;
       subLabelled.add(el);
       var key = el.getAttribute('data-prov');
@@ -6055,8 +6163,31 @@
       var parent = el.getAttribute('data-parent');
       if (parent) {
         (groups[parent] = groups[parent] || []).push(el);
-        return;
+        /* **A district with no measured area does not get to skip the gate.**
+           `subFits` falls back to a plain zoom threshold when `side` is 0,
+           which is right for a fine-coastline island — those carry no area
+           and there are few of them — and wrong here. Taichū-shi is written
+           `data-area="0"`, so it sailed through the fallback and was the one
+           name on an island of fifty-five districts, none of its larger
+           neighbours beside it. That is precisely the arbitrary handful the
+           rule below is written against. */
+        if (!(parseFloat(el.getAttribute('data-area') || '0') > 0)) return;
+        if (parentNames[key]) return;
+        var nk = nameKeyFor(el, key);
+        if (subNamed[nk]) return;
+        subNamed[nk] = 1;
+        el.__nameKey = nk;
       }
+      /* **AND THEN THE DISTRICT ITSELF, IF THE READER HAS ZOOMED TO IT.**
+         The group's name is not a substitute for its members', it is what
+         there is room for from far off; once a district is a hand's breadth
+         across, its own name is the one somebody is looking for. It used to
+         return here, so a district inside a group was never named at any
+         zoom, and the only way to read one was to hover it.
+         Nothing is written that has not been earned: the entry is gated by
+         `subFits` on the district's own area, so Taiwan's fifty 郡 stay
+         unwritten at the opening view exactly as before — they simply stop
+         being unwritable. */
       var x = parseFloat(el.getAttribute('data-cx'));
       var y = parseFloat(el.getAttribute('data-cy'));
       var half = 0, area = Infinity;
@@ -6085,7 +6216,7 @@
       labelLayer.appendChild(text);
       var entry = { rec: subRec(el, key), el: text, x: x, y: y, dy: 0,
                     size: SUB_PX, w: 0, h: SUB_PX * 1.2, half: half, key: key,
-                    area: area,
+                    area: area, nameKey: el.__nameKey || '',
                     owner: el, atom: el.closest ? el.closest('.atom') : null };
       labels.push(entry);
       subLabels.push(entry);
@@ -6109,12 +6240,16 @@
         x1 = Math.max(x1, bb.x + bb.width); y1 = Math.max(y1, bb.y + bb.height);
       });
       if (!got) return;
-      var text = svgEl('text', { 'class': 'tlabel sublabel', 'font-size': SUB_PX });
+      var gk = nameKeyFor(els[0], pkey);
+      if (subNamed[gk]) return;
+      subNamed[gk] = 1;
+      var text = svgEl('text', { 'class': 'tlabel sublabel grouplabel',
+                                 'font-size': GROUP_PX });
       labelLayer.appendChild(text);
       var entry = { rec: subRec(els[0], pkey), el: text,
                     x: (x0 + x1) / 2, y: (y0 + y1) / 2, dy: 0,
-                    size: SUB_PX, w: 0, h: SUB_PX * 1.2, half: 0, key: pkey,
-                    area: Infinity,
+                    size: GROUP_PX, w: 0, h: GROUP_PX * 1.2, half: 0, key: pkey,
+                    area: Infinity, nameKey: gk,
                     owner: els[0], atom: els[0].closest ? els[0].closest('.atom') : null };
       /* A prefecture is the size of all its districts, not of whichever one
          came first. `subRec` took its area off `els[0]` — one 郡 of a few
@@ -6201,8 +6336,16 @@
       // is not drawn in this epoch, or the alternative province source has
       // replaced it. Read off the inline style rather than the computed one —
       // this runs over every label on every zoom.
+      /* The shape itself can be hidden without its atom being: `gateSubEpochs`
+         writes `display: none` on the divisions of the other date, inline and
+         one path at a time. Djambi, Pontianak, Tapanoeli and three more are in
+         the sheet twice, once per date, and once a district inside a group
+         could write its own name each copy wrote one — the drawn one and the
+         hidden one, the same word twice in `#labels`. Reading the inline
+         style is what the atom test already does and costs nothing. */
       var gone = L.owner
         && (!L.owner.isConnected
+            || L.owner.style.display === 'none'
             || (L.atom && L.atom.style.display === 'none'));
       /* Station names are a layer of their own, asked for in the Layers pane
          and not by "Show names" — the reader who switches the railways on
@@ -8217,6 +8360,251 @@
     liftSubs(subsAtom);
   }
 
+  /* ===================================================================
+     THEMATIC LAYERS
+
+     A theme is a question somebody asked of a place. The Administrative layer
+     answers *what was this district called*; a theme answers something else
+     about the same ground — the first asks how far the administration of
+     Burma actually reached — and the two are meant to be read together rather
+     than instead of one another.
+
+     So a theme never replaces anything. It goes **over** the districts at an
+     opacity that leaves them legible, takes no pointer events, brings its
+     categories to the key, and switches on the two layers it needs to be read
+     at all: the districts themselves, and their names. Turning it off puts
+     the map back.
+
+     The geometry is fetched, not shipped: 6,381 vertices for a layer that is
+     off until somebody presses the book. `tools/build_themes.py` writes
+     `themes.js` in lon/lat and this projects it, the same arrangement
+     `jp-rails.js` has.
+     =================================================================== */
+  var themeLayer = null, themeState = 'none', themeShown = '';
+  var themeMenuEl = null;
+  /* What the reader had before the theme borrowed the map, so that turning it
+     off is an undo and not a second opinion about how the map should look. */
+  var themeRestore = null;
+
+  /* **WHICH THEMES BELONG TO WHICH GROUND, AND WHERE THAT GROUND IS.**
+   *
+   * The box is stated here rather than measured off the atom, and it has to
+   * be: `#a-burma` is an empty `<g>` until the Administrative sheet is
+   * fetched — the province's own shape is in the backings layer and its
+   * districts are in the deferred file — so `getBBox` on it is 0 by 0 and the
+   * book never appeared. The button must know where the theme's ground is
+   * *before* anything is loaded, which is the whole reason it is a button.
+   *
+   * West, south, east, north, from the theme's own rings as
+   * `build_themes.py` reports them: 92.17 to 101.17 E, 9.99 to 28.43 N,
+   * rounded outwards. A theme is a thing about a piece of ground and its
+   * extent is its own business, not the atom's. */
+  var THEMES_FOR = {
+    burma: { box: [92.1, 9.9, 101.2, 28.5], ids: ['burma-rule'] },
+  };
+
+  function themeRec(id) {
+    return (JMAP.THEMES || {})[id] || null;
+  }
+
+  /* The themes of the ground under the view, or an empty list. Uses the same
+     question the railway button asks — what country is the reader looking at
+     — rather than a box of its own, so the book appears exactly where the
+     other map-side buttons would agree it should. */
+  function themesHere() {
+    var ids = [];
+    Object.keys(THEMES_FOR).forEach(function (key) {
+      var rec = THEMES_FOR[key];
+      if (viewMeets(rec.box)) ids = ids.concat(rec.ids);
+    });
+    return ids;
+  }
+
+  function loadThemes(then) {
+    if (themeState === 'ready') { then(); return; }
+    if (themeState === 'loading') return;
+    themeState = 'loading';
+    loadScript('themes.js').then(function () {
+      themeState = JMAP.THEMES ? 'ready' : 'failed';
+      if (themeState === 'ready') then();
+    }, function () { themeState = 'failed'; });
+  }
+
+  /* The categories, drawn once and kept. Projected here because the reader
+     can change projection and a path built in one is wrong in another;
+     `reprojectGraft` moves them when they do, exactly as it moves the sugar
+     lines and Japan's track. */
+  /* The clip an atom's own sub-units are drawn through, if it has one. Read
+     off a district rather than kept in a list here: the build writes the
+     attribute and a second copy of that knowledge would be a thing to keep
+     in step. */
+  function clipFor(atom) {
+    if (!atom || !svg) return '';
+    var el = $('#a-' + atom + ' [data-prov][clip-path]', svg);
+    var m = el && /url\(#([^)]+)\)/.exec(el.getAttribute('clip-path') || '');
+    return m ? m[1] : '';
+  }
+
+  function buildTheme(id) {
+    var rec = themeRec(id);
+    if (!rec || !svg) return null;
+    var g = svgEl('g', { id: 'thematic', 'data-theme': id });
+    /* **CLIPPED TO THE COUNTRY, LIKE ITS DISTRICTS.**
+       The source sheet and this map's coastline are two readings of the same
+       shore and they do not agree to the metre: at the mouth of the Rangoon
+       river the Regular ring reaches a little way past the land, and a wash
+       at 0.55 over open water came out as a pale patch in the estuary that
+       looks like a fifth category. `clip-burma` is the clip the districts
+       already use, so the theme now stops exactly where they do — and where
+       a later theme names an atom with no clip, `clipFor` gives nothing and
+       the group is drawn whole, as before. */
+
+    (rec.cats || []).forEach(function (cat) {
+      var d = '';
+      (cat.r || []).forEach(function (flatRing) {
+        for (var i = 0; i < flatRing.length; i += 2) {
+          var q = mercFwd(flatRing[i], flatRing[i + 1]);
+          d += (i ? 'L' : 'M') + (Math.round(q.x * 10) / 10) + ' '
+             + (Math.round(q.y * 10) / 10);
+        }
+        d += 'Z';
+      });
+      if (!d) return;
+      g.appendChild(svgEl('path', {
+        d: d, fill: cat.c, 'data-cat': cat.id, 'data-cat-en': cat.en,
+      }));
+    });
+    /* Over the land and under everything that answers the pointer or carries
+       a name — the districts keep their labels and their clicks, which is the
+       whole arrangement. */
+    svg.insertBefore(g, subsLiftLayer || markersGroup || null);
+    if (projMode !== 'mercator') reprojectGraft([g]);
+    themeLayer = g;
+    applyThemeClip();
+    return g;
+  }
+
+  /* **CLIPPED TO THE COUNTRY, LIKE ITS DISTRICTS.**
+     The source sheet and this map's coastline are two readings of the same
+     shore and they do not agree to the metre: at the mouth of the Rangoon
+     river the Regular ring reaches a little way past the land, and a wash at
+     0.55 over open water came out as a pale patch in the estuary that looks
+     like a fifth category. The clip is the districts' own, read off one of
+     them rather than kept in a second list here.
+
+     Called twice on purpose. A theme switches the Administrative layer on and
+     then draws, but the sheet those districts live in is *fetched*, so on the
+     first press there is nothing to read the clip off yet and this does
+     nothing; the graft calls it again when the sheet lands. Where an atom's
+     sub-units carry no clip there is nothing to apply and the group is drawn
+     whole, as it was. */
+  function applyThemeClip() {
+    if (!themeLayer || themeLayer.getAttribute('clip-path')) return;
+    var rec = themeRec(themeShown);
+    var clip = clipFor(rec && rec.atom);
+    if (clip) themeLayer.setAttribute('clip-path', 'url(#' + clip + ')');
+  }
+
+  function themeOn() { return themeShown; }
+
+  function setTheme(id) {
+    id = id || '';
+    if (id === themeShown) return;
+    if (id && !themeRec(id)) {
+      loadThemes(function () { setTheme(id); });
+      return;
+    }
+    if (themeLayer) { themeLayer.remove(); themeLayer = null; }
+    if (!id) {
+      var wasAtom = atomEls[(themeRec(themeShown) || {}).atom]
+        || $('#a-' + ((themeRec(themeShown) || {}).atom || ''), svg);
+      /* Only where the pointer is not itself holding it: taking `subs` off an
+         atom the reader is hovering would blank the boundaries under their
+         own cursor. */
+      if (wasAtom && subsAtoms.indexOf(wasAtom) < 0) wasAtom.classList.remove('subs');
+      themeShown = '';
+      state.themeId = '';
+      /* Put back what the theme borrowed, and only what it borrowed: a reader
+         who switched the districts on themselves keeps them. */
+      if (themeRestore) {
+        if (!themeRestore.admin) state.cats.territory = false;
+        if (!themeRestore.labels) state.labels = false;
+        themeRestore = null;
+        applyState();
+      }
+      buildLegend();
+      syncMapButtons();
+      return;
+    }
+    themeRestore = { admin: !!state.cats.territory, labels: !!state.labels };
+    /* **The two layers a theme cannot be read without.** The categories mean
+       nothing over a blank country: the reader has to see which district is
+       which, and be able to read its name without hunting for it with the
+       pointer. Both are put back on the way out. */
+    state.cats.territory = true;
+    state.labels = true;
+    themeShown = id;
+    state.themeId = id;
+    applyState();
+    themeLayer = buildTheme(id);
+    /* **And the districts under it are drawn, not only drawable.** The
+       Administrative layer strokes the country under the pointer and no
+       other, which is right for browsing and wrong here: the categories are
+       laid over the districts so the two can be read together, and a reader
+       who has to hover the country to see which district is which is being
+       asked to hold the map in their head. The theme's own atom takes `subs`
+       for as long as the theme is up — the same class the pointer applies,
+       and the same one Ctrl applies to all of them. */
+    var tAtom = atomEls[(themeRec(id) || {}).atom]
+      || $('#a-' + ((themeRec(id) || {}).atom || ''), svg);
+    if (tAtom) tAtom.classList.add('subs');
+    buildLegend();
+    syncMapButtons();
+    scheduleUrl();
+    saveState();
+  }
+
+  /* **A theme belongs to its ground.** Panned away from Burma entirely, the
+     layer is describing a country that is no longer on the screen — and the
+     book that would turn it off has gone with it, so it has to stand itself
+     down. Checked where every other view-dependent button is checked. */
+  function themeFollowsView() {
+    if (!themeShown) return;
+    var rec = themeRec(themeShown);
+    var home = rec && THEMES_FOR[rec.atom];
+    /* **Gone from the screen, gone from the map.** A theme describes one
+       country; panned off it the layer is describing ground the reader can no
+       longer see, and the book that would switch it off has gone with it.
+       `viewMeets` answers false for *unknown* as well as for *outside*, so
+       this asks only when the box is known — the mistake the Ctrl reveal made
+       and which is written up in 182. */
+    if (home && home.box && !viewMeets(home.box)) setTheme('');
+  }
+
+  /* The category under a point, for the card and the tooltip. Read off the
+     drawn shapes rather than by testing geometry: the paths are in the
+     document and `elementsFromPoint` walks them for free, and they are
+     `pointer-events: none`, so this is the one thing that has to ask for them
+     by name. */
+  /* Which category a district's ground was in, for the card.
+
+     **Read from the table the build worked out, not from the drawn shapes.**
+     The obvious way is `elementsFromPoint` — the paths are right there under
+     the pointer — but they are `pointer-events: none`, which is the whole
+     point of them, and an element the pointer cannot reach is not in that
+     list. So the answer comes from `rule`, which `build_themes.py` computed
+     by testing each district's centroid against the category rings: 90 tests
+     once at build, against one on every mouse move. */
+  function themeCatOf(el) {
+    if (!themeShown) return '';
+    var name = el && el.getAttribute ? el.getAttribute('data-prov') : '';
+    var rec = themeRec(themeShown);
+    var key = name && rec && rec.rule ? rec.rule[name] : '';
+    if (!key) return '';
+    var cats = (rec.cats || []).filter(function (c) { return c.id === key; });
+    return cats.length ? cats[0].en : '';
+  }
+
   /* **CTRL, HELD: EVERY BOUNDARY THE MAP HAS AT ONCE.**
    *
    * The Administrative layer draws divisions for the country under the
@@ -8584,7 +8972,11 @@
               // the switch changes every line of this without changing which
               // record is under the pointer, so a stale key would leave the
               // romanisation showing until the reader moved off and back
-              + '|' + (state.hanLabels ? 'han' : '');
+              + '|' + (state.hanLabels ? 'han' : '')
+              // and which theme is up: the same province says one more thing
+              // under a thematic layer, and a stale key would keep the old
+              // tooltip until the pointer left and came back
+              + '|' + (state.themeId || '');
     if (key === tipKey && !tooltip.hidden) {
       if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
       return;
@@ -8663,6 +9055,19 @@
       // Territory of New Guinea" — and a reader looking at one atoll in the
       // Carolines has to parse it out of a phrase. `rule` says it in three
       // words: Japanese mandate, British colony, Australian territory.
+      /* **AND THE THEME'S OWN ANSWER, WHERE ONE IS UP.**
+         The reader turned the layer on to ask how this ground was governed,
+         so the hover has to answer it without their having to click through
+         to the card or match a wash against the key. It goes under the
+         country, where the other "what kind of place is this" lines go, and
+         only while a theme is showing. */
+      var tcat = themeCatOf(prov && prov.el);
+      if (tcat) {
+        var tc = document.createElement('span');
+        tc.className = 'sub theme-cat';
+        tc.textContent = tcat;
+        tooltip.appendChild(tc);
+      }
       if (host.rule) {
         var rl = document.createElement('span');
         rl.className = 'sub rule';
@@ -9562,6 +9967,14 @@
      * Western Dutch New Guinea has none, and that is the point of the clip
      * that keeps the Moluccas residency off it: the Japanese never held that
      * ground, so nothing here says they did. */
+    /* **AND WHICH CATEGORY THIS GROUND WAS IN, WHERE A THEME IS UP.**
+     * The theme is the reason the reader turned the layer on, so the card has
+     * to answer for it: pointing at Myitkyina with the 1931 administration
+     * map showing should say that it was loosely administered, not leave the
+     * colour to be matched against the key by eye. Only while a theme is on,
+     * and only when the ground under the pointer is in one of its categories.
+     */
+    var themeCat = sub ? themeCatOf(lastProv && lastProv.el) : '';
     var provEl = lastProv && lastProv.el;
     var mil = (sub && provEl && provEl.getAttribute)
       ? (provEl.getAttribute('data-mil') || '') : '';
@@ -9569,6 +9982,15 @@
       ownNote = 'Administrative boundaries as they were on the eve of the '
         + 'Japanese occupation. This area was under the control of the '
         + mil + ' during the occupation.'
+        + (ownNote ? '  ' + ownNote : '');
+    }
+    /* The theme's answer goes in front of the district's own prose, because
+       it is why the reader turned the layer on. One sentence, in the
+       categories' own words. */
+    if (themeCat) {
+      var trec2 = themeRec(themeOn());
+      ownNote = 'On the ' + ((trec2 && trec2.en) || 'thematic map')
+        + ' this is **' + themeCat + '**.'
         + (ownNote ? '  ' + ownNote : '');
     }
     var groupNote = isSta ? (rec.note || '') : (sub ? (host.note || '') : '');
@@ -15663,6 +16085,114 @@
     m.style.top = top + 'px';
   }
 
+  /* **THE BOOK'S MENU.** Same shape as the railway's and styled by the same
+     rules — `#theme-menu` is in each of those selector lists, because the
+     class these three share is styled by nothing and that trap has been
+     sprung once already.
+
+     A place with one theme does not need a menu: the button is that theme's
+     switch and pressing it turns the layer on. The menu exists for the second
+     one, and the code is written now so that adding it is a row in
+     `THEMES_FOR` rather than a new button. */
+  var themeMenuOn = false;
+
+  function themeMenuNode() {
+    var m = $('#theme-menu');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'theme-menu';
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', 'Thematic layers for this place');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+  function buildThemeMenu(ids) {
+    var m = themeMenuNode();
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = 'Thematic layers';
+    m.appendChild(head);
+    ids.forEach(function (id) {
+      var rec = themeRec(id) || { en: id };
+      var label = document.createElement('label');
+      label.className = 'row';
+      var el = document.createElement('input');
+      el.type = 'radio';
+      el.name = 'theme-pick';
+      el.checked = themeOn() === id;
+      el.addEventListener('change', function () {
+        setTheme(el.checked ? id : '');
+        closeThemeMenu();
+      });
+      label.appendChild(el);
+      var txt = document.createElement('span');
+      txt.className = 'name';
+      txt.textContent = rec.en || id;
+      label.appendChild(txt);
+      if (rec.source) {
+        var src = document.createElement('span');
+        src.className = 'src';
+        src.textContent = rec.source;
+        label.appendChild(src);
+      }
+      m.appendChild(label);
+    });
+    /* And a way out that does not require finding the same radio again. */
+    var off = document.createElement('button');
+    off.type = 'button';
+    off.className = 'menu-all';
+    off.textContent = 'No thematic layer';
+    off.addEventListener('click', function () {
+      setTheme('');
+      closeThemeMenu();
+    });
+    m.appendChild(off);
+  }
+
+  function placeThemeMenu() {
+    var m = $('#theme-menu'), btn = $('#btn-theme');
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left = b.left - w - 8;
+    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    m.style.left = Math.max(6, left) + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function openThemeMenu(ids) {
+    buildThemeMenu(ids);
+    var m = themeMenuNode();
+    m.hidden = false;
+    themeMenuOn = true;
+    placeThemeMenu();
+  }
+
+  function closeThemeMenu() {
+    var m = $('#theme-menu');
+    if (!m || !themeMenuOn) return;
+    m.hidden = true;
+    themeMenuOn = false;
+  }
+
+  /* The press. One theme here: toggle it. More than one: offer them. The
+     geometry is fetched on the first press, so the first one is a beat slower
+     and every one after is not. */
+  function pressTheme() {
+    if (themeOn()) { setTheme(''); return; }
+    var ids = themesHere();
+    if (!ids.length) return;
+    loadThemes(function () {
+      if (ids.length === 1) setTheme(ids[0]);
+      else openThemeMenu(ids);
+    });
+  }
+
   function openRailMenu() {
     buildRailMenu();
     var m = railMenuEl();
@@ -16864,6 +17394,23 @@
         });
     }
 
+    /* **A theme brings its categories to the key.** It is drawn over the
+       countries in colours that are not the map's own, so a reader with no
+       key for them has four unexplained washes. Appended rather than
+       replacing anything: the countries are still down there and still
+       mean what the key above says they mean. */
+    if (themeOn()) {
+      var trec = themeRec(themeOn());
+      if (trec && (trec.cats || []).length) {
+        var thead = document.createElement('p');
+        thead.className = 'legend-sub';
+        thead.textContent = trec.en || 'Thematic layer';
+        legend.appendChild(thead);
+        trec.cats.forEach(function (cat) {
+          legendRow(legend, 'sw-theme', cat.c, cat.en, null, null);
+        });
+      }
+    }
     /* The density ramp, when one is on. It carries its own source line: the
        key is where a reader is looking when they ask what the colours mean,
        and "whose figures are these" is the same question. */
@@ -17571,6 +18118,18 @@
     $$('#land path, #land circle', svg).forEach(prune);
   }
 
+  /* **THE HELD DIVISION LIST IS ONLY SAFE IF EVERY WRITER SAYS SO.**
+     `ensureSubLabels` keeps `#land [data-prov]` rather than asking for it on
+     every frame, which means a division added or taken away behind its back
+     would never be named, or would be named off an element no longer in the
+     document. Four things move them: the administrative sheet arriving, a
+     fine coastline being grafted or dropped, and the province source being
+     swapped. Each calls this. */
+  function subNodesChanged() {
+    subNodes = null;
+    subParentNames = null;
+  }
+
   function graftFine(key) {
     if (fineLive[key] || !fineDoc) return false;
     bumpHi();
@@ -17579,6 +18138,7 @@
     if (!g || !el) return false;
     var nodes = [];
     var before = el.querySelector('circle');
+    subNodesChanged();
     $$(':scope > *', g).forEach(function (child) {
       var node = document.importNode(child, true);
       node.setAttribute('class', 'fine');
@@ -17611,6 +18171,7 @@
    * still recognise the elements and never rebuild them. */
   function dropLabelsFor(els) {
     if (!els.length) return;
+    subNodesChanged();
     els.forEach(function (e) { e.__dropping = 1; });
     var dropped = [];
     labels = labels.filter(function (L) {
@@ -17623,7 +18184,10 @@
       subLabels = subLabels.filter(function (F) {
         return !(F.owner && F.owner.__dropping);
       });
-      dropped.forEach(function (L) { if (L.sc) L.sc.__dropping = 1; });
+      dropped.forEach(function (L) {
+        if (L.sc) L.sc.__dropping = 1;
+        if (L.nameKey && subNamed) delete subNamed[L.nameKey];
+      });
       scalables = scalables.filter(function (s) { return !s.__dropping; });
     }
     els.forEach(function (e) { delete e.__dropping; });
@@ -17730,6 +18294,7 @@
   }
 
   function setProvinceSource(which) {
+    subNodesChanged();
     if (which !== 'enp' && which !== 'roc') return;
     provSource = which;
     // 'failed' as well as 'none': a request that fell over once used to leave
@@ -17950,6 +18515,10 @@
       /* The sheet is what brings the dated blocks in, so the held list is
          stale the moment it is grafted. */
       subEpochGated = null;
+      // the division list and the group names go with it
+      subNodesChanged();
+      // and the clip a thematic layer wanted before this arrived
+      applyThemeClip();
       setAdminBusy();
       applyState();
       if (selected) select(selected);
@@ -18436,6 +19005,13 @@
           closeRailMenu();
         }
       }
+      if (themeMenuOn) {
+        var tm = $('#theme-menu');
+        var tb = $('#btn-theme');
+        if (!(tm && tm.contains(e.target)) && !(tb && tb.contains(e.target))) {
+          closeThemeMenu();
+        }
+      }
       if (!labelMenuOn) return;
       var menu = $('#label-menu');
       if (menu && menu.contains(e.target)) return;
@@ -18445,10 +19021,12 @@
     document.addEventListener('keydown', function (e) {
       if (labelMenuOn && e.key === 'Escape') closeLabelMenu();
       if (railMenuOn && e.key === 'Escape') closeRailMenu();
+      if (themeMenuOn && e.key === 'Escape') closeThemeMenu();
     });
     window.addEventListener('resize', function () {
       if (labelMenuOn) placeLabelMenu();
       if (railMenuOn) placeRailMenu();
+      if (themeMenuOn) placeThemeMenu();
     });
 
     $$('#level-seg button').forEach(function (b) {
@@ -18947,6 +19525,18 @@
            the week running arrived stopped — the one half of the air layer a
            reader is most likely to want to show somebody. */
         scheduleUrl();
+      });
+    }
+
+    /* The book. A plain press is the whole control where a place has one
+       theme; where it has more, the press offers them. No long press and no
+       modifier: there is nothing hidden behind this button, and the menu it
+       opens *is* the thing it does. */
+    var btnTheme = $('#btn-theme');
+    if (btnTheme) {
+      btnTheme.addEventListener('click', function () {
+        if (themeMenuOn) { closeThemeMenu(); return; }
+        pressTheme();
       });
     }
 

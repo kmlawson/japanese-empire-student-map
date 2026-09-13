@@ -21,7 +21,7 @@ sub-unit,Tavoy,Tavoy,179964,152834,,,,,,3741,,2717,13426,,5615,1631,,
 sub-unit,Mergui,Mergui,161987,100478,,,,,10432,3835,,,21990,7094,9257,8901,,
 sub-unit,Toungoo,Toungoo,428670,283725,,,,,16633,3582,,,88093,4176,30109,2352,,
 sub-unit,Thayetmo,Thayetmyo,274177,246126,,22803,,,,,,,,,3271,1977,,
-sub-unit,Minbu,Minbu,277878,251983,,20961,,,,,,,,,3968,964,,"As printed: the race-groups sum to 277,876 against the printed total of 277,878."
+sub-unit,Minbu,Minbu,277878,251983,,20961,,,,,,,,,3968,964,,"As printed: the ethnic groups sum to 277,876 against the printed total of 277,878."
 sub-unit,Magwe,Magwe,499573,476878,,2348,,,,,,,,,16710,3637,,
 sub-unit,Pakokku,Pakôkku,499181,473622,,22149,,,,,,,,,2367,1043,,
 sub-unit,Chin Hills,Chin Hills,171237,,,169243,,,,,,,,,,1994,,
@@ -38,7 +38,7 @@ sub-unit,Katha,Katha,254170,134501,,,,39125,61750,2715,4751,,,,6889,4439,,
 sub-unit,Lower Chindwin,Lower Chindwin,383434,379753,,,,,,,,,,,2570,1111,,
 sub-unit,Upper Chindwin,Upper Chindwin,204982,97745,,8589,,,86546,,,,,,5329,6773,,
 unmapped,Northern Shan States,Northern Shan States,616458,47249,9562,,63229,,288659,60550,123277,,,,21253,2679,,"The census returns the Northern Shan States whole and the map draws the states severally, so these figures appear in this table only."
-unmapped,Southern Shan States,Southern Shan States,870230,143274,74859,,,,408758,3899,47524,,177831,,11351,2434,,"The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the race-groups sum to 869,930 against the total of 870,230."
+unmapped,Southern Shan States,Southern Shan States,870230,143274,74859,,,,408758,3899,47524,,177831,,11351,2434,,"The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the ethnic groups sum to 869,930 against the total of 870,230."
 sub-unit,Karenni States,Karenni,58761,2220,,,,,11383,,,,43081,,,2077,,
 sub-unit,Kantarawadi,Kantarawadi,,,,,,,,,,,,,,,Karenni States,"The census counts Karenni whole, so these are the three states' joint figures."
 sub-unit,Kyebogyi,Kyebogyi,,,,,,,,,,,,,,,Karenni States,"The census counts Karenni whole, so these are the three states' joint figures."

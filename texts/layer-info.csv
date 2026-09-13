@@ -20,3 +20,4 @@ tw-sugar,Taiwan Sugar Railways,twSugar,,"[〈日治時期糖鐵分布圖〉](htt
 train-tools,Train Tools,trainTools,,,
 relief,Shaded Relief,relief,,"Shaded relief after [Natural Earth](https://www.naturalearthdata.com/), warped once per projection by tools/build_relief.py.",https://www.naturalearthdata.com/
 graticule,The Graticule,graticule,,,
+theme-burma-rule,1931 Administration Map of Burma,themeId,,"The map at p. xi of *Census of India, 1931 Vol XI Burma Part I Report*.",

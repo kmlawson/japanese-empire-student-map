@@ -168,20 +168,158 @@ const GROUPS = {
           const t = (document.querySelector('#info') || {}).textContent || '';
           return {
             all: /637,?580/.test(t), burma: /327,?872/.test(t),
-            indian: /210,?990/.test(t), race: /race-group/i.test(t),
+            indian: /210,?990/.test(t), race: /ethnic group/i.test(t),
             year: /1931/.test(t),
             table: [...document.querySelectorAll('#info button, #info a')]
               .some(e => /population table/i.test(e.textContent || '')),
           };
         });
         check('  its card carries the all-races figure', card.all, JSON.stringify(card));
-        check('  and the race-group figures with it',
+        check('  and the ethnic-group figures with it',
               card.burma && card.indian && card.race, JSON.stringify(card));
         check('  dated to the census it came from', card.year);
         check('  and the whole table is one press away', card.table);
       }
     }
+    /* **THE FIRST THEMATIC LAYER.**
+       A theme is a question asked of a place — here, how far the
+       administration of Burma actually reached — drawn over the districts
+       rather than instead of them. Six things have to hold, and each of them
+       was a decision:
+         * the book appears where the ground has a theme and nowhere else;
+         * pressing it draws the four categories, `pointer-events: none` so
+           the districts underneath still answer;
+         * it brings the Administrative layer and the names with it, because
+           the categories mean nothing over a blank country;
+         * the districts are *stroked*, not merely strokeable — the layer
+           normally draws boundaries for the hovered country alone;
+         * the key gains the four categories, since they are in colours the
+           map does not otherwise use;
+         * and the button goes blue rather than the accent every other
+           pressed button goes, because a theme changes what the map says. */
+    {
+      const th = await p.evaluate(() => {
+        const b2 = document.getElementById('btn-theme');
+        return { exists: !!b2, hidden: b2 ? b2.hidden : null };
+      });
+      check('  the book is offered over Burma', th.exists && !th.hidden,
+            JSON.stringify(th));
+      if (th.exists && !th.hidden) {
+        await p.click('#btn-theme');
+        await sleep(2800);
+        const on = await p.evaluate(() => {
+          const g = document.getElementById('thematic');
+          const cats = g ? [...g.querySelectorAll('path')]
+            .map(e => e.getAttribute('data-cat')) : [];
+          const first = g && g.querySelector('path');
+          const btn = document.getElementById('btn-theme');
+          const atom = document.getElementById('a-burma');
+          return {
+            cats: [...new Set(cats)].sort(),
+            opacity: first ? getComputedStyle(first).fillOpacity : null,
+            pointer: g ? getComputedStyle(g).pointerEvents : null,
+            blue: btn ? getComputedStyle(btn).backgroundColor : '',
+            on: btn ? btn.classList.contains('on') : false,
+            admin: document.getElementById('jmap').classList.contains('admin-on'),
+            subs: atom ? atom.classList.contains('subs') : false,
+            labels: document.querySelectorAll('#labels text, #labels .lab').length > 0,
+            key: [...document.querySelectorAll('#legend .item')]
+              .map(e => e.textContent.trim())
+              .filter(t => /Regular Administration|Loosely Administered|Special Administration|Unadministered/.test(t)),
+          };
+        });
+        check('    the four categories are drawn',
+              on.cats.length === 4, on.cats.join(', '));
+        check('    over the districts, not instead of them',
+              on.pointer === 'none' && parseFloat(on.opacity) > 0.3
+              && parseFloat(on.opacity) < 0.8,
+              'pointer-events ' + on.pointer + ', fill-opacity ' + on.opacity);
+        check('    and it brings the districts and their names with it',
+              on.admin && on.labels, JSON.stringify({ admin: on.admin, labels: on.labels }));
+        check('    with their boundaries actually stroked', on.subs,
+              'a-burma carries subs: ' + on.subs);
+        check('    the key gains the four categories', on.key.length === 4,
+              on.key.join(' | '));
+        /* Blue, and specifically not the accent: an earlier draft of this
+           rule sat before the one it had to beat and came out red. */
+        check('    and the book goes blue, not the accent',
+              /rgb\(31,\s*58,\s*104\)/.test(on.blue), on.blue);
+      }
+    }
     await p.close();
+
+    /* **WHAT THE THEME ANSWERS, AND WHAT THE DISTRICTS ARE CALLED.**
+       Two things the reader asked for once the layer was up, and both are
+       about being able to read the map without clicking it.
+
+       The category goes in the hover, beside the district's own names: a
+       wash against a key in the corner is a lookup, and the question the
+       layer exists to answer should not cost one.
+
+       And a district inside a group writes its own name once it is big
+       enough on screen to carry it. It never did — a `data-parent` returned
+       before the label was made, so the seven Divisions were named and the
+       eighty-five districts under them were nameless at every zoom. The
+       gate is `subFits` on the district's own area, so this is a zoom
+       threshold and not a switch: the delta must name several of its
+       districts, and the far view must not name all of them. */
+    {
+      const z = await browser.newPage();
+      await z.evaluateOnNewDocument(SHIM);
+      await z.setViewport({ width: 1100, height: 850 });
+      const e3 = [];
+      z.on('pageerror', e => e3.push(String(e).slice(0, 160)));
+      await z.goto(BASE + '?where=93.5,15,98.5,19.5',
+                   { waitUntil: 'domcontentloaded' });
+      await ready(z); await sleep(2200);
+      await z.click('#btn-theme'); await sleep(2800);
+
+      const labs = await z.evaluate(() => {
+        const D = ['Bassein', 'Myaungmya', 'Henzada', 'Hanthawaddy', 'Thaton',
+                   'Amherst', 'Prome', 'Toungoo'];
+        const txt = [...document.querySelectorAll('#labels text')]
+          .filter(e => e.style.display !== 'none' && (e.textContent || '').trim())
+          .map(e => e.textContent.trim());
+        return D.filter(d => txt.some(t => t.indexOf(d) === 0));
+      });
+      check('  the delta\'s districts write their own names',
+            labs.length >= 5, labs.join(', ') || 'none');
+
+      /* Aimed by the district's own box rather than by a guessed point: a
+         sub-unit whose centre is off the edge of the view has a screen point
+         outside the container, and the hover is a mousemove on the container,
+         so the pointer would reach nothing at all. */
+      const at = await z.evaluate(() => {
+        const svg = document.getElementById('jmap');
+        const el = document.querySelector('#a-burma [data-prov="Bassein"]');
+        if (!el) return null;
+        const bb = el.getBBox(), m = svg.getScreenCTM();
+        const pt = svg.createSVGPoint();
+        pt.x = bb.x + bb.width / 2; pt.y = bb.y + bb.height / 2;
+        const s2 = pt.matrixTransform(m);
+        const cr = document.getElementById('map-container').getBoundingClientRect();
+        return (s2.x > cr.x + 8 && s2.x < cr.right - 8
+                && s2.y > cr.y + 8 && s2.y < cr.bottom - 8)
+          ? { x: Math.round(s2.x), y: Math.round(s2.y) } : null;
+      });
+      check('  Bassein is on screen to be hovered', !!at,
+            at ? at.x + ',' + at.y : 'not drawn');
+      if (at) {
+        await z.mouse.move(at.x - 6, at.y - 6); await sleep(250);
+        await z.mouse.move(at.x, at.y); await sleep(700);
+        const tip = await z.evaluate(() => ({
+          cat: (document.querySelector('#tooltip .theme-cat') || {}).textContent || '',
+          all: ((document.querySelector('#tooltip') || {}).textContent || '').slice(0, 80),
+        }));
+        check('  the hover says which category the ground is in',
+              tip.cat === 'Regular Administration', JSON.stringify(tip));
+        check('  and still says what the district and its country are',
+              /Bassein/.test(tip.all) && /Irrawaddy Division/.test(tip.all),
+              tip.all);
+      }
+      check('  no page errors under the theme', e3.length === 0, e3.join(' | '));
+      await z.close();
+    }
 
     /* **THE CONTESTED FRONTIER MUST NOT SWALLOW A CLICK MEANT FOR A
        DISTRICT.** The blocks nobody agreed on are in `ON_TOP`, drawn over

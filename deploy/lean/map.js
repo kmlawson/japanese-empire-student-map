@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '362';
+  var JEM_VERSION = '363';
 
 
 
@@ -122,6 +122,18 @@
   var TERR_PX = 13.5;     // label sizes, in screen pixels
   var SITE_PX = 11.5;
   var SUB_PX = 10.5;      // provinces and islands, a step under a country
+
+
+
+
+
+
+
+
+
+
+
+  var GROUP_PX = 12;
   var STA_PX = 8.5;       // stations, the smallest thing on the map that reads
   var STA_SQ = 5;         // the square, in screen pixels: a stop, not a town
   var FEAT_PX = 11;       // seas, deserts, plateaus: the physical map
@@ -231,6 +243,19 @@
 
 
     twSugar: false,
+
+
+
+
+
+
+
+
+
+
+
+
+    themeId: '',
 
 
 
@@ -2384,7 +2409,7 @@
 
 
   var btnStaEl = null, btnTrnEl = null, btnSugarEl = null, btnRailEl = null;
-  var btnAirEl = null;
+  var btnAirEl = null, btnThemeEl = null;
   var btnElsFound = false;
 
 
@@ -2399,7 +2424,28 @@
       btnSugarEl = $('#btn-sugar');
       btnRailEl = $('#btn-rail');
       btnAirEl = $('#btn-air');
+      btnThemeEl = $('#btn-theme');
     }
+
+
+
+
+    if (btnThemeEl) {
+      var mine = themesHere();
+      var haveTheme = mine.length > 0;
+      if (btnThemeEl.hidden !== !haveTheme) btnThemeEl.hidden = !haveTheme;
+      var tp = themeOn() ? 'true' : 'false';
+      if (btnThemeEl.getAttribute('aria-pressed') !== tp) {
+        btnThemeEl.setAttribute('aria-pressed', tp);
+      }
+      btnThemeEl.classList.toggle('on', !!themeOn());
+      var tt = themeOn()
+        ? (themeRec(themeOn()) ? nameOf(themeRec(themeOn())) || themeRec(themeOn()).en : 'Thematic layer')
+        : (mine.length === 1 ? 'Thematic layer for this place'
+                             : 'Thematic layers for this place');
+      if (btnThemeEl.title !== tt) btnThemeEl.title = tt;
+    }
+    themeFollowsView();
 
 
 
@@ -2449,6 +2495,16 @@
       var rl = (railOn ? 'Hide ' : 'Show ')
         + (RAIL_LABEL[railSys]
              ? RAIL_LABEL[railSys] + '\u2019s railways' : 'the railways');
+
+
+
+
+
+
+
+
+
+      if (railOn && railAlpha() <= 0.02) rl += ' \u2014 zoom in to see them';
       if (btnRailEl.getAttribute('aria-pressed') !== rp || btnRailEl.title !== rl) {
         btnRailEl.setAttribute('aria-pressed', rp);
         btnRailEl.classList.toggle('on', railOn);
@@ -3806,11 +3862,21 @@
       var line = !!state[cfg.rail] || connReaches(sys);
       var row = $('#' + cfg.row);
       if (row) row.hidden = !line;
-      if (!line && state[cfg.on]) {
-        state[cfg.on] = false;
-        var box = $('#' + cfg.box);
-        if (box) box.checked = false;
-      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+      var box = $('#' + cfg.box);
+      if (box && box.checked !== !!state[cfg.on]) box.checked = !!state[cfg.on];
       var on = stationsOn(sys);
       if (on && !cfg.built && buildStations) { buildStations(sys); return; }
       if (!cfg.group) return;
@@ -5962,6 +6028,15 @@
 
 
 
+  var subNamed = null;
+
+  var subNodes = null;
+  var subParentNames = null;
+
+
+
+
+
 
 
 
@@ -6028,13 +6103,46 @@
     };
   }
 
+
+
+  function nameKeyFor(el, key) {
+    var a = el.closest ? el.closest('.atom') : null;
+    return (a && a.id ? a.id : '?') + '|' + key;
+  }
+
   function ensureSubLabels() {
     if (!subLabelsWanted()) return;
 
 
     if (adminState !== 'ready' && adminState !== 'loading') loadAdmin();
     if (!subLabelled) subLabelled = new WeakSet();
+    if (!subNamed) subNamed = {};
     var made = 0;
+
+
+
+
+
+
+
+
+    if (!subNodes) subNodes = $$('#land [data-prov]', svg);
+    var nodes = subNodes;
+
+
+
+
+
+
+
+    if (!subParentNames) {
+      subParentNames = {};
+      for (var pi = 0; pi < nodes.length; pi++) {
+        var pn = nodes[pi].getAttribute('data-parent');
+        if (pn) subParentNames[pn] = 1;
+      }
+    }
+    var parentNames = subParentNames;
 
 
 
@@ -6047,7 +6155,7 @@
 
 
     var groups = {};
-    $$('#land [data-prov]', svg).forEach(function (el) {
+    nodes.forEach(function (el) {
       if (subLabelled.has(el)) return;
       subLabelled.add(el);
       var key = el.getAttribute('data-prov');
@@ -6055,8 +6163,31 @@
       var parent = el.getAttribute('data-parent');
       if (parent) {
         (groups[parent] = groups[parent] || []).push(el);
-        return;
+
+
+
+
+
+
+
+
+        if (!(parseFloat(el.getAttribute('data-area') || '0') > 0)) return;
+        if (parentNames[key]) return;
+        var nk = nameKeyFor(el, key);
+        if (subNamed[nk]) return;
+        subNamed[nk] = 1;
+        el.__nameKey = nk;
       }
+
+
+
+
+
+
+
+
+
+
       var x = parseFloat(el.getAttribute('data-cx'));
       var y = parseFloat(el.getAttribute('data-cy'));
       var half = 0, area = Infinity;
@@ -6085,7 +6216,7 @@
       labelLayer.appendChild(text);
       var entry = { rec: subRec(el, key), el: text, x: x, y: y, dy: 0,
                     size: SUB_PX, w: 0, h: SUB_PX * 1.2, half: half, key: key,
-                    area: area,
+                    area: area, nameKey: el.__nameKey || '',
                     owner: el, atom: el.closest ? el.closest('.atom') : null };
       labels.push(entry);
       subLabels.push(entry);
@@ -6109,12 +6240,16 @@
         x1 = Math.max(x1, bb.x + bb.width); y1 = Math.max(y1, bb.y + bb.height);
       });
       if (!got) return;
-      var text = svgEl('text', { 'class': 'tlabel sublabel', 'font-size': SUB_PX });
+      var gk = nameKeyFor(els[0], pkey);
+      if (subNamed[gk]) return;
+      subNamed[gk] = 1;
+      var text = svgEl('text', { 'class': 'tlabel sublabel grouplabel',
+                                 'font-size': GROUP_PX });
       labelLayer.appendChild(text);
       var entry = { rec: subRec(els[0], pkey), el: text,
                     x: (x0 + x1) / 2, y: (y0 + y1) / 2, dy: 0,
-                    size: SUB_PX, w: 0, h: SUB_PX * 1.2, half: 0, key: pkey,
-                    area: Infinity,
+                    size: GROUP_PX, w: 0, h: GROUP_PX * 1.2, half: 0, key: pkey,
+                    area: Infinity, nameKey: gk,
                     owner: els[0], atom: els[0].closest ? els[0].closest('.atom') : null };
 
 
@@ -6201,8 +6336,16 @@
 
 
 
+
+
+
+
+
+
+
       var gone = L.owner
         && (!L.owner.isConnected
+            || L.owner.style.display === 'none'
             || (L.atom && L.atom.style.display === 'none'));
 
 
@@ -8237,6 +8380,251 @@
 
 
 
+  var themeLayer = null, themeState = 'none', themeShown = '';
+  var themeMenuEl = null;
+
+
+  var themeRestore = null;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var THEMES_FOR = {
+    burma: { box: [92.1, 9.9, 101.2, 28.5], ids: ['burma-rule'] },
+  };
+
+  function themeRec(id) {
+    return (JMAP.THEMES || {})[id] || null;
+  }
+
+
+
+
+
+  function themesHere() {
+    var ids = [];
+    Object.keys(THEMES_FOR).forEach(function (key) {
+      var rec = THEMES_FOR[key];
+      if (viewMeets(rec.box)) ids = ids.concat(rec.ids);
+    });
+    return ids;
+  }
+
+  function loadThemes(then) {
+    if (themeState === 'ready') { then(); return; }
+    if (themeState === 'loading') return;
+    themeState = 'loading';
+    loadScript('themes.js').then(function () {
+      themeState = JMAP.THEMES ? 'ready' : 'failed';
+      if (themeState === 'ready') then();
+    }, function () { themeState = 'failed'; });
+  }
+
+
+
+
+
+
+
+
+
+  function clipFor(atom) {
+    if (!atom || !svg) return '';
+    var el = $('#a-' + atom + ' [data-prov][clip-path]', svg);
+    var m = el && /url\(#([^)]+)\)/.exec(el.getAttribute('clip-path') || '');
+    return m ? m[1] : '';
+  }
+
+  function buildTheme(id) {
+    var rec = themeRec(id);
+    if (!rec || !svg) return null;
+    var g = svgEl('g', { id: 'thematic', 'data-theme': id });
+
+
+
+
+
+
+
+
+
+
+    (rec.cats || []).forEach(function (cat) {
+      var d = '';
+      (cat.r || []).forEach(function (flatRing) {
+        for (var i = 0; i < flatRing.length; i += 2) {
+          var q = mercFwd(flatRing[i], flatRing[i + 1]);
+          d += (i ? 'L' : 'M') + (Math.round(q.x * 10) / 10) + ' '
+             + (Math.round(q.y * 10) / 10);
+        }
+        d += 'Z';
+      });
+      if (!d) return;
+      g.appendChild(svgEl('path', {
+        d: d, fill: cat.c, 'data-cat': cat.id, 'data-cat-en': cat.en,
+      }));
+    });
+
+
+
+    svg.insertBefore(g, subsLiftLayer || markersGroup || null);
+    if (projMode !== 'mercator') reprojectGraft([g]);
+    themeLayer = g;
+    applyThemeClip();
+    return g;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function applyThemeClip() {
+    if (!themeLayer || themeLayer.getAttribute('clip-path')) return;
+    var rec = themeRec(themeShown);
+    var clip = clipFor(rec && rec.atom);
+    if (clip) themeLayer.setAttribute('clip-path', 'url(#' + clip + ')');
+  }
+
+  function themeOn() { return themeShown; }
+
+  function setTheme(id) {
+    id = id || '';
+    if (id === themeShown) return;
+    if (id && !themeRec(id)) {
+      loadThemes(function () { setTheme(id); });
+      return;
+    }
+    if (themeLayer) { themeLayer.remove(); themeLayer = null; }
+    if (!id) {
+      var wasAtom = atomEls[(themeRec(themeShown) || {}).atom]
+        || $('#a-' + ((themeRec(themeShown) || {}).atom || ''), svg);
+
+
+
+      if (wasAtom && subsAtoms.indexOf(wasAtom) < 0) wasAtom.classList.remove('subs');
+      themeShown = '';
+      state.themeId = '';
+
+
+      if (themeRestore) {
+        if (!themeRestore.admin) state.cats.territory = false;
+        if (!themeRestore.labels) state.labels = false;
+        themeRestore = null;
+        applyState();
+      }
+      buildLegend();
+      syncMapButtons();
+      return;
+    }
+    themeRestore = { admin: !!state.cats.territory, labels: !!state.labels };
+
+
+
+
+    state.cats.territory = true;
+    state.labels = true;
+    themeShown = id;
+    state.themeId = id;
+    applyState();
+    themeLayer = buildTheme(id);
+
+
+
+
+
+
+
+
+    var tAtom = atomEls[(themeRec(id) || {}).atom]
+      || $('#a-' + ((themeRec(id) || {}).atom || ''), svg);
+    if (tAtom) tAtom.classList.add('subs');
+    buildLegend();
+    syncMapButtons();
+    scheduleUrl();
+    saveState();
+  }
+
+
+
+
+
+  function themeFollowsView() {
+    if (!themeShown) return;
+    var rec = themeRec(themeShown);
+    var home = rec && THEMES_FOR[rec.atom];
+
+
+
+
+
+
+    if (home && home.box && !viewMeets(home.box)) setTheme('');
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function themeCatOf(el) {
+    if (!themeShown) return '';
+    var name = el && el.getAttribute ? el.getAttribute('data-prov') : '';
+    var rec = themeRec(themeShown);
+    var key = name && rec && rec.rule ? rec.rule[name] : '';
+    if (!key) return '';
+    var cats = (rec.cats || []).filter(function (c) { return c.id === key; });
+    return cats.length ? cats[0].en : '';
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   var SUB_INK_DARK = 'rgba(18, 15, 10, .62)';
@@ -8584,7 +8972,11 @@
 
 
 
-              + '|' + (state.hanLabels ? 'han' : '');
+              + '|' + (state.hanLabels ? 'han' : '')
+
+
+
+              + '|' + (state.themeId || '');
     if (key === tipKey && !tooltip.hidden) {
       if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
       return;
@@ -8663,6 +9055,19 @@
 
 
 
+
+
+
+
+
+
+      var tcat = themeCatOf(prov && prov.el);
+      if (tcat) {
+        var tc = document.createElement('span');
+        tc.className = 'sub theme-cat';
+        tc.textContent = tcat;
+        tooltip.appendChild(tc);
+      }
       if (host.rule) {
         var rl = document.createElement('span');
         rl.className = 'sub rule';
@@ -9562,6 +9967,14 @@
 
 
 
+
+
+
+
+
+
+
+    var themeCat = sub ? themeCatOf(lastProv && lastProv.el) : '';
     var provEl = lastProv && lastProv.el;
     var mil = (sub && provEl && provEl.getAttribute)
       ? (provEl.getAttribute('data-mil') || '') : '';
@@ -9569,6 +9982,15 @@
       ownNote = 'Administrative boundaries as they were on the eve of the '
         + 'Japanese occupation. This area was under the control of the '
         + mil + ' during the occupation.'
+        + (ownNote ? '  ' + ownNote : '');
+    }
+
+
+
+    if (themeCat) {
+      var trec2 = themeRec(themeOn());
+      ownNote = 'On the ' + ((trec2 && trec2.en) || 'thematic map')
+        + ' this is **' + themeCat + '**.'
         + (ownNote ? '  ' + ownNote : '');
     }
     var groupNote = isSta ? (rec.note || '') : (sub ? (host.note || '') : '');
@@ -15663,6 +16085,114 @@
     m.style.top = top + 'px';
   }
 
+
+
+
+
+
+
+
+
+
+  var themeMenuOn = false;
+
+  function themeMenuNode() {
+    var m = $('#theme-menu');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'theme-menu';
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', 'Thematic layers for this place');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+  function buildThemeMenu(ids) {
+    var m = themeMenuNode();
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = 'Thematic layers';
+    m.appendChild(head);
+    ids.forEach(function (id) {
+      var rec = themeRec(id) || { en: id };
+      var label = document.createElement('label');
+      label.className = 'row';
+      var el = document.createElement('input');
+      el.type = 'radio';
+      el.name = 'theme-pick';
+      el.checked = themeOn() === id;
+      el.addEventListener('change', function () {
+        setTheme(el.checked ? id : '');
+        closeThemeMenu();
+      });
+      label.appendChild(el);
+      var txt = document.createElement('span');
+      txt.className = 'name';
+      txt.textContent = rec.en || id;
+      label.appendChild(txt);
+      if (rec.source) {
+        var src = document.createElement('span');
+        src.className = 'src';
+        src.textContent = rec.source;
+        label.appendChild(src);
+      }
+      m.appendChild(label);
+    });
+
+    var off = document.createElement('button');
+    off.type = 'button';
+    off.className = 'menu-all';
+    off.textContent = 'No thematic layer';
+    off.addEventListener('click', function () {
+      setTheme('');
+      closeThemeMenu();
+    });
+    m.appendChild(off);
+  }
+
+  function placeThemeMenu() {
+    var m = $('#theme-menu'), btn = $('#btn-theme');
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left = b.left - w - 8;
+    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    m.style.left = Math.max(6, left) + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function openThemeMenu(ids) {
+    buildThemeMenu(ids);
+    var m = themeMenuNode();
+    m.hidden = false;
+    themeMenuOn = true;
+    placeThemeMenu();
+  }
+
+  function closeThemeMenu() {
+    var m = $('#theme-menu');
+    if (!m || !themeMenuOn) return;
+    m.hidden = true;
+    themeMenuOn = false;
+  }
+
+
+
+
+  function pressTheme() {
+    if (themeOn()) { setTheme(''); return; }
+    var ids = themesHere();
+    if (!ids.length) return;
+    loadThemes(function () {
+      if (ids.length === 1) setTheme(ids[0]);
+      else openThemeMenu(ids);
+    });
+  }
+
   function openRailMenu() {
     buildRailMenu();
     var m = railMenuEl();
@@ -16869,6 +17399,23 @@
 
 
 
+    if (themeOn()) {
+      var trec = themeRec(themeOn());
+      if (trec && (trec.cats || []).length) {
+        var thead = document.createElement('p');
+        thead.className = 'legend-sub';
+        thead.textContent = trec.en || 'Thematic layer';
+        legend.appendChild(thead);
+        trec.cats.forEach(function (cat) {
+          legendRow(legend, 'sw-theme', cat.c, cat.en, null, null);
+        });
+      }
+    }
+
+
+
+
+
     popGroups().forEach(function (g) {
       if (!state.pop[g.id] || popForEpoch(g)) return;
       var none = document.createElement('div');
@@ -17571,6 +18118,18 @@
     $$('#land path, #land circle', svg).forEach(prune);
   }
 
+
+
+
+
+
+
+
+  function subNodesChanged() {
+    subNodes = null;
+    subParentNames = null;
+  }
+
   function graftFine(key) {
     if (fineLive[key] || !fineDoc) return false;
     bumpHi();
@@ -17579,6 +18138,7 @@
     if (!g || !el) return false;
     var nodes = [];
     var before = el.querySelector('circle');
+    subNodesChanged();
     $$(':scope > *', g).forEach(function (child) {
       var node = document.importNode(child, true);
       node.setAttribute('class', 'fine');
@@ -17611,6 +18171,7 @@
 
   function dropLabelsFor(els) {
     if (!els.length) return;
+    subNodesChanged();
     els.forEach(function (e) { e.__dropping = 1; });
     var dropped = [];
     labels = labels.filter(function (L) {
@@ -17623,7 +18184,10 @@
       subLabels = subLabels.filter(function (F) {
         return !(F.owner && F.owner.__dropping);
       });
-      dropped.forEach(function (L) { if (L.sc) L.sc.__dropping = 1; });
+      dropped.forEach(function (L) {
+        if (L.sc) L.sc.__dropping = 1;
+        if (L.nameKey && subNamed) delete subNamed[L.nameKey];
+      });
       scalables = scalables.filter(function (s) { return !s.__dropping; });
     }
     els.forEach(function (e) { delete e.__dropping; });
@@ -17730,6 +18294,7 @@
   }
 
   function setProvinceSource(which) {
+    subNodesChanged();
     if (which !== 'enp' && which !== 'roc') return;
     provSource = which;
 
@@ -17950,6 +18515,10 @@
 
 
       subEpochGated = null;
+
+      subNodesChanged();
+
+      applyThemeClip();
       setAdminBusy();
       applyState();
       if (selected) select(selected);
@@ -18436,6 +19005,13 @@
           closeRailMenu();
         }
       }
+      if (themeMenuOn) {
+        var tm = $('#theme-menu');
+        var tb = $('#btn-theme');
+        if (!(tm && tm.contains(e.target)) && !(tb && tb.contains(e.target))) {
+          closeThemeMenu();
+        }
+      }
       if (!labelMenuOn) return;
       var menu = $('#label-menu');
       if (menu && menu.contains(e.target)) return;
@@ -18445,10 +19021,12 @@
     document.addEventListener('keydown', function (e) {
       if (labelMenuOn && e.key === 'Escape') closeLabelMenu();
       if (railMenuOn && e.key === 'Escape') closeRailMenu();
+      if (themeMenuOn && e.key === 'Escape') closeThemeMenu();
     });
     window.addEventListener('resize', function () {
       if (labelMenuOn) placeLabelMenu();
       if (railMenuOn) placeRailMenu();
+      if (themeMenuOn) placeThemeMenu();
     });
 
     $$('#level-seg button').forEach(function (b) {
@@ -18947,6 +19525,18 @@
 
 
         scheduleUrl();
+      });
+    }
+
+
+
+
+
+    var btnTheme = $('#btn-theme');
+    if (btnTheme) {
+      btnTheme.addEventListener('click', function () {
+        if (themeMenuOn) { closeThemeMenu(); return; }
+        pressTheme();
       });
     }
 

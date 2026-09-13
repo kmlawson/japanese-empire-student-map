@@ -103,3 +103,12 @@ A small square at every station on those lines — 10,639 on the 1930 map and 12
 ## relief
 
 ## graticule
+
+## theme-burma-rule
+
+This is from the map on p. xi of *Census of India, 1931 Vol XI Burma Part I
+Report*. It shows four different categories of territory for British Burma:
+"unadministered" and "loosely" administered territories (uncontrolled Wa
+States, Upper Chindwin district including the Hukawng Valley and Naga Hills),
+the "Triangle", part of the Arakan Hill tracks only brought under
+administration in 1930, and the Karenni states.

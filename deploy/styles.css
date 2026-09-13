@@ -834,6 +834,38 @@ button.plain:hover { background: var(--hover-fill); }
   pointer-events: none;
 }
 
+/* The theme's answer in the hover, set apart from the place's own names by
+   the same weight the `rule` line uses: it is a statement about the ground
+   rather than another word for it. */
+#tooltip .theme-cat { font-style: italic; }
+
+/* **A THEMATIC LAYER: A QUESTION ASKED OF A PLACE, DRAWN OVER IT.**
+ *
+ * The Administrative layer says what a district was called; a theme says
+ * something about it — here, how far the administration actually reached — and
+ * the two are meant to be read together. So the categories are laid over the
+ * districts at an opacity that leaves the boundaries and the names legible
+ * underneath, and they take **no pointer events at all**: the reader is still
+ * clicking the district, and the card tells them which category the ground is
+ * in. A layer that answered the pointer itself would have taken the map away
+ * to tell them about it.
+ *
+ * 0.55 is the figure. Below about 0.4 the four categories stop being
+ * distinguishable from each other over the country's own colour; above 0.7 the
+ * district boundaries under them go. */
+#thematic {
+  pointer-events: none;
+}
+#thematic path {
+  fill-opacity: .55;
+  stroke: rgba(20, 16, 10, .55);
+  stroke-width: .6;
+  vector-effect: non-scaling-stroke;
+}
+/* Black ground needs less of itself to read as black, and the boundaries
+   under it need more help to survive. */
+#thematic path[data-cat="Unadministered"] { fill-opacity: .62; }
+
 /* Burma's divisions, the Shan federation and the Karenni states.
  *
  * Eighty-five districts on one province of India, and at any useful zoom they
@@ -2765,6 +2797,18 @@ dialog h3 {
   font-style: italic;
 }
 
+/* And the division above them, upright and letter-spaced. It is the same
+   family and very nearly the same size — a point and a half — because the
+   distinction being drawn is between a container and its contents, not
+   between an important name and an unimportant one. The size itself is set
+   in map.js, which has to box the label to place it; what is here is only
+   what the reader reads as a difference of voice. */
+.tlabel.sublabel.grouplabel {
+  font-style: normal;
+  letter-spacing: .05em;
+  opacity: .72;
+}
+
 /* The figure a shaded unit has earned, written on the ground it is about.
 
    Upright and unitalicised beside the province's own name, which is the
@@ -3901,6 +3945,60 @@ dialog h3 {
   color: #fffdf8;
 }
 
+/* **THE LAYER BUTTONS GO BLUE, NOT THE MAP'S ACCENT RED.**
+   The accent is the map's own colour — it is what a country's border does
+   when the pointer is on it, and what the header's pressed buttons take. A
+   button in this column switches on something drawn *over* the map: the
+   railways, their timetable tools, the sugar lines, the air routes and
+   theirs, and the thematic layers. Red said "this is part of the map"; blue
+   says "this is a layer you added, and here is where to turn it off".
+
+   Named one by one rather than as `#map-extras button.on`, because the
+   column also holds Topo, the stations, fullscreen and the layer note, and
+   those are not layers of this kind.
+
+   After the rule above and not before it: both are one id and one selector
+   deep, so the later one wins, and the earlier draft of this lost that race
+   silently and came out red. */
+/* The five that live in the zoom column — the railways, the train tools, the
+   sugar lines, the air routes, the plane tools — and the two in the extras
+   column, the book and the sugar switch. Two containers because that is where
+   the markup put them, and both ids are named so this beats
+   `#zoom-controls button[aria-pressed="true"]` above, which is one id and an
+   attribute where these are two ids. */
+#map-extras #btn-theme.on,
+#map-extras #btn-theme.on[aria-pressed="true"],
+#map-extras #btn-sugar.on,
+#map-extras #btn-sugar[aria-pressed="true"],
+#zoom-controls #btn-rail.on,
+#zoom-controls #btn-rail[aria-pressed="true"],
+#zoom-controls #btn-trains.on,
+#zoom-controls #btn-trains[aria-pressed="true"],
+#zoom-controls #btn-air.on,
+#zoom-controls #btn-air[aria-pressed="true"],
+#zoom-controls #btn-planes.on,
+#zoom-controls #btn-planes[aria-pressed="true"] {
+  background: #1f3a68;
+  border-color: #16294a;
+  color: #fff;
+}
+/* Hover must not take it back to the panel fill: the rule above this one does
+   exactly that for the zoom column, and a pressed button that turns pale
+   under the pointer reads as unpressed at the moment the reader is looking
+   hardest at it. */
+#zoom-controls #btn-rail[aria-pressed="true"]:hover,
+#zoom-controls #btn-trains[aria-pressed="true"]:hover,
+#zoom-controls #btn-air[aria-pressed="true"]:hover,
+#zoom-controls #btn-planes[aria-pressed="true"]:hover { background: #1f3a68; }
+
+#map-extras #btn-theme.on svg,
+#map-extras #btn-sugar.on svg,
+#map-extras #btn-sugar[aria-pressed="true"] svg,
+#zoom-controls #btn-rail[aria-pressed="true"] svg,
+#zoom-controls #btn-trains[aria-pressed="true"] svg,
+#zoom-controls #btn-air[aria-pressed="true"] svg,
+#zoom-controls #btn-planes[aria-pressed="true"] svg { color: #fff; }
+
 /* The two moves the zoom column makes, made again here. A short screen puts
    the column in the free corner as a row; a phone widens its buttons. */
 @media (max-height: 520px) {
@@ -4047,7 +4145,7 @@ dialog h3 {
    Fixed rather than absolute: the bar it hangs from scrolls on a narrow
    screen, and a menu that stays behind while its button moves is worse than
    no menu. map.js positions it against the button on every open. */
-/* `#rail-menu` is in every one of these lists. It was given the class
+/* `#rail-menu, #theme-menu` is in every one of these lists. It was given the class
    `.pick-menu` and nothing else, on the assumption that the class carried
    the box — it does not; every rule here is by id. So the menu had no
    `position: fixed`, no background and no `z-index`: it laid itself out in
@@ -4056,7 +4154,7 @@ dialog h3 {
    neither is the trap; the ids are what the rules are keyed on, so the ids
    are what have to be listed. */
 #label-menu,
-#rail-menu,
+#rail-menu, #theme-menu,
 #air-menu {
   position: fixed;
   z-index: 60;
@@ -4070,9 +4168,9 @@ dialog h3 {
   font-size: 13px;
   color: var(--ink);
 }
-#label-menu[hidden], #air-menu[hidden], #rail-menu[hidden] { display: none; }
+#label-menu[hidden], #air-menu[hidden], #rail-menu, #theme-menu[hidden] { display: none; }
 #label-menu .menu-head,
-#rail-menu .menu-head,
+#rail-menu, #theme-menu .menu-head,
 #air-menu .menu-head {
   padding: 2px 10px 5px;
   color: var(--muted);
@@ -4096,7 +4194,7 @@ dialog h3 {
   border-top: 0;
 }
 #label-menu label,
-#rail-menu label,
+#rail-menu, #theme-menu label,
 #air-menu label {
   display: flex;
   gap: 8px;
@@ -4106,10 +4204,10 @@ dialog h3 {
   cursor: pointer;
 }
 #label-menu label:hover,
-#rail-menu label:hover,
+#rail-menu, #theme-menu label:hover,
 #air-menu label:hover { background: var(--hover-fill); }
 #label-menu input,
-#rail-menu input,
+#rail-menu, #theme-menu input,
 #air-menu input { margin-top: 2px; flex: none; }
 
 /* The five railways behind the railway button: the same box as the airline
@@ -4119,9 +4217,9 @@ dialog h3 {
    with flex; this one needs a block so the second line falls under the first,
    and written earlier in the file the flex won and the source sat beside the
    name instead of below it. */
-#rail-menu label.row { display: block; }
-#rail-menu .rail-menu-name { font-weight: 600; }
-#rail-menu .rail-menu-src {
+#rail-menu, #theme-menu label.row { display: block; }
+#rail-menu, #theme-menu .rail-menu-name { font-weight: 600; }
+#rail-menu, #theme-menu .rail-menu-src {
   display: block;
   padding-left: 1.55rem;
   font-size: 11.5px;
@@ -4130,9 +4228,9 @@ dialog h3 {
 
 /* Twenty-two sheets is a long menu, so it scrolls rather than running off the
    screen, and the way back sits at the foot of it. */
-#air-menu, #rail-menu { max-height: min(70vh, 30rem); overflow-y: auto; }
+#air-menu, #rail-menu, #theme-menu { max-height: min(70vh, 30rem); overflow-y: auto; }
 #air-menu .menu-reset,
-#rail-menu .menu-reset {
+#rail-menu, #theme-menu .menu-reset {
   display: block;
   width: calc(100% - 12px);
   margin: 6px 6px 2px;

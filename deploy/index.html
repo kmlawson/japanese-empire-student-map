@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=9453a91ccd">
+<link rel="stylesheet" href="styles.css?v=12fee32e69">
 </head>
 <body>
 
@@ -248,6 +248,22 @@
          It appears only over Taiwan with its railways drawn and the train
          tools away — see syncMapButtons. -->
     <div id="map-extras">
+      <!-- A theme is a question somebody asked of a place — how Burma was
+           actually governed, not what its districts were called — so it gets
+           a book rather than a map symbol. Hidden until the ground under the
+           view has one; see syncMapButtons and THEME_OF. -->
+      <button type="button" id="btn-theme" hidden aria-pressed="false"
+              aria-label="Thematic layers" title="Thematic layers for this place">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <!-- An open book: two leaves off a spine. Solid rather than
+               stroked, like the mill beside it — at 22 px a stroked book is a
+               smudge. -->
+          <path d="M11.2 6.4C9.4 5.2 7.1 4.7 4.2 4.8a1 1 0 0 0-1 1v11.3a1 1 0 0 0 1 1c2.7-.1 4.9.3 6.6 1.4a1 1 0 0 0 .4.1z"
+                fill="currentColor"/>
+          <path d="M12.8 6.4c1.8-1.2 4.1-1.7 7-1.6a1 1 0 0 1 1 1v11.3a1 1 0 0 1-1 1c-2.7-.1-4.9.3-6.6 1.4a1 1 0 0 1-.4.1z"
+                fill="currentColor" opacity=".72"/>
+        </svg>
+      </button>
       <button type="button" id="btn-sugar" hidden aria-pressed="false"
               aria-label="Sugar railways" title="The sugar company railways, 1929">
         <!-- The mill and the line that fed it: a shed with a chimney, and
@@ -622,7 +638,7 @@
 
   <h3>Feedback</h3>
 
-  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">362</span><span class="beta-tag" hidden> beta</span> · last updated 12 September 2026, 22:21</p>
+  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">363</span><span class="beta-tag" hidden> beta</span> · last updated 13 September 2026, 10:11</p>
 
 <!-- END about -->
 </dialog>
@@ -730,7 +746,7 @@
 <!-- END help -->
 </dialog>
 
-<script src="data.js?v=a4b684e638"></script>
+<script src="data.js?v=a51e7c1adc"></script>
 <script src="cities-gaz.js?v=2fe0c88511"></script>
 <script src="relief.js?v=a584543962"></script>
 <!-- The cache key of every file map.js fetches for itself, written by
@@ -738,8 +754,8 @@
      tile or timetable does not change map.js's own key and make every
      reader fetch the largest script again. -->
 <!-- BEGIN assets -->
-<script>window.JEM_ASSETS = {"admin.js": "515700d72c", "air-play.js": "4e3fd5d07f", "annotate.js": "4347030471", "japan-empire-map-admin.svg": "8bd05abeff", "japan-empire-map-fine.svg": "a673d36791", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "6ef289d746", "jp-rails.js": "0a7c906436", "jp-stations.js": "94e1778527", "kf-stations.js": "5b813d9ab0", "kf-times.js": "7794238211", "kf-trains.js": "dfbd657f59", "kr-stations.js": "bbf1264e10", "kr-times.js": "7a858023f2", "kr-trains.js": "b03852074b", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/karafuto-1935.html": "5348193a83", "timetable/korea-1938.html": "6bd9860643", "timetable/taiwan-1936.html": "1ce3ba8518", "trains.js": "666b78bf7b", "tw-stations.js": "1c5f5eb043", "tw-times.js": "dbd80c98cb", "tw-trains.js": "0534b63f8f"};</script>
+<script>window.JEM_ASSETS = {"admin.js": "515700d72c", "air-play.js": "4e3fd5d07f", "annotate.js": "4347030471", "japan-empire-map-admin.svg": "a9bf9d9f5b", "japan-empire-map-fine.svg": "a673d36791", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "6ef289d746", "jp-rails.js": "0a7c906436", "jp-stations.js": "94e1778527", "kf-stations.js": "5b813d9ab0", "kf-times.js": "7794238211", "kf-trains.js": "dfbd657f59", "kr-stations.js": "bbf1264e10", "kr-times.js": "7a858023f2", "kr-trains.js": "b03852074b", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "themes.js": "47f1818ac3", "timetable/karafuto-1935.html": "5348193a83", "timetable/korea-1938.html": "6bd9860643", "timetable/taiwan-1936.html": "1ce3ba8518", "trains.js": "666b78bf7b", "tw-stations.js": "1c5f5eb043", "tw-times.js": "dbd80c98cb", "tw-trains.js": "0534b63f8f"};</script>
 <!-- END assets -->
-<script src="lean/map.js?v=c02d16f6fb"></script>
+<script src="lean/map.js?v=65d24bc964"></script>
 </body>
 </html>

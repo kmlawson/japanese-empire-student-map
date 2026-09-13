@@ -290,7 +290,16 @@ console.log('\n— one label to a place —');
      that collides today — the city is on the map and the residency is now a
      sub-unit of it — and any further residency that gets a city will land
      here too, which is the right place to be told about it. */
-  const allowed=['吉林','寧夏','Chiengmai','Palembang'];
+  /* The class grew on 13 September, when a district inside a group started
+     writing its own name — before that a residency in a gouvernement, or a
+     Burmese district in a Division, was named only by the group above it, so
+     only the handful of sub-units that stand alone could collide with a city.
+     All four of the new ones are the same pair as Palembang: Pontianak,
+     Samarinda, Myitkyina and Luang Prabang are each a town and the district
+     governed from it. They are listed one by one rather than waved through by
+     rule, because a *silent* allowance is how a real double would get in. */
+  const allowed=['吉林','寧夏','Chiengmai','Palembang',
+                 'Pontianak','Samarinda','Myitkyina','Luang Prabang'];
   const unexpected=[...new Set(twins)].filter(t=>allowed.indexOf(t)<0);
   check('and no other place is written twice', unexpected.length===0,
     JSON.stringify(unexpected.slice(0,6)));

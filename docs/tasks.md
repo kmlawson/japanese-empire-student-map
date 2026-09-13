@@ -99,12 +99,12 @@ counts a script that exits without a summary as a failure, which is the right
 default — a silent script is not a passing one — but the two want telling
 apart before anything is concluded from a red line.
 
-### 185. Burma by race-group, from the 1931 Census of India
+### 185. Burma by ethnic group, from the 1931 Census of India
 
 The district table of Appendix B — the *Schedule for Racial Map*, Census of
 India, 1931 Volume XI Burma Part I. Report, pp240-244 (PDF pages 262–266 of
 the scan) — transcribed whole and wired to the districts that went on the map
-in 184: 41 census units, an All Races total each and its race-groups in the
+in 184: 41 census units, an All Races total each and its ethnic groups in the
 census's own terms, thirteen columns from Burma Group to Others.
 
 What was actually done, file by file:
@@ -117,11 +117,11 @@ What was actually done, file by file:
   `unmapped`, the census returning the federations whole where the map draws
   the states severally.
 * `data/population/fields.csv` — thirteen `race_*` columns under one group,
-  `Race-Group`, labelled as the census prints them.
+  `Ethnic Groups`, labelled as the census prints them.
 * `data/population/index.csv` — registered on epoch 1930, `when` 1931, no
   `group`/`breaks` (the source prints no areas, so there is no density and no
   choropleth; the card machinery needs no `POP_BITS` bit for that).
-* `data/population/sources/1931-Burma-Race-Groups.md` — the full
+* `data/population/sources/1931-Burma-Ethnic-Groups.md` — the full
   transcription with the printed percentages, the schedule's own caveats, and
   the spelling variants (`Indo-Burma Races` at Kyauksè, `Lolo-Muhso` bare at
   Myitkyina and the Southern Shan States).
@@ -138,7 +138,7 @@ Measured, not assumed:
   lies. Nothing was "corrected". The 41 printed totals sum to 14,647,499; the
   schedule prints no Burma total, so no whole-province row was invented.
 * Driven in a headless browser: Akyab's hover carries "1931 Census
-  Population: 637,580", its card shows the race-group figures directly with a
+  Population: 637,580", its card shows the ethnic group figures directly with a
   Population Table button and no density button, the table opens with the
   thirteen columns, 41 rows, the required note ("Note: The terms for ethnic
   groups are those of the original census.") under the heading, the source at
@@ -174,7 +174,7 @@ is, and a source is not corrected to make its arithmetic come out.
 
 **Verified in the page, not only in the file.** Clicking Akyab with
 Administrative on gives a card carrying 637,580, the Burma Group's 327,872 and
-the Indian Races' 210,990, the words *Race-Group* and the date, and a
+the Indian Races' 210,990, the words *Ethnic Groups* and the date, and a
 **Population Table** button. No page errors.
 
 **Left unverified, and said so here**: that Kantarawadi, Kyebogyi and Bawlake
@@ -21812,3 +21812,242 @@ Measured on the open menu: `position: fixed`, `z-index: 60`, an opaque panel
 background, rows `block`, and `elementFromPoint` at the menu's own centre
 returns the menu's own content rather than the map.
 
+
+## 177b. The theme answers in the hover, and a district writes its own name
+
+Three things the author asked for once the Burma layer was up, all of them
+about reading the map without clicking it.
+
+* **The category in the tooltip.** A `sub theme-cat` line under the country,
+  italic, from `themeCatOf(prov.el)` — the same lookup the card uses. It goes
+  in the tooltip's cache key as well, or the same province keeps whatever the
+  last theme said until the pointer leaves and comes back.
+* **The islands the source's outline leaves out** are in the wash now:
+  `build_themes.py` adds every ring of `burma-1931-dissolved.geojson` that no
+  category touches to Regular — tested by centroid, then confirmed by
+  `ring[::7]`, so nothing is laid over ground a category already has. **22
+  islands added**; Regular is 36 rings and 3,595 vertices, the file 111 KB.
+* **A district inside a group writes its own name.** It never did: a
+  `data-parent` returned before the label was made, so the seven Divisions
+  were named and the eighty-five districts under them were nameless at every
+  zoom, readable only by hovering. It falls through now and is gated by
+  `subFits` on its own area — a zoom threshold, not a switch. Measured over
+  the delta: 5 district names at 9°–29°, 10 at the delta, 7 close in, with the
+  group names still there beside them.
+
+## 177c. A division and a district should not be written in one voice
+
+The author's note was that the two needed telling apart. `GROUP_PX` is 12
+against `SUB_PX`'s 10.5, and `.grouplabel` is upright and letter-spaced where
+the district is italic. A point and a half, because the distinction is between
+a container and its contents and not between an important name and an
+unimportant one — a division is still a step under the country.
+
+The size is in map.js rather than the stylesheet because `placeLabels` boxes a
+label from `entry.size`, and a size the CSS knows and the collision test does
+not is the map-units-and-pixels bug in another coat.
+
+## 177d. Green is special, red is loosely — the pair was the wrong way round
+
+Reported by the author against the original sheet. The two middle colours were
+assigned in the order the *key* lists them rather than the order the ground is
+painted, so the Shan and Karenni states came out red and the northern hill
+country green. Swapped in `CATS`: Loosely `#e8352c`, Special `#2e8c77`. The
+`status` values in the source file were right and are untouched.
+
+## 177e. The layer buttons go blue, the map's accent stays the map's
+
+The book was already blue. The author asked for the same on the railways, the
+train tools, the sugar lines, the air routes and the plane tools — everything
+in those two columns that switches on something drawn *over* the map, as
+against Topo, the stations, fullscreen and the layer note, which are not
+layers of that kind.
+
+Two things this cost:
+
+* **They are not all in one container.** `btn-rail`, `btn-air`, `btn-planes`,
+  `btn-stations` and `btn-trains` are in `#zoom-controls`; only the book and
+  the sugar switch are in `#map-extras`. A rule written for the extras column
+  alone measured no change at all on three of the five, which is how this was
+  caught — the first pass reported `rgb(233,229,218)`, the panel fill.
+* **Specificity, again.** `#btn-rail.on` is one id and a class and loses to
+  `#zoom-controls button[aria-pressed="true"]`, which is one id, an attribute
+  and an element. Both ids are named in each selector. And the hover rule
+  above it takes the zoom column back to the panel fill, so the pressed
+  buttons needed their own `:hover` or they went pale under the pointer.
+
+Measured on all five: background `rgb(31,58,104)`, icon `rgb(255,255,255)`,
+and still blue hovered.
+
+## 177f. The wash stops where the districts stop
+
+`#thematic` takes `clip-burma`, the clip the districts already carry, read off
+one of them rather than kept in a second list. The source sheet and this map's
+coastline are two readings of the same shore: uncut, the categories reached
+past the frontier in the north and past the coast in Tenasserim. **3,853
+pixels of 608,000 at the 93–102°E view — 0.63% of the frame — are wash the
+clip removes.**
+
+Applied twice on purpose. A theme switches Administrative on and then draws,
+but that sheet is *fetched*, so on the first press there is no district to
+read the clip off; the graft calls `applyThemeClip` again when it lands. The
+first version applied it once and measured `clip-path: null`.
+
+**What it does not fix, and this is unfixed:** a patch of wash in the mouth of
+the Rangoon river. `elementFromPoint` there returns `ocean` while the point is
+inside `clip-burma` — the traced outline includes the estuary and the base
+map's coastline does not, so the two disagree by a few square kilometres and
+the wash sits over water. It reads as a pale fifth colour at close zoom.
+
+## 177g. The full suite did not run, and the log said it had
+
+Worth recording because it nearly went out as a green run. `node
+tools/test/all.js > full4.txt 2>&1` under zsh's **noclobber**: the redirection
+fails on an existing file, and when a redirection fails the command is never
+executed. `full4.txt` was five days old, `tail -3` printed its summary — 2,055
+checks, all passing, 558.5s — and it was read as this run's.
+
+The tell was there and was nearly argued away: the summary said 60 scripts
+where `--dry` said 69, and the nine missing were `jprails burma citytap
+kftrains ferries indochina arcs dei owns`. A suite that silently drops the
+two scripts guarding the work in hand is not a suite that passed.
+
+`>|` is the form to use. It is in CLAUDE.md and was not followed.
+
+## 177h. What naming the districts exposed: three doubles and a state in two countries
+
+Letting a district inside a group write its own name broke two scripts, and
+all three causes were real rather than test noise.
+
+* **A district with no measured area skipped the gate.** `subFits` falls back
+  to a plain zoom threshold when `side` is 0, which is right for a fine
+  coastline ring and wrong here. Taichū-shi is written `data-area="0"`, so it
+  sailed through and was **the one name on an island of fifty-five
+  districts**, none of its larger neighbours beside it — exactly the arbitrary
+  handful the rule was written against. A grouped district with no area now
+  writes nothing.
+* **The hidden copy of a dated division still wrote its name.** `gateSubEpochs`
+  sets `display: none` inline on one path at a time, and `gone` only asked
+  whether the *atom* was hidden. Djambi, Pontianak, Tapanoeli, Samarinda,
+  Atjeh and the Oostkust are in the sheet twice, once per date, so each wrote
+  its name twice. `gone` reads the owner's own inline display now.
+* **One district can be several paths.** Each offered to write the name, so
+  景棟 was in `#labels` twice out of one district. `subNamed`, keyed
+  `atom|key`, keeps one name per division per atom, and is dropped with the
+  label in `dropLabelsFor` so a re-imported region is not left nameless.
+  Group names are claimed first — `Gouvernement der Molukken` is a group over
+  eight residencies in 1930 and a single unit under the Japanese Navy in 1942,
+  and the group is the better keeper.
+
+**And Kengtung was on the map twice, in two countries, on both dates.** Not
+caused by this work, only uncovered by it: `a-saharat` carries its own
+Kengtung division and Burma's 1931 districts carry theirs, and neither was
+dated.
+
+* In **1930** `saharat` is one of British India's atoms — `texts/territories/
+  1930.csv` lists it under `britishindia` — so that ground is Burma's, and
+  Burma's district is the one that should name it. Saharat's blocks are
+  `e1942` now, the same rule `siamgain` already had and for the same reason.
+* In **1942** the whole state was Thailand's as Saharat Thai Doem, so Burma's
+  copy is `e1930` via a new one-line `SUB_ONLY` table in `build_map.py`.
+  **Only Kengtung**: Mong Pan was *divided* by the transfer — Saharat's block
+  is `MongpanEast` and the rest stayed Burmese — so dating that district would
+  take Burmese ground off the later map to fix a collision that does not
+  exist.
+
+`hanlabels`' allowed-doubles list gains Pontianak, Samarinda, Myitkyina and
+Luang Prabang, each a town and the district governed from it, which is
+Palembang's class exactly. Listed one by one rather than waved through by
+rule: a silent allowance is how a real double would get in.
+
+## 178. Why mousing over Korea is slow with the railways up, measured
+
+Reported: with the train tools on and playing, moving the mouse over Korea
+zoomed close in is very slow, and zoomed out it is not.
+
+Driven headlessly over Korea, 50 pointer moves each followed by a frame, at
+four times CPU throttling, reading Chrome's own main-thread counters. One
+view — 126.0,36.4 to 128.6,38.2 — with layers added one at a time:
+
+| state | layout | script |
+| --- | ---: | ---: |
+| nothing switched on | **52 ms** | 17 ms |
+| the railway | **372 ms** | 20 ms |
+| and the stations | **510 ms** | 24 ms |
+| and the names | **636 ms** | 53 ms |
+
+**It is layout, not script, and it is the railway that buys it** — seven times
+the layout cost from one switch, before the tools are involved at all. The
+tools and the timetable add nothing to this; they were in the report because
+they are what the reader had on, not because they are the cause.
+
+The mechanism is the hover reading the document's geometry on every move,
+against a layout tree that has just gained Korea's 1,985 rail paths. Nearly
+all of them are off screen at that zoom and every one is still in the tree.
+
+**And that is exactly why zooming out fixes it.** `railFadeOne` takes the
+railways to `display: none` at `view.w >= mapW / RAIL_GONE_W`, so at the wide
+view they are out of the layout tree and the hover is cheap; zoom past
+`mapW / RAIL_FULL_W` and all of them come in at once. The reader's "zoomed out
+doesn't" is the fade, not the geometry being smaller.
+
+**This is task 175** — hide the railway layers whose ground the view does not
+reach — and it now has a price. Entry 176 measured that one at 5% of a *pan*
+and left it as not worth the risk. For a *hover* it is 320 ms of 636, and the
+5% figure should not be quoted for it again. The trap recorded there still
+stands: the withdrawn attempt read `STATION_SYS` from `railFade` before the
+module body had assigned it, the throw aborted `railFade` halfway, and every
+railway group stayed at the `display: none` the SVG ships with.
+
+Not attempted here. Measured, and handed to 175 with the number.
+
+## 179. Two ways the train layers lied about themselves
+
+Reported: "the train button is on but the lines are not showing", and
+"stations turned on but no stations".
+
+Surveyed the four rules that decide whether any of this is on the screen,
+because separately each is defensible and together they read as randomness:
+
+1. **The lines fade on the zoom alone.** `railFadeOne` is opacity 1 at
+   `view.w <= mapW / RAIL_FULL_W` and 0 by `mapW / RAIL_GONE_W`, regardless of
+   where the view is or what is switched on. The button's pressed state comes
+   from `state.krRail`, which never moves. So zoomed out the button is lit over
+   an empty map with nothing to say why.
+2. **The tools take the plain network.** `state.krRail && !trainDraws('kr')` —
+   with the tools up the plain layer stands down and the tools draw their own
+   coloured version, which covers the lines in the timetable and no others.
+   Intended, and left alone.
+3. **The stations were silently un-ticked.** `syncStationLayers` cleared
+   `state[cfg.on]` whenever there was no line for the squares to sit on. But
+   `line` follows the *view* through `connReaches`, so panning off the track
+   turned the reader's choice off for them — and panning back did not bring it
+   home, because the choice was gone.
+4. **With the tools up only served stations are drawn** — 46 of Taiwan's 199
+   stand down. Intended, documented, left alone.
+
+Fixed: **3**, which is the actual defect. The tick is the reader's and is kept;
+only the drawing follows the ground. Measured over Korea in one page — 850
+squares with the railway on, 0 with it off, **850 again when it comes back**,
+and the checkbox ticked throughout. Before, the third reading was 0 and the box
+was clear.
+
+And **1** now says so rather than leaving the reader to guess: where the layer
+is on and `railAlpha()` has taken it to nothing, the button's title gains
+"— zoom in to see them". The switch is still on and still worth leaving on;
+what changes is that the button admits why the map is empty.
+
+## 180. The division list is held, not asked for on every frame
+
+`ensureSubLabels` ran `$$('#land [data-prov]', svg)` — an eight-thousand-node
+walk for the eleven hundred divisions — from `gateLabels`, which runs on every
+frame of a pan and of the train tools' animation. The district-label work in
+177b made it worse by walking the result a second time for the group names.
+
+Held now, both of them, and rebuilt by `subNodesChanged()`. **Four things move
+the divisions** and each calls it: the administrative sheet arriving, a fine
+coastline grafted, labels dropped for a region, and the province source
+swapped. A cached list whose writers do not all say so is a division that never
+gets named — which is why they are named here rather than assumed.
+
+`subnames`, `labels`, `provsource` and `islands` pass.
