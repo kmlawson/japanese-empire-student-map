@@ -1,0 +1,32 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 石岫線
+title: 大石橋驛・岫巖間
+dir: 岫巖→大石橋驛
+season: 昭和16.10.1改正
+service: 每日運行
+note: fare column printed once, for the 大石橋驛→岫巖 direction
+stations: 岫巖 | 石門嶺 | 大石橋驛
+fares: 岫巖 5.30 | 石門嶺 1.85 | 大石橋驛 0
+
+train: 192 | dest 大石橋驛 | col 1
+岫巖 8.30
+石門嶺 11.10
+大石橋驛 13.00
+
+train: 196 | dest 大石橋驛 | col 2 | origin 石門嶺
+岫巖 -
+石門嶺 11.00
+大石橋驛 12.50
+
+train: 194 | dest 大石橋驛 | col 3
+岫巖 14.00
+石門嶺 16.40
+大石橋驛 18.30
+
+train: 198 | dest 大石橋驛 | col 4 | origin 石門嶺
+岫巖 -
+石門嶺 16.00
+大石橋驛 17.50

@@ -1,0 +1,24 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 峰圍線
+title: 赤峰・老府・圍場間
+dir: 圍場→赤峰
+season: 昭和16.12.1改正
+service: 每日運行
+note: the second column carries no bus number in the head (blank cell); entered as 無番
+note: two unnumbered empty columns (…) stand to the right of it
+note: bus 506 is printed 圍場 發 19.30 / 赤峰 著 16.30 — the departure is later than the arrival; transcribed as printed
+stations: 圍場 | 老府 | 赤峰
+fares: 圍場 7.00 | 老府 3.55 | 赤峰
+
+train: 506 | dest 赤峰 | col 1
+圍場 19.30
+老府 -
+赤峰 16.30
+
+train: 無番 | dest 赤峰 | col 2 | origin 老府
+圍場 -
+老府 12.30
+赤峰 16.00

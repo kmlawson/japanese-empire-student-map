@@ -1,0 +1,71 @@
+{
+ "stations": [
+  {
+   "name": "錦縣驛",
+   "km": null
+  },
+  {
+   "name": "西海口",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "101",
+   "stops": [
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "西海口",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    }
+   ],
+   "dest": "西海口",
+   "col": "2"
+  },
+  {
+   "no": "105",
+   "stops": [
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "西海口",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "西海口",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "first block of the 錦州局管內 section, which starts on this page",
+  "the second character of the line name is blurred; read 壺",
+  "an unnumbered empty column (…) stands to the left of bus 101"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "錦壺線",
+ "title": "錦縣驛・西海口間",
+ "dir": "錦縣驛→西海口",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "錦縣驛 0 | 西海口 1.55"
+}

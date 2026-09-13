@@ -1,0 +1,16 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 佳寶線
+title: 寶淸・七星泡間
+dir: 寶淸→七星泡
+season: 昭和16.12.1改正
+service: 每日運行
+note: 中央の驛名欄をはさみ左が寶淸發（本表）、右が七星泡發（p111ah）。左端は運賃（圓.分）欄。
+stations: 寶淸 | 七星泡
+fares: 寶淸 | 七星泡 5.85
+
+train: 311 | dest 七星泡 | col 1
+寶淸 9.00
+七星泡 11.20

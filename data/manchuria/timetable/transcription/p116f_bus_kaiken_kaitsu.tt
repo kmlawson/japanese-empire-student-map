@@ -1,0 +1,16 @@
+source: IMG_1887
+page: 116
+kind: bus
+office: 齊々哈爾局管內
+line: 開乾線
+title: 開通驛・乾安間
+dir: 乾安→開通驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表右側「著↑…發」の欄。運賃は開通驛起算（乾安 4.50）。
+stations: 乾安 | 開通驛
+fares: 乾安 4.50 | 開通驛
+
+train: 251 | dest 開通驛 | col 1
+乾安 8.00
+開通驛 12.00

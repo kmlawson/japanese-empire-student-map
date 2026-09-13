@@ -1,0 +1,222 @@
+{
+ "stations": [
+  {
+   "name": "普蘭店驛",
+   "km": null
+  },
+  {
+   "name": "李家屯",
+   "km": null
+  },
+  {
+   "name": "貔子窩驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "13",
+   "stops": [
+    {
+     "st": "李家屯",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": false,
+     "t": "08:05"
+    },
+    {
+     "st": "貔子窩驛",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    }
+   ],
+   "dest": "貔子窩驛",
+   "col": "1",
+   "origin": "李家屯",
+   "days": "休日運休"
+  },
+  {
+   "no": "1",
+   "stops": [
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "李家屯",
+     "ev": "dep",
+     "printed": "10.19",
+     "bold": false,
+     "t": "10:19"
+    },
+    {
+     "st": "貔子窩驛",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    }
+   ],
+   "dest": "貔子窩驛",
+   "col": "2"
+  },
+  {
+   "no": "3",
+   "stops": [
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "李家屯",
+     "ev": "dep",
+     "printed": "12.19",
+     "bold": false,
+     "t": "12:19"
+    },
+    {
+     "st": "貔子窩驛",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "貔子窩驛",
+   "col": "3"
+  },
+  {
+   "no": "5",
+   "stops": [
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "11.15",
+     "bold": false,
+     "t": "11:15"
+    },
+    {
+     "st": "李家屯",
+     "ev": "dep",
+     "printed": "12.34",
+     "bold": false,
+     "t": "12:34"
+    },
+    {
+     "st": "貔子窩驛",
+     "ev": "dep",
+     "printed": "12.45",
+     "bold": false,
+     "t": "12:45"
+    }
+   ],
+   "dest": "貔子窩驛",
+   "col": "4"
+  },
+  {
+   "no": "7",
+   "stops": [
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "李家屯",
+     "ev": "dep",
+     "printed": "14.19",
+     "bold": false,
+     "t": "14:19"
+    },
+    {
+     "st": "貔子窩驛",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "貔子窩驛",
+   "col": "5"
+  },
+  {
+   "no": "9",
+   "stops": [
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "李家屯",
+     "ev": "dep",
+     "printed": "16.19",
+     "bold": false,
+     "t": "16:19"
+    },
+    {
+     "st": "貔子窩驛",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "貔子窩驛",
+   "col": "6"
+  },
+  {
+   "no": "11",
+   "stops": [
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "李家屯",
+     "ev": "dep",
+     "printed": "18.19",
+     "bold": false,
+     "t": "18:19"
+    },
+    {
+     "st": "貔子窩驛",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "貔子窩驛",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "printed under the title: 13.14.16便は休日運休 (buses 13, 14 and 16 do not run on holidays)"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "普貔線",
+ "title": "普蘭店驛・貔子窩驛間",
+ "dir": "普蘭店驛→貔子窩驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "普蘭店驛 0 | 李家屯 0.70 | 貔子窩驛 0.80"
+}

@@ -1,0 +1,147 @@
+{
+ "stations": [
+  {
+   "name": "伊通",
+   "km": null
+  },
+  {
+   "name": "營城子",
+   "km": null
+  },
+  {
+   "name": "朝陽山",
+   "km": null
+  },
+  {
+   "name": "磐石驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "612",
+   "stops": [
+    {
+     "st": "伊通",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "朝陽山",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    },
+    {
+     "st": "磐石驛",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    }
+   ],
+   "dest": "磐石驛",
+   "col": "1"
+  },
+  {
+   "no": "614",
+   "stops": [
+    {
+     "st": "伊通",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    }
+   ],
+   "dest": "營城子",
+   "col": "2"
+  },
+  {
+   "no": "616",
+   "stops": [
+    {
+     "st": "伊通",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "朝陽山",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "磐石驛",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "磐石驛",
+   "col": "3"
+  },
+  {
+   "no": "618",
+   "stops": [
+    {
+     "st": "伊通",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    }
+   ],
+   "dest": "營城子",
+   "col": "4"
+  }
+ ],
+ "notes": [
+  "この表は上下2段で、下段が伊通發（本表）。運賃欄は伊通起點で刷り直してある。614・618は營城子止り（時刻の下に終着の太罫）。"
+ ],
+ "source": "IMG_1883",
+ "page": "108",
+ "kind": "bus",
+ "office": "吉林局管內",
+ "line": "磐伊線",
+ "title": "磐石驛・伊通間",
+ "dir": "伊通→磐石驛",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "伊通 | 營城子 1.55 | 朝陽山 2.95 | 磐石驛 4.70"
+}

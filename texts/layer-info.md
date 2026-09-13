@@ -82,11 +82,17 @@ are anachronisms visible on both maps.
 
 ## kf-rail
 
+## mn-rail
+
+The train line "tools" for Manchuria are from a July 1942 time table [found in scanned format on the Internet Archive](https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7). The timetable is not currently complete, but a majority of the lines, including all the most important central lines may be viewed here. A number of these lines shut down near the end or at the end of the war. Some had their tracks pulled up by Japanese forces fleeing the Soviet invasion, others suffered damage or were taken apart by the invading Soviet forces. The lines displayed here for those lines (國線 朝開線, 國線 興寧線) or some portion of the lines (as with final sections of 國線 濱綏線, and 國線 虎林線) are thus, in part, the work of some speculation, pieced together by following traces of the lines on satellite images, or current roads that roughly follow the lines found in American military from 1945 based on earlier Japanese maps.
+
 ## tw-stations
 
 ## kr-stations
 
 ## kf-stations
+
+## mn-stations
 
 ## jp-rail
 

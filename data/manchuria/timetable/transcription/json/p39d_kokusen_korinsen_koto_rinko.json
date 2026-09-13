@@ -1,0 +1,798 @@
+{
+ "stations": [
+  {
+   "name": "虎頭",
+   "km": null
+  },
+  {
+   "name": "月牙",
+   "km": null
+  },
+  {
+   "name": "水克",
+   "km": null
+  },
+  {
+   "name": "潤和",
+   "km": null
+  },
+  {
+   "name": "香鶴",
+   "km": null
+  },
+  {
+   "name": "虎林",
+   "km": null
+  },
+  {
+   "name": "寶東",
+   "km": null
+  },
+  {
+   "name": "迎春",
+   "km": null
+  },
+  {
+   "name": "湖北",
+   "km": null
+  },
+  {
+   "name": "楊崗",
+   "km": null
+  },
+  {
+   "name": "興凱",
+   "km": null
+  },
+  {
+   "name": "裴德",
+   "km": null
+  },
+  {
+   "name": "東安",
+   "km": null
+  },
+  {
+   "name": "西東安",
+   "km": null
+  },
+  {
+   "name": "連珠山",
+   "km": null
+  },
+  {
+   "name": "黑臺",
+   "km": null
+  },
+  {
+   "name": "庄內",
+   "km": null
+  },
+  {
+   "name": "永安",
+   "km": null
+  },
+  {
+   "name": "東海",
+   "km": null
+  },
+  {
+   "name": "平陽",
+   "km": null
+  },
+  {
+   "name": "鷄寧",
+   "km": null
+  },
+  {
+   "name": "淸道",
+   "km": null
+  },
+  {
+   "name": "園嶺",
+   "km": null
+  },
+  {
+   "name": "靑龍",
+   "km": null
+  },
+  {
+   "name": "麻山",
+   "km": null
+  },
+  {
+   "name": "奎山",
+   "km": null
+  },
+  {
+   "name": "楊木",
+   "km": null
+  },
+  {
+   "name": "林口",
+   "km": null
+  },
+  {
+   "name": "牡丹江",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "150",
+   "stops": [
+    {
+     "st": "虎林",
+     "ev": "dep",
+     "printed": "5.10",
+     "bold": false,
+     "t": "05:10"
+    },
+    {
+     "st": "寶東",
+     "ev": "dep",
+     "printed": "5.37",
+     "bold": false,
+     "t": "05:37"
+    },
+    {
+     "st": "迎春",
+     "ev": "dep",
+     "printed": "6.03",
+     "bold": false,
+     "t": "06:03"
+    },
+    {
+     "st": "湖北",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "06:30"
+    },
+    {
+     "st": "楊崗",
+     "ev": "dep",
+     "printed": "6.57",
+     "bold": false,
+     "t": "06:57"
+    },
+    {
+     "st": "興凱",
+     "ev": "dep",
+     "printed": "7.31",
+     "bold": false,
+     "t": "07:31"
+    },
+    {
+     "st": "裴德",
+     "ev": "dep",
+     "printed": "8.01",
+     "bold": false,
+     "t": "08:01"
+    },
+    {
+     "st": "東安",
+     "ev": "arr",
+     "printed": "8.26",
+     "bold": false,
+     "t": "08:26"
+    },
+    {
+     "st": "東安",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    },
+    {
+     "st": "西東安",
+     "ev": "dep",
+     "printed": "9.04",
+     "bold": false,
+     "t": "09:04"
+    },
+    {
+     "st": "連珠山",
+     "ev": "dep",
+     "printed": "9.17",
+     "bold": false,
+     "t": "09:17"
+    },
+    {
+     "st": "黑臺",
+     "ev": "dep",
+     "printed": "9.45",
+     "bold": false,
+     "t": "09:45"
+    },
+    {
+     "st": "庄內",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "永安",
+     "ev": "dep",
+     "printed": "10.21",
+     "bold": false,
+     "t": "10:21"
+    },
+    {
+     "st": "東海",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    },
+    {
+     "st": "平陽",
+     "ev": "arr",
+     "printed": "11.18",
+     "bold": false,
+     "t": "11:18"
+    },
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "11.26",
+     "bold": false,
+     "t": "11:26"
+    },
+    {
+     "st": "鷄寧",
+     "ev": "dep",
+     "printed": "12.01",
+     "bold": false,
+     "t": "12:01"
+    },
+    {
+     "st": "淸道",
+     "ev": "dep",
+     "printed": "12.29",
+     "bold": false,
+     "t": "12:29"
+    },
+    {
+     "st": "園嶺",
+     "ev": "dep",
+     "printed": "12.55",
+     "bold": false,
+     "t": "12:55"
+    },
+    {
+     "st": "靑龍",
+     "ev": "dep",
+     "printed": "13.21",
+     "bold": false,
+     "t": "13:21"
+    },
+    {
+     "st": "麻山",
+     "ev": "dep",
+     "printed": "13.47",
+     "bold": false,
+     "t": "13:47"
+    },
+    {
+     "st": "奎山",
+     "ev": "dep",
+     "printed": "14.24",
+     "bold": false,
+     "t": "14:24"
+    },
+    {
+     "st": "楊木",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "林口",
+     "ev": "arr",
+     "printed": "15.10",
+     "bold": false,
+     "note": "發は表尾「50頁」の連絡抄錄",
+     "t": "15:10"
+    },
+    {
+     "st": "林口",
+     "ev": "dep",
+     "printed": "15.28",
+     "bold": false,
+     "note": "發は表尾「50頁」の連絡抄錄",
+     "t": "15:28"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "18.55",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "18:55"
+    }
+   ],
+   "dest": "牡丹江",
+   "cls": "2.3",
+   "marks": "食",
+   "origin": "虎林",
+   "col": "1"
+  },
+  {
+   "no": "7152",
+   "stops": [
+    {
+     "st": "虎頭",
+     "ev": "dep",
+     "printed": "7.15",
+     "bold": false,
+     "t": "07:15"
+    },
+    {
+     "st": "月牙",
+     "ev": "dep",
+     "printed": "7.57",
+     "bold": false,
+     "t": "07:57"
+    },
+    {
+     "st": "水克",
+     "ev": "dep",
+     "printed": "8.32",
+     "bold": false,
+     "t": "08:32"
+    },
+    {
+     "st": "潤和",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "香鶴",
+     "ev": "dep",
+     "printed": "9.12",
+     "bold": false,
+     "t": "09:12"
+    },
+    {
+     "st": "虎林",
+     "ev": "arr",
+     "printed": "9.34",
+     "bold": false,
+     "t": "09:34"
+    },
+    {
+     "st": "虎林",
+     "ev": "dep",
+     "printed": "9.52",
+     "bold": false,
+     "t": "09:52"
+    },
+    {
+     "st": "寶東",
+     "ev": "dep",
+     "printed": "10.25",
+     "bold": false,
+     "t": "10:25"
+    },
+    {
+     "st": "迎春",
+     "ev": "dep",
+     "printed": "10.56",
+     "bold": false,
+     "t": "10:56"
+    },
+    {
+     "st": "湖北",
+     "ev": "dep",
+     "printed": "11.23",
+     "bold": false,
+     "t": "11:23"
+    },
+    {
+     "st": "楊崗",
+     "ev": "dep",
+     "printed": "11.46",
+     "bold": false,
+     "t": "11:46"
+    },
+    {
+     "st": "興凱",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    },
+    {
+     "st": "裴德",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    },
+    {
+     "st": "東安",
+     "ev": "arr",
+     "printed": "13.15",
+     "bold": false,
+     "t": "13:15"
+    },
+    {
+     "st": "東安",
+     "ev": "dep",
+     "printed": "13.26",
+     "bold": false,
+     "t": "13:26"
+    },
+    {
+     "st": "西東安",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    },
+    {
+     "st": "連珠山",
+     "ev": "dep",
+     "printed": "13.53",
+     "bold": false,
+     "t": "13:53"
+    },
+    {
+     "st": "黑臺",
+     "ev": "dep",
+     "printed": "14.21",
+     "bold": false,
+     "t": "14:21"
+    },
+    {
+     "st": "庄內",
+     "ev": "dep",
+     "printed": "14.36",
+     "bold": false,
+     "t": "14:36"
+    },
+    {
+     "st": "永安",
+     "ev": "dep",
+     "printed": "14.57",
+     "bold": false,
+     "t": "14:57"
+    },
+    {
+     "st": "東海",
+     "ev": "dep",
+     "printed": "15.26",
+     "bold": false,
+     "t": "15:26"
+    },
+    {
+     "st": "平陽",
+     "ev": "arr",
+     "printed": "15.54",
+     "bold": false,
+     "t": "15:54"
+    },
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "15.55",
+     "bold": false,
+     "t": "15:55"
+    },
+    {
+     "st": "鷄寧",
+     "ev": "dep",
+     "printed": "16.28",
+     "bold": false,
+     "t": "16:28"
+    },
+    {
+     "st": "淸道",
+     "ev": "dep",
+     "printed": "16.58",
+     "bold": false,
+     "t": "16:58"
+    },
+    {
+     "st": "園嶺",
+     "ev": "dep",
+     "printed": "17.24",
+     "bold": false,
+     "t": "17:24"
+    },
+    {
+     "st": "靑龍",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "t": "17:50"
+    },
+    {
+     "st": "麻山",
+     "ev": "dep",
+     "printed": "18.16",
+     "bold": false,
+     "t": "18:16"
+    },
+    {
+     "st": "奎山",
+     "ev": "dep",
+     "printed": "18.43",
+     "bold": false,
+     "t": "18:43"
+    },
+    {
+     "st": "楊木",
+     "ev": "dep",
+     "printed": "19.09",
+     "bold": false,
+     "t": "19:09"
+    },
+    {
+     "st": "林口",
+     "ev": "dep",
+     "printed": "19.29",
+     "bold": false,
+     "t": "19:29"
+    }
+   ],
+   "dest": "林口",
+   "cls": "2.3",
+   "marks": "混",
+   "col": "2"
+  },
+  {
+   "no": "110",
+   "stops": [
+    {
+     "st": "虎頭",
+     "ev": "dep",
+     "printed": "17.05",
+     "bold": false,
+     "t": "17:05"
+    },
+    {
+     "st": "月牙",
+     "ev": "dep",
+     "printed": "17.47",
+     "bold": false,
+     "t": "17:47"
+    },
+    {
+     "st": "水克",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    },
+    {
+     "st": "潤和",
+     "ev": "dep",
+     "printed": "18.38",
+     "bold": false,
+     "t": "18:38"
+    },
+    {
+     "st": "香鶴",
+     "ev": "dep",
+     "printed": "18.55",
+     "bold": false,
+     "t": "18:55"
+    },
+    {
+     "st": "虎林",
+     "ev": "arr",
+     "printed": "19.17",
+     "bold": false,
+     "t": "19:17"
+    },
+    {
+     "st": "虎林",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    },
+    {
+     "st": "寶東",
+     "ev": "dep",
+     "printed": "20.03",
+     "bold": false,
+     "t": "20:03"
+    },
+    {
+     "st": "迎春",
+     "ev": "dep",
+     "printed": "20.29",
+     "bold": false,
+     "t": "20:29"
+    },
+    {
+     "st": "湖北",
+     "ev": "dep",
+     "printed": "20.56",
+     "bold": false,
+     "t": "20:56"
+    },
+    {
+     "st": "楊崗",
+     "ev": "dep",
+     "printed": "21.22",
+     "bold": false,
+     "t": "21:22"
+    },
+    {
+     "st": "興凱",
+     "ev": "dep",
+     "printed": "21.56",
+     "bold": false,
+     "t": "21:56"
+    },
+    {
+     "st": "裴德",
+     "ev": "dep",
+     "printed": "22.26",
+     "bold": false,
+     "t": "22:26"
+    },
+    {
+     "st": "東安",
+     "ev": "arr",
+     "printed": "22.51",
+     "bold": false,
+     "t": "22:51"
+    },
+    {
+     "st": "東安",
+     "ev": "dep",
+     "printed": "23.10",
+     "bold": false,
+     "t": "23:10"
+    },
+    {
+     "st": "西東安",
+     "ev": "dep",
+     "printed": "23.25",
+     "bold": false,
+     "t": "23:25"
+    },
+    {
+     "st": "連珠山",
+     "ev": "dep",
+     "printed": "23.39",
+     "bold": false,
+     "t": "23:39"
+    },
+    {
+     "st": "黑臺",
+     "ev": "dep",
+     "printed": "0.11",
+     "bold": false,
+     "t": "24:11"
+    },
+    {
+     "st": "永安",
+     "ev": "dep",
+     "printed": "0.48",
+     "bold": false,
+     "t": "24:48"
+    },
+    {
+     "st": "東海",
+     "ev": "dep",
+     "printed": "1.21",
+     "bold": false,
+     "t": "25:21"
+    },
+    {
+     "st": "平陽",
+     "ev": "arr",
+     "printed": "1.53",
+     "bold": false,
+     "t": "25:53"
+    },
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "1.54",
+     "bold": false,
+     "t": "25:54"
+    },
+    {
+     "st": "鷄寧",
+     "ev": "dep",
+     "printed": "2.31",
+     "bold": false,
+     "t": "26:31"
+    },
+    {
+     "st": "淸道",
+     "ev": "dep",
+     "printed": "3.00",
+     "bold": false,
+     "t": "27:00"
+    },
+    {
+     "st": "園嶺",
+     "ev": "pass"
+    },
+    {
+     "st": "靑龍",
+     "ev": "dep",
+     "printed": "4.09",
+     "bold": false,
+     "t": "28:09"
+    },
+    {
+     "st": "麻山",
+     "ev": "dep",
+     "printed": "4.31",
+     "bold": false,
+     "t": "28:31"
+    },
+    {
+     "st": "奎山",
+     "ev": "dep",
+     "printed": "4.58",
+     "bold": false,
+     "t": "28:58"
+    },
+    {
+     "st": "楊木",
+     "ev": "dep",
+     "printed": "5.24",
+     "bold": false,
+     "t": "29:24"
+    },
+    {
+     "st": "林口",
+     "ev": "arr",
+     "printed": "5.44",
+     "bold": false,
+     "note": "發は表尾「50頁」の連絡抄錄",
+     "t": "29:44"
+    },
+    {
+     "st": "林口",
+     "ev": "dep",
+     "printed": "6.09",
+     "bold": false,
+     "note": "發は表尾「50頁」の連絡抄錄",
+     "t": "30:09"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "9.19",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "33:19"
+    }
+   ],
+   "dest": "牡丹江",
+   "cls": "1.2.3",
+   "marks": "寢1.2",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "昭和17.5.25改訂。頁39下部の表の右半。反對方向（虎頭行）は p39c。",
+  "左端に「自虎頭 運賃 1等・2等・3等」欄があるが轉記せず。粁程欄は無い。",
+  "列車欄は3欄（150・7152・110）。その右に空欄が2欄あり「…」が入る。表頭の「林口行」は3欄共通の見出し。150は食堂車の繪記號（✕印）＋反轉枠「2 3」、7152は「混」＋反轉枠「2 3」、110は反轉枠「1 2」＋寢台車の繪記號、列車番號の上に反轉枠「1.2.3」。",
+  "表尾に「50頁{」の括弧で 林口發・牡丹江著 の2行の連絡抄錄がある。抄錄行の時刻も本ファイルに收めた（林口は本表の著と抄錄の發を著/發として1行にまとめた）。",
+  "110列車の庄內の桝には時刻でも「レ」でもなく✕形の記號（食堂車印と同形）が印刷されてゐる。意味不明のため「-」とし、この註記を殘す。p39c の109列車の靑龍も同樣。",
+  "「v」は原表のレ（通過）、「-」は原表の「…」。虎林・東安・平陽の3驛が著・發の2行に分かれる。",
+  "110列車の淸道 3.00 → 靑龍 4.09 は69分を要し、150・7152（52分前後）と合はないが印刷のまま轉記した。",
+  "活字が潰れて判讀に不確かさのある驛名：「香鶴」「潤和」「水克」「寶東」「迎春」「裴德」「園嶺」（詳細は p39c の note 參照）。「月牙」は頁頭の讀みにくい驛名欄では「月芽(ゲツガ)」。"
+ ],
+ "source": "IMG_1848",
+ "page": "39",
+ "title": "林口・虎頭間（國線・虎林線）",
+ "line": "國線 虎林線",
+ "dir": "林口行（虎頭→林口）"
+}

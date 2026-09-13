@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 哈爾濱局管內
+line: 孫霍線
+title: 孫吳驛・霍爾莫津間
+dir: 霍爾莫津→孫吳驛
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表の右半（霍爾莫津發）。逆方向は p114g。
+stations: 霍爾莫津 | 孫吳驛
+fares: 孫吳驛 | 霍爾莫津 3.00
+
+train: 334 | dest 孫吳驛 | col 5
+霍爾莫津 8.00
+孫吳驛 10.00

@@ -1,0 +1,59 @@
+{
+ "stations": [
+  {
+   "name": "依蘭",
+   "km": null
+  },
+  {
+   "name": "太平嶺",
+   "km": null
+  },
+  {
+   "name": "千振街",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "662",
+   "stops": [
+    {
+     "st": "依蘭",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "太平嶺",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "千振街",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "千振街",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "運賃欄は表の左端に1組のみ（千振街起點）。"
+ ],
+ "source": "IMG_1884",
+ "page": "111",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "千依線",
+ "title": "千振街・依蘭間",
+ "dir": "依蘭→千振街",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "依蘭 6.00 | 太平嶺 2.50 | 千振街"
+}

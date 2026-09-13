@@ -1,0 +1,36 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 哈爾濱局管內
+line: 濱阿南線
+title: 哈爾濱・阿城間
+dir: 哈爾濱→阿城
+season: 昭和16.11.1改正
+service: 每日運行
+note: この表は上下2段で、上段が哈爾濱發（本表）、下段が阿城發（p112n）。段ごとに運賃欄がある。
+stations: 哈爾濱 | 阿城
+fares: 哈爾濱 | 阿城 1.60
+
+train: 21 | dest 阿城 | col 1
+哈爾濱 9.00
+阿城 11.00
+
+train: 23 | dest 阿城 | col 2
+哈爾濱 10.00
+阿城 12.00
+
+train: 25 | dest 阿城 | col 3
+哈爾濱 11.30
+阿城 13.30
+
+train: 27 | dest 阿城 | col 4
+哈爾濱 13.30
+阿城 15.30
+
+train: 29 | dest 阿城 | col 5
+哈爾濱 15.00
+阿城 17.00
+
+train: 31 | dest 阿城 | col 6
+哈爾濱 16.00
+阿城 18.00

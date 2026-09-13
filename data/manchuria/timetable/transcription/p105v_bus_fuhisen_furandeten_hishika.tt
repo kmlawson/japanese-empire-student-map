@@ -1,0 +1,47 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 普貔線
+title: 普蘭店驛・貔子窩驛間
+dir: 普蘭店驛→貔子窩驛
+season: 昭和16.10.1改正
+service: 每日運行
+note: printed under the title: 13.14.16便は休日運休 (buses 13, 14 and 16 do not run on holidays)
+stations: 普蘭店驛 | 李家屯 | 貔子窩驛
+fares: 普蘭店驛 0 | 李家屯 0.70 | 貔子窩驛 0.80
+
+train: 13 | dest 貔子窩驛 | col 1 | origin 李家屯 | days 休日運休
+普蘭店驛 -
+李家屯 8.05
+貔子窩驛 8.20
+
+train: 1 | dest 貔子窩驛 | col 2
+普蘭店驛 9.00
+李家屯 10.19
+貔子窩驛 10.30
+
+train: 3 | dest 貔子窩驛 | col 3
+普蘭店驛 11.00
+李家屯 12.19
+貔子窩驛 12.30
+
+train: 5 | dest 貔子窩驛 | col 4
+普蘭店驛 11.15
+李家屯 12.34
+貔子窩驛 12.45
+
+train: 7 | dest 貔子窩驛 | col 5
+普蘭店驛 13.00
+李家屯 14.19
+貔子窩驛 14.30
+
+train: 9 | dest 貔子窩驛 | col 6
+普蘭店驛 15.00
+李家屯 16.19
+貔子窩驛 16.30
+
+train: 11 | dest 貔子窩驛 | col 7
+普蘭店驛 17.00
+李家屯 18.19
+貔子窩驛 18.30

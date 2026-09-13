@@ -1,0 +1,120 @@
+{
+ "stations": [
+  {
+   "name": "奉天驛",
+   "km": null
+  },
+  {
+   "name": "蒲河",
+   "km": null
+  },
+  {
+   "name": "新臺子",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "81",
+   "stops": [
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "蒲河",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    }
+   ],
+   "dest": "蒲河",
+   "col": "1"
+  },
+  {
+   "no": "83",
+   "stops": [
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "蒲河",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "新臺子",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    }
+   ],
+   "dest": "新臺子",
+   "col": "2"
+  },
+  {
+   "no": "85",
+   "stops": [
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "蒲河",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "蒲河",
+   "col": "3"
+  },
+  {
+   "no": "87",
+   "stops": [
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "蒲河",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "蒲河",
+   "col": "4"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "奉新線",
+ "title": "奉天驛・蒲河・新臺子驛",
+ "dir": "奉天驛→新臺子驛",
+ "season": "昭和17.1.28改正",
+ "service": "每日運行",
+ "fares": "奉天驛 0 | 蒲河 1.35 | 新臺子 2.60"
+}

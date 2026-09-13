@@ -1,0 +1,23 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 琿東線
+title: 琿春・東興鎭間
+dir: 東興鎭→琿春
+season: 昭和16.4.10改正
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（琿春起點）。
+note: 6・8とも馬滴達始發（東興鎭欄は…）。
+stations: 東興鎭 | 馬滴達 | 琿春
+fares: 東興鎭 5.00 | 馬滴達 2.50 | 琿春
+
+train: 6 | dest 琿春 | col 1 | origin 馬滴達
+東興鎭 -
+馬滴達 10.40
+琿春 12.35
+
+train: 8 | dest 琿春 | col 2 | origin 馬滴達
+東興鎭 -
+馬滴達 15.10
+琿春 17.05

@@ -1,0 +1,16 @@
+source: IMG_1887
+page: 116
+kind: bus
+office: 齊々哈爾局管內
+line: 王西線
+title: 王爺廟・西科後旗間
+dir: 西科後旗→王爺廟
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表右側「著↑…發」の欄。運賃は王爺廟起算（西科後旗 1.75）。
+stations: 西科後旗 | 王爺廟
+fares: 西科後旗 1.75 | 王爺廟
+
+train: 232 | dest 王爺廟 | col 1
+西科後旗 13.00
+王爺廟 14.30

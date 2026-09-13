@@ -1,0 +1,1431 @@
+{
+ "stations": [
+  {
+   "name": "上野",
+   "km": 0.0
+  },
+  {
+   "name": "大宮",
+   "km": 24.7
+  },
+  {
+   "name": "熊谷",
+   "km": 59.1
+  },
+  {
+   "name": "高崎",
+   "km": 99.4
+  },
+  {
+   "name": "輕井澤",
+   "km": 140.3
+  },
+  {
+   "name": "小諸",
+   "km": 164.3
+  },
+  {
+   "name": "上田",
+   "km": 180.7
+  },
+  {
+   "name": "篠ノ井",
+   "km": 207.5
+  },
+  {
+   "name": "長野",
+   "km": 216.8
+  },
+  {
+   "name": "直江津",
+   "km": 291.8
+  },
+  {
+   "name": "柏崎",
+   "km": 328.1
+  },
+  {
+   "name": "宮内",
+   "km": 361.8
+  },
+  {
+   "name": "長岡",
+   "km": 364.8
+  },
+  {
+   "name": "新津",
+   "km": 412.9
+  },
+  {
+   "name": "新潟",
+   "km": 429.9
+  }
+ ],
+ "trains": [
+  {
+   "no": "315",
+   "stops": [
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "6.28",
+     "bold": false,
+     "t": "06:28"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "8.17",
+     "bold": false,
+     "t": "08:17"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "9.16",
+     "bold": false,
+     "t": "09:16"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "10.02",
+     "bold": false,
+     "t": "10:02"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "10.13",
+     "bold": false,
+     "t": "10:13"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "0.30",
+     "bold": true,
+     "t": "12:30"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "1.33",
+     "bold": true,
+     "t": "13:33"
+    },
+    {
+     "st": "宮内",
+     "ev": "dep",
+     "printed": "2.27",
+     "bold": true,
+     "t": "14:27"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "2.43",
+     "bold": true,
+     "t": "14:43"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "4.05",
+     "bold": true,
+     "t": "16:05"
+    },
+    {
+     "st": "新潟",
+     "ev": "dep",
+     "printed": "4.31",
+     "bold": true,
+     "t": "16:31"
+    }
+   ],
+   "dest": "新潟",
+   "cls": "2.3",
+   "origin": "高崎",
+   "col": "1"
+  },
+  {
+   "no": "317",
+   "stops": [
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "10.44",
+     "bold": false,
+     "t": "10:44"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "11.19",
+     "bold": false,
+     "t": "11:19"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "11.34",
+     "bold": false,
+     "t": "11:34"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "1.59",
+     "bold": true,
+     "t": "13:59"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "3.04",
+     "bold": true,
+     "t": "15:04"
+    },
+    {
+     "st": "宮内",
+     "ev": "dep",
+     "printed": "3.39",
+     "bold": true,
+     "t": "15:39"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "4.09",
+     "bold": true,
+     "t": "16:09"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "5.31",
+     "bold": true,
+     "t": "17:31"
+    },
+    {
+     "st": "新潟",
+     "ev": "dep",
+     "printed": "5.56",
+     "bold": true,
+     "t": "17:56"
+    }
+   ],
+   "dest": "新潟",
+   "cls": "2.3",
+   "origin": "上田",
+   "col": "2"
+  },
+  {
+   "no": "319",
+   "stops": [
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "6.25",
+     "bold": false,
+     "note": "時の字の上部が罫線に接し「8」に見えるが大宮7.00著發から6.25",
+     "t": "06:25"
+    },
+    {
+     "st": "大宮",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "熊谷",
+     "ev": "dep",
+     "printed": "7.46",
+     "bold": false,
+     "t": "07:46"
+    },
+    {
+     "st": "高崎",
+     "ev": "arr",
+     "printed": "8.44",
+     "bold": false,
+     "t": "08:44"
+    },
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "10.58",
+     "bold": false,
+     "t": "10:58"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "11.53",
+     "bold": false,
+     "t": "11:53"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "0.22",
+     "bold": true,
+     "t": "12:22"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "1.06",
+     "bold": true,
+     "t": "13:06"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "1.22",
+     "bold": true,
+     "note": "終着（著行のみ）",
+     "t": "13:22"
+    }
+   ],
+   "dest": "長野",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "701",
+   "stops": [
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "大宮",
+     "ev": "dep",
+     "printed": "8.31",
+     "bold": false,
+     "t": "08:31"
+    },
+    {
+     "st": "熊谷",
+     "ev": "dep",
+     "printed": "9.02",
+     "bold": false,
+     "t": "09:02"
+    },
+    {
+     "st": "高崎",
+     "ev": "arr",
+     "printed": "9.39",
+     "bold": false,
+     "t": "09:39"
+    },
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "9.44",
+     "bold": false,
+     "t": "09:44"
+    },
+    {
+     "st": "宮内",
+     "ev": "dep",
+     "printed": "1.07",
+     "bold": true,
+     "t": "13:07"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "1.15",
+     "bold": true,
+     "t": "13:15"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "2.14",
+     "bold": true,
+     "t": "14:14"
+    },
+    {
+     "st": "新潟",
+     "ev": "dep",
+     "printed": "2.35",
+     "bold": true,
+     "t": "14:35"
+    }
+   ],
+   "dest": "新潟",
+   "cls": "2.3",
+   "via": "上越線",
+   "col": "4",
+   "note": "行先「新潟行」の下に✕形の記號。高崎から先は上越線經由で、輕井澤〜柏崎の桝には縦線と黑地の「經由」、括弧つきの「（上越線經由）」、下向き矢印が入る"
+  },
+  {
+   "no": "305",
+   "stops": [
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "大宮",
+     "ev": "dep",
+     "printed": "9.02",
+     "bold": false,
+     "t": "09:02"
+    },
+    {
+     "st": "熊谷",
+     "ev": "dep",
+     "printed": "9.37",
+     "bold": false,
+     "t": "09:37"
+    },
+    {
+     "st": "高崎",
+     "ev": "arr",
+     "printed": "10.18",
+     "bold": false,
+     "note": "發の時の字が罫線に接して讀みにくいが著10.18から10.24",
+     "t": "10:18"
+    },
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "10.24",
+     "bold": false,
+     "note": "發の時の字が罫線に接して讀みにくいが著10.18から10.24",
+     "t": "10:24"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "0.04",
+     "bold": true,
+     "t": "12:04"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "0.34",
+     "bold": true,
+     "t": "12:34"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "0.57",
+     "bold": true,
+     "t": "12:57"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "1.25",
+     "bold": true,
+     "t": "13:25"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "1.36",
+     "bold": true,
+     "t": "13:36"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "1.45",
+     "bold": true,
+     "t": "13:45"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "4.00",
+     "bold": true,
+     "t": "16:00"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "5.02",
+     "bold": true,
+     "t": "17:02"
+    },
+    {
+     "st": "宮内",
+     "ev": "dep",
+     "printed": "6.03",
+     "bold": true,
+     "t": "18:03"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "6.21",
+     "bold": true,
+     "t": "18:21"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "7.52",
+     "bold": true,
+     "t": "19:52"
+    },
+    {
+     "st": "新潟",
+     "ev": "dep",
+     "printed": "8.22",
+     "bold": true,
+     "t": "20:22"
+    }
+   ],
+   "dest": "新潟",
+   "cls": "2.3",
+   "col": "5"
+  },
+  {
+   "no": "321",
+   "stops": [
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "11.22",
+     "bold": false,
+     "t": "11:22"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "1.24",
+     "bold": true,
+     "t": "13:24"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "1.57",
+     "bold": true,
+     "t": "13:57"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "2.28",
+     "bold": true,
+     "t": "14:28"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "3.06",
+     "bold": true,
+     "t": "15:06"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "3.22",
+     "bold": true,
+     "t": "15:22"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "3.40",
+     "bold": true,
+     "t": "15:40"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "6.03",
+     "bold": true,
+     "t": "18:03"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "7.04",
+     "bold": true,
+     "t": "19:04"
+    },
+    {
+     "st": "宮内",
+     "ev": "dep",
+     "printed": "7.56",
+     "bold": true,
+     "t": "19:56"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "8.06",
+     "bold": true,
+     "t": "20:06"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "9.33",
+     "bold": true,
+     "t": "21:33"
+    },
+    {
+     "st": "新潟",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": true,
+     "t": "22:00"
+    }
+   ],
+   "dest": "新潟",
+   "cls": "2.3",
+   "origin": "高崎",
+   "col": "6"
+  },
+  {
+   "no": "323",
+   "stops": [
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "10.59",
+     "bold": false,
+     "t": "10:59"
+    },
+    {
+     "st": "大宮",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "熊谷",
+     "ev": "dep",
+     "printed": "0.11",
+     "bold": true,
+     "t": "12:11"
+    },
+    {
+     "st": "高崎",
+     "ev": "arr",
+     "printed": "1.09",
+     "bold": true,
+     "t": "13:09"
+    },
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "1.15",
+     "bold": true,
+     "t": "13:15"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "3.24",
+     "bold": true,
+     "t": "15:24"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "3.57",
+     "bold": true,
+     "t": "15:57"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "4.26",
+     "bold": true,
+     "t": "16:26"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "5.00",
+     "bold": true,
+     "t": "17:00"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "5.13",
+     "bold": true,
+     "t": "17:13"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "5.26",
+     "bold": true,
+     "t": "17:26"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "8.11",
+     "bold": true,
+     "t": "20:11"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "9.12",
+     "bold": true,
+     "t": "21:12"
+    },
+    {
+     "st": "宮内",
+     "ev": "dep",
+     "printed": "10.07",
+     "bold": true,
+     "t": "22:07"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "10.12",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "22:12"
+    }
+   ],
+   "dest": "長岡",
+   "cls": "2.3",
+   "col": "7"
+  },
+  {
+   "no": "325",
+   "stops": [
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "3.01",
+     "bold": true,
+     "t": "15:01"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "5.09",
+     "bold": true,
+     "t": "17:09"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "6.03",
+     "bold": true,
+     "t": "18:03"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "6.36",
+     "bold": true,
+     "t": "18:36"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "7.17",
+     "bold": true,
+     "t": "19:17"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "7.31",
+     "bold": true,
+     "t": "19:31"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "7.42",
+     "bold": true,
+     "t": "19:42"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "10.04",
+     "bold": true,
+     "t": "22:04"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "11.05",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "23:05"
+    }
+   ],
+   "dest": "柏崎",
+   "cls": "2.3",
+   "origin": "高崎",
+   "col": "8"
+  },
+  {
+   "no": "327",
+   "stops": [
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "3.10",
+     "bold": true,
+     "t": "15:10"
+    },
+    {
+     "st": "大宮",
+     "ev": "dep",
+     "printed": "3.50",
+     "bold": true,
+     "t": "15:50"
+    },
+    {
+     "st": "熊谷",
+     "ev": "dep",
+     "printed": "4.38",
+     "bold": true,
+     "t": "16:38"
+    },
+    {
+     "st": "高崎",
+     "ev": "arr",
+     "printed": "5.36",
+     "bold": true,
+     "t": "17:36"
+    },
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "5.42",
+     "bold": true,
+     "t": "17:42"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": true,
+     "t": "19:45"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": true,
+     "t": "20:25"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "8.52",
+     "bold": true,
+     "t": "20:52"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": true,
+     "t": "21:31"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "9.45",
+     "bold": true,
+     "t": "21:45"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "9.53",
+     "bold": true,
+     "t": "21:53"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "23:55"
+    }
+   ],
+   "dest": "直江津",
+   "cls": "2.3",
+   "col": "9"
+  },
+  {
+   "no": "329",
+   "stops": [
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "5.40",
+     "bold": true,
+     "uncertain": true,
+     "note": "分の末位が不鮮明。大宮6.19（他欄の上野→大宮は約40分）から5.40",
+     "t": "17:40"
+    },
+    {
+     "st": "大宮",
+     "ev": "dep",
+     "printed": "6.19",
+     "bold": true,
+     "t": "18:19"
+    },
+    {
+     "st": "熊谷",
+     "ev": "dep",
+     "printed": "6.49",
+     "bold": true,
+     "t": "18:49"
+    },
+    {
+     "st": "高崎",
+     "ev": "arr",
+     "printed": "7.31",
+     "bold": true,
+     "t": "19:31"
+    },
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": true,
+     "t": "19:38"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "9.36",
+     "bold": true,
+     "t": "21:36"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "10.09",
+     "bold": true,
+     "t": "22:09"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "10.39",
+     "bold": true,
+     "t": "22:39"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "11.16",
+     "bold": true,
+     "t": "23:16"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": true,
+     "note": "終着（著行のみ）",
+     "t": "23:30"
+    }
+   ],
+   "dest": "長野",
+   "cls": "2.3",
+   "col": "10"
+  },
+  {
+   "no": "601",
+   "stops": [
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": true,
+     "t": "21:00"
+    },
+    {
+     "st": "大宮",
+     "ev": "dep",
+     "printed": "9.35",
+     "bold": true,
+     "t": "21:35"
+    },
+    {
+     "st": "熊谷",
+     "ev": "dep",
+     "printed": "10.06",
+     "bold": true,
+     "t": "22:06"
+    },
+    {
+     "st": "高崎",
+     "ev": "arr",
+     "printed": "10.43",
+     "bold": true,
+     "t": "22:43"
+    },
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "10.49",
+     "bold": true,
+     "t": "22:49"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "0.38",
+     "bold": false,
+     "t": "24:38"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "1.10",
+     "bold": false,
+     "t": "25:10"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "1.37",
+     "bold": false,
+     "t": "25:37"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "pass"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "2.20",
+     "bold": false,
+     "t": "26:20"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "2.26",
+     "bold": false,
+     "t": "26:26"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "4.20",
+     "bold": false,
+     "t": "28:20"
+    }
+   ],
+   "dest": "大阪",
+   "cls": "2.3",
+   "marks": "急 寢2",
+   "col": "11",
+   "note": "行先「大阪行」の上に白拔き「急行」の黑箱、下に寢臺と2を入れた箱形記號。篠ノ井の桝にも白拔き「急行」の黑箱が入り時刻はない。直江津から北陸本線に入り、以下の空桝に縦書きで「金澤著 8.05」（午前）、隣の301欄の空桝に鉤括弧付きで「大阪著 1.50」（午後）"
+  },
+  {
+   "no": "301",
+   "stops": [
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": true,
+     "t": "22:55"
+    },
+    {
+     "st": "大宮",
+     "ev": "dep",
+     "printed": "11.34",
+     "bold": true,
+     "t": "23:34"
+    },
+    {
+     "st": "熊谷",
+     "ev": "dep",
+     "printed": "0.28",
+     "bold": false,
+     "t": "24:28"
+    },
+    {
+     "st": "高崎",
+     "ev": "arr",
+     "printed": "1.22",
+     "bold": false,
+     "t": "25:22"
+    },
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "1.28",
+     "bold": false,
+     "t": "25:28"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "3.11",
+     "bold": false,
+     "t": "27:11"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "3.51",
+     "bold": false,
+     "t": "27:51"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "4.20",
+     "bold": false,
+     "t": "28:20"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "5.01",
+     "bold": false,
+     "t": "29:01"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "5.15",
+     "bold": false,
+     "note": "終着（著行のみ）",
+     "t": "29:15"
+    }
+   ],
+   "dest": "長野",
+   "cls": "2.3",
+   "col": "12",
+   "note": "熊谷以下は日附が變り午前。長野著以下の空桝には隣欄601の「大阪著 1.50」の縦書が入り込んでゐる"
+  },
+  {
+   "no": "303",
+   "stops": [
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "4.52",
+     "bold": true,
+     "note": "p96c の同列車は篠ノ井 4.51 で1分食ひ違ふ。兩表とも印刷のまま",
+     "t": "16:52"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "5.07",
+     "bold": true,
+     "t": "17:07"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "5.23",
+     "bold": true,
+     "t": "17:23"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "7.36",
+     "bold": true,
+     "t": "19:36"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "8.32",
+     "bold": true,
+     "t": "20:32"
+    },
+    {
+     "st": "宮内",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": true,
+     "t": "21:31"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "9.41",
+     "bold": true,
+     "t": "21:41"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "11.06",
+     "bold": true,
+     "t": "23:06"
+    },
+    {
+     "st": "新潟",
+     "ev": "dep",
+     "printed": "11.35",
+     "bold": true,
+     "t": "23:35"
+    }
+   ],
+   "dest": "新潟",
+   "cls": "2.3",
+   "origin": "名古屋",
+   "col": "13",
+   "note": "上野〜上田の空桝に縦書きで「名古屋發 9.53」（頁96の3段目 p96c の同列車と一致）。名古屋から中央本線・篠ノ井線經由"
+  },
+  {
+   "no": "603",
+   "stops": [
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "9.45",
+     "bold": true,
+     "t": "21:45"
+    },
+    {
+     "st": "大宮",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": true,
+     "t": "22:20"
+    },
+    {
+     "st": "熊谷",
+     "ev": "dep",
+     "printed": "11.06",
+     "bold": true,
+     "t": "23:06"
+    },
+    {
+     "st": "高崎",
+     "ev": "arr",
+     "printed": "0.04",
+     "bold": false,
+     "t": "24:04"
+    },
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "0.10",
+     "bold": false,
+     "t": "24:10"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "2.11",
+     "bold": false,
+     "t": "26:11"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "2.44",
+     "bold": false,
+     "t": "26:44"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "3.14",
+     "bold": false,
+     "t": "27:14"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "3.44",
+     "bold": false,
+     "t": "27:44"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "3.56",
+     "bold": false,
+     "t": "27:56"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "4.02",
+     "bold": false,
+     "t": "28:02"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "6.20",
+     "bold": false,
+     "t": "30:20"
+    }
+   ],
+   "dest": "大阪",
+   "cls": "2.3",
+   "col": "14",
+   "note": "直江津から北陸本線に入り、以下の空桝に縦書きで「大阪著 7.01」（午後）"
+  },
+  {
+   "no": "605",
+   "stops": [
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": true,
+     "t": "23:50"
+    },
+    {
+     "st": "大宮",
+     "ev": "dep",
+     "printed": "0.30",
+     "bold": false,
+     "t": "24:30"
+    },
+    {
+     "st": "熊谷",
+     "ev": "dep",
+     "printed": "1.24",
+     "bold": false,
+     "t": "25:24"
+    },
+    {
+     "st": "高崎",
+     "ev": "arr",
+     "printed": "2.24",
+     "bold": false,
+     "t": "26:24"
+    },
+    {
+     "st": "高崎",
+     "ev": "dep",
+     "printed": "2.32",
+     "bold": false,
+     "t": "26:32"
+    },
+    {
+     "st": "輕井澤",
+     "ev": "dep",
+     "printed": "4.33",
+     "bold": false,
+     "t": "28:33"
+    },
+    {
+     "st": "小諸",
+     "ev": "dep",
+     "printed": "5.07",
+     "bold": false,
+     "t": "29:07"
+    },
+    {
+     "st": "上田",
+     "ev": "dep",
+     "printed": "5.35",
+     "bold": false,
+     "t": "29:35"
+    },
+    {
+     "st": "篠ノ井",
+     "ev": "dep",
+     "printed": "6.11",
+     "bold": false,
+     "t": "30:11"
+    },
+    {
+     "st": "長野",
+     "ev": "arr",
+     "printed": "6.25",
+     "bold": false,
+     "t": "30:25"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "6.38",
+     "bold": false,
+     "t": "30:38"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": false,
+     "t": "32:40"
+    }
+   ],
+   "dest": "米原",
+   "cls": "2.3",
+   "col": "15",
+   "note": "直江津から北陸本線に入り、以下の空桝に縦書きで「米原著 6.39」（午後）"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改正。標題右に「（鐵道省・高崎線・信越本線・上越線）特に示したるものの他は2.3等車」。頁97の一番上の表。反對方向（新潟→上野）は同頁2段目（p97b）。",
+  "主要驛のみを拔いた抄錄表。左端に「自上野 粁程／運賃 3等」欄があるが運賃は轉記せず。驛名の左の⊓・〒・◎・♨等の設備記號も轉記せず。",
+  "高崎と長野は著・發の二行（｛著／發）に分かれる。表の右端には罫線だけ引かれた空欄が1欄ある。",
+  "頁尾（頁96）に「細字は午前、太字は午後を示す」とあるが寫眞では太細を判別できない。各欄が時刻順に進むことから午前・午後を判定し、午後には B を附けた。"
+ ],
+ "source": "IMG_1877",
+ "page": "97",
+ "title": "上野・新潟間",
+ "line": "鐵道省 高崎線・信越本線・上越線",
+ "dir": "上野→新潟（下り）",
+ "clock": "12"
+}

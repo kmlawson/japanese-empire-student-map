@@ -96,6 +96,14 @@ JMAP.LAYER_INFO = [
     note: 'This map is set around December 1942 and gives you a depiction of the colonies, cities, countries, and occupation zones of that time. Some descriptions may differ between this map and those of the 1930 map.\n\n**Important:** When you load railways, airlines, population maps, etc. with this map showing, the additional layers you see are usually not from exactly 1942. Each layer is constructed from its own historical sources. Generally, historical sources from around 1928–1935 are assigned to the 1930 map, while those using sources from around 1936 onwards are assigned to the 1942 map. This means there are anachronisms visible on both maps.'
   },
   {
+    id: 'mn-rail',
+    source: 'Traced for this map: the lines of the [滿洲・支那汽車時間表 (July 1942)](https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7) drawn so far, on the 1942 map only.',
+    flag: 'mnRail',
+    source_url: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
+    title: 'Manchuria Railways',
+    note: 'The train line "tools" for Manchuria are from a July 1942 time table [found in scanned format on the Internet Archive](https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7). The timetable is not currently complete, but a majority of the lines, including all the most important central lines may be viewed here. A number of these lines shut down near the end or at the end of the war. Some had their tracks pulled up by Japanese forces fleeing the Soviet invasion, others suffered damage or were taken apart by the invading Soviet forces. The lines displayed here for those lines (國線 朝開線, 國線 興寧線) or some portion of the lines (as with final sections of 國線 濱綏線, and 國線 虎林線) are thus, in part, the work of some speculation, pieced together by following traces of the lines on satellite images, or current roads that roughly follow the lines found in American military from 1945 based on earlier Japanese maps.'
+  },
+  {
     id: 'jp-rail',
     source: 'The Japanese lines for 1930 and 1942 are filtered from the dataset provided by the [国土交通省国土数値情報ダウンロードサイト](https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html). The source’s survey begins in 1950, so railways that closed before 1950 are likely to be missing from the data.',
     flag: 'jpRail',

@@ -1,0 +1,163 @@
+{
+ "stations": [
+  {
+   "name": "鳳凰城",
+   "km": null
+  },
+  {
+   "name": "白旗",
+   "km": null
+  },
+  {
+   "name": "紅旗街",
+   "km": null
+  },
+  {
+   "name": "龍王廟",
+   "km": null
+  },
+  {
+   "name": "大孤山",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "75",
+   "stops": [
+    {
+     "st": "鳳凰城",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "白旗",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    }
+   ],
+   "dest": "白旗",
+   "col": "1"
+  },
+  {
+   "no": "71",
+   "stops": [
+    {
+     "st": "鳳凰城",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "白旗",
+     "ev": "dep",
+     "printed": "13.55",
+     "bold": false,
+     "t": "13:55"
+    },
+    {
+     "st": "紅旗街",
+     "ev": "dep",
+     "printed": "14.47",
+     "bold": false,
+     "t": "14:47"
+    },
+    {
+     "st": "龍王廟",
+     "ev": "dep",
+     "printed": "15.35",
+     "bold": false,
+     "t": "15:35"
+    },
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "大孤山",
+   "col": "2"
+  },
+  {
+   "no": "73",
+   "stops": [
+    {
+     "st": "鳳凰城",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "白旗",
+     "ev": "dep",
+     "printed": "15.25",
+     "bold": false,
+     "t": "15:25"
+    },
+    {
+     "st": "紅旗街",
+     "ev": "dep",
+     "printed": "16.17",
+     "bold": false,
+     "t": "16:17"
+    },
+    {
+     "st": "龍王廟",
+     "ev": "dep",
+     "printed": "17.05",
+     "bold": false,
+     "t": "17:05"
+    },
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "大孤山",
+   "col": "3"
+  },
+  {
+   "no": "77",
+   "stops": [
+    {
+     "st": "鳳凰城",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "白旗",
+     "ev": "dep",
+     "printed": "16.25",
+     "bold": false,
+     "t": "16:25"
+    }
+   ],
+   "dest": "白旗",
+   "col": "4"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "鳳大線",
+ "title": "大孤山・鳳凰城間",
+ "dir": "鳳凰城→大孤山",
+ "season": "昭和17.2.20改正",
+ "service": "每日運行",
+ "fares": "鳳凰城 0 | 白旗 1.35 | 紅旗街 2.55 | 龍王廟 3.70 | 大孤山 5.05"
+}

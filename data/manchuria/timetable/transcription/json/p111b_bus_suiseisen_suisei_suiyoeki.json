@@ -1,0 +1,154 @@
+{
+ "stations": [
+  {
+   "name": "綏西",
+   "km": null
+  },
+  {
+   "name": "綏陽驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "122",
+   "stops": [
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "9.05",
+     "bold": false,
+     "t": "09:05"
+    }
+   ],
+   "dest": "綏陽驛",
+   "col": "1"
+  },
+  {
+   "no": "124",
+   "stops": [
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    },
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "10.45",
+     "bold": false,
+     "t": "10:45"
+    }
+   ],
+   "dest": "綏陽驛",
+   "col": "2"
+  },
+  {
+   "no": "126",
+   "stops": [
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "12.35",
+     "bold": false,
+     "t": "12:35"
+    }
+   ],
+   "dest": "綏陽驛",
+   "col": "3"
+  },
+  {
+   "no": "128",
+   "stops": [
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    },
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "14.45",
+     "bold": false,
+     "t": "14:45"
+    }
+   ],
+   "dest": "綏陽驛",
+   "col": "4"
+  },
+  {
+   "no": "130",
+   "stops": [
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "16.15",
+     "bold": false,
+     "t": "16:15"
+    }
+   ],
+   "dest": "綏陽驛",
+   "col": "5"
+  },
+  {
+   "no": "132",
+   "stops": [
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    },
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "18.55",
+     "bold": false,
+     "t": "18:55"
+    }
+   ],
+   "dest": "綏陽驛",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "下段。左端は運賃（圓.分）欄。",
+  "132のみ所要1時間15分（他列は35分）だが印刷どおり。"
+ ],
+ "source": "IMG_1884",
+ "page": "111",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "綏西線",
+ "title": "綏西・綏陽驛間",
+ "dir": "綏西→綏陽驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "綏西 | 綏陽驛 0.25"
+}

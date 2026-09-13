@@ -1,0 +1,22 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 齊齊哈爾局管內
+line: 齊甘線
+title: 齊齊哈爾・甘南間
+dir: 齊齊哈爾→甘南
+season: 昭和16.12.1改正
+service: 每日運行
+note: 左端は運賃（圓.分）欄。逆方向は p114v。
+stations: 齊齊哈爾 | 雙崗子 | 甘南
+fares: 齊齊哈爾 | 雙崗子 3.20 | 甘南 6.45
+
+train: 91 | dest 甘南 | col 2
+齊齊哈爾 8.30
+雙崗子 -
+甘南 12.30
+
+train: 93 | dest 甘南 | col 3
+齊齊哈爾 12.00
+雙崗子 14.00
+甘南 16.00

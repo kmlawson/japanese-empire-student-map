@@ -1,0 +1,25 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 貔巴線
+title: 貔子窩・(巴家屯)・貔子窩間
+dir: 貔子窩→八家子→巴家屯→貔子窩
+season: 昭和16.10.1改正
+service: 每日運行
+note: a circular service; the same 貔子窩 appears as first and last stop
+note: an unnumbered empty column (…) stands to the left of bus 31
+stations: 貔子窩 | 八家子 | 巴家屯 | 貔子窩著
+fares: 貔子窩 0 | 八家子 0.30 | 巴家屯 0.50 | 貔子窩著 0.90
+
+train: 31 | dest 貔子窩 | col 2
+貔子窩 9.00
+八家子 9.37
+巴家屯 10.00
+貔子窩著 10.40
+
+train: 33 | dest 貔子窩 | col 3
+貔子窩 15.30
+八家子 16.07
+巴家屯 16.30
+貔子窩著 17.10

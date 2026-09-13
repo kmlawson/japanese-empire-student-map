@@ -1,0 +1,153 @@
+{
+ "stations": [
+  {
+   "name": "興城驛",
+   "km": null
+  },
+  {
+   "name": "溫泉",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "141",
+   "stops": [
+    {
+     "st": "興城驛",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "溫泉",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "t": "08:45"
+    }
+   ],
+   "dest": "溫泉",
+   "col": "1"
+  },
+  {
+   "no": "143",
+   "stops": [
+    {
+     "st": "興城驛",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "溫泉",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    }
+   ],
+   "dest": "溫泉",
+   "col": "2"
+  },
+  {
+   "no": "145",
+   "stops": [
+    {
+     "st": "興城驛",
+     "ev": "dep",
+     "printed": "13.15",
+     "bold": false,
+     "t": "13:15"
+    },
+    {
+     "st": "溫泉",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "溫泉",
+   "col": "3"
+  },
+  {
+   "no": "147",
+   "stops": [
+    {
+     "st": "興城驛",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "溫泉",
+     "ev": "dep",
+     "printed": "16.55",
+     "bold": false,
+     "t": "16:55"
+    }
+   ],
+   "dest": "溫泉",
+   "col": "4"
+  },
+  {
+   "no": "149",
+   "stops": [
+    {
+     "st": "興城驛",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "溫泉",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    }
+   ],
+   "dest": "溫泉",
+   "col": "5"
+  },
+  {
+   "no": "151",
+   "stops": [
+    {
+     "st": "興城驛",
+     "ev": "dep",
+     "printed": "20.35",
+     "bold": false,
+     "t": "20:35"
+    },
+    {
+     "st": "溫泉",
+     "ev": "dep",
+     "printed": "20.50",
+     "bold": false,
+     "t": "20:50"
+    }
+   ],
+   "dest": "溫泉",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "an unnumbered empty column (…) stands to the right of the last bus"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "興城海岸線",
+ "title": "興城驛・溫泉間",
+ "dir": "興城驛→溫泉",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "興城驛 | 溫泉 0.15"
+}

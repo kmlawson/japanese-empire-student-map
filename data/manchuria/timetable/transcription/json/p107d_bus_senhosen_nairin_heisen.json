@@ -1,0 +1,89 @@
+{
+ "stations": [
+  {
+   "name": "乃林",
+   "km": null
+  },
+  {
+   "name": "新城",
+   "km": null
+  },
+  {
+   "name": "八里罕",
+   "km": null
+  },
+  {
+   "name": "平泉",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "612",
+   "stops": [
+    {
+     "st": "新城",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "八里罕",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "平泉",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "平泉",
+   "col": "1",
+   "origin": "新城"
+  },
+  {
+   "no": "614",
+   "stops": [
+    {
+     "st": "八里罕",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "平泉",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "平泉",
+   "col": "2",
+   "origin": "八里罕"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 614",
+  "the second stop is printed too small to be certain; read as 新城",
+  "buses 612 and 614 are printed with the same times at 八里罕 (12.30) and 平泉 (16.00); transcribed as printed",
+  "no bus in this direction shows a time at 乃林 (…)"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "泉峰線",
+ "title": "平泉・乃林間",
+ "dir": "乃林→平泉",
+ "season": "昭和16.12.1改正",
+ "service": "隔日運行",
+ "fares": "乃林 7.55 | 新城 5.60 | 八里罕 3.45 | 平泉"
+}

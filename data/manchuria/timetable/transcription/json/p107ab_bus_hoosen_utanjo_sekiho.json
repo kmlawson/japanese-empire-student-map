@@ -1,0 +1,69 @@
+{
+ "stations": [
+  {
+   "name": "烏丹城",
+   "km": null
+  },
+  {
+   "name": "赤峰",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "514",
+   "stops": [
+    {
+     "st": "烏丹城",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "赤峰",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    }
+   ],
+   "dest": "赤峰",
+   "col": "1"
+  },
+  {
+   "no": "412",
+   "stops": [
+    {
+     "st": "烏丹城",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "赤峰",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    }
+   ],
+   "dest": "赤峰",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 412"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "峰烏線",
+ "title": "赤峰・烏丹城間",
+ "dir": "烏丹城→赤峰",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "烏丹城 4.20 | 赤峰"
+}

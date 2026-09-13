@@ -1,0 +1,22 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 綏建線
+title: 綏中驛・建昌間
+dir: 綏中驛→建昌
+season: 昭和16.12.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the left of bus 171
+stations: 綏中驛 | 和尚房子 | 建昌
+fares: 綏中驛 | 和尚房子 3.50 | 建昌 6.75
+
+train: 171 | dest 建昌 | col 2
+綏中驛 8.30
+和尚房子 11.10
+建昌 14.30
+
+train: 173 | dest 和尚房子 | col 3
+綏中驛 14.00
+和尚房子 16.40
+建昌 -

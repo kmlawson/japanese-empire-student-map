@@ -1,0 +1,16 @@
+source: IMG_1887
+page: 116
+kind: bus
+office: 齊々哈爾局管內
+line: 洮醴線
+title: 洮南驛・醴泉間
+dir: 醴泉→洮南驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表右側「著↑…發」の欄。運賃は洮南驛起算（醴泉 5.35）。
+stations: 醴泉 | 洮南驛
+fares: 醴泉 5.35 | 洮南驛
+
+train: 202 | dest 洮南驛 | col 1
+醴泉 13.30
+洮南驛 17.30

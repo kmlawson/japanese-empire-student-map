@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "歪頭山驛",
+   "km": null
+  },
+  {
+   "name": "撫順驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "113",
+   "stops": [
+    {
+     "st": "歪頭山驛",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "撫順驛",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    }
+   ],
+   "dest": "撫順驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the left of bus 113"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "歪撫線",
+ "title": "歪頭山・撫順間",
+ "dir": "歪頭山驛→撫順驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "歪頭山驛 0 | 撫順驛 3.00"
+}

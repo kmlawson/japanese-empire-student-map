@@ -1,0 +1,132 @@
+{
+ "stations": [
+  {
+   "name": "昂昂溪",
+   "km": null
+  },
+  {
+   "name": "齊齊哈爾",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "2",
+   "stops": [
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    }
+   ],
+   "dest": "齊齊哈爾",
+   "col": "2"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    }
+   ],
+   "dest": "齊齊哈爾",
+   "col": "3"
+  },
+  {
+   "no": "6",
+   "stops": [
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    }
+   ],
+   "dest": "齊齊哈爾",
+   "col": "4"
+  },
+  {
+   "no": "8",
+   "stops": [
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "16.50",
+     "bold": false,
+     "t": "16:50"
+    }
+   ],
+   "dest": "齊齊哈爾",
+   "col": "5"
+  },
+  {
+   "no": "10",
+   "stops": [
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    }
+   ],
+   "dest": "齊齊哈爾",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "表の下段（昂昂溪發）。上段は p114q。全便所要1時間20分。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "昂々溪線",
+ "title": "齊齊哈爾・昂昂溪間",
+ "dir": "昂昂溪→齊齊哈爾",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "齊齊哈爾 | 昂昂溪 1.20"
+}

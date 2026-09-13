@@ -1,0 +1,36 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 綏西線
+title: 綏西・綏陽驛間
+dir: 綏陽驛→綏西
+season: 昭和16.12.1改正
+service: 每日運行
+note: 一つの表に上下2段。上段が綏陽驛發（本表）、下段が綏西發（p111b）。左端は運賃（圓.分）欄。
+stations: 綏陽驛 | 綏西
+fares: 綏陽驛 | 綏西 0.25
+
+train: 121 | dest 綏西 | col 1
+綏陽驛 7.50
+綏西 8.25
+
+train: 123 | dest 綏西 | col 2
+綏陽驛 9.30
+綏西 10.05
+
+train: 125 | dest 綏西 | col 3
+綏陽驛 11.20
+綏西 11.55
+
+train: 127 | dest 綏西 | col 4
+綏陽驛 13.30
+綏西 14.05
+
+train: 129 | dest 綏西 | col 5
+綏陽驛 15.00
+綏西 15.35
+
+train: 131 | dest 綏西 | col 6
+綏陽驛 17.00
+綏西 17.35

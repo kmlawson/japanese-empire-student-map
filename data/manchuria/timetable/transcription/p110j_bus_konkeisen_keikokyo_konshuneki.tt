@@ -1,0 +1,16 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 琿慶線
+title: 琿春驛・慶興橋間
+dir: 慶興橋→琿春驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（琿春驛起點）。
+stations: 慶興橋 | 琿春驛
+fares: 慶興橋 2.55 | 琿春驛
+
+train: 32 | dest 琿春驛 | col 1
+慶興橋 13.00
+琿春驛 15.30

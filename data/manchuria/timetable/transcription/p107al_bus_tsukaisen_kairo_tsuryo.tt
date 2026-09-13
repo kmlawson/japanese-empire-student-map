@@ -1,0 +1,20 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 通開線
+title: 通遼驛・開魯間
+dir: 開魯→通遼驛
+season: 昭和16.10.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the right of bus 302
+stations: 開魯 | 通遼驛
+fares: 開魯 4.30 | 通遼驛
+
+train: 304 | dest 通遼驛 | col 1
+開魯 7.00
+通遼驛 11.20
+
+train: 302 | dest 通遼驛 | col 2
+開魯 13.00
+通遼驛 17.20

@@ -1,0 +1,109 @@
+{
+ "stations": [
+  {
+   "name": "江家屯",
+   "km": null
+  },
+  {
+   "name": "錦縣驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "184",
+   "stops": [
+    {
+     "st": "江家屯",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    },
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "錦縣驛",
+   "col": "1"
+  },
+  {
+   "no": "126",
+   "stops": [
+    {
+     "st": "江家屯",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    },
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "錦縣驛",
+   "col": "2"
+  },
+  {
+   "no": "124",
+   "stops": [
+    {
+     "st": "江家屯",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    }
+   ],
+   "dest": "錦縣驛",
+   "col": "3"
+  },
+  {
+   "no": "122",
+   "stops": [
+    {
+     "st": "江家屯",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "錦縣驛",
+   "col": "4"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "錦老線",
+ "title": "錦縣驛・江家屯間",
+ "dir": "江家屯→錦縣驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "江家屯 2.65 | 錦縣驛"
+}

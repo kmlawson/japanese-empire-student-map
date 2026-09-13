@@ -1,0 +1,83 @@
+{
+ "stations": [
+  {
+   "name": "章古臺驛",
+   "km": null
+  },
+  {
+   "name": "哈拉沁屯",
+   "km": null
+  },
+  {
+   "name": "法庫",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "153",
+   "stops": [
+    {
+     "st": "哈拉沁屯",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "uncertain": true,
+     "t": "09:00"
+    },
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    }
+   ],
+   "dest": "法庫",
+   "col": "1",
+   "origin": "哈拉沁屯"
+  },
+  {
+   "no": "151",
+   "stops": [
+    {
+     "st": "章古臺驛",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    },
+    {
+     "st": "哈拉沁屯",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "法庫",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 法庫→章古臺驛 direction",
+  "bus 153's 哈拉沁屯 time is printed 19.00 but the bus reaches 法庫 at 10.40 and the leg takes 100 min in every other column; read 9.00"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "章法線",
+ "title": "法庫・章古臺驛間",
+ "dir": "章古臺驛→法庫",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "章古臺驛 5.40 | 哈拉沁屯 2.40 | 法庫 0"
+}

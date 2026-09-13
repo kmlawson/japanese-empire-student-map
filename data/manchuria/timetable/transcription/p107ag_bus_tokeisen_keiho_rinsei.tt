@@ -1,0 +1,16 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 東經線
+title: 經棚・林西間
+dir: 經棚→林西
+season: 昭和16.10.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the left of bus 506
+stations: 經棚 | 林西
+fares: 經棚 | 林西 3.10
+
+train: 506 | dest 林西 | col 3
+經棚 12.00
+林西 16.00

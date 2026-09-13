@@ -1,0 +1,596 @@
+{
+ "stations": [
+  {
+   "name": "砲臺灣",
+   "km": 0.0
+  },
+  {
+   "name": "高境廟",
+   "km": 4.3
+  },
+  {
+   "name": "江灣",
+   "km": 7.8
+  },
+  {
+   "name": "天通庵",
+   "km": 11.0
+  },
+  {
+   "name": "上海",
+   "km": 12.9
+  }
+ ],
+ "trains": [
+  {
+   "no": "402",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "07:25"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "7.53",
+     "bold": false,
+     "t": "07:53"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "8.03",
+     "bold": false,
+     "t": "08:03"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "8.13",
+     "bold": false,
+     "t": "08:13"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    }
+   ],
+   "dest": "上海",
+   "cls": "3",
+   "col": "1"
+  },
+  {
+   "no": "404",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": false,
+     "t": "08:15"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "t": "08:45"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "9.03",
+     "bold": false,
+     "t": "09:03"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    }
+   ],
+   "dest": "上海",
+   "marks": "動",
+   "col": "2"
+  },
+  {
+   "no": "406",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "10.27",
+     "bold": false,
+     "t": "10:27"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "10.37",
+     "bold": false,
+     "t": "10:37"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "10.45",
+     "bold": false,
+     "t": "10:45"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "10.52",
+     "bold": false,
+     "t": "10:52"
+    }
+   ],
+   "dest": "上海",
+   "cls": "3",
+   "col": "3"
+  },
+  {
+   "no": "408",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "11.23",
+     "bold": false,
+     "t": "11:23"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "11.36",
+     "bold": false,
+     "t": "11:36"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "11.44",
+     "bold": false,
+     "t": "11:44"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    }
+   ],
+   "dest": "上海",
+   "marks": "動",
+   "col": "4"
+  },
+  {
+   "no": "410",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "13.11",
+     "bold": false,
+     "t": "13:11"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "13.21",
+     "bold": false,
+     "t": "13:21"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "13.29",
+     "bold": false,
+     "t": "13:29"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "13.35",
+     "bold": false,
+     "t": "13:35"
+    }
+   ],
+   "dest": "上海",
+   "cls": "3",
+   "col": "5"
+  },
+  {
+   "no": "412",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "13.55",
+     "bold": false,
+     "t": "13:55"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "14.23",
+     "bold": false,
+     "t": "14:23"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "14.34",
+     "bold": false,
+     "t": "14:34"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "14.43",
+     "bold": false,
+     "t": "14:43"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    }
+   ],
+   "dest": "上海",
+   "marks": "動",
+   "col": "6"
+  },
+  {
+   "no": "414",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "16.11",
+     "bold": false,
+     "t": "16:11"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "16.21",
+     "bold": false,
+     "t": "16:21"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "16.29",
+     "bold": false,
+     "t": "16:29"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "16.38",
+     "bold": false,
+     "t": "16:38"
+    }
+   ],
+   "dest": "上海",
+   "cls": "3",
+   "col": "7"
+  },
+  {
+   "no": "416",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "16.55",
+     "bold": false,
+     "t": "16:55"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "17.23",
+     "bold": false,
+     "t": "17:23"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "17.35",
+     "bold": false,
+     "t": "17:35"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "17.46",
+     "bold": false,
+     "t": "17:46"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "17.53",
+     "bold": false,
+     "t": "17:53"
+    }
+   ],
+   "dest": "上海",
+   "marks": "動",
+   "col": "8"
+  },
+  {
+   "no": "418",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "18.23",
+     "bold": false,
+     "t": "18:23"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "18.53",
+     "bold": false,
+     "t": "18:53"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "19.04",
+     "bold": false,
+     "t": "19:04"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "19.15",
+     "bold": false,
+     "t": "19:15"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "19.22",
+     "bold": false,
+     "t": "19:22"
+    }
+   ],
+   "dest": "上海",
+   "cls": "3",
+   "col": "9"
+  },
+  {
+   "no": "420",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "19.56",
+     "bold": false,
+     "t": "19:56"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "20.06",
+     "bold": false,
+     "t": "20:06"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "20.14",
+     "bold": false,
+     "t": "20:14"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "20.20",
+     "bold": false,
+     "t": "20:20"
+    }
+   ],
+   "dest": "上海",
+   "marks": "動",
+   "col": "10"
+  },
+  {
+   "no": "422",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "20.55",
+     "bold": false,
+     "t": "20:55"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "21.23",
+     "bold": false,
+     "t": "21:23"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "21.34",
+     "bold": false,
+     "t": "21:34"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "21.43",
+     "bold": false,
+     "t": "21:43"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "21.50",
+     "bold": false,
+     "t": "21:50"
+    }
+   ],
+   "dest": "上海",
+   "cls": "3",
+   "col": "11"
+  },
+  {
+   "no": "424",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "22.25",
+     "bold": false,
+     "t": "22:25"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "22.51",
+     "bold": false,
+     "t": "22:51"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "23.01",
+     "bold": false,
+     "t": "23:01"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "23.09",
+     "bold": false,
+     "t": "23:09"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "23.16",
+     "bold": false,
+     "t": "23:16"
+    }
+   ],
+   "dest": "上海",
+   "marks": "動",
+   "col": "12"
+  },
+  {
+   "no": "426",
+   "stops": [
+    {
+     "st": "砲臺灣",
+     "ev": "dep",
+     "printed": "23.55",
+     "bold": false,
+     "t": "23:55"
+    },
+    {
+     "st": "高境廟",
+     "ev": "dep",
+     "printed": "0.21",
+     "bold": false,
+     "t": "24:21"
+    },
+    {
+     "st": "江灣",
+     "ev": "dep",
+     "printed": "0.31",
+     "bold": false,
+     "t": "24:31"
+    },
+    {
+     "st": "天通庵",
+     "ev": "dep",
+     "printed": "0.39",
+     "bold": false,
+     "t": "24:39"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "0.45",
+     "bold": false,
+     "t": "24:45"
+    }
+   ],
+   "dest": "上海",
+   "col": "13",
+   "note": "反轉枠の記號は墨で潰れて讀めない"
+  }
+ ],
+ "notes": [
+  "昭和16.11.20改正。頁69の第4表の下段。反對方向（上海→砲臺灣）は同表の上段 p69i。",
+  "「粁程 運賃 3等」欄があるが運賃は轉記せず。粁程（自砲臺灣）は stations に入れた。",
+  "支那の表につき24時制。列車欄は13欄。402・406・410・414・418・422は反轉枠「3」、404・408・412・416・420・424は「動」（動車）。426の記號は墨で潰れて讀めない。426の右にも數欄あるが全桝「…」。",
+  "粁程は反對方向（p69i）と合計しても12.9にならない驛がある（江灣 7.8＋4.4＝12.2）。"
+ ],
+ "source": "IMG_1863",
+ "page": "69",
+ "title": "上海・砲臺灣間（華中・吳淞線）",
+ "line": "華中鐵道 吳淞線",
+ "dir": "上海方面（砲臺灣→上海）"
+}

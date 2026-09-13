@@ -1,0 +1,21 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 大岫線
+title: 大孤山・岫巖間
+dir: 岫巖→大孤山
+season: 昭和17.2.20改正
+service: 每日運行
+note: fare column printed once, for the 大孤山→岫巖 direction
+note: bus 4 departure digit is smudged (8 or 9); read 9.00 because every other column takes 2h40 over the route
+stations: 岫巖 | 大孤山
+fares: 岫巖 3.50 | 大孤山 0
+
+train: 4 | dest 大孤山 | col 1
+岫巖 9.00 ?
+大孤山 11.40
+
+train: 82 | dest 大孤山 | col 2
+岫巖 14.00
+大孤山 16.40

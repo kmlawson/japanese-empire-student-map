@@ -1,0 +1,100 @@
+{
+ "stations": [
+  {
+   "name": "山市驛",
+   "km": null
+  },
+  {
+   "name": "新安鎭",
+   "km": null
+  },
+  {
+   "name": "寧安街",
+   "km": null
+  },
+  {
+   "name": "牡丹江驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "532",
+   "stops": [
+    {
+     "st": "山市驛",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "新安鎭",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "寧安街",
+     "ev": "dep",
+     "printed": "14.45",
+     "bold": false,
+     "t": "14:45"
+    },
+    {
+     "st": "牡丹江驛",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "牡丹江驛",
+   "col": "1"
+  },
+  {
+   "no": "534",
+   "stops": [
+    {
+     "st": "新安鎭",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "寧安街",
+     "ev": "dep",
+     "printed": "16.45",
+     "bold": false,
+     "t": "16:45"
+    },
+    {
+     "st": "牡丹江驛",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    }
+   ],
+   "dest": "牡丹江驛",
+   "col": "2",
+   "origin": "新安鎭"
+  }
+ ],
+ "notes": [
+  "運賃欄に金額の印刷はない。",
+  "534は新安鎭始發（山市驛欄は…）。"
+ ],
+ "source": "IMG_1884",
+ "page": "111",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "寧新線",
+ "title": "牡丹江驛・山市驛間",
+ "dir": "山市驛→牡丹江驛",
+ "season": "(運休)",
+ "service": "每日運行",
+ "fares": "山市驛 | 新安鎭 | 寧安街 | 牡丹江驛"
+}

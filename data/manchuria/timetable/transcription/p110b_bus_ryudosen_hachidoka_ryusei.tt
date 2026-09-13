@@ -1,0 +1,27 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 吉林局管內
+line: 龍道線
+title: 龍井・大拉子・八道河間
+dir: 八道河→龍井
+season: 昭和16.11.1改正
+service: 每日運行
+note: 下段。3列とも大拉子始發（八道河欄は…）。
+stations: 八道河 | 大拉子 | 龍井
+fares: 八道河 | 大拉子 0.55 | 龍井 1.55
+
+train: 382 | dest 龍井 | col 1 | origin 大拉子
+八道河 -
+大拉子 10.00
+龍井 10.50
+
+train: 386 | dest 龍井 | col 2 | origin 大拉子
+八道河 -
+大拉子 13.00
+龍井 13.50
+
+train: 390 | dest 龍井 | col 3 | origin 大拉子
+八道河 -
+大拉子 16.30
+龍井 17.20

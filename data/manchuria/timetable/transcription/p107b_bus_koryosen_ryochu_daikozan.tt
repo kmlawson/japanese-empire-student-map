@@ -1,0 +1,37 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 虎遼線
+title: 大虎山驛・遼中間
+dir: 遼中→大虎山
+season: 昭和16.12.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the right of bus 262; no bus in this direction shows a time at 遼中 (…), all start from 臺安
+stations: 遼中 | 臺安 | 大虎山
+fares: 遼中 | 臺安 1.65 | 大虎山 3.55
+
+train: 258 | dest 大虎山 | col 1 | origin 臺安
+遼中 -
+臺安 8.00
+大虎山 9.50
+
+train: 252 | dest 大虎山 | col 2 | origin 臺安
+遼中 -
+臺安 10.50
+大虎山 12.40
+
+train: 260 | dest 大虎山 | col 3 | origin 臺安
+遼中 -
+臺安 11.50
+大虎山 13.40
+
+train: 256 | dest 大虎山 | col 4 | origin 臺安
+遼中 -
+臺安 16.10
+大虎山 18.00
+
+train: 262 | dest 大虎山 | col 5 | origin 臺安
+遼中 -
+臺安 17.10
+大虎山 19.00

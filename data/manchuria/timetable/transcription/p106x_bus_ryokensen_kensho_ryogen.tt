@@ -1,0 +1,25 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 凌建線
+title: 凌源驛・建昌間
+dir: 建昌→凌源驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the right of bus 642
+note: the 凌源驛 arrival of bus 646 is badly inked; read as 12.00 from the 3h30 running time of the other buses
+stations: 建昌 | 凌源驛
+fares: 建昌 4.35 | 凌源驛
+
+train: 646 | dest 凌源驛 | col 1
+建昌 8.30
+凌源驛 12.00 ?
+
+train: 644 | dest 凌源驛 | col 2
+建昌 11.30
+凌源驛 15.00
+
+train: 642 | dest 凌源驛 | col 3
+建昌 13.00
+凌源驛 16.30

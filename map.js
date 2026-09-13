@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '365';
+  var JEM_VERSION = '366';
 
   /* Every file this one fetches, with the version on it.
 
@@ -225,6 +225,7 @@
     twRail: false,
     krRail: false,
     kfRail: false,
+    mnRail: false,
     burmaRail: false,
     jpRail: false,
     jpStations: false,
@@ -232,6 +233,7 @@
     krStations: false,
     twStations: false,
     kfStations: false,
+    mnStations: false,
     /* The working timetable over Taiwan: the lines in the colours the
        timetable gives them, the day's trains running on it, and a station's
        departures in the card. Off by default, and even switched on it draws
@@ -1296,6 +1298,7 @@
     twRailGroup = svg.querySelector('#tw-rail');
     krRailGroup = svg.querySelector('#kr-rail');
     kfRailGroup = svg.querySelector('#kf-rail');
+    mnRailGroup = svg.querySelector('#mn-rail');
     burmaRailGroup = svg.querySelector('#burma-rail');
     buildYellow1938();
     buildAir();
@@ -2226,6 +2229,7 @@
     railFadeOne(twRailGroup, state.twRail && !trainDraws('tw'));
     railFadeOne(krRailGroup, state.krRail && !trainDraws('kr'));
     railFadeOne(kfRailGroup, state.kfRail && !trainDraws('kf'));
+    railFadeOne(mnRailGroup, state.mnRail && !trainDraws('mn'));
     /* Burma's has no train tools to give way to, so there is nothing to gate
        it on but its own switch. The trace carries thirty lines and no names at
        all, so there are no stations and nothing to press: it is the shape of
@@ -2851,6 +2855,30 @@
       latOn: 7.0,
       latOff: 8.0,
     },
+    mn: {
+      sys: 'mn',
+      data: 'MN_TRAINS',
+      file: 'mn-trains.js',
+      /* The timetable is a second file, fetched only when the reader asks
+         it something; see tools/trains_split.py. */
+      times: 'MN_TIMES',
+      timesFile: 'mn-times.js',
+      page: 'timetable/manchuria-1942.html',
+      note: 'Timetable of July 1942',
+      src: '\u6eff\u6d32\u30fb\u652f\u90a3\u6c7d\u8eca\u6642\u9593\u8868 (1942)',
+      srcHref: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
+      /* The placed stations run 119.6-131.2 E and 38.8-50.3 N; the box is
+         that with a little room, and it holds most of Korea's. `trainBoxAt`
+         takes the smallest box round the centre of the view, which is what
+         keeps Korea's tools Korea's when the reader is over the peninsula. */
+      box: [119.4, 38.6, 131.4, 50.5],
+      atom: 'manchukuo',
+      /* Manchuria is eleven and a half degrees tall, Korea ten: the tools
+         come up at a span a little wider than Korea's, with the same gap
+         between on and off for the same reason. */
+      latOn: 15.0,
+      latOff: 16.5,
+    },
   };
 
   /* How close in the reader has to be, in degrees of latitude on screen.
@@ -2989,6 +3017,7 @@
      ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations'],
      ['#opt-kf-rail', 'kfRail'], ['#opt-kf-stations', 'kfStations'],
+     ['#opt-mn-rail', 'mnRail'], ['#opt-mn-stations', 'mnStations'],
      ['#opt-burma-rail', 'burmaRail'],
      ['#opt-jp-rail', 'jpRail'], ['#opt-jp-stations', 'jpStations'],
      ['#opt-rail-zoom', 'railZoom']]
@@ -3696,9 +3725,10 @@
   var twRailGroup = null;
   var krRailGroup = null;
   var kfRailGroup = null;
+  var mnRailGroup = null;
   var burmaRailGroup = null;
   /* Built, not found: Japan's railways are 1,977 paths fetched on demand,
-     where the other three are drawn into japan-empire-map.svg. */
+     where the other four are drawn into japan-empire-map.svg. */
   var jpRailGroup = null;
   var staRecs = [];                   // the station records, to re-register
   var buildStations = null;           // set in buildSiteLabels, called on demand
@@ -3792,6 +3822,26 @@
                  ja: t.kana ? t.han + '\uff08' + t.kana + '\uff09' : t.han,
                  ru: t.ru || '',
                  jpro: t.ro || '', locro: t.ruen || '', han: t.han,
+                 wiki: t.wiki || '',
+                 staKind: 'station' };
+      },
+    },
+    mn: {
+      data: 'MN_STATIONS', file: 'mn-stations.js', gid: 'mn-stations',
+      rail: 'mnRail', on: 'mnStations',
+      row: 'row-mn-stations', box: 'opt-mn-stations',
+      /* The placed stations' own extent with a little room; it overlaps
+         Korea's box along the Yalu and Tumen, and `groundHere` takes the
+         smaller box, which is Korea's, so the button over the border still
+         offers Korea's railways. */
+      ground: [119.4, 38.6, 131.4, 50.5],
+      /* Manchuria's names go where Taiwan's do: the Japanese reading leads,
+         the pinyin of the name the timetable prints is the local reading, and
+         the characters are the same for both. The name today is in the card. */
+      rec: function (t) {
+        return { en: t.ro || t.han, local: t.py || t.ro || t.han,
+                 ja: t.kana ? t.han + '\uff08' + t.kana + '\uff09' : t.han,
+                 jpro: t.ro || '', locro: t.py || '', han: t.han,
                  wiki: t.wiki || '',
                  staKind: 'station' };
       },
@@ -4969,7 +5019,8 @@
             ['hanLabels', HANLABELS_PLACE, 2], ['kfRail', KFRAIL_PLACE, 2],
             ['jpRail', JPRAIL_PLACE, 2], ['jpStations', JPSTA_PLACE, 2],
             ['kfStations', KFSTA_PLACE, 2],
-            ['burmaRail', BURMARAIL_PLACE, 2]);
+            ['burmaRail', BURMARAIL_PLACE, 2],
+            ['mnRail', MNRAIL_PLACE, 2], ['mnStations', MNSTA_PLACE, 2]);
     LABEL_CATS.forEach(function (c) { hi.push(['labels:' + c.id, c.place, 2]); });
     hi.sort(function (a, b) { return a[1] - b[1]; });
     for (var h = 0; h + 1 < hi.length; h++) {
@@ -5114,6 +5165,8 @@
     if (asRead.jpRail) hi += JPRAIL_PLACE;      // Japan's, fetched on demand
     if (asRead.jpStations) hi += JPSTA_PLACE;
     if (asRead.kfStations) hi += KFSTA_PLACE;   // and their stations
+    if (asRead.mnRail) hi += MNRAIL_PLACE;      // Manchuria's railways
+    if (asRead.mnStations) hi += MNSTA_PLACE;   // and their stations
     /* `state`, not `asRead`. `asRead` is built out of STATION_SYS, and it is
        there to write the railways the train tools borrowed as the reader had
        them rather than as the tools left them. Burma has no stations and no
@@ -5259,6 +5312,8 @@
     state.kfRail = !!(Math.floor(hi / KFRAIL_PLACE) % 2);
     state.burmaRail = !!(Math.floor(hi / BURMARAIL_PLACE) % 2);
     state.kfStations = !!(Math.floor(hi / KFSTA_PLACE) % 2);
+    state.mnRail = !!(Math.floor(hi / MNRAIL_PLACE) % 2);
+    state.mnStations = !!(Math.floor(hi / MNSTA_PLACE) % 2);
     state.theme = THEME_MODES[(Math.floor(hi / THEME_PLACE) % 4) - 1] || 'auto';
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
       state.labelCats[c.id] = !(Math.floor(hi / c.place) % 2);
@@ -13340,7 +13395,7 @@
      the tools should still be able to take the track away. */
   function railSysOf(target) {
     if (!target || !target.closest) return '';
-    var g = target.closest('#tw-rail, #kr-rail, #kf-rail, #jp-rail');
+    var g = target.closest('#tw-rail, #kr-rail, #kf-rail, #mn-rail, #jp-rail');
     if (!g) return '';
     return String(g.id || '').replace(/-rail$/, '');
   }
@@ -13350,12 +13405,13 @@
      possessive, and it is the one place that has to change when a fourth
      system arrives. */
   var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto', jp: 'Japan',
-                     burma: 'Burma' };
+                     mn: 'Manchuria', burma: 'Burma' };
   var RAIL_SWITCH_ROWS = [
     { sys: 'tw', state: 'twRail' },
     { sys: 'kr', state: 'krRail' },
     { sys: 'jp', state: 'jpRail' },
     { sys: 'kf', state: 'kfRail' },
+    { sys: 'mn', state: 'mnRail' },
     { sys: 'burma', state: 'burmaRail' },
   ];
 
@@ -13463,6 +13519,22 @@
       note: 'One drawing for both dates: the island’s railways were built '
         + 'between 1906 and the late 1920s and the rails did not move between '
         + '1930 and 1942.',
+    },
+    /* Manchuria: the network of the July 1942 timetable, traced for this map,
+       and on the 1942 sheet only. Most of the Manchukuo state lines were
+       built after 1931, so the same drawing on the 1930 map would be a claim
+       about a network that was not there; the 1930 layer is empty until it is
+       traced. `years` says so with an empty 1930. */
+    mn: {
+      label: 'Manchuria Railways',
+      years: { e1930: '', e1942: 'July 1942' },
+      srcShort: 'traced for this map, after 滿洲・支那汽車時間表',
+      srcTitle: 'traced for this map',
+      source: 'traced for this map: the lines of the 滿洲・支那汽車時間表 '
+        + '(July 1942) that have been drawn so far, on the 1942 map only',
+      url: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
+      note: 'The July 1942 network, on the 1942 map only; not every line '
+        + 'in the timetable is traced yet, and the 1930 map has none.',
     },
   };
 
@@ -15079,7 +15151,7 @@
     railFade();
     // and the divisions that belong to one date only
     gateSubEpochs();
-    [twRailGroup, krRailGroup, kfRailGroup, jpRailGroup,
+    [twRailGroup, krRailGroup, kfRailGroup, mnRailGroup, jpRailGroup,
      burmaRailGroup].forEach(function (g) {
       if (!g) return;
       /* A LINE WITH TIES, NOT A ROW OF DOTS.
@@ -15575,6 +15647,10 @@
   /* Burma's, in the high field with the rest of them. Off by default, so a
      link written before it existed reads as it always did. */
   var BURMARAIL_PLACE = 268435456;
+  /* Manchuria's railway and its stations, next in the high field. Off by
+     default, so a link written before they existed reads as it always did. */
+  var MNRAIL_PLACE = 536870912;
+  var MNSTA_PLACE = 1073741824;
   var THEME_MODES = ['light', 'dark'];
 
   /* The whole of the switch. `data-theme` on the root element is what
@@ -16135,11 +16211,11 @@
     m.style.top = top + 'px';
   }
 
-  /* ---- the five railways, one by one -----------------------------------
+  /* ---- the six railways, one by one ------------------------------------
    *
    * The button beside the map switches every network at once, which is the
    * right default — a reader who has asked for railways wants them wherever
-   * they go looking. But five networks from five sources is a thing worth
+   * they go looking. But six networks from six sources is a thing worth
    * being able to take apart: to draw Korea's without Japan's behind it, or to
    * ask which survey a line came from and what year it is the network of.
    *

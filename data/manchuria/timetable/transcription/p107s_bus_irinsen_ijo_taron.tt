@@ -1,0 +1,23 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 圍倫線
+title: 圍場・多倫間
+dir: 圍場→多倫
+season: 昭和16.12.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the left of bus 523
+note: buses 523 and 521 are both printed 9.00 at 圍場
+stations: 圍場 | 半截塔 | 多倫
+fares: 圍場 | 半截塔 1.50 | 多倫 6.50
+
+train: 523 | dest 半截塔 | col 2
+圍場 9.00
+半截塔 10.30
+多倫 -
+
+train: 521 | dest 多倫 | col 3
+圍場 9.00
+半截塔 11.30
+多倫 15.30

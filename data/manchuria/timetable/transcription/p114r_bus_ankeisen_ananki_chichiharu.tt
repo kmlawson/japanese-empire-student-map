@@ -1,0 +1,32 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 齊齊哈爾局管內
+line: 昂々溪線
+title: 齊齊哈爾・昂昂溪間
+dir: 昂昂溪→齊齊哈爾
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表の下段（昂昂溪發）。上段は p114q。全便所要1時間20分。
+stations: 昂昂溪 | 齊齊哈爾
+fares: 齊齊哈爾 | 昂昂溪 1.20
+
+train: 2 | dest 齊齊哈爾 | col 2
+昂昂溪 10.30
+齊齊哈爾 11.50
+
+train: 4 | dest 齊齊哈爾 | col 3
+昂昂溪 12.00
+齊齊哈爾 13.20
+
+train: 6 | dest 齊齊哈爾 | col 4
+昂昂溪 13.30
+齊齊哈爾 14.50
+
+train: 8 | dest 齊齊哈爾 | col 5
+昂昂溪 15.30
+齊齊哈爾 16.50
+
+train: 10 | dest 齊齊哈爾 | col 6
+昂昂溪 17.00
+齊齊哈爾 18.20

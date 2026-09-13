@@ -1,0 +1,192 @@
+{
+ "stations": [
+  {
+   "name": "扶餘",
+   "km": null
+  },
+  {
+   "name": "隆源",
+   "km": null
+  },
+  {
+   "name": "肇州",
+   "km": null
+  },
+  {
+   "name": "昌五",
+   "km": null
+  },
+  {
+   "name": "肇東",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "402",
+   "stops": [
+    {
+     "st": "昌五",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    }
+   ],
+   "dest": "肇東",
+   "origin": "昌五",
+   "col": "1"
+  },
+  {
+   "no": "412",
+   "stops": [
+    {
+     "st": "肇州",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    },
+    {
+     "st": "昌五",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    },
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    }
+   ],
+   "dest": "肇東",
+   "origin": "肇州",
+   "col": "2"
+  },
+  {
+   "no": "424",
+   "stops": [
+    {
+     "st": "扶餘",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "隆源",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "肇州",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    },
+    {
+     "st": "昌五",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    },
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    }
+   ],
+   "dest": "肇東",
+   "col": "3"
+  },
+  {
+   "no": "422",
+   "stops": [
+    {
+     "st": "隆源",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "肇州",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    },
+    {
+     "st": "昌五",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    }
+   ],
+   "dest": "肇東",
+   "origin": "隆源",
+   "col": "4"
+  },
+  {
+   "no": "406",
+   "stops": [
+    {
+     "st": "昌五",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    }
+   ],
+   "dest": "肇東",
+   "origin": "昌五",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "この表は上下2段で、下段が扶餘發（本表）。運賃欄は扶餘起點のもの。",
+  "第2驛の第1字は判讀困難、「隆」と讀んだ（隆源）。",
+  "402・406は昌五始發、412は肇州始發、422は隆源始發。"
+ ],
+ "source": "IMG_1885",
+ "page": "113",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "肇扶線",
+ "title": "肇東・扶餘間",
+ "dir": "扶餘→肇東",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "扶餘 | 隆源 2.45 | 肇州 4.00 | 昌五 6.30 | 肇東 7.90"
+}

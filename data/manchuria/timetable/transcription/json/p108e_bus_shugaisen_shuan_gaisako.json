@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "輯安",
+   "km": null
+  },
+  {
+   "name": "外岔溝",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "131",
+   "stops": [
+    {
+     "st": "輯安",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "外岔溝",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    }
+   ],
+   "dest": "外岔溝",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、左が輯安發（本表）、右が外岔溝發（p108f）。"
+ ],
+ "source": "IMG_1883",
+ "page": "108",
+ "kind": "bus",
+ "office": "吉林局管內",
+ "line": "輯外線",
+ "title": "輯安・外岔溝間",
+ "dir": "輯安→外岔溝",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "輯安 | 外岔溝 3.80"
+}

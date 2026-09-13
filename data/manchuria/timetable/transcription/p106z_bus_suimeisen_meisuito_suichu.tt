@@ -1,0 +1,22 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 綏明線
+title: 綏中驛・明水塘間
+dir: 明水塘→綏中驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the right of bus 164
+stations: 明水塘 | 綏中城內 | 綏中驛
+fares: 明水塘 2.05 | 綏中城內 0.10 | 綏中驛
+
+train: 162 | dest 綏中驛 | col 1
+明水塘 10.30
+綏中城內 v
+綏中驛 12.40
+
+train: 164 | dest 綏中驛 | col 2
+明水塘 14.00
+綏中城內 v
+綏中驛 16.10

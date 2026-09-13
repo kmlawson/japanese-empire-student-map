@@ -1,0 +1,20 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 東山線
+title: 東京城驛・沙蘭鎭間
+dir: 東京城驛→沙蘭鎭
+season: 昭和16.12.25改正
+service: 每日運行
+note: 中央の驛名欄をはさみ左が東京城驛發（本表）、右が沙蘭鎭發（p111t）。左端は運賃（圓.分）欄。
+stations: 東京城驛 | 沙蘭鎭
+fares: 東京城驛 | 沙蘭鎭 1.25
+
+train: 541 | dest 沙蘭鎭 | col 1
+東京城驛 9.50
+沙蘭鎭 11.10
+
+train: 543 | dest 沙蘭鎭 | col 2
+東京城驛 14.00
+沙蘭鎭 15.20

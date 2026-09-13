@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "四站",
+   "km": null
+  },
+  {
+   "name": "嫩江驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "56",
+   "stops": [
+    {
+     "st": "四站",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "嫩江驛",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "嫩江驛",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "表の右半（四站發）。逆方向は p114ai。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "嫩站線",
+ "title": "嫩江驛・四站間",
+ "dir": "四站→嫩江驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "嫩江驛 | 四站 5.40"
+}

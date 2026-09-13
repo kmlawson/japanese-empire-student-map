@@ -1,0 +1,23 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 興草線
+title: 大興溝・百草溝間
+dir: 百草溝→大興溝
+season: (運休)
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（大興溝起點）。
+note: 516・518とも新興屯始發（百草溝欄は…）。
+stations: 百草溝 | 新興屯 | 大興溝
+fares: 百草溝 | 新興屯 0.75 | 大興溝
+
+train: 516 | dest 大興溝 | col 1 | origin 新興屯
+百草溝 -
+新興屯 11.10
+大興溝 12.10
+
+train: 518 | dest 大興溝 | col 2 | origin 新興屯
+百草溝 -
+新興屯 16.10
+大興溝 17.10

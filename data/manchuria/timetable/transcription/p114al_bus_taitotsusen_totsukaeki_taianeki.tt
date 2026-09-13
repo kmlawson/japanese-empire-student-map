@@ -1,0 +1,17 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 齊齊哈爾局管內
+line: 泰訥線
+title: 泰安驛・訥河驛間
+dir: 訥河驛→泰安驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 168は通南鎭始發。訥河驛欄は「…」。逆方向は p114ak。
+stations: 訥河驛 | 通南鎭 | 泰安驛
+fares: 泰安驛 | 通南鎭 | 訥河驛 6.10
+
+train: 168 | origin 通南鎭 | dest 泰安驛 | col 5
+訥河驛 -
+通南鎭 15.00
+泰安驛 17.30

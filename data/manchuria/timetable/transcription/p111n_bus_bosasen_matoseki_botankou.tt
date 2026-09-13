@@ -1,0 +1,16 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 牡梭線
+title: 牡丹江・磨刀石間
+dir: 磨刀石→牡丹江
+season: (運休)
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（牡丹江起點）。
+stations: 磨刀石 | 牡丹江
+fares: 磨刀石 0.90 | 牡丹江
+
+train: 532 | dest 牡丹江 | col 1
+磨刀石 15.30
+牡丹江 16.40

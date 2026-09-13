@@ -1,0 +1,57 @@
+{
+ "stations": [
+  {
+   "name": "北鎭",
+   "km": null
+  },
+  {
+   "name": "白土廠",
+   "km": null
+  },
+  {
+   "name": "阜新城",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "210",
+   "stops": [
+    {
+     "st": "北鎭",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "白土廠",
+     "ev": "pass"
+    },
+    {
+     "st": "阜新城",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "阜新城",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "the 運賃 column is headed 円分 but carries only … for both stops below 阜新城",
+  "three unnumbered empty columns (…) stand to the right of bus 210"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "阜北線",
+ "title": "阜新城・北鎭間",
+ "dir": "北鎭→阜新城",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "北鎭 | 白土廠 | 阜新城"
+}

@@ -1,0 +1,71 @@
+{
+ "stations": [
+  {
+   "name": "岫巖",
+   "km": null
+  },
+  {
+   "name": "大孤山",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "岫巖",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "uncertain": true,
+     "t": "09:00"
+    },
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    }
+   ],
+   "dest": "大孤山",
+   "col": "1"
+  },
+  {
+   "no": "82",
+   "stops": [
+    {
+     "st": "岫巖",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    }
+   ],
+   "dest": "大孤山",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 大孤山→岫巖 direction",
+  "bus 4 departure digit is smudged (8 or 9); read 9.00 because every other column takes 2h40 over the route"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "大岫線",
+ "title": "大孤山・岫巖間",
+ "dir": "岫巖→大孤山",
+ "season": "昭和17.2.20改正",
+ "service": "每日運行",
+ "fares": "岫巖 3.50 | 大孤山 0"
+}

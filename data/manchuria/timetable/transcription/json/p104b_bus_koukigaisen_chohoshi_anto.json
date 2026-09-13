@@ -1,0 +1,90 @@
+{
+ "stations": [
+  {
+   "name": "長泡子",
+   "km": null
+  },
+  {
+   "name": "安東驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "56",
+   "stops": [
+    {
+     "st": "長泡子",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "安東驛",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    }
+   ],
+   "dest": "安東驛",
+   "col": "1"
+  },
+  {
+   "no": "58",
+   "stops": [
+    {
+     "st": "長泡子",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    },
+    {
+     "st": "安東驛",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    }
+   ],
+   "dest": "安東驛",
+   "col": "2"
+  },
+  {
+   "no": "60",
+   "stops": [
+    {
+     "st": "長泡子",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "安東驛",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    }
+   ],
+   "dest": "安東驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "fare column as printed for the 安東驛→長泡子 direction (安東驛 blank, 長泡子 1.65)"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "紅旗街線",
+ "title": "安東驛・長泡子間",
+ "dir": "長泡子→安東驛",
+ "season": "昭和17.2.20改正",
+ "service": "每日運行",
+ "fares": "長泡子 1.65 | 安東驛 0"
+}

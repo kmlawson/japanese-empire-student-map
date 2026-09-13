@@ -1,0 +1,291 @@
+{
+ "stations": [
+  {
+   "name": "裕國",
+   "km": null
+  },
+  {
+   "name": "皇姑屯",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "動ロ",
+   "stops": [
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "7.16",
+     "bold": false,
+     "uncertain": true,
+     "t": "07:16"
+    },
+    {
+     "st": "皇姑屯",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": false,
+     "t": "07:33"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "7.39",
+     "bold": false,
+     "uncertain": true,
+     "t": "07:39"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "3",
+   "marks": "動",
+   "col": "1"
+  },
+  {
+   "no": "動ニ",
+   "stops": [
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": false,
+     "uncertain": true,
+     "t": "08:38"
+    },
+    {
+     "st": "皇姑屯",
+     "ev": "dep",
+     "printed": "8.44",
+     "bold": false,
+     "t": "08:44"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "3",
+   "marks": "動",
+   "col": "2"
+  },
+  {
+   "no": "動チ",
+   "stops": [
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "10.35",
+     "bold": false,
+     "t": "10:35"
+    },
+    {
+     "st": "皇姑屯",
+     "ev": "dep",
+     "printed": "10.49",
+     "bold": false,
+     "t": "10:49"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "3",
+   "marks": "動",
+   "col": "3"
+  },
+  {
+   "no": "動ヌ",
+   "stops": [
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "12.43",
+     "bold": false,
+     "t": "12:43"
+    },
+    {
+     "st": "皇姑屯",
+     "ev": "dep",
+     "printed": "12.55",
+     "bold": false,
+     "t": "12:55"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "13.02",
+     "bold": false,
+     "t": "13:02"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "3",
+   "marks": "動",
+   "col": "4"
+  },
+  {
+   "no": "動ヲ",
+   "stops": [
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "14.02",
+     "bold": false,
+     "t": "14:02"
+    },
+    {
+     "st": "皇姑屯",
+     "ev": "dep",
+     "printed": "14.16",
+     "bold": false,
+     "t": "14:16"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "14.22",
+     "bold": false,
+     "t": "14:22"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "3",
+   "marks": "動",
+   "col": "5"
+  },
+  {
+   "no": "動カ",
+   "stops": [
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "16.25",
+     "bold": false,
+     "t": "16:25"
+    },
+    {
+     "st": "皇姑屯",
+     "ev": "dep",
+     "printed": "16.35",
+     "bold": false,
+     "uncertain": true,
+     "t": "16:35"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "16.45",
+     "bold": false,
+     "t": "16:45"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "3",
+   "marks": "動",
+   "col": "6"
+  },
+  {
+   "no": "動タ",
+   "stops": [
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "18.25",
+     "bold": false,
+     "t": "18:25"
+    },
+    {
+     "st": "皇姑屯",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "uncertain": true,
+     "t": "18:35"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "18.45",
+     "bold": false,
+     "t": "18:45"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "3",
+   "marks": "動",
+   "col": "7"
+  },
+  {
+   "no": "動ソ",
+   "stops": [
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "20.23",
+     "bold": false,
+     "t": "20:23"
+    },
+    {
+     "st": "皇姑屯",
+     "ev": "dep",
+     "printed": "20.35",
+     "bold": false,
+     "t": "20:35"
+    }
+   ],
+   "dest": "皇姑屯",
+   "cls": "3",
+   "marks": "動",
+   "col": "8"
+  },
+  {
+   "no": "動ウ",
+   "stops": [
+    {
+     "st": "皇姑屯",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "17.36",
+     "bold": false,
+     "t": "17:36"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "3",
+   "marks": "動",
+   "origin": "皇姑屯",
+   "col": "9"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改訂。頁30の下段、p30bの下半分。表頭に「全部3等車」「（國鐵・奉山線）」。",
+  "左端に「運賃 3等」欄があるが轉記せず。粁程（キロ程）欄は無い。",
+  "列車番號は假名（動ロ・動ニ…）。全部動車（動）・3等。列車欄は9欄。",
+  "「-」は原表の「…」または「—」。動ソは皇姑屯止り（奉天著の桝が「—」）。動ウは皇姑屯始發。"
+ ],
+ "source": "IMG_1844",
+ "page": "30",
+ "title": "奉天・皇姑屯・裕國間",
+ "line": "滿洲國線 奉山線",
+ "dir": "裕國→奉天"
+}

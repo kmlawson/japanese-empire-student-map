@@ -1,0 +1,131 @@
+{
+ "stations": [
+  {
+   "name": "桓仁",
+   "km": null
+  },
+  {
+   "name": "大泉源",
+   "km": null
+  },
+  {
+   "name": "通化",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "桓仁",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "大泉源",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "通化",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "通化",
+   "col": "1"
+  },
+  {
+   "no": "104",
+   "stops": [
+    {
+     "st": "大泉源",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "通化",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "通化",
+   "origin": "大泉源",
+   "col": "2"
+  },
+  {
+   "no": "106",
+   "stops": [
+    {
+     "st": "桓仁",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "大泉源",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "通化",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "通化",
+   "col": "3"
+  },
+  {
+   "no": "108",
+   "stops": [
+    {
+     "st": "大泉源",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "通化",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "通化",
+   "origin": "大泉源",
+   "col": "4"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、右が桓仁發（本表）。104・108は大泉源始發。運賃欄は通化起點のものを反轉して掲げた。"
+ ],
+ "source": "IMG_1883",
+ "page": "108",
+ "kind": "bus",
+ "office": "吉林局管內",
+ "line": "通桓線",
+ "title": "通化・桓仁間",
+ "dir": "桓仁→通化",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "桓仁 5.05 | 大泉源 2.20 | 通化"
+}

@@ -1,0 +1,20 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 吉林局管內
+line: 延平線
+title: 延吉・大平金山間
+dir: 延吉→大平金山
+season: 昭和16.11.1改正
+service: 每日運行
+note: 中央の驛名欄をはさみ左が延吉發（本表）、右が大平金山發（p110d）。左端は運賃（圓.分）欄。
+stations: 延吉 | 大平金山
+fares: 延吉 | 大平金山 1.70
+
+train: 407 | dest 大平金山 | col 1
+延吉 8.30
+大平金山 10.00
+
+train: 411 | dest 大平金山 | col 2
+延吉 13.30
+大平金山 15.00

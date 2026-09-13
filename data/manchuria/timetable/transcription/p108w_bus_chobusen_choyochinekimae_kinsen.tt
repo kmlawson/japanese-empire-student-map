@@ -1,0 +1,17 @@
+source: IMG_1883
+page: 108
+kind: bus
+office: 吉林局管內
+line: 朝撫線
+title: 朝陽鎭驛前・金川間
+dir: 朝陽鎭驛前→金川
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が朝陽鎭驛前發（本表）、右が金川發（p108x）。
+stations: 朝陽鎭驛前 | 輝南 | 金川
+fares: 朝陽鎭驛前 | 輝南 1.65 | 金川 3.30
+
+train: 71 | dest 金川 | col 1
+朝陽鎭驛前 10.00
+輝南 11.10
+金川 12.30

@@ -1,0 +1,19 @@
+source: IMG_1887
+page: 117
+kind: bus
+office: 各地自動車會社線
+line: 亮普線（大連都市交通會社）
+title: 普蘭店・亮甲店間
+dir: 普蘭店→亮甲店
+season: 昭和16.11.1改正
+note: 左3欄（普蘭店發）。中央欄は「…」で便は2本のみ。運賃は円錢。
+stations: 普蘭店 | 亮甲店
+fares: 普蘭店 | 亮甲店 0.85
+
+train: 無番 | dest 亮甲店 | col 1
+普蘭店 8.00
+亮甲店 9.10
+
+train: 無番 | dest 亮甲店 | col 3
+普蘭店 16.00
+亮甲店 17.10

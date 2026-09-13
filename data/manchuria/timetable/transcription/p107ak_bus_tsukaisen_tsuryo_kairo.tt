@@ -1,0 +1,20 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 通開線
+title: 通遼驛・開魯間
+dir: 通遼驛→開魯
+season: 昭和16.10.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the left of bus 301
+stations: 通遼驛 | 開魯
+fares: 通遼驛 | 開魯 4.30
+
+train: 301 | dest 開魯 | col 2
+通遼驛 8.00
+開魯 12.20
+
+train: 303 | dest 開魯 | col 3
+通遼驛 13.00
+開魯 17.20

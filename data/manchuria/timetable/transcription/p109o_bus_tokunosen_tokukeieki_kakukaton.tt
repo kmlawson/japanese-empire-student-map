@@ -1,0 +1,17 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 德農線
+title: 德惠驛・郭家屯間
+dir: 德惠驛→郭家屯
+season: （運休）
+service: 每日運行
+note: 改正年月日の位置に「（運休）」と刷り、この線は運休中であることを示す。
+note: 表は左右2組で、左が德惠驛發（本表）、右が郭家屯發（p109p）。
+stations: 德惠驛 | 郭家屯
+fares: 德惠驛 | 郭家屯 1.25
+
+train: 601 | dest 郭家屯 | col 1
+德惠驛 14.00
+郭家屯 15.00

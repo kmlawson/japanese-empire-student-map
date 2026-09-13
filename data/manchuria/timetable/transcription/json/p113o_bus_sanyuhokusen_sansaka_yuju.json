@@ -1,0 +1,115 @@
+{
+ "stations": [
+  {
+   "name": "三岔河",
+   "km": null
+  },
+  {
+   "name": "弓棚子",
+   "km": null
+  },
+  {
+   "name": "楡樹",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "611",
+   "stops": [
+    {
+     "st": "三岔河",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "弓棚子",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "楡樹",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    }
+   ],
+   "dest": "楡樹",
+   "col": "1"
+  },
+  {
+   "no": "613",
+   "stops": [
+    {
+     "st": "三岔河",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "弓棚子",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    },
+    {
+     "st": "楡樹",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "楡樹",
+   "col": "2"
+  },
+  {
+   "no": "511",
+   "stops": [
+    {
+     "st": "三岔河",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "弓棚子",
+     "ev": "dep",
+     "printed": "14.20",
+     "bold": false,
+     "t": "14:20"
+    },
+    {
+     "st": "楡樹",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    }
+   ],
+   "dest": "楡樹",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、左が三岔河發（本表）、右が楡樹發（p113p）。南線（五棵樹經由）と別に北線（弓棚子經由）がある。"
+ ],
+ "source": "IMG_1885",
+ "page": "113",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "三楡北線",
+ "title": "三岔河・楡樹間",
+ "dir": "三岔河→楡樹",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "三岔河 | 弓棚子 1.20 | 楡樹 2.85"
+}

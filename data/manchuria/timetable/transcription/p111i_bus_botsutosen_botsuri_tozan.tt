@@ -1,0 +1,21 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 勃桃線
+title: 勃利・桃山間
+dir: 勃利→桃山
+season: 昭和16.12.1改正
+service: 每日運行
+note: 中央の驛名欄をはさみ左が勃利發（本表）、右が桃山發（p111j）。左端は運賃（圓.分）欄。
+note: 627は所要2時間（625は1時間）だが印刷どおり。
+stations: 勃利 | 桃山
+fares: 勃利 | 桃山 2.55
+
+train: 625 | dest 桃山 | col 1
+勃利 9.00
+桃山 10.00
+
+train: 627 | dest 桃山 | col 2
+勃利 15.00
+桃山 17.00

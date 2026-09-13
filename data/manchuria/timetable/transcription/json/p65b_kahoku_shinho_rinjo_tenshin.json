@@ -1,0 +1,2466 @@
+{
+ "stations": [
+  {
+   "name": "浦口",
+   "km": null
+  },
+  {
+   "name": "蚌埠",
+   "km": null
+  },
+  {
+   "name": "徐州",
+   "km": 164.8
+  },
+  {
+   "name": "臨城",
+   "km": 231.9
+  },
+  {
+   "name": "官橋",
+   "km": 246.7
+  },
+  {
+   "name": "南沙河",
+   "km": 257.4
+  },
+  {
+   "name": "滕縣",
+   "km": 265.5
+  },
+  {
+   "name": "界河",
+   "km": 280.8
+  },
+  {
+   "name": "兩下店",
+   "km": 294.4
+  },
+  {
+   "name": "鄒縣",
+   "km": 306.1
+  },
+  {
+   "name": "兗州",
+   "km": 326.2
+  },
+  {
+   "name": "曲阜",
+   "km": 342.9
+  },
+  {
+   "name": "奧村",
+   "km": 353.1
+  },
+  {
+   "name": "南村",
+   "km": 370.5
+  },
+  {
+   "name": "東太平",
+   "km": 376.0
+  },
+  {
+   "name": "大汶口",
+   "km": 382.4
+  },
+  {
+   "name": "東北堡",
+   "km": 396.8
+  },
+  {
+   "name": "泰安",
+   "km": 410.6
+  },
+  {
+   "name": "界首",
+   "km": 423.6
+  },
+  {
+   "name": "萬德",
+   "km": 435.1
+  },
+  {
+   "name": "張夏",
+   "km": 448.4
+  },
+  {
+   "name": "崮山",
+   "km": 455.3
+  },
+  {
+   "name": "黨家莊",
+   "km": 468.6
+  },
+  {
+   "name": "白馬山",
+   "km": 475.3
+  },
+  {
+   "name": "濟南",
+   "km": 482.2
+  },
+  {
+   "name": "濼口",
+   "km": 487.6
+  },
+  {
+   "name": "桑梓店",
+   "km": 500.5
+  },
+  {
+   "name": "晏城",
+   "km": 515.0
+  },
+  {
+   "name": "禹城",
+   "km": 533.4
+  },
+  {
+   "name": "張莊",
+   "km": 547.2
+  },
+  {
+   "name": "平原",
+   "km": 565.6
+  },
+  {
+   "name": "黃河涯",
+   "km": 582.4
+  },
+  {
+   "name": "德縣",
+   "km": 599.8
+  },
+  {
+   "name": "桑園",
+   "km": 621.5
+  },
+  {
+   "name": "安陵",
+   "km": 628.9
+  },
+  {
+   "name": "連鎭",
+   "km": 643.3
+  },
+  {
+   "name": "東光",
+   "km": 654.2
+  },
+  {
+   "name": "南霞口",
+   "km": 663.8
+  },
+  {
+   "name": "泊頭",
+   "km": 674.1
+  },
+  {
+   "name": "馮家口",
+   "km": 692.4
+  },
+  {
+   "name": "磚河",
+   "km": 700.3
+  },
+  {
+   "name": "滄縣",
+   "km": 713.4
+  },
+  {
+   "name": "姚官屯",
+   "km": 722.4
+  },
+  {
+   "name": "興濟",
+   "km": 730.4
+  },
+  {
+   "name": "青縣",
+   "km": 745.0
+  },
+  {
+   "name": "馬廠",
+   "km": 755.1
+  },
+  {
+   "name": "唐官屯",
+   "km": 762.5
+  },
+  {
+   "name": "陳官屯",
+   "km": 774.5
+  },
+  {
+   "name": "靜海",
+   "km": 786.6
+  },
+  {
+   "name": "獨流",
+   "km": 795.5
+  },
+  {
+   "name": "良王莊",
+   "km": 799.7
+  },
+  {
+   "name": "楊柳青",
+   "km": 818.3
+  },
+  {
+   "name": "天津西站",
+   "km": 828.7
+  },
+  {
+   "name": "天津北站",
+   "km": 833.9
+  },
+  {
+   "name": "天津",
+   "km": 838.2
+  },
+  {
+   "name": "山海關",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "108",
+   "stops": [
+    {
+     "st": "德縣",
+     "ev": "dep",
+     "printed": "7.40",
+     "bold": false,
+     "t": "07:40"
+    },
+    {
+     "st": "桑園",
+     "ev": "dep",
+     "printed": "8.06",
+     "bold": false,
+     "t": "08:06"
+    },
+    {
+     "st": "安陵",
+     "ev": "dep",
+     "printed": "8.17",
+     "bold": false,
+     "t": "08:17"
+    },
+    {
+     "st": "連鎭",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": false,
+     "t": "08:35"
+    },
+    {
+     "st": "東光",
+     "ev": "dep",
+     "printed": "8.49",
+     "bold": false,
+     "t": "08:49"
+    },
+    {
+     "st": "南霞口",
+     "ev": "dep",
+     "printed": "9.02",
+     "bold": false,
+     "t": "09:02"
+    },
+    {
+     "st": "泊頭",
+     "ev": "dep",
+     "printed": "9.21",
+     "bold": false,
+     "t": "09:21"
+    },
+    {
+     "st": "馮家口",
+     "ev": "dep",
+     "printed": "9.42",
+     "bold": false,
+     "t": "09:42"
+    },
+    {
+     "st": "磚河",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "滄縣",
+     "ev": "arr",
+     "printed": "10.08",
+     "bold": false,
+     "t": "10:08"
+    },
+    {
+     "st": "滄縣",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "姚官屯",
+     "ev": "dep",
+     "printed": "10.34",
+     "bold": false,
+     "t": "10:34"
+    },
+    {
+     "st": "興濟",
+     "ev": "dep",
+     "printed": "10.46",
+     "bold": false,
+     "t": "10:46"
+    },
+    {
+     "st": "青縣",
+     "ev": "dep",
+     "printed": "11.06",
+     "bold": false,
+     "t": "11:06"
+    },
+    {
+     "st": "馬廠",
+     "ev": "dep",
+     "printed": "11.26",
+     "bold": false,
+     "t": "11:26"
+    },
+    {
+     "st": "唐官屯",
+     "ev": "dep",
+     "printed": "11.46",
+     "bold": false,
+     "t": "11:46"
+    },
+    {
+     "st": "陳官屯",
+     "ev": "dep",
+     "printed": "12.01",
+     "bold": false,
+     "t": "12:01"
+    },
+    {
+     "st": "靜海",
+     "ev": "dep",
+     "printed": "12.16",
+     "bold": false,
+     "t": "12:16"
+    },
+    {
+     "st": "獨流",
+     "ev": "dep",
+     "printed": "12.28",
+     "bold": false,
+     "t": "12:28"
+    },
+    {
+     "st": "良王莊",
+     "ev": "pass",
+     "note": "著の桝はレ（通過）と印刷されてゐる"
+    },
+    {
+     "st": "良王莊",
+     "ev": "dep",
+     "printed": "12.36",
+     "bold": false,
+     "note": "著の桝はレ（通過）と印刷されてゐる",
+     "t": "12:36"
+    },
+    {
+     "st": "楊柳青",
+     "ev": "dep",
+     "printed": "12.56",
+     "bold": false,
+     "t": "12:56"
+    },
+    {
+     "st": "天津西站",
+     "ev": "dep",
+     "printed": "13.17",
+     "bold": false,
+     "t": "13:17"
+    },
+    {
+     "st": "天津北站",
+     "ev": "arr",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "13.36",
+     "bold": false,
+     "t": "13:36"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    }
+   ],
+   "dest": "天津",
+   "cls": "3",
+   "origin": "德縣",
+   "col": "1",
+   "note": "列車番號の上の等級枠は全體が黑く潰れて讀めない"
+  },
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "浦口",
+     "ev": "dep",
+     "printed": "15.45",
+     "bold": false,
+     "note": "抄錄行（66頁）",
+     "t": "15:45"
+    },
+    {
+     "st": "蚌埠",
+     "ev": "dep",
+     "printed": "19.35",
+     "bold": false,
+     "note": "抄錄行（66頁）",
+     "t": "19:35"
+    },
+    {
+     "st": "徐州",
+     "ev": "dep",
+     "printed": "23.35",
+     "bold": false,
+     "note": "抄錄行（66頁）",
+     "t": "23:35"
+    },
+    {
+     "st": "臨城",
+     "ev": "arr",
+     "printed": "1.14",
+     "bold": false,
+     "t": "25:14"
+    },
+    {
+     "st": "臨城",
+     "ev": "dep",
+     "printed": "1.20",
+     "bold": false,
+     "t": "25:20"
+    },
+    {
+     "st": "南沙河",
+     "ev": "pass"
+    },
+    {
+     "st": "滕縣",
+     "ev": "dep",
+     "printed": "2.07",
+     "bold": false,
+     "t": "26:07"
+    },
+    {
+     "st": "界河",
+     "ev": "pass"
+    },
+    {
+     "st": "兩下店",
+     "ev": "pass"
+    },
+    {
+     "st": "鄒縣",
+     "ev": "pass"
+    },
+    {
+     "st": "兗州",
+     "ev": "arr",
+     "printed": "3.30",
+     "bold": false,
+     "t": "27:30"
+    },
+    {
+     "st": "兗州",
+     "ev": "dep",
+     "printed": "3.42",
+     "bold": false,
+     "t": "27:42"
+    },
+    {
+     "st": "曲阜",
+     "ev": "pass"
+    },
+    {
+     "st": "奧村",
+     "ev": "pass"
+    },
+    {
+     "st": "南村",
+     "ev": "pass"
+    },
+    {
+     "st": "東太平",
+     "ev": "pass"
+    },
+    {
+     "st": "大汶口",
+     "ev": "pass"
+    },
+    {
+     "st": "東北堡",
+     "ev": "pass"
+    },
+    {
+     "st": "泰安",
+     "ev": "arr",
+     "printed": "5.42",
+     "bold": false,
+     "t": "29:42"
+    },
+    {
+     "st": "泰安",
+     "ev": "dep",
+     "printed": "5.48",
+     "bold": false,
+     "t": "29:48"
+    },
+    {
+     "st": "界首",
+     "ev": "pass"
+    },
+    {
+     "st": "萬德",
+     "ev": "pass"
+    },
+    {
+     "st": "張夏",
+     "ev": "pass"
+    },
+    {
+     "st": "崮山",
+     "ev": "pass"
+    },
+    {
+     "st": "黨家莊",
+     "ev": "pass"
+    },
+    {
+     "st": "白馬山",
+     "ev": "pass"
+    },
+    {
+     "st": "濟南",
+     "ev": "arr",
+     "printed": "7.35",
+     "bold": false,
+     "t": "31:35"
+    },
+    {
+     "st": "濟南",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": false,
+     "t": "31:50"
+    },
+    {
+     "st": "濼口",
+     "ev": "pass"
+    },
+    {
+     "st": "桑梓店",
+     "ev": "pass"
+    },
+    {
+     "st": "晏城",
+     "ev": "pass"
+    },
+    {
+     "st": "禹城",
+     "ev": "dep",
+     "printed": "8.51",
+     "bold": false,
+     "t": "32:51"
+    },
+    {
+     "st": "張莊",
+     "ev": "pass"
+    },
+    {
+     "st": "平原",
+     "ev": "pass"
+    },
+    {
+     "st": "黃河涯",
+     "ev": "pass"
+    },
+    {
+     "st": "德縣",
+     "ev": "arr",
+     "printed": "10.00",
+     "bold": false,
+     "t": "34:00"
+    },
+    {
+     "st": "德縣",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "34:10"
+    },
+    {
+     "st": "桑園",
+     "ev": "pass"
+    },
+    {
+     "st": "安陵",
+     "ev": "pass"
+    },
+    {
+     "st": "連鎭",
+     "ev": "pass"
+    },
+    {
+     "st": "東光",
+     "ev": "pass"
+    },
+    {
+     "st": "南霞口",
+     "ev": "pass"
+    },
+    {
+     "st": "泊頭",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "35:30"
+    },
+    {
+     "st": "馮家口",
+     "ev": "pass"
+    },
+    {
+     "st": "磚河",
+     "ev": "pass"
+    },
+    {
+     "st": "滄縣",
+     "ev": "arr",
+     "printed": "12.12",
+     "bold": false,
+     "t": "36:12"
+    },
+    {
+     "st": "滄縣",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "36:20"
+    },
+    {
+     "st": "姚官屯",
+     "ev": "pass"
+    },
+    {
+     "st": "興濟",
+     "ev": "pass"
+    },
+    {
+     "st": "青縣",
+     "ev": "pass"
+    },
+    {
+     "st": "馬廠",
+     "ev": "pass"
+    },
+    {
+     "st": "唐官屯",
+     "ev": "pass"
+    },
+    {
+     "st": "陳官屯",
+     "ev": "pass"
+    },
+    {
+     "st": "靜海",
+     "ev": "pass"
+    },
+    {
+     "st": "獨流",
+     "ev": "pass"
+    },
+    {
+     "st": "良王莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊柳青",
+     "ev": "dep",
+     "printed": "14.16",
+     "bold": false,
+     "t": "38:16"
+    },
+    {
+     "st": "天津西站",
+     "ev": "dep",
+     "printed": "14.36",
+     "bold": false,
+     "t": "38:36"
+    },
+    {
+     "st": "天津北站",
+     "ev": "arr",
+     "printed": "14.48",
+     "bold": false,
+     "t": "38:48"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "14.52",
+     "bold": false,
+     "t": "38:52"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "39:00"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "note": "抄錄行（57頁）天津發",
+     "t": "39:10"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "15.18",
+     "bold": false,
+     "note": "抄錄行（57頁）",
+     "t": "39:18"
+    },
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "18.10",
+     "bold": false,
+     "note": "抄錄行（57頁）",
+     "t": "42:10"
+    }
+   ],
+   "dest": "北京",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "origin": "浦口",
+   "col": "2"
+  },
+  {
+   "no": "801",
+   "stops": [
+    {
+     "st": "濟南",
+     "ev": "arr",
+     "printed": "9.05",
+     "bold": false,
+     "t": "09:05"
+    },
+    {
+     "st": "濟南",
+     "ev": "dep",
+     "printed": "9.23",
+     "bold": false,
+     "t": "09:23"
+    },
+    {
+     "st": "桑梓店",
+     "ev": "pass"
+    },
+    {
+     "st": "晏城",
+     "ev": "pass"
+    },
+    {
+     "st": "禹城",
+     "ev": "dep",
+     "printed": "10.31",
+     "bold": false,
+     "t": "10:31"
+    },
+    {
+     "st": "張莊",
+     "ev": "pass"
+    },
+    {
+     "st": "平原",
+     "ev": "dep",
+     "printed": "11.06",
+     "bold": false,
+     "t": "11:06"
+    },
+    {
+     "st": "黃河涯",
+     "ev": "pass"
+    },
+    {
+     "st": "德縣",
+     "ev": "arr",
+     "printed": "11.43",
+     "bold": false,
+     "t": "11:43"
+    },
+    {
+     "st": "德縣",
+     "ev": "dep",
+     "printed": "11.53",
+     "bold": false,
+     "t": "11:53"
+    },
+    {
+     "st": "桑園",
+     "ev": "pass"
+    },
+    {
+     "st": "安陵",
+     "ev": "pass"
+    },
+    {
+     "st": "連鎭",
+     "ev": "pass"
+    },
+    {
+     "st": "東光",
+     "ev": "pass"
+    },
+    {
+     "st": "南霞口",
+     "ev": "pass"
+    },
+    {
+     "st": "泊頭",
+     "ev": "dep",
+     "printed": "13.22",
+     "bold": false,
+     "t": "13:22"
+    },
+    {
+     "st": "馮家口",
+     "ev": "pass"
+    },
+    {
+     "st": "磚河",
+     "ev": "pass"
+    },
+    {
+     "st": "滄縣",
+     "ev": "arr",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    },
+    {
+     "st": "滄縣",
+     "ev": "dep",
+     "printed": "14.13",
+     "bold": false,
+     "t": "14:13"
+    },
+    {
+     "st": "姚官屯",
+     "ev": "pass"
+    },
+    {
+     "st": "興濟",
+     "ev": "pass"
+    },
+    {
+     "st": "青縣",
+     "ev": "pass"
+    },
+    {
+     "st": "馬廠",
+     "ev": "pass"
+    },
+    {
+     "st": "唐官屯",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "陳官屯",
+     "ev": "pass"
+    },
+    {
+     "st": "靜海",
+     "ev": "pass"
+    },
+    {
+     "st": "獨流",
+     "ev": "pass"
+    },
+    {
+     "st": "良王莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊柳青",
+     "ev": "pass"
+    },
+    {
+     "st": "天津西站",
+     "ev": "dep",
+     "printed": "16.37",
+     "bold": false,
+     "t": "16:37"
+    },
+    {
+     "st": "天津北站",
+     "ev": "arr",
+     "printed": "16.48",
+     "bold": false,
+     "t": "16:48"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "16.52",
+     "bold": false,
+     "t": "16:52"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "17.12",
+     "bold": false,
+     "note": "抄錄行（57頁）天津發",
+     "t": "17:12"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "note": "抄錄行（57頁）",
+     "t": "17:20"
+    },
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "20.10",
+     "bold": false,
+     "note": "抄錄行（57頁）",
+     "t": "20:10"
+    }
+   ],
+   "dest": "北京",
+   "cls": "2.3",
+   "marks": "急 食 寢1.2.3",
+   "origin": "濟南",
+   "col": "3",
+   "note": "濟南までは膠濟線。濟南より上の空桝に縦書きで「青島發 22.30」"
+  },
+  {
+   "no": "106",
+   "stops": [
+    {
+     "st": "兗州",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "曲阜",
+     "ev": "dep",
+     "printed": "7.49",
+     "bold": false,
+     "t": "07:49"
+    },
+    {
+     "st": "奧村",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": false,
+     "t": "08:05"
+    },
+    {
+     "st": "南村",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "東太平",
+     "ev": "dep",
+     "printed": "8.39",
+     "bold": false,
+     "t": "08:39"
+    },
+    {
+     "st": "大汶口",
+     "ev": "dep",
+     "printed": "8.49",
+     "bold": false,
+     "t": "08:49"
+    },
+    {
+     "st": "東北堡",
+     "ev": "dep",
+     "printed": "9.09",
+     "bold": false,
+     "t": "09:09"
+    },
+    {
+     "st": "泰安",
+     "ev": "arr",
+     "printed": "9.25",
+     "bold": false,
+     "t": "09:25"
+    },
+    {
+     "st": "泰安",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": false,
+     "t": "09:31"
+    },
+    {
+     "st": "界首",
+     "ev": "dep",
+     "printed": "9.57",
+     "bold": false,
+     "t": "09:57"
+    },
+    {
+     "st": "萬德",
+     "ev": "dep",
+     "printed": "10.11",
+     "bold": false,
+     "t": "10:11"
+    },
+    {
+     "st": "張夏",
+     "ev": "dep",
+     "printed": "10.38",
+     "bold": false,
+     "t": "10:38"
+    },
+    {
+     "st": "崮山",
+     "ev": "dep",
+     "printed": "10.49",
+     "bold": false,
+     "t": "10:49"
+    },
+    {
+     "st": "黨家莊",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "白馬山",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "濟南",
+     "ev": "arr",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "濟南",
+     "ev": "dep",
+     "printed": "11.45",
+     "bold": false,
+     "t": "11:45"
+    },
+    {
+     "st": "濼口",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": false,
+     "t": "11:55"
+    },
+    {
+     "st": "桑梓店",
+     "ev": "dep",
+     "printed": "12.18",
+     "bold": false,
+     "t": "12:18"
+    },
+    {
+     "st": "晏城",
+     "ev": "dep",
+     "printed": "12.35",
+     "bold": false,
+     "t": "12:35"
+    },
+    {
+     "st": "禹城",
+     "ev": "dep",
+     "printed": "13.01",
+     "bold": false,
+     "t": "13:01"
+    },
+    {
+     "st": "張莊",
+     "ev": "dep",
+     "printed": "13.18",
+     "bold": false,
+     "t": "13:18"
+    },
+    {
+     "st": "平原",
+     "ev": "dep",
+     "printed": "13.39",
+     "bold": false,
+     "t": "13:39"
+    },
+    {
+     "st": "黃河涯",
+     "ev": "dep",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    },
+    {
+     "st": "德縣",
+     "ev": "arr",
+     "printed": "14.19",
+     "bold": false,
+     "t": "14:19"
+    },
+    {
+     "st": "德縣",
+     "ev": "dep",
+     "printed": "14.28",
+     "bold": false,
+     "t": "14:28"
+    },
+    {
+     "st": "桑園",
+     "ev": "dep",
+     "printed": "14.53",
+     "bold": false,
+     "t": "14:53"
+    },
+    {
+     "st": "安陵",
+     "ev": "dep",
+     "printed": "15.04",
+     "bold": false,
+     "t": "15:04"
+    },
+    {
+     "st": "連鎭",
+     "ev": "dep",
+     "printed": "15.21",
+     "bold": false,
+     "t": "15:21"
+    },
+    {
+     "st": "東光",
+     "ev": "dep",
+     "printed": "15.35",
+     "bold": false,
+     "t": "15:35"
+    },
+    {
+     "st": "南霞口",
+     "ev": "dep",
+     "printed": "15.48",
+     "bold": false,
+     "t": "15:48"
+    },
+    {
+     "st": "泊頭",
+     "ev": "dep",
+     "printed": "16.03",
+     "bold": false,
+     "t": "16:03"
+    },
+    {
+     "st": "馮家口",
+     "ev": "dep",
+     "printed": "16.24",
+     "bold": false,
+     "t": "16:24"
+    },
+    {
+     "st": "磚河",
+     "ev": "dep",
+     "printed": "16.39",
+     "bold": false,
+     "t": "16:39"
+    },
+    {
+     "st": "滄縣",
+     "ev": "arr",
+     "printed": "16.54",
+     "bold": false,
+     "t": "16:54"
+    },
+    {
+     "st": "滄縣",
+     "ev": "dep",
+     "printed": "17.02",
+     "bold": false,
+     "t": "17:02"
+    },
+    {
+     "st": "姚官屯",
+     "ev": "dep",
+     "printed": "17.14",
+     "bold": false,
+     "t": "17:14"
+    },
+    {
+     "st": "興濟",
+     "ev": "dep",
+     "printed": "17.25",
+     "bold": false,
+     "t": "17:25"
+    },
+    {
+     "st": "青縣",
+     "ev": "dep",
+     "printed": "17.49",
+     "bold": false,
+     "t": "17:49"
+    },
+    {
+     "st": "馬廠",
+     "ev": "dep",
+     "printed": "18.02",
+     "bold": false,
+     "t": "18:02"
+    },
+    {
+     "st": "唐官屯",
+     "ev": "dep",
+     "printed": "18.17",
+     "bold": false,
+     "t": "18:17"
+    },
+    {
+     "st": "陳官屯",
+     "ev": "dep",
+     "printed": "18.32",
+     "bold": false,
+     "t": "18:32"
+    },
+    {
+     "st": "靜海",
+     "ev": "dep",
+     "printed": "18.47",
+     "bold": false,
+     "t": "18:47"
+    },
+    {
+     "st": "獨流",
+     "ev": "dep",
+     "printed": "18.59",
+     "bold": false,
+     "t": "18:59"
+    },
+    {
+     "st": "良王莊",
+     "ev": "dep",
+     "printed": "19.07",
+     "bold": false,
+     "t": "19:07"
+    },
+    {
+     "st": "楊柳青",
+     "ev": "dep",
+     "printed": "19.47",
+     "bold": false,
+     "uncertain": true,
+     "note": "前後および他欄との整合から19.27の誤植か",
+     "t": "19:47"
+    },
+    {
+     "st": "天津西站",
+     "ev": "dep",
+     "printed": "19.49",
+     "bold": false,
+     "t": "19:49"
+    },
+    {
+     "st": "天津北站",
+     "ev": "arr",
+     "printed": "20.00",
+     "bold": false,
+     "t": "20:00"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "20.06",
+     "bold": false,
+     "t": "20:06"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "20.15",
+     "bold": false,
+     "t": "20:15"
+    }
+   ],
+   "dest": "天津",
+   "marks": "食",
+   "origin": "兗州",
+   "col": "4",
+   "note": "等級枠の一部が潰れて讀めない"
+  },
+  {
+   "no": "512",
+   "stops": [
+    {
+     "st": "兗州",
+     "ev": "arr",
+     "printed": "10.05",
+     "bold": false,
+     "t": "10:05"
+    },
+    {
+     "st": "兗州",
+     "ev": "dep",
+     "printed": "10.15",
+     "bold": false,
+     "t": "10:15"
+    },
+    {
+     "st": "曲阜",
+     "ev": "dep",
+     "printed": "10.35",
+     "bold": false,
+     "t": "10:35"
+    },
+    {
+     "st": "奧村",
+     "ev": "dep",
+     "printed": "10.51",
+     "bold": false,
+     "t": "10:51"
+    },
+    {
+     "st": "南村",
+     "ev": "dep",
+     "printed": "11.16",
+     "bold": false,
+     "t": "11:16"
+    },
+    {
+     "st": "東太平",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "大汶口",
+     "ev": "dep",
+     "printed": "11.38",
+     "bold": false,
+     "t": "11:38"
+    },
+    {
+     "st": "東北堡",
+     "ev": "dep",
+     "printed": "12.01",
+     "bold": false,
+     "t": "12:01"
+    },
+    {
+     "st": "泰安",
+     "ev": "arr",
+     "printed": "12.17",
+     "bold": false,
+     "t": "12:17"
+    },
+    {
+     "st": "泰安",
+     "ev": "dep",
+     "printed": "12.25",
+     "bold": false,
+     "t": "12:25"
+    },
+    {
+     "st": "界首",
+     "ev": "dep",
+     "printed": "12.51",
+     "bold": false,
+     "t": "12:51"
+    },
+    {
+     "st": "萬德",
+     "ev": "dep",
+     "printed": "13.08",
+     "bold": false,
+     "t": "13:08"
+    },
+    {
+     "st": "張夏",
+     "ev": "dep",
+     "printed": "13.24",
+     "bold": false,
+     "t": "13:24"
+    },
+    {
+     "st": "崮山",
+     "ev": "dep",
+     "printed": "13.34",
+     "bold": false,
+     "t": "13:34"
+    },
+    {
+     "st": "黨家莊",
+     "ev": "dep",
+     "printed": "13.54",
+     "bold": false,
+     "t": "13:54"
+    },
+    {
+     "st": "白馬山",
+     "ev": "dep",
+     "printed": "14.04",
+     "bold": false,
+     "t": "14:04"
+    },
+    {
+     "st": "濟南",
+     "ev": "arr",
+     "printed": "14.15",
+     "bold": false,
+     "t": "14:15"
+    },
+    {
+     "st": "濟南",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "濼口",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "桑梓店",
+     "ev": "dep",
+     "printed": "15.04",
+     "bold": false,
+     "t": "15:04"
+    },
+    {
+     "st": "晏城",
+     "ev": "dep",
+     "printed": "15.21",
+     "bold": false,
+     "t": "15:21"
+    },
+    {
+     "st": "禹城",
+     "ev": "dep",
+     "printed": "15.47",
+     "bold": false,
+     "t": "15:47"
+    },
+    {
+     "st": "張莊",
+     "ev": "dep",
+     "printed": "16.08",
+     "bold": false,
+     "t": "16:08"
+    },
+    {
+     "st": "平原",
+     "ev": "dep",
+     "printed": "16.26",
+     "bold": false,
+     "t": "16:26"
+    },
+    {
+     "st": "黃河涯",
+     "ev": "dep",
+     "printed": "16.54",
+     "bold": false,
+     "t": "16:54"
+    },
+    {
+     "st": "德縣",
+     "ev": "arr",
+     "printed": "17.08",
+     "bold": false,
+     "t": "17:08"
+    },
+    {
+     "st": "德縣",
+     "ev": "dep",
+     "printed": "17.18",
+     "bold": false,
+     "t": "17:18"
+    },
+    {
+     "st": "桑園",
+     "ev": "dep",
+     "printed": "17.43",
+     "bold": false,
+     "t": "17:43"
+    },
+    {
+     "st": "安陵",
+     "ev": "dep",
+     "printed": "18.01",
+     "bold": false,
+     "t": "18:01"
+    },
+    {
+     "st": "連鎭",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "東光",
+     "ev": "dep",
+     "printed": "18.36",
+     "bold": false,
+     "t": "18:36"
+    },
+    {
+     "st": "南霞口",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    },
+    {
+     "st": "泊頭",
+     "ev": "dep",
+     "printed": "19.14",
+     "bold": false,
+     "t": "19:14"
+    },
+    {
+     "st": "馮家口",
+     "ev": "dep",
+     "printed": "19.35",
+     "bold": false,
+     "t": "19:35"
+    },
+    {
+     "st": "磚河",
+     "ev": "dep",
+     "printed": "19.46",
+     "bold": false,
+     "t": "19:46"
+    },
+    {
+     "st": "滄縣",
+     "ev": "arr",
+     "printed": "20.01",
+     "bold": false,
+     "t": "20:01"
+    },
+    {
+     "st": "滄縣",
+     "ev": "dep",
+     "printed": "20.09",
+     "bold": false,
+     "t": "20:09"
+    },
+    {
+     "st": "姚官屯",
+     "ev": "dep",
+     "printed": "20.21",
+     "bold": false,
+     "t": "20:21"
+    },
+    {
+     "st": "興濟",
+     "ev": "dep",
+     "printed": "20.32",
+     "bold": false,
+     "t": "20:32"
+    },
+    {
+     "st": "青縣",
+     "ev": "dep",
+     "printed": "20.49",
+     "bold": false,
+     "t": "20:49"
+    },
+    {
+     "st": "馬廠",
+     "ev": "dep",
+     "printed": "21.02",
+     "bold": false,
+     "t": "21:02"
+    },
+    {
+     "st": "唐官屯",
+     "ev": "dep",
+     "printed": "21.15",
+     "bold": false,
+     "t": "21:15"
+    },
+    {
+     "st": "陳官屯",
+     "ev": "dep",
+     "printed": "21.28",
+     "bold": false,
+     "t": "21:28"
+    },
+    {
+     "st": "靜海",
+     "ev": "dep",
+     "printed": "21.43",
+     "bold": false,
+     "t": "21:43"
+    },
+    {
+     "st": "獨流",
+     "ev": "dep",
+     "printed": "21.55",
+     "bold": false,
+     "t": "21:55"
+    },
+    {
+     "st": "良王莊",
+     "ev": "dep",
+     "printed": "22.03",
+     "bold": false,
+     "t": "22:03"
+    },
+    {
+     "st": "楊柳青",
+     "ev": "dep",
+     "printed": "22.23",
+     "bold": false,
+     "t": "22:23"
+    },
+    {
+     "st": "天津西站",
+     "ev": "dep",
+     "printed": "22.42",
+     "bold": false,
+     "t": "22:42"
+    },
+    {
+     "st": "天津北站",
+     "ev": "arr",
+     "printed": "22.53",
+     "bold": false,
+     "t": "22:53"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "22.57",
+     "bold": false,
+     "t": "22:57"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "23.05",
+     "bold": false,
+     "t": "23:05"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "23.20",
+     "bold": false,
+     "note": "抄錄行（57頁）天津發",
+     "t": "23:20"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": false,
+     "note": "抄錄行（57頁）",
+     "t": "32:05"
+    }
+   ],
+   "dest": "山海關",
+   "cls": "2.3",
+   "origin": "濟寧",
+   "col": "5",
+   "note": "濟寧・兗州間は兗濟線。兗州より上の空桝に縦書きで「濟寧發 10.16」"
+  },
+  {
+   "no": "144",
+   "stops": [
+    {
+     "st": "徐州",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "note": "抄錄行（66頁）",
+     "t": "08:00"
+    },
+    {
+     "st": "臨城",
+     "ev": "arr",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    },
+    {
+     "st": "臨城",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "官橋",
+     "ev": "dep",
+     "printed": "10.21",
+     "bold": false,
+     "t": "10:21"
+    },
+    {
+     "st": "南沙河",
+     "ev": "dep",
+     "printed": "10.38",
+     "bold": false,
+     "t": "10:38"
+    },
+    {
+     "st": "滕縣",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "界河",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "兩下店",
+     "ev": "dep",
+     "printed": "11.42",
+     "bold": false,
+     "t": "11:42"
+    },
+    {
+     "st": "鄒縣",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "兗州",
+     "ev": "arr",
+     "printed": "12.35",
+     "bold": false,
+     "t": "12:35"
+    },
+    {
+     "st": "兗州",
+     "ev": "dep",
+     "printed": "12.55",
+     "bold": false,
+     "t": "12:55"
+    },
+    {
+     "st": "曲阜",
+     "ev": "dep",
+     "printed": "13.24",
+     "bold": false,
+     "t": "13:24"
+    },
+    {
+     "st": "奧村",
+     "ev": "dep",
+     "printed": "13.42",
+     "bold": false,
+     "t": "13:42"
+    },
+    {
+     "st": "南村",
+     "ev": "dep",
+     "printed": "14.17",
+     "bold": false,
+     "t": "14:17"
+    },
+    {
+     "st": "東太平",
+     "ev": "dep",
+     "printed": "14.27",
+     "bold": false,
+     "t": "14:27"
+    },
+    {
+     "st": "大汶口",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "東北堡",
+     "ev": "dep",
+     "printed": "15.11",
+     "bold": false,
+     "t": "15:11"
+    },
+    {
+     "st": "泰安",
+     "ev": "arr",
+     "printed": "15.31",
+     "bold": false,
+     "t": "15:31"
+    },
+    {
+     "st": "泰安",
+     "ev": "dep",
+     "printed": "15.41",
+     "bold": false,
+     "t": "15:41"
+    },
+    {
+     "st": "界首",
+     "ev": "dep",
+     "printed": "16.14",
+     "bold": false,
+     "t": "16:14"
+    },
+    {
+     "st": "萬德",
+     "ev": "dep",
+     "printed": "16.33",
+     "bold": false,
+     "t": "16:33"
+    },
+    {
+     "st": "張夏",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "崮山",
+     "ev": "dep",
+     "printed": "17.13",
+     "bold": false,
+     "t": "17:13"
+    },
+    {
+     "st": "黨家莊",
+     "ev": "dep",
+     "printed": "17.41",
+     "bold": false,
+     "t": "17:41"
+    },
+    {
+     "st": "白馬山",
+     "ev": "dep",
+     "printed": "17.54",
+     "bold": false,
+     "t": "17:54"
+    },
+    {
+     "st": "濟南",
+     "ev": "dep",
+     "printed": "18.05",
+     "bold": false,
+     "t": "18:05"
+    }
+   ],
+   "dest": "濟南",
+   "cls": "3",
+   "marks": "混",
+   "origin": "徐州",
+   "col": "6"
+  },
+  {
+   "no": "142",
+   "stops": [
+    {
+     "st": "滄縣",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "姚官屯",
+     "ev": "dep",
+     "printed": "7.14",
+     "bold": false,
+     "t": "07:14"
+    },
+    {
+     "st": "興濟",
+     "ev": "dep",
+     "printed": "7.27",
+     "bold": false,
+     "t": "07:27"
+    },
+    {
+     "st": "青縣",
+     "ev": "dep",
+     "printed": "7.47",
+     "bold": false,
+     "t": "07:47"
+    },
+    {
+     "st": "馬廠",
+     "ev": "dep",
+     "printed": "8.02",
+     "bold": false,
+     "t": "08:02"
+    },
+    {
+     "st": "唐官屯",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    },
+    {
+     "st": "陳官屯",
+     "ev": "dep",
+     "printed": "8.42",
+     "bold": false,
+     "t": "08:42"
+    },
+    {
+     "st": "靜海",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "獨流",
+     "ev": "dep",
+     "printed": "9.13",
+     "bold": false,
+     "t": "09:13"
+    },
+    {
+     "st": "良王莊",
+     "ev": "arr",
+     "printed": "9.27",
+     "bold": false,
+     "note": "發が著より早く印刷されてゐる（原表の通り／9.33の誤植か）",
+     "t": "09:27"
+    },
+    {
+     "st": "良王莊",
+     "ev": "dep",
+     "printed": "9.23",
+     "bold": false,
+     "note": "發が著より早く印刷されてゐる（原表の通り／9.33の誤植か）",
+     "t": "09:23"
+    },
+    {
+     "st": "楊柳青",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    },
+    {
+     "st": "天津西站",
+     "ev": "dep",
+     "printed": "10.13",
+     "bold": false,
+     "t": "10:13"
+    },
+    {
+     "st": "天津北站",
+     "ev": "arr",
+     "printed": "10.25",
+     "bold": false,
+     "t": "10:25"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    }
+   ],
+   "dest": "天津",
+   "cls": "3",
+   "marks": "混",
+   "origin": "滄縣",
+   "col": "6",
+   "note": "144が濟南止のため同じ第6欄の下半を引繼ぐ副欄（欄内に「天津行 混3 142」の見出しが縦書きで入る）"
+  },
+  {
+   "no": "104",
+   "stops": [
+    {
+     "st": "蚌埠",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "note": "抄錄行（66頁）",
+     "t": "08:30"
+    },
+    {
+     "st": "徐州",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "note": "抄錄行（66頁）",
+     "t": "12:50"
+    },
+    {
+     "st": "臨城",
+     "ev": "arr",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "臨城",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    },
+    {
+     "st": "官橋",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "南沙河",
+     "ev": "dep",
+     "printed": "15.35",
+     "bold": false,
+     "t": "15:35"
+    },
+    {
+     "st": "滕縣",
+     "ev": "dep",
+     "printed": "15.51",
+     "bold": false,
+     "t": "15:51"
+    },
+    {
+     "st": "界河",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "兩下店",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "鄒縣",
+     "ev": "dep",
+     "printed": "16.47",
+     "bold": false,
+     "t": "16:47"
+    },
+    {
+     "st": "兗州",
+     "ev": "arr",
+     "printed": "17.15",
+     "bold": false,
+     "t": "17:15"
+    },
+    {
+     "st": "兗州",
+     "ev": "dep",
+     "printed": "17.25",
+     "bold": false,
+     "t": "17:25"
+    },
+    {
+     "st": "曲阜",
+     "ev": "dep",
+     "printed": "17.45",
+     "bold": false,
+     "t": "17:45"
+    },
+    {
+     "st": "奧村",
+     "ev": "dep",
+     "printed": "18.01",
+     "bold": false,
+     "t": "18:01"
+    },
+    {
+     "st": "南村",
+     "ev": "dep",
+     "printed": "18.26",
+     "bold": false,
+     "t": "18:26"
+    },
+    {
+     "st": "東太平",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "t": "18:35"
+    },
+    {
+     "st": "大汶口",
+     "ev": "dep",
+     "printed": "18.48",
+     "bold": false,
+     "t": "18:48"
+    },
+    {
+     "st": "東北堡",
+     "ev": "dep",
+     "printed": "19.11",
+     "bold": false,
+     "t": "19:11"
+    },
+    {
+     "st": "泰安",
+     "ev": "arr",
+     "printed": "19.27",
+     "bold": false,
+     "t": "19:27"
+    },
+    {
+     "st": "泰安",
+     "ev": "dep",
+     "printed": "19.35",
+     "bold": false,
+     "t": "19:35"
+    },
+    {
+     "st": "界首",
+     "ev": "dep",
+     "printed": "19.59",
+     "bold": false,
+     "t": "19:59"
+    },
+    {
+     "st": "萬德",
+     "ev": "dep",
+     "printed": "20.16",
+     "bold": false,
+     "t": "20:16"
+    },
+    {
+     "st": "張夏",
+     "ev": "dep",
+     "printed": "20.32",
+     "bold": false,
+     "t": "20:32"
+    },
+    {
+     "st": "崮山",
+     "ev": "dep",
+     "printed": "20.42",
+     "bold": false,
+     "t": "20:42"
+    },
+    {
+     "st": "黨家莊",
+     "ev": "dep",
+     "printed": "21.03",
+     "bold": false,
+     "t": "21:03"
+    },
+    {
+     "st": "白馬山",
+     "ev": "dep",
+     "printed": "21.25",
+     "bold": false,
+     "t": "21:25"
+    },
+    {
+     "st": "濟南",
+     "ev": "arr",
+     "printed": "21.35",
+     "bold": false,
+     "t": "21:35"
+    },
+    {
+     "st": "濟南",
+     "ev": "dep",
+     "printed": "21.55",
+     "bold": false,
+     "t": "21:55"
+    },
+    {
+     "st": "濼口",
+     "ev": "dep",
+     "printed": "22.06",
+     "bold": false,
+     "t": "22:06"
+    },
+    {
+     "st": "桑梓店",
+     "ev": "dep",
+     "printed": "22.37",
+     "bold": false,
+     "t": "22:37"
+    },
+    {
+     "st": "晏城",
+     "ev": "dep",
+     "printed": "22.54",
+     "bold": false,
+     "t": "22:54"
+    },
+    {
+     "st": "禹城",
+     "ev": "dep",
+     "printed": "23.22",
+     "bold": false,
+     "t": "23:22"
+    },
+    {
+     "st": "張莊",
+     "ev": "dep",
+     "printed": "23.39",
+     "bold": false,
+     "t": "23:39"
+    },
+    {
+     "st": "平原",
+     "ev": "dep",
+     "printed": "0.00",
+     "bold": false,
+     "t": "24:00"
+    },
+    {
+     "st": "黃河涯",
+     "ev": "dep",
+     "printed": "0.27",
+     "bold": false,
+     "t": "24:27"
+    },
+    {
+     "st": "德縣",
+     "ev": "arr",
+     "printed": "0.41",
+     "bold": false,
+     "t": "24:41"
+    },
+    {
+     "st": "德縣",
+     "ev": "dep",
+     "printed": "0.51",
+     "bold": false,
+     "t": "24:51"
+    },
+    {
+     "st": "桑園",
+     "ev": "dep",
+     "printed": "1.19",
+     "bold": false,
+     "t": "25:19"
+    },
+    {
+     "st": "安陵",
+     "ev": "pass"
+    },
+    {
+     "st": "連鎭",
+     "ev": "dep",
+     "printed": "1.49",
+     "bold": false,
+     "t": "25:49"
+    },
+    {
+     "st": "東光",
+     "ev": "pass"
+    },
+    {
+     "st": "南霞口",
+     "ev": "pass"
+    },
+    {
+     "st": "泊頭",
+     "ev": "dep",
+     "printed": "2.32",
+     "bold": false,
+     "t": "26:32"
+    },
+    {
+     "st": "馮家口",
+     "ev": "pass"
+    },
+    {
+     "st": "磚河",
+     "ev": "pass"
+    },
+    {
+     "st": "滄縣",
+     "ev": "arr",
+     "printed": "3.20",
+     "bold": false,
+     "note": "發が著より早く印刷されてゐる（原表の通り／3.30の誤植か）",
+     "t": "27:20"
+    },
+    {
+     "st": "滄縣",
+     "ev": "dep",
+     "printed": "2.30",
+     "bold": false,
+     "note": "發が著より早く印刷されてゐる（原表の通り／3.30の誤植か）",
+     "t": "50:30"
+    },
+    {
+     "st": "姚官屯",
+     "ev": "pass"
+    },
+    {
+     "st": "興濟",
+     "ev": "pass"
+    },
+    {
+     "st": "青縣",
+     "ev": "dep",
+     "printed": "4.13",
+     "bold": false,
+     "t": "52:13"
+    },
+    {
+     "st": "馬廠",
+     "ev": "pass"
+    },
+    {
+     "st": "唐官屯",
+     "ev": "dep",
+     "printed": "4.40",
+     "bold": false,
+     "t": "52:40"
+    },
+    {
+     "st": "陳官屯",
+     "ev": "pass"
+    },
+    {
+     "st": "靜海",
+     "ev": "pass"
+    },
+    {
+     "st": "獨流",
+     "ev": "dep",
+     "printed": "5.24",
+     "bold": false,
+     "t": "53:24"
+    },
+    {
+     "st": "良王莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊柳青",
+     "ev": "pass"
+    },
+    {
+     "st": "天津西站",
+     "ev": "dep",
+     "printed": "6.11",
+     "bold": false,
+     "t": "54:11"
+    },
+    {
+     "st": "天津北站",
+     "ev": "arr",
+     "printed": "6.22",
+     "bold": false,
+     "t": "54:22"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "6.26",
+     "bold": false,
+     "t": "54:26"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "6.35",
+     "bold": false,
+     "t": "54:35"
+    }
+   ],
+   "dest": "天津",
+   "cls": "2.3",
+   "marks": "食 寢1.2.3",
+   "origin": "蚌埠",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "昭和17.6.1改訂。頁65全幅の表の右半（上り）。反對方向（天津→臨城）は同じ表の左半 p65a。",
+  "「自蚌埠 粁程／運賃 3等」欄があるが運賃は轉記せず。粁程（自蚌埠）は stations に入れた。驛名の左の⊓・〒・◎・✕・♨等の設備記號も轉記せず。",
+  "支那の表につき24時制。「-」は原表の「…」（時刻の印刷が無い）、「v」は原表の「レ」（通過）。",
+  "最上部に66頁からの抄錄行 浦口發／蚌埠／徐州／臨城著、最下部に57頁（京山幹線上り）への抄錄行 天津發／天津北站著／山海關／北京 がある。抄錄行の粁程は 浦口0.0・蚌埠175.0（自浦口）、徐州164.8・臨城231.9（自蚌埠）、末尾は 天津0.0・天津北站4.3・山海關282.9・北京139.4（自天津）と混在する。",
+  "列車欄は7欄（108・102・801・106・512・144・104）。144が濟南止のため第6欄の下半は「天津行 混3 142」の副欄となる。108の等級枠と106の等級枠は潰れて讀めない。102・801の行先の上に反轉枠（急行）が付く。",
+  "驛名の確度が低い區間（兗州・泰安間）：曲阜（342.9）・奧村（353.1）・南村（370.5）・東太平（376.0）・東北堡（396.8）。寫眞の解像度の限界。p65a も同じ讀み。",
+  "楊柳青の粁程は本表で 818.3 と讀めるが、p65a の自天津 24.9 と合はない（838.2−24.9＝813.3）。印刷どほり 818.3 とした。"
+ ],
+ "source": "IMG_1861",
+ "page": "65",
+ "title": "天津・臨城間（華北・津浦幹線）",
+ "line": "華北交通 津浦幹線",
+ "dir": "上り（臨城→天津）"
+}

@@ -1,0 +1,18 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 哈爾濱局管內
+line: 黑奇線
+title: 黑河・奇克間
+dir: 奇克→黑河
+season: 昭和16.11.1改正
+service: 每日運行
+note: 中間駅名（2字）は写真では判讀不能。1字目は辶偏（遜か）。表記は「？」とした。
+note: 302は奇克欄が「…」で、中間駅始發。逆方向は p114i。
+stations: 奇克 | ？ | 黑河
+fares: 黑河 | ？ 2.00 | 奇克 8.85
+
+train: 302 | origin ？ | dest 黑河 | col 5
+奇克 -
+？ 12.30
+黑河 14.30

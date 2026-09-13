@@ -1,0 +1,60 @@
+{
+ "stations": [
+  {
+   "name": "大閣鎭",
+   "km": null
+  },
+  {
+   "name": "豐寧",
+   "km": null
+  },
+  {
+   "name": "鞍匠",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "652",
+   "stops": [
+    {
+     "st": "大閣鎭",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "豐寧",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "13:10"
+    },
+    {
+     "st": "鞍匠",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    }
+   ],
+   "dest": "鞍匠",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "the line bracket prints 豐閣 above 承豐線 (two line names in one bracket)",
+  "two unnumbered empty columns (…) stand to the left of bus 652"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "豐閣線・承豐線",
+ "title": "大閣鎭・豐寧・鞍匠間",
+ "dir": "大閣鎭→鞍匠",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "大閣鎭 | 豐寧 3.60 | 鞍匠 6.20"
+}

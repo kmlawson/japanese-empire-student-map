@@ -1,0 +1,320 @@
+{
+ "stations": [
+  {
+   "name": "大栗子",
+   "km": null
+  },
+  {
+   "name": "望江樓",
+   "km": null
+  },
+  {
+   "name": "臨江縣",
+   "km": null
+  },
+  {
+   "name": "花山",
+   "km": null
+  },
+  {
+   "name": "珍珠門",
+   "km": null
+  },
+  {
+   "name": "遙林",
+   "km": null
+  },
+  {
+   "name": "林子頭",
+   "km": null
+  },
+  {
+   "name": "石人",
+   "km": null
+  },
+  {
+   "name": "渾江",
+   "km": null
+  },
+  {
+   "name": "老灘",
+   "km": null
+  },
+  {
+   "name": "老香",
+   "km": null
+  },
+  {
+   "name": "道淸",
+   "km": null
+  },
+  {
+   "name": "蕪圓",
+   "km": null
+  },
+  {
+   "name": "鴨園",
+   "km": null
+  },
+  {
+   "name": "通化",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "554",
+   "stops": [
+    {
+     "st": "大栗子",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": false,
+     "t": "07:45"
+    },
+    {
+     "st": "望江樓",
+     "ev": "dep",
+     "printed": "8.01",
+     "bold": false,
+     "t": "08:01"
+    },
+    {
+     "st": "臨江縣",
+     "ev": "dep",
+     "printed": "8.37",
+     "bold": false,
+     "t": "08:37"
+    },
+    {
+     "st": "花山",
+     "ev": "dep",
+     "printed": "8.59",
+     "bold": false,
+     "t": "08:59"
+    },
+    {
+     "st": "珍珠門",
+     "ev": "dep",
+     "printed": "9.58",
+     "bold": false,
+     "t": "09:58"
+    },
+    {
+     "st": "遙林",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    },
+    {
+     "st": "林子頭",
+     "ev": "dep",
+     "printed": "11.21",
+     "bold": false,
+     "t": "11:21"
+    },
+    {
+     "st": "石人",
+     "ev": "dep",
+     "printed": "11.33",
+     "bold": false,
+     "t": "11:33"
+    },
+    {
+     "st": "渾江",
+     "ev": "dep",
+     "printed": "12.14",
+     "bold": false,
+     "t": "12:14"
+    },
+    {
+     "st": "老灘",
+     "ev": "dep",
+     "printed": "12.27",
+     "bold": false,
+     "t": "12:27"
+    },
+    {
+     "st": "老香",
+     "ev": "dep",
+     "printed": "12.52",
+     "bold": false,
+     "t": "12:52"
+    },
+    {
+     "st": "道淸",
+     "ev": "dep",
+     "printed": "13.16",
+     "bold": false,
+     "t": "13:16"
+    },
+    {
+     "st": "蕪圓",
+     "ev": "dep",
+     "printed": "13.38",
+     "bold": false,
+     "t": "13:38"
+    },
+    {
+     "st": "鴨園",
+     "ev": "arr",
+     "printed": "13.56",
+     "bold": false,
+     "t": "13:56"
+    },
+    {
+     "st": "鴨園",
+     "ev": "dep",
+     "printed": "14.08",
+     "bold": false,
+     "t": "14:08"
+    },
+    {
+     "st": "通化",
+     "ev": "dep",
+     "printed": "15.05",
+     "bold": false,
+     "t": "15:05"
+    }
+   ],
+   "dest": "通化",
+   "cls": "2.3",
+   "marks": "混",
+   "col": "1"
+  },
+  {
+   "no": "556",
+   "stops": [
+    {
+     "st": "大栗子",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    },
+    {
+     "st": "望江樓",
+     "ev": "dep",
+     "printed": "14.16",
+     "bold": false,
+     "t": "14:16"
+    },
+    {
+     "st": "臨江縣",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "花山",
+     "ev": "dep",
+     "printed": "15.18",
+     "bold": false,
+     "t": "15:18"
+    },
+    {
+     "st": "珍珠門",
+     "ev": "dep",
+     "printed": "16.16",
+     "bold": false,
+     "t": "16:16"
+    },
+    {
+     "st": "遙林",
+     "ev": "dep",
+     "printed": "17.08",
+     "bold": false,
+     "t": "17:08"
+    },
+    {
+     "st": "林子頭",
+     "ev": "dep",
+     "printed": "17.39",
+     "bold": false,
+     "t": "17:39"
+    },
+    {
+     "st": "石人",
+     "ev": "dep",
+     "printed": "17.51",
+     "bold": false,
+     "t": "17:51"
+    },
+    {
+     "st": "渾江",
+     "ev": "dep",
+     "printed": "18.26",
+     "bold": false,
+     "t": "18:26"
+    },
+    {
+     "st": "老灘",
+     "ev": "dep",
+     "printed": "18.39",
+     "bold": false,
+     "t": "18:39"
+    },
+    {
+     "st": "老香",
+     "ev": "dep",
+     "printed": "19.04",
+     "bold": false,
+     "t": "19:04"
+    },
+    {
+     "st": "道淸",
+     "ev": "dep",
+     "printed": "19.28",
+     "bold": false,
+     "t": "19:28"
+    },
+    {
+     "st": "蕪圓",
+     "ev": "dep",
+     "printed": "19.50",
+     "bold": false,
+     "t": "19:50"
+    },
+    {
+     "st": "鴨園",
+     "ev": "arr",
+     "printed": "20.08",
+     "bold": false,
+     "t": "20:08"
+    },
+    {
+     "st": "鴨園",
+     "ev": "dep",
+     "printed": "20.23",
+     "bold": false,
+     "t": "20:23"
+    },
+    {
+     "st": "通化",
+     "ev": "dep",
+     "printed": "21.20",
+     "bold": false,
+     "t": "21:20"
+    }
+   ],
+   "dest": "通化",
+   "cls": "2.3",
+   "marks": "混",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "昭和16.10.1改正。頁35の右段上部の表の右半。反對方向（大栗子行）は同じ表の左半で p35c。",
+  "左端（本表と p35c の間）に「自大栗子 運賃 2等・3等」欄があるが轉記せず。粁程欄は無い。",
+  "列車欄は2欄（554・556）。兩列車とも混[2.3]。",
+  "表尾に「35頁{鴨園發／通化著}」の連絡抄錄2行があり、同頁の梅輯線の表に續く。鴨園は本表の著と抄錄行の發が別行に印刷されてゐるが、本ファイルでは1驛1行（著/發）にまとめた。",
+  "驛名の判讀は p35c と同じ。「老灘」「老香」「蕪圓」「遙林」は活字が小さく確實でない。"
+ ],
+ "source": "IMG_1846",
+ "page": "35",
+ "title": "鴨園・大栗子間（國線・大栗子線）",
+ "line": "國線 大栗子線",
+ "dir": "通化行（大栗子→鴨園・通化）"
+}

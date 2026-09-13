@@ -1,0 +1,40 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 東安驛線
+title: 密山・東安驛間
+dir: 東安驛→密山
+season: 昭和16.12.1改正
+service: 每日運行
+note: 下段。左端は運賃（圓.分）欄。
+stations: 東安驛 | 密山
+fares: 東安驛 | 密山 0.60
+
+train: 241 | dest 密山 | col 1
+東安驛 7.00
+密山 7.40
+
+train: 243 | dest 密山 | col 2
+東安驛 8.00
+密山 8.40
+
+train: 221 | dest 密山 | col 3
+東安驛 8.40
+密山 9.20
+
+train: 223 | dest 密山 | col 4
+東安驛 10.40
+密山 11.20
+
+train: 225 | dest 密山 | col 5
+東安驛 11.00
+密山 11.40
+
+train: 227 | dest 密山 | col 6
+東安驛 14.00
+密山 14.40
+
+train: 229 | dest 密山 | col 7
+東安驛 17.00
+密山 17.40

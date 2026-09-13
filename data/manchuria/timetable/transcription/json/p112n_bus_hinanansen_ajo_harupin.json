@@ -1,0 +1,153 @@
+{
+ "stations": [
+  {
+   "name": "阿城",
+   "km": null
+  },
+  {
+   "name": "哈爾濱",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "22",
+   "stops": [
+    {
+     "st": "阿城",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    }
+   ],
+   "dest": "哈爾濱",
+   "col": "1"
+  },
+  {
+   "no": "24",
+   "stops": [
+    {
+     "st": "阿城",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "哈爾濱",
+   "col": "2"
+  },
+  {
+   "no": "26",
+   "stops": [
+    {
+     "st": "阿城",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    }
+   ],
+   "dest": "哈爾濱",
+   "col": "3"
+  },
+  {
+   "no": "28",
+   "stops": [
+    {
+     "st": "阿城",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    }
+   ],
+   "dest": "哈爾濱",
+   "col": "4"
+  },
+  {
+   "no": "30",
+   "stops": [
+    {
+     "st": "阿城",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "哈爾濱",
+   "col": "5"
+  },
+  {
+   "no": "32",
+   "stops": [
+    {
+     "st": "阿城",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "哈爾濱",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "この表は上下2段で、下段が阿城發（本表）。運賃欄は阿城起點のもの。"
+ ],
+ "source": "IMG_1885",
+ "page": "112",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "濱阿南線",
+ "title": "哈爾濱・阿城間",
+ "dir": "阿城→哈爾濱",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "阿城 | 哈爾濱 1.60"
+}

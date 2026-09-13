@@ -1,0 +1,36 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 奉庫線
+title: 奉天驛・法庫間
+dir: 法庫→奉天驛
+season: 昭和17.1.28改正
+service: 每日運行
+note: bus 94 takes 70 min 大孤家→三面船 where 92 and 96 take 50; transcribed as printed
+stations: 法庫 | 大孤家 | 三面船 | 奉天驛
+fares: 法庫 0 | 大孤家 1.05 | 三面船 2.00 | 奉天驛 3.50
+
+train: 92 | dest 奉天驛 | col 1
+法庫 9.00
+大孤家 9.50
+三面船 10.40
+奉天驛 13.20
+
+train: 94 | dest 奉天驛 | col 2
+法庫 12.00
+大孤家 12.50
+三面船 14.00
+奉天驛 16.40
+
+train: 96 | dest 奉天驛 | col 3
+法庫 14.00
+大孤家 14.50
+三面船 15.40
+奉天驛 18.20
+
+train: 100 | dest 奉天驛 | col 4 | origin 三面船
+法庫 -
+大孤家 -
+三面船 12.00
+奉天驛 14.40

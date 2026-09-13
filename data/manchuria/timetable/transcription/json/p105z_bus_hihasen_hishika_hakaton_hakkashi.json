@@ -1,0 +1,106 @@
+{
+ "stations": [
+  {
+   "name": "貔子窩",
+   "km": null
+  },
+  {
+   "name": "巴家屯",
+   "km": null
+  },
+  {
+   "name": "八家子",
+   "km": null
+  },
+  {
+   "name": "貔子窩著",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "32",
+   "stops": [
+    {
+     "st": "貔子窩",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "巴家屯",
+     "ev": "dep",
+     "printed": "9.43",
+     "bold": false,
+     "t": "09:43"
+    },
+    {
+     "st": "八家子",
+     "ev": "dep",
+     "printed": "10.04",
+     "bold": false,
+     "t": "10:04"
+    },
+    {
+     "st": "貔子窩著",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    }
+   ],
+   "dest": "貔子窩",
+   "col": "1"
+  },
+  {
+   "no": "34",
+   "stops": [
+    {
+     "st": "貔子窩",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "巴家屯",
+     "ev": "dep",
+     "printed": "16.13",
+     "bold": false,
+     "t": "16:13"
+    },
+    {
+     "st": "八家子",
+     "ev": "dep",
+     "printed": "16.34",
+     "bold": false,
+     "t": "16:34"
+    },
+    {
+     "st": "貔子窩著",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    }
+   ],
+   "dest": "貔子窩",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "the reverse working of the same circular service; fare column printed once, for the other direction",
+  "32 and 34 leave and return at the same times as 31 and 33 (9.00/10.40 and 15.30/17.10), as printed"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "貔巴線",
+ "title": "貔子窩・(巴家屯)・貔子窩間",
+ "dir": "貔子窩→巴家屯→八家子→貔子窩",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "貔子窩 0 | 巴家屯 0.50 | 八家子 0.30 | 貔子窩著 0.90"
+}

@@ -1,0 +1,37 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 綏西線
+title: 綏西・綏陽驛間
+dir: 綏西→綏陽驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 下段。左端は運賃（圓.分）欄。
+note: 132のみ所要1時間15分（他列は35分）だが印刷どおり。
+stations: 綏西 | 綏陽驛
+fares: 綏西 | 綏陽驛 0.25
+
+train: 122 | dest 綏陽驛 | col 1
+綏西 8.30
+綏陽驛 9.05
+
+train: 124 | dest 綏陽驛 | col 2
+綏西 10.10
+綏陽驛 10.45
+
+train: 126 | dest 綏陽驛 | col 3
+綏西 12.00
+綏陽驛 12.35
+
+train: 128 | dest 綏陽驛 | col 4
+綏西 14.10
+綏陽驛 14.45
+
+train: 130 | dest 綏陽驛 | col 5
+綏西 15.40
+綏陽驛 16.15
+
+train: 132 | dest 綏陽驛 | col 6
+綏西 17.40
+綏陽驛 18.55

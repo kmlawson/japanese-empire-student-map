@@ -135,7 +135,8 @@ async function open(b, where, layers) {
     await p.evaluate(() => {
       for (const id of ['opt-tw-rail', 'opt-tw-stations',
                         'opt-kr-rail', 'opt-kr-stations',
-                        'opt-kf-rail', 'opt-kf-stations']) {
+                        'opt-kf-rail', 'opt-kf-stations',
+                        'opt-mn-rail', 'opt-mn-stations']) {
         const e = document.getElementById(id);
         if (e && !e.checked) { e.checked = true; e.dispatchEvent(new Event('change', { bubbles: true })); }
       }

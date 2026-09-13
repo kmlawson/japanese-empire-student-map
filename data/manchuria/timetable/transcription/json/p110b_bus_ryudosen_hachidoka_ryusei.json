@@ -1,0 +1,97 @@
+{
+ "stations": [
+  {
+   "name": "八道河",
+   "km": null
+  },
+  {
+   "name": "大拉子",
+   "km": null
+  },
+  {
+   "name": "龍井",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "382",
+   "stops": [
+    {
+     "st": "大拉子",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "龍井",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    }
+   ],
+   "dest": "龍井",
+   "col": "1",
+   "origin": "大拉子"
+  },
+  {
+   "no": "386",
+   "stops": [
+    {
+     "st": "大拉子",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "龍井",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    }
+   ],
+   "dest": "龍井",
+   "col": "2",
+   "origin": "大拉子"
+  },
+  {
+   "no": "390",
+   "stops": [
+    {
+     "st": "大拉子",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "龍井",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    }
+   ],
+   "dest": "龍井",
+   "col": "3",
+   "origin": "大拉子"
+  }
+ ],
+ "notes": [
+  "下段。3列とも大拉子始發（八道河欄は…）。"
+ ],
+ "source": "IMG_1884",
+ "page": "110",
+ "kind": "bus",
+ "office": "吉林局管內",
+ "line": "龍道線",
+ "title": "龍井・大拉子・八道河間",
+ "dir": "八道河→龍井",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "八道河 | 大拉子 0.55 | 龍井 1.55"
+}

@@ -1,0 +1,48 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 九河線
+title: 下九臺驛・上河灣間
+dir: 其塔木→下九臺
+season: 昭和16.12.1改正
+service: 每日運行
+note: この表は上下2段で、下段が其塔木發（本表）。運賃欄は其塔木起點で刷り直してある。縱棒（レ）は通過。
+note: 638以下は火石嶺始發。
+stations: 其塔木 | 火石嶺 | 下九臺
+fares: 其塔木 | 火石嶺 2.30 | 下九臺 2.65
+
+train: 634 | dest 下九臺 | col 1
+其塔木 15.30
+火石嶺 v
+下九臺 17.30
+
+train: 638 | dest 下九臺 | origin 火石嶺 | col 2
+其塔木 -
+火石嶺 8.30
+下九臺 8.50
+
+train: 640 | dest 下九臺 | origin 火石嶺 | col 3
+其塔木 -
+火石嶺 9.30
+下九臺 9.50
+
+train: 642 | dest 下九臺 | origin 火石嶺 | col 4
+其塔木 -
+火石嶺 11.30
+下九臺 11.50
+
+train: 644 | dest 下九臺 | origin 火石嶺 | col 5
+其塔木 -
+火石嶺 14.00
+下九臺 14.20
+
+train: 646 | dest 下九臺 | origin 火石嶺 | col 6
+其塔木 -
+火石嶺 15.30
+下九臺 15.50
+
+train: 648 | dest 下九臺 | origin 火石嶺 | col 7
+其塔木 -
+火石嶺 16.30
+下九臺 16.50

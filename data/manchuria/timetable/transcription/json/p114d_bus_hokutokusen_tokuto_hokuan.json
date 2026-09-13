@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "德都",
+   "km": null
+  },
+  {
+   "name": "北安驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "342",
+   "stops": [
+    {
+     "st": "德都",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "北安驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    }
+   ],
+   "dest": "北安驛",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "表の右半（德都發）。逆方向は p114c。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "北德線",
+ "title": "北安驛・德都間",
+ "dir": "德都→北安驛",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "北安驛 | 德都 3.00"
+}

@@ -1,0 +1,27 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 齊齊哈爾局管內
+line: 泰景線
+title: 泰來・札賚特間
+dir: 札賚特→泰來
+season: 昭和16.12.1改正
+service: 每日運行
+note: 36・38は塔子城始發。34は塔子城の欄が「…」。逆方向は p114o。
+stations: 札賚特 | 塔子城 | 泰來
+fares: 泰來 | 塔子城 2.15 | 札賚特 3.25
+
+train: 36 | origin 塔子城 | dest 泰來 | col 5
+札賚特 -
+塔子城 11.30
+泰來 13.20
+
+train: 34 | dest 泰來 | col 6
+札賚特 14.00
+塔子城 -
+泰來 17.00
+
+train: 38 | origin 塔子城 | dest 泰來 | col 7
+札賚特 -
+塔子城 15.40
+泰來 17.30

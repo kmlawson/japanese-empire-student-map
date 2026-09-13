@@ -1,0 +1,20 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 德靠線
+title: 德惠・靠山屯間
+dir: 靠山屯→德惠
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が靠山屯發（本表）。運賃欄は德惠起點のものを反轉して掲げた。
+stations: 靠山屯 | 德惠
+fares: 靠山屯 1.50 | 德惠
+
+train: 702 | dest 德惠 | col 1
+靠山屯 10.40
+德惠 12.00
+
+train: 704 | dest 德惠 | col 2
+靠山屯 14.40
+德惠 16.00

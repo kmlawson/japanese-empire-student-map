@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "經棚",
+   "km": null
+  },
+  {
+   "name": "林西",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "506",
+   "stops": [
+    {
+     "st": "經棚",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "林西",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "林西",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the left of bus 506"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "東經線",
+ "title": "經棚・林西間",
+ "dir": "經棚→林西",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "經棚 | 林西 3.10"
+}

@@ -1520,8 +1520,9 @@ window.JMAP_TRAINS = function (host) {
       els.conn.addEventListener('change', function () { setConn(els.conn.checked); });
       connLabel.appendChild(els.conn);
       connLabel.appendChild(document.createTextNode(' Connections beyond the network'));
-      connLabel.title = 'The lines this timetable connects to — drawn as straight lines '
-        + 'between cities, because their real alignment is not yet sourced. Off until it is.';
+      connLabel.title = 'The lines this timetable connects to, beyond its own network: '
+        + 'along the traced railway where the map has one, and straight between cities '
+        + 'where it does not yet.';
     }
 
     var link = el('a', 'train-full', 'Full timetable');

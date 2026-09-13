@@ -1,0 +1,153 @@
+{
+ "stations": [
+  {
+   "name": "綏陽驛",
+   "km": null
+  },
+  {
+   "name": "綏西",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "121",
+   "stops": [
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": false,
+     "t": "07:50"
+    },
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    }
+   ],
+   "dest": "綏西",
+   "col": "1"
+  },
+  {
+   "no": "123",
+   "stops": [
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": false,
+     "t": "10:05"
+    }
+   ],
+   "dest": "綏西",
+   "col": "2"
+  },
+  {
+   "no": "125",
+   "stops": [
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": false,
+     "t": "11:55"
+    }
+   ],
+   "dest": "綏西",
+   "col": "3"
+  },
+  {
+   "no": "127",
+   "stops": [
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    }
+   ],
+   "dest": "綏西",
+   "col": "4"
+  },
+  {
+   "no": "129",
+   "stops": [
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "15.35",
+     "bold": false,
+     "t": "15:35"
+    }
+   ],
+   "dest": "綏西",
+   "col": "5"
+  },
+  {
+   "no": "131",
+   "stops": [
+    {
+     "st": "綏陽驛",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "17.35",
+     "bold": false,
+     "t": "17:35"
+    }
+   ],
+   "dest": "綏西",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "一つの表に上下2段。上段が綏陽驛發（本表）、下段が綏西發（p111b）。左端は運賃（圓.分）欄。"
+ ],
+ "source": "IMG_1884",
+ "page": "111",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "綏西線",
+ "title": "綏西・綏陽驛間",
+ "dir": "綏陽驛→綏西",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "綏陽驛 | 綏西 0.25"
+}

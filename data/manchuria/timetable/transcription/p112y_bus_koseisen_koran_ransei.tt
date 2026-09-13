@@ -1,0 +1,16 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 哈爾濱局管內
+line: 呼西線
+title: 呼蘭・蘭西間
+dir: 呼蘭→蘭西
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が呼蘭發（本表）、右が蘭西發（p112z）。
+stations: 呼蘭 | 蘭西
+fares: 呼蘭 | 蘭西 3.00
+
+train: 21 | dest 蘭西 | col 1
+呼蘭 9.00
+蘭西 11.30

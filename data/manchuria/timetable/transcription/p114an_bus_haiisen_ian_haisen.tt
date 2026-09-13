@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 齊齊哈爾局管內
+line: 拜依線
+title: 拜泉・依安間
+dir: 依安→拜泉
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表の右半（依安發）。逆方向は p114am。
+stations: 依安 | 拜泉
+fares: 拜泉 | 依安 3.90
+
+train: 162 | dest 拜泉 | col 5
+依安 13.00
+拜泉 16.30

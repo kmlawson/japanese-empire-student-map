@@ -1,0 +1,81 @@
+{
+ "stations": [
+  {
+   "name": "承德",
+   "km": null
+  },
+  {
+   "name": "隆化",
+   "km": null
+  },
+  {
+   "name": "圍場",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "601",
+   "stops": [
+    {
+     "st": "承德",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "隆化",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    },
+    {
+     "st": "圍場",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "圍場",
+   "col": "2"
+  },
+  {
+   "no": "603",
+   "stops": [
+    {
+     "st": "承德",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "隆化",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    }
+   ],
+   "dest": "隆化",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "an unnumbered empty column (…) stands to the left of bus 601",
+  "buses 601 and 603 are both printed 12.40 at 隆化; transcribed as printed"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "承圍線",
+ "title": "承德・圍場間",
+ "dir": "承德→圍場",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "承德 | 隆化 4.15 | 圍場 9.25"
+}

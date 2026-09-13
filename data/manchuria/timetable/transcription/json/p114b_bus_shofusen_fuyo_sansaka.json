@@ -1,0 +1,69 @@
+{
+ "stations": [
+  {
+   "name": "扶餘",
+   "km": null
+  },
+  {
+   "name": "三岔河",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "632",
+   "stops": [
+    {
+     "st": "扶餘",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "三岔河",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "三岔河",
+   "col": "5"
+  },
+  {
+   "no": "634",
+   "stops": [
+    {
+     "st": "扶餘",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "三岔河",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "三岔河",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "表の右半（扶餘發）。逆方向は p114a。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "小扶線",
+ "title": "三岔河・扶餘間",
+ "dir": "扶餘→三岔河",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "三岔河 | 扶餘 6.25"
+}

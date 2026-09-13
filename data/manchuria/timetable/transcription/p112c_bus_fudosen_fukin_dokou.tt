@@ -1,0 +1,16 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 牡丹江局管內
+line: 富同線
+title: 富錦・同江間
+dir: 富錦→同江
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表は左右2組で、左が富錦發（本表）、右が同江發（p112d）。
+stations: 富錦 | 同江
+fares: 富錦 | 同江 5.33
+
+train: 371 | dest 同江 | col 1
+富錦 8.00
+同江 11.30

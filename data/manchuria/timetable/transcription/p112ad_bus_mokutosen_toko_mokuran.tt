@@ -1,0 +1,16 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 哈爾濱局管內
+line: 木東線
+title: 木蘭・東興間
+dir: 東興→木蘭
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が東興發（本表）。運賃欄は木蘭起點のものを反轉して掲げた。
+stations: 東興 | 木蘭
+fares: 東興 3.80 | 木蘭
+
+train: 2 | dest 木蘭 | col 1
+東興 12.30
+木蘭 15.30

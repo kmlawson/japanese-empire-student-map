@@ -1,0 +1,23 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 凌建線
+title: 凌源驛・建昌間
+dir: 凌源驛→建昌
+season: 昭和16.12.1改正
+service: 每日運行
+stations: 凌源驛 | 建昌
+fares: 凌源驛 | 建昌 4.35
+
+train: 643 | dest 建昌 | col 1
+凌源驛 7.30
+建昌 11.00
+
+train: 641 | dest 建昌 | col 2
+凌源驛 8.30
+建昌 12.00
+
+train: 645 | dest 建昌 | col 3
+凌源驛 15.30
+建昌 19.00

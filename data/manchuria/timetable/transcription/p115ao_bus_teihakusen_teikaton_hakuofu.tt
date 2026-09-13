@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 鄭博線
+title: 鄭家屯・博王府間
+dir: 鄭家屯→博王府
+season: 昭和16.12.1改正
+service: 每日運行
+note: 左端は運賃（圓.分）欄。p115 右欄の最下段の表。逆方向は p115ap。
+stations: 鄭家屯 | 博王府
+fares: 鄭家屯 | 博王府 3.75
+
+train: 295 | dest 博王府 | col 3
+鄭家屯 9.30
+博王府 13.00

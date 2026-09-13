@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 哈爾濱局管內
+line: 北德線
+title: 北安驛・德都間
+dir: 德都→北安驛
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表の右半（德都發）。逆方向は p114c。
+stations: 德都 | 北安驛
+fares: 北安驛 | 德都 3.00
+
+train: 342 | dest 北安驛 | col 5
+德都 11.30
+北安驛 14.00

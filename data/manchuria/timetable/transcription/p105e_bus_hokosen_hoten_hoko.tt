@@ -1,0 +1,36 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 奉庫線
+title: 奉天驛・法庫間
+dir: 奉天驛→法庫
+season: 昭和17.1.28改正
+service: 每日運行
+note: the second station is printed 三面線 in this (down) block and 三面船 in the up block; kept as printed
+stations: 奉天驛 | 三面線 | 大孤家 | 法庫
+fares: 奉天驛 0 | 三面線 2.75 | 大孤家 3.50 | 法庫 3.50
+
+train: 91 | dest 三面線 | col 1
+奉天驛 8.00
+三面線 10.40
+大孤家 -
+法庫 -
+
+train: 93 | dest 法庫 | col 2
+奉天驛 9.00
+三面線 11.40
+大孤家 12.31
+法庫 13.20
+
+train: 95 | dest 法庫 | col 3
+奉天驛 11.00
+三面線 14.00
+大孤家 14.51
+法庫 15.40
+
+train: 97 | dest 法庫 | col 4
+奉天驛 14.00
+三面線 16.40
+大孤家 17.31
+法庫 18.20

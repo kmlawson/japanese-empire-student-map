@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 齊齊哈爾局管內
+line: 嫩站線
+title: 嫩江驛・四站間
+dir: 四站→嫩江驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表の右半（四站發）。逆方向は p114ai。
+stations: 四站 | 嫩江驛
+fares: 嫩江驛 | 四站 5.40
+
+train: 56 | dest 嫩江驛 | col 5
+四站 14.00
+嫩江驛 18.00

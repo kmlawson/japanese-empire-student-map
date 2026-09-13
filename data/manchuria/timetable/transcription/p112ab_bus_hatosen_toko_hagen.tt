@@ -1,0 +1,16 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 哈爾濱局管內
+line: 巴東線
+title: 巴彥・東興間
+dir: 東興→巴彥
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が東興發（本表）。運賃欄は巴彥起點のものを反轉して掲げた。
+stations: 東興 | 巴彥
+fares: 東興 3.60 | 巴彥
+
+train: 12 | dest 巴彥 | col 1
+東興 9.00
+巴彥 12.00

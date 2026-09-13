@@ -1,0 +1,16 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 德農線
+title: 德惠驛・郭家屯間
+dir: 郭家屯→德惠驛
+season: （運休）
+service: 每日運行
+note: 改正年月日の位置に「（運休）」と刷る。表は左右2組で、右が郭家屯發（本表）。
+stations: 郭家屯 | 德惠驛
+fares: 郭家屯 1.25 | 德惠驛
+
+train: 602 | dest 德惠驛 | col 1
+郭家屯 15.20
+德惠驛 16.20

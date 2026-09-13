@@ -1,0 +1,17 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 九白線
+title: 下九臺驛・白旗屯間
+dir: 下九臺驛→白旗屯
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表は左右2組で、左が下九臺驛發（本表）、右が白旗屯發（p109l）。
+stations: 下九臺驛 | 其塔木 | 白旗屯
+fares: 下九臺驛 | 其塔木 2.65 | 白旗屯 3.45
+
+train: 635 | dest 白旗屯 | col 1
+下九臺驛 9.00
+其塔木 11.00
+白旗屯 11.40

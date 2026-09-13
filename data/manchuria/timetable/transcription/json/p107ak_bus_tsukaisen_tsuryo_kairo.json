@@ -1,0 +1,69 @@
+{
+ "stations": [
+  {
+   "name": "通遼驛",
+   "km": null
+  },
+  {
+   "name": "開魯",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "301",
+   "stops": [
+    {
+     "st": "通遼驛",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "開魯",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    }
+   ],
+   "dest": "開魯",
+   "col": "2"
+  },
+  {
+   "no": "303",
+   "stops": [
+    {
+     "st": "通遼驛",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "開魯",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    }
+   ],
+   "dest": "開魯",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "an unnumbered empty column (…) stands to the left of bus 301"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "通開線",
+ "title": "通遼驛・開魯間",
+ "dir": "通遼驛→開魯",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "通遼驛 | 開魯 4.30"
+}

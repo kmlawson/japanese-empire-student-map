@@ -1,0 +1,81 @@
+{
+ "stations": [
+  {
+   "name": "明水塘",
+   "km": null
+  },
+  {
+   "name": "綏中城內",
+   "km": null
+  },
+  {
+   "name": "綏中驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "162",
+   "stops": [
+    {
+     "st": "明水塘",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "綏中城內",
+     "ev": "pass"
+    },
+    {
+     "st": "綏中驛",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    }
+   ],
+   "dest": "綏中驛",
+   "col": "1"
+  },
+  {
+   "no": "164",
+   "stops": [
+    {
+     "st": "明水塘",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "綏中城內",
+     "ev": "pass"
+    },
+    {
+     "st": "綏中驛",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    }
+   ],
+   "dest": "綏中驛",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 164"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "綏明線",
+ "title": "綏中驛・明水塘間",
+ "dir": "明水塘→綏中驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "明水塘 2.05 | 綏中城內 0.10 | 綏中驛"
+}

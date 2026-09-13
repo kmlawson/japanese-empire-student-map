@@ -1,0 +1,25 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 興臺線
+title: 興城驛・新臺門間
+dir: 興城→新臺門
+season: 昭和16.12.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the left of bus 153
+note: the second down column is printed 154, the same number as the first up column; transcribed as printed
+stations: 興城 | 興城驛 | 舊門 | 新臺門
+fares: 興城 | 興城驛 0.10 | 舊門 1.20 | 新臺門 1.95
+
+train: 153 | dest 新臺門 | col 2 | origin 興城驛
+興城 -
+興城驛 8.30
+舊門 v
+新臺門 10.30
+
+train: 154 | dest 新臺門 | col 3 | origin 興城驛
+興城 -
+興城驛 14.00
+舊門 v
+新臺門 16.00

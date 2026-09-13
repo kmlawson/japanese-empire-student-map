@@ -1,0 +1,17 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 東經線
+title: 林東・林西間
+dir: 林西→林東
+season: 昭和16.10.1改正
+service: 每日運行
+note: three unnumbered empty columns (…) stand to the right of bus 402
+stations: 林西 | 大坂上 | 林東
+fares: 林西 6.90 | 大坂上 4.10 | 林東
+
+train: 402 | dest 林東 | col 1
+林西 8.30
+大坂上 11.50
+林東 16.00

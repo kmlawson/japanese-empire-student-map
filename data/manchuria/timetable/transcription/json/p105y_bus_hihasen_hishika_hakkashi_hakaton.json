@@ -1,0 +1,106 @@
+{
+ "stations": [
+  {
+   "name": "貔子窩",
+   "km": null
+  },
+  {
+   "name": "八家子",
+   "km": null
+  },
+  {
+   "name": "巴家屯",
+   "km": null
+  },
+  {
+   "name": "貔子窩著",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "31",
+   "stops": [
+    {
+     "st": "貔子窩",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "八家子",
+     "ev": "dep",
+     "printed": "9.37",
+     "bold": false,
+     "t": "09:37"
+    },
+    {
+     "st": "巴家屯",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "貔子窩著",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    }
+   ],
+   "dest": "貔子窩",
+   "col": "2"
+  },
+  {
+   "no": "33",
+   "stops": [
+    {
+     "st": "貔子窩",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "八家子",
+     "ev": "dep",
+     "printed": "16.07",
+     "bold": false,
+     "t": "16:07"
+    },
+    {
+     "st": "巴家屯",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "貔子窩著",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    }
+   ],
+   "dest": "貔子窩",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "a circular service; the same 貔子窩 appears as first and last stop",
+  "an unnumbered empty column (…) stands to the left of bus 31"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "貔巴線",
+ "title": "貔子窩・(巴家屯)・貔子窩間",
+ "dir": "貔子窩→八家子→巴家屯→貔子窩",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "貔子窩 0 | 八家子 0.30 | 巴家屯 0.50 | 貔子窩著 0.90"
+}

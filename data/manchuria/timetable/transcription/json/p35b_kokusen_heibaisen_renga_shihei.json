@@ -1,0 +1,352 @@
+{
+ "stations": [
+  {
+   "name": "通化",
+   "km": null
+  },
+  {
+   "name": "梅河口",
+   "km": null
+  },
+  {
+   "name": "蓮河",
+   "km": null
+  },
+  {
+   "name": "東豐",
+   "km": null
+  },
+  {
+   "name": "大興",
+   "km": null
+  },
+  {
+   "name": "渭津",
+   "km": null
+  },
+  {
+   "name": "西安",
+   "km": null
+  },
+  {
+   "name": "白泉",
+   "km": null
+  },
+  {
+   "name": "平崗",
+   "km": null
+  },
+  {
+   "name": "石嶺",
+   "km": null
+  },
+  {
+   "name": "哈福",
+   "km": null
+  },
+  {
+   "name": "平東",
+   "km": null
+  },
+  {
+   "name": "四平",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "546",
+   "stops": [
+    {
+     "st": "西安",
+     "ev": "dep",
+     "printed": "6.10",
+     "bold": false,
+     "t": "06:10"
+    },
+    {
+     "st": "白泉",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "06:30"
+    },
+    {
+     "st": "平崗",
+     "ev": "dep",
+     "printed": "6.51",
+     "bold": false,
+     "t": "06:51"
+    },
+    {
+     "st": "石嶺",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": false,
+     "t": "07:50"
+    },
+    {
+     "st": "哈福",
+     "ev": "dep",
+     "printed": "8.34",
+     "bold": false,
+     "t": "08:34"
+    },
+    {
+     "st": "平東",
+     "ev": "dep",
+     "printed": "8.56",
+     "bold": false,
+     "t": "08:56"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    }
+   ],
+   "dest": "四平",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "西安",
+   "col": "1"
+  },
+  {
+   "no": "544",
+   "stops": [
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "9.45",
+     "bold": false,
+     "t": "09:45"
+    },
+    {
+     "st": "蓮河",
+     "ev": "arr",
+     "printed": "9.56",
+     "bold": false,
+     "t": "09:56"
+    },
+    {
+     "st": "蓮河",
+     "ev": "dep",
+     "printed": "9.57",
+     "bold": false,
+     "t": "09:57"
+    },
+    {
+     "st": "東豐",
+     "ev": "dep",
+     "printed": "10.28",
+     "bold": false,
+     "t": "10:28"
+    },
+    {
+     "st": "大興",
+     "ev": "dep",
+     "printed": "10.59",
+     "bold": false,
+     "t": "10:59"
+    },
+    {
+     "st": "渭津",
+     "ev": "dep",
+     "printed": "11.22",
+     "bold": false,
+     "t": "11:22"
+    },
+    {
+     "st": "西安",
+     "ev": "arr",
+     "printed": "11.49",
+     "bold": false,
+     "t": "11:49"
+    },
+    {
+     "st": "西安",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    },
+    {
+     "st": "白泉",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    },
+    {
+     "st": "平崗",
+     "ev": "dep",
+     "printed": "13.01",
+     "bold": false,
+     "t": "13:01"
+    },
+    {
+     "st": "石嶺",
+     "ev": "dep",
+     "printed": "14.07",
+     "bold": false,
+     "t": "14:07"
+    },
+    {
+     "st": "哈福",
+     "ev": "dep",
+     "printed": "14.44",
+     "bold": false,
+     "t": "14:44"
+    },
+    {
+     "st": "平東",
+     "ev": "dep",
+     "printed": "15.06",
+     "bold": false,
+     "t": "15:06"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    }
+   ],
+   "dest": "四平",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "梅河口",
+   "col": "2"
+  },
+  {
+   "no": "514",
+   "stops": [
+    {
+     "st": "通化",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    },
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    },
+    {
+     "st": "蓮河",
+     "ev": "arr",
+     "printed": "14.01",
+     "bold": false,
+     "t": "14:01"
+    },
+    {
+     "st": "蓮河",
+     "ev": "dep",
+     "printed": "14.02",
+     "bold": false,
+     "t": "14:02"
+    },
+    {
+     "st": "東豐",
+     "ev": "dep",
+     "printed": "14.34",
+     "bold": false,
+     "t": "14:34"
+    },
+    {
+     "st": "大興",
+     "ev": "dep",
+     "printed": "15.05",
+     "bold": false,
+     "t": "15:05"
+    },
+    {
+     "st": "渭津",
+     "ev": "dep",
+     "printed": "15.29",
+     "bold": false,
+     "t": "15:29"
+    },
+    {
+     "st": "西安",
+     "ev": "arr",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "西安",
+     "ev": "dep",
+     "printed": "15.59",
+     "bold": false,
+     "t": "15:59"
+    },
+    {
+     "st": "白泉",
+     "ev": "dep",
+     "printed": "16.19",
+     "bold": false,
+     "t": "16:19"
+    },
+    {
+     "st": "平崗",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "石嶺",
+     "ev": "dep",
+     "printed": "17.37",
+     "bold": false,
+     "t": "17:37"
+    },
+    {
+     "st": "哈福",
+     "ev": "dep",
+     "printed": "18.14",
+     "bold": false,
+     "t": "18:14"
+    },
+    {
+     "st": "平東",
+     "ev": "dep",
+     "printed": "18.38",
+     "bold": false,
+     "t": "18:38"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    }
+   ],
+   "dest": "四平",
+   "cls": "2.3",
+   "marks": "食",
+   "origin": "通化",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "昭和16.10.1改正。頁35の左段中部の表（p35aの下）。反對方向（下り）は p35a。",
+  "本表の「自蓮河 運賃 2等・3等」欄は頁34の右端（大鄭線の表の枠外）に印刷されてゐる。轉記せず。粁程欄は無い。設備記號も轉記せず。",
+  "列車欄は3欄（546・544・514）。546・544は混[2.3]、514は等級枠[2.3]の上にナイフとフォークの記號（食堂車）。",
+  "表頭に「35頁{通化發／梅河口／蓮河著}」の連絡抄錄3行があり、同頁の梅輯線の表から續く。蓮河は抄錄行の著と本表の發が別行に印刷されてゐるが、本ファイルでは1驛1行（著/發）にまとめた。",
+  "驛名は p35a と同じ。第10驛「石嶺」は活字が潰れ氣味。"
+ ],
+ "source": "IMG_1846",
+ "page": "35",
+ "title": "四平・蓮河間（國線・平梅線）",
+ "line": "國線 平梅線",
+ "dir": "上り（蓮河→四平）"
+}

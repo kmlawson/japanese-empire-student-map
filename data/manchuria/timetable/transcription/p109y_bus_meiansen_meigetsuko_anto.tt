@@ -1,0 +1,17 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 明安線
+title: 明月溝・安圖間
+dir: 明月溝→安圖
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が明月溝發（本表）、右が安圖發（p109z）。
+stations: 明月溝 | 大甸子 | 安圖
+fares: 明月溝 | 大甸子 3.55 | 安圖 6.20
+
+train: 211 | dest 安圖 | col 1
+明月溝 8.30
+大甸子 13.20
+安圖 16.40

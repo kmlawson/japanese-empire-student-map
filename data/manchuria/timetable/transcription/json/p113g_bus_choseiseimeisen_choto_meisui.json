@@ -1,0 +1,211 @@
+{
+ "stations": [
+  {
+   "name": "肇東",
+   "km": null
+  },
+  {
+   "name": "蘭西",
+   "km": null
+  },
+  {
+   "name": "靑崗",
+   "km": null
+  },
+  {
+   "name": "明水",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "431",
+   "stops": [
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "蘭西",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    }
+   ],
+   "dest": "蘭西",
+   "col": "1"
+  },
+  {
+   "no": "433",
+   "stops": [
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "蘭西",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    }
+   ],
+   "dest": "蘭西",
+   "col": "2"
+  },
+  {
+   "no": "441",
+   "stops": [
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "蘭西",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "靑崗",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    }
+   ],
+   "dest": "靑崗",
+   "col": "3"
+  },
+  {
+   "no": "451",
+   "stops": [
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "蘭西",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "靑崗",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "明水",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    }
+   ],
+   "dest": "明水",
+   "col": "4"
+  },
+  {
+   "no": "435",
+   "stops": [
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "蘭西",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    }
+   ],
+   "dest": "蘭西",
+   "col": "5"
+  },
+  {
+   "no": "437",
+   "stops": [
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "蘭西",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    }
+   ],
+   "dest": "蘭西",
+   "col": "6"
+  },
+  {
+   "no": "443",
+   "stops": [
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "蘭西",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "靑崗",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    }
+   ],
+   "dest": "靑崗",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "この表は上下2段で、上段が肇東發（本表）、下段が明水發（p113h）。段ごとに運賃欄がある。",
+  "431・433・435・437は靑崗の行に終着の太罫があり蘭西止り。441・443は明水の行に太罫があり靑崗止り。"
+ ],
+ "source": "IMG_1885",
+ "page": "113",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "肇靑・靑明線",
+ "title": "肇東・靑崗・明水間",
+ "dir": "肇東→明水",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "肇東 | 蘭西 2.00 | 靑崗 5.50 | 明水 8.70"
+}

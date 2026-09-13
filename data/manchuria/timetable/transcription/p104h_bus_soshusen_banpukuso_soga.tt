@@ -1,0 +1,23 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 莊岫線
+title: 莊河・萬福莊間
+dir: 萬福庄→莊河
+season: 昭和17.2.20改正
+service: 每日運行
+note: fare column printed once, for the 莊河→萬福庄 direction
+note: bus 98 is printed 桂雲 13.30 / 莊河著 14.00 — only 30 min for a leg that takes 2h30 in every other column; transcribed as printed
+stations: 萬福庄 | 桂雲 | 莊河
+fares: 萬福庄 4.30 | 桂雲 2.65 | 莊河 0
+
+train: 98 | dest 莊河 | col 1 | origin 桂雲
+萬福庄 -
+桂雲 13.30
+莊河 14.00
+
+train: 96 | dest 莊河 | col 2
+萬福庄 14.00
+桂雲 15.30
+莊河 18.00

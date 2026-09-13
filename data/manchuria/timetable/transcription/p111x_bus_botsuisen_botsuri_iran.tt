@@ -1,0 +1,23 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 勃依線
+title: 勃利・依蘭間
+dir: 勃利→依蘭
+season: 昭和16.12.1改正
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（依蘭起點）。
+note: 中間の三道村欄はいづれの列も縱線（時刻の記載なし）で、v と記した。
+stations: 勃利 | 三道村 | 依蘭
+fares: 勃利 6.60 | 三道村 3.25 | 依蘭
+
+train: 601 | dest 依蘭 | col 1
+勃利 8.30
+三道村 v
+依蘭 13.00
+
+train: 603 | dest 依蘭 | col 2
+勃利 11.00
+三道村 v
+依蘭 16.00

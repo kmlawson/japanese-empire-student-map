@@ -1,0 +1,232 @@
+{
+ "stations": [
+  {
+   "name": "營口驛",
+   "km": null
+  },
+  {
+   "name": "大高坎",
+   "km": null
+  },
+  {
+   "name": "牛莊",
+   "km": null
+  },
+  {
+   "name": "海城驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "52",
+   "stops": [
+    {
+     "st": "營口驛",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "大高坎",
+     "ev": "dep",
+     "printed": "8.52",
+     "bold": false,
+     "t": "08:52"
+    }
+   ],
+   "dest": "大高坎",
+   "col": "1"
+  },
+  {
+   "no": "54",
+   "stops": [
+    {
+     "st": "營口驛",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    },
+    {
+     "st": "大高坎",
+     "ev": "dep",
+     "printed": "9.24",
+     "bold": false,
+     "t": "09:24"
+    },
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    }
+   ],
+   "dest": "牛莊",
+   "col": "2"
+  },
+  {
+   "no": "56",
+   "stops": [
+    {
+     "st": "營口驛",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "大高坎",
+     "ev": "dep",
+     "printed": "10.52",
+     "bold": false,
+     "t": "10:52"
+    }
+   ],
+   "dest": "大高坎",
+   "col": "3"
+  },
+  {
+   "no": "22",
+   "stops": [
+    {
+     "st": "營口驛",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    },
+    {
+     "st": "大高坎",
+     "ev": "dep",
+     "printed": "11.44",
+     "bold": false,
+     "t": "11:44"
+    },
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "13:10"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "4"
+  },
+  {
+   "no": "58",
+   "stops": [
+    {
+     "st": "營口驛",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "大高坎",
+     "ev": "dep",
+     "printed": "13.24",
+     "bold": false,
+     "t": "13:24"
+    },
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "牛莊",
+   "col": "5"
+  },
+  {
+   "no": "60",
+   "stops": [
+    {
+     "st": "營口驛",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "大高坎",
+     "ev": "dep",
+     "printed": "14.24",
+     "bold": false,
+     "t": "14:24"
+    },
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    }
+   ],
+   "dest": "牛莊",
+   "col": "6"
+  },
+  {
+   "no": "42",
+   "stops": [
+    {
+     "st": "營口驛",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "大高坎",
+     "ev": "dep",
+     "printed": "16.44",
+     "bold": false,
+     "t": "16:44"
+    },
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "the up fare column is not the mirror of the down one (營口→牛莊 2.60 against 海城→牛莊 1.00, 海城→營口 2.60); figures given as printed",
+  "bus 54 takes 64 min 營口驛→大高坎 where every other column takes 52–54 min; transcribed as printed"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "海營線",
+ "title": "海城驛・營口驛間",
+ "dir": "營口驛→海城驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "營口驛 0 | 大高坎 0.60 | 牛莊 2.60 | 海城驛 5.60"
+}

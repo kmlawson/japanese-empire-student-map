@@ -1,0 +1,20 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 峰烏線
+title: 赤峰・烏丹城間
+dir: 赤峰→烏丹城
+season: 昭和16.12.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the left of bus 511
+stations: 赤峰 | 烏丹城
+fares: 赤峰 | 烏丹城 4.20
+
+train: 511 | dest 烏丹城 | col 2
+赤峰 8.40
+烏丹城 12.30
+
+train: 513 | dest 烏丹城 | col 3
+赤峰 12.40
+烏丹城 16.30

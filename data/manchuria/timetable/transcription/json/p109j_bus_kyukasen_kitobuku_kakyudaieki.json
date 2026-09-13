@@ -1,0 +1,189 @@
+{
+ "stations": [
+  {
+   "name": "其塔木",
+   "km": null
+  },
+  {
+   "name": "火石嶺",
+   "km": null
+  },
+  {
+   "name": "下九臺",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "634",
+   "stops": [
+    {
+     "st": "其塔木",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "火石嶺",
+     "ev": "pass"
+    },
+    {
+     "st": "下九臺",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    }
+   ],
+   "dest": "下九臺",
+   "col": "1"
+  },
+  {
+   "no": "638",
+   "stops": [
+    {
+     "st": "火石嶺",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "下九臺",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    }
+   ],
+   "dest": "下九臺",
+   "origin": "火石嶺",
+   "col": "2"
+  },
+  {
+   "no": "640",
+   "stops": [
+    {
+     "st": "火石嶺",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "下九臺",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    }
+   ],
+   "dest": "下九臺",
+   "origin": "火石嶺",
+   "col": "3"
+  },
+  {
+   "no": "642",
+   "stops": [
+    {
+     "st": "火石嶺",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "下九臺",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    }
+   ],
+   "dest": "下九臺",
+   "origin": "火石嶺",
+   "col": "4"
+  },
+  {
+   "no": "644",
+   "stops": [
+    {
+     "st": "火石嶺",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "下九臺",
+     "ev": "dep",
+     "printed": "14.20",
+     "bold": false,
+     "t": "14:20"
+    }
+   ],
+   "dest": "下九臺",
+   "origin": "火石嶺",
+   "col": "5"
+  },
+  {
+   "no": "646",
+   "stops": [
+    {
+     "st": "火石嶺",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "下九臺",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    }
+   ],
+   "dest": "下九臺",
+   "origin": "火石嶺",
+   "col": "6"
+  },
+  {
+   "no": "648",
+   "stops": [
+    {
+     "st": "火石嶺",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "下九臺",
+     "ev": "dep",
+     "printed": "16.50",
+     "bold": false,
+     "t": "16:50"
+    }
+   ],
+   "dest": "下九臺",
+   "origin": "火石嶺",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "この表は上下2段で、下段が其塔木發（本表）。運賃欄は其塔木起點で刷り直してある。縱棒（レ）は通過。",
+  "638以下は火石嶺始發。"
+ ],
+ "source": "IMG_1883",
+ "page": "109",
+ "kind": "bus",
+ "office": "吉林局管內",
+ "line": "九河線",
+ "title": "下九臺驛・上河灣間",
+ "dir": "其塔木→下九臺",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "其塔木 | 火石嶺 2.30 | 下九臺 2.65"
+}

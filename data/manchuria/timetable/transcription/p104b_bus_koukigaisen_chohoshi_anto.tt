@@ -1,0 +1,24 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 紅旗街線
+title: 安東驛・長泡子間
+dir: 長泡子→安東驛
+season: 昭和17.2.20改正
+service: 每日運行
+note: fare column as printed for the 安東驛→長泡子 direction (安東驛 blank, 長泡子 1.65)
+stations: 長泡子 | 安東驛
+fares: 長泡子 1.65 | 安東驛 0
+
+train: 56 | dest 安東驛 | col 1
+長泡子 11.10
+安東驛 12.40
+
+train: 58 | dest 安東驛 | col 2
+長泡子 13.40
+安東驛 15.10
+
+train: 60 | dest 安東驛 | col 3
+長泡子 16.10
+安東驛 17.40

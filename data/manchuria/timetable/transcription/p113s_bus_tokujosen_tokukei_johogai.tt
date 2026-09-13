@@ -1,0 +1,16 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 德城線
+title: 德惠・城子街間
+dir: 德惠→城子街
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表は左右2組で、左が德惠發（本表）、右が城子街發（p113t）。
+stations: 德惠 | 城子街
+fares: 德惠 | 城子街 2.15
+
+train: 711 | dest 城子街 | col 1
+德惠 8.30
+城子街 10.30

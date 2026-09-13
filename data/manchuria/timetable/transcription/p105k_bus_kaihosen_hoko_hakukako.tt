@@ -1,0 +1,21 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 開法線
+title: 法庫・柏家溝間
+dir: 法庫→柏家溝
+season: 昭和16.10.1改正
+service: 每日運行
+note: line name printed 開法線
+note: an unnumbered empty column (…) stands to the left of bus 172
+stations: 法庫 | 柏家溝
+fares: 法庫 0 | 柏家溝 0.95
+
+train: 172 | dest 柏家溝 | col 1
+法庫 8.30
+柏家溝 9.20
+
+train: 174 | dest 柏家溝 | col 2
+法庫 15.30
+柏家溝 16.20

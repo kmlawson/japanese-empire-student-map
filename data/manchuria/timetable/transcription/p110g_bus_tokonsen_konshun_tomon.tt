@@ -1,0 +1,16 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 圖琿線
+title: 琿春・圖們間
+dir: 琿春→圖們
+season: 昭和16.12.1改正
+service: 每日運行
+note: 中央の驛名欄をはさみ左が琿春發（本表）、右が圖們發（p110h）。左端は運賃（圓.分）欄。
+stations: 琿春 | 圖們
+fares: 琿春 | 圖們 3.50
+
+train: 21 | dest 圖們 | col 1
+琿春 8.30
+圖們 11.30

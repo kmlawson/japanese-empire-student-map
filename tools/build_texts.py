@@ -1503,14 +1503,16 @@ def build_pages():
                # the train tools and the network they draw, both fetched only
                # when a reader zooms in to a railway that has one
                "trains.js", "tw-trains.js", "kr-trains.js", "kf-trains.js",
+               "mn-trains.js",
                # and the timetables, a second file each since the split: they
                # need a key of their own rather than the global version,
                # because a release that does not touch a timetable should not
                # make a reader fetch 455 KB of Korea again
-               "tw-times.js", "kr-times.js", "kf-times.js",
+               "tw-times.js", "kr-times.js", "kf-times.js", "mn-times.js",
                # and the station tables, fetched the first time a station
                # layer is switched on
                "tw-stations.js", "kr-stations.js", "kf-stations.js",
+               "mn-stations.js",
                # Japan's railways and their 12,800 stations, each fetched
                # only when its own switch goes on
                "jp-rails.js", "jp-stations.js",
@@ -1518,7 +1520,7 @@ def build_pages():
                "air-play.js",
                # and the printed tables, which a station's card links to
                "timetable/taiwan-1936.html", "timetable/korea-1938.html",
-               "timetable/karafuto-1935.html",
+               "timetable/karafuto-1935.html", "timetable/manchuria-1942.html",
                # the relief is three images map.js fetches by name, one per
                # projection, and they are not .js or .css so the page's own
                # stamper below never sees them

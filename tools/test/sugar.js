@@ -165,7 +165,7 @@ const st = p => p.evaluate(() => {
              drawnYet: document.querySelector('#opt-kr-rail').checked };
   });
   check('pressing it offers that ground\'s railway rather than drawing it',
-    menu.shown && menu.rows === 5 && menu.drawnYet === false,
+    menu.shown && menu.rows === 6 && menu.drawnYet === false,
     JSON.stringify(menu));
   const pressed = await p.evaluate(() => {
     const lab = [...document.querySelectorAll('#rail-menu label.row')]

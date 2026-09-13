@@ -1,0 +1,80 @@
+{
+ "stations": [
+  {
+   "name": "興城驛",
+   "km": null
+  },
+  {
+   "name": "唐家屯",
+   "km": null
+  },
+  {
+   "name": "梨樹溝",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "155",
+   "stops": [
+    {
+     "st": "興城驛",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "唐家屯",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "梨樹溝",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    }
+   ],
+   "dest": "梨樹溝",
+   "col": "2"
+  },
+  {
+   "no": "157",
+   "stops": [
+    {
+     "st": "興城驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "唐家屯",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    }
+   ],
+   "dest": "唐家屯",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "an unnumbered empty column (…) stands to the left of bus 155"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "興梨線",
+ "title": "興城・梨樹溝間",
+ "dir": "興城驛→梨樹溝",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "興城驛 | 唐家屯 0.90 | 梨樹溝 2.90"
+}

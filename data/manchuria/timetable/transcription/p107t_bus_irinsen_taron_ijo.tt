@@ -1,0 +1,22 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 圍倫線
+title: 圍場・多倫間
+dir: 多倫→圍場
+season: 昭和16.12.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the right of bus 524
+stations: 多倫 | 半截塔 | 圍場
+fares: 多倫 6.50 | 半截塔 1.50 | 圍場
+
+train: 522 | dest 圍場 | col 1
+多倫 9.00
+半截塔 13.30
+圍場 15.30
+
+train: 524 | dest 圍場 | col 2 | origin 半截塔
+多倫 -
+半截塔 11.00
+圍場 12.30

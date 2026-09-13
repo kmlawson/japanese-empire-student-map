@@ -1,0 +1,96 @@
+{
+ "stations": [
+  {
+   "name": "三興鎭",
+   "km": null
+  },
+  {
+   "name": "富裕",
+   "km": null
+  },
+  {
+   "name": "寧年驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "44",
+   "stops": [
+    {
+     "st": "富裕",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "寧年驛",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    }
+   ],
+   "origin": "富裕",
+   "dest": "寧年驛",
+   "col": "5"
+  },
+  {
+   "no": "46",
+   "stops": [
+    {
+     "st": "富裕",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "寧年驛",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "origin": "富裕",
+   "dest": "寧年驛",
+   "col": "6"
+  },
+  {
+   "no": "42",
+   "stops": [
+    {
+     "st": "三興鎭",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "寧年驛",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "寧年驛",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "44・46は富裕始發。逆方向は p114aa。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "寧依線",
+ "title": "寧年驛・三興鎭間",
+ "dir": "三興鎭→寧年驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "寧年驛 | 富裕 1.60 | 三興鎭 3.00"
+}

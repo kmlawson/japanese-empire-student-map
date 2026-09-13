@@ -1,0 +1,26 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 法遼線
+title: 法庫・遼陽堡間
+dir: 法庫→遼陽堡
+season: 昭和16.10.1改正
+service: 每日運行
+stations: 法庫 | 康平 | 遼陽堡
+fares: 法庫 0 | 康平 0.50 | 遼陽堡 1.30
+
+train: 161 | dest 遼陽堡 | col 1
+法庫 8.30
+康平 9.31
+遼陽堡 11.00
+
+train: 163 | dest 康平 | col 2
+法庫 10.20
+康平 11.20
+遼陽堡 -
+
+train: 165 | dest 康平 | col 3
+法庫 15.20
+康平 16.20
+遼陽堡 -

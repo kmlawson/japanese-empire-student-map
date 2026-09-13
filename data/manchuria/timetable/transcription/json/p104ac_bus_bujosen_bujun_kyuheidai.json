@@ -1,0 +1,109 @@
+{
+ "stations": [
+  {
+   "name": "撫順驛",
+   "km": null
+  },
+  {
+   "name": "救兵臺",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "101",
+   "stops": [
+    {
+     "st": "撫順驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "救兵臺",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    }
+   ],
+   "dest": "救兵臺",
+   "col": "1"
+  },
+  {
+   "no": "103",
+   "stops": [
+    {
+     "st": "撫順驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "救兵臺",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    }
+   ],
+   "dest": "救兵臺",
+   "col": "2"
+  },
+  {
+   "no": "107",
+   "stops": [
+    {
+     "st": "撫順驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "救兵臺",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    }
+   ],
+   "dest": "救兵臺",
+   "col": "3"
+  },
+  {
+   "no": "105",
+   "stops": [
+    {
+     "st": "撫順驛",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "救兵臺",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    }
+   ],
+   "dest": "救兵臺",
+   "col": "4"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "撫城線",
+ "title": "撫順・救兵臺間",
+ "dir": "撫順驛→救兵臺",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "撫順驛 0 | 救兵臺 1.70"
+}

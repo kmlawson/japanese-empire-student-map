@@ -1,0 +1,571 @@
+{
+ "stations": [
+  {
+   "name": "阿爾山",
+   "km": null
+  },
+  {
+   "name": "白狼",
+   "km": null
+  },
+  {
+   "name": "牟汐臺",
+   "km": null
+  },
+  {
+   "name": "五叉溝",
+   "km": null
+  },
+  {
+   "name": "西口",
+   "km": null
+  },
+  {
+   "name": "索倫",
+   "km": null
+  },
+  {
+   "name": "德伯斯",
+   "km": null
+  },
+  {
+   "name": "大石寨",
+   "km": null
+  },
+  {
+   "name": "哈拉黑",
+   "km": null
+  },
+  {
+   "name": "歸流河",
+   "km": null
+  },
+  {
+   "name": "湖南",
+   "km": null
+  },
+  {
+   "name": "王爺廟",
+   "km": null
+  },
+  {
+   "name": "葛根廟",
+   "km": null
+  },
+  {
+   "name": "索格營",
+   "km": null
+  },
+  {
+   "name": "平安鎭",
+   "km": null
+  },
+  {
+   "name": "平臺",
+   "km": null
+  },
+  {
+   "name": "白城子",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "832",
+   "stops": [
+    {
+     "st": "索倫",
+     "ev": "dep",
+     "printed": "5.55",
+     "bold": false,
+     "t": "05:55"
+    },
+    {
+     "st": "德伯斯",
+     "ev": "dep",
+     "printed": "6.21",
+     "bold": false,
+     "t": "06:21"
+    },
+    {
+     "st": "大石寨",
+     "ev": "dep",
+     "printed": "7.18",
+     "bold": false,
+     "t": "07:18"
+    },
+    {
+     "st": "哈拉黑",
+     "ev": "dep",
+     "printed": "7.47",
+     "bold": false,
+     "t": "07:47"
+    },
+    {
+     "st": "歸流河",
+     "ev": "dep",
+     "printed": "8.12",
+     "bold": false,
+     "t": "08:12"
+    },
+    {
+     "st": "湖南",
+     "ev": "dep",
+     "printed": "8.39",
+     "bold": false,
+     "t": "08:39"
+    },
+    {
+     "st": "王爺廟",
+     "ev": "arr",
+     "printed": "9.01",
+     "bold": false,
+     "t": "09:01"
+    },
+    {
+     "st": "王爺廟",
+     "ev": "dep",
+     "printed": "9.14",
+     "bold": false,
+     "t": "09:14"
+    },
+    {
+     "st": "葛根廟",
+     "ev": "dep",
+     "printed": "9.58",
+     "bold": false,
+     "t": "09:58"
+    },
+    {
+     "st": "索格營",
+     "ev": "dep",
+     "printed": "10.13",
+     "bold": false,
+     "t": "10:13"
+    },
+    {
+     "st": "平安鎭",
+     "ev": "dep",
+     "printed": "10.34",
+     "bold": false,
+     "t": "10:34"
+    },
+    {
+     "st": "平臺",
+     "ev": "dep",
+     "printed": "10.48",
+     "bold": false,
+     "t": "10:48"
+    },
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "11.14",
+     "bold": false,
+     "t": "11:14"
+    }
+   ],
+   "dest": "白城子",
+   "cls": "3",
+   "marks": "動",
+   "origin": "索倫",
+   "col": "1"
+  },
+  {
+   "no": "838",
+   "stops": [
+    {
+     "st": "王爺廟",
+     "ev": "dep",
+     "printed": "15.26",
+     "bold": false,
+     "t": "15:26"
+    },
+    {
+     "st": "葛根廟",
+     "ev": "dep",
+     "printed": "15.56",
+     "bold": false,
+     "t": "15:56"
+    },
+    {
+     "st": "索格營",
+     "ev": "dep",
+     "printed": "16.09",
+     "bold": false,
+     "t": "16:09"
+    },
+    {
+     "st": "平安鎭",
+     "ev": "dep",
+     "printed": "16.33",
+     "bold": false,
+     "t": "16:33"
+    },
+    {
+     "st": "平臺",
+     "ev": "dep",
+     "printed": "16.46",
+     "bold": false,
+     "t": "16:46"
+    },
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "17.09",
+     "bold": false,
+     "t": "17:09"
+    }
+   ],
+   "dest": "白城子",
+   "cls": "3",
+   "marks": "動",
+   "origin": "王爺廟",
+   "col": "2"
+  },
+  {
+   "no": "842",
+   "stops": [
+    {
+     "st": "阿爾山",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "白狼",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "牟汐臺",
+     "ev": "dep",
+     "printed": "11.47",
+     "bold": false,
+     "t": "11:47"
+    },
+    {
+     "st": "五叉溝",
+     "ev": "dep",
+     "printed": "12.09",
+     "bold": false,
+     "t": "12:09"
+    },
+    {
+     "st": "西口",
+     "ev": "dep",
+     "printed": "13.05",
+     "bold": false,
+     "t": "13:05"
+    },
+    {
+     "st": "索倫",
+     "ev": "arr",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    },
+    {
+     "st": "索倫",
+     "ev": "dep",
+     "printed": "14.39",
+     "bold": false,
+     "t": "14:39"
+    },
+    {
+     "st": "德伯斯",
+     "ev": "dep",
+     "printed": "15.09",
+     "bold": false,
+     "t": "15:09"
+    },
+    {
+     "st": "大石寨",
+     "ev": "dep",
+     "printed": "16.09",
+     "bold": false,
+     "t": "16:09"
+    },
+    {
+     "st": "哈拉黑",
+     "ev": "dep",
+     "printed": "16.38",
+     "bold": false,
+     "t": "16:38"
+    },
+    {
+     "st": "歸流河",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "湖南",
+     "ev": "dep",
+     "printed": "17.37",
+     "bold": false,
+     "t": "17:37"
+    },
+    {
+     "st": "王爺廟",
+     "ev": "arr",
+     "printed": "17.59",
+     "bold": false,
+     "t": "17:59"
+    },
+    {
+     "st": "王爺廟",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "葛根廟",
+     "ev": "dep",
+     "printed": "19.15",
+     "bold": false,
+     "t": "19:15"
+    },
+    {
+     "st": "索格營",
+     "ev": "dep",
+     "printed": "19.33",
+     "bold": false,
+     "t": "19:33"
+    },
+    {
+     "st": "平安鎭",
+     "ev": "dep",
+     "printed": "20.02",
+     "bold": false,
+     "t": "20:02"
+    },
+    {
+     "st": "平臺",
+     "ev": "dep",
+     "printed": "20.26",
+     "bold": false,
+     "t": "20:26"
+    },
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "20.55",
+     "bold": false,
+     "t": "20:55"
+    }
+   ],
+   "dest": "白城子",
+   "cls": "2.3",
+   "marks": "混",
+   "col": "3"
+  },
+  {
+   "no": "840",
+   "stops": [
+    {
+     "st": "王爺廟",
+     "ev": "dep",
+     "printed": "20.38",
+     "bold": false,
+     "t": "20:38"
+    },
+    {
+     "st": "葛根廟",
+     "ev": "dep",
+     "printed": "21.12",
+     "bold": false,
+     "t": "21:12"
+    },
+    {
+     "st": "索格營",
+     "ev": "dep",
+     "printed": "21.25",
+     "bold": false,
+     "t": "21:25"
+    },
+    {
+     "st": "平安鎭",
+     "ev": "dep",
+     "printed": "21.44",
+     "bold": false,
+     "t": "21:44"
+    },
+    {
+     "st": "平臺",
+     "ev": "dep",
+     "printed": "21.57",
+     "bold": false,
+     "t": "21:57"
+    },
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "22.20",
+     "bold": false,
+     "t": "22:20"
+    }
+   ],
+   "dest": "白城子",
+   "cls": "3",
+   "marks": "動",
+   "origin": "王爺廟",
+   "col": "4"
+  },
+  {
+   "no": "886",
+   "stops": [
+    {
+     "st": "阿爾山",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    },
+    {
+     "st": "白狼",
+     "ev": "dep",
+     "printed": "20.00",
+     "bold": false,
+     "t": "20:00"
+    },
+    {
+     "st": "牟汐臺",
+     "ev": "dep",
+     "printed": "21.27",
+     "bold": false,
+     "t": "21:27"
+    },
+    {
+     "st": "五叉溝",
+     "ev": "dep",
+     "printed": "21.51",
+     "bold": false,
+     "t": "21:51"
+    },
+    {
+     "st": "西口",
+     "ev": "dep",
+     "printed": "23.00",
+     "bold": false,
+     "t": "23:00"
+    },
+    {
+     "st": "索倫",
+     "ev": "arr",
+     "printed": "0.13",
+     "bold": false,
+     "t": "24:13"
+    },
+    {
+     "st": "索倫",
+     "ev": "dep",
+     "printed": "1.30",
+     "bold": false,
+     "t": "25:30"
+    },
+    {
+     "st": "德伯斯",
+     "ev": "dep",
+     "printed": "2.03",
+     "bold": false,
+     "uncertain": true,
+     "t": "26:03"
+    },
+    {
+     "st": "大石寨",
+     "ev": "dep",
+     "printed": "3.23",
+     "bold": false,
+     "t": "27:23"
+    },
+    {
+     "st": "哈拉黑",
+     "ev": "pass"
+    },
+    {
+     "st": "歸流河",
+     "ev": "dep",
+     "printed": "4.30",
+     "bold": false,
+     "t": "28:30"
+    },
+    {
+     "st": "湖南",
+     "ev": "pass"
+    },
+    {
+     "st": "王爺廟",
+     "ev": "arr",
+     "printed": "5.29",
+     "bold": false,
+     "t": "29:29"
+    },
+    {
+     "st": "王爺廟",
+     "ev": "dep",
+     "printed": "6.45",
+     "bold": false,
+     "t": "30:45"
+    },
+    {
+     "st": "葛根廟",
+     "ev": "dep",
+     "printed": "7.41",
+     "bold": false,
+     "t": "31:41"
+    },
+    {
+     "st": "索格營",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "32:20"
+    },
+    {
+     "st": "平安鎭",
+     "ev": "dep",
+     "printed": "9.15",
+     "bold": false,
+     "t": "33:15"
+    },
+    {
+     "st": "平臺",
+     "ev": "dep",
+     "printed": "9.52",
+     "bold": false,
+     "t": "33:52"
+    },
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "10.25",
+     "bold": false,
+     "t": "34:25"
+    }
+   ],
+   "dest": "白城子",
+   "cls": "3",
+   "marks": "混",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "昭和16.10.1改正。頁38左段、p38a の直下の表。反對方向（阿爾山行）は p38a。",
+  "左端に「自阿爾山 運賃 2等・3等」欄があるが轉記せず。粁程欄は無い。",
+  "列車欄は5欄（832・838・842・840・886）。その右に空欄が3欄。832・838・840は「動」＋反轉枠「3」、842は「混」＋反轉枠「2 3」、886は「混」＋反轉枠「3」。",
+  "第3驛（白狼と五叉溝の間）は活字が潰れ「牟汐臺」と讀んだが第1字・第3字は不確か（p38a と同じ驛）。",
+  "王爺廟・索倫の2驛のみ著・發の2行に分かれる。「v」は原表のレ（通過）、「-」は原表の「…」。",
+  "列車886の德伯斯 2.03 は末位の活字が潰れ 2.09 とも讀める。索倫發からの所要（他列車30分前後）から 2.03 とした。"
+ ],
+ "source": "IMG_1848",
+ "page": "38",
+ "title": "白城子・阿爾山間（國線・白阿線）",
+ "line": "國線 白阿線",
+ "dir": "白城子行（阿爾山→白城子）"
+}

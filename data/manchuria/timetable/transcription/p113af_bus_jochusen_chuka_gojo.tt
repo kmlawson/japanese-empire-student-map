@@ -1,0 +1,28 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 常冲線
+title: 五常・冲河間
+dir: 冲河→五常
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が冲河發（本表）。運賃欄は五常起點のものを反轉して掲げた。
+note: 574・576は小山子始發。572は小山子の欄が「…」。
+stations: 冲河 | 小山子 | 五常
+fares: 冲河 4.00 | 小山子 2.40 | 五常
+
+train: 574 | dest 五常 | origin 小山子 | col 1
+冲河 -
+小山子 11.30
+五常 14.00
+
+train: 572 | dest 五常 | col 2
+冲河 12.30
+小山子 -
+五常 16.00
+
+train: 576 | dest 五常 | origin 小山子 | col 3
+冲河 -
+小山子 14.00
+五常 16.30

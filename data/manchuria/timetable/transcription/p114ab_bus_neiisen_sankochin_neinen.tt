@@ -1,0 +1,27 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 齊齊哈爾局管內
+line: 寧依線
+title: 寧年驛・三興鎭間
+dir: 三興鎭→寧年驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 44・46は富裕始發。逆方向は p114aa。
+stations: 三興鎭 | 富裕 | 寧年驛
+fares: 寧年驛 | 富裕 1.60 | 三興鎭 3.00
+
+train: 44 | origin 富裕 | dest 寧年驛 | col 5
+三興鎭 -
+富裕 10.30
+寧年驛 11.30
+
+train: 46 | origin 富裕 | dest 寧年驛 | col 6
+三興鎭 -
+富裕 15.30
+寧年驛 16.30
+
+train: 42 | dest 寧年驛 | col 7
+三興鎭 14.50
+富裕 -
+寧年驛 18.30

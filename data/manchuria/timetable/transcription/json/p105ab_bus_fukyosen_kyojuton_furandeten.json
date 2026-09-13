@@ -1,0 +1,87 @@
+{
+ "stations": [
+  {
+   "name": "杏樹屯驛",
+   "km": null
+  },
+  {
+   "name": "粉皮墻",
+   "km": null
+  },
+  {
+   "name": "普蘭店驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "62",
+   "stops": [
+    {
+     "st": "杏樹屯驛",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "粉皮墻",
+     "ev": "dep",
+     "printed": "11.07",
+     "bold": false,
+     "t": "11:07"
+    },
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "普蘭店驛",
+   "col": "1"
+  },
+  {
+   "no": "64",
+   "stops": [
+    {
+     "st": "杏樹屯驛",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "粉皮墻",
+     "ev": "dep",
+     "printed": "17.17",
+     "bold": false,
+     "t": "17:17"
+    },
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "18.10",
+     "bold": false,
+     "t": "18:10"
+    }
+   ],
+   "dest": "普蘭店驛",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 普蘭店驛→杏樹屯驛 direction"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "普杏線",
+ "title": "普蘭店驛・杏樹屯驛間",
+ "dir": "杏樹屯驛→普蘭店驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "杏樹屯驛 0.85 | 粉皮墻 0.50 | 普蘭店驛 0"
+}

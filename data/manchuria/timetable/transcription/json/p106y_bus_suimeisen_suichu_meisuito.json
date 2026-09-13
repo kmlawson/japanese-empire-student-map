@@ -1,0 +1,81 @@
+{
+ "stations": [
+  {
+   "name": "綏中驛",
+   "km": null
+  },
+  {
+   "name": "綏中城內",
+   "km": null
+  },
+  {
+   "name": "明水塘",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "161",
+   "stops": [
+    {
+     "st": "綏中驛",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "綏中城內",
+     "ev": "pass"
+    },
+    {
+     "st": "明水塘",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    }
+   ],
+   "dest": "明水塘",
+   "col": "2"
+  },
+  {
+   "no": "163",
+   "stops": [
+    {
+     "st": "綏中驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "綏中城內",
+     "ev": "pass"
+    },
+    {
+     "st": "明水塘",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "13:10"
+    }
+   ],
+   "dest": "明水塘",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "an unnumbered empty column (…) stands to the left of bus 161"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "綏明線",
+ "title": "綏中驛・明水塘間",
+ "dir": "綏中驛→明水塘",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "綏中驛 | 綏中城內 0.10 | 明水塘 2.05"
+}

@@ -1,0 +1,49 @@
+{
+ "stations": [
+  {
+   "name": "開魯",
+   "km": null
+  },
+  {
+   "name": "奈曼旗",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "615",
+   "stops": [
+    {
+     "st": "開魯",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "奈曼旗",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    }
+   ],
+   "dest": "奈曼旗",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "「(運休)」 is printed where the other blocks carry a 改正 date — the service is suspended",
+  "two unnumbered empty columns (…) stand to the left of bus 615"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "開奈線",
+ "title": "開魯・奈曼旗間",
+ "dir": "開魯→奈曼旗",
+ "season": "(運休)",
+ "service": "每日運行",
+ "fares": "開魯 | 奈曼旗 6.25"
+}

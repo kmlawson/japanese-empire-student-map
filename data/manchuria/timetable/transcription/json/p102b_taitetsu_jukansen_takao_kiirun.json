@@ -1,0 +1,2003 @@
+{
+ "stations": [
+  {
+   "name": "高雄",
+   "km": 0.0
+  },
+  {
+   "name": "岡山",
+   "km": 21.9
+  },
+  {
+   "name": "臺南",
+   "km": 46.7
+  },
+  {
+   "name": "番子田",
+   "km": 72.5
+  },
+  {
+   "name": "新營",
+   "km": 85.2
+  },
+  {
+   "name": "嘉義",
+   "km": 108.2
+  },
+  {
+   "name": "大林",
+   "km": 123.3
+  },
+  {
+   "name": "斗南",
+   "km": 131.8
+  },
+  {
+   "name": "斗六",
+   "km": 139.5
+  },
+  {
+   "name": "二水",
+   "km": 157.2
+  },
+  {
+   "name": "田中",
+   "km": 163.0
+  },
+  {
+   "name": "員林",
+   "km": 174.8
+  },
+  {
+   "name": "彰化",
+   "km": 189.0
+  },
+  {
+   "name": "臺中",
+   "km": 206.6
+  },
+  {
+   "name": "追分",
+   "km": 194.8
+  },
+  {
+   "name": "清水",
+   "km": 212.3
+  },
+  {
+   "name": "大甲",
+   "km": 223.6
+  },
+  {
+   "name": "竹南",
+   "km": 278.5
+  },
+  {
+   "name": "新竹",
+   "km": 297.5
+  },
+  {
+   "name": "桃園",
+   "km": 346.7
+  },
+  {
+   "name": "萬華",
+   "km": 373.0
+  },
+  {
+   "name": "臺北",
+   "km": 375.6
+  },
+  {
+   "name": "基隆",
+   "km": 404.2
+  }
+ ],
+ "trains": [
+  {
+   "no": "34",
+   "stops": [
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "5.58",
+     "bold": false,
+     "t": "05:58"
+    },
+    {
+     "st": "大林",
+     "ev": "dep",
+     "printed": "6.31",
+     "bold": false,
+     "t": "06:31"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "6.44",
+     "bold": false,
+     "t": "06:44"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "6.59",
+     "bold": false,
+     "t": "06:59"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "田中",
+     "ev": "dep",
+     "printed": "7.39",
+     "bold": false,
+     "t": "07:39"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "7.57",
+     "bold": false,
+     "t": "07:57"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "8.28",
+     "bold": false,
+     "t": "08:28"
+    },
+    {
+     "st": "臺中",
+     "ev": "arr",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "臺中",
+     "ev": "dep",
+     "printed": "9.05",
+     "bold": false,
+     "t": "09:05"
+    },
+    {
+     "st": "追分",
+     "ev": "pass"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "大甲",
+     "ev": "pass"
+    },
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "11.13",
+     "bold": false,
+     "t": "11:13"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "11.47",
+     "bold": false,
+     "t": "11:47"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "1.10",
+     "bold": true,
+     "t": "13:10"
+    },
+    {
+     "st": "萬華",
+     "ev": "dep",
+     "printed": "1.52",
+     "bold": true,
+     "t": "13:52"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "1.57",
+     "bold": true,
+     "t": "13:57"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "2.05",
+     "bold": true,
+     "t": "14:05"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "2.57",
+     "bold": true,
+     "t": "14:57"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "2.3",
+   "origin": "嘉義",
+   "col": "1"
+  },
+  {
+   "no": "10",
+   "stops": [
+    {
+     "st": "高雄",
+     "ev": "dep",
+     "printed": "5.05",
+     "bold": false,
+     "t": "05:05"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "5.40",
+     "bold": false,
+     "t": "05:40"
+    },
+    {
+     "st": "臺南",
+     "ev": "dep",
+     "printed": "6.20",
+     "bold": false,
+     "t": "06:20"
+    },
+    {
+     "st": "番子田",
+     "ev": "dep",
+     "printed": "7.06",
+     "bold": false,
+     "t": "07:06"
+    },
+    {
+     "st": "新營",
+     "ev": "dep",
+     "printed": "7.27",
+     "bold": false,
+     "t": "07:27"
+    },
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "8.10",
+     "bold": false,
+     "t": "08:10"
+    },
+    {
+     "st": "大林",
+     "ev": "dep",
+     "printed": "8.34",
+     "bold": false,
+     "t": "08:34"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "8.46",
+     "bold": false,
+     "t": "08:46"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "8.58",
+     "bold": false,
+     "t": "08:58"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "田中",
+     "ev": "dep",
+     "printed": "9.38",
+     "bold": false,
+     "t": "09:38"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "9.58",
+     "bold": false,
+     "t": "09:58"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "10.25",
+     "bold": false,
+     "t": "10:25"
+    },
+    {
+     "st": "臺中",
+     "ev": "arr",
+     "printed": "10.57",
+     "bold": false,
+     "t": "10:57"
+    },
+    {
+     "st": "臺中",
+     "ev": "dep",
+     "printed": "11.05",
+     "bold": false,
+     "t": "11:05"
+    },
+    {
+     "st": "追分",
+     "ev": "pass"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "大甲",
+     "ev": "pass"
+    },
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "1.18",
+     "bold": true,
+     "t": "13:18"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "1.52",
+     "bold": true,
+     "t": "13:52"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "3.17",
+     "bold": true,
+     "t": "15:17"
+    },
+    {
+     "st": "萬華",
+     "ev": "dep",
+     "printed": "4.00",
+     "bold": true,
+     "t": "16:00"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "4.05",
+     "bold": true,
+     "t": "16:05"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "4.12",
+     "bold": true,
+     "t": "16:12"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "5.05",
+     "bold": true,
+     "t": "17:05"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "2.3",
+   "col": "2"
+  },
+  {
+   "no": "12",
+   "stops": [
+    {
+     "st": "高雄",
+     "ev": "dep",
+     "printed": "6.50",
+     "bold": false,
+     "t": "06:50"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "7.28",
+     "bold": false,
+     "t": "07:28"
+    },
+    {
+     "st": "臺南",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "番子田",
+     "ev": "dep",
+     "printed": "9.11",
+     "bold": false,
+     "t": "09:11"
+    },
+    {
+     "st": "新營",
+     "ev": "dep",
+     "printed": "9.32",
+     "bold": false,
+     "t": "09:32"
+    },
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": false,
+     "t": "10:17"
+    },
+    {
+     "st": "大林",
+     "ev": "dep",
+     "printed": "10.47",
+     "bold": false,
+     "t": "10:47"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "10.54",
+     "bold": false,
+     "t": "10:54"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "11.06",
+     "bold": false,
+     "t": "11:06"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "11.36",
+     "bold": false,
+     "t": "11:36"
+    },
+    {
+     "st": "田中",
+     "ev": "dep",
+     "printed": "11.44",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の末位が印刷かすれで讀めない",
+     "t": "11:44"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "0.02",
+     "bold": true,
+     "t": "12:02"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "0.28",
+     "bold": true,
+     "t": "12:28"
+    },
+    {
+     "st": "臺中",
+     "ev": "pass"
+    },
+    {
+     "st": "追分",
+     "ev": "dep",
+     "printed": "0.40",
+     "bold": true,
+     "t": "12:40"
+    },
+    {
+     "st": "清水",
+     "ev": "dep",
+     "printed": "1.16",
+     "bold": true,
+     "t": "13:16"
+    },
+    {
+     "st": "大甲",
+     "ev": "dep",
+     "printed": "1.44",
+     "bold": true,
+     "t": "13:44"
+    },
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "3.29",
+     "bold": true,
+     "t": "15:29"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "4.05",
+     "bold": true,
+     "t": "16:05"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "5.28",
+     "bold": true,
+     "t": "17:28"
+    },
+    {
+     "st": "萬華",
+     "ev": "dep",
+     "printed": "6.10",
+     "bold": true,
+     "t": "18:10"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "6.15",
+     "bold": true,
+     "t": "18:15"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "6.27",
+     "bold": true,
+     "t": "18:27"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "7.15",
+     "bold": true,
+     "t": "19:15"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "2",
+   "stops": [
+    {
+     "st": "高雄",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "9.23",
+     "bold": false,
+     "t": "09:23"
+    },
+    {
+     "st": "臺南",
+     "ev": "dep",
+     "printed": "9.53",
+     "bold": false,
+     "t": "09:53"
+    },
+    {
+     "st": "番子田",
+     "ev": "dep",
+     "printed": "10.24",
+     "bold": false,
+     "t": "10:24"
+    },
+    {
+     "st": "新營",
+     "ev": "dep",
+     "printed": "10.41",
+     "bold": false,
+     "t": "10:41"
+    },
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "11.15",
+     "bold": false,
+     "t": "11:15"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "11.44",
+     "bold": false,
+     "t": "11:44"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "11.56",
+     "bold": false,
+     "t": "11:56"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "0.21",
+     "bold": true,
+     "t": "12:21"
+    },
+    {
+     "st": "田中",
+     "ev": "pass"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "0.42",
+     "bold": true,
+     "t": "12:42"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "1.03",
+     "bold": true,
+     "t": "13:03"
+    },
+    {
+     "st": "臺中",
+     "ev": "arr",
+     "printed": "1.35",
+     "bold": true,
+     "t": "13:35"
+    },
+    {
+     "st": "臺中",
+     "ev": "dep",
+     "printed": "1.40",
+     "bold": true,
+     "t": "13:40"
+    },
+    {
+     "st": "追分",
+     "ev": "pass"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "大甲",
+     "ev": "pass"
+    },
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "3.20",
+     "bold": true,
+     "t": "15:20"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "3.42",
+     "bold": true,
+     "t": "15:42"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "4.38",
+     "bold": true,
+     "t": "16:38"
+    },
+    {
+     "st": "萬華",
+     "ev": "pass"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "5.10",
+     "bold": true,
+     "t": "17:10"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "5.19",
+     "bold": true,
+     "t": "17:19"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "5.50",
+     "bold": true,
+     "t": "17:50"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "1.2.3",
+   "marks": "急 食",
+   "col": "4",
+   "note": "番號上に黑地「急行」の札・✕印（食堂車）・黑地「123」。大林の桝には時刻なく黑地「急行」の札を刷る"
+  },
+  {
+   "no": "14",
+   "stops": [
+    {
+     "st": "高雄",
+     "ev": "dep",
+     "printed": "9.15",
+     "bold": false,
+     "t": "09:15"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "9.53",
+     "bold": false,
+     "t": "09:53"
+    },
+    {
+     "st": "臺南",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "番子田",
+     "ev": "dep",
+     "printed": "11.24",
+     "bold": false,
+     "t": "11:24"
+    },
+    {
+     "st": "新營",
+     "ev": "dep",
+     "printed": "11.44",
+     "bold": false,
+     "t": "11:44"
+    },
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "0.25",
+     "bold": true,
+     "t": "12:25"
+    },
+    {
+     "st": "大林",
+     "ev": "dep",
+     "printed": "0.49",
+     "bold": true,
+     "t": "12:49"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "1.01",
+     "bold": true,
+     "t": "13:01"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "1.19",
+     "bold": true,
+     "t": "13:19"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "1.45",
+     "bold": true,
+     "t": "13:45"
+    },
+    {
+     "st": "田中",
+     "ev": "dep",
+     "printed": "1.54",
+     "bold": true,
+     "t": "13:54"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "2.19",
+     "bold": true,
+     "t": "14:19"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "2.48",
+     "bold": true,
+     "t": "14:48"
+    },
+    {
+     "st": "臺中",
+     "ev": "arr",
+     "printed": "3.20",
+     "bold": true,
+     "t": "15:20"
+    },
+    {
+     "st": "臺中",
+     "ev": "dep",
+     "printed": "3.27",
+     "bold": true,
+     "t": "15:27"
+    },
+    {
+     "st": "追分",
+     "ev": "pass"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "大甲",
+     "ev": "pass"
+    },
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "5.36",
+     "bold": true,
+     "t": "17:36"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "6.10",
+     "bold": true,
+     "t": "18:10"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": true,
+     "t": "19:33"
+    },
+    {
+     "st": "萬華",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": true,
+     "t": "20:15"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "8.20",
+     "bold": true,
+     "t": "20:20"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "8.28",
+     "bold": true,
+     "t": "20:28"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": true,
+     "t": "21:20"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "1.2.3",
+   "marks": "食",
+   "col": "5",
+   "note": "番號上に✕印（食堂車）と黑地「123」"
+  },
+  {
+   "no": "16",
+   "stops": [
+    {
+     "st": "高雄",
+     "ev": "dep",
+     "printed": "11.45",
+     "bold": false,
+     "t": "11:45"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "0.25",
+     "bold": true,
+     "t": "12:25"
+    },
+    {
+     "st": "臺南",
+     "ev": "dep",
+     "printed": "1.13",
+     "bold": true,
+     "t": "13:13"
+    },
+    {
+     "st": "番子田",
+     "ev": "dep",
+     "printed": "1.54",
+     "bold": true,
+     "t": "13:54"
+    },
+    {
+     "st": "新營",
+     "ev": "dep",
+     "printed": "2.14",
+     "bold": true,
+     "t": "14:14"
+    },
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "2.55",
+     "bold": true,
+     "t": "14:55"
+    },
+    {
+     "st": "大林",
+     "ev": "dep",
+     "printed": "3.23",
+     "bold": true,
+     "t": "15:23"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "3.39",
+     "bold": true,
+     "t": "15:39"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "3.48",
+     "bold": true,
+     "t": "15:48"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "4.17",
+     "bold": true,
+     "t": "16:17"
+    },
+    {
+     "st": "田中",
+     "ev": "dep",
+     "printed": "4.25",
+     "bold": true,
+     "t": "16:25"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "4.43",
+     "bold": true,
+     "t": "16:43"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "5.10",
+     "bold": true,
+     "t": "17:10"
+    },
+    {
+     "st": "臺中",
+     "ev": "arr",
+     "printed": "5.42",
+     "bold": true,
+     "t": "17:42"
+    },
+    {
+     "st": "臺中",
+     "ev": "dep",
+     "printed": "5.50",
+     "bold": true,
+     "t": "17:50"
+    },
+    {
+     "st": "追分",
+     "ev": "pass"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "大甲",
+     "ev": "pass"
+    },
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "8.04",
+     "bold": true,
+     "t": "20:04"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": true,
+     "t": "20:35"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "9.56",
+     "bold": true,
+     "t": "21:56"
+    },
+    {
+     "st": "萬華",
+     "ev": "dep",
+     "printed": "10.35",
+     "bold": true,
+     "t": "22:35"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "10.40",
+     "bold": true,
+     "t": "22:40"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "10.48",
+     "bold": true,
+     "t": "22:48"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": true,
+     "t": "23:40"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "2.3",
+   "col": "6"
+  },
+  {
+   "no": "46",
+   "stops": [
+    {
+     "st": "高雄",
+     "ev": "dep",
+     "printed": "1.55",
+     "bold": true,
+     "t": "13:55"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "2.35",
+     "bold": true,
+     "t": "14:35"
+    },
+    {
+     "st": "臺南",
+     "ev": "dep",
+     "printed": "3.23",
+     "bold": true,
+     "t": "15:23"
+    },
+    {
+     "st": "番子田",
+     "ev": "dep",
+     "printed": "4.14",
+     "bold": true,
+     "t": "16:14"
+    },
+    {
+     "st": "新營",
+     "ev": "dep",
+     "printed": "4.34",
+     "bold": true,
+     "t": "16:34"
+    },
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "5.18",
+     "bold": true,
+     "t": "17:18"
+    },
+    {
+     "st": "大林",
+     "ev": "dep",
+     "printed": "5.45",
+     "bold": true,
+     "t": "17:45"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "5.59",
+     "bold": true,
+     "t": "17:59"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "6.13",
+     "bold": true,
+     "t": "18:13"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "6.45",
+     "bold": true,
+     "t": "18:45"
+    },
+    {
+     "st": "田中",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": true,
+     "t": "18:54"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "7.19",
+     "bold": true,
+     "t": "19:19"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "7.42",
+     "bold": true,
+     "t": "19:42"
+    },
+    {
+     "st": "臺中",
+     "ev": "arr",
+     "printed": "8.14",
+     "bold": true,
+     "t": "20:14"
+    },
+    {
+     "st": "臺中",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": true,
+     "t": "20:20"
+    },
+    {
+     "st": "追分",
+     "ev": "pass"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "大甲",
+     "ev": "pass"
+    },
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "10.38",
+     "bold": true,
+     "t": "22:38"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "11.07",
+     "bold": true,
+     "note": "太罫で終着を示す",
+     "t": "23:07"
+    }
+   ],
+   "dest": "新竹",
+   "cls": "2.3",
+   "col": "7"
+  },
+  {
+   "no": "48",
+   "stops": [
+    {
+     "st": "高雄",
+     "ev": "dep",
+     "printed": "4.15",
+     "bold": true,
+     "t": "16:15"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "4.53",
+     "bold": true,
+     "t": "16:53"
+    },
+    {
+     "st": "臺南",
+     "ev": "dep",
+     "printed": "5.40",
+     "bold": true,
+     "t": "17:40"
+    },
+    {
+     "st": "番子田",
+     "ev": "dep",
+     "printed": "6.25",
+     "bold": true,
+     "t": "18:25"
+    },
+    {
+     "st": "新營",
+     "ev": "dep",
+     "printed": "6.49",
+     "bold": true,
+     "t": "18:49"
+    },
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "7.32",
+     "bold": true,
+     "t": "19:32"
+    },
+    {
+     "st": "大林",
+     "ev": "dep",
+     "printed": "7.56",
+     "bold": true,
+     "t": "19:56"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "8.08",
+     "bold": true,
+     "t": "20:08"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "8.21",
+     "bold": true,
+     "t": "20:21"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": true,
+     "t": "20:50"
+    },
+    {
+     "st": "田中",
+     "ev": "dep",
+     "printed": "8.58",
+     "bold": true,
+     "t": "20:58"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "9.16",
+     "bold": true,
+     "t": "21:16"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "9.43",
+     "bold": true,
+     "t": "21:43"
+    },
+    {
+     "st": "臺中",
+     "ev": "arr",
+     "printed": "10.15",
+     "bold": true,
+     "t": "22:15"
+    },
+    {
+     "st": "臺中",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": true,
+     "t": "22:20"
+    }
+   ],
+   "dest": "后里",
+   "cls": "2.3",
+   "col": "8",
+   "note": "追分・清水・大甲の3行に跨る空欄に縦書きで「后里著 11.12」と刷る（山線后里止り）"
+  },
+  {
+   "no": "50",
+   "stops": [
+    {
+     "st": "高雄",
+     "ev": "dep",
+     "printed": "6.03",
+     "bold": true,
+     "t": "18:03"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "6.45",
+     "bold": true,
+     "t": "18:45"
+    },
+    {
+     "st": "臺南",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": true,
+     "t": "19:33"
+    },
+    {
+     "st": "番子田",
+     "ev": "dep",
+     "printed": "8.16",
+     "bold": true,
+     "t": "20:16"
+    },
+    {
+     "st": "新營",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": true,
+     "t": "20:38"
+    },
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "9.25",
+     "bold": true,
+     "t": "21:25"
+    },
+    {
+     "st": "大林",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": true,
+     "t": "21:50"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "10.04",
+     "bold": true,
+     "t": "22:04"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "10.16",
+     "bold": true,
+     "t": "22:16"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "10.44",
+     "bold": true,
+     "t": "22:44"
+    },
+    {
+     "st": "田中",
+     "ev": "dep",
+     "printed": "10.52",
+     "bold": true,
+     "t": "22:52"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "11.12",
+     "bold": true,
+     "t": "23:12"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "11.32",
+     "bold": true,
+     "note": "太罫で終着を示す",
+     "t": "23:32"
+    }
+   ],
+   "dest": "彰化",
+   "cls": "2.3",
+   "col": "9"
+  },
+  {
+   "no": "18",
+   "stops": [
+    {
+     "st": "高雄",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": true,
+     "t": "20:38"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "9.16",
+     "bold": true,
+     "t": "21:16"
+    },
+    {
+     "st": "臺南",
+     "ev": "dep",
+     "printed": "10.03",
+     "bold": true,
+     "t": "22:03"
+    },
+    {
+     "st": "番子田",
+     "ev": "dep",
+     "printed": "10.48",
+     "bold": true,
+     "t": "22:48"
+    },
+    {
+     "st": "新營",
+     "ev": "dep",
+     "printed": "11.09",
+     "bold": true,
+     "t": "23:09"
+    },
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": true,
+     "t": "23:50"
+    },
+    {
+     "st": "大林",
+     "ev": "dep",
+     "printed": "0.15",
+     "bold": false,
+     "t": "24:15"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "0.28",
+     "bold": false,
+     "t": "24:28"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "0.42",
+     "bold": false,
+     "t": "24:42"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "1.13",
+     "bold": false,
+     "t": "25:13"
+    },
+    {
+     "st": "田中",
+     "ev": "dep",
+     "printed": "1.22",
+     "bold": false,
+     "t": "25:22"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "1.41",
+     "bold": false,
+     "t": "25:41"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "2.10",
+     "bold": false,
+     "t": "26:10"
+    },
+    {
+     "st": "臺中",
+     "ev": "pass"
+    },
+    {
+     "st": "追分",
+     "ev": "pass"
+    },
+    {
+     "st": "清水",
+     "ev": "dep",
+     "printed": "2.57",
+     "bold": false,
+     "t": "26:57"
+    },
+    {
+     "st": "大甲",
+     "ev": "dep",
+     "printed": "3.25",
+     "bold": false,
+     "t": "27:25"
+    },
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "4.49",
+     "bold": false,
+     "t": "28:49"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "5.20",
+     "bold": false,
+     "t": "29:20"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "6.40",
+     "bold": false,
+     "t": "30:40"
+    },
+    {
+     "st": "萬華",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "31:25"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "7.30",
+     "bold": false,
+     "t": "31:30"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "7.37",
+     "bold": false,
+     "t": "31:37"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "32:30"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "2.3",
+   "col": "10",
+   "note": "夜行。海線經由、追分はレ（通過）"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "高雄",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": true,
+     "t": "22:10"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": true,
+     "t": "22:40"
+    },
+    {
+     "st": "臺南",
+     "ev": "dep",
+     "printed": "11.13",
+     "bold": true,
+     "t": "23:13"
+    },
+    {
+     "st": "番子田",
+     "ev": "dep",
+     "printed": "11.48",
+     "bold": true,
+     "t": "23:48"
+    },
+    {
+     "st": "新營",
+     "ev": "dep",
+     "printed": "0.06",
+     "bold": false,
+     "t": "24:06"
+    },
+    {
+     "st": "嘉義",
+     "ev": "dep",
+     "printed": "0.42",
+     "bold": false,
+     "t": "24:42"
+    },
+    {
+     "st": "斗南",
+     "ev": "dep",
+     "printed": "1.15",
+     "bold": false,
+     "t": "25:15"
+    },
+    {
+     "st": "斗六",
+     "ev": "dep",
+     "printed": "1.27",
+     "bold": false,
+     "t": "25:27"
+    },
+    {
+     "st": "二水",
+     "ev": "dep",
+     "printed": "1.55",
+     "bold": false,
+     "t": "25:55"
+    },
+    {
+     "st": "田中",
+     "ev": "pass"
+    },
+    {
+     "st": "員林",
+     "ev": "dep",
+     "printed": "2.22",
+     "bold": false,
+     "t": "26:22"
+    },
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "2.45",
+     "bold": false,
+     "t": "26:45"
+    },
+    {
+     "st": "臺中",
+     "ev": "arr",
+     "printed": "3.20",
+     "bold": false,
+     "t": "27:20"
+    },
+    {
+     "st": "臺中",
+     "ev": "dep",
+     "printed": "3.29",
+     "bold": false,
+     "t": "27:29"
+    },
+    {
+     "st": "追分",
+     "ev": "pass"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "大甲",
+     "ev": "pass"
+    },
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "5.44",
+     "bold": false,
+     "t": "29:44"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "6.15",
+     "bold": false,
+     "t": "30:15"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "7.23",
+     "bold": false,
+     "t": "31:23"
+    },
+    {
+     "st": "萬華",
+     "ev": "pass"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "8.00",
+     "bold": false,
+     "t": "32:00"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": false,
+     "t": "32:05"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "8.42",
+     "bold": false,
+     "t": "32:42"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "1.2.3",
+   "marks": "急 寢",
+   "col": "11",
+   "note": "番號上に黑地「急行」の札・黑地「123」・寢臺の繪・その下に黑地「123」。大林の桝には時刻なく黑地「急行」の札を刷る。夜行"
+  },
+  {
+   "no": "24",
+   "stops": [
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "6.35",
+     "bold": false,
+     "t": "06:35"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "7.57",
+     "bold": false,
+     "t": "07:57"
+    },
+    {
+     "st": "萬華",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": false,
+     "t": "08:40"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "8.45",
+     "bold": false,
+     "t": "08:45"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "9.52",
+     "bold": false,
+     "t": "09:52"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "2.3",
+   "origin": "新竹",
+   "col": "12"
+  },
+  {
+   "no": "28",
+   "stops": [
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "7.31",
+     "bold": false,
+     "t": "07:31"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": false,
+     "t": "08:05"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "9.28",
+     "bold": false,
+     "t": "09:28"
+    },
+    {
+     "st": "萬華",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "10.15",
+     "bold": false,
+     "t": "10:15"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "10.23",
+     "bold": false,
+     "t": "10:23"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "11.15",
+     "bold": false,
+     "t": "11:15"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "2.3",
+   "origin": "苗栗",
+   "col": "13",
+   "note": "追分・清水・大甲の3行に跨る空欄に縦書きで「苗栗發 7.05」と刷る（山線苗栗發）"
+  },
+  {
+   "no": "30",
+   "stops": [
+    {
+     "st": "彰化",
+     "ev": "dep",
+     "printed": "5.58",
+     "bold": false,
+     "t": "05:58"
+    },
+    {
+     "st": "臺中",
+     "ev": "arr",
+     "printed": "6.30",
+     "bold": false,
+     "t": "06:30"
+    },
+    {
+     "st": "臺中",
+     "ev": "dep",
+     "printed": "6.35",
+     "bold": false,
+     "t": "06:35"
+    },
+    {
+     "st": "追分",
+     "ev": "pass"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "大甲",
+     "ev": "pass"
+    },
+    {
+     "st": "竹南",
+     "ev": "dep",
+     "printed": "8.46",
+     "bold": false,
+     "t": "08:46"
+    },
+    {
+     "st": "新竹",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "桃園",
+     "ev": "dep",
+     "printed": "10.43",
+     "bold": false,
+     "t": "10:43"
+    },
+    {
+     "st": "萬華",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "臺北",
+     "ev": "arr",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "臺北",
+     "ev": "dep",
+     "printed": "11.38",
+     "bold": false,
+     "t": "11:38"
+    },
+    {
+     "st": "基隆",
+     "ev": "dep",
+     "printed": "0.30",
+     "bold": true,
+     "t": "12:30"
+    }
+   ],
+   "dest": "基隆",
+   "cls": "2.3",
+   "origin": "彰化",
+   "col": "14"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改訂。頁102の下段の表。反對方向（高雄行）は同頁上段（p102a）。標題・凡例は上段と共通（「（臺鐵・縱貫線）特に示したるものの他は2.3等車」）。",
+  "列車24・28・30は高雄・彰化間に時刻がなく午前午後が印刷の太細でしか決まらないが、最終欄（列車4）が新竹6.15に着く後を承ける順に並んでゐること、及び列車30の基隆着0.30が臺北發11.38の52分後（他列車の臺北・基隆間と同じ）であることから、いづれも午前の列車と判定した（列車30の基隆着0.30のみ正午過ぎでB）。",
+  "左端に「自高雄 粁程／運賃 1等 2等 3等」欄があるが運賃は轉記せず。",
+  "頁下部に「細字は午前、太字は午後を示す」。寫眞では太細を判別できないので、各欄の時刻の前後關係から午後と判定したものに B を附けた。",
+  "彰化・竹南間は山線（臺中）經由と海線（追分・清水・大甲）經由の2經路があり、通らない方の行に縦の↓印（本文では v）が入る。レ（通過）も v とした。",
+  "粁程は自高雄で、上段（自基隆）と合計が0.2粁食ひ違ふ（基隆 404.2 対 高雄 404.0）。印刷のまま轉記した。"
+ ],
+ "source": "IMG_1880",
+ "page": "102",
+ "title": "高雄・基隆間",
+ "line": "臺灣總督府鐵道 縱貫線",
+ "dir": "基隆行（上り）",
+ "clock": "12"
+}

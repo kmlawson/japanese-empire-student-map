@@ -1,0 +1,2309 @@
+{
+ "stations": [
+  {
+   "name": "北京",
+   "km": 0.0
+  },
+  {
+   "name": "東便門",
+   "km": 2.8
+  },
+  {
+   "name": "永定門",
+   "km": 9.3
+  },
+  {
+   "name": "豐台",
+   "km": 19.1
+  },
+  {
+   "name": "長辛店",
+   "km": 28.7
+  },
+  {
+   "name": "南崗窪",
+   "km": 34.8
+  },
+  {
+   "name": "良鄉",
+   "km": 39.5
+  },
+  {
+   "name": "竇店",
+   "km": 48.6
+  },
+  {
+   "name": "琉璃河",
+   "km": 58.3
+  },
+  {
+   "name": "永樂",
+   "km": 66.8
+  },
+  {
+   "name": "涿縣",
+   "km": 72.3
+  },
+  {
+   "name": "松林店",
+   "km": 81.7
+  },
+  {
+   "name": "高碑店",
+   "km": 92.5
+  },
+  {
+   "name": "定興",
+   "km": 100.4
+  },
+  {
+   "name": "北河店",
+   "km": 107.7
+  },
+  {
+   "name": "固城鎮",
+   "km": 117.0
+  },
+  {
+   "name": "徐水",
+   "km": 130.4
+  },
+  {
+   "name": "漕河",
+   "km": 143.3
+  },
+  {
+   "name": "保定",
+   "km": 154.0
+  },
+  {
+   "name": "于家莊",
+   "km": 166.3
+  },
+  {
+   "name": "方順橋",
+   "km": 176.3
+  },
+  {
+   "name": "望都",
+   "km": 186.9
+  },
+  {
+   "name": "淸風店",
+   "km": 201.1
+  },
+  {
+   "name": "定縣",
+   "km": 213.9
+  },
+  {
+   "name": "栗西店",
+   "km": 225.2
+  },
+  {
+   "name": "新樂",
+   "km": 235.2
+  },
+  {
+   "name": "東長壽",
+   "km": 246.9
+  },
+  {
+   "name": "新安",
+   "km": 261.6
+  },
+  {
+   "name": "正定",
+   "km": 270.6
+  },
+  {
+   "name": "柳辛莊",
+   "km": 278.8
+  },
+  {
+   "name": "石門",
+   "km": 285.3
+  },
+  {
+   "name": "高遷",
+   "km": 295.0
+  },
+  {
+   "name": "賈莊",
+   "km": 303.0
+  },
+  {
+   "name": "元氏",
+   "km": 317.2
+  },
+  {
+   "name": "大陳莊",
+   "km": 325.1
+  },
+  {
+   "name": "高邑",
+   "km": 335.6
+  },
+  {
+   "name": "臨?容",
+   "km": 342.6
+  },
+  {
+   "name": "鎮內",
+   "km": 351.5
+  },
+  {
+   "name": "馮村",
+   "km": 361.1
+  },
+  {
+   "name": "內邱",
+   "km": 372.4
+  },
+  {
+   "name": "官莊",
+   "km": 383.2
+  },
+  {
+   "name": "順德",
+   "km": 397.9
+  },
+  {
+   "name": "沙河縣",
+   "km": 411.0
+  },
+  {
+   "name": "褡褳",
+   "km": 421.8
+  },
+  {
+   "name": "臨洺關",
+   "km": 431.1
+  },
+  {
+   "name": "王化堡",
+   "km": 441.6
+  },
+  {
+   "name": "邯鄲",
+   "km": 450.4
+  },
+  {
+   "name": "馬頭",
+   "km": 465.7
+  },
+  {
+   "name": "光莊",
+   "km": 474.0
+  },
+  {
+   "name": "磁縣",
+   "km": 481.8
+  },
+  {
+   "name": "講廟",
+   "km": 490.2
+  },
+  {
+   "name": "豐樂",
+   "km": 500.6
+  },
+  {
+   "name": "彰德",
+   "km": 515.7
+  },
+  {
+   "name": "寶蓮寺",
+   "km": 526.6
+  },
+  {
+   "name": "湯陰",
+   "km": 537.1
+  },
+  {
+   "name": "宜溝",
+   "km": 549.8
+  },
+  {
+   "name": "鶴壁",
+   "km": 555.9
+  },
+  {
+   "name": "高村橋",
+   "km": 564.3
+  },
+  {
+   "name": "淇縣",
+   "km": 573.8
+  },
+  {
+   "name": "落固",
+   "km": 586.6
+  },
+  {
+   "name": "衞輝",
+   "km": 597.6
+  },
+  {
+   "name": "潞王墳",
+   "km": 611.9
+  },
+  {
+   "name": "新鄉",
+   "km": 622.4
+  },
+  {
+   "name": "開封",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "203",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "7.20",
+     "bold": false,
+     "t": "07:20"
+    },
+    {
+     "st": "東便門",
+     "ev": "dep",
+     "printed": "7.32",
+     "bold": false,
+     "t": "07:32"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "7.41",
+     "bold": false,
+     "t": "07:41"
+    },
+    {
+     "st": "豐台",
+     "ev": "dep",
+     "printed": "7.54",
+     "bold": false,
+     "t": "07:54"
+    },
+    {
+     "st": "長辛店",
+     "ev": "dep",
+     "printed": "8.13",
+     "bold": false,
+     "note": "著の桝に大きな✕印（著時刻の印刷なし）",
+     "t": "08:13"
+    },
+    {
+     "st": "南崗窪",
+     "ev": "dep",
+     "printed": "8.23",
+     "bold": false,
+     "t": "08:23"
+    },
+    {
+     "st": "良鄉",
+     "ev": "dep",
+     "printed": "8.32",
+     "bold": false,
+     "t": "08:32"
+    },
+    {
+     "st": "竇店",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "t": "08:45"
+    },
+    {
+     "st": "琉璃河",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "永樂",
+     "ev": "dep",
+     "printed": "9.14",
+     "bold": false,
+     "t": "09:14"
+    },
+    {
+     "st": "涿縣",
+     "ev": "dep",
+     "printed": "9.24",
+     "bold": false,
+     "t": "09:24"
+    },
+    {
+     "st": "松林店",
+     "ev": "dep",
+     "printed": "9.39",
+     "bold": false,
+     "t": "09:39"
+    },
+    {
+     "st": "高碑店",
+     "ev": "arr",
+     "printed": "9.54",
+     "bold": false,
+     "t": "09:54"
+    },
+    {
+     "st": "高碑店",
+     "ev": "dep",
+     "printed": "10.04",
+     "bold": false,
+     "t": "10:04"
+    },
+    {
+     "st": "定興",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": false,
+     "t": "10:17"
+    },
+    {
+     "st": "北河店",
+     "ev": "dep",
+     "printed": "10.29",
+     "bold": false,
+     "t": "10:29"
+    },
+    {
+     "st": "固城鎮",
+     "ev": "dep",
+     "printed": "10.43",
+     "bold": false,
+     "t": "10:43"
+    },
+    {
+     "st": "徐水",
+     "ev": "dep",
+     "printed": "11.02",
+     "bold": false,
+     "t": "11:02"
+    },
+    {
+     "st": "漕河",
+     "ev": "dep",
+     "printed": "11.22",
+     "bold": false,
+     "t": "11:22"
+    },
+    {
+     "st": "保定",
+     "ev": "arr",
+     "printed": "11.37",
+     "bold": false,
+     "t": "11:37"
+    },
+    {
+     "st": "保定",
+     "ev": "dep",
+     "printed": "11.49",
+     "bold": false,
+     "t": "11:49"
+    },
+    {
+     "st": "于家莊",
+     "ev": "dep",
+     "printed": "12.07",
+     "bold": false,
+     "t": "12:07"
+    },
+    {
+     "st": "方順橋",
+     "ev": "dep",
+     "printed": "12.23",
+     "bold": false,
+     "t": "12:23"
+    },
+    {
+     "st": "望都",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    },
+    {
+     "st": "淸風店",
+     "ev": "dep",
+     "printed": "13.01",
+     "bold": false,
+     "t": "13:01"
+    },
+    {
+     "st": "定縣",
+     "ev": "dep",
+     "printed": "13.28",
+     "bold": false,
+     "t": "13:28"
+    },
+    {
+     "st": "栗西店",
+     "ev": "dep",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    },
+    {
+     "st": "新樂",
+     "ev": "dep",
+     "printed": "14.01",
+     "bold": false,
+     "t": "14:01"
+    },
+    {
+     "st": "東長壽",
+     "ev": "dep",
+     "printed": "14.18",
+     "bold": false,
+     "t": "14:18"
+    },
+    {
+     "st": "新安",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "正定",
+     "ev": "dep",
+     "printed": "14.54",
+     "bold": false,
+     "t": "14:54"
+    },
+    {
+     "st": "柳辛莊",
+     "ev": "dep",
+     "printed": "15.08",
+     "bold": false,
+     "t": "15:08"
+    },
+    {
+     "st": "石門",
+     "ev": "arr",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "石門",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "高遷",
+     "ev": "dep",
+     "printed": "15.55",
+     "bold": false,
+     "t": "15:55"
+    },
+    {
+     "st": "賈莊",
+     "ev": "dep",
+     "printed": "16.08",
+     "bold": false,
+     "t": "16:08"
+    },
+    {
+     "st": "元氏",
+     "ev": "dep",
+     "printed": "16.31",
+     "bold": false,
+     "t": "16:31"
+    },
+    {
+     "st": "大陳莊",
+     "ev": "dep",
+     "printed": "16.44",
+     "bold": false,
+     "t": "16:44"
+    },
+    {
+     "st": "高邑",
+     "ev": "dep",
+     "printed": "17.12",
+     "bold": false,
+     "t": "17:12"
+    },
+    {
+     "st": "臨?容",
+     "ev": "dep",
+     "printed": "17.24",
+     "bold": false,
+     "t": "17:24"
+    },
+    {
+     "st": "鎮內",
+     "ev": "dep",
+     "printed": "17.38",
+     "bold": false,
+     "t": "17:38"
+    },
+    {
+     "st": "馮村",
+     "ev": "dep",
+     "printed": "17.59",
+     "bold": false,
+     "t": "17:59"
+    },
+    {
+     "st": "內邱",
+     "ev": "dep",
+     "printed": "18.17",
+     "bold": false,
+     "t": "18:17"
+    },
+    {
+     "st": "官莊",
+     "ev": "dep",
+     "printed": "18.39",
+     "bold": false,
+     "t": "18:39"
+    },
+    {
+     "st": "順德",
+     "ev": "arr",
+     "printed": "19.04",
+     "bold": false,
+     "t": "19:04"
+    },
+    {
+     "st": "順德",
+     "ev": "dep",
+     "printed": "19.20",
+     "bold": false,
+     "t": "19:20"
+    },
+    {
+     "st": "沙河縣",
+     "ev": "dep",
+     "printed": "19.42",
+     "bold": false,
+     "t": "19:42"
+    },
+    {
+     "st": "褡褳",
+     "ev": "dep",
+     "printed": "20.03",
+     "bold": false,
+     "t": "20:03"
+    },
+    {
+     "st": "臨洺關",
+     "ev": "dep",
+     "printed": "20.22",
+     "bold": false,
+     "t": "20:22"
+    },
+    {
+     "st": "王化堡",
+     "ev": "dep",
+     "printed": "20.38",
+     "bold": false,
+     "t": "20:38"
+    },
+    {
+     "st": "邯鄲",
+     "ev": "dep",
+     "printed": "20.53",
+     "bold": false,
+     "t": "20:53"
+    },
+    {
+     "st": "馬頭",
+     "ev": "dep",
+     "printed": "21.16",
+     "bold": false,
+     "t": "21:16"
+    },
+    {
+     "st": "光莊",
+     "ev": "dep",
+     "printed": "21.31",
+     "bold": false,
+     "t": "21:31"
+    },
+    {
+     "st": "磁縣",
+     "ev": "dep",
+     "printed": "21.44",
+     "bold": false,
+     "t": "21:44"
+    },
+    {
+     "st": "講廟",
+     "ev": "dep",
+     "printed": "22.01",
+     "bold": false,
+     "t": "22:01"
+    },
+    {
+     "st": "豐樂",
+     "ev": "dep",
+     "printed": "22.19",
+     "bold": false,
+     "t": "22:19"
+    },
+    {
+     "st": "彰德",
+     "ev": "dep",
+     "printed": "22.40",
+     "bold": false,
+     "t": "22:40"
+    }
+   ],
+   "dest": "彰德",
+   "cls": "2.3",
+   "col": "1"
+  },
+  {
+   "no": "235",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "9.15",
+     "bold": false,
+     "t": "09:15"
+    },
+    {
+     "st": "東便門",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": false,
+     "t": "09:31"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "9.41",
+     "bold": false,
+     "t": "09:41"
+    },
+    {
+     "st": "豐台",
+     "ev": "dep",
+     "printed": "9.56",
+     "bold": false,
+     "t": "09:56"
+    },
+    {
+     "st": "長辛店",
+     "ev": "arr",
+     "printed": "10.14",
+     "bold": false,
+     "t": "10:14"
+    },
+    {
+     "st": "長辛店",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "南崗窪",
+     "ev": "dep",
+     "printed": "10.41",
+     "bold": false,
+     "t": "10:41"
+    },
+    {
+     "st": "良鄉",
+     "ev": "dep",
+     "printed": "10.52",
+     "bold": false,
+     "t": "10:52"
+    },
+    {
+     "st": "竇店",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "琉璃河",
+     "ev": "dep",
+     "printed": "11.26",
+     "bold": false,
+     "t": "11:26"
+    },
+    {
+     "st": "永樂",
+     "ev": "dep",
+     "printed": "11.41",
+     "bold": false,
+     "t": "11:41"
+    },
+    {
+     "st": "涿縣",
+     "ev": "dep",
+     "printed": "11.52",
+     "bold": false,
+     "t": "11:52"
+    },
+    {
+     "st": "松林店",
+     "ev": "dep",
+     "printed": "12.08",
+     "bold": false,
+     "t": "12:08"
+    },
+    {
+     "st": "高碑店",
+     "ev": "arr",
+     "printed": "12.24",
+     "bold": false,
+     "t": "12:24"
+    },
+    {
+     "st": "高碑店",
+     "ev": "dep",
+     "printed": "12.47",
+     "bold": false,
+     "t": "12:47"
+    }
+   ],
+   "dest": "易縣",
+   "cls": "3",
+   "marks": "混",
+   "col": "2",
+   "note": "高碑店から西陵線に入る（頁63・西陵線表の235に續く）"
+  },
+  {
+   "no": "263",
+   "stops": [
+    {
+     "st": "保定",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "于家莊",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": false,
+     "t": "07:50"
+    },
+    {
+     "st": "方順橋",
+     "ev": "dep",
+     "printed": "8.07",
+     "bold": false,
+     "t": "08:07"
+    },
+    {
+     "st": "望都",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "淸風店",
+     "ev": "dep",
+     "printed": "8.48",
+     "bold": false,
+     "t": "08:48"
+    },
+    {
+     "st": "定縣",
+     "ev": "dep",
+     "printed": "9.21",
+     "bold": false,
+     "t": "09:21"
+    },
+    {
+     "st": "栗西店",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "新樂",
+     "ev": "dep",
+     "printed": "9.59",
+     "bold": false,
+     "t": "09:59"
+    },
+    {
+     "st": "東長壽",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": false,
+     "t": "10:17"
+    },
+    {
+     "st": "新安",
+     "ev": "dep",
+     "printed": "10.41",
+     "bold": false,
+     "t": "10:41"
+    },
+    {
+     "st": "正定",
+     "ev": "dep",
+     "printed": "11.07",
+     "bold": false,
+     "t": "11:07"
+    },
+    {
+     "st": "柳辛莊",
+     "ev": "dep",
+     "printed": "11.29",
+     "bold": false,
+     "t": "11:29"
+    },
+    {
+     "st": "石門",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    }
+   ],
+   "dest": "石門",
+   "cls": "3",
+   "marks": "混",
+   "origin": "保定",
+   "col": "2",
+   "note": "保定以南で同じ欄を使ふ第2列車。欄の空桝に「石門行 混3 263」と縦書き"
+  },
+  {
+   "no": "205",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "東便門",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": false,
+     "t": "11:03"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "豐台",
+     "ev": "dep",
+     "printed": "11.34",
+     "bold": false,
+     "t": "11:34"
+    },
+    {
+     "st": "長辛店",
+     "ev": "arr",
+     "printed": "11.52",
+     "bold": false,
+     "t": "11:52"
+    },
+    {
+     "st": "長辛店",
+     "ev": "dep",
+     "printed": "11.53",
+     "bold": false,
+     "t": "11:53"
+    },
+    {
+     "st": "南崗窪",
+     "ev": "dep",
+     "printed": "12.03",
+     "bold": false,
+     "t": "12:03"
+    },
+    {
+     "st": "良鄉",
+     "ev": "dep",
+     "printed": "12.12",
+     "bold": false,
+     "t": "12:12"
+    },
+    {
+     "st": "竇店",
+     "ev": "dep",
+     "printed": "12.25",
+     "bold": false,
+     "t": "12:25"
+    },
+    {
+     "st": "琉璃河",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    },
+    {
+     "st": "永樂",
+     "ev": "dep",
+     "printed": "12.53",
+     "bold": false,
+     "t": "12:53"
+    },
+    {
+     "st": "涿縣",
+     "ev": "dep",
+     "printed": "13.03",
+     "bold": false,
+     "t": "13:03"
+    },
+    {
+     "st": "松林店",
+     "ev": "dep",
+     "printed": "13.17",
+     "bold": false,
+     "t": "13:17"
+    },
+    {
+     "st": "高碑店",
+     "ev": "arr",
+     "printed": "13.32",
+     "bold": false,
+     "t": "13:32"
+    },
+    {
+     "st": "高碑店",
+     "ev": "dep",
+     "printed": "13.44",
+     "bold": false,
+     "t": "13:44"
+    },
+    {
+     "st": "定興",
+     "ev": "dep",
+     "printed": "13.59",
+     "bold": false,
+     "t": "13:59"
+    },
+    {
+     "st": "北河店",
+     "ev": "dep",
+     "printed": "14.13",
+     "bold": false,
+     "t": "14:13"
+    },
+    {
+     "st": "固城鎮",
+     "ev": "dep",
+     "printed": "14.29",
+     "bold": false,
+     "t": "14:29"
+    },
+    {
+     "st": "徐水",
+     "ev": "dep",
+     "printed": "14.56",
+     "bold": false,
+     "t": "14:56"
+    },
+    {
+     "st": "漕河",
+     "ev": "dep",
+     "printed": "15.18",
+     "bold": false,
+     "t": "15:18"
+    },
+    {
+     "st": "保定",
+     "ev": "arr",
+     "printed": "15.33",
+     "bold": false,
+     "t": "15:33"
+    },
+    {
+     "st": "保定",
+     "ev": "dep",
+     "printed": "15.45",
+     "bold": false,
+     "t": "15:45"
+    },
+    {
+     "st": "于家莊",
+     "ev": "dep",
+     "printed": "16.03",
+     "bold": false,
+     "t": "16:03"
+    },
+    {
+     "st": "方順橋",
+     "ev": "dep",
+     "printed": "16.19",
+     "bold": false,
+     "t": "16:19"
+    },
+    {
+     "st": "望都",
+     "ev": "dep",
+     "printed": "16.36",
+     "bold": false,
+     "t": "16:36"
+    },
+    {
+     "st": "淸風店",
+     "ev": "dep",
+     "printed": "16.57",
+     "bold": false,
+     "t": "16:57"
+    },
+    {
+     "st": "定縣",
+     "ev": "dep",
+     "printed": "17.26",
+     "bold": false,
+     "t": "17:26"
+    },
+    {
+     "st": "栗西店",
+     "ev": "dep",
+     "printed": "17.43",
+     "bold": false,
+     "t": "17:43"
+    },
+    {
+     "st": "新樂",
+     "ev": "dep",
+     "printed": "17.59",
+     "bold": false,
+     "t": "17:59"
+    },
+    {
+     "st": "東長壽",
+     "ev": "dep",
+     "printed": "18.16",
+     "bold": false,
+     "t": "18:16"
+    },
+    {
+     "st": "新安",
+     "ev": "dep",
+     "printed": "18.38",
+     "bold": false,
+     "t": "18:38"
+    },
+    {
+     "st": "正定",
+     "ev": "dep",
+     "printed": "18.52",
+     "bold": false,
+     "t": "18:52"
+    },
+    {
+     "st": "柳辛莊",
+     "ev": "dep",
+     "printed": "19.05",
+     "bold": false,
+     "t": "19:05"
+    },
+    {
+     "st": "石門",
+     "ev": "dep",
+     "printed": "19.15",
+     "bold": false,
+     "t": "19:15"
+    }
+   ],
+   "dest": "石門",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "201",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "東便門",
+     "ev": "dep",
+     "printed": "14.08",
+     "bold": false,
+     "t": "14:08"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "14.18",
+     "bold": false,
+     "t": "14:18"
+    },
+    {
+     "st": "豐台",
+     "ev": "dep",
+     "printed": "14.32",
+     "bold": false,
+     "t": "14:32"
+    },
+    {
+     "st": "長辛店",
+     "ev": "dep",
+     "printed": "14.51",
+     "bold": false,
+     "t": "14:51"
+    },
+    {
+     "st": "南崗窪",
+     "ev": "dep",
+     "printed": "15.01",
+     "bold": false,
+     "t": "15:01"
+    },
+    {
+     "st": "良鄉",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    },
+    {
+     "st": "竇店",
+     "ev": "dep",
+     "printed": "15.23",
+     "bold": false,
+     "t": "15:23"
+    },
+    {
+     "st": "琉璃河",
+     "ev": "dep",
+     "printed": "15.38",
+     "bold": false,
+     "t": "15:38"
+    },
+    {
+     "st": "永樂",
+     "ev": "dep",
+     "printed": "15.52",
+     "bold": false,
+     "t": "15:52"
+    },
+    {
+     "st": "涿縣",
+     "ev": "dep",
+     "printed": "16.02",
+     "bold": false,
+     "t": "16:02"
+    },
+    {
+     "st": "松林店",
+     "ev": "dep",
+     "printed": "16.24",
+     "bold": false,
+     "t": "16:24"
+    },
+    {
+     "st": "高碑店",
+     "ev": "arr",
+     "printed": "16.39",
+     "bold": false,
+     "t": "16:39"
+    },
+    {
+     "st": "高碑店",
+     "ev": "dep",
+     "printed": "16.49",
+     "bold": false,
+     "t": "16:49"
+    },
+    {
+     "st": "定興",
+     "ev": "dep",
+     "printed": "17.02",
+     "bold": false,
+     "t": "17:02"
+    },
+    {
+     "st": "北河店",
+     "ev": "dep",
+     "printed": "17.14",
+     "bold": false,
+     "t": "17:14"
+    },
+    {
+     "st": "固城鎮",
+     "ev": "dep",
+     "printed": "17.28",
+     "bold": false,
+     "t": "17:28"
+    },
+    {
+     "st": "徐水",
+     "ev": "dep",
+     "printed": "17.47",
+     "bold": false,
+     "t": "17:47"
+    },
+    {
+     "st": "漕河",
+     "ev": "dep",
+     "printed": "18.07",
+     "bold": false,
+     "t": "18:07"
+    },
+    {
+     "st": "保定",
+     "ev": "arr",
+     "printed": "18.22",
+     "bold": false,
+     "t": "18:22"
+    },
+    {
+     "st": "保定",
+     "ev": "dep",
+     "printed": "18.34",
+     "bold": false,
+     "t": "18:34"
+    },
+    {
+     "st": "于家莊",
+     "ev": "dep",
+     "printed": "18.54",
+     "bold": false,
+     "t": "18:54"
+    },
+    {
+     "st": "方順橋",
+     "ev": "dep",
+     "printed": "19.11",
+     "bold": false,
+     "t": "19:11"
+    },
+    {
+     "st": "望都",
+     "ev": "dep",
+     "printed": "19.29",
+     "bold": false,
+     "t": "19:29"
+    },
+    {
+     "st": "淸風店",
+     "ev": "dep",
+     "printed": "19.52",
+     "bold": false,
+     "t": "19:52"
+    },
+    {
+     "st": "定縣",
+     "ev": "dep",
+     "printed": "20.21",
+     "bold": false,
+     "t": "20:21"
+    },
+    {
+     "st": "栗西店",
+     "ev": "dep",
+     "printed": "20.40",
+     "bold": false,
+     "t": "20:40"
+    },
+    {
+     "st": "新樂",
+     "ev": "dep",
+     "printed": "20.59",
+     "bold": false,
+     "t": "20:59"
+    },
+    {
+     "st": "東長壽",
+     "ev": "dep",
+     "printed": "21.17",
+     "bold": false,
+     "t": "21:17"
+    },
+    {
+     "st": "新安",
+     "ev": "dep",
+     "printed": "21.41",
+     "bold": false,
+     "t": "21:41"
+    },
+    {
+     "st": "正定",
+     "ev": "dep",
+     "printed": "21.56",
+     "bold": false,
+     "t": "21:56"
+    },
+    {
+     "st": "柳辛莊",
+     "ev": "dep",
+     "printed": "22.10",
+     "bold": false,
+     "t": "22:10"
+    },
+    {
+     "st": "石門",
+     "ev": "arr",
+     "printed": "22.20",
+     "bold": false,
+     "t": "22:20"
+    },
+    {
+     "st": "石門",
+     "ev": "dep",
+     "printed": "22.45",
+     "bold": false,
+     "t": "22:45"
+    },
+    {
+     "st": "高遷",
+     "ev": "dep",
+     "printed": "23.01",
+     "bold": false,
+     "t": "23:01"
+    },
+    {
+     "st": "賈莊",
+     "ev": "dep",
+     "printed": "23.15",
+     "bold": false,
+     "t": "23:15"
+    },
+    {
+     "st": "元氏",
+     "ev": "dep",
+     "printed": "23.40",
+     "bold": false,
+     "t": "23:40"
+    },
+    {
+     "st": "大陳莊",
+     "ev": "dep",
+     "printed": "23.54",
+     "bold": false,
+     "t": "23:54"
+    },
+    {
+     "st": "高邑",
+     "ev": "dep",
+     "printed": "0.23",
+     "bold": false,
+     "t": "24:23"
+    },
+    {
+     "st": "臨?容",
+     "ev": "dep",
+     "printed": "0.37",
+     "bold": false,
+     "t": "24:37"
+    },
+    {
+     "st": "鎮內",
+     "ev": "dep",
+     "printed": "0.54",
+     "bold": false,
+     "t": "24:54"
+    },
+    {
+     "st": "馮村",
+     "ev": "dep",
+     "printed": "1.21",
+     "bold": false,
+     "t": "25:21"
+    },
+    {
+     "st": "內邱",
+     "ev": "dep",
+     "printed": "1.43",
+     "bold": false,
+     "t": "25:43"
+    },
+    {
+     "st": "官莊",
+     "ev": "dep",
+     "printed": "2.07",
+     "bold": false,
+     "t": "26:07"
+    },
+    {
+     "st": "順德",
+     "ev": "arr",
+     "printed": "2.35",
+     "bold": false,
+     "t": "26:35"
+    },
+    {
+     "st": "順德",
+     "ev": "dep",
+     "printed": "3.00",
+     "bold": false,
+     "t": "27:00"
+    },
+    {
+     "st": "沙河縣",
+     "ev": "dep",
+     "printed": "3.24",
+     "bold": false,
+     "t": "27:24"
+    },
+    {
+     "st": "褡褳",
+     "ev": "dep",
+     "printed": "3.46",
+     "bold": false,
+     "t": "27:46"
+    },
+    {
+     "st": "臨洺關",
+     "ev": "dep",
+     "printed": "4.07",
+     "bold": false,
+     "t": "28:07"
+    },
+    {
+     "st": "王化堡",
+     "ev": "dep",
+     "printed": "4.25",
+     "bold": false,
+     "t": "28:25"
+    },
+    {
+     "st": "邯鄲",
+     "ev": "dep",
+     "printed": "4.47",
+     "bold": false,
+     "t": "28:47"
+    },
+    {
+     "st": "馬頭",
+     "ev": "dep",
+     "printed": "5.14",
+     "bold": false,
+     "t": "29:14"
+    },
+    {
+     "st": "光莊",
+     "ev": "dep",
+     "printed": "5.32",
+     "bold": false,
+     "t": "29:32"
+    },
+    {
+     "st": "磁縣",
+     "ev": "dep",
+     "printed": "5.46",
+     "bold": false,
+     "t": "29:46"
+    },
+    {
+     "st": "講廟",
+     "ev": "dep",
+     "printed": "6.06",
+     "bold": false,
+     "t": "30:06"
+    },
+    {
+     "st": "豐樂",
+     "ev": "dep",
+     "printed": "6.27",
+     "bold": false,
+     "t": "30:27"
+    },
+    {
+     "st": "彰德",
+     "ev": "arr",
+     "printed": "6.50",
+     "bold": false,
+     "t": "30:50"
+    },
+    {
+     "st": "彰德",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "31:00"
+    },
+    {
+     "st": "寶蓮寺",
+     "ev": "dep",
+     "printed": "7.18",
+     "bold": false,
+     "t": "31:18"
+    },
+    {
+     "st": "湯陰",
+     "ev": "dep",
+     "printed": "7.35",
+     "bold": false,
+     "t": "31:35"
+    },
+    {
+     "st": "宜溝",
+     "ev": "dep",
+     "printed": "7.58",
+     "bold": false,
+     "t": "31:58"
+    },
+    {
+     "st": "鶴壁",
+     "ev": "dep",
+     "printed": "8.11",
+     "bold": false,
+     "t": "32:11"
+    },
+    {
+     "st": "高村橋",
+     "ev": "dep",
+     "printed": "8.28",
+     "bold": false,
+     "t": "32:28"
+    },
+    {
+     "st": "淇縣",
+     "ev": "dep",
+     "printed": "8.43",
+     "bold": false,
+     "t": "32:43"
+    },
+    {
+     "st": "落固",
+     "ev": "dep",
+     "printed": "9.06",
+     "bold": false,
+     "t": "33:06"
+    },
+    {
+     "st": "衞輝",
+     "ev": "dep",
+     "printed": "9.25",
+     "bold": false,
+     "t": "33:25"
+    },
+    {
+     "st": "潞王墳",
+     "ev": "dep",
+     "printed": "9.46",
+     "bold": false,
+     "t": "33:46"
+    },
+    {
+     "st": "新鄉",
+     "ev": "arr",
+     "printed": "10.05",
+     "bold": false,
+     "t": "34:05"
+    },
+    {
+     "st": "新鄉",
+     "ev": "dep",
+     "printed": "10.15",
+     "bold": false,
+     "t": "34:15"
+    },
+    {
+     "st": "開封",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "note": "隴海線經由の連絡抄錄（自新鄉102.9粁）",
+     "t": "37:40"
+    }
+   ],
+   "dest": "開封",
+   "cls": "1.2.3",
+   "col": "4"
+  },
+  {
+   "no": "231",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "16.45",
+     "bold": false,
+     "t": "16:45"
+    },
+    {
+     "st": "東便門",
+     "ev": "dep",
+     "printed": "16.55",
+     "bold": false,
+     "t": "16:55"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "17.12",
+     "bold": false,
+     "t": "17:12"
+    },
+    {
+     "st": "豐台",
+     "ev": "dep",
+     "printed": "17.26",
+     "bold": false,
+     "t": "17:26"
+    },
+    {
+     "st": "長辛店",
+     "ev": "arr",
+     "printed": "17.44",
+     "bold": false,
+     "t": "17:44"
+    },
+    {
+     "st": "長辛店",
+     "ev": "dep",
+     "printed": "17.54",
+     "bold": false,
+     "t": "17:54"
+    },
+    {
+     "st": "南崗窪",
+     "ev": "dep",
+     "printed": "18.04",
+     "bold": false,
+     "t": "18:04"
+    },
+    {
+     "st": "良鄉",
+     "ev": "dep",
+     "printed": "18.14",
+     "bold": false,
+     "t": "18:14"
+    },
+    {
+     "st": "竇店",
+     "ev": "dep",
+     "printed": "18.27",
+     "bold": false,
+     "t": "18:27"
+    },
+    {
+     "st": "琉璃河",
+     "ev": "dep",
+     "printed": "18.42",
+     "bold": false,
+     "t": "18:42"
+    },
+    {
+     "st": "永樂",
+     "ev": "dep",
+     "printed": "18.56",
+     "bold": false,
+     "t": "18:56"
+    },
+    {
+     "st": "涿縣",
+     "ev": "dep",
+     "printed": "19.15",
+     "bold": false,
+     "t": "19:15"
+    },
+    {
+     "st": "松林店",
+     "ev": "dep",
+     "printed": "19.32",
+     "bold": false,
+     "t": "19:32"
+    },
+    {
+     "st": "高碑店",
+     "ev": "arr",
+     "printed": "19.47",
+     "bold": false,
+     "t": "19:47"
+    },
+    {
+     "st": "高碑店",
+     "ev": "dep",
+     "printed": "20.00",
+     "bold": false,
+     "t": "20:00"
+    },
+    {
+     "st": "定興",
+     "ev": "dep",
+     "printed": "20.13",
+     "bold": false,
+     "t": "20:13"
+    },
+    {
+     "st": "北河店",
+     "ev": "dep",
+     "printed": "20.25",
+     "bold": false,
+     "t": "20:25"
+    },
+    {
+     "st": "固城鎮",
+     "ev": "dep",
+     "printed": "20.39",
+     "bold": false,
+     "t": "20:39"
+    },
+    {
+     "st": "徐水",
+     "ev": "dep",
+     "printed": "20.58",
+     "bold": false,
+     "t": "20:58"
+    },
+    {
+     "st": "漕河",
+     "ev": "dep",
+     "printed": "21.18",
+     "bold": false,
+     "t": "21:18"
+    },
+    {
+     "st": "保定",
+     "ev": "dep",
+     "printed": "21.35",
+     "bold": false,
+     "t": "21:35"
+    }
+   ],
+   "dest": "保定",
+   "cls": "2.3",
+   "marks": "混",
+   "col": "5"
+  },
+  {
+   "no": "233",
+   "stops": [
+    {
+     "st": "石門",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "高遷",
+     "ev": "dep",
+     "printed": "9.35",
+     "bold": false,
+     "t": "09:35"
+    },
+    {
+     "st": "賈莊",
+     "ev": "dep",
+     "printed": "9.48",
+     "bold": false,
+     "t": "09:48"
+    },
+    {
+     "st": "元氏",
+     "ev": "dep",
+     "printed": "10.11",
+     "bold": false,
+     "t": "10:11"
+    },
+    {
+     "st": "大陳莊",
+     "ev": "dep",
+     "printed": "10.24",
+     "bold": false,
+     "t": "10:24"
+    },
+    {
+     "st": "高邑",
+     "ev": "dep",
+     "printed": "10.52",
+     "bold": false,
+     "t": "10:52"
+    },
+    {
+     "st": "臨?容",
+     "ev": "dep",
+     "printed": "11.04",
+     "bold": false,
+     "t": "11:04"
+    },
+    {
+     "st": "鎮內",
+     "ev": "dep",
+     "printed": "11.18",
+     "bold": false,
+     "t": "11:18"
+    },
+    {
+     "st": "馮村",
+     "ev": "dep",
+     "printed": "11.49",
+     "bold": false,
+     "t": "11:49"
+    },
+    {
+     "st": "內邱",
+     "ev": "dep",
+     "printed": "12.07",
+     "bold": false,
+     "t": "12:07"
+    },
+    {
+     "st": "官莊",
+     "ev": "dep",
+     "printed": "12.29",
+     "bold": false,
+     "t": "12:29"
+    },
+    {
+     "st": "順德",
+     "ev": "arr",
+     "printed": "12.54",
+     "bold": false,
+     "t": "12:54"
+    },
+    {
+     "st": "順德",
+     "ev": "dep",
+     "printed": "13.12",
+     "bold": false,
+     "t": "13:12"
+    },
+    {
+     "st": "沙河縣",
+     "ev": "dep",
+     "printed": "13.34",
+     "bold": false,
+     "t": "13:34"
+    },
+    {
+     "st": "褡褳",
+     "ev": "dep",
+     "printed": "13.55",
+     "bold": false,
+     "t": "13:55"
+    },
+    {
+     "st": "臨洺關",
+     "ev": "dep",
+     "printed": "14.14",
+     "bold": false,
+     "t": "14:14"
+    },
+    {
+     "st": "王化堡",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "邯鄲",
+     "ev": "dep",
+     "printed": "14.45",
+     "bold": false,
+     "t": "14:45"
+    },
+    {
+     "st": "馬頭",
+     "ev": "dep",
+     "printed": "15.08",
+     "bold": false,
+     "t": "15:08"
+    },
+    {
+     "st": "光莊",
+     "ev": "dep",
+     "printed": "15.23",
+     "bold": false,
+     "t": "15:23"
+    },
+    {
+     "st": "磁縣",
+     "ev": "dep",
+     "printed": "15.36",
+     "bold": false,
+     "t": "15:36"
+    },
+    {
+     "st": "講廟",
+     "ev": "dep",
+     "printed": "15.53",
+     "bold": false,
+     "t": "15:53"
+    },
+    {
+     "st": "豐樂",
+     "ev": "dep",
+     "printed": "16.11",
+     "bold": false,
+     "t": "16:11"
+    },
+    {
+     "st": "彰德",
+     "ev": "arr",
+     "printed": "16.31",
+     "bold": false,
+     "t": "16:31"
+    },
+    {
+     "st": "彰德",
+     "ev": "dep",
+     "printed": "16.55",
+     "bold": false,
+     "t": "16:55"
+    },
+    {
+     "st": "寶蓮寺",
+     "ev": "dep",
+     "printed": "17.13",
+     "bold": false,
+     "t": "17:13"
+    },
+    {
+     "st": "湯陰",
+     "ev": "dep",
+     "printed": "17.38",
+     "bold": false,
+     "t": "17:38"
+    },
+    {
+     "st": "宜溝",
+     "ev": "dep",
+     "printed": "18.01",
+     "bold": false,
+     "t": "18:01"
+    },
+    {
+     "st": "鶴壁",
+     "ev": "dep",
+     "printed": "18.14",
+     "bold": false,
+     "t": "18:14"
+    },
+    {
+     "st": "高村橋",
+     "ev": "dep",
+     "printed": "18.31",
+     "bold": false,
+     "t": "18:31"
+    },
+    {
+     "st": "淇縣",
+     "ev": "dep",
+     "printed": "18.48",
+     "bold": false,
+     "t": "18:48"
+    },
+    {
+     "st": "落固",
+     "ev": "dep",
+     "printed": "19.12",
+     "bold": false,
+     "t": "19:12"
+    },
+    {
+     "st": "衞輝",
+     "ev": "dep",
+     "printed": "19.31",
+     "bold": false,
+     "t": "19:31"
+    },
+    {
+     "st": "潞王墳",
+     "ev": "dep",
+     "printed": "19.52",
+     "bold": false,
+     "t": "19:52"
+    },
+    {
+     "st": "新鄉",
+     "ev": "dep",
+     "printed": "20.15",
+     "bold": false,
+     "t": "20:15"
+    }
+   ],
+   "dest": "新鄉",
+   "cls": "2",
+   "marks": "混",
+   "origin": "石門",
+   "col": "5",
+   "note": "石門以南で同じ欄を使ふ第2列車。欄の空桝に「新鄉行 混2 233」と縦書き（その上に反轉枠の1.2.3・✕印・寢臺の繪記號がある）"
+  },
+  {
+   "no": "601",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "22.50",
+     "bold": false,
+     "t": "22:50"
+    },
+    {
+     "st": "東便門",
+     "ev": "dep",
+     "printed": "22.59",
+     "bold": false,
+     "t": "22:59"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "23.09",
+     "bold": false,
+     "t": "23:09"
+    },
+    {
+     "st": "豐台",
+     "ev": "dep",
+     "printed": "23.22",
+     "bold": false,
+     "t": "23:22"
+    },
+    {
+     "st": "長辛店",
+     "ev": "dep",
+     "printed": "23.41",
+     "bold": false,
+     "t": "23:41"
+    },
+    {
+     "st": "南崗窪",
+     "ev": "dep",
+     "printed": "23.51",
+     "bold": false,
+     "t": "23:51"
+    },
+    {
+     "st": "良鄉",
+     "ev": "dep",
+     "printed": "0.01",
+     "bold": false,
+     "t": "24:01"
+    },
+    {
+     "st": "竇店",
+     "ev": "dep",
+     "printed": "0.15",
+     "bold": false,
+     "t": "24:15"
+    },
+    {
+     "st": "琉璃河",
+     "ev": "dep",
+     "printed": "0.31",
+     "bold": false,
+     "t": "24:31"
+    },
+    {
+     "st": "永樂",
+     "ev": "dep",
+     "printed": "0.46",
+     "bold": false,
+     "t": "24:46"
+    },
+    {
+     "st": "涿縣",
+     "ev": "dep",
+     "printed": "0.57",
+     "bold": false,
+     "t": "24:57"
+    },
+    {
+     "st": "松林店",
+     "ev": "dep",
+     "printed": "1.13",
+     "bold": false,
+     "t": "25:13"
+    },
+    {
+     "st": "高碑店",
+     "ev": "arr",
+     "printed": "1.29",
+     "bold": false,
+     "t": "25:29"
+    },
+    {
+     "st": "高碑店",
+     "ev": "dep",
+     "printed": "1.39",
+     "bold": false,
+     "t": "25:39"
+    },
+    {
+     "st": "定興",
+     "ev": "dep",
+     "printed": "1.53",
+     "bold": false,
+     "t": "25:53"
+    },
+    {
+     "st": "北河店",
+     "ev": "dep",
+     "printed": "2.06",
+     "bold": false,
+     "t": "26:06"
+    },
+    {
+     "st": "固城鎮",
+     "ev": "dep",
+     "printed": "2.21",
+     "bold": false,
+     "t": "26:21"
+    },
+    {
+     "st": "徐水",
+     "ev": "dep",
+     "printed": "2.41",
+     "bold": false,
+     "t": "26:41"
+    },
+    {
+     "st": "漕河",
+     "ev": "dep",
+     "printed": "3.01",
+     "bold": false,
+     "t": "27:01"
+    },
+    {
+     "st": "保定",
+     "ev": "arr",
+     "printed": "3.18",
+     "bold": false,
+     "t": "27:18"
+    },
+    {
+     "st": "保定",
+     "ev": "dep",
+     "printed": "3.50",
+     "bold": false,
+     "t": "27:50"
+    },
+    {
+     "st": "于家莊",
+     "ev": "dep",
+     "printed": "4.11",
+     "bold": false,
+     "t": "28:11"
+    },
+    {
+     "st": "方順橋",
+     "ev": "dep",
+     "printed": "4.30",
+     "bold": false,
+     "t": "28:30"
+    },
+    {
+     "st": "望都",
+     "ev": "dep",
+     "printed": "4.49",
+     "bold": false,
+     "t": "28:49"
+    },
+    {
+     "st": "淸風店",
+     "ev": "dep",
+     "printed": "5.13",
+     "bold": false,
+     "t": "29:13"
+    },
+    {
+     "st": "定縣",
+     "ev": "dep",
+     "printed": "5.43",
+     "bold": false,
+     "t": "29:43"
+    },
+    {
+     "st": "栗西店",
+     "ev": "dep",
+     "printed": "6.03",
+     "bold": false,
+     "t": "30:03"
+    },
+    {
+     "st": "新樂",
+     "ev": "dep",
+     "printed": "6.21",
+     "bold": false,
+     "t": "30:21"
+    },
+    {
+     "st": "東長壽",
+     "ev": "dep",
+     "printed": "6.41",
+     "bold": false,
+     "t": "30:41"
+    },
+    {
+     "st": "新安",
+     "ev": "dep",
+     "printed": "7.06",
+     "bold": false,
+     "t": "31:06"
+    },
+    {
+     "st": "正定",
+     "ev": "dep",
+     "printed": "7.22",
+     "bold": false,
+     "t": "31:22"
+    },
+    {
+     "st": "柳辛莊",
+     "ev": "dep",
+     "printed": "7.44",
+     "bold": false,
+     "t": "31:44"
+    },
+    {
+     "st": "石門",
+     "ev": "arr",
+     "printed": "7.55",
+     "bold": false,
+     "note": "空桝に縦書きで「太原著 19.18」（末尾一桁は8と讀んだ）",
+     "t": "31:55"
+    },
+    {
+     "st": "石門",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "note": "空桝に縦書きで「太原著 19.18」（末尾一桁は8と讀んだ）",
+     "t": "32:20"
+    }
+   ],
+   "dest": "太原",
+   "cls": "1.2.3",
+   "col": "6",
+   "note": "石門から正太線に入る"
+  }
+ ],
+ "notes": [
+  "昭和17.3.20改正。頁62の左半（下り）。反對方向（新鄉→北京）は同頁右半の p62b と頁63左端の p63a。",
+  "左端に「自北京 運賃 3等」欄があるが運賃は轉記せず。粁程（自北京）は stations に入れた。驛名の左の⊓・〒・◎・✕・♨等の設備記號も轉記せず。",
+  "支那の表につき24時制。",
+  "表の最下部に「新鄉發／開封著」の2行（自新鄉 0.0／102.9、隴海線經由の連絡抄錄）があり、stations の末尾に開封を加へた。",
+  "頁頭に「讀みにくい驛名 蘆溝橋(ルーコウチヤオ)長辛店(チヤンシンデン)涿縣(チエオシエン)高碑店(カオペイテエン)定縣(ティンシエン)正定(チヨンテイン)順德(シユンドウ)邯鄲(ハンダン)磁縣(ツーシエン)豐樂(フオンロー)潞王墳(ロオウフン)濬縣(シユンシエン)」の帶。",
+  "頁尾に「記念スタンプ 西直門、蘆溝橋、長辛店、涿縣、高碑店、保定、正定、石門、順德、邯鄲、彰德、易縣、京漢線列車 新鄉、清化、良鄉、望鄉」（最後の「望鄉」は判讀不確か）。",
+  "判讀の確度が低い驛名（4032px幅の寫眞では字が潰れる）：栗西店 225.2、高遷 295.0、臨?容 342.6（中字が黑く潰れる）、鎮內 351.5、光莊 474.0、講廟 490.2、落固 586.6。「?」は判讀不能の一字。",
+  "粁程 431.1（臨洺關）は 437.1 とも讀める。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。「v」は原表の「レ」（通過）。"
+ ],
+ "source": "IMG_1860",
+ "page": "62",
+ "title": "北京・新鄉間（華北・京漢幹線）",
+ "line": "華北交通 京漢幹線",
+ "dir": "新鄉方面（北京→新鄉）"
+}

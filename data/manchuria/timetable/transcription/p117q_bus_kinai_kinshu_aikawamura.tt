@@ -1,0 +1,20 @@
+source: IMG_1887
+page: 117
+kind: bus
+office: 各地自動車會社線
+line: 金愛線（大連都市交通會社）
+title: 金州・東門外・愛川村間
+dir: 金州→愛川村
+season: 昭和16.11.1改正
+note: 左3欄（金州發）。中央欄は「…」（記載なし）で、便は col 1 と col 3 の2本のみ。
+note: 中間の東門外の時刻は掲載なし。運賃は円錢。
+stations: 金州 | 愛川村
+fares: 金州 | 愛川村 0.50
+
+train: 無番 | dest 愛川村 | col 1
+金州 8.00
+愛川村 8.43
+
+train: 無番 | dest 愛川村 | col 3
+金州 16.00
+愛川村 16.43

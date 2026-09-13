@@ -1,0 +1,713 @@
+{
+ "stations": [
+  {
+   "name": "錦縣",
+   "km": null
+  },
+  {
+   "name": "義縣",
+   "km": null
+  },
+  {
+   "name": "九道嶺",
+   "km": null
+  },
+  {
+   "name": "李金",
+   "km": null
+  },
+  {
+   "name": "淸河門",
+   "km": null
+  },
+  {
+   "name": "伊瑪圖",
+   "km": null
+  },
+  {
+   "name": "東梁",
+   "km": null
+  },
+  {
+   "name": "西阜新",
+   "km": null
+  },
+  {
+   "name": "阜新",
+   "km": null
+  },
+  {
+   "name": "東阜新",
+   "km": null
+  },
+  {
+   "name": "新邱",
+   "km": null
+  },
+  {
+   "name": "沙拉",
+   "km": null
+  },
+  {
+   "name": "大巴",
+   "km": null
+  },
+  {
+   "name": "蒼土",
+   "km": null
+  },
+  {
+   "name": "新立屯",
+   "km": null
+  },
+  {
+   "name": "大虎山",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "46",
+   "stops": [
+    {
+     "st": "西阜新",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "阜新",
+     "ev": "arr",
+     "printed": "7.06",
+     "bold": false,
+     "t": "07:06"
+    },
+    {
+     "st": "阜新",
+     "ev": "dep",
+     "printed": "7.07",
+     "bold": false,
+     "t": "07:07"
+    },
+    {
+     "st": "東阜新",
+     "ev": "dep",
+     "printed": "7.23",
+     "bold": false,
+     "t": "07:23"
+    },
+    {
+     "st": "新邱",
+     "ev": "dep",
+     "printed": "7.44",
+     "bold": false,
+     "t": "07:44"
+    },
+    {
+     "st": "沙拉",
+     "ev": "dep",
+     "printed": "8.24",
+     "bold": false,
+     "t": "08:24"
+    },
+    {
+     "st": "大巴",
+     "ev": "dep",
+     "printed": "8.42",
+     "bold": false,
+     "t": "08:42"
+    },
+    {
+     "st": "蒼土",
+     "ev": "dep",
+     "printed": "9.13",
+     "bold": false,
+     "t": "09:13"
+    },
+    {
+     "st": "新立屯",
+     "ev": "arr",
+     "printed": "9.28",
+     "bold": false,
+     "t": "09:28"
+    },
+    {
+     "st": "新立屯",
+     "ev": "dep",
+     "printed": "9.43",
+     "bold": false,
+     "t": "09:43"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    }
+   ],
+   "dest": "大虎山",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "西阜新",
+   "col": "1"
+  },
+  {
+   "no": "416",
+   "stops": [
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    },
+    {
+     "st": "義縣",
+     "ev": "arr",
+     "printed": "10.09",
+     "bold": false,
+     "t": "10:09"
+    },
+    {
+     "st": "義縣",
+     "ev": "dep",
+     "printed": "10.12",
+     "bold": false,
+     "t": "10:12"
+    },
+    {
+     "st": "九道嶺",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "李金",
+     "ev": "dep",
+     "printed": "10.48",
+     "bold": false,
+     "t": "10:48"
+    },
+    {
+     "st": "淸河門",
+     "ev": "dep",
+     "printed": "11.12",
+     "bold": false,
+     "t": "11:12"
+    },
+    {
+     "st": "伊瑪圖",
+     "ev": "dep",
+     "printed": "11.31",
+     "bold": false,
+     "t": "11:31"
+    },
+    {
+     "st": "東梁",
+     "ev": "dep",
+     "printed": "11.47",
+     "bold": false,
+     "t": "11:47"
+    },
+    {
+     "st": "西阜新",
+     "ev": "arr",
+     "printed": "12.02",
+     "bold": false,
+     "t": "12:02"
+    },
+    {
+     "st": "西阜新",
+     "ev": "dep",
+     "printed": "12.19",
+     "bold": false,
+     "t": "12:19"
+    },
+    {
+     "st": "阜新",
+     "ev": "arr",
+     "printed": "12.25",
+     "bold": false,
+     "t": "12:25"
+    },
+    {
+     "st": "阜新",
+     "ev": "dep",
+     "printed": "12.26",
+     "bold": false,
+     "t": "12:26"
+    },
+    {
+     "st": "東阜新",
+     "ev": "dep",
+     "printed": "12.39",
+     "bold": false,
+     "t": "12:39"
+    },
+    {
+     "st": "新邱",
+     "ev": "dep",
+     "printed": "12.58",
+     "bold": false,
+     "t": "12:58"
+    },
+    {
+     "st": "沙拉",
+     "ev": "dep",
+     "printed": "13.34",
+     "bold": false,
+     "t": "13:34"
+    },
+    {
+     "st": "大巴",
+     "ev": "dep",
+     "printed": "13.51",
+     "bold": false,
+     "t": "13:51"
+    },
+    {
+     "st": "蒼土",
+     "ev": "dep",
+     "printed": "14.14",
+     "bold": false,
+     "t": "14:14"
+    },
+    {
+     "st": "新立屯",
+     "ev": "arr",
+     "printed": "14.26",
+     "bold": false,
+     "t": "14:26"
+    },
+    {
+     "st": "新立屯",
+     "ev": "dep",
+     "printed": "14.34",
+     "bold": false,
+     "t": "14:34"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "16.17",
+     "bold": false,
+     "t": "16:17"
+    }
+   ],
+   "dest": "北奉天",
+   "cls": "2.3",
+   "col": "2",
+   "note": "右隣の空欄に「北奉天著 21.20」。大虎山から先は頁30の416列車欄に續く"
+  },
+  {
+   "no": "50",
+   "stops": [
+    {
+     "st": "義縣",
+     "ev": "dep",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    },
+    {
+     "st": "九道嶺",
+     "ev": "dep",
+     "printed": "14.08",
+     "bold": false,
+     "t": "14:08"
+    },
+    {
+     "st": "李金",
+     "ev": "dep",
+     "printed": "14.34",
+     "bold": false,
+     "t": "14:34"
+    },
+    {
+     "st": "淸河門",
+     "ev": "dep",
+     "printed": "15.04",
+     "bold": false,
+     "t": "15:04"
+    },
+    {
+     "st": "伊瑪圖",
+     "ev": "dep",
+     "printed": "15.28",
+     "bold": false,
+     "t": "15:28"
+    },
+    {
+     "st": "東梁",
+     "ev": "dep",
+     "printed": "15.48",
+     "bold": false,
+     "t": "15:48"
+    },
+    {
+     "st": "西阜新",
+     "ev": "arr",
+     "printed": "16.06",
+     "bold": false,
+     "t": "16:06"
+    },
+    {
+     "st": "西阜新",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "阜新",
+     "ev": "arr",
+     "printed": "16.26",
+     "bold": false,
+     "t": "16:26"
+    },
+    {
+     "st": "阜新",
+     "ev": "dep",
+     "printed": "16.27",
+     "bold": false,
+     "t": "16:27"
+    },
+    {
+     "st": "東阜新",
+     "ev": "dep",
+     "printed": "16.43",
+     "bold": false,
+     "t": "16:43"
+    },
+    {
+     "st": "新邱",
+     "ev": "dep",
+     "printed": "17.02",
+     "bold": false,
+     "t": "17:02"
+    }
+   ],
+   "dest": "新邱",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "義縣",
+   "col": "3"
+  },
+  {
+   "no": "54",
+   "stops": [
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "14.25",
+     "bold": false,
+     "t": "14:25"
+    },
+    {
+     "st": "義縣",
+     "ev": "arr",
+     "printed": "15.52",
+     "bold": false,
+     "t": "15:52"
+    },
+    {
+     "st": "義縣",
+     "ev": "dep",
+     "printed": "15.57",
+     "bold": false,
+     "t": "15:57"
+    },
+    {
+     "st": "九道嶺",
+     "ev": "dep",
+     "printed": "16.19",
+     "bold": false,
+     "t": "16:19"
+    },
+    {
+     "st": "李金",
+     "ev": "dep",
+     "printed": "16.45",
+     "bold": false,
+     "t": "16:45"
+    },
+    {
+     "st": "淸河門",
+     "ev": "dep",
+     "printed": "17.18",
+     "bold": false,
+     "t": "17:18"
+    },
+    {
+     "st": "伊瑪圖",
+     "ev": "dep",
+     "printed": "17.42",
+     "bold": false,
+     "t": "17:42"
+    },
+    {
+     "st": "東梁",
+     "ev": "dep",
+     "printed": "18.02",
+     "bold": false,
+     "t": "18:02"
+    },
+    {
+     "st": "西阜新",
+     "ev": "arr",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "西阜新",
+     "ev": "dep",
+     "printed": "18.49",
+     "bold": false,
+     "t": "18:49"
+    },
+    {
+     "st": "阜新",
+     "ev": "arr",
+     "printed": "18.55",
+     "bold": false,
+     "t": "18:55"
+    },
+    {
+     "st": "阜新",
+     "ev": "dep",
+     "printed": "18.56",
+     "bold": false,
+     "t": "18:56"
+    },
+    {
+     "st": "東阜新",
+     "ev": "dep",
+     "printed": "19.11",
+     "bold": false,
+     "t": "19:11"
+    },
+    {
+     "st": "新邱",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    }
+   ],
+   "dest": "新邱",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "葫蘆島 12.05發",
+   "col": "4",
+   "note": "錦縣までは頁30の54列車欄"
+  },
+  {
+   "no": "48",
+   "stops": [
+    {
+     "st": "新邱",
+     "ev": "dep",
+     "printed": "17.03",
+     "bold": false,
+     "t": "17:03"
+    },
+    {
+     "st": "沙拉",
+     "ev": "dep",
+     "printed": "17.45",
+     "bold": false,
+     "t": "17:45"
+    },
+    {
+     "st": "大巴",
+     "ev": "dep",
+     "printed": "18.03",
+     "bold": false,
+     "t": "18:03"
+    },
+    {
+     "st": "蒼土",
+     "ev": "dep",
+     "printed": "18.29",
+     "bold": false,
+     "t": "18:29"
+    },
+    {
+     "st": "新立屯",
+     "ev": "arr",
+     "printed": "18.43",
+     "bold": false,
+     "t": "18:43"
+    },
+    {
+     "st": "新立屯",
+     "ev": "dep",
+     "printed": "18.51",
+     "bold": false,
+     "t": "18:51"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "20.30",
+     "bold": false,
+     "t": "20:30"
+    }
+   ],
+   "dest": "大虎山",
+   "cls": "2.3",
+   "marks": "混 不",
+   "origin": "葫蘆島埠頭 12.05發",
+   "col": "5",
+   "note": "表頭に「臨時」"
+  },
+  {
+   "no": "B",
+   "stops": [
+    {
+     "st": "淸河門",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    },
+    {
+     "st": "伊瑪圖",
+     "ev": "dep",
+     "printed": "19.29",
+     "bold": false,
+     "t": "19:29"
+    },
+    {
+     "st": "東梁",
+     "ev": "dep",
+     "printed": "19.48",
+     "bold": false,
+     "t": "19:48"
+    },
+    {
+     "st": "西阜新",
+     "ev": "dep",
+     "printed": "20.06",
+     "bold": false,
+     "t": "20:06"
+    }
+   ],
+   "dest": "西阜新",
+   "cls": "3",
+   "origin": "淸河門",
+   "col": "6"
+  },
+  {
+   "no": "52",
+   "stops": [
+    {
+     "st": "義縣",
+     "ev": "dep",
+     "printed": "19.20",
+     "bold": false,
+     "t": "19:20"
+    },
+    {
+     "st": "九道嶺",
+     "ev": "dep",
+     "printed": "19.42",
+     "bold": false,
+     "t": "19:42"
+    },
+    {
+     "st": "李金",
+     "ev": "dep",
+     "printed": "20.16",
+     "bold": false,
+     "t": "20:16"
+    },
+    {
+     "st": "淸河門",
+     "ev": "dep",
+     "printed": "20.48",
+     "bold": false,
+     "t": "20:48"
+    },
+    {
+     "st": "伊瑪圖",
+     "ev": "dep",
+     "printed": "21.12",
+     "bold": false,
+     "t": "21:12"
+    },
+    {
+     "st": "東梁",
+     "ev": "dep",
+     "printed": "21.32",
+     "bold": false,
+     "t": "21:32"
+    },
+    {
+     "st": "西阜新",
+     "ev": "arr",
+     "printed": "21.50",
+     "bold": false,
+     "t": "21:50"
+    },
+    {
+     "st": "西阜新",
+     "ev": "dep",
+     "printed": "22.05",
+     "bold": false,
+     "t": "22:05"
+    },
+    {
+     "st": "阜新",
+     "ev": "arr",
+     "printed": "22.11",
+     "bold": false,
+     "t": "22:11"
+    },
+    {
+     "st": "阜新",
+     "ev": "dep",
+     "printed": "22.12",
+     "bold": false,
+     "t": "22:12"
+    },
+    {
+     "st": "東阜新",
+     "ev": "dep",
+     "printed": "22.27",
+     "bold": false,
+     "t": "22:27"
+    },
+    {
+     "st": "新邱",
+     "ev": "dep",
+     "printed": "22.48",
+     "bold": false,
+     "t": "22:48"
+    }
+   ],
+   "dest": "新邱",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "義縣",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "昭和17.4.17改訂。頁31の右、p31bの下半分。",
+  "左端に「自義縣 運賃 2等・3等」欄があるが轉記せず。粁程（キロ程）欄は無い。",
+  "表頭の「錦縣發・義縣著」2行と表尾の「新立屯發・大虎山著」2行は接續の抄錄（原表註記「32頁」「34頁」）。義縣・新立屯は抄錄行の著と本表の發を1行（著/發）にまとめた。西阜新・阜新は原表で著・發の2行に分かれる。",
+  "列車欄は7欄（46・416・50・54・48・B・52）。「B」は原表の通りの標記（番號でなく英字）。",
+  "416列車の右隣（50列車の空欄）に「北奉天著 21.20」の標記があり、416列車のものと解した（頁30の416列車の北奉天著21.20と一致）。48列車の欄に「葫蘆島埠頭發 12.05」の標記。",
+  "「-」は原表の「…」。"
+ ],
+ "source": "IMG_1844",
+ "page": "31",
+ "title": "新立屯・義縣間（國線・新義線）",
+ "line": "滿洲國線 新義線",
+ "dir": "義縣→新立屯（自義縣）"
+}

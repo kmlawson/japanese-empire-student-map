@@ -1,0 +1,90 @@
+{
+ "stations": [
+  {
+   "name": "克山驛",
+   "km": null
+  },
+  {
+   "name": "拜泉",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "106",
+   "stops": [
+    {
+     "st": "克山驛",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "拜泉",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    }
+   ],
+   "dest": "拜泉",
+   "col": "1"
+  },
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "克山驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "拜泉",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "拜泉",
+   "col": "2"
+  },
+  {
+   "no": "104",
+   "stops": [
+    {
+     "st": "克山驛",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "拜泉",
+     "ev": "dep",
+     "printed": "18.40",
+     "bold": false,
+     "t": "18:40"
+    }
+   ],
+   "dest": "拜泉",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "左端は運賃（圓.分）欄。全便所要2時間30分。逆方向は p115l。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "克拜線",
+ "title": "克山驛・拜泉間",
+ "dir": "克山驛→拜泉",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "克山驛 | 拜泉 3.90"
+}

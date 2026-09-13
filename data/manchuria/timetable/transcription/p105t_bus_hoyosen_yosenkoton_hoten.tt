@@ -1,0 +1,25 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 奉姚線
+title: 奉天驛・姚千戶屯驛間
+dir: 姚千戶屯驛→奉天驛
+season: 昭和17.2.1開始
+service: 每日運行
+note: the 運賃 column is headed 円分 but carries no figures for this line
+note: bus 214's 奉天驛 arrival is printed 19.08 (23 min from 城內, where 212 takes 15); left as printed
+stations: 姚千戶屯 | 荒山子 | 城內 | 奉天驛
+fares: 姚千戶屯 | 荒山子 | 城內 | 奉天驛
+
+train: 212 | dest 奉天驛 | col 1 | origin 荒山子
+姚千戶屯 -
+荒山子 9.40
+城內 10.55
+奉天驛 11.10
+
+train: 214 | dest 奉天驛 | col 2
+姚千戶屯 16.50
+荒山子 17.30
+城內 18.45
+奉天驛 19.08

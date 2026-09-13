@@ -1,0 +1,99 @@
+{
+ "stations": [
+  {
+   "name": "法庫",
+   "km": null
+  },
+  {
+   "name": "康平",
+   "km": null
+  },
+  {
+   "name": "遼陽堡",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "161",
+   "stops": [
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "康平",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": false,
+     "t": "09:31"
+    },
+    {
+     "st": "遼陽堡",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    }
+   ],
+   "dest": "遼陽堡",
+   "col": "1"
+  },
+  {
+   "no": "163",
+   "stops": [
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "康平",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    }
+   ],
+   "dest": "康平",
+   "col": "2"
+  },
+  {
+   "no": "165",
+   "stops": [
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "康平",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    }
+   ],
+   "dest": "康平",
+   "col": "3"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "法遼線",
+ "title": "法庫・遼陽堡間",
+ "dir": "法庫→遼陽堡",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "法庫 0 | 康平 0.50 | 遼陽堡 1.30"
+}

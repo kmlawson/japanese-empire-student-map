@@ -1,0 +1,41 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 鞍連線
+title: 鞍山・廟臺間
+dir: 鞍山→廟臺
+season: 昭和16.10.1改正
+service: 每日運行
+stations: 鞍山 | 七嶺子 | 廟臺
+fares: 鞍山 0 | 七嶺子 0.90 | 廟臺 1.20
+
+train: 171 | dest 廟臺 | col 1
+鞍山 8.30
+七嶺子 9.22
+廟臺 9.40
+
+train: 173 | dest 廟臺 | col 2
+鞍山 9.30
+七嶺子 10.22
+廟臺 10.40
+
+train: 175 | dest 廟臺 | col 3
+鞍山 11.10
+七嶺子 12.02
+廟臺 12.20
+
+train: 177 | dest 廟臺 | col 4
+鞍山 13.00
+七嶺子 13.52
+廟臺 14.10
+
+train: 179 | dest 廟臺 | col 5
+鞍山 14.30
+七嶺子 15.22
+廟臺 15.40
+
+train: 181 | dest 廟臺 | col 6
+鞍山 15.40
+七嶺子 16.32
+廟臺 16.50

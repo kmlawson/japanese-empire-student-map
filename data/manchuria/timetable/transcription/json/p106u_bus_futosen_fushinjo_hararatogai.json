@@ -1,0 +1,95 @@
+{
+ "stations": [
+  {
+   "name": "阜新城",
+   "km": null
+  },
+  {
+   "name": "務歡池",
+   "km": null
+  },
+  {
+   "name": "哈拉套街",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "211",
+   "stops": [
+    {
+     "st": "阜新城",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "務歡池",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    }
+   ],
+   "dest": "務歡池",
+   "col": "1"
+  },
+  {
+   "no": "205",
+   "stops": [
+    {
+     "st": "阜新城",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "務歡池",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    }
+   ],
+   "dest": "務歡池",
+   "col": "2"
+  },
+  {
+   "no": "207",
+   "stops": [
+    {
+     "st": "阜新城",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "務歡池",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "務歡池",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "the middle stop is printed too small to be certain; read as 務歡池",
+  "no bus in this direction is shown running through to 哈拉套街 (thick rule in that row)"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "阜套線",
+ "title": "阜新城・哈拉套街間",
+ "dir": "阜新城→哈拉套街",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "阜新城 | 務歡池 1.75 | 哈拉套街 3.10"
+}

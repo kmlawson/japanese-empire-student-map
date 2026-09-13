@@ -1,0 +1,21 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 勃桃線
+title: 勃利・桃山間
+dir: 桃山→勃利
+season: 昭和16.12.1改正
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（勃利起點）。
+note: 桃山發はいずれも「.01」と印刷されている（11.01・17.01）。
+stations: 桃山 | 勃利
+fares: 桃山 2.55 | 勃利
+
+train: 626 | dest 勃利 | col 1
+桃山 11.01
+勃利 13.00
+
+train: 628 | dest 勃利 | col 2
+桃山 17.01
+勃利 19.00

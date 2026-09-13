@@ -1,0 +1,54 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 海營線
+title: 海城驛・營口驛間
+dir: 海城驛→營口驛
+season: 昭和16.10.1改正
+service: 每日運行
+note: bus 59's last two times sit at the binding edge; 16.48 / 17.40 read from the running times of the neighbouring columns
+stations: 海城驛 | 牛莊 | 大高坎 | 營口驛
+fares: 海城驛 0 | 牛莊 1.00 | 大高坎 2.00 | 營口驛 2.60
+
+train: 3 | dest 營口驛 | col 1
+海城驛 7.20
+牛莊 8.25
+大高坎 9.33
+營口驛 10.25
+
+train: 51 | dest 營口驛 | col 2 | origin 大高坎
+海城驛 -
+牛莊 -
+大高坎 9.00
+營口驛 9.52
+
+train: 53 | dest 營口驛 | col 3 | origin 牛莊
+海城驛 -
+牛莊 10.40
+大高坎 11.48
+營口驛 12.40
+
+train: 55 | dest 營口驛 | col 4 | origin 大高坎
+海城驛 -
+牛莊 -
+大高坎 11.00
+營口驛 11.52
+
+train: 23 | dest 營口驛 | col 5
+海城驛 12.30
+牛莊 13.35
+大高坎 14.43
+營口驛 15.35
+
+train: 57 | dest 營口驛 | col 6 | origin 牛莊
+海城驛 -
+牛莊 14.40
+大高坎 15.48
+營口驛 16.40
+
+train: 59 | dest 營口驛 | col 7 | origin 牛莊
+海城驛 -
+牛莊 15.40
+大高坎 16.48 ?
+營口驛 17.40 ?

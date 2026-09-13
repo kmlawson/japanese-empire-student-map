@@ -1,0 +1,23 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 章法線
+title: 法庫・章古臺驛間
+dir: 章古臺驛→法庫
+season: 昭和16.12.1改正
+service: 每日運行
+note: fare column printed once, for the 法庫→章古臺驛 direction
+note: bus 153's 哈拉沁屯 time is printed 19.00 but the bus reaches 法庫 at 10.40 and the leg takes 100 min in every other column; read 9.00
+stations: 章古臺驛 | 哈拉沁屯 | 法庫
+fares: 章古臺驛 5.40 | 哈拉沁屯 2.40 | 法庫 0
+
+train: 153 | dest 法庫 | col 1 | origin 哈拉沁屯
+章古臺驛 -
+哈拉沁屯 9.00 ?
+法庫 10.40
+
+train: 151 | dest 法庫 | col 2
+章古臺驛 13.50
+哈拉沁屯 16.20
+法庫 18.00

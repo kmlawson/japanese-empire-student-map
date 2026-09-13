@@ -1,0 +1,20 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 吐默特線
+title: 阜新城・吐默特間
+dir: 吐默特→阜新城
+season: 昭和16.10.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the right of bus 204
+stations: 吐默特 | 阜新城
+fares: 吐默特 1.05 | 阜新城
+
+train: 202 | dest 阜新城 | col 1
+吐默特 10.30
+阜新城 11.30
+
+train: 204 | dest 阜新城 | col 2
+吐默特 15.30
+阜新城 16.30

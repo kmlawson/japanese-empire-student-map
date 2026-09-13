@@ -1,0 +1,1073 @@
+{
+ "stations": [
+  {
+   "name": "青森",
+   "km": null
+  },
+  {
+   "name": "仙臺",
+   "km": null
+  },
+  {
+   "name": "岩沼",
+   "km": 0.0
+  },
+  {
+   "name": "原ノ町",
+   "km": 56.2
+  },
+  {
+   "name": "富岡",
+   "km": 95.3
+  },
+  {
+   "name": "平",
+   "km": 133.7
+  },
+  {
+   "name": "水戸",
+   "km": 227.8
+  },
+  {
+   "name": "友部",
+   "km": 244.3
+  },
+  {
+   "name": "土浦",
+   "km": 279.3
+  },
+  {
+   "name": "我孫子",
+   "km": 311.8
+  },
+  {
+   "name": "上野",
+   "km": 345.7
+  }
+ ],
+ "trains": [
+  {
+   "no": "216",
+   "stops": [
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "06:30"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "6.53",
+     "bold": false,
+     "t": "06:53"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "7.37",
+     "bold": false,
+     "t": "07:37"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": false,
+     "t": "08:35"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "9.23",
+     "bold": false,
+     "t": "09:23"
+    }
+   ],
+   "dest": "上野",
+   "origin": "水戸",
+   "col": "1"
+  },
+  {
+   "no": "218",
+   "stops": [
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "5.07",
+     "bold": false,
+     "t": "05:07"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": false,
+     "t": "07:33"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "7.51",
+     "bold": false,
+     "t": "07:51"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "8.27",
+     "bold": false,
+     "t": "08:27"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "9.09",
+     "bold": false,
+     "t": "09:09"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "9.43",
+     "bold": false,
+     "t": "09:43"
+    }
+   ],
+   "dest": "上野",
+   "origin": "平",
+   "col": "2"
+  },
+  {
+   "no": "208",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": true,
+     "t": "19:50"
+    },
+    {
+     "st": "仙臺",
+     "ev": "dep",
+     "printed": "3.10",
+     "bold": false,
+     "t": "27:10"
+    },
+    {
+     "st": "原ノ町",
+     "ev": "dep",
+     "printed": "4.18",
+     "bold": false,
+     "t": "28:18"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "5.41",
+     "bold": false,
+     "t": "29:41"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "7.11",
+     "bold": false,
+     "t": "31:11"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "32:55"
+    }
+   ],
+   "dest": "上野",
+   "marks": "急 食 寢2",
+   "col": "3"
+  },
+  {
+   "no": "220",
+   "stops": [
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "6.08",
+     "bold": false,
+     "t": "06:08"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": false,
+     "t": "08:15"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": false,
+     "t": "08:38"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "9.22",
+     "bold": false,
+     "t": "09:22"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "10.06",
+     "bold": false,
+     "t": "10:06"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "10.52",
+     "bold": false,
+     "t": "10:52"
+    }
+   ],
+   "dest": "上野",
+   "origin": "平",
+   "col": "4"
+  },
+  {
+   "no": "222",
+   "stops": [
+    {
+     "st": "富岡",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "06:30"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "7.37",
+     "bold": false,
+     "t": "07:37"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "9.51",
+     "bold": false,
+     "t": "09:51"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "10.16",
+     "bold": false,
+     "t": "10:16"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "11.13",
+     "bold": false,
+     "t": "11:13"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": false,
+     "t": "11:55"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "0.43",
+     "bold": true,
+     "t": "12:43"
+    }
+   ],
+   "dest": "上野",
+   "origin": "富岡",
+   "col": "5"
+  },
+  {
+   "no": "224",
+   "stops": [
+    {
+     "st": "原ノ町",
+     "ev": "dep",
+     "printed": "6.40",
+     "bold": false,
+     "t": "06:40"
+    },
+    {
+     "st": "富岡",
+     "ev": "dep",
+     "printed": "7.47",
+     "bold": false,
+     "t": "07:47"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "11.18",
+     "bold": false,
+     "t": "11:18"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "11.41",
+     "bold": false,
+     "t": "11:41"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "0.24",
+     "bold": true,
+     "t": "12:24"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "1.07",
+     "bold": true,
+     "t": "13:07"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "1.55",
+     "bold": true,
+     "t": "13:55"
+    }
+   ],
+   "dest": "上野",
+   "origin": "原ノ町",
+   "col": "6"
+  },
+  {
+   "no": "202",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": true,
+     "t": "22:40"
+    },
+    {
+     "st": "仙臺",
+     "ev": "dep",
+     "printed": "6.15",
+     "bold": false,
+     "t": "30:15"
+    },
+    {
+     "st": "原ノ町",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "31:25"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "t": "32:45"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "10.13",
+     "bold": false,
+     "t": "34:13"
+    },
+    {
+     "st": "友部",
+     "ev": "pass"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "35:00"
+    },
+    {
+     "st": "我孫子",
+     "ev": "pass"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "36:00"
+    }
+   ],
+   "dest": "上野",
+   "marks": "急 食 寢2",
+   "col": "7"
+  },
+  {
+   "no": "226",
+   "stops": [
+    {
+     "st": "仙臺",
+     "ev": "dep",
+     "printed": "6.00",
+     "bold": false,
+     "t": "06:00"
+    },
+    {
+     "st": "岩沼",
+     "ev": "dep",
+     "printed": "6.44",
+     "bold": false,
+     "t": "06:44"
+    },
+    {
+     "st": "原ノ町",
+     "ev": "dep",
+     "printed": "8.10",
+     "bold": false,
+     "t": "08:10"
+    },
+    {
+     "st": "富岡",
+     "ev": "dep",
+     "printed": "9.27",
+     "bold": false,
+     "t": "09:27"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "10.43",
+     "bold": false,
+     "t": "10:43"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "0.55",
+     "bold": true,
+     "t": "12:55"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "1.19",
+     "bold": true,
+     "t": "13:19"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "2.03",
+     "bold": true,
+     "t": "14:03"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "2.46",
+     "bold": true,
+     "t": "14:46"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "3.32",
+     "bold": true,
+     "t": "15:32"
+    }
+   ],
+   "dest": "上野",
+   "origin": "仙臺",
+   "col": "8"
+  },
+  {
+   "no": "228",
+   "stops": [
+    {
+     "st": "仙臺",
+     "ev": "dep",
+     "printed": "9.05",
+     "bold": false,
+     "t": "09:05"
+    },
+    {
+     "st": "岩沼",
+     "ev": "dep",
+     "printed": "9.32",
+     "bold": false,
+     "t": "09:32"
+    },
+    {
+     "st": "原ノ町",
+     "ev": "dep",
+     "printed": "10.51",
+     "bold": false,
+     "t": "10:51"
+    },
+    {
+     "st": "富岡",
+     "ev": "dep",
+     "printed": "11.49",
+     "bold": false,
+     "t": "11:49"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "0.53",
+     "bold": true,
+     "t": "12:53"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "3.01",
+     "bold": true,
+     "t": "15:01"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "3.24",
+     "bold": true,
+     "t": "15:24"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "4.07",
+     "bold": true,
+     "t": "16:07"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "4.57",
+     "bold": true,
+     "t": "16:57"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "5.38",
+     "bold": true,
+     "t": "17:38"
+    }
+   ],
+   "dest": "上野",
+   "origin": "仙臺",
+   "col": "9"
+  },
+  {
+   "no": "230",
+   "stops": [
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "2.10",
+     "bold": true,
+     "t": "14:10"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "4.17",
+     "bold": true,
+     "t": "16:17"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "4.40",
+     "bold": true,
+     "t": "16:40"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "5.23",
+     "bold": true,
+     "t": "17:23"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "6.05",
+     "bold": true,
+     "t": "18:05"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "6.50",
+     "bold": true,
+     "t": "18:50"
+    }
+   ],
+   "dest": "上野",
+   "origin": "平",
+   "col": "10"
+  },
+  {
+   "no": "232",
+   "stops": [
+    {
+     "st": "仙臺",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "岩沼",
+     "ev": "dep",
+     "printed": "11.28",
+     "bold": false,
+     "t": "11:28"
+    },
+    {
+     "st": "原ノ町",
+     "ev": "dep",
+     "printed": "0.53",
+     "bold": true,
+     "t": "12:53"
+    },
+    {
+     "st": "富岡",
+     "ev": "dep",
+     "printed": "2.03",
+     "bold": true,
+     "t": "14:03"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "3.20",
+     "bold": true,
+     "t": "15:20"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "5.38",
+     "bold": true,
+     "t": "17:38"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "6.01",
+     "bold": true,
+     "t": "18:01"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "6.45",
+     "bold": true,
+     "t": "18:45"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "7.28",
+     "bold": true,
+     "t": "19:28"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": true,
+     "t": "20:15"
+    }
+   ],
+   "dest": "上野",
+   "origin": "仙臺",
+   "col": "11"
+  },
+  {
+   "no": "234",
+   "stops": [
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "5.10",
+     "bold": true,
+     "t": "17:10"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "7.20",
+     "bold": true,
+     "t": "19:20"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "7.43",
+     "bold": true,
+     "t": "19:43"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "8.26",
+     "bold": true,
+     "t": "20:26"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "9.08",
+     "bold": true,
+     "t": "21:08"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "9.54",
+     "bold": true,
+     "t": "21:54"
+    }
+   ],
+   "dest": "上野",
+   "origin": "平",
+   "col": "12"
+  },
+  {
+   "no": "236",
+   "stops": [
+    {
+     "st": "仙臺",
+     "ev": "dep",
+     "printed": "2.10",
+     "bold": true,
+     "t": "14:10"
+    },
+    {
+     "st": "岩沼",
+     "ev": "dep",
+     "printed": "2.42",
+     "bold": true,
+     "t": "14:42"
+    },
+    {
+     "st": "原ノ町",
+     "ev": "dep",
+     "printed": "4.07",
+     "bold": true,
+     "t": "16:07"
+    },
+    {
+     "st": "富岡",
+     "ev": "dep",
+     "printed": "5.11",
+     "bold": true,
+     "t": "17:11"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": true,
+     "t": "18:30"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": true,
+     "t": "20:55"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "9.18",
+     "bold": true,
+     "t": "21:18"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "10.02",
+     "bold": true,
+     "t": "22:02"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "10.44",
+     "bold": true,
+     "t": "22:44"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "11.29",
+     "bold": true,
+     "t": "23:29"
+    }
+   ],
+   "dest": "上野",
+   "origin": "仙臺",
+   "col": "13"
+  },
+  {
+   "no": "240",
+   "stops": [
+    {
+     "st": "仙臺",
+     "ev": "dep",
+     "printed": "5.05",
+     "bold": true,
+     "t": "17:05"
+    },
+    {
+     "st": "岩沼",
+     "ev": "dep",
+     "printed": "5.34",
+     "bold": true,
+     "t": "17:34"
+    },
+    {
+     "st": "原ノ町",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": true,
+     "t": "18:54"
+    },
+    {
+     "st": "富岡",
+     "ev": "dep",
+     "printed": "7.52",
+     "bold": true,
+     "t": "19:52"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": true,
+     "t": "21:00"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": true,
+     "t": "23:00"
+    }
+   ],
+   "dest": "水戸",
+   "origin": "仙臺",
+   "col": "14"
+  },
+  {
+   "no": "204",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "10.33",
+     "bold": false,
+     "t": "10:33"
+    },
+    {
+     "st": "仙臺",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": true,
+     "t": "20:55"
+    },
+    {
+     "st": "岩沼",
+     "ev": "dep",
+     "printed": "9.22",
+     "bold": true,
+     "t": "21:22"
+    },
+    {
+     "st": "原ノ町",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": true,
+     "t": "22:40"
+    },
+    {
+     "st": "富岡",
+     "ev": "dep",
+     "printed": "11.42",
+     "bold": true,
+     "t": "23:42"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "0.51",
+     "bold": false,
+     "t": "24:51"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "3.02",
+     "bold": false,
+     "t": "27:02"
+    },
+    {
+     "st": "友部",
+     "ev": "dep",
+     "printed": "3.25",
+     "bold": false,
+     "t": "27:25"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "4.08",
+     "bold": false,
+     "t": "28:08"
+    },
+    {
+     "st": "我孫子",
+     "ev": "dep",
+     "printed": "4.45",
+     "bold": false,
+     "t": "28:45"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "5.34",
+     "bold": false,
+     "t": "29:34"
+    }
+   ],
+   "dest": "上野",
+   "col": "15"
+  },
+  {
+   "no": "206",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "0.55",
+     "bold": true,
+     "t": "12:55"
+    },
+    {
+     "st": "仙臺",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": true,
+     "t": "22:50"
+    },
+    {
+     "st": "岩沼",
+     "ev": "dep",
+     "printed": "11.12",
+     "bold": true,
+     "t": "23:12"
+    },
+    {
+     "st": "原ノ町",
+     "ev": "dep",
+     "printed": "0.30",
+     "bold": false,
+     "uncertain": true,
+     "note": "本欄は綴込みに接し分の下1桁が讀めない（0.3?）",
+     "t": "24:30"
+    },
+    {
+     "st": "富岡",
+     "ev": "dep",
+     "printed": "1.30",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の下1桁が讀めない（1.3?）",
+     "t": "25:30"
+    },
+    {
+     "st": "平",
+     "ev": "dep",
+     "printed": "2.30",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の下1桁が讀めない（2.3?）",
+     "t": "26:30"
+    },
+    {
+     "st": "水戸",
+     "ev": "dep",
+     "printed": "4.26",
+     "bold": false,
+     "t": "28:26"
+    },
+    {
+     "st": "友部",
+     "ev": "pass"
+    },
+    {
+     "st": "土浦",
+     "ev": "dep",
+     "printed": "5.22",
+     "bold": false,
+     "t": "29:22"
+    },
+    {
+     "st": "我孫子",
+     "ev": "pass"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "6.34",
+     "bold": false,
+     "t": "30:34"
+    }
+   ],
+   "dest": "上野",
+   "marks": "食 寢2.3",
+   "col": "16"
+  }
+ ],
+ "notes": [
+  "最右端の206欄は綴込みに接し、原ノ町・富岡・平の分の下1桁が讀めない。",
+  "標題（頁上部）に「昭和17.4.1改正 上野・岩沼間（鐵道省・常磐線）特に示したるものの他は2.3等車（205.206列車 食堂車・2等3等寢台車 連結）」。頁99は上段が下り（p99a）、下段が上り（本ファイル）。",
+  "左端に「自岩沼 粁程／運賃 3等」欄があるが運賃は轉記せず。驛名左の設備記號も轉記せず。",
+  "日本の表は12時制。細字＝午前・太字＝午後だが寫眞では太細を判別できない。各欄の時刻の進行順から午前・午後を判定し、午後には B を附けた。12.xx は印刷のまま。",
+  "表頭に「98頁{青森發／仙臺發」の2行（粁程 自青森 0.0／387.9）があり、東北本線經由の發時刻（98頁の表と共通）を掲げる。本ファイルでは 青森・仙臺 の行に記した。"
+ ],
+ "source": "IMG_1878",
+ "page": "99",
+ "title": "上野・岩沼間（下段 岩沼→上野）",
+ "line": "鐵道省 常磐線",
+ "dir": "上り 岩沼→上野",
+ "clock": "12"
+}

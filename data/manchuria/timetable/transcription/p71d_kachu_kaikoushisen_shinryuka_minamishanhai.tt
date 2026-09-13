@@ -1,0 +1,37 @@
+source: IMG_1864
+page: 71
+title: 南上海・新龍華間（華中・海杭支線）
+line: 華中鐵道 海杭支線
+dir: 南上海方面（新龍華→南上海）
+note: 昭和16.11.20改正。頁71右中の表の下半。表題下に「全部混四等車」。反對方向は同表の上半 p71c。
+note: 左に「粁程／4等」欄があるが運賃は轉記せず。粁程（自新龍華）は stations に入れた。
+note: 支那の表につき24時制。列車欄は7欄、右に空欄4欄（全部「…」）。
+stations: 新龍華 0.0 | 南上海 3.8
+
+train: 232 | dest 南上海 | cls 4 | marks 混 | col 1
+新龍華 9.00
+南上海 9.10
+
+train: 234 | dest 南上海 | cls 4 | marks 混 | col 2
+新龍華 11.30
+南上海 11.40
+
+train: 236 | dest 南上海 | cls 4 | marks 混 | col 3
+新龍華 13.20
+南上海 13.30
+
+train: 238 | dest 南上海 | cls 4 | marks 混 | col 4
+新龍華 15.40
+南上海 15.50
+
+train: 240 | dest 南上海 | cls 4 | marks 混 | col 5
+新龍華 17.30
+南上海 17.40
+
+train: 242 | dest 南上海 | cls 4 | marks 混 | col 6
+新龍華 19.20
+南上海 19.30
+
+train: 244 | dest 南上海 | cls 4 | marks 混 | col 7
+新龍華 20.50
+南上海 21.00

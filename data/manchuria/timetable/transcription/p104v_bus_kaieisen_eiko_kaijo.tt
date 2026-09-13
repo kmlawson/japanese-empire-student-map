@@ -1,0 +1,55 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 海營線
+title: 海城驛・營口驛間
+dir: 營口驛→海城驛
+season: 昭和16.10.1改正
+service: 每日運行
+note: the up fare column is not the mirror of the down one (營口→牛莊 2.60 against 海城→牛莊 1.00, 海城→營口 2.60); figures given as printed
+note: bus 54 takes 64 min 營口驛→大高坎 where every other column takes 52–54 min; transcribed as printed
+stations: 營口驛 | 大高坎 | 牛莊 | 海城驛
+fares: 營口驛 0 | 大高坎 0.60 | 牛莊 2.60 | 海城驛 5.60
+
+train: 52 | dest 大高坎 | col 1
+營口驛 8.00
+大高坎 8.52
+牛莊 -
+海城驛 -
+
+train: 54 | dest 牛莊 | col 2
+營口驛 8.20
+大高坎 9.24
+牛莊 10.30
+海城驛 -
+
+train: 56 | dest 大高坎 | col 3
+營口驛 10.00
+大高坎 10.52
+牛莊 -
+海城驛 -
+
+train: 22 | dest 海城驛 | col 4
+營口驛 10.50
+大高坎 11.44
+牛莊 13.10
+海城驛 14.10
+
+train: 58 | dest 牛莊 | col 5
+營口驛 12.30
+大高坎 13.24
+牛莊 14.30
+海城驛 -
+
+train: 60 | dest 牛莊 | col 6
+營口驛 13.30
+大高坎 14.24
+牛莊 15.30
+海城驛 -
+
+train: 42 | dest 海城驛 | col 7
+營口驛 15.50
+大高坎 16.44
+牛莊 18.00
+海城驛 19.00

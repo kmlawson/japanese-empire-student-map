@@ -1,0 +1,73 @@
+{
+ "stations": [
+  {
+   "name": "赤峰",
+   "km": null
+  },
+  {
+   "name": "老府",
+   "km": null
+  },
+  {
+   "name": "圍場",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "505",
+   "stops": [
+    {
+     "st": "赤峰",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "老府",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    }
+   ],
+   "dest": "老府",
+   "col": "2"
+  },
+  {
+   "no": "501",
+   "stops": [
+    {
+     "st": "赤峰",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "圍場",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "圍場",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "an unnumbered empty column (…) stands to the left of bus 505"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "峰圍線",
+ "title": "赤峰・老府・圍場間",
+ "dir": "赤峰→圍場",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "赤峰 | 老府 3.55 | 圍場 7.00"
+}

@@ -1,0 +1,20 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 天寶山線
+title: 老頭溝驛・天寶山間
+dir: 天寶山→老頭溝驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表は左右2組で、右が天寶山發（本表）。運賃欄は老頭溝驛起點のものを反轉して掲げた。
+stations: 天寶山 | 老頭溝驛
+fares: 天寶山 0.85 | 老頭溝驛
+
+train: 302 | dest 老頭溝驛 | col 1
+天寶山 7.50
+老頭溝驛 8.40
+
+train: 304 | dest 老頭溝驛 | col 2
+天寶山 14.00
+老頭溝驛 14.50

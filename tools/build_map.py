@@ -3462,6 +3462,16 @@ BURMA_RAIL_FILES = {"e1930": "burma-railway-lines-1930.geojson",
 BURMA_RAIL_TOL = 0.021
 BURMA_RAIL_DIR = os.path.join(ROOT, "data", "burma")
 
+# Manchuria's, traced for this map from the lines of the July 1942 滿洲・支那
+# 汽車時間表, and on the 1942 sheet only: most of the Manchukuo state lines were
+# built after 1931, so the same drawing on the 1930 map would put a network
+# there that was not. The 1930 layer stays empty until a 1930 network is
+# traced. Forty-one lines so far; the timetable has more, and they arrive as
+# they are drawn. A hand trace, thinned at the traced tolerance like Taiwan's.
+MN_RAIL_FILES = {"e1942": "manchuria-1942-lines.geojson"}
+MN_RAIL_TOL = 0.021
+MN_RAIL_DIR = os.path.join(ROOT, "data", "manchuria")
+
 # Every railway layer the map draws, and the atom whose fill inks its dots.
 # One table so that the next one is a line here rather than a block of code in
 # three places. The last field is the folder the file is in: most are fetched
@@ -3471,6 +3481,7 @@ RAIL_LAYERS = [
     ("tw-rail", "taiwan", TW_RAIL_FILES, TW_RAIL_TOL, "taiwan", CACHE),
     ("kr-rail", "korea", KR_RAIL_FILES, KR_RAIL_TOL, "korea", CACHE),
     ("kf-rail", "karafuto", KF_RAIL_FILES, KF_RAIL_TOL, "karafuto", CACHE),
+    ("mn-rail", "Manchuria", MN_RAIL_FILES, MN_RAIL_TOL, "manchukuo", MN_RAIL_DIR),
     ("burma-rail", "Burma", BURMA_RAIL_FILES, BURMA_RAIL_TOL, "burma",
      BURMA_RAIL_DIR),
 ]

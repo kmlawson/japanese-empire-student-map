@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "北興鎭",
+   "km": null
+  },
+  {
+   "name": "克山驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "184",
+   "stops": [
+    {
+     "st": "北興鎭",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "克山驛",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "克山驛",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "表の右半（北興鎭發）。逆方向は p115m。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "克北線",
+ "title": "克山驛・北興鎭間",
+ "dir": "北興鎭→克山驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "克山驛 | 北興鎭 3.60"
+}

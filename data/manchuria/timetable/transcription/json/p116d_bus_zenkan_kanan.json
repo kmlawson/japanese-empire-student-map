@@ -1,0 +1,69 @@
+{
+ "stations": [
+  {
+   "name": "前郭旗",
+   "km": null
+  },
+  {
+   "name": "乾安",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "246",
+   "stops": [
+    {
+     "st": "前郭旗",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "乾安",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    }
+   ],
+   "dest": "乾安",
+   "col": "1"
+  },
+  {
+   "no": "244",
+   "stops": [
+    {
+     "st": "前郭旗",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "乾安",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "乾安",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "表右側「著↑…發」の欄。運賃は乾安起算（前郭旗 3.25）。"
+ ],
+ "source": "IMG_1887",
+ "page": "116",
+ "kind": "bus",
+ "office": "齊々哈爾局管內",
+ "line": "前乾線",
+ "title": "乾安・前郭旗間",
+ "dir": "前郭旗→乾安",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "前郭旗 3.25 | 乾安"
+}

@@ -1,0 +1,143 @@
+{
+ "stations": [
+  {
+   "name": "撫順",
+   "km": null
+  },
+  {
+   "name": "東陵",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "32",
+   "stops": [
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "8.59",
+     "bold": false,
+     "t": "08:59"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    }
+   ],
+   "dest": "奉天",
+   "col": "1"
+  },
+  {
+   "no": "34",
+   "stops": [
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "9.29",
+     "bold": false,
+     "t": "09:29"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    }
+   ],
+   "dest": "奉天",
+   "col": "2"
+  },
+  {
+   "no": "58",
+   "stops": [
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "17.01",
+     "bold": false,
+     "t": "17:01"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "17.59",
+     "bold": false,
+     "t": "17:59"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    }
+   ],
+   "dest": "奉天",
+   "col": "3"
+  },
+  {
+   "no": "70",
+   "stops": [
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "18.59",
+     "bold": false,
+     "t": "18:59"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "19.50",
+     "bold": false,
+     "t": "19:50"
+    }
+   ],
+   "dest": "奉天",
+   "col": "4"
+  }
+ ],
+ "notes": [
+  "between buses 34 and 58 the table prints 「此の間奉天、撫順間30分毎に運行す」 (a bus every 30 minutes over that interval); only the named columns are transcribed"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "奉撫線",
+ "title": "奉天・撫順間",
+ "dir": "撫順→奉天",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "撫順 0 | 東陵 1.25 | 奉天 1.35"
+}

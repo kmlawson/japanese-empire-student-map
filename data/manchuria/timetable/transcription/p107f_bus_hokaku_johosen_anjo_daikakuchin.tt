@@ -1,0 +1,18 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 豐閣線・承豐線
+title: 大閣鎭・豐寧・鞍匠間
+dir: 鞍匠→大閣鎭
+season: 昭和16.12.1改正
+service: 每日運行
+note: the line bracket prints 豐閣 above 承豐線 (two line names in one bracket)
+note: three unnumbered empty columns (…) stand to the right of bus 651
+stations: 鞍匠 | 豐寧 | 大閣鎭
+fares: 鞍匠 6.20 | 豐寧 3.60 | 大閣鎭
+
+train: 651 | dest 大閣鎭 | col 1
+鞍匠 9.30
+豐寧 12.30
+大閣鎭 16.10

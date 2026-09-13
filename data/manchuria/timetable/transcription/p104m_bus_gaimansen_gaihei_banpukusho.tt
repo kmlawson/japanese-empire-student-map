@@ -1,0 +1,47 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 蓋萬線
+title: 蓋平驛・萬福庄間
+dir: 蓋平驛→萬福庄
+season: 昭和16.10.1改正
+service: 每日運行
+note: bus 153's 蓋平驛 departure prints as 19.00 (broken type); read 10.00 — the column order 8.30 9.00 ?.00 11.30 13.00 14.00 15.00 and the 12.07 at 土門子 (2h07 later) both require 10.00
+stations: 蓋平驛 | 土門子 | 萬福庄
+fares: 蓋平驛 0 | 土門子 2.15 | 萬福庄 2.65
+
+train: 151 | dest 萬福庄 | col 1
+蓋平驛 8.30
+土門子 10.37
+萬福庄 11.05
+
+train: 161 | dest 土門子 | col 2
+蓋平驛 9.00
+土門子 11.05
+萬福庄 -
+
+train: 153 | dest 萬福庄 | col 3
+蓋平驛 10.00 ?
+土門子 12.07
+萬福庄 12.35
+
+train: 155 | dest 萬福庄 | col 4
+蓋平驛 11.30
+土門子 13.37
+萬福庄 14.05
+
+train: 157 | dest 萬福庄 | col 5
+蓋平驛 13.00
+土門子 15.07
+萬福庄 15.35
+
+train: 163 | dest 土門子 | col 6
+蓋平驛 14.00
+土門子 16.05
+萬福庄 -
+
+train: 159 | dest 萬福庄 | col 7
+蓋平驛 15.00
+土門子 17.07
+萬福庄 17.35

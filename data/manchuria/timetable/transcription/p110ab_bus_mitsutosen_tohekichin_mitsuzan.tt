@@ -1,0 +1,17 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 密當線
+title: 密山・當壁鎭間
+dir: 當壁鎭→密山
+season: (運休)
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（密山起點）。
+stations: 當壁鎭 | 腰嶺 | 密山
+fares: 當壁鎭 2.00 | 腰嶺 0.75 | 密山
+
+train: 206 | dest 密山 | col 1
+當壁鎭 13.00
+腰嶺 14.15
+密山 15.00

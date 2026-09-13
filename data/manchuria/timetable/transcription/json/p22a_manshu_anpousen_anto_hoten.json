@@ -1,0 +1,2696 @@
+{
+ "stations": [
+  {
+   "name": "釜山",
+   "km": null
+  },
+  {
+   "name": "三浪津",
+   "km": null
+  },
+  {
+   "name": "大邱",
+   "km": null
+  },
+  {
+   "name": "大田",
+   "km": null
+  },
+  {
+   "name": "京城",
+   "km": null
+  },
+  {
+   "name": "開城",
+   "km": null
+  },
+  {
+   "name": "平壤",
+   "km": null
+  },
+  {
+   "name": "新義州",
+   "km": null
+  },
+  {
+   "name": "安東",
+   "km": null
+  },
+  {
+   "name": "沙河鎭",
+   "km": null
+  },
+  {
+   "name": "蛤蟆塘",
+   "km": null
+  },
+  {
+   "name": "老古溝",
+   "km": null
+  },
+  {
+   "name": "五龍背",
+   "km": null
+  },
+  {
+   "name": "湯山城",
+   "km": null
+  },
+  {
+   "name": "高麗門",
+   "km": null
+  },
+  {
+   "name": "張家堡",
+   "km": null
+  },
+  {
+   "name": "鳳凰城",
+   "km": null
+  },
+  {
+   "name": "四臺子",
+   "km": null
+  },
+  {
+   "name": "南干",
+   "km": null
+  },
+  {
+   "name": "鷄冠山",
+   "km": null
+  },
+  {
+   "name": "秋木莊",
+   "km": null
+  },
+  {
+   "name": "劉家河",
+   "km": null
+  },
+  {
+   "name": "林家臺",
+   "km": null
+  },
+  {
+   "name": "通遠堡",
+   "km": null
+  },
+  {
+   "name": "草河口",
+   "km": null
+  },
+  {
+   "name": "郝家堡",
+   "km": null
+  },
+  {
+   "name": "連山關",
+   "km": null
+  },
+  {
+   "name": "下馬塘",
+   "km": null
+  },
+  {
+   "name": "南芬",
+   "km": null
+  },
+  {
+   "name": "橋頭",
+   "km": null
+  },
+  {
+   "name": "宮原",
+   "km": null
+  },
+  {
+   "name": "本溪湖",
+   "km": null
+  },
+  {
+   "name": "火連寨",
+   "km": null
+  },
+  {
+   "name": "石橋子",
+   "km": null
+  },
+  {
+   "name": "歪頭山",
+   "km": null
+  },
+  {
+   "name": "姚千戶屯",
+   "km": null
+  },
+  {
+   "name": "陳相屯",
+   "km": null
+  },
+  {
+   "name": "吳家屯",
+   "km": null
+  },
+  {
+   "name": "蘇家屯",
+   "km": null
+  },
+  {
+   "name": "渾河",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "鐵嶺",
+   "km": null
+  },
+  {
+   "name": "開原",
+   "km": null
+  },
+  {
+   "name": "四平",
+   "km": null
+  },
+  {
+   "name": "公主嶺",
+   "km": null
+  },
+  {
+   "name": "新京",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "9",
+   "stops": [
+    {
+     "st": "釜山",
+     "ev": "dep",
+     "printed": "7.20",
+     "bold": false,
+     "t": "07:20"
+    },
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "8.09",
+     "bold": false,
+     "t": "08:09"
+    },
+    {
+     "st": "大邱",
+     "ev": "dep",
+     "printed": "9.36",
+     "bold": false,
+     "t": "09:36"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "12.52",
+     "bold": false,
+     "t": "12:52"
+    },
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "15.37",
+     "bold": false,
+     "t": "15:37"
+    },
+    {
+     "st": "開城",
+     "ev": "pass"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "20.24",
+     "bold": false,
+     "t": "20:24"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "0.47",
+     "bold": false,
+     "t": "24:47"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "0.52",
+     "bold": false,
+     "t": "24:52"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "1.22",
+     "bold": false,
+     "t": "25:22"
+    },
+    {
+     "st": "蛤蟆塘",
+     "ev": "pass"
+    },
+    {
+     "st": "老古溝",
+     "ev": "dep",
+     "printed": "1.49",
+     "bold": false,
+     "t": "25:49"
+    },
+    {
+     "st": "五龍背",
+     "ev": "pass"
+    },
+    {
+     "st": "湯山城",
+     "ev": "pass"
+    },
+    {
+     "st": "高麗門",
+     "ev": "pass"
+    },
+    {
+     "st": "張家堡",
+     "ev": "dep",
+     "printed": "2.41",
+     "bold": false,
+     "t": "26:41"
+    },
+    {
+     "st": "鳳凰城",
+     "ev": "pass"
+    },
+    {
+     "st": "四臺子",
+     "ev": "pass"
+    },
+    {
+     "st": "南干",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "arr",
+     "printed": "3.15",
+     "bold": false,
+     "t": "27:15"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "dep",
+     "printed": "3.21",
+     "bold": false,
+     "t": "27:21"
+    },
+    {
+     "st": "秋木莊",
+     "ev": "pass"
+    },
+    {
+     "st": "通遠堡",
+     "ev": "pass"
+    },
+    {
+     "st": "草河口",
+     "ev": "pass"
+    },
+    {
+     "st": "郝家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "連山關",
+     "ev": "pass"
+    },
+    {
+     "st": "下馬塘",
+     "ev": "pass"
+    },
+    {
+     "st": "南芬",
+     "ev": "pass"
+    },
+    {
+     "st": "橋頭",
+     "ev": "arr",
+     "printed": "5.17",
+     "bold": false,
+     "t": "29:17"
+    },
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "5.23",
+     "bold": false,
+     "t": "29:23"
+    },
+    {
+     "st": "宮原",
+     "ev": "pass"
+    },
+    {
+     "st": "本溪湖",
+     "ev": "dep",
+     "printed": "5.45",
+     "bold": false,
+     "t": "29:45"
+    },
+    {
+     "st": "火連寨",
+     "ev": "pass"
+    },
+    {
+     "st": "石橋子",
+     "ev": "pass"
+    },
+    {
+     "st": "歪頭山",
+     "ev": "pass"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "pass"
+    },
+    {
+     "st": "陳相屯",
+     "ev": "pass"
+    },
+    {
+     "st": "吳家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "6.51",
+     "bold": false,
+     "t": "30:51"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "6.57",
+     "bold": false,
+     "t": "30:57"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "7.16",
+     "bold": false,
+     "t": "31:16"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "31:25"
+    }
+   ],
+   "dest": "北京",
+   "name": "大陸",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "origin": "釜山",
+   "col": "1",
+   "note": "最下行の桝に「北京著 22.45」"
+  },
+  {
+   "no": "7",
+   "stops": [
+    {
+     "st": "釜山",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    },
+    {
+     "st": "大邱",
+     "ev": "dep",
+     "printed": "10.21",
+     "bold": false,
+     "t": "10:21"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "13.48",
+     "bold": false,
+     "t": "13:48"
+    },
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "16.58",
+     "bold": false,
+     "t": "16:58"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "18.17",
+     "bold": false,
+     "t": "18:17"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "22.05",
+     "bold": false,
+     "t": "22:05"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "2.25",
+     "bold": false,
+     "t": "26:25"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "2.30",
+     "bold": false,
+     "t": "26:30"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "3.03",
+     "bold": false,
+     "t": "27:03"
+    },
+    {
+     "st": "蛤蟆塘",
+     "ev": "dep",
+     "printed": "3.22",
+     "bold": false,
+     "t": "27:22"
+    },
+    {
+     "st": "老古溝",
+     "ev": "pass"
+    },
+    {
+     "st": "五龍背",
+     "ev": "dep",
+     "printed": "3.42",
+     "bold": false,
+     "t": "27:42"
+    },
+    {
+     "st": "湯山城",
+     "ev": "pass"
+    },
+    {
+     "st": "高麗門",
+     "ev": "pass"
+    },
+    {
+     "st": "張家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "鳳凰城",
+     "ev": "dep",
+     "printed": "4.29",
+     "bold": false,
+     "t": "28:29"
+    },
+    {
+     "st": "四臺子",
+     "ev": "pass"
+    },
+    {
+     "st": "南干",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "arr",
+     "printed": "4.57",
+     "bold": false,
+     "t": "28:57"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "dep",
+     "printed": "5.03",
+     "bold": false,
+     "t": "29:03"
+    },
+    {
+     "st": "秋木莊",
+     "ev": "pass"
+    },
+    {
+     "st": "通遠堡",
+     "ev": "pass"
+    },
+    {
+     "st": "草河口",
+     "ev": "pass"
+    },
+    {
+     "st": "郝家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "連山關",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "30:30"
+    },
+    {
+     "st": "下馬塘",
+     "ev": "pass"
+    },
+    {
+     "st": "南芬",
+     "ev": "pass"
+    },
+    {
+     "st": "橋頭",
+     "ev": "arr",
+     "printed": "7.07",
+     "bold": false,
+     "t": "31:07"
+    },
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "7.13",
+     "bold": false,
+     "t": "31:13"
+    },
+    {
+     "st": "宮原",
+     "ev": "pass"
+    },
+    {
+     "st": "本溪湖",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": false,
+     "t": "31:38"
+    },
+    {
+     "st": "火連寨",
+     "ev": "pass"
+    },
+    {
+     "st": "石橋子",
+     "ev": "pass"
+    },
+    {
+     "st": "歪頭山",
+     "ev": "pass"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "pass"
+    },
+    {
+     "st": "陳相屯",
+     "ev": "pass"
+    },
+    {
+     "st": "吳家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "8.45",
+     "bold": false,
+     "t": "32:45"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "8.51",
+     "bold": false,
+     "t": "32:51"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "9.10",
+     "bold": false,
+     "t": "33:10"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "33:20"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": false,
+     "t": "34:17"
+    },
+    {
+     "st": "開原",
+     "ev": "dep",
+     "printed": "10.49",
+     "bold": false,
+     "t": "34:49"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "12.03",
+     "bold": false,
+     "t": "36:03"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "dep",
+     "printed": "12.55",
+     "bold": false,
+     "t": "36:55"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "37:50"
+    }
+   ],
+   "dest": "新京",
+   "name": "のぞみ",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "origin": "釜山",
+   "col": "2"
+  },
+  {
+   "no": "5",
+   "stops": [
+    {
+     "st": "釜山",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "9.45",
+     "bold": false,
+     "t": "09:45"
+    },
+    {
+     "st": "大邱",
+     "ev": "dep",
+     "printed": "11.13",
+     "bold": false,
+     "t": "11:13"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "14.43",
+     "bold": false,
+     "t": "14:43"
+    },
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "18.55",
+     "bold": false,
+     "t": "18:55"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "22.43",
+     "bold": false,
+     "t": "22:43"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "3.45",
+     "bold": false,
+     "t": "27:45"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "3.50",
+     "bold": false,
+     "t": "27:50"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "4.30",
+     "bold": false,
+     "t": "28:30"
+    },
+    {
+     "st": "蛤蟆塘",
+     "ev": "pass"
+    },
+    {
+     "st": "老古溝",
+     "ev": "pass"
+    },
+    {
+     "st": "五龍背",
+     "ev": "dep",
+     "printed": "5.02",
+     "bold": false,
+     "t": "29:02"
+    },
+    {
+     "st": "湯山城",
+     "ev": "pass"
+    },
+    {
+     "st": "高麗門",
+     "ev": "pass"
+    },
+    {
+     "st": "張家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "鳳凰城",
+     "ev": "dep",
+     "printed": "5.49",
+     "bold": false,
+     "t": "29:49"
+    },
+    {
+     "st": "四臺子",
+     "ev": "pass"
+    },
+    {
+     "st": "南干",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "arr",
+     "printed": "6.17",
+     "bold": false,
+     "t": "30:17"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "dep",
+     "printed": "6.23",
+     "bold": false,
+     "t": "30:23"
+    },
+    {
+     "st": "秋木莊",
+     "ev": "pass"
+    },
+    {
+     "st": "劉家河",
+     "ev": "pass"
+    },
+    {
+     "st": "林家臺",
+     "ev": "pass"
+    },
+    {
+     "st": "通遠堡",
+     "ev": "pass"
+    },
+    {
+     "st": "草河口",
+     "ev": "pass"
+    },
+    {
+     "st": "郝家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "連山關",
+     "ev": "dep",
+     "printed": "7.52",
+     "bold": false,
+     "t": "31:52"
+    },
+    {
+     "st": "下馬塘",
+     "ev": "pass"
+    },
+    {
+     "st": "南芬",
+     "ev": "pass"
+    },
+    {
+     "st": "橋頭",
+     "ev": "arr",
+     "printed": "8.32",
+     "bold": false,
+     "t": "32:32"
+    },
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": false,
+     "t": "32:38"
+    },
+    {
+     "st": "宮原",
+     "ev": "dep",
+     "printed": "8.57",
+     "bold": false,
+     "t": "32:57"
+    },
+    {
+     "st": "本溪湖",
+     "ev": "dep",
+     "printed": "9.06",
+     "bold": false,
+     "t": "33:06"
+    },
+    {
+     "st": "火連寨",
+     "ev": "pass"
+    },
+    {
+     "st": "石橋子",
+     "ev": "pass"
+    },
+    {
+     "st": "歪頭山",
+     "ev": "pass"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "pass"
+    },
+    {
+     "st": "陳相屯",
+     "ev": "pass"
+    },
+    {
+     "st": "吳家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "10.26",
+     "bold": false,
+     "t": "34:26"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "10.34",
+     "bold": false,
+     "t": "34:34"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "10.53",
+     "bold": false,
+     "t": "34:53"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "2.3",
+   "marks": "急 食 寢2.3",
+   "origin": "釜山",
+   "col": "3"
+  },
+  {
+   "no": "215",
+   "stops": [
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    },
+    {
+     "st": "宮原",
+     "ev": "dep",
+     "printed": "9.41",
+     "bold": false,
+     "t": "09:41"
+    },
+    {
+     "st": "本溪湖",
+     "ev": "dep",
+     "printed": "9.57",
+     "bold": false,
+     "t": "09:57"
+    },
+    {
+     "st": "火連寨",
+     "ev": "dep",
+     "printed": "10.09",
+     "bold": false,
+     "t": "10:09"
+    },
+    {
+     "st": "石橋子",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "歪頭山",
+     "ev": "dep",
+     "printed": "10.49",
+     "bold": false,
+     "t": "10:49"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "dep",
+     "printed": "10.58",
+     "bold": false,
+     "t": "10:58"
+    },
+    {
+     "st": "陳相屯",
+     "ev": "dep",
+     "printed": "11.15",
+     "bold": false,
+     "t": "11:15"
+    },
+    {
+     "st": "吳家屯",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "11.36",
+     "bold": false,
+     "t": "11:36"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "11.42",
+     "bold": false,
+     "t": "11:42"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "11.52",
+     "bold": false,
+     "t": "11:52"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "11.53",
+     "bold": false,
+     "t": "11:53"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "12.05",
+     "bold": false,
+     "t": "12:05"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "3",
+   "col": "4"
+  },
+  {
+   "no": "209",
+   "stops": [
+    {
+     "st": "草河口",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    },
+    {
+     "st": "郝家堡",
+     "ev": "dep",
+     "printed": "8.43",
+     "bold": false,
+     "t": "08:43"
+    },
+    {
+     "st": "連山關",
+     "ev": "dep",
+     "printed": "8.52",
+     "bold": false,
+     "t": "08:52"
+    },
+    {
+     "st": "下馬塘",
+     "ev": "dep",
+     "printed": "9.14",
+     "bold": false,
+     "t": "09:14"
+    },
+    {
+     "st": "南芬",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": false,
+     "t": "09:31"
+    },
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    }
+   ],
+   "dest": "橋頭",
+   "cls": "3",
+   "marks": "動",
+   "col": "5"
+  },
+  {
+   "no": "45",
+   "stops": [
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "6.50",
+     "bold": false,
+     "t": "06:50"
+    },
+    {
+     "st": "沙河鎭",
+     "ev": "dep",
+     "printed": "6.57",
+     "bold": false,
+     "t": "06:57"
+    },
+    {
+     "st": "蛤蟆塘",
+     "ev": "dep",
+     "printed": "7.06",
+     "bold": false,
+     "t": "07:06"
+    },
+    {
+     "st": "老古溝",
+     "ev": "dep",
+     "printed": "7.16",
+     "bold": false,
+     "t": "07:16"
+    },
+    {
+     "st": "五龍背",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "湯山城",
+     "ev": "dep",
+     "printed": "7.42",
+     "bold": false,
+     "t": "07:42"
+    },
+    {
+     "st": "高麗門",
+     "ev": "dep",
+     "printed": "7.57",
+     "bold": false,
+     "t": "07:57"
+    },
+    {
+     "st": "張家堡",
+     "ev": "dep",
+     "printed": "8.09",
+     "bold": false,
+     "t": "08:09"
+    },
+    {
+     "st": "鳳凰城",
+     "ev": "dep",
+     "printed": "8.19",
+     "bold": false,
+     "t": "08:19"
+    },
+    {
+     "st": "四臺子",
+     "ev": "dep",
+     "printed": "8.32",
+     "bold": false,
+     "t": "08:32"
+    },
+    {
+     "st": "南干",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "arr",
+     "printed": "8.47",
+     "bold": false,
+     "t": "08:47"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "dep",
+     "printed": "8.53",
+     "bold": false,
+     "t": "08:53"
+    },
+    {
+     "st": "秋木莊",
+     "ev": "dep",
+     "printed": "9.16",
+     "bold": false,
+     "t": "09:16"
+    },
+    {
+     "st": "劉家河",
+     "ev": "dep",
+     "printed": "9.26",
+     "bold": false,
+     "t": "09:26"
+    },
+    {
+     "st": "林家臺",
+     "ev": "dep",
+     "printed": "9.36",
+     "bold": false,
+     "t": "09:36"
+    },
+    {
+     "st": "通遠堡",
+     "ev": "dep",
+     "printed": "9.48",
+     "bold": false,
+     "t": "09:48"
+    },
+    {
+     "st": "草河口",
+     "ev": "dep",
+     "printed": "10.08",
+     "bold": false,
+     "t": "10:08"
+    },
+    {
+     "st": "郝家堡",
+     "ev": "dep",
+     "printed": "10.27",
+     "bold": false,
+     "t": "10:27"
+    },
+    {
+     "st": "連山關",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "下馬塘",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": false,
+     "t": "11:03"
+    },
+    {
+     "st": "南芬",
+     "ev": "dep",
+     "printed": "11.23",
+     "bold": false,
+     "t": "11:23"
+    },
+    {
+     "st": "橋頭",
+     "ev": "arr",
+     "printed": "11.43",
+     "bold": false,
+     "t": "11:43"
+    },
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "11.51",
+     "bold": false,
+     "t": "11:51"
+    },
+    {
+     "st": "宮原",
+     "ev": "dep",
+     "printed": "12.08",
+     "bold": false,
+     "t": "12:08"
+    },
+    {
+     "st": "本溪湖",
+     "ev": "dep",
+     "printed": "12.19",
+     "bold": false,
+     "t": "12:19"
+    },
+    {
+     "st": "火連寨",
+     "ev": "dep",
+     "printed": "12.31",
+     "bold": false,
+     "t": "12:31"
+    },
+    {
+     "st": "石橋子",
+     "ev": "dep",
+     "printed": "12.51",
+     "bold": false,
+     "t": "12:51"
+    },
+    {
+     "st": "歪頭山",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "dep",
+     "printed": "13.09",
+     "bold": false,
+     "t": "13:09"
+    },
+    {
+     "st": "陳相屯",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "吳家屯",
+     "ev": "dep",
+     "printed": "13.35",
+     "bold": false,
+     "t": "13:35"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "13.47",
+     "bold": false,
+     "t": "13:47"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "13.56",
+     "bold": false,
+     "note": "著が發より後。印刷のまま",
+     "t": "13:56"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "13.54",
+     "bold": false,
+     "note": "著が發より後。印刷のまま",
+     "t": "13:54"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "col": "6"
+  },
+  {
+   "no": "59",
+   "stops": [
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    },
+    {
+     "st": "宮原",
+     "ev": "dep",
+     "printed": "13.09",
+     "bold": false,
+     "t": "13:09"
+    },
+    {
+     "st": "本溪湖",
+     "ev": "dep",
+     "printed": "13.29",
+     "bold": false,
+     "t": "13:29"
+    },
+    {
+     "st": "火連寨",
+     "ev": "dep",
+     "printed": "13.41",
+     "bold": false,
+     "t": "13:41"
+    },
+    {
+     "st": "石橋子",
+     "ev": "dep",
+     "printed": "14.02",
+     "bold": false,
+     "t": "14:02"
+    },
+    {
+     "st": "歪頭山",
+     "ev": "dep",
+     "printed": "14.11",
+     "bold": false,
+     "t": "14:11"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "dep",
+     "printed": "14.20",
+     "bold": false,
+     "t": "14:20"
+    },
+    {
+     "st": "陳相屯",
+     "ev": "dep",
+     "printed": "14.37",
+     "bold": false,
+     "t": "14:37"
+    },
+    {
+     "st": "吳家屯",
+     "ev": "dep",
+     "printed": "14.47",
+     "bold": false,
+     "t": "14:47"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "14.58",
+     "bold": false,
+     "t": "14:58"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "15.02",
+     "bold": false,
+     "t": "15:02"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "15.12",
+     "bold": false,
+     "t": "15:12"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "15.13",
+     "bold": false,
+     "t": "15:13"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "15.23",
+     "bold": false,
+     "t": "15:23"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "3",
+   "col": "7"
+  },
+  {
+   "no": "49",
+   "stops": [
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "沙河鎭",
+     "ev": "dep",
+     "printed": "9.28",
+     "bold": false,
+     "t": "09:28"
+    },
+    {
+     "st": "蛤蟆塘",
+     "ev": "dep",
+     "printed": "9.38",
+     "bold": false,
+     "t": "09:38"
+    },
+    {
+     "st": "老古溝",
+     "ev": "dep",
+     "printed": "9.58",
+     "bold": false,
+     "t": "09:58"
+    },
+    {
+     "st": "五龍背",
+     "ev": "dep",
+     "printed": "10.09",
+     "bold": false,
+     "t": "10:09"
+    },
+    {
+     "st": "湯山城",
+     "ev": "dep",
+     "printed": "10.24",
+     "bold": false,
+     "t": "10:24"
+    },
+    {
+     "st": "高麗門",
+     "ev": "dep",
+     "printed": "10.44",
+     "bold": false,
+     "t": "10:44"
+    },
+    {
+     "st": "張家堡",
+     "ev": "dep",
+     "printed": "10.59",
+     "bold": false,
+     "t": "10:59"
+    },
+    {
+     "st": "鳳凰城",
+     "ev": "dep",
+     "printed": "11.12",
+     "bold": false,
+     "t": "11:12"
+    },
+    {
+     "st": "四臺子",
+     "ev": "dep",
+     "printed": "11.28",
+     "bold": false,
+     "t": "11:28"
+    },
+    {
+     "st": "南干",
+     "ev": "dep",
+     "printed": "11.38",
+     "bold": false,
+     "t": "11:38"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    }
+   ],
+   "dest": "鷄冠山",
+   "cls": "3",
+   "col": "8"
+  },
+  {
+   "no": "111",
+   "stops": [
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "宮原",
+     "ev": "dep",
+     "printed": "15.49",
+     "bold": false,
+     "t": "15:49"
+    },
+    {
+     "st": "本溪湖",
+     "ev": "dep",
+     "printed": "15.58",
+     "bold": false,
+     "t": "15:58"
+    },
+    {
+     "st": "火連寨",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "石橋子",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "歪頭山",
+     "ev": "dep",
+     "printed": "16.51",
+     "bold": false,
+     "t": "16:51"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "dep",
+     "printed": "17.09",
+     "bold": false,
+     "t": "17:09"
+    },
+    {
+     "st": "陳相屯",
+     "ev": "dep",
+     "printed": "17.25",
+     "bold": false,
+     "t": "17:25"
+    },
+    {
+     "st": "吳家屯",
+     "ev": "dep",
+     "printed": "17.35",
+     "bold": false,
+     "t": "17:35"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "17.46",
+     "bold": false,
+     "t": "17:46"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "t": "17:50"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "18.01",
+     "bold": false,
+     "t": "18:01"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "18.11",
+     "bold": false,
+     "t": "18:11"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "2.3",
+   "col": "8",
+   "note": "第8欄の下半。49列車の下の空欄に「奉天行 [2.3] 111」と印刷されてゐる"
+  },
+  {
+   "no": "207",
+   "stops": [
+    {
+     "st": "鷄冠山",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "秋木莊",
+     "ev": "dep",
+     "printed": "12.46",
+     "bold": false,
+     "t": "12:46"
+    },
+    {
+     "st": "劉家河",
+     "ev": "dep",
+     "printed": "13.15",
+     "bold": false,
+     "t": "13:15"
+    },
+    {
+     "st": "林家臺",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "通遠堡",
+     "ev": "dep",
+     "printed": "13.38",
+     "bold": false,
+     "t": "13:38"
+    },
+    {
+     "st": "草河口",
+     "ev": "dep",
+     "printed": "13.59",
+     "bold": false,
+     "t": "13:59"
+    },
+    {
+     "st": "郝家堡",
+     "ev": "dep",
+     "printed": "14.21",
+     "bold": false,
+     "t": "14:21"
+    },
+    {
+     "st": "連山關",
+     "ev": "dep",
+     "printed": "14.34",
+     "bold": false,
+     "t": "14:34"
+    },
+    {
+     "st": "下馬塘",
+     "ev": "dep",
+     "printed": "14.48",
+     "bold": false,
+     "t": "14:48"
+    },
+    {
+     "st": "南芬",
+     "ev": "dep",
+     "printed": "15.02",
+     "bold": false,
+     "t": "15:02"
+    },
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "15.21",
+     "bold": false,
+     "t": "15:21"
+    }
+   ],
+   "dest": "橋頭",
+   "cls": "3",
+   "marks": "動",
+   "col": "9"
+  },
+  {
+   "no": "47",
+   "stops": [
+    {
+     "st": "釜山",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "10.58",
+     "bold": false,
+     "t": "10:58"
+    },
+    {
+     "st": "大邱",
+     "ev": "dep",
+     "printed": "13.01",
+     "bold": false,
+     "t": "13:01"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "18.08",
+     "bold": false,
+     "t": "18:08"
+    },
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "22.30",
+     "bold": false,
+     "t": "22:30"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "0.14",
+     "bold": false,
+     "t": "24:14"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "5.30",
+     "bold": false,
+     "t": "29:30"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "11.49",
+     "bold": false,
+     "t": "35:49"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "11.55",
+     "bold": false,
+     "t": "35:55"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "12.35",
+     "bold": false,
+     "t": "36:35"
+    },
+    {
+     "st": "沙河鎭",
+     "ev": "dep",
+     "printed": "12.42",
+     "bold": false,
+     "t": "36:42"
+    },
+    {
+     "st": "蛤蟆塘",
+     "ev": "dep",
+     "printed": "12.51",
+     "bold": false,
+     "t": "36:51"
+    },
+    {
+     "st": "老古溝",
+     "ev": "dep",
+     "printed": "13.02",
+     "bold": false,
+     "t": "37:02"
+    },
+    {
+     "st": "五龍背",
+     "ev": "dep",
+     "printed": "13.13",
+     "bold": false,
+     "t": "37:13"
+    },
+    {
+     "st": "湯山城",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "38:00"
+    },
+    {
+     "st": "高麗門",
+     "ev": "dep",
+     "printed": "14.35",
+     "bold": false,
+     "t": "38:35"
+    },
+    {
+     "st": "張家堡",
+     "ev": "dep",
+     "printed": "15.03",
+     "bold": false,
+     "t": "39:03"
+    },
+    {
+     "st": "鳳凰城",
+     "ev": "dep",
+     "printed": "15.15",
+     "bold": false,
+     "t": "39:15"
+    },
+    {
+     "st": "四臺子",
+     "ev": "dep",
+     "printed": "15.29",
+     "bold": false,
+     "t": "39:29"
+    },
+    {
+     "st": "南干",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "arr",
+     "printed": "15.46",
+     "bold": false,
+     "t": "39:46"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "dep",
+     "printed": "16.19",
+     "bold": false,
+     "t": "40:19"
+    },
+    {
+     "st": "秋木莊",
+     "ev": "dep",
+     "printed": "16.49",
+     "bold": false,
+     "t": "40:49"
+    },
+    {
+     "st": "劉家河",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "41:00"
+    },
+    {
+     "st": "林家臺",
+     "ev": "dep",
+     "printed": "17.11",
+     "bold": false,
+     "t": "41:11"
+    },
+    {
+     "st": "通遠堡",
+     "ev": "dep",
+     "printed": "17.25",
+     "bold": false,
+     "t": "41:25"
+    },
+    {
+     "st": "草河口",
+     "ev": "dep",
+     "printed": "17.48",
+     "bold": false,
+     "t": "41:48"
+    },
+    {
+     "st": "郝家堡",
+     "ev": "dep",
+     "printed": "18.11",
+     "bold": false,
+     "t": "42:11"
+    },
+    {
+     "st": "連山關",
+     "ev": "dep",
+     "printed": "18.26",
+     "bold": false,
+     "t": "42:26"
+    },
+    {
+     "st": "下馬塘",
+     "ev": "dep",
+     "printed": "18.41",
+     "bold": false,
+     "t": "42:41"
+    },
+    {
+     "st": "南芬",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "43:00"
+    },
+    {
+     "st": "橋頭",
+     "ev": "arr",
+     "printed": "19.22",
+     "bold": false,
+     "t": "43:22"
+    },
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "19.28",
+     "bold": false,
+     "t": "43:28"
+    },
+    {
+     "st": "宮原",
+     "ev": "dep",
+     "printed": "19.58",
+     "bold": false,
+     "t": "43:58"
+    },
+    {
+     "st": "本溪湖",
+     "ev": "dep",
+     "printed": "20.07",
+     "bold": false,
+     "t": "44:07"
+    },
+    {
+     "st": "火連寨",
+     "ev": "dep",
+     "printed": "20.19",
+     "bold": false,
+     "t": "44:19"
+    },
+    {
+     "st": "石橋子",
+     "ev": "dep",
+     "printed": "20.41",
+     "bold": false,
+     "t": "44:41"
+    },
+    {
+     "st": "歪頭山",
+     "ev": "dep",
+     "printed": "20.56",
+     "bold": false,
+     "t": "44:56"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "dep",
+     "printed": "21.07",
+     "bold": false,
+     "t": "45:07"
+    },
+    {
+     "st": "陳相屯",
+     "ev": "dep",
+     "printed": "21.26",
+     "bold": false,
+     "t": "45:26"
+    },
+    {
+     "st": "吳家屯",
+     "ev": "dep",
+     "printed": "21.37",
+     "bold": false,
+     "t": "45:37"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "21.48",
+     "bold": false,
+     "t": "45:48"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "21.53",
+     "bold": false,
+     "t": "45:53"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "22.22",
+     "bold": false,
+     "note": "著が發より後。印刷のまま",
+     "t": "46:22"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "22.03",
+     "bold": false,
+     "note": "著が發より後。印刷のまま",
+     "t": "70:03"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "22.13",
+     "bold": false,
+     "t": "70:13"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "2.3",
+   "marks": "寢2.3",
+   "origin": "釜山",
+   "col": "10"
+  },
+  {
+   "no": "1",
+   "stops": [
+    {
+     "st": "釜山",
+     "ev": "dep",
+     "printed": "19.45",
+     "bold": false,
+     "t": "19:45"
+    },
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "20.44",
+     "bold": false,
+     "t": "20:44"
+    },
+    {
+     "st": "大邱",
+     "ev": "dep",
+     "printed": "22.12",
+     "bold": false,
+     "t": "22:12"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "1.25",
+     "bold": false,
+     "t": "25:25"
+    },
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "4.05",
+     "bold": false,
+     "t": "28:05"
+    },
+    {
+     "st": "開城",
+     "ev": "pass"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "8.37",
+     "bold": false,
+     "t": "32:37"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "12.38",
+     "bold": false,
+     "t": "36:38"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "12.43",
+     "bold": false,
+     "t": "36:43"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "13.13",
+     "bold": false,
+     "t": "37:13"
+    },
+    {
+     "st": "蛤蟆塘",
+     "ev": "pass"
+    },
+    {
+     "st": "老古溝",
+     "ev": "pass"
+    },
+    {
+     "st": "五龍背",
+     "ev": "pass"
+    },
+    {
+     "st": "湯山城",
+     "ev": "pass"
+    },
+    {
+     "st": "高麗門",
+     "ev": "pass"
+    },
+    {
+     "st": "張家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "鳳凰城",
+     "ev": "pass"
+    },
+    {
+     "st": "四臺子",
+     "ev": "pass"
+    },
+    {
+     "st": "南干",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "arr",
+     "printed": "14.33",
+     "bold": false,
+     "t": "38:33"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "dep",
+     "printed": "14.39",
+     "bold": false,
+     "t": "38:39"
+    },
+    {
+     "st": "秋木莊",
+     "ev": "pass"
+    },
+    {
+     "st": "通遠堡",
+     "ev": "pass"
+    },
+    {
+     "st": "草河口",
+     "ev": "pass"
+    },
+    {
+     "st": "郝家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "連山關",
+     "ev": "pass"
+    },
+    {
+     "st": "下馬塘",
+     "ev": "pass"
+    },
+    {
+     "st": "南芬",
+     "ev": "pass"
+    },
+    {
+     "st": "橋頭",
+     "ev": "arr",
+     "printed": "16.28",
+     "bold": false,
+     "t": "40:28"
+    },
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "16.34",
+     "bold": false,
+     "t": "40:34"
+    },
+    {
+     "st": "宮原",
+     "ev": "pass"
+    },
+    {
+     "st": "本溪湖",
+     "ev": "dep",
+     "printed": "16.58",
+     "bold": false,
+     "t": "40:58"
+    },
+    {
+     "st": "火連寨",
+     "ev": "pass"
+    },
+    {
+     "st": "石橋子",
+     "ev": "pass"
+    },
+    {
+     "st": "歪頭山",
+     "ev": "pass"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "pass"
+    },
+    {
+     "st": "陳相屯",
+     "ev": "pass"
+    },
+    {
+     "st": "吳家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "18.01",
+     "bold": false,
+     "t": "42:01"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "18.07",
+     "bold": false,
+     "t": "42:07"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "18.25",
+     "bold": false,
+     "t": "42:25"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "t": "42:35"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "dep",
+     "printed": "19.31",
+     "bold": false,
+     "t": "43:31"
+    },
+    {
+     "st": "開原",
+     "ev": "dep",
+     "printed": "20.04",
+     "bold": false,
+     "t": "44:04"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "21.18",
+     "bold": false,
+     "t": "45:18"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "dep",
+     "printed": "22.09",
+     "bold": false,
+     "t": "46:09"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "23.06",
+     "bold": false,
+     "t": "47:06"
+    }
+   ],
+   "dest": "新京",
+   "name": "ひかり",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "origin": "釜山",
+   "col": "11"
+  },
+  {
+   "no": "3",
+   "stops": [
+    {
+     "st": "釜山",
+     "ev": "dep",
+     "printed": "20.15",
+     "bold": false,
+     "t": "20:15"
+    },
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "21.12",
+     "bold": false,
+     "t": "21:12"
+    },
+    {
+     "st": "大邱",
+     "ev": "dep",
+     "printed": "22.42",
+     "bold": false,
+     "t": "22:42"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "1.56",
+     "bold": false,
+     "t": "25:56"
+    },
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "4.36",
+     "bold": false,
+     "t": "28:36"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "5.49",
+     "bold": false,
+     "t": "29:49"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "9.19",
+     "bold": false,
+     "t": "33:19"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "37:25"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "13.30",
+     "bold": false,
+     "t": "37:30"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "38:00"
+    },
+    {
+     "st": "蛤蟆塘",
+     "ev": "dep",
+     "printed": "14.21",
+     "bold": false,
+     "t": "38:21"
+    },
+    {
+     "st": "老古溝",
+     "ev": "pass"
+    },
+    {
+     "st": "五龍背",
+     "ev": "dep",
+     "printed": "14.39",
+     "bold": false,
+     "t": "38:39"
+    },
+    {
+     "st": "湯山城",
+     "ev": "dep",
+     "printed": "14.56",
+     "bold": false,
+     "t": "38:56"
+    },
+    {
+     "st": "高麗門",
+     "ev": "dep",
+     "printed": "15.11",
+     "bold": false,
+     "t": "39:11"
+    },
+    {
+     "st": "張家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "鳳凰城",
+     "ev": "dep",
+     "printed": "15.33",
+     "bold": false,
+     "t": "39:33"
+    },
+    {
+     "st": "四臺子",
+     "ev": "pass"
+    },
+    {
+     "st": "南干",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "arr",
+     "printed": "16.01",
+     "bold": false,
+     "t": "40:01"
+    },
+    {
+     "st": "鷄冠山",
+     "ev": "dep",
+     "printed": "16.07",
+     "bold": false,
+     "t": "40:07"
+    },
+    {
+     "st": "秋木莊",
+     "ev": "pass"
+    },
+    {
+     "st": "草河口",
+     "ev": "pass"
+    },
+    {
+     "st": "郝家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "連山關",
+     "ev": "dep",
+     "printed": "17.34",
+     "bold": false,
+     "t": "41:34"
+    },
+    {
+     "st": "下馬塘",
+     "ev": "pass"
+    },
+    {
+     "st": "南芬",
+     "ev": "pass"
+    },
+    {
+     "st": "橋頭",
+     "ev": "arr",
+     "printed": "18.11",
+     "bold": false,
+     "t": "42:11"
+    },
+    {
+     "st": "橋頭",
+     "ev": "dep",
+     "printed": "18.17",
+     "bold": false,
+     "t": "42:17"
+    },
+    {
+     "st": "宮原",
+     "ev": "pass"
+    },
+    {
+     "st": "本溪湖",
+     "ev": "dep",
+     "printed": "18.45",
+     "bold": false,
+     "t": "42:45"
+    },
+    {
+     "st": "火連寨",
+     "ev": "pass"
+    },
+    {
+     "st": "石橋子",
+     "ev": "dep",
+     "printed": "19.22",
+     "bold": false,
+     "t": "43:22"
+    },
+    {
+     "st": "歪頭山",
+     "ev": "pass"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "pass"
+    },
+    {
+     "st": "陳相屯",
+     "ev": "pass"
+    },
+    {
+     "st": "吳家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "20.03",
+     "bold": false,
+     "t": "44:03"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "20.09",
+     "bold": false,
+     "t": "44:09"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "20.28",
+     "bold": false,
+     "t": "44:28"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "20.45",
+     "bold": false,
+     "t": "44:45"
+    }
+   ],
+   "dest": "北京",
+   "name": "興亞",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "origin": "釜山",
+   "col": "12",
+   "note": "最下行の桝に「北京著 13.55」"
+  },
+  {
+   "no": "20?",
+   "stops": [],
+   "dest": "鷄冠山",
+   "cls": "3",
+   "col": "13",
+   "note": "綴込みに落ち込み、列車番號の下1桁と全行の分が讀めない。判讀できた時の桁は表頭のnote參照"
+  }
+ ],
+ "notes": [
+  "昭和17.6.15改正。頁23へ續く同一表の前半（列車欄はこの頁が第1〜13欄、頁23が第14〜18欄）。驛名欄・停車行はこの頁と頁23で共通。頁23の驛名欄は列車欄の右にある。原表に上り・下りの表示は無い。頁20・21の奉天→安東表の逆方向。",
+  "左端に「自安東 運賃 1等・2等・3等」欄があるが轉記せず。粁程（キロ程）欄はこの表には無い。驛名の左に⊕・〒・◎・※等の設備記號が付くが轉記せず。",
+  "頁頭に枠組みの【税關檢査に就て】欄（●滿洲國に出入する旅客の携帶品は下記の場所で税關檢査を受けねばなりません。1.大連より大阪商船により門司・神戸に向ふ場合は……船中。2.大連より商船以外の定期船で出る場合は……上陸地税關檢査場。3.大連驛より關東州外に向ふ場合は……大連驛。託送手荷物は大連驛手小荷物取扱所。4.滿洲國より山海關經由北支に向ふ場合（又は之と反對の場合）は……山海關驛。携帶品は車中にて、託送手荷物はホーム檢査所。5.滿洲國より古北口經由北支へ向ふ場合（又は之と反對の場合）は……古北口驛。）。6〜10は頁23に續く。最上部に「…通行税は132頁參照…」。",
+  "表尾に「記念スタンプ 奉天、歪頭山、本溪湖、橋頭、下馬塘、連山關、鷄冠山、鳳凰城、高麗門、五龍背、安東、ひかり、のぞみ」。",
+  "表頭の「釜山發〜安東著」9行（釜山・三浪津・大邱・大田・京城・開城・平壤・新義州・安東著）は接續の抄錄（原表註記「74 75頁」）。表尾の「奉天發〜新京著」6行も抄錄（原表註記「14 15頁」）。安東・奉天は抄錄行と本表の行が別行で印刷されてゐるが、本ファイルでは1驛1行（著/發）にまとめた。9列車・3列車（北京行）は最下行の桝に縦書きで「北京著 22.45」「北京著 13.55」と印刷されてゐる（本ファイルでは列車ヘッダのnoteに記した）。",
+  "鷄冠山・橋頭・蘇家屯・渾河の4驛は原表で著・發の2行に分かれる（本ファイルでは著/發）。他の驛は1行のみ。",
+  "「v」は原表のレ（通過）、「-」は原表の「…」または標記のため時刻が印刷されてゐない桝。9・7・5・1・3列車の沙河鎭の桝に「急行」の黑地標記が入り、その桝には時刻が無い。列車名の標記（劉家河・林家臺の桝、興亞は通遠堡まで）も同樣。",
+  "第8欄は上下で2列車を兼ねる。上半は49列車（安東9.20→鷄冠山11.50、鷄冠山行）、その下の空欄に「奉天行 [2.3] 111」と印刷され、橋頭發以下は111列車（橋頭15.30→奉天18.11）の時刻である。本ファイルでは49と111を別の train ブロックとし、いづれも col 8 とした。",
+  "誤植と思はれる箇所（いづれも印刷のまま轉記）：45列車の渾河 著13.56／發13.54（著が發より後。13.57の誤植か）、47列車の渾河 著22.22／發22.03（同じく。22.02の誤植か）。",
+  "異常に見えるが判讀は確かな箇所：9列車（大陸）が五龍背・鳳凰城を通過して老古溝1.49・張家堡2.41に停車する（交換待ちとみられる）。47列車は五龍背13.13→湯山城14.00→高麗門14.35と長時間の待避がある（頁20の48列車の橋頭―南芬56分と同種）。207列車は鷄冠山12.00→秋木莊12.46。",
+  "第13欄は綴込み（ノド）に落ち込み、分の數字が全行讀めない。行先「鷄冠山行」・等級3・列車番號の上2桁「20」は讀める（201・203・205等のいづれか）。判讀できた時の桁は驛順に 安東15／沙河鎭15／蛤蟆塘15／老古溝16／五龍背16／湯山城16／高麗門16／張家堡17／鳳凰城17／四臺子17／南干17／鷄冠山著17。鷄冠山より先は「…」。時刻は全行「-」とした。",
+  "第23驛は原表で2字名「南干」と印刷されてゐる（頁20と同じ）。現行の南口前に當ると思はれるが、印刷のまま轉記した。"
+ ],
+ "source": "IMG_1840",
+ "page": "22",
+ "title": "安東・奉天間（滿鐵・安奉線）",
+ "line": "滿鐵社線 安奉線",
+ "dir": "安東→奉天"
+}

@@ -1,0 +1,89 @@
+{
+ "stations": [
+  {
+   "name": "磐石",
+   "km": null
+  },
+  {
+   "name": "樺甸",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "無番",
+   "stops": [
+    {
+     "st": "磐石",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "樺甸",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    }
+   ],
+   "dest": "樺甸",
+   "col": "1"
+  },
+  {
+   "no": "無番",
+   "stops": [
+    {
+     "st": "磐石",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "樺甸",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    }
+   ],
+   "dest": "樺甸",
+   "col": "2"
+  },
+  {
+   "no": "無番",
+   "stops": [
+    {
+     "st": "磐石",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "樺甸",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    }
+   ],
+   "dest": "樺甸",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "右3欄（磐石發）。運賃は共通欄（樺甸起算、磐石 2.65）。"
+ ],
+ "source": "IMG_1887",
+ "page": "117",
+ "kind": "bus",
+ "office": "各地自動車會社線",
+ "line": "吉林交通郊外線（吉林交通會社）",
+ "title": "磐石・樺甸間",
+ "dir": "磐石→樺甸",
+ "season": "昭和16.11.1改正",
+ "fares": "磐石 | 樺甸 2.65"
+}

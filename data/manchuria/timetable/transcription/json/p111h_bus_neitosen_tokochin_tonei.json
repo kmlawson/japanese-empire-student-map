@@ -1,0 +1,59 @@
+{
+ "stations": [
+  {
+   "name": "東興鎭",
+   "km": null
+  },
+  {
+   "name": "石門子",
+   "km": null
+  },
+  {
+   "name": "東寧",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "東興鎭",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "石門子",
+     "ev": "dep",
+     "printed": "16.50",
+     "bold": false,
+     "t": "16:50"
+    },
+    {
+     "st": "東寧",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "東寧",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "運賃欄は表の左端に1組のみ（東寧起點）。"
+ ],
+ "source": "IMG_1884",
+ "page": "111",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "寧東線",
+ "title": "東寧・東興鎭間",
+ "dir": "東興鎭→東寧",
+ "season": "(運休)",
+ "service": "五日目運行",
+ "fares": "東興鎭 4.35 | 石門子 0.95 | 東寧"
+}

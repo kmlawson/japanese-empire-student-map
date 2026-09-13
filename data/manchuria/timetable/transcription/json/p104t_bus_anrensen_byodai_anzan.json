@@ -1,0 +1,197 @@
+{
+ "stations": [
+  {
+   "name": "廟臺",
+   "km": null
+  },
+  {
+   "name": "七嶺子",
+   "km": null
+  },
+  {
+   "name": "鞍山",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "170",
+   "stops": [
+    {
+     "st": "廟臺",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    },
+    {
+     "st": "七嶺子",
+     "ev": "dep",
+     "printed": "10.08",
+     "bold": false,
+     "t": "10:08"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    }
+   ],
+   "dest": "鞍山",
+   "col": "1"
+  },
+  {
+   "no": "172",
+   "stops": [
+    {
+     "st": "廟臺",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    },
+    {
+     "st": "七嶺子",
+     "ev": "dep",
+     "printed": "11.08",
+     "bold": false,
+     "t": "11:08"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "鞍山",
+   "col": "2"
+  },
+  {
+   "no": "174",
+   "stops": [
+    {
+     "st": "廟臺",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "七嶺子",
+     "ev": "dep",
+     "printed": "12.48",
+     "bold": false,
+     "t": "12:48"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    }
+   ],
+   "dest": "鞍山",
+   "col": "3"
+  },
+  {
+   "no": "176",
+   "stops": [
+    {
+     "st": "廟臺",
+     "ev": "dep",
+     "printed": "14.20",
+     "bold": false,
+     "t": "14:20"
+    },
+    {
+     "st": "七嶺子",
+     "ev": "dep",
+     "printed": "14.38",
+     "bold": false,
+     "t": "14:38"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    }
+   ],
+   "dest": "鞍山",
+   "col": "4"
+  },
+  {
+   "no": "178",
+   "stops": [
+    {
+     "st": "廟臺",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "七嶺子",
+     "ev": "dep",
+     "printed": "16.08",
+     "bold": false,
+     "t": "16:08"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "鞍山",
+   "col": "5"
+  },
+  {
+   "no": "180",
+   "stops": [
+    {
+     "st": "廟臺",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "七嶺子",
+     "ev": "dep",
+     "printed": "17.18",
+     "bold": false,
+     "t": "17:18"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "18.10",
+     "bold": false,
+     "t": "18:10"
+    }
+   ],
+   "dest": "鞍山",
+   "col": "6"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "鞍連線",
+ "title": "鞍山・廟臺間",
+ "dir": "廟臺→鞍山",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "廟臺 0 | 七嶺子 0.30 | 鞍山 1.20"
+}

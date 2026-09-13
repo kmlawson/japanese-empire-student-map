@@ -1,0 +1,69 @@
+{
+ "stations": [
+  {
+   "name": "柏家溝",
+   "km": null
+  },
+  {
+   "name": "法庫",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "171",
+   "stops": [
+    {
+     "st": "柏家溝",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    }
+   ],
+   "dest": "法庫",
+   "col": "1"
+  },
+  {
+   "no": "173",
+   "stops": [
+    {
+     "st": "柏家溝",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    }
+   ],
+   "dest": "法庫",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 法庫→柏家溝 direction; the even numbers (172/174) run 法庫→柏家溝 and the odd ones (171/173) the other way"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "開法線",
+ "title": "法庫・柏家溝間",
+ "dir": "柏家溝→法庫",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "柏家溝 0.95 | 法庫 0"
+}

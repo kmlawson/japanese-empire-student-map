@@ -1,0 +1,20 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 九布線
+title: 下九臺・布海間
+dir: 布海→下九臺
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が布海發（本表）。運賃欄は下九臺起點のものを反轉して掲げた。
+stations: 布海 | 下九臺
+fares: 布海 1.70 | 下九臺
+
+train: 652 | dest 下九臺 | col 1
+布海 10.30
+下九臺 12.10
+
+train: 654 | dest 下九臺 | col 2
+布海 15.00
+下九臺 16.40

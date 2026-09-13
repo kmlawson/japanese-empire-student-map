@@ -1,0 +1,371 @@
+{
+ "stations": [
+  {
+   "name": "新京驛",
+   "km": null
+  },
+  {
+   "name": "新京",
+   "km": null
+  },
+  {
+   "name": "岔路河",
+   "km": null
+  },
+  {
+   "name": "吉林驛前",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "504",
+   "stops": [
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "吉林驛前",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    }
+   ],
+   "dest": "吉林驛前",
+   "origin": "岔路河",
+   "col": "1"
+  },
+  {
+   "no": "506",
+   "stops": [
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "吉林驛前",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    }
+   ],
+   "dest": "吉林驛前",
+   "origin": "岔路河",
+   "col": "2"
+  },
+  {
+   "no": "524",
+   "stops": [
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    }
+   ],
+   "dest": "岔路河",
+   "origin": "新京",
+   "col": "3"
+  },
+  {
+   "no": "508",
+   "stops": [
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "吉林驛前",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    }
+   ],
+   "dest": "吉林驛前",
+   "origin": "岔路河",
+   "col": "4"
+  },
+  {
+   "no": "522",
+   "stops": [
+    {
+     "st": "新京驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    },
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "吉林驛前",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "13:10"
+    }
+   ],
+   "dest": "吉林驛前",
+   "col": "5"
+  },
+  {
+   "no": "526",
+   "stops": [
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    }
+   ],
+   "dest": "岔路河",
+   "origin": "新京",
+   "col": "6"
+  },
+  {
+   "no": "510",
+   "stops": [
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "吉林驛前",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    }
+   ],
+   "dest": "吉林驛前",
+   "origin": "岔路河",
+   "col": "7"
+  },
+  {
+   "no": "528",
+   "stops": [
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    }
+   ],
+   "dest": "岔路河",
+   "origin": "新京",
+   "col": "8"
+  },
+  {
+   "no": "512",
+   "stops": [
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "吉林驛前",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    }
+   ],
+   "dest": "吉林驛前",
+   "origin": "岔路河",
+   "col": "9"
+  },
+  {
+   "no": "530",
+   "stops": [
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    }
+   ],
+   "dest": "岔路河",
+   "origin": "新京",
+   "col": "10"
+  },
+  {
+   "no": "514",
+   "stops": [
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "吉林驛前",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "t": "17:50"
+    }
+   ],
+   "dest": "吉林驛前",
+   "origin": "岔路河",
+   "col": "11"
+  },
+  {
+   "no": "502",
+   "stops": [
+    {
+     "st": "新京驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    },
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "吉林驛前",
+     "ev": "dep",
+     "printed": "19.10",
+     "bold": false,
+     "t": "19:10"
+    }
+   ],
+   "dest": "吉林驛前",
+   "col": "12"
+  },
+  {
+   "no": "532",
+   "stops": [
+    {
+     "st": "新京驛",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "18.10",
+     "bold": false,
+     "uncertain": true,
+     "t": "18:10"
+    }
+   ],
+   "dest": "新京",
+   "col": "13"
+  },
+  {
+   "no": "534",
+   "stops": [
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "岔路河",
+     "ev": "dep",
+     "printed": "19.10",
+     "bold": false,
+     "t": "19:10"
+    }
+   ],
+   "dest": "岔路河",
+   "origin": "新京",
+   "col": "14"
+  }
+ ],
+ "notes": [
+  "この表は4段組で、上2段が新京驛發（本表、col 1-7 が第1段、col 8-14 が第2段）、下2段が吉林驛前發（p109d）。",
+  "左端は運賃（圓.分、新京驛起點）欄で粁程欄はない。時刻の下の太罫はその便の終着を示す。",
+  "532は新京驛16.00・新京18.10と刷られてゐるが、新京驛・新京間は他の便では10分であり、18.10は誤植の疑ひがある。印刷のまま記した。"
+ ],
+ "source": "IMG_1883",
+ "page": "109",
+ "kind": "bus",
+ "office": "吉林局管內",
+ "line": "京吉線",
+ "title": "新京驛・吉林驛前間",
+ "dir": "新京驛→吉林驛前",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "新京驛 | 新京 0.10 | 岔路河 2.55 | 吉林驛前 5.05"
+}

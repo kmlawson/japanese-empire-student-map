@@ -1,0 +1,728 @@
+{
+ "stations": [
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "渾河",
+   "km": null
+  },
+  {
+   "name": "榆樹臺",
+   "km": null
+  },
+  {
+   "name": "孤家子",
+   "km": null
+  },
+  {
+   "name": "牛相屯",
+   "km": null
+  },
+  {
+   "name": "深井子",
+   "km": null
+  },
+  {
+   "name": "李石寨",
+   "km": null
+  },
+  {
+   "name": "園兒屯",
+   "km": null
+  },
+  {
+   "name": "大官屯",
+   "km": null
+  },
+  {
+   "name": "撫順",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "641",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "06:30"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "6.40",
+     "bold": false,
+     "t": "06:40"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "6.41",
+     "bold": false,
+     "t": "06:41"
+    },
+    {
+     "st": "榆樹臺",
+     "ev": "dep",
+     "printed": "6.49",
+     "bold": false,
+     "t": "06:49"
+    },
+    {
+     "st": "孤家子",
+     "ev": "dep",
+     "printed": "6.57",
+     "bold": false,
+     "t": "06:57"
+    },
+    {
+     "st": "牛相屯",
+     "ev": "dep",
+     "printed": "7.06",
+     "bold": false,
+     "t": "07:06"
+    },
+    {
+     "st": "深井子",
+     "ev": "dep",
+     "printed": "7.15",
+     "bold": false,
+     "t": "07:15"
+    },
+    {
+     "st": "李石寨",
+     "ev": "dep",
+     "printed": "7.24",
+     "bold": false,
+     "t": "07:24"
+    },
+    {
+     "st": "園兒屯",
+     "ev": "dep",
+     "printed": "7.32",
+     "bold": false,
+     "t": "07:32"
+    },
+    {
+     "st": "大官屯",
+     "ev": "dep",
+     "printed": "7.41",
+     "bold": false,
+     "t": "07:41"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "7.47",
+     "bold": false,
+     "t": "07:47"
+    }
+   ],
+   "dest": "撫順",
+   "cls": "2.3",
+   "col": "1"
+  },
+  {
+   "no": "643",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": false,
+     "t": "09:31"
+    },
+    {
+     "st": "榆樹臺",
+     "ev": "dep",
+     "printed": "9.39",
+     "bold": false,
+     "t": "09:39"
+    },
+    {
+     "st": "孤家子",
+     "ev": "dep",
+     "printed": "9.47",
+     "bold": false,
+     "t": "09:47"
+    },
+    {
+     "st": "牛相屯",
+     "ev": "dep",
+     "printed": "9.56",
+     "bold": false,
+     "t": "09:56"
+    },
+    {
+     "st": "深井子",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": false,
+     "t": "10:05"
+    },
+    {
+     "st": "李石寨",
+     "ev": "dep",
+     "printed": "10.14",
+     "bold": false,
+     "t": "10:14"
+    },
+    {
+     "st": "園兒屯",
+     "ev": "dep",
+     "printed": "10.22",
+     "bold": false,
+     "t": "10:22"
+    },
+    {
+     "st": "大官屯",
+     "ev": "dep",
+     "printed": "10.31",
+     "bold": false,
+     "t": "10:31"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "10.37",
+     "bold": false,
+     "t": "10:37"
+    }
+   ],
+   "dest": "撫順",
+   "cls": "2.3",
+   "col": "2"
+  },
+  {
+   "no": "645",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "12.15",
+     "bold": false,
+     "t": "12:15"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "12.25",
+     "bold": false,
+     "t": "12:25"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "12.26",
+     "bold": false,
+     "t": "12:26"
+    },
+    {
+     "st": "榆樹臺",
+     "ev": "dep",
+     "printed": "12.34",
+     "bold": false,
+     "t": "12:34"
+    },
+    {
+     "st": "孤家子",
+     "ev": "dep",
+     "printed": "12.42",
+     "bold": false,
+     "t": "12:42"
+    },
+    {
+     "st": "牛相屯",
+     "ev": "pass"
+    },
+    {
+     "st": "深井子",
+     "ev": "dep",
+     "printed": "12.59",
+     "bold": false,
+     "t": "12:59"
+    },
+    {
+     "st": "李石寨",
+     "ev": "dep",
+     "printed": "13.08",
+     "bold": false,
+     "t": "13:08"
+    },
+    {
+     "st": "園兒屯",
+     "ev": "dep",
+     "printed": "13.16",
+     "bold": false,
+     "t": "13:16"
+    },
+    {
+     "st": "大官屯",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "13.31",
+     "bold": false,
+     "t": "13:31"
+    }
+   ],
+   "dest": "撫順",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "647",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "13.57",
+     "bold": false,
+     "uncertain": true,
+     "t": "13:57"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "14.02",
+     "bold": false,
+     "t": "14:02"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "14.03",
+     "bold": false,
+     "t": "14:03"
+    },
+    {
+     "st": "榆樹臺",
+     "ev": "dep",
+     "printed": "14.11",
+     "bold": false,
+     "t": "14:11"
+    },
+    {
+     "st": "孤家子",
+     "ev": "dep",
+     "printed": "14.19",
+     "bold": false,
+     "t": "14:19"
+    },
+    {
+     "st": "牛相屯",
+     "ev": "pass"
+    },
+    {
+     "st": "深井子",
+     "ev": "dep",
+     "printed": "14.36",
+     "bold": false,
+     "t": "14:36"
+    },
+    {
+     "st": "李石寨",
+     "ev": "dep",
+     "printed": "14.45",
+     "bold": false,
+     "t": "14:45"
+    },
+    {
+     "st": "園兒屯",
+     "ev": "dep",
+     "printed": "14.53",
+     "bold": false,
+     "t": "14:53"
+    },
+    {
+     "st": "大官屯",
+     "ev": "dep",
+     "printed": "15.02",
+     "bold": false,
+     "t": "15:02"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "15.08",
+     "bold": false,
+     "t": "15:08"
+    }
+   ],
+   "dest": "撫順",
+   "cls": "2.3",
+   "col": "4"
+  },
+  {
+   "no": "649",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "15.09",
+     "bold": false,
+     "uncertain": true,
+     "t": "15:09"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "16.11",
+     "bold": false,
+     "t": "16:11"
+    },
+    {
+     "st": "榆樹臺",
+     "ev": "dep",
+     "printed": "16.19",
+     "bold": false,
+     "t": "16:19"
+    },
+    {
+     "st": "孤家子",
+     "ev": "dep",
+     "printed": "16.27",
+     "bold": false,
+     "t": "16:27"
+    },
+    {
+     "st": "牛相屯",
+     "ev": "dep",
+     "printed": "16.36",
+     "bold": false,
+     "t": "16:36"
+    },
+    {
+     "st": "深井子",
+     "ev": "dep",
+     "printed": "16.45",
+     "bold": false,
+     "t": "16:45"
+    },
+    {
+     "st": "李石寨",
+     "ev": "dep",
+     "printed": "16.54",
+     "bold": false,
+     "t": "16:54"
+    },
+    {
+     "st": "園兒屯",
+     "ev": "dep",
+     "printed": "17.03",
+     "bold": false,
+     "t": "17:03"
+    },
+    {
+     "st": "大官屯",
+     "ev": "dep",
+     "printed": "17.12",
+     "bold": false,
+     "t": "17:12"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "17.18",
+     "bold": false,
+     "t": "17:18"
+    }
+   ],
+   "dest": "撫順",
+   "cls": "2.3",
+   "col": "5"
+  },
+  {
+   "no": "651",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "17.31",
+     "bold": false,
+     "t": "17:31"
+    },
+    {
+     "st": "榆樹臺",
+     "ev": "dep",
+     "printed": "17.39",
+     "bold": false,
+     "t": "17:39"
+    },
+    {
+     "st": "孤家子",
+     "ev": "dep",
+     "printed": "17.47",
+     "bold": false,
+     "t": "17:47"
+    },
+    {
+     "st": "牛相屯",
+     "ev": "pass"
+    },
+    {
+     "st": "深井子",
+     "ev": "dep",
+     "printed": "18.04",
+     "bold": false,
+     "t": "18:04"
+    },
+    {
+     "st": "李石寨",
+     "ev": "dep",
+     "printed": "18.13",
+     "bold": false,
+     "t": "18:13"
+    },
+    {
+     "st": "園兒屯",
+     "ev": "dep",
+     "printed": "18.21",
+     "bold": false,
+     "t": "18:21"
+    },
+    {
+     "st": "大官屯",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "18.36",
+     "bold": false,
+     "t": "18:36"
+    }
+   ],
+   "dest": "撫順",
+   "cls": "2.3",
+   "col": "6"
+  },
+  {
+   "no": "655",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "20.05",
+     "bold": false,
+     "t": "20:05"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "20.15",
+     "bold": false,
+     "t": "20:15"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "20.16",
+     "bold": false,
+     "t": "20:16"
+    },
+    {
+     "st": "榆樹臺",
+     "ev": "dep",
+     "printed": "20.24",
+     "bold": false,
+     "t": "20:24"
+    },
+    {
+     "st": "孤家子",
+     "ev": "dep",
+     "printed": "20.32",
+     "bold": false,
+     "t": "20:32"
+    },
+    {
+     "st": "牛相屯",
+     "ev": "pass"
+    },
+    {
+     "st": "深井子",
+     "ev": "dep",
+     "printed": "20.49",
+     "bold": false,
+     "t": "20:49"
+    },
+    {
+     "st": "李石寨",
+     "ev": "dep",
+     "printed": "20.58",
+     "bold": false,
+     "t": "20:58"
+    },
+    {
+     "st": "園兒屯",
+     "ev": "dep",
+     "printed": "21.06",
+     "bold": false,
+     "t": "21:06"
+    },
+    {
+     "st": "大官屯",
+     "ev": "dep",
+     "printed": "21.15",
+     "bold": false,
+     "t": "21:15"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "21.21",
+     "bold": false,
+     "t": "21:21"
+    }
+   ],
+   "dest": "撫順",
+   "cls": "2.3",
+   "col": "7"
+  },
+  {
+   "no": "659",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "23.50",
+     "bold": false,
+     "t": "23:50"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "0.00",
+     "bold": false,
+     "t": "24:00"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "0.01",
+     "bold": false,
+     "t": "24:01"
+    },
+    {
+     "st": "榆樹臺",
+     "ev": "dep",
+     "printed": "0.09",
+     "bold": false,
+     "t": "24:09"
+    },
+    {
+     "st": "孤家子",
+     "ev": "dep",
+     "printed": "0.18",
+     "bold": false,
+     "t": "24:18"
+    },
+    {
+     "st": "牛相屯",
+     "ev": "pass"
+    },
+    {
+     "st": "深井子",
+     "ev": "dep",
+     "printed": "0.36",
+     "bold": false,
+     "t": "24:36"
+    },
+    {
+     "st": "李石寨",
+     "ev": "dep",
+     "printed": "0.46",
+     "bold": false,
+     "t": "24:46"
+    },
+    {
+     "st": "園兒屯",
+     "ev": "dep",
+     "printed": "0.55",
+     "bold": false,
+     "t": "24:55"
+    },
+    {
+     "st": "大官屯",
+     "ev": "dep",
+     "printed": "1.04",
+     "bold": false,
+     "t": "25:04"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "1.10",
+     "bold": false,
+     "t": "25:10"
+    }
+   ],
+   "dest": "撫順",
+   "cls": "2.3",
+   "col": "8"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改訂。頁24の上段。同じ表の下半分（奉天行）は p24b。",
+  "左端に「自奉天 運賃 2等・3等」欄があるが轉記せず。粁程欄は無い。驛名の左に⊕・〒・◎等の設備記號が付くが轉記せず。",
+  "列車は8欄（641・643・645・647・649・651・655・659）。全欄とも等級標記は反轉枠の「2」「3」＝2等3等。",
+  "「v」は原表のレ（通過）。",
+  "頁頭の「讀みにくい驛名」欄に「榆樹臺(ユジユダイ) 孤家子(コカシ) 深井子(シンセイシ) 李石寨(リセキサイ)」とある。",
+  "驛名「園兒屯」の第1字は活字が潰れて判讀不能（園／國／圓／圈のいづれか）。「牛相屯」の第2字は相と讀めるが小さく不鮮明。",
+  "列車649の奉天發は「15.09」と讀めるが（末尾の數字は缺けて0か9か不明）、渾河著16.10と齟齬する。他の全列車は奉天→渾河10分なので16.00の誤植・誤印の疑ひがある。原表の見えるままを記し「?」を付した。",
+  "列車647の奉天發は「13.57」（末字は7に見えるが2の可能性もある）で、渾河著14.02までが5分と他列車（10分）より短い。"
+ ],
+ "source": "IMG_1841",
+ "page": "24",
+ "title": "奉天・撫順間（滿鐵・撫順線）",
+ "line": "滿鐵社線 撫順線",
+ "dir": "撫順行（下り）"
+}

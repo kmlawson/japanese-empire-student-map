@@ -1,0 +1,2532 @@
+{
+ "stations": [
+  {
+   "name": "三棵樹",
+   "km": null
+  },
+  {
+   "name": "濱江",
+   "km": null
+  },
+  {
+   "name": "哈爾濱",
+   "km": null
+  },
+  {
+   "name": "新京",
+   "km": null
+  },
+  {
+   "name": "四平",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "渾河",
+   "km": null
+  },
+  {
+   "name": "蘇家屯",
+   "km": null
+  },
+  {
+   "name": "沙河",
+   "km": null
+  },
+  {
+   "name": "十里河",
+   "km": null
+  },
+  {
+   "name": "煙臺",
+   "km": null
+  },
+  {
+   "name": "張臺子",
+   "km": null
+  },
+  {
+   "name": "太子河",
+   "km": null
+  },
+  {
+   "name": "遼陽",
+   "km": null
+  },
+  {
+   "name": "首山",
+   "km": null
+  },
+  {
+   "name": "立山",
+   "km": null
+  },
+  {
+   "name": "鞍山",
+   "km": null
+  },
+  {
+   "name": "千山",
+   "km": null
+  },
+  {
+   "name": "湯崗子",
+   "km": null
+  },
+  {
+   "name": "甘泉舖",
+   "km": null
+  },
+  {
+   "name": "南臺",
+   "km": null
+  },
+  {
+   "name": "海城",
+   "km": null
+  },
+  {
+   "name": "他山",
+   "km": null
+  },
+  {
+   "name": "分水",
+   "km": null
+  },
+  {
+   "name": "大石橋",
+   "km": null
+  },
+  {
+   "name": "太平山",
+   "km": null
+  },
+  {
+   "name": "白旗",
+   "km": null
+  },
+  {
+   "name": "蓋平",
+   "km": null
+  },
+  {
+   "name": "沙崗",
+   "km": null
+  },
+  {
+   "name": "蘆家屯",
+   "km": null
+  },
+  {
+   "name": "熊岳城",
+   "km": null
+  },
+  {
+   "name": "梨山",
+   "km": null
+  },
+  {
+   "name": "九寨",
+   "km": null
+  },
+  {
+   "name": "許家屯",
+   "km": null
+  },
+  {
+   "name": "萬家嶺",
+   "km": null
+  },
+  {
+   "name": "松樹",
+   "km": null
+  },
+  {
+   "name": "得利寺",
+   "km": null
+  },
+  {
+   "name": "王家",
+   "km": null
+  },
+  {
+   "name": "瓦房店",
+   "km": null
+  },
+  {
+   "name": "田家",
+   "km": null
+  },
+  {
+   "name": "普蘭店",
+   "km": null
+  },
+  {
+   "name": "石河",
+   "km": null
+  },
+  {
+   "name": "三十里堡",
+   "km": null
+  },
+  {
+   "name": "二十里臺",
+   "km": null
+  },
+  {
+   "name": "金州",
+   "km": null
+  },
+  {
+   "name": "大房身",
+   "km": null
+  },
+  {
+   "name": "鹽島",
+   "km": null
+  },
+  {
+   "name": "南關嶺",
+   "km": null
+  },
+  {
+   "name": "周水子",
+   "km": null
+  },
+  {
+   "name": "沙河口",
+   "km": null
+  },
+  {
+   "name": "大連",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "76",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "13:10"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "13.21",
+     "bold": false,
+     "t": "13:21"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "13.32",
+     "bold": false,
+     "t": "13:32"
+    },
+    {
+     "st": "沙河",
+     "ev": "dep",
+     "printed": "13.44",
+     "bold": false,
+     "t": "13:44"
+    },
+    {
+     "st": "十里河",
+     "ev": "dep",
+     "printed": "13.55",
+     "bold": false,
+     "t": "13:55"
+    },
+    {
+     "st": "煙臺",
+     "ev": "dep",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    },
+    {
+     "st": "張臺子",
+     "ev": "dep",
+     "printed": "14.16",
+     "bold": false,
+     "t": "14:16"
+    },
+    {
+     "st": "太子河",
+     "ev": "dep",
+     "printed": "14.23",
+     "bold": false,
+     "t": "14:23"
+    },
+    {
+     "st": "遼陽",
+     "ev": "arr",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "遼陽",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "首山",
+     "ev": "dep",
+     "printed": "15.03",
+     "bold": false,
+     "t": "15:03"
+    },
+    {
+     "st": "立山",
+     "ev": "dep",
+     "printed": "15.15",
+     "bold": false,
+     "t": "15:15"
+    },
+    {
+     "st": "鞍山",
+     "ev": "arr",
+     "printed": "15.22",
+     "bold": false,
+     "t": "15:22"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "15.24",
+     "bold": false,
+     "t": "15:24"
+    },
+    {
+     "st": "千山",
+     "ev": "dep",
+     "printed": "15.32",
+     "bold": false,
+     "t": "15:32"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "arr",
+     "printed": "15.44",
+     "bold": false,
+     "t": "15:44"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "15.45",
+     "bold": false,
+     "t": "15:45"
+    },
+    {
+     "st": "甘泉舖",
+     "ev": "dep",
+     "printed": "15.56",
+     "bold": false,
+     "t": "15:56"
+    },
+    {
+     "st": "南臺",
+     "ev": "dep",
+     "printed": "16.02",
+     "bold": false,
+     "t": "16:02"
+    },
+    {
+     "st": "海城",
+     "ev": "dep",
+     "printed": "16.13",
+     "bold": false,
+     "t": "16:13"
+    },
+    {
+     "st": "他山",
+     "ev": "dep",
+     "printed": "16.32",
+     "bold": false,
+     "t": "16:32"
+    },
+    {
+     "st": "分水",
+     "ev": "dep",
+     "printed": "16.44",
+     "bold": false,
+     "t": "16:44"
+    },
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "16.52",
+     "bold": false,
+     "t": "16:52"
+    }
+   ],
+   "dest": "大石橋",
+   "cls": "3",
+   "col": "15"
+  },
+  {
+   "no": "28",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "15.05",
+     "bold": false,
+     "t": "15:05"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "15.09",
+     "bold": false,
+     "t": "15:09"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "15.18",
+     "bold": false,
+     "t": "15:18"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "15.21",
+     "bold": false,
+     "t": "15:21"
+    },
+    {
+     "st": "沙河",
+     "ev": "dep",
+     "printed": "15.32",
+     "bold": false,
+     "t": "15:32"
+    },
+    {
+     "st": "十里河",
+     "ev": "dep",
+     "printed": "15.42",
+     "bold": false,
+     "t": "15:42"
+    },
+    {
+     "st": "煙臺",
+     "ev": "dep",
+     "printed": "15.51",
+     "bold": false,
+     "t": "15:51"
+    },
+    {
+     "st": "張臺子",
+     "ev": "dep",
+     "printed": "16.01",
+     "bold": false,
+     "t": "16:01"
+    },
+    {
+     "st": "太子河",
+     "ev": "pass"
+    },
+    {
+     "st": "遼陽",
+     "ev": "arr",
+     "printed": "16.13",
+     "bold": false,
+     "t": "16:13"
+    },
+    {
+     "st": "遼陽",
+     "ev": "dep",
+     "printed": "16.16",
+     "bold": false,
+     "t": "16:16"
+    },
+    {
+     "st": "首山",
+     "ev": "dep",
+     "printed": "16.28",
+     "bold": false,
+     "t": "16:28"
+    },
+    {
+     "st": "立山",
+     "ev": "dep",
+     "printed": "16.38",
+     "bold": false,
+     "t": "16:38"
+    },
+    {
+     "st": "鞍山",
+     "ev": "arr",
+     "printed": "16.45",
+     "bold": false,
+     "t": "16:45"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "16.47",
+     "bold": false,
+     "t": "16:47"
+    },
+    {
+     "st": "千山",
+     "ev": "dep",
+     "printed": "16.54",
+     "bold": false,
+     "t": "16:54"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "arr",
+     "printed": "17.05",
+     "bold": false,
+     "t": "17:05"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "17.06",
+     "bold": false,
+     "t": "17:06"
+    },
+    {
+     "st": "甘泉舖",
+     "ev": "pass"
+    },
+    {
+     "st": "南臺",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "海城",
+     "ev": "dep",
+     "printed": "17.31",
+     "bold": false,
+     "t": "17:31"
+    },
+    {
+     "st": "他山",
+     "ev": "dep",
+     "printed": "17.48",
+     "bold": false,
+     "t": "17:48"
+    },
+    {
+     "st": "分水",
+     "ev": "dep",
+     "printed": "17.59",
+     "bold": false,
+     "t": "17:59"
+    },
+    {
+     "st": "大石橋",
+     "ev": "arr",
+     "printed": "18.07",
+     "bold": false,
+     "t": "18:07"
+    },
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "18.13",
+     "bold": false,
+     "t": "18:13"
+    },
+    {
+     "st": "太平山",
+     "ev": "dep",
+     "printed": "18.25",
+     "bold": false,
+     "t": "18:25"
+    },
+    {
+     "st": "白旗",
+     "ev": "pass"
+    },
+    {
+     "st": "蓋平",
+     "ev": "dep",
+     "printed": "18.44",
+     "bold": false,
+     "t": "18:44"
+    },
+    {
+     "st": "沙崗",
+     "ev": "dep",
+     "printed": "18.56",
+     "bold": false,
+     "t": "18:56"
+    },
+    {
+     "st": "蘆家屯",
+     "ev": "dep",
+     "printed": "19.08",
+     "bold": false,
+     "t": "19:08"
+    },
+    {
+     "st": "熊岳城",
+     "ev": "arr",
+     "printed": "19.18",
+     "bold": false,
+     "t": "19:18"
+    },
+    {
+     "st": "熊岳城",
+     "ev": "dep",
+     "printed": "19.21",
+     "bold": false,
+     "t": "19:21"
+    },
+    {
+     "st": "梨山",
+     "ev": "pass"
+    },
+    {
+     "st": "九寨",
+     "ev": "dep",
+     "printed": "19.34",
+     "bold": false,
+     "t": "19:34"
+    },
+    {
+     "st": "許家屯",
+     "ev": "dep",
+     "printed": "19.43",
+     "bold": false,
+     "t": "19:43"
+    },
+    {
+     "st": "萬家嶺",
+     "ev": "dep",
+     "printed": "20.01",
+     "bold": false,
+     "t": "20:01"
+    },
+    {
+     "st": "松樹",
+     "ev": "dep",
+     "printed": "20.25",
+     "bold": false,
+     "t": "20:25"
+    },
+    {
+     "st": "得利寺",
+     "ev": "dep",
+     "printed": "20.33",
+     "bold": false,
+     "t": "20:33"
+    },
+    {
+     "st": "王家",
+     "ev": "dep",
+     "printed": "20.45",
+     "bold": false,
+     "t": "20:45"
+    },
+    {
+     "st": "瓦房店",
+     "ev": "arr",
+     "printed": "20.54",
+     "bold": false,
+     "t": "20:54"
+    },
+    {
+     "st": "瓦房店",
+     "ev": "dep",
+     "printed": "21.00",
+     "bold": false,
+     "t": "21:00"
+    },
+    {
+     "st": "田家",
+     "ev": "dep",
+     "printed": "21.13",
+     "bold": false,
+     "t": "21:13"
+    },
+    {
+     "st": "普蘭店",
+     "ev": "dep",
+     "printed": "21.46",
+     "bold": false,
+     "note": "田家21.13から33分。原表のまま",
+     "t": "21:46"
+    },
+    {
+     "st": "石河",
+     "ev": "dep",
+     "printed": "21.59",
+     "bold": false,
+     "t": "21:59"
+    },
+    {
+     "st": "三十里堡",
+     "ev": "dep",
+     "printed": "22.13",
+     "bold": false,
+     "t": "22:13"
+    },
+    {
+     "st": "二十里臺",
+     "ev": "dep",
+     "printed": "22.26",
+     "bold": false,
+     "t": "22:26"
+    },
+    {
+     "st": "金州",
+     "ev": "arr",
+     "printed": "22.41",
+     "bold": false,
+     "t": "22:41"
+    },
+    {
+     "st": "金州",
+     "ev": "dep",
+     "printed": "22.42",
+     "bold": false,
+     "t": "22:42"
+    },
+    {
+     "st": "大房身",
+     "ev": "dep",
+     "printed": "22.49",
+     "bold": false,
+     "t": "22:49"
+    },
+    {
+     "st": "鹽島",
+     "ev": "pass"
+    },
+    {
+     "st": "南關嶺",
+     "ev": "dep",
+     "printed": "23.04",
+     "bold": false,
+     "t": "23:04"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "23.13",
+     "bold": false,
+     "t": "23:13"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "23.14",
+     "bold": false,
+     "t": "23:14"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "23.21",
+     "bold": false,
+     "t": "23:21"
+    },
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "23.27",
+     "bold": false,
+     "t": "23:27"
+    }
+   ],
+   "dest": "大連",
+   "cls": "2.3",
+   "col": "16"
+  },
+  {
+   "no": "106",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "15.59",
+     "bold": false,
+     "t": "15:59"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "16.09",
+     "bold": false,
+     "t": "16:09"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "16.11",
+     "bold": false,
+     "t": "16:11"
+    },
+    {
+     "st": "沙河",
+     "ev": "dep",
+     "printed": "16.22",
+     "bold": false,
+     "t": "16:22"
+    },
+    {
+     "st": "十里河",
+     "ev": "dep",
+     "printed": "16.32",
+     "bold": false,
+     "t": "16:32"
+    },
+    {
+     "st": "煙臺",
+     "ev": "dep",
+     "printed": "16.43",
+     "bold": false,
+     "t": "16:43"
+    },
+    {
+     "st": "張臺子",
+     "ev": "dep",
+     "printed": "16.54",
+     "bold": false,
+     "t": "16:54"
+    },
+    {
+     "st": "太子河",
+     "ev": "dep",
+     "printed": "17.03",
+     "bold": false,
+     "t": "17:03"
+    },
+    {
+     "st": "遼陽",
+     "ev": "arr",
+     "printed": "17.11",
+     "bold": false,
+     "t": "17:11"
+    },
+    {
+     "st": "遼陽",
+     "ev": "dep",
+     "printed": "17.13",
+     "bold": false,
+     "t": "17:13"
+    },
+    {
+     "st": "首山",
+     "ev": "dep",
+     "printed": "17.25",
+     "bold": false,
+     "t": "17:25"
+    },
+    {
+     "st": "立山",
+     "ev": "dep",
+     "printed": "17.36",
+     "bold": false,
+     "t": "17:36"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "17.44",
+     "bold": false,
+     "t": "17:44"
+    }
+   ],
+   "dest": "鞍山",
+   "cls": "2.3",
+   "marks": "動",
+   "col": "17"
+  },
+  {
+   "no": "78",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "16.35",
+     "bold": false,
+     "t": "16:35"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "16.45",
+     "bold": false,
+     "t": "16:45"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "16.46",
+     "bold": false,
+     "t": "16:46"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "16.55",
+     "bold": false,
+     "t": "16:55"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "16.58",
+     "bold": false,
+     "t": "16:58"
+    },
+    {
+     "st": "沙河",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "十里河",
+     "ev": "dep",
+     "printed": "17.21",
+     "bold": false,
+     "t": "17:21"
+    },
+    {
+     "st": "煙臺",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    },
+    {
+     "st": "張臺子",
+     "ev": "dep",
+     "printed": "17.41",
+     "bold": false,
+     "t": "17:41"
+    },
+    {
+     "st": "太子河",
+     "ev": "dep",
+     "printed": "17.49",
+     "bold": false,
+     "t": "17:49"
+    },
+    {
+     "st": "遼陽",
+     "ev": "arr",
+     "printed": "17.56",
+     "bold": false,
+     "t": "17:56"
+    },
+    {
+     "st": "遼陽",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "首山",
+     "ev": "dep",
+     "printed": "18.13",
+     "bold": false,
+     "t": "18:13"
+    },
+    {
+     "st": "立山",
+     "ev": "dep",
+     "printed": "18.25",
+     "bold": false,
+     "t": "18:25"
+    },
+    {
+     "st": "鞍山",
+     "ev": "arr",
+     "printed": "18.32",
+     "bold": false,
+     "t": "18:32"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "18.34",
+     "bold": false,
+     "t": "18:34"
+    },
+    {
+     "st": "千山",
+     "ev": "dep",
+     "printed": "18.42",
+     "bold": false,
+     "t": "18:42"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "arr",
+     "printed": "18.54",
+     "bold": false,
+     "t": "18:54"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "19.08",
+     "bold": false,
+     "t": "19:08"
+    },
+    {
+     "st": "甘泉舖",
+     "ev": "pass"
+    },
+    {
+     "st": "南臺",
+     "ev": "dep",
+     "printed": "19.32",
+     "bold": false,
+     "note": "海城19.34の2分前。原表のまま",
+     "t": "19:32"
+    },
+    {
+     "st": "海城",
+     "ev": "dep",
+     "printed": "19.34",
+     "bold": false,
+     "t": "19:34"
+    },
+    {
+     "st": "他山",
+     "ev": "dep",
+     "printed": "19.53",
+     "bold": false,
+     "t": "19:53"
+    },
+    {
+     "st": "分水",
+     "ev": "dep",
+     "printed": "20.05",
+     "bold": false,
+     "t": "20:05"
+    },
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "20.13",
+     "bold": false,
+     "t": "20:13"
+    }
+   ],
+   "dest": "大石橋",
+   "cls": "2.3",
+   "col": "18"
+  },
+  {
+   "no": "12",
+   "stops": [
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "15.35",
+     "bold": false,
+     "t": "15:35"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "17.39",
+     "bold": false,
+     "t": "17:39"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "17.45",
+     "bold": false,
+     "t": "17:45"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "渾河",
+     "ev": "pass"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "沙河",
+     "ev": "pass",
+     "note": "原表はこの桝に「特別急行」の黑地標記"
+    },
+    {
+     "st": "十里河",
+     "ev": "pass",
+     "note": "原表はこの桝に「特別急行」の黑地標記"
+    },
+    {
+     "st": "煙臺",
+     "ev": "pass",
+     "note": "原表はこの桝に「あじあ」の標記"
+    },
+    {
+     "st": "張臺子",
+     "ev": "pass",
+     "note": "原表はこの桝に「あじあ」の標記"
+    },
+    {
+     "st": "太子河",
+     "ev": "pass"
+    },
+    {
+     "st": "遼陽",
+     "ev": "pass"
+    },
+    {
+     "st": "遼陽",
+     "ev": "pass"
+    },
+    {
+     "st": "首山",
+     "ev": "pass"
+    },
+    {
+     "st": "立山",
+     "ev": "pass"
+    },
+    {
+     "st": "鞍山",
+     "ev": "arr",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "18.51",
+     "bold": false,
+     "t": "18:51"
+    },
+    {
+     "st": "千山",
+     "ev": "pass"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "pass"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "pass"
+    },
+    {
+     "st": "甘泉舖",
+     "ev": "pass"
+    },
+    {
+     "st": "南臺",
+     "ev": "pass"
+    },
+    {
+     "st": "海城",
+     "ev": "pass"
+    },
+    {
+     "st": "他山",
+     "ev": "pass"
+    },
+    {
+     "st": "分水",
+     "ev": "pass"
+    },
+    {
+     "st": "大石橋",
+     "ev": "arr",
+     "printed": "19.37",
+     "bold": false,
+     "t": "19:37"
+    },
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "19.42",
+     "bold": false,
+     "t": "19:42"
+    },
+    {
+     "st": "太平山",
+     "ev": "pass"
+    },
+    {
+     "st": "白旗",
+     "ev": "pass"
+    },
+    {
+     "st": "蓋平",
+     "ev": "pass"
+    },
+    {
+     "st": "沙崗",
+     "ev": "pass"
+    },
+    {
+     "st": "蘆家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "熊岳城",
+     "ev": "pass"
+    },
+    {
+     "st": "熊岳城",
+     "ev": "pass"
+    },
+    {
+     "st": "梨山",
+     "ev": "pass"
+    },
+    {
+     "st": "九寨",
+     "ev": "pass"
+    },
+    {
+     "st": "許家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "萬家嶺",
+     "ev": "pass"
+    },
+    {
+     "st": "松樹",
+     "ev": "pass"
+    },
+    {
+     "st": "得利寺",
+     "ev": "pass"
+    },
+    {
+     "st": "王家",
+     "ev": "pass"
+    },
+    {
+     "st": "瓦房店",
+     "ev": "pass"
+    },
+    {
+     "st": "瓦房店",
+     "ev": "pass"
+    },
+    {
+     "st": "田家",
+     "ev": "pass"
+    },
+    {
+     "st": "普蘭店",
+     "ev": "dep",
+     "printed": "21.38",
+     "bold": false,
+     "t": "21:38"
+    },
+    {
+     "st": "石河",
+     "ev": "pass"
+    },
+    {
+     "st": "三十里堡",
+     "ev": "pass"
+    },
+    {
+     "st": "二十里臺",
+     "ev": "pass"
+    },
+    {
+     "st": "金州",
+     "ev": "pass"
+    },
+    {
+     "st": "金州",
+     "ev": "pass"
+    },
+    {
+     "st": "大房身",
+     "ev": "pass"
+    },
+    {
+     "st": "鹽島",
+     "ev": "pass"
+    },
+    {
+     "st": "南關嶺",
+     "ev": "pass"
+    },
+    {
+     "st": "周水子",
+     "ev": "pass"
+    },
+    {
+     "st": "周水子",
+     "ev": "pass"
+    },
+    {
+     "st": "沙河口",
+     "ev": "pass"
+    },
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "22.35",
+     "bold": false,
+     "t": "22:35"
+    }
+   ],
+   "dest": "大連",
+   "name": "あじあ",
+   "cls": "1.2.3",
+   "marks": "特急 食",
+   "col": "19"
+  },
+  {
+   "no": "30",
+   "stops": [
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "13.17",
+     "bold": false,
+     "t": "13:17"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "17.25",
+     "bold": false,
+     "t": "17:25"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "17.55",
+     "bold": false,
+     "t": "17:55"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "18.05",
+     "bold": false,
+     "t": "18:05"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "18.06",
+     "bold": false,
+     "t": "18:06"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "18.19",
+     "bold": false,
+     "t": "18:19"
+    },
+    {
+     "st": "沙河",
+     "ev": "dep",
+     "printed": "18.31",
+     "bold": false,
+     "t": "18:31"
+    },
+    {
+     "st": "十里河",
+     "ev": "dep",
+     "printed": "18.42",
+     "bold": false,
+     "t": "18:42"
+    },
+    {
+     "st": "煙臺",
+     "ev": "dep",
+     "printed": "18.53",
+     "bold": false,
+     "t": "18:53"
+    },
+    {
+     "st": "張臺子",
+     "ev": "dep",
+     "printed": "19.04",
+     "bold": false,
+     "t": "19:04"
+    },
+    {
+     "st": "太子河",
+     "ev": "pass"
+    },
+    {
+     "st": "遼陽",
+     "ev": "arr",
+     "printed": "19.18",
+     "bold": false,
+     "t": "19:18"
+    },
+    {
+     "st": "遼陽",
+     "ev": "dep",
+     "printed": "19.21",
+     "bold": false,
+     "t": "19:21"
+    },
+    {
+     "st": "首山",
+     "ev": "dep",
+     "printed": "19.35",
+     "bold": false,
+     "t": "19:35"
+    },
+    {
+     "st": "立山",
+     "ev": "dep",
+     "printed": "19.47",
+     "bold": false,
+     "t": "19:47"
+    },
+    {
+     "st": "鞍山",
+     "ev": "arr",
+     "printed": "19.55",
+     "bold": false,
+     "t": "19:55"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "19.59",
+     "bold": false,
+     "t": "19:59"
+    },
+    {
+     "st": "千山",
+     "ev": "dep",
+     "printed": "20.07",
+     "bold": false,
+     "t": "20:07"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "arr",
+     "printed": "20.19",
+     "bold": false,
+     "t": "20:19"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "20.20",
+     "bold": false,
+     "t": "20:20"
+    },
+    {
+     "st": "甘泉舖",
+     "ev": "pass"
+    },
+    {
+     "st": "南臺",
+     "ev": "dep",
+     "printed": "20.47",
+     "bold": false,
+     "note": "海城20.49の2分前。原表のまま",
+     "t": "20:47"
+    },
+    {
+     "st": "海城",
+     "ev": "dep",
+     "printed": "20.49",
+     "bold": false,
+     "t": "20:49"
+    },
+    {
+     "st": "他山",
+     "ev": "dep",
+     "printed": "21.07",
+     "bold": false,
+     "t": "21:07"
+    },
+    {
+     "st": "分水",
+     "ev": "dep",
+     "printed": "21.19",
+     "bold": false,
+     "t": "21:19"
+    },
+    {
+     "st": "大石橋",
+     "ev": "arr",
+     "printed": "21.28",
+     "bold": false,
+     "t": "21:28"
+    },
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "21.37",
+     "bold": false,
+     "t": "21:37"
+    }
+   ],
+   "dest": "營口",
+   "cls": "2.3",
+   "col": "20",
+   "note": "大石橋發の下に「營口著 21.58」の縦書き註記"
+  },
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "19.39",
+     "bold": false,
+     "t": "19:39"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "19.40",
+     "bold": false,
+     "t": "19:40"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "19.49",
+     "bold": false,
+     "t": "19:49"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "19.53",
+     "bold": false,
+     "t": "19:53"
+    },
+    {
+     "st": "沙河",
+     "ev": "dep",
+     "printed": "20.05",
+     "bold": false,
+     "t": "20:05"
+    },
+    {
+     "st": "十里河",
+     "ev": "dep",
+     "printed": "20.16",
+     "bold": false,
+     "t": "20:16"
+    },
+    {
+     "st": "煙臺",
+     "ev": "dep",
+     "printed": "20.24",
+     "bold": false,
+     "t": "20:24"
+    },
+    {
+     "st": "張臺子",
+     "ev": "dep",
+     "printed": "20.36",
+     "bold": false,
+     "t": "20:36"
+    },
+    {
+     "st": "太子河",
+     "ev": "pass"
+    },
+    {
+     "st": "遼陽",
+     "ev": "arr",
+     "printed": "20.44",
+     "bold": false,
+     "t": "20:44"
+    },
+    {
+     "st": "遼陽",
+     "ev": "dep",
+     "printed": "20.53",
+     "bold": false,
+     "t": "20:53"
+    },
+    {
+     "st": "首山",
+     "ev": "dep",
+     "printed": "21.05",
+     "bold": false,
+     "t": "21:05"
+    },
+    {
+     "st": "立山",
+     "ev": "dep",
+     "printed": "21.16",
+     "bold": false,
+     "t": "21:16"
+    },
+    {
+     "st": "鞍山",
+     "ev": "arr",
+     "printed": "21.24",
+     "bold": false,
+     "t": "21:24"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "21.26",
+     "bold": false,
+     "t": "21:26"
+    },
+    {
+     "st": "千山",
+     "ev": "dep",
+     "printed": "21.34",
+     "bold": false,
+     "t": "21:34"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "arr",
+     "printed": "21.45",
+     "bold": false,
+     "t": "21:45"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "21.46",
+     "bold": false,
+     "t": "21:46"
+    },
+    {
+     "st": "甘泉舖",
+     "ev": "pass"
+    },
+    {
+     "st": "南臺",
+     "ev": "dep",
+     "printed": "22.01",
+     "bold": false,
+     "t": "22:01"
+    },
+    {
+     "st": "海城",
+     "ev": "dep",
+     "printed": "22.12",
+     "bold": false,
+     "t": "22:12"
+    },
+    {
+     "st": "他山",
+     "ev": "dep",
+     "printed": "22.28",
+     "bold": false,
+     "t": "22:28"
+    },
+    {
+     "st": "分水",
+     "ev": "dep",
+     "printed": "22.39",
+     "bold": false,
+     "t": "22:39"
+    },
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "22.48",
+     "bold": false,
+     "t": "22:48"
+    }
+   ],
+   "dest": "大石橋",
+   "cls": "3",
+   "col": "21"
+  },
+  {
+   "no": "24",
+   "stops": [
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "14.28",
+     "bold": false,
+     "t": "14:28"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "21.30",
+     "bold": false,
+     "t": "21:30"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "21.46",
+     "bold": false,
+     "t": "21:46"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "21.56",
+     "bold": false,
+     "t": "21:56"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "21.57",
+     "bold": false,
+     "t": "21:57"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "22.06",
+     "bold": false,
+     "t": "22:06"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "22.10",
+     "bold": false,
+     "t": "22:10"
+    },
+    {
+     "st": "沙河",
+     "ev": "dep",
+     "printed": "22.23",
+     "bold": false,
+     "t": "22:23"
+    },
+    {
+     "st": "十里河",
+     "ev": "dep",
+     "printed": "22.34",
+     "bold": false,
+     "t": "22:34"
+    },
+    {
+     "st": "煙臺",
+     "ev": "dep",
+     "printed": "22.45",
+     "bold": false,
+     "t": "22:45"
+    },
+    {
+     "st": "張臺子",
+     "ev": "dep",
+     "printed": "22.57",
+     "bold": false,
+     "t": "22:57"
+    },
+    {
+     "st": "太子河",
+     "ev": "pass"
+    },
+    {
+     "st": "遼陽",
+     "ev": "arr",
+     "printed": "23.12",
+     "bold": false,
+     "t": "23:12"
+    },
+    {
+     "st": "遼陽",
+     "ev": "dep",
+     "printed": "23.15",
+     "bold": false,
+     "t": "23:15"
+    },
+    {
+     "st": "首山",
+     "ev": "dep",
+     "printed": "23.30",
+     "bold": false,
+     "t": "23:30"
+    },
+    {
+     "st": "立山",
+     "ev": "dep",
+     "printed": "23.43",
+     "bold": false,
+     "t": "23:43"
+    },
+    {
+     "st": "鞍山",
+     "ev": "arr",
+     "printed": "23.52",
+     "bold": false,
+     "t": "23:52"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "23.56",
+     "bold": false,
+     "t": "23:56"
+    },
+    {
+     "st": "千山",
+     "ev": "dep",
+     "printed": "0.04",
+     "bold": false,
+     "t": "24:04"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "arr",
+     "printed": "0.17",
+     "bold": false,
+     "t": "24:17"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "0.18",
+     "bold": false,
+     "t": "24:18"
+    },
+    {
+     "st": "甘泉舖",
+     "ev": "pass"
+    },
+    {
+     "st": "南臺",
+     "ev": "dep",
+     "printed": "0.35",
+     "bold": false,
+     "t": "24:35"
+    },
+    {
+     "st": "海城",
+     "ev": "dep",
+     "printed": "0.47",
+     "bold": false,
+     "t": "24:47"
+    },
+    {
+     "st": "他山",
+     "ev": "dep",
+     "printed": "1.06",
+     "bold": false,
+     "t": "25:06"
+    },
+    {
+     "st": "分水",
+     "ev": "dep",
+     "printed": "1.18",
+     "bold": false,
+     "t": "25:18"
+    },
+    {
+     "st": "大石橋",
+     "ev": "arr",
+     "printed": "1.27",
+     "bold": false,
+     "t": "25:27"
+    },
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "1.33",
+     "bold": false,
+     "t": "25:33"
+    },
+    {
+     "st": "太平山",
+     "ev": "dep",
+     "printed": "1.46",
+     "bold": false,
+     "t": "25:46"
+    },
+    {
+     "st": "白旗",
+     "ev": "pass"
+    },
+    {
+     "st": "蓋平",
+     "ev": "dep",
+     "printed": "2.05",
+     "bold": false,
+     "t": "26:05"
+    },
+    {
+     "st": "沙崗",
+     "ev": "dep",
+     "printed": "2.18",
+     "bold": false,
+     "t": "26:18"
+    },
+    {
+     "st": "蘆家屯",
+     "ev": "dep",
+     "printed": "2.31",
+     "bold": false,
+     "t": "26:31"
+    },
+    {
+     "st": "熊岳城",
+     "ev": "arr",
+     "printed": "2.42",
+     "bold": false,
+     "t": "26:42"
+    },
+    {
+     "st": "熊岳城",
+     "ev": "dep",
+     "printed": "2.45",
+     "bold": false,
+     "t": "26:45"
+    },
+    {
+     "st": "梨山",
+     "ev": "pass"
+    },
+    {
+     "st": "九寨",
+     "ev": "dep",
+     "printed": "3.00",
+     "bold": false,
+     "t": "27:00"
+    },
+    {
+     "st": "許家屯",
+     "ev": "dep",
+     "printed": "3.10",
+     "bold": false,
+     "t": "27:10"
+    },
+    {
+     "st": "萬家嶺",
+     "ev": "dep",
+     "printed": "3.31",
+     "bold": false,
+     "t": "27:31"
+    },
+    {
+     "st": "松樹",
+     "ev": "dep",
+     "printed": "3.56",
+     "bold": false,
+     "t": "27:56"
+    },
+    {
+     "st": "得利寺",
+     "ev": "dep",
+     "printed": "4.05",
+     "bold": false,
+     "t": "28:05"
+    },
+    {
+     "st": "王家",
+     "ev": "dep",
+     "printed": "4.19",
+     "bold": false,
+     "t": "28:19"
+    },
+    {
+     "st": "瓦房店",
+     "ev": "arr",
+     "printed": "4.29",
+     "bold": false,
+     "t": "28:29"
+    },
+    {
+     "st": "瓦房店",
+     "ev": "dep",
+     "printed": "4.33",
+     "bold": false,
+     "t": "28:33"
+    },
+    {
+     "st": "田家",
+     "ev": "dep",
+     "printed": "4.47",
+     "bold": false,
+     "t": "28:47"
+    },
+    {
+     "st": "普蘭店",
+     "ev": "dep",
+     "printed": "5.05",
+     "bold": false,
+     "t": "29:05"
+    },
+    {
+     "st": "石河",
+     "ev": "dep",
+     "printed": "5.20",
+     "bold": false,
+     "t": "29:20"
+    },
+    {
+     "st": "三十里堡",
+     "ev": "dep",
+     "printed": "5.36",
+     "bold": false,
+     "t": "29:36"
+    },
+    {
+     "st": "二十里臺",
+     "ev": "dep",
+     "printed": "5.51",
+     "bold": false,
+     "t": "29:51"
+    },
+    {
+     "st": "金州",
+     "ev": "arr",
+     "printed": "6.08",
+     "bold": false,
+     "t": "30:08"
+    },
+    {
+     "st": "金州",
+     "ev": "dep",
+     "printed": "6.09",
+     "bold": false,
+     "t": "30:09"
+    },
+    {
+     "st": "大房身",
+     "ev": "dep",
+     "printed": "6.17",
+     "bold": false,
+     "t": "30:17"
+    },
+    {
+     "st": "鹽島",
+     "ev": "pass"
+    },
+    {
+     "st": "南關嶺",
+     "ev": "dep",
+     "printed": "6.33",
+     "bold": false,
+     "t": "30:33"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "6.43",
+     "bold": false,
+     "t": "30:43"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "6.44",
+     "bold": false,
+     "t": "30:44"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "6.52",
+     "bold": false,
+     "t": "30:52"
+    },
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "31:00"
+    }
+   ],
+   "dest": "大連",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "col": "22"
+  },
+  {
+   "no": "20",
+   "stops": [
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": false,
+     "t": "08:40"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "9.35",
+     "bold": false,
+     "t": "09:35"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "17.12",
+     "bold": false,
+     "t": "17:12"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "19.52",
+     "bold": false,
+     "t": "19:52"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "23.36",
+     "bold": false,
+     "t": "23:36"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "23.55",
+     "bold": false,
+     "t": "23:55"
+    },
+    {
+     "st": "渾河",
+     "ev": "arr",
+     "printed": "0.05",
+     "bold": false,
+     "t": "24:05"
+    },
+    {
+     "st": "渾河",
+     "ev": "dep",
+     "printed": "0.06",
+     "bold": false,
+     "t": "24:06"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "arr",
+     "printed": "0.15",
+     "bold": false,
+     "t": "24:15"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "0.18",
+     "bold": false,
+     "t": "24:18"
+    },
+    {
+     "st": "沙河",
+     "ev": "pass"
+    },
+    {
+     "st": "十里河",
+     "ev": "pass"
+    },
+    {
+     "st": "煙臺",
+     "ev": "dep",
+     "printed": "0.48",
+     "bold": false,
+     "t": "24:48"
+    },
+    {
+     "st": "張臺子",
+     "ev": "pass"
+    },
+    {
+     "st": "太子河",
+     "ev": "pass"
+    },
+    {
+     "st": "遼陽",
+     "ev": "arr",
+     "printed": "1.12",
+     "bold": false,
+     "t": "25:12"
+    },
+    {
+     "st": "遼陽",
+     "ev": "dep",
+     "printed": "1.15",
+     "bold": false,
+     "t": "25:15"
+    },
+    {
+     "st": "首山",
+     "ev": "pass"
+    },
+    {
+     "st": "立山",
+     "ev": "pass"
+    },
+    {
+     "st": "鞍山",
+     "ev": "arr",
+     "printed": "1.45",
+     "bold": false,
+     "t": "25:45"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "1.46",
+     "bold": false,
+     "t": "25:46"
+    },
+    {
+     "st": "千山",
+     "ev": "pass"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "arr",
+     "printed": "2.05",
+     "bold": false,
+     "t": "26:05"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "2.06",
+     "bold": false,
+     "t": "26:06"
+    },
+    {
+     "st": "甘泉舖",
+     "ev": "pass"
+    },
+    {
+     "st": "南臺",
+     "ev": "pass"
+    },
+    {
+     "st": "海城",
+     "ev": "dep",
+     "printed": "2.32",
+     "bold": false,
+     "t": "26:32"
+    },
+    {
+     "st": "他山",
+     "ev": "pass"
+    },
+    {
+     "st": "分水",
+     "ev": "pass"
+    },
+    {
+     "st": "大石橋",
+     "ev": "arr",
+     "printed": "3.08",
+     "bold": false,
+     "t": "27:08"
+    },
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "3.14",
+     "bold": false,
+     "t": "27:14"
+    },
+    {
+     "st": "太平山",
+     "ev": "pass"
+    },
+    {
+     "st": "白旗",
+     "ev": "pass"
+    },
+    {
+     "st": "蓋平",
+     "ev": "dep",
+     "printed": "3.47",
+     "bold": false,
+     "t": "27:47"
+    },
+    {
+     "st": "沙崗",
+     "ev": "pass"
+    },
+    {
+     "st": "蘆家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "熊岳城",
+     "ev": "arr",
+     "printed": "4.21",
+     "bold": false,
+     "t": "28:21"
+    },
+    {
+     "st": "熊岳城",
+     "ev": "dep",
+     "printed": "4.24",
+     "bold": false,
+     "t": "28:24"
+    },
+    {
+     "st": "梨山",
+     "ev": "pass"
+    },
+    {
+     "st": "九寨",
+     "ev": "pass"
+    },
+    {
+     "st": "許家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "萬家嶺",
+     "ev": "pass"
+    },
+    {
+     "st": "松樹",
+     "ev": "pass"
+    },
+    {
+     "st": "得利寺",
+     "ev": "pass"
+    },
+    {
+     "st": "王家",
+     "ev": "pass"
+    },
+    {
+     "st": "瓦房店",
+     "ev": "arr",
+     "printed": "5.52",
+     "bold": false,
+     "t": "29:52"
+    },
+    {
+     "st": "瓦房店",
+     "ev": "dep",
+     "printed": "5.58",
+     "bold": false,
+     "t": "29:58"
+    },
+    {
+     "st": "田家",
+     "ev": "dep",
+     "printed": "6.12",
+     "bold": false,
+     "t": "30:12"
+    },
+    {
+     "st": "普蘭店",
+     "ev": "dep",
+     "printed": "6.32",
+     "bold": false,
+     "t": "30:32"
+    },
+    {
+     "st": "石河",
+     "ev": "dep",
+     "printed": "6.47",
+     "bold": false,
+     "t": "30:47"
+    },
+    {
+     "st": "三十里堡",
+     "ev": "dep",
+     "printed": "7.03",
+     "bold": false,
+     "t": "31:03"
+    },
+    {
+     "st": "二十里臺",
+     "ev": "dep",
+     "printed": "7.18",
+     "bold": false,
+     "t": "31:18"
+    },
+    {
+     "st": "金州",
+     "ev": "arr",
+     "printed": "7.35",
+     "bold": false,
+     "t": "31:35"
+    },
+    {
+     "st": "金州",
+     "ev": "dep",
+     "printed": "7.36",
+     "bold": false,
+     "t": "31:36"
+    },
+    {
+     "st": "大房身",
+     "ev": "dep",
+     "printed": "7.44",
+     "bold": false,
+     "t": "31:44"
+    },
+    {
+     "st": "鹽島",
+     "ev": "pass"
+    },
+    {
+     "st": "南關嶺",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "32:00"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "8.10",
+     "bold": false,
+     "t": "32:10"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "8.11",
+     "bold": false,
+     "t": "32:11"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "8.19",
+     "bold": false,
+     "t": "32:19"
+    },
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "32:25"
+    }
+   ],
+   "dest": "大連",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "col": "23"
+  }
+ ],
+ "notes": [
+  "頁18から續く同一表の後半。驛名欄はこの頁の右端にあり、停車行は頁18と共通。この頁の列車欄は9欄（76・28・106・78・12・30・102・24・20）で、その右に空欄が9欄ある。頁頭に「（滿鐵・連京線）」。",
+  "粁程欄は無く、運賃欄は頁18側にあるため本頁には無い。改訂日（昭和17.6.15）・記念スタンプの註記は頁18側にある。",
+  "表頭の「三棵樹〜奉天著」6行は接續の抄錄（原表註記は頁18側）。奉天は抄錄行の著と本表の發を1行（著/發）にまとめた。",
+  "「v」は原表のレ（通過）、「-」は原表の「…」。12列車（あじあ）の沙河・十里河の桝には「特別急行」の黑地標記、煙臺・張臺子の桝には列車名「あじあ」の標記が入り、その桝には時刻が無い。表頭の12列車の欄にも「特別急行」の縦書き黑地標記がある。",
+  "30列車は大石橋止りではなく、大石橋 著21.28/發21.37 の下に「營口著 21.58」の縦書き註記がある（營口行）。",
+  "異常に見えるが判讀は確かな箇所（いづれも印刷のまま轉記）：78列車の南臺19.32→海城19.34（2分）、30列車の南臺20.47→海城20.49（2分）、28列車の田家21.13→普蘭店21.46（33分）。同區間の他列車は南臺→海城が11分前後、田家→普蘭店が17分前後。"
+ ],
+ "source": "IMG_1838",
+ "page": "19",
+ "title": "滿洲 連京線（奉天—大連間）",
+ "line": "滿鐵社線 連京線",
+ "dir": "上り (奉天→大連)"
+}

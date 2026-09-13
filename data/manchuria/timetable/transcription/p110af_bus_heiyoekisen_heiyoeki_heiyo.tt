@@ -1,0 +1,28 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 平陽驛線
+title: 平陽・平陽驛間
+dir: 平陽驛→平陽
+season: 昭和16.12.1改正
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（平陽起點）。
+stations: 平陽驛 | 平陽
+fares: 平陽驛 0.75 | 平陽
+
+train: 252 | dest 平陽 | col 1
+平陽驛 9.00
+平陽 9.50
+
+train: 254 | dest 平陽 | col 2
+平陽驛 11.40
+平陽 12.30
+
+train: 256 | dest 平陽 | col 3
+平陽驛 14.00
+平陽 14.50
+
+train: 258 | dest 平陽 | col 4
+平陽驛 17.10
+平陽 18.00

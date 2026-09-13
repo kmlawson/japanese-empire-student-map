@@ -1,0 +1,88 @@
+{
+ "stations": [
+  {
+   "name": "普蘭店驛",
+   "km": null
+  },
+  {
+   "name": "粉皮墻",
+   "km": null
+  },
+  {
+   "name": "杏樹屯驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "61",
+   "stops": [
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "粉皮墻",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "杏樹屯驛",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    }
+   ],
+   "dest": "杏樹屯驛",
+   "col": "2"
+  },
+  {
+   "no": "63",
+   "stops": [
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "粉皮墻",
+     "ev": "dep",
+     "printed": "15.55",
+     "bold": false,
+     "t": "15:55"
+    },
+    {
+     "st": "杏樹屯驛",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    }
+   ],
+   "dest": "杏樹屯驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "an unnumbered empty column (…) stands to the left of bus 61",
+  "bus 63's 杏樹屯驛 arrival is printed 17.30, 95 min after 粉皮墻, where bus 61 takes 25 min; left as printed"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "普杏線",
+ "title": "普蘭店驛・杏樹屯驛間",
+ "dir": "普蘭店驛→杏樹屯驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "普蘭店驛 0 | 粉皮墻 0.50 | 杏樹屯驛 0.85"
+}

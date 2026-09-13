@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "農安",
+   "km": null
+  },
+  {
+   "name": "伏龍泉",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "289",
+   "stops": [
+    {
+     "st": "農安",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "伏龍泉",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "伏龍泉",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "左端は運賃（圓.分）欄。逆方向は p115z。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "農伏北線",
+ "title": "農安・伏龍泉間",
+ "dir": "農安→伏龍泉",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "農安 | 伏龍泉 3.50"
+}

@@ -1,0 +1,20 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 西楊線
+title: 錦西驛・老邊間
+dir: 老邊→錦西驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the right of bus 134
+stations: 老邊 | 錦西驛
+fares: 老邊 1.75 | 錦西驛
+
+train: 132 | dest 錦西驛 | col 1
+老邊 15.50
+錦西驛 16.30
+
+train: 134 | dest 錦西驛 | col 2
+老邊 17.55
+錦西驛 18.30

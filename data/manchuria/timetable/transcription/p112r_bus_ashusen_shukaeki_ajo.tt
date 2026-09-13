@@ -1,0 +1,21 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 哈爾濱局管內
+line: 阿周線
+title: 阿城・周家驛間
+dir: 周家驛→阿城
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が周家驛發（本表）。運賃欄は阿城起點のものを反轉して掲げた。
+note: 64の番號の右に「※」の符號が刷られてゐる。
+stations: 周家驛 | 阿城
+fares: 周家驛 3.80 | 阿城
+
+train: 62 | dest 阿城 | col 1
+周家驛 10.10
+阿城 11.40
+
+train: 64 | dest 阿城 | marks ※ | col 2
+周家驛 15.10
+阿城 16.40

@@ -1,0 +1,69 @@
+{
+ "stations": [
+  {
+   "name": "開魯",
+   "km": null
+  },
+  {
+   "name": "通遼驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "304",
+   "stops": [
+    {
+     "st": "開魯",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "通遼驛",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    }
+   ],
+   "dest": "通遼驛",
+   "col": "1"
+  },
+  {
+   "no": "302",
+   "stops": [
+    {
+     "st": "開魯",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "通遼驛",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    }
+   ],
+   "dest": "通遼驛",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 302"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "通開線",
+ "title": "通遼驛・開魯間",
+ "dir": "開魯→通遼驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "開魯 4.30 | 通遼驛"
+}

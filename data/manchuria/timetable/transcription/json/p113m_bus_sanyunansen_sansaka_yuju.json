@@ -1,0 +1,87 @@
+{
+ "stations": [
+  {
+   "name": "三岔河",
+   "km": null
+  },
+  {
+   "name": "五棵樹",
+   "km": null
+  },
+  {
+   "name": "楡樹",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "601",
+   "stops": [
+    {
+     "st": "三岔河",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "五棵樹",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "楡樹",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "楡樹",
+   "col": "1"
+  },
+  {
+   "no": "503",
+   "stops": [
+    {
+     "st": "三岔河",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "五棵樹",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "楡樹",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "楡樹",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、左が三岔河發（本表）、右が楡樹發（p113n）。"
+ ],
+ "source": "IMG_1885",
+ "page": "113",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "三楡南線",
+ "title": "三岔河・楡樹間",
+ "dir": "三岔河→楡樹",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "三岔河 | 五棵樹 1.35 | 楡樹 3.00"
+}

@@ -1,0 +1,24 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 克拜線
+title: 克山驛・拜泉間
+dir: 克山驛→拜泉
+season: 昭和16.12.1改正
+service: 每日運行
+note: 左端は運賃（圓.分）欄。全便所要2時間30分。逆方向は p115l。
+stations: 克山驛 | 拜泉
+fares: 克山驛 | 拜泉 3.90
+
+train: 106 | dest 拜泉 | col 1
+克山驛 8.00
+拜泉 10.30
+
+train: 102 | dest 拜泉 | col 2
+克山驛 14.00
+拜泉 16.30
+
+train: 104 | dest 拜泉 | col 3
+克山驛 16.10
+拜泉 18.40

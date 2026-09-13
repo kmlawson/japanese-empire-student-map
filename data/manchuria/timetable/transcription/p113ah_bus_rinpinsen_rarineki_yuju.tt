@@ -1,0 +1,17 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 林濱線
+title: 楡樹・拉林驛間
+dir: 拉林驛→楡樹
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が拉林驛發（本表）。運賃欄は楡樹起點のものを反轉して掲げた。
+stations: 拉林驛 | 大嶺 | 楡樹
+fares: 拉林驛 2.95 | 大嶺 1.30 | 楡樹
+
+train: 522 | dest 楡樹 | col 1
+拉林驛 12.30
+大嶺 14.00
+楡樹 15.30

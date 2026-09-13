@@ -1,0 +1,21 @@
+source: IMG_1887
+page: 117
+kind: bus
+office: 各地自動車會社線
+line: 金普線（大連都市交通會社）
+title: 金州・普蘭店間
+dir: 金州→普蘭店
+season: 昭和16.11.1改正
+note: 左3欄（金州發）。「初發｜3時間每｜終發」。運賃は円錢。
+stations: 金州 | 普蘭店
+fares: 金州 | 普蘭店 0.85
+
+train: 無番 | dest 普蘭店 | col 1
+; 初發
+金州 8.00
+普蘭店 9.10
+
+train: 無番 | dest 普蘭店 | col 3
+; 終發。col 1 と col 3 の間は「3時間每」
+金州 17.00
+普蘭店 18.10

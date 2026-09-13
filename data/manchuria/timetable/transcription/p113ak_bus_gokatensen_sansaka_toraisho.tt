@@ -1,0 +1,17 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 五家站線
+title: 三岔河・陶賴昭間
+dir: 三岔河→陶賴昭
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が三岔河發（本表）、右が陶賴昭發（p113al）。
+stations: 三岔河 | 五家站 | 陶賴昭
+fares: 三岔河 | 五家站 1.95 | 陶賴昭 3.45
+
+train: 643 | dest 陶賴昭 | col 1
+三岔河 9.30
+五家站 11.00
+陶賴昭 12.30

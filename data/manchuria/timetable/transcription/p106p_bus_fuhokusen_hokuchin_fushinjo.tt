@@ -1,0 +1,18 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 阜北線
+title: 阜新城・北鎭間
+dir: 北鎭→阜新城
+season: 昭和16.10.1改正
+service: 每日運行
+note: the 運賃 column is headed 円分 but carries only … for both stops below 阜新城
+note: three unnumbered empty columns (…) stand to the right of bus 210
+stations: 北鎭 | 白土廠 | 阜新城
+fares: 北鎭 | 白土廠 | 阜新城
+
+train: 210 | dest 阜新城 | col 1
+北鎭 13.00
+白土廠 v
+阜新城 17.00

@@ -1,0 +1,59 @@
+{
+ "stations": [
+  {
+   "name": "烏丹城",
+   "km": null
+  },
+  {
+   "name": "一心村",
+   "km": null
+  },
+  {
+   "name": "林西",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "424",
+   "stops": [
+    {
+     "st": "烏丹城",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "一心村",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "林西",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "林西",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the left of bus 424"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "林烏線",
+ "title": "林西・烏丹城間",
+ "dir": "烏丹城→林西",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "烏丹城 | 一心村 2.50 | 林西 6.50"
+}

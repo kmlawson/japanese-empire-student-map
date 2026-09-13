@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "七星泡",
+   "km": null
+  },
+  {
+   "name": "寶淸",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "312",
+   "stops": [
+    {
+     "st": "七星泡",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "寶淸",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    }
+   ],
+   "dest": "寶淸",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "運賃欄は表の左端に1組のみ（寶淸起點）。"
+ ],
+ "source": "IMG_1884",
+ "page": "111",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "佳寶線",
+ "title": "寶淸・七星泡間",
+ "dir": "七星泡→寶淸",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "七星泡 5.85 | 寶淸"
+}

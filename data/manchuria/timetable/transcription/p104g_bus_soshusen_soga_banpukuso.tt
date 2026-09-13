@@ -1,0 +1,23 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 莊岫線
+title: 莊河・萬福莊間
+dir: 莊河→萬福庄
+season: 昭和17.2.20改正
+service: 每日運行
+note: line name printed 莊岫線 although the route is 莊河・萬福莊 (see the preceding block); 3rd station printed 萬福庄 in the table, 萬福莊 in the title
+note: an unnumbered empty column (…) stands to the left of bus 95
+stations: 莊河 | 桂雲 | 萬福庄
+fares: 莊河 0 | 桂雲 2.65 | 萬福庄 4.30
+
+train: 95 | dest 萬福庄 | col 1
+莊河 9.00
+桂雲 11.30
+萬福庄 13.00
+
+train: 97 | dest 桂雲 | col 2
+莊河 10.30
+桂雲 13.00
+萬福庄 -

@@ -1,0 +1,16 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 哈爾濱局管內
+line: 通鳳線
+title: 通河・鳳山間
+dir: 通河→鳳山
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が通河發（本表）、右が鳳山發（p112af）。
+stations: 通河 | 鳳山
+fares: 通河 | 鳳山 3.60
+
+train: 11 | dest 鳳山 | col 1
+通河 9.00
+鳳山 12.00

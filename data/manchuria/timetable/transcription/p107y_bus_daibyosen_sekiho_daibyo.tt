@@ -1,0 +1,17 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 大廟線
+title: 赤峰・大廟間
+dir: 赤峰→大廟
+season: (運休)
+service: 每日運行
+note: 「(運休)」 is printed where the other blocks carry a 改正 date — the service is suspended
+note: two unnumbered empty columns (…) stand to the left of bus 419
+stations: 赤峰 | 大廟
+fares: 赤峰 | 大廟 3.45
+
+train: 419 | dest 大廟 | col 3
+赤峰 8.30
+大廟 12.00

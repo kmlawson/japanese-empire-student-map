@@ -1,0 +1,17 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 農伏南線
+title: 農安驛・伏龍泉間
+dir: 農安驛→伏龍泉
+season: 昭和16.12.1改正
+service: 每日運行
+note: 中間の巴吉壘は全便「…」。左端は運賃（圓.分）欄。逆方向は p115x。
+stations: 農安驛 | 巴吉壘 | 伏龍泉
+fares: 農安驛 | 巴吉壘 1.60 | 伏龍泉 2.50
+
+train: 291 | dest 伏龍泉 | col 3
+農安驛 9.30
+巴吉壘 -
+伏龍泉 12.00

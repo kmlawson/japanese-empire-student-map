@@ -1,0 +1,141 @@
+{
+ "stations": [
+  {
+   "name": "八岔口",
+   "km": null
+  },
+  {
+   "name": "李家房",
+   "km": null
+  },
+  {
+   "name": "析木城",
+   "km": null
+  },
+  {
+   "name": "海城驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "116",
+   "stops": [
+    {
+     "st": "八岔口",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "李家房",
+     "ev": "dep",
+     "printed": "10.47",
+     "bold": false,
+     "t": "10:47"
+    },
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "1"
+  },
+  {
+   "no": "120",
+   "stops": [
+    {
+     "st": "八岔口",
+     "ev": "dep",
+     "printed": "14.36",
+     "bold": false,
+     "t": "14:36"
+    },
+    {
+     "st": "李家房",
+     "ev": "dep",
+     "printed": "14.47",
+     "bold": false,
+     "t": "14:47"
+    },
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "2"
+  },
+  {
+   "no": "122",
+   "stops": [
+    {
+     "st": "八岔口",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "李家房",
+     "ev": "dep",
+     "printed": "15.47",
+     "bold": false,
+     "t": "15:47"
+    },
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 海城驛→八岔口 direction",
+  "bus 120 prints 14.36 at 八岔口 (11 min to 李家房, where the other columns take 17); transcribed as printed"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "海岫線",
+ "title": "海城驛・八岔口間",
+ "dir": "八岔口→海城驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "八岔口 1.90 | 李家房 1.75 | 析木城 1.30 | 海城驛 0"
+}

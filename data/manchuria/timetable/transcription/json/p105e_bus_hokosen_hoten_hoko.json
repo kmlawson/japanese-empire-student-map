@@ -1,0 +1,161 @@
+{
+ "stations": [
+  {
+   "name": "奉天驛",
+   "km": null
+  },
+  {
+   "name": "三面線",
+   "km": null
+  },
+  {
+   "name": "大孤家",
+   "km": null
+  },
+  {
+   "name": "法庫",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "91",
+   "stops": [
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "三面線",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    }
+   ],
+   "dest": "三面線",
+   "col": "1"
+  },
+  {
+   "no": "93",
+   "stops": [
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "三面線",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "大孤家",
+     "ev": "dep",
+     "printed": "12.31",
+     "bold": false,
+     "t": "12:31"
+    },
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    }
+   ],
+   "dest": "法庫",
+   "col": "2"
+  },
+  {
+   "no": "95",
+   "stops": [
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "三面線",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "大孤家",
+     "ev": "dep",
+     "printed": "14.51",
+     "bold": false,
+     "t": "14:51"
+    },
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    }
+   ],
+   "dest": "法庫",
+   "col": "3"
+  },
+  {
+   "no": "97",
+   "stops": [
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "三面線",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "大孤家",
+     "ev": "dep",
+     "printed": "17.31",
+     "bold": false,
+     "t": "17:31"
+    },
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    }
+   ],
+   "dest": "法庫",
+   "col": "4"
+  }
+ ],
+ "notes": [
+  "the second station is printed 三面線 in this (down) block and 三面船 in the up block; kept as printed"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "奉庫線",
+ "title": "奉天驛・法庫間",
+ "dir": "奉天驛→法庫",
+ "season": "昭和17.1.28改正",
+ "service": "每日運行",
+ "fares": "奉天驛 0 | 三面線 2.75 | 大孤家 3.50 | 法庫 3.50"
+}

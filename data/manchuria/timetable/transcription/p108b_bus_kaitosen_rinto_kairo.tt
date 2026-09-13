@@ -1,0 +1,17 @@
+source: IMG_1883
+page: 108
+kind: bus
+office: 錦州局管內
+line: 開東線
+title: 開魯・林東間
+dir: 林東→開魯
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表は左右2組で、右が林東發（本表）。運賃欄は開魯起點のものをそのまま反轉して掲げた。
+stations: 林東 | 登布杆廟 | 開魯
+fares: 林東 9.00 | 登布杆廟 5.90 | 開魯
+
+train: 322 | dest 開魯 | col 1
+林東 8.00
+登布杆廟 11.40
+開魯 17.40

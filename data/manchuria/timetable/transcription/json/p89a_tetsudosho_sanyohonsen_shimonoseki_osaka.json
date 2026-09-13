@@ -1,0 +1,3051 @@
+{
+ "stations": [
+  {
+   "name": "下關",
+   "km": 0.0
+  },
+  {
+   "name": "厚狹",
+   "km": 33.8
+  },
+  {
+   "name": "小郡",
+   "km": 68.9
+  },
+  {
+   "name": "三田尻",
+   "km": 86.7
+  },
+  {
+   "name": "徳山",
+   "km": 113.2
+  },
+  {
+   "name": "櫛ケ濱",
+   "km": 116.6
+  },
+  {
+   "name": "西岩國",
+   "km": 156.6
+  },
+  {
+   "name": "岩國",
+   "km": 160.3
+  },
+  {
+   "name": "宮島口",
+   "km": 179.9
+  },
+  {
+   "name": "廣島",
+   "km": 201.7
+  },
+  {
+   "name": "海田市",
+   "km": 208.1
+  },
+  {
+   "name": "瀨野",
+   "km": 216.9
+  },
+  {
+   "name": "糸崎",
+   "km": 276.1
+  },
+  {
+   "name": "尾道",
+   "km": 285.2
+  },
+  {
+   "name": "福山",
+   "km": 305.3
+  },
+  {
+   "name": "倉敷",
+   "km": 347.7
+  },
+  {
+   "name": "岡山",
+   "km": 363.6
+  },
+  {
+   "name": "姫路",
+   "km": 452.2
+  },
+  {
+   "name": "加古川",
+   "km": 467.9
+  },
+  {
+   "name": "明石",
+   "km": 487.8
+  },
+  {
+   "name": "兵庫",
+   "km": 505.8
+  },
+  {
+   "name": "神戶",
+   "km": 507.0
+  },
+  {
+   "name": "三ノ宮",
+   "km": 510.1
+  },
+  {
+   "name": "大阪",
+   "km": 540.1
+  }
+ ],
+ "trains": [
+  {
+   "no": "22",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "5.00",
+     "bold": false,
+     "t": "05:00"
+    },
+    {
+     "st": "厚狹",
+     "ev": "dep",
+     "printed": "5.43",
+     "bold": false,
+     "uncertain": true,
+     "t": "05:43"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "6.36",
+     "bold": false,
+     "t": "06:36"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "6.41",
+     "bold": false,
+     "t": "06:41"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "7.06",
+     "bold": false,
+     "t": "07:06"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "7.43",
+     "bold": false,
+     "t": "07:43"
+    },
+    {
+     "st": "櫛ケ濱",
+     "ev": "dep",
+     "printed": "7.48",
+     "bold": false,
+     "t": "07:48"
+    },
+    {
+     "st": "西岩國",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "t": "08:45"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "8.52",
+     "bold": false,
+     "t": "08:52"
+    },
+    {
+     "st": "宮島口",
+     "ev": "dep",
+     "printed": "9.21",
+     "bold": false,
+     "t": "09:21"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "9.53",
+     "bold": false,
+     "t": "09:53"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "海田市",
+     "ev": "dep",
+     "printed": "10.11",
+     "bold": false,
+     "t": "10:11"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "10.27",
+     "bold": false,
+     "t": "10:27"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "0.02",
+     "bold": true,
+     "t": "12:02"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "0.14",
+     "bold": true,
+     "t": "12:14"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "0.41",
+     "bold": true,
+     "t": "12:41"
+    },
+    {
+     "st": "倉敷",
+     "ev": "dep",
+     "printed": "1.39",
+     "bold": true,
+     "t": "13:39"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "2.00",
+     "bold": true,
+     "t": "14:00"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "2.06",
+     "bold": true,
+     "t": "14:06"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "4.14",
+     "bold": true,
+     "t": "16:14"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "dep",
+     "printed": "4.46",
+     "bold": true,
+     "t": "16:46"
+    },
+    {
+     "st": "兵庫",
+     "ev": "dep",
+     "printed": "5.04",
+     "bold": true,
+     "t": "17:04"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "5.08",
+     "bold": true,
+     "t": "17:08"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "5.11",
+     "bold": true,
+     "t": "17:11"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "5.17",
+     "bold": true,
+     "t": "17:17"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "5.45",
+     "bold": true,
+     "t": "17:45"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "col": "1",
+   "to_page": "89"
+  },
+  {
+   "no": "1026",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "uncertain": true,
+     "t": "08:25"
+    },
+    {
+     "st": "厚狹",
+     "ev": "pass"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "9.36",
+     "bold": false,
+     "t": "09:36"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "9.42",
+     "bold": false,
+     "t": "09:42"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": false,
+     "t": "10:01"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "10.23",
+     "bold": false,
+     "t": "10:23"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "11.19",
+     "bold": false,
+     "t": "11:19"
+    },
+    {
+     "st": "宮島口",
+     "ev": "dep",
+     "printed": "11.39",
+     "bold": false,
+     "t": "11:39"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "0.01",
+     "bold": true,
+     "t": "12:01"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "0.06",
+     "bold": true,
+     "t": "12:06"
+    },
+    {
+     "st": "海田市",
+     "ev": "pass"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "2.28",
+     "bold": true,
+     "note": "原印の通り。廣島0.06發―糸崎1.48着の間で2.28は有り得ず、0.28の誤植とみられる",
+     "t": "14:28"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "1.48",
+     "bold": true,
+     "t": "37:48"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "1.59",
+     "bold": true,
+     "t": "37:59"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "2.20",
+     "bold": true,
+     "t": "38:20"
+    },
+    {
+     "st": "倉敷",
+     "ev": "pass"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "3.12",
+     "bold": true,
+     "t": "39:12"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "3.18",
+     "bold": true,
+     "t": "39:18"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "4.54",
+     "bold": true,
+     "t": "40:54"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "pass"
+    },
+    {
+     "st": "兵庫",
+     "ev": "pass"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "5.64",
+     "bold": true,
+     "note": "著は原印の通り。5.44頃の誤植とみられる",
+     "t": "42:04"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "5.50",
+     "bold": true,
+     "note": "著は原印の通り。5.44頃の誤植とみられる",
+     "t": "65:50"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "5.56",
+     "bold": true,
+     "t": "65:56"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "6.25",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "66:25"
+    }
+   ],
+   "dest": "大阪",
+   "cls": "2.3",
+   "marks": "急 食",
+   "col": "2",
+   "note": "下關發は表の上端で刷れ、8.25とも6.25とも讀める。小郡著9.36までの所要（急行）から8.25とした（頁9の抄錄 p09c は6.25と讀んでゐる）"
+  },
+  {
+   "no": "14",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "t": "08:45"
+    },
+    {
+     "st": "厚狹",
+     "ev": "pass"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "9.56",
+     "bold": false,
+     "t": "09:56"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "10.02",
+     "bold": false,
+     "t": "10:02"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "10.21",
+     "bold": false,
+     "t": "10:21"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "11.41",
+     "bold": false,
+     "t": "11:41"
+    },
+    {
+     "st": "宮島口",
+     "ev": "dep",
+     "printed": "0.01",
+     "bold": true,
+     "t": "12:01"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "0.24",
+     "bold": true,
+     "t": "12:24"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "0.30",
+     "bold": true,
+     "t": "12:30"
+    },
+    {
+     "st": "海田市",
+     "ev": "dep",
+     "printed": "0.40",
+     "bold": true,
+     "t": "12:40"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "0.57",
+     "bold": true,
+     "t": "12:57"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "2.21",
+     "bold": true,
+     "t": "14:21"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "2.32",
+     "bold": true,
+     "t": "14:32"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "2.53",
+     "bold": true,
+     "t": "14:53"
+    },
+    {
+     "st": "倉敷",
+     "ev": "pass"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "3.45",
+     "bold": true,
+     "t": "15:45"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "3.50",
+     "bold": true,
+     "t": "15:50"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "5.27",
+     "bold": true,
+     "t": "17:27"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "pass"
+    },
+    {
+     "st": "兵庫",
+     "ev": "pass"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "6.16",
+     "bold": true,
+     "t": "18:16"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "6.20",
+     "bold": true,
+     "t": "18:20"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "6.26",
+     "bold": true,
+     "t": "18:26"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": true,
+     "t": "18:54"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "3",
+   "to_page": "89",
+   "note": "寢台車の等級枠は「1.2」"
+  },
+  {
+   "no": "104",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "8.53",
+     "bold": false,
+     "uncertain": true,
+     "t": "08:53"
+    },
+    {
+     "st": "厚狹",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "10.51",
+     "bold": false,
+     "t": "10:51"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "10.57",
+     "bold": false,
+     "t": "10:57"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "11.23",
+     "bold": false,
+     "t": "11:23"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "0.00",
+     "bold": true,
+     "t": "12:00"
+    },
+    {
+     "st": "櫛ケ濱",
+     "ev": "dep",
+     "printed": "0.05",
+     "bold": true,
+     "t": "12:05"
+    },
+    {
+     "st": "西岩國",
+     "ev": "dep",
+     "printed": "1.04",
+     "bold": true,
+     "t": "13:04"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "1.11",
+     "bold": true,
+     "t": "13:11"
+    },
+    {
+     "st": "宮島口",
+     "ev": "dep",
+     "printed": "1.49",
+     "bold": true,
+     "t": "13:49"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "2.14",
+     "bold": true,
+     "t": "14:14"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "2.22",
+     "bold": true,
+     "t": "14:22"
+    },
+    {
+     "st": "海田市",
+     "ev": "dep",
+     "printed": "2.33",
+     "bold": true,
+     "t": "14:33"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "2.50",
+     "bold": true,
+     "t": "14:50"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "4.27",
+     "bold": true,
+     "t": "16:27"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "4.39",
+     "bold": true,
+     "t": "16:39"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "5.06",
+     "bold": true,
+     "t": "17:06"
+    },
+    {
+     "st": "倉敷",
+     "ev": "dep",
+     "printed": "6.14",
+     "bold": true,
+     "t": "18:14"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "6.34",
+     "bold": true,
+     "t": "18:34"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "6.43",
+     "bold": true,
+     "t": "18:43"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "8.56",
+     "bold": true,
+     "t": "20:56"
+    },
+    {
+     "st": "加古川",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": true,
+     "t": "21:20"
+    },
+    {
+     "st": "明石",
+     "ev": "dep",
+     "printed": "10.03",
+     "bold": true,
+     "t": "22:03"
+    },
+    {
+     "st": "兵庫",
+     "ev": "dep",
+     "printed": "10.26",
+     "bold": true,
+     "t": "22:26"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "10.30",
+     "bold": true,
+     "t": "22:30"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "10.33",
+     "bold": true,
+     "t": "22:33"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": true,
+     "t": "22:40"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "11.15",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "23:15"
+    }
+   ],
+   "dest": "大阪",
+   "cls": "2.3",
+   "col": "4",
+   "note": "下關發は表の上端で刷れ末位が確かでない（頁9の抄錄 p09c は8.55と讀んでゐる）"
+  },
+  {
+   "no": "8",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "9.25",
+     "bold": false,
+     "t": "09:25"
+    },
+    {
+     "st": "厚狹",
+     "ev": "pass"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "10.33",
+     "bold": false,
+     "t": "10:33"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "10.38",
+     "bold": false,
+     "t": "10:38"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "10.57",
+     "bold": false,
+     "t": "10:57"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "11.23",
+     "bold": false,
+     "t": "11:23"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "0.34",
+     "bold": true,
+     "t": "12:34"
+    },
+    {
+     "st": "宮島口",
+     "ev": "dep",
+     "printed": "0.54",
+     "bold": true,
+     "t": "12:54"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "1.15",
+     "bold": true,
+     "t": "13:15"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "1.20",
+     "bold": true,
+     "t": "13:20"
+    },
+    {
+     "st": "海田市",
+     "ev": "pass"
+    },
+    {
+     "st": "瀨野",
+     "ev": "pass"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "3.22",
+     "bold": true,
+     "t": "15:22"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "3.34",
+     "bold": true,
+     "t": "15:34"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "3.54",
+     "bold": true,
+     "t": "15:54"
+    },
+    {
+     "st": "倉敷",
+     "ev": "dep",
+     "printed": "4.34",
+     "bold": true,
+     "t": "16:34"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "4.49",
+     "bold": true,
+     "t": "16:49"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "4.55",
+     "bold": true,
+     "t": "16:55"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "6.22",
+     "bold": true,
+     "t": "18:22"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "pass"
+    },
+    {
+     "st": "兵庫",
+     "ev": "pass"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "7.16",
+     "bold": true,
+     "t": "19:16"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "7.19",
+     "bold": true,
+     "t": "19:19"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": true,
+     "t": "19:25"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": true,
+     "t": "19:55"
+    }
+   ],
+   "dest": "東京",
+   "cls": "1.2.3",
+   "marks": "急 食 寢",
+   "col": "5",
+   "to_page": "89",
+   "note": "寢台車の等級枠は「1.2」"
+  },
+  {
+   "no": "6",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "0.50",
+     "bold": true,
+     "t": "12:50"
+    },
+    {
+     "st": "厚狹",
+     "ev": "dep",
+     "printed": "1.27",
+     "bold": true,
+     "t": "13:27"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "2.01",
+     "bold": true,
+     "t": "14:01"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "2.06",
+     "bold": true,
+     "t": "14:06"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "2.25",
+     "bold": true,
+     "t": "14:25"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "2.52",
+     "bold": true,
+     "t": "14:52"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "3.43",
+     "bold": true,
+     "t": "15:43"
+    },
+    {
+     "st": "宮島口",
+     "ev": "dep",
+     "printed": "4.03",
+     "bold": true,
+     "t": "16:03"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "4.24",
+     "bold": true,
+     "t": "16:24"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "4.30",
+     "bold": true,
+     "t": "16:30"
+    },
+    {
+     "st": "海田市",
+     "ev": "dep",
+     "printed": "4.40",
+     "bold": true,
+     "t": "16:40"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "4.55",
+     "bold": true,
+     "t": "16:55"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "6.17",
+     "bold": true,
+     "t": "18:17"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "6.29",
+     "bold": true,
+     "t": "18:29"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "6.52",
+     "bold": true,
+     "t": "18:52"
+    },
+    {
+     "st": "倉敷",
+     "ev": "pass"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "7.52",
+     "bold": true,
+     "t": "19:52"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "7.57",
+     "bold": true,
+     "t": "19:57"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "9.24",
+     "bold": true,
+     "t": "21:24"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "dep",
+     "printed": "9.56",
+     "bold": true,
+     "t": "21:56"
+    },
+    {
+     "st": "兵庫",
+     "ev": "pass"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "10.16",
+     "bold": true,
+     "t": "22:16"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": true,
+     "t": "22:20"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "10.26",
+     "bold": true,
+     "t": "22:26"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": true,
+     "t": "22:55"
+    }
+   ],
+   "dest": "東京",
+   "cls": "1.2.3",
+   "marks": "急 食 寢",
+   "col": "6",
+   "to_page": "89",
+   "note": "寢台車の等級枠は「2」"
+  },
+  {
+   "no": "24",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "2.35",
+     "bold": true,
+     "t": "14:35"
+    },
+    {
+     "st": "厚狹",
+     "ev": "dep",
+     "printed": "3.29",
+     "bold": true,
+     "t": "15:29"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "4.19",
+     "bold": true,
+     "t": "16:19"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "4.26",
+     "bold": true,
+     "t": "16:26"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "4.53",
+     "bold": true,
+     "t": "16:53"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "5.32",
+     "bold": true,
+     "t": "17:32"
+    },
+    {
+     "st": "櫛ケ濱",
+     "ev": "dep",
+     "printed": "5.37",
+     "bold": true,
+     "t": "17:37"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "7.15",
+     "bold": true,
+     "t": "19:15"
+    },
+    {
+     "st": "宮島口",
+     "ev": "dep",
+     "printed": "7.43",
+     "bold": true,
+     "t": "19:43"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "8.17",
+     "bold": true,
+     "t": "20:17"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "8.26",
+     "bold": true,
+     "t": "20:26"
+    },
+    {
+     "st": "海田市",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": true,
+     "t": "20:38"
+    },
+    {
+     "st": "瀨野",
+     "ev": "pass"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "11.18",
+     "bold": true,
+     "t": "23:18"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "11.32",
+     "bold": true,
+     "t": "23:32"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "0.03",
+     "bold": false,
+     "t": "24:03"
+    },
+    {
+     "st": "倉敷",
+     "ev": "dep",
+     "printed": "1.07",
+     "bold": false,
+     "t": "25:07"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "1.27",
+     "bold": false,
+     "t": "25:27"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "1.36",
+     "bold": false,
+     "t": "25:36"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "3.35",
+     "bold": false,
+     "t": "27:35"
+    },
+    {
+     "st": "加古川",
+     "ev": "dep",
+     "printed": "3.55",
+     "bold": false,
+     "t": "27:55"
+    },
+    {
+     "st": "明石",
+     "ev": "dep",
+     "printed": "4.19",
+     "bold": false,
+     "t": "28:19"
+    },
+    {
+     "st": "兵庫",
+     "ev": "dep",
+     "printed": "4.42",
+     "bold": false,
+     "t": "28:42"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "4.47",
+     "bold": false,
+     "t": "28:47"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "4.52",
+     "bold": false,
+     "t": "28:52"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "5.00",
+     "bold": false,
+     "t": "29:00"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "5.38",
+     "bold": false,
+     "t": "29:38"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "col": "7",
+   "to_page": "89",
+   "note": "深夜に日附を越える（尾道11.32午後→福山0.03午前）"
+  },
+  {
+   "no": "110",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "4.55",
+     "bold": true,
+     "t": "16:55"
+    },
+    {
+     "st": "厚狹",
+     "ev": "dep",
+     "printed": "5.49",
+     "bold": true,
+     "t": "17:49"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "6.40",
+     "bold": true,
+     "t": "18:40"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "6.50",
+     "bold": true,
+     "t": "18:50"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "7.19",
+     "bold": true,
+     "t": "19:19"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "7.52",
+     "bold": true,
+     "t": "19:52"
+    },
+    {
+     "st": "櫛ケ濱",
+     "ev": "dep",
+     "printed": "7.57",
+     "bold": true,
+     "t": "19:57"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "9.35",
+     "bold": true,
+     "t": "21:35"
+    },
+    {
+     "st": "宮島口",
+     "ev": "dep",
+     "printed": "10.03",
+     "bold": true,
+     "t": "22:03"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "10.37",
+     "bold": true,
+     "t": "22:37"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "10.45",
+     "bold": true,
+     "t": "22:45"
+    },
+    {
+     "st": "海田市",
+     "ev": "dep",
+     "printed": "10.56",
+     "bold": true,
+     "t": "22:56"
+    },
+    {
+     "st": "瀨野",
+     "ev": "pass"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "1.18",
+     "bold": false,
+     "t": "25:18"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "1.30",
+     "bold": false,
+     "t": "25:30"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "1.52",
+     "bold": false,
+     "t": "25:52"
+    },
+    {
+     "st": "倉敷",
+     "ev": "dep",
+     "printed": "2.37",
+     "bold": false,
+     "t": "26:37"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "2.54",
+     "bold": false,
+     "t": "26:54"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "3.02",
+     "bold": false,
+     "t": "27:02"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "4.40",
+     "bold": false,
+     "t": "28:40"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "dep",
+     "printed": "5.13",
+     "bold": false,
+     "t": "29:13"
+    },
+    {
+     "st": "兵庫",
+     "ev": "dep",
+     "printed": "5.35",
+     "bold": false,
+     "t": "29:35"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "5.38",
+     "bold": false,
+     "t": "29:38"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "5.42",
+     "bold": false,
+     "t": "29:42"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "5.47",
+     "bold": false,
+     "t": "29:47"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "6.16",
+     "bold": false,
+     "t": "30:16"
+    }
+   ],
+   "dest": "京都",
+   "cls": "2.3",
+   "marks": "食 寢",
+   "col": "8",
+   "note": "大阪以遠（京都まで）の時刻は本表に無い。深夜に日附を越える（海田市10.56午後→糸崎1.18午前）"
+  },
+  {
+   "no": "2",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": true,
+     "t": "20:30"
+    },
+    {
+     "st": "厚狹",
+     "ev": "pass"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "9.37",
+     "bold": true,
+     "t": "21:37"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "9.42",
+     "bold": true,
+     "t": "21:42"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": true,
+     "t": "22:01"
+    },
+    {
+     "st": "徳山",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "宮島口",
+     "ev": "dep",
+     "printed": "11.34",
+     "bold": true,
+     "t": "23:34"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "11.56",
+     "bold": true,
+     "note": "發は原印の通り。廣島著11.56午後の直後なので0.02（午前）の誤植とみられる",
+     "t": "23:56"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "6.02",
+     "bold": false,
+     "note": "發は原印の通り。廣島著11.56午後の直後なので0.02（午前）の誤植とみられる",
+     "t": "30:02"
+    },
+    {
+     "st": "海田市",
+     "ev": "pass"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "0.27",
+     "bold": false,
+     "t": "48:27"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "1.50",
+     "bold": false,
+     "t": "49:50"
+    },
+    {
+     "st": "尾道",
+     "ev": "pass"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "3.29",
+     "bold": false,
+     "t": "51:29"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "3.35",
+     "bold": false,
+     "t": "51:35"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "5.17",
+     "bold": false,
+     "t": "53:17"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "pass"
+    },
+    {
+     "st": "兵庫",
+     "ev": "pass"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "6.07",
+     "bold": false,
+     "t": "54:07"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "6.09",
+     "bold": false,
+     "t": "54:09"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "6.15",
+     "bold": false,
+     "t": "54:15"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "6.43",
+     "bold": false,
+     "t": "54:43"
+    }
+   ],
+   "dest": "東京",
+   "cls": "1.2.3",
+   "marks": "特急 食 寢",
+   "name": "ふじ",
+   "col": "9",
+   "to_page": "89",
+   "note": "表頭は反轉枠の「特別急行」。福山・倉敷の空桝に括弧書きで「（ふじ）」。寢台車の等級枠は「1.2」。深夜に日附を越える"
+  },
+  {
+   "no": "1028",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": true,
+     "t": "21:20"
+    },
+    {
+     "st": "厚狹",
+     "ev": "dep",
+     "printed": "9.58",
+     "bold": true,
+     "t": "21:58"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "10.32",
+     "bold": true,
+     "t": "22:32"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "10.38",
+     "bold": true,
+     "t": "22:38"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "10.59",
+     "bold": true,
+     "t": "22:59"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": true,
+     "t": "23:30"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "0.27",
+     "bold": false,
+     "t": "24:27"
+    },
+    {
+     "st": "宮島口",
+     "ev": "pass"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "1.10",
+     "bold": false,
+     "t": "25:10"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "1.16",
+     "bold": false,
+     "t": "25:16"
+    },
+    {
+     "st": "海田市",
+     "ev": "pass"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "1.38",
+     "bold": false,
+     "t": "25:38"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "2.58",
+     "bold": false,
+     "t": "26:58"
+    },
+    {
+     "st": "尾道",
+     "ev": "pass"
+    },
+    {
+     "st": "福山",
+     "ev": "pass"
+    },
+    {
+     "st": "倉敷",
+     "ev": "pass"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "4.17",
+     "bold": false,
+     "t": "28:17"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "4.23",
+     "bold": false,
+     "t": "28:23"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "6.00",
+     "bold": false,
+     "t": "30:00"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "pass"
+    },
+    {
+     "st": "兵庫",
+     "ev": "pass"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "7.06",
+     "bold": false,
+     "t": "31:06"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "7.10",
+     "bold": false,
+     "t": "31:10"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "7.16",
+     "bold": false,
+     "t": "31:16"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": false,
+     "note": "終着（著時刻）",
+     "t": "31:45"
+    }
+   ],
+   "dest": "大阪",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "10",
+   "note": "寢台車の等級枠は「2」。深夜に日附を越える"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": true,
+     "t": "22:00"
+    },
+    {
+     "st": "厚狹",
+     "ev": "dep",
+     "printed": "10.37",
+     "bold": true,
+     "t": "22:37"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "11.11",
+     "bold": true,
+     "t": "23:11"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "11.16",
+     "bold": true,
+     "t": "23:16"
+    },
+    {
+     "st": "三田尻",
+     "ev": "pass"
+    },
+    {
+     "st": "徳山",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "0.43",
+     "bold": false,
+     "t": "24:43"
+    },
+    {
+     "st": "宮島口",
+     "ev": "pass"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "1.23",
+     "bold": false,
+     "t": "25:23"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "1.35",
+     "bold": false,
+     "t": "25:35"
+    },
+    {
+     "st": "海田市",
+     "ev": "pass"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "1.53",
+     "bold": false,
+     "t": "25:53"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "3.21",
+     "bold": false,
+     "t": "27:21"
+    },
+    {
+     "st": "尾道",
+     "ev": "pass"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "4.44",
+     "bold": false,
+     "t": "28:44"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "4.50",
+     "bold": false,
+     "t": "28:50"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "6.18",
+     "bold": false,
+     "t": "30:18"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "pass"
+    },
+    {
+     "st": "兵庫",
+     "ev": "pass"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "7.13",
+     "bold": false,
+     "t": "31:13"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "7.19",
+     "bold": false,
+     "t": "31:19"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "31:25"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "7.54",
+     "bold": false,
+     "t": "31:54"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "特急 食 寢",
+   "name": "さくら",
+   "col": "11",
+   "to_page": "89",
+   "note": "表頭は反轉枠の「特別急行」。福山・倉敷の空桝に括弧書きで「（櫻）」。寢台車の等級枠は「1.2」。深夜に日附を越える"
+  },
+  {
+   "no": "112",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "10.06",
+     "bold": true,
+     "t": "22:06"
+    },
+    {
+     "st": "厚狹",
+     "ev": "dep",
+     "printed": "11.04",
+     "bold": true,
+     "t": "23:04"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "11.48",
+     "bold": true,
+     "t": "23:48"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": true,
+     "t": "23:55"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "0.17",
+     "bold": false,
+     "t": "24:17"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "0.43",
+     "bold": false,
+     "t": "24:43"
+    },
+    {
+     "st": "櫛ケ濱",
+     "ev": "pass"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "2.25",
+     "bold": false,
+     "t": "26:25"
+    },
+    {
+     "st": "宮島口",
+     "ev": "pass"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "3.12",
+     "bold": false,
+     "t": "27:12"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "3.20",
+     "bold": false,
+     "t": "27:20"
+    },
+    {
+     "st": "海田市",
+     "ev": "pass"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "3.42",
+     "bold": false,
+     "t": "27:42"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "5.23",
+     "bold": false,
+     "t": "29:23"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "5.37",
+     "bold": false,
+     "t": "29:37"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "6.07",
+     "bold": false,
+     "t": "30:07"
+    },
+    {
+     "st": "倉敷",
+     "ev": "dep",
+     "printed": "7.11",
+     "bold": false,
+     "t": "31:11"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "7.33",
+     "bold": false,
+     "t": "31:33"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "7.40",
+     "bold": false,
+     "t": "31:40"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "34:00"
+    },
+    {
+     "st": "加古川",
+     "ev": "dep",
+     "printed": "10.27",
+     "bold": false,
+     "t": "34:27"
+    },
+    {
+     "st": "明石",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "34:55"
+    },
+    {
+     "st": "兵庫",
+     "ev": "dep",
+     "printed": "11.17",
+     "bold": false,
+     "t": "35:17"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "11.21",
+     "bold": false,
+     "t": "35:21"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "11.27",
+     "bold": false,
+     "t": "35:27"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "11.34",
+     "bold": false,
+     "t": "35:34"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "0.06",
+     "bold": true,
+     "t": "36:06"
+    }
+   ],
+   "dest": "京都",
+   "cls": "2.3",
+   "marks": "食 寢",
+   "col": "12",
+   "note": "大阪以遠（京都まで）の時刻は本表に無い。寢台車の等級枠は「1.2」。深夜に日附を越える"
+  },
+  {
+   "no": "1010",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": true,
+     "t": "22:40"
+    },
+    {
+     "st": "厚狹",
+     "ev": "pass"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "12.00",
+     "bold": false,
+     "note": "著は原表の通り「12.00」（深夜12時）",
+     "t": "24:00"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "0.05",
+     "bold": false,
+     "note": "著は原表の通り「12.00」（深夜12時）",
+     "t": "24:05"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "0.26",
+     "bold": false,
+     "t": "24:26"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "0.57",
+     "bold": false,
+     "t": "24:57"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "宮島口",
+     "ev": "pass"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "2.33",
+     "bold": false,
+     "t": "26:33"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "2.40",
+     "bold": false,
+     "t": "26:40"
+    },
+    {
+     "st": "海田市",
+     "ev": "pass"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "3.02",
+     "bold": false,
+     "t": "27:02"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "4.24",
+     "bold": false,
+     "t": "28:24"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "4.35",
+     "bold": false,
+     "t": "28:35"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "4.55",
+     "bold": false,
+     "t": "28:55"
+    },
+    {
+     "st": "倉敷",
+     "ev": "pass"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "5.49",
+     "bold": false,
+     "t": "29:49"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "5.55",
+     "bold": false,
+     "t": "29:55"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "7.26",
+     "bold": false,
+     "t": "31:26"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "pass"
+    },
+    {
+     "st": "兵庫",
+     "ev": "pass"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "8.28",
+     "bold": false,
+     "t": "32:28"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "8.33",
+     "bold": false,
+     "t": "32:33"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": false,
+     "t": "32:40"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "33:10"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "食 寢",
+   "col": "13",
+   "to_page": "89",
+   "note": "寢台車の等級枠は「2」。小郡著は原表に「12.00」と印刷（深夜12時）。深夜に日附を越える"
+  },
+  {
+   "no": "10",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": true,
+     "t": "22:50"
+    },
+    {
+     "st": "厚狹",
+     "ev": "pass"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "0.12",
+     "bold": false,
+     "t": "24:12"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "0.18",
+     "bold": false,
+     "t": "24:18"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "0.39",
+     "bold": false,
+     "t": "24:39"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "1.10",
+     "bold": false,
+     "t": "25:10"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "宮島口",
+     "ev": "pass"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "2.50",
+     "bold": false,
+     "t": "26:50"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "2.57",
+     "bold": false,
+     "t": "26:57"
+    },
+    {
+     "st": "海田市",
+     "ev": "pass"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "3.19",
+     "bold": false,
+     "t": "27:19"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "4.40",
+     "bold": false,
+     "t": "28:40"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "4.52",
+     "bold": false,
+     "t": "28:52"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "5.14",
+     "bold": false,
+     "t": "29:14"
+    },
+    {
+     "st": "倉敷",
+     "ev": "pass"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "6.12",
+     "bold": false,
+     "t": "30:12"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "6.18",
+     "bold": false,
+     "t": "30:18"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": false,
+     "t": "31:55"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "pass"
+    },
+    {
+     "st": "兵庫",
+     "ev": "pass"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "8.47",
+     "bold": false,
+     "t": "32:47"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "32:50"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "32:55"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "9.25",
+     "bold": false,
+     "t": "33:25"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "14",
+   "to_page": "89",
+   "note": "寢台車の等級枠は「1.2」。深夜に日附を越える"
+  },
+  {
+   "no": "1038",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": true,
+     "t": "23:10"
+    },
+    {
+     "st": "厚狹",
+     "ev": "pass"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "0.25",
+     "bold": false,
+     "t": "24:25"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "0.30",
+     "bold": false,
+     "t": "24:30"
+    },
+    {
+     "st": "三田尻",
+     "ev": "pass"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "1.19",
+     "bold": false,
+     "t": "25:19"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "宮島口",
+     "ev": "pass"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "3.02",
+     "bold": false,
+     "t": "27:02"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "3.08",
+     "bold": false,
+     "t": "27:08"
+    },
+    {
+     "st": "海田市",
+     "ev": "pass"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "3.30",
+     "bold": false,
+     "t": "27:30"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "4.53",
+     "bold": false,
+     "t": "28:53"
+    },
+    {
+     "st": "尾道",
+     "ev": "pass"
+    },
+    {
+     "st": "福山",
+     "ev": "pass"
+    },
+    {
+     "st": "倉敷",
+     "ev": "dep",
+     "printed": "6.06",
+     "bold": false,
+     "t": "30:06"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "6.23",
+     "bold": false,
+     "t": "30:23"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "30:30"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "32:20"
+    },
+    {
+     "st": "加古川",
+     "ev": "pass"
+    },
+    {
+     "st": "明石",
+     "ev": "pass"
+    },
+    {
+     "st": "兵庫",
+     "ev": "pass"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "9.30",
+     "bold": false,
+     "t": "33:30"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "9.33",
+     "bold": false,
+     "t": "33:33"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "33:40"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "10.15",
+     "bold": false,
+     "t": "34:15"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "15",
+   "to_page": "89",
+   "note": "寢台車の等級枠は「1.2」。深夜に日附を越える"
+  },
+  {
+   "no": "114",
+   "stops": [
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": true,
+     "t": "23:50"
+    },
+    {
+     "st": "厚狹",
+     "ev": "dep",
+     "printed": "0.48",
+     "bold": false,
+     "t": "24:48"
+    },
+    {
+     "st": "小郡",
+     "ev": "arr",
+     "printed": "1.36",
+     "bold": false,
+     "t": "25:36"
+    },
+    {
+     "st": "小郡",
+     "ev": "dep",
+     "printed": "1.46",
+     "bold": false,
+     "t": "25:46"
+    },
+    {
+     "st": "三田尻",
+     "ev": "dep",
+     "printed": "2.10",
+     "bold": false,
+     "t": "26:10"
+    },
+    {
+     "st": "徳山",
+     "ev": "dep",
+     "printed": "2.45",
+     "bold": false,
+     "t": "26:45"
+    },
+    {
+     "st": "櫛ケ濱",
+     "ev": "pass"
+    },
+    {
+     "st": "西岩國",
+     "ev": "pass"
+    },
+    {
+     "st": "岩國",
+     "ev": "dep",
+     "printed": "4.34",
+     "bold": false,
+     "t": "28:34"
+    },
+    {
+     "st": "宮島口",
+     "ev": "dep",
+     "printed": "5.04",
+     "bold": false,
+     "t": "29:04"
+    },
+    {
+     "st": "廣島",
+     "ev": "arr",
+     "printed": "5.39",
+     "bold": false,
+     "t": "29:39"
+    },
+    {
+     "st": "廣島",
+     "ev": "dep",
+     "printed": "5.47",
+     "bold": false,
+     "t": "29:47"
+    },
+    {
+     "st": "海田市",
+     "ev": "dep",
+     "printed": "5.59",
+     "bold": false,
+     "t": "29:59"
+    },
+    {
+     "st": "瀨野",
+     "ev": "dep",
+     "printed": "6.19",
+     "bold": false,
+     "t": "30:19"
+    },
+    {
+     "st": "糸崎",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": false,
+     "t": "31:38"
+    },
+    {
+     "st": "尾道",
+     "ev": "dep",
+     "printed": "8.16",
+     "bold": false,
+     "t": "32:16"
+    },
+    {
+     "st": "福山",
+     "ev": "dep",
+     "printed": "8.37",
+     "bold": false,
+     "t": "32:37"
+    },
+    {
+     "st": "倉敷",
+     "ev": "dep",
+     "printed": "9.33",
+     "bold": false,
+     "t": "33:33"
+    },
+    {
+     "st": "岡山",
+     "ev": "arr",
+     "printed": "9.56",
+     "bold": false,
+     "t": "33:56"
+    },
+    {
+     "st": "岡山",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": false,
+     "t": "34:01"
+    },
+    {
+     "st": "姫路",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "35:40"
+    },
+    {
+     "st": "加古川",
+     "ev": "dep",
+     "printed": "11.56",
+     "bold": false,
+     "t": "35:56"
+    },
+    {
+     "st": "明石",
+     "ev": "dep",
+     "printed": "0.16",
+     "bold": true,
+     "t": "36:16"
+    },
+    {
+     "st": "兵庫",
+     "ev": "dep",
+     "printed": "0.37",
+     "bold": true,
+     "t": "36:37"
+    },
+    {
+     "st": "神戶",
+     "ev": "arr",
+     "printed": "0.41",
+     "bold": true,
+     "t": "36:41"
+    },
+    {
+     "st": "神戶",
+     "ev": "dep",
+     "printed": "0.44",
+     "bold": true,
+     "t": "36:44"
+    },
+    {
+     "st": "三ノ宮",
+     "ev": "dep",
+     "printed": "0.49",
+     "bold": true,
+     "t": "36:49"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "1.12",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "37:12"
+    }
+   ],
+   "dest": "大阪",
+   "cls": "2.3",
+   "col": "16",
+   "note": "最右欄。深夜に日附を越える"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改正。標題右に「（鐵道省・山陽線・東海道本線）特に示したるものの他は2.3等車」。頁右端に「日本 山陽線・東海道本線」。頁89は上り方向を上下二段に分けて印刷したもので、上段（本ファイル）は下關→大阪の16欄、下段（p89b）は大阪→東京の16欄。上下段は欄の並びも列車も異なる（下段は大阪發の時刻順に並べ直した別の欄組）。反對方向（下り）は頁90。",
+  "左端に「自下關 粁程／運賃 3等」欄があるが運賃は轉記せず。驛名左の⊓・〒・◎・♨等の設備記號も轉記せず。",
+  "頁尾に「細字は午前、太字は午後を示す」とあるが寫眞では太細を判別できない。各欄は下關發の時刻順に竝び（5.00午前→11.50午後）、この竝びと欄内部の時刻順序とから午前・午後を判定して午後に B を附けた。",
+  "表頭は上から 行先／（反轉枠の「急行」または「特別急行」）／✕印（食堂車）／枠入り數字（寢台車の等級）／寢台の圖（寢台車）／枠入り數字（列車の等級）／列車番號 の順。列車名は印刷されてゐない。等級の枠が無い欄は標題右の「特に示したるものの他は2.3等車」により2.3等とした。",
+  "「v」は原表の「レ」（通過）、「-」は原表の空白。急行欄の櫛ケ濱の桝には時刻の代りに反轉枠の「急行」標記が入る（「-」とし註記した）。",
+  "粁程は現行の山陽本線の粁程と數粁違ふ箇所がある。印刷のまま轉記した。西岩國・櫛ケ濱を經由するのは當時の山陽本線が岩德線經由であつたため。"
+ ],
+ "source": "IMG_1873",
+ "page": "89",
+ "title": "下關・大阪・東京間（上段 下關→大阪）",
+ "line": "鐵道省 山陽線・東海道本線",
+ "dir": "上り 下關→大阪",
+ "clock": "12"
+}

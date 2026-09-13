@@ -1,0 +1,115 @@
+{
+ "stations": [
+  {
+   "name": "羅津",
+   "km": null
+  },
+  {
+   "name": "富居",
+   "km": null
+  },
+  {
+   "name": "淸津",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "1",
+   "stops": [
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "富居",
+     "ev": "dep",
+     "printed": "12.01",
+     "bold": false,
+     "t": "12:01"
+    },
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    }
+   ],
+   "dest": "淸津",
+   "col": "1"
+  },
+  {
+   "no": "2",
+   "stops": [
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "富居",
+     "ev": "dep",
+     "printed": "14.01",
+     "bold": false,
+     "t": "14:01"
+    },
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "16.05",
+     "bold": false,
+     "t": "16:05"
+    }
+   ],
+   "dest": "淸津",
+   "col": "2"
+  },
+  {
+   "no": "3",
+   "stops": [
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    },
+    {
+     "st": "富居",
+     "ev": "dep",
+     "printed": "16.01",
+     "bold": false,
+     "t": "16:01"
+    },
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "18.05",
+     "bold": false,
+     "t": "18:05"
+    }
+   ],
+   "dest": "淸津",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "下段（羅津發）。運賃欄は羅津起算（富居 2.70・淸津 4.90）。"
+ ],
+ "source": "IMG_1887",
+ "page": "116",
+ "kind": "bus",
+ "office": "各地自動車會社線",
+ "line": "咸北自動車會社",
+ "title": "淸津・羅津・雄基間",
+ "dir": "羅津→淸津",
+ "season": "昭和16.11.10改正",
+ "service": "每日運行",
+ "fares": "羅津 | 富居 2.70 | 淸津 4.90"
+}

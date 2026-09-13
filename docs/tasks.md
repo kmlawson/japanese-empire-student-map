@@ -22272,3 +22272,96 @@ sources belong to the administrative coverages and the railways, which are
 reached by right-clicking a shape rather than from the pane. Repointing those
 is a real change and a different one from what was asked for; it is waiting on
 the author.
+
+## 191. Manchuria: its railway, its stations and the July 1942 timetable
+
+A fourth train-tools system, and the first wave of it: the lines traced so
+far, the stations that could be placed, and every railway table of the
+Manchurian section of the 滿洲・支那汽車時間表 昭和17年7月號. The author has
+more lines to draw; this puts in what there is.
+
+* **The railway layer** is `mn-rail`, a row in `RAIL_LAYERS` in build_map.py
+  reading `data/manchuria/manchuria-1942-lines.geojson` — 41 lines, hand
+  traced, thinned at the traced tolerance: **8,273 of 15,036 vertices kept
+  (55%)**, no line dropped. **On the 1942 map only.** Most of the Manchukuo
+  state lines were built after 1931, so the same drawing on the 1930 sheet
+  would put a network there that was not; the 1930 layer is empty until a 1930
+  network is traced, and `RAIL_INFO.mn.years.e1930` is empty to say so. The
+  rail menu offers it as *Manchuria Railways (traced for this map, July 1942)*.
+* **The stations** are `deploy/mn-stations.js` from `build_mn_stations.py`:
+  **614** placed points carrying the name as the timetable prints it, the
+  name today, pinyin, romaji and kana (601 have kana, from the reference file
+  beside the geojson). The timetable names about 900 places on these pages;
+  the 290-odd that could not be placed are listed in
+  `data/manchuria/reference/missing.md` and are stepped over by the trains.
+* **The train tools** are `build_mn_trains.py`, which — unlike the other three
+  builders — has no `data.js` between it and the transcription: it reads the
+  per-table JSON under `data/manchuria/timetable/transcription/json/` for
+  pages 12–53 directly. **717 trains over 54 lines, 907 station records of
+  which 614 are placed, 692 stretches of track between consecutive placed
+  stops, 663 of them routed along the traced lines** by `rail_route.fill`.
+  No geometry is given per stop, so everything is routed; the 29 that are
+  not are on the fifteen lines the trace does not yet carry (河北線, 北票線,
+  大栗子線, 渾三線, 榆樹線, 東當線, 龍豐線, 霍黑線, 城雞線, 鶴岡線, 青道線,
+  恒山線 and the three private railways), where trains.js draws straight
+  between close stops and nothing between far ones. 13 trains are dropped
+  because the transcription could read no time for them (gutter columns). The
+  through tables of pages 8–11 and the 河北・營口 ferry are on the printed page
+  and not in the bundle.
+* **Three judgements the build makes, each printed when it runs.** (1) The
+  transcription's `t` runs on past midnight by the rule that a time below the
+  one before is tomorrow's, with no tolerance, so a misprint a few minutes
+  backwards became a day at the platform; a day added over a decrease of less
+  than an hour is taken back and the stop flagged uncertain — **19 of them**.
+  (2) A name the station file has once can still be two places: the 錦西鐵道線
+  has a 老邊 four kilometres from 錦西 and the file placed the 營口線's. Distance
+  cannot tell that from a through run (the 安奉線 expresses start at 新京, 283
+  km off the line), so the clock does: a stop the file does not put on the
+  table's line is another place when reaching it would take more than 150
+  km/h. **Three**: 老邊, 神樹 on the 開豐鐵道線, and 鐵嶺 on one 安奉線 column,
+  which is a misprint. (3) Traced one line per feature, the lines cross
+  between vertices — the 平齊線 over the 濱洲線 at 昂昂溪 — so the graph had no
+  junction there and a six-kilometre chord routed 855 km round the network.
+  `rail_route.Network` gains `node_crossings`, opt-in, which splits crossing
+  segments at their intersection: **25 junctions**, and the stretch test is
+  widened to 2.6 for this mountain network (灤平–古北口 is 59 km of railway for
+  a 29.5 km chord, and that is the line).
+* **The printed page** is the transcription project's own `manchuria.html`,
+  dressed: 132 tables, every page reference linking its own leaf of the scan
+  (printed page p is on leaf p/2 + 8, read off the scan by eye at leaves 14,
+  18 and 34), a reading under every station name (kana in Japanese, romaji in
+  English, 608 of them), and a **CSV under every table** carrying the title,
+  the rows with 24-hour times, a Note row per note and a Source row naming the
+  booklet, the page and the leaf. English furniture first, as Korea's is.
+* **The wiring** is a row in each of `TRAIN_SYS`, `STATION_SYS`, `RAIL_LABEL`,
+  `RAIL_SWITCH_ROWS` and `RAIL_INFO`, the two layer-code places `MNRAIL_PLACE`
+  and `MNSTA_PLACE` in the high field, the panel rows, the picked-network
+  selectors in styles.css, `FETCHED`, UPLOAD.md, layer-info, the GIS sources
+  (the two geojsons are published under `gis/source/`), and the test triggers.
+  `TRAIN_SYS.mn.box` holds most of Korea's; `trainBoxAt` takes the smallest
+  box round the centre of the view, which is what keeps Korea's tools Korea's
+  over the peninsula, and `mntrains.js` checks it. Thresholds 15.0 on, 16.5 off.
+* **Korea's connections run along Manchuria's track.** Asked for: the
+  *Connections beyond the network* lines were straight chords between city
+  points. `build_kr_trains.py` now places every `@manchuria` stop the Korean
+  tables print at the Manchuria system's station of the same characters
+  (**222 of 302**, five spelt differently in `MN_ALIAS`), and routes over the
+  Manchurian line file as well as Korea's and Japan's: **355 of 370 chords
+  routed**, against 133 before. The lines keep `x: 1` — they are still the
+  connections beyond Korea's network — and the switch's tooltip no longer says
+  their alignment is unsourced. Positions only: the readings stay Korea's
+  own, because the Manchurian file reads 京城 in pinyin and the Korean page
+  wants its hangul, which `krtrains` caught. kr-trains.js grows from 766 KB to
+  1,026 KB with the routed track.
+
+Tests: `tools/test/mntrains.js`, 40 checks — the fourth system rides on the
+mechanism, no connections switch, Hōten's card links its table, the layer
+code carries both switches home, the smaller box wins over Korea, the printed
+page's leaf links, CSVs and readings; `owns.js` extended to the fourth
+network (692 stretches agree); `kftrains` 39 and `krtrains` 42 still pass.
+
+Not done, and said so: the 1930 network; the fifteen untraced lines; the
+through tables; a touch-screen pass over the new squares, which ride on the
+same `STATION_SYS` machinery as the other three but were not driven with a
+finger here. The layer note and the two `sources.md` entries are the author's
+own text, put in as given.

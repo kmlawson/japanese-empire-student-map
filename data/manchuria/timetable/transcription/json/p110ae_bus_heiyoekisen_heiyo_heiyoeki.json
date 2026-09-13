@@ -1,0 +1,90 @@
+{
+ "stations": [
+  {
+   "name": "平陽",
+   "km": null
+  },
+  {
+   "name": "平陽驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "251",
+   "stops": [
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "平陽驛",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    }
+   ],
+   "dest": "平陽驛",
+   "col": "1"
+  },
+  {
+   "no": "253",
+   "stops": [
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "平陽驛",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    }
+   ],
+   "dest": "平陽驛",
+   "col": "2"
+  },
+  {
+   "no": "255",
+   "stops": [
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "平陽驛",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    }
+   ],
+   "dest": "平陽驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "中央の驛名欄をはさみ左が平陽發（本表）、右が平陽驛發（p110af）。左端は運賃（圓.分）欄。"
+ ],
+ "source": "IMG_1884",
+ "page": "110",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "平陽驛線",
+ "title": "平陽・平陽驛間",
+ "dir": "平陽→平陽驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "平陽 | 平陽驛 0.75"
+}

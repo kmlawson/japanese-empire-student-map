@@ -1,0 +1,26 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 通候線
+title: 通遼驛・候沁蘇族間
+dir: 候沁蘇族→通遼驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the right of bus 314
+note: the third stop is printed too small to be certain; read as 餘粮營
+note: no bus in this direction shows a time at 候沁蘇族
+stations: 候沁蘇族 | 瓦房 | 餘粮營 | 通遼驛
+fares: 候沁蘇族 4.90 | 瓦房 2.80 | 餘粮營 1.75 | 通遼驛
+
+train: 312 | dest 通遼驛 | col 1 | origin 瓦房
+候沁蘇族 -
+瓦房 11.00
+餘粮營 v
+通遼驛 14.00
+
+train: 314 | dest 通遼驛 | col 2 | origin 餘粮營
+候沁蘇族 -
+瓦房 -
+餘粮營 16.30
+通遼驛 18.15

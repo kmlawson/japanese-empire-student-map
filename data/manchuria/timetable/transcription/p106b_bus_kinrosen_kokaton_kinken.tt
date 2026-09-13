@@ -1,0 +1,27 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 錦老線
+title: 錦縣驛・江家屯間
+dir: 江家屯→錦縣驛
+season: 昭和16.12.1改正
+service: 每日運行
+stations: 江家屯 | 錦縣驛
+fares: 江家屯 2.65 | 錦縣驛
+
+train: 184 | dest 錦縣驛 | col 1
+江家屯 13.20
+錦縣驛 16.00
+
+train: 126 | dest 錦縣驛 | col 2
+江家屯 13.50
+錦縣驛 16.30
+
+train: 124 | dest 錦縣驛 | col 3
+江家屯 14.30
+錦縣驛 17.10
+
+train: 122 | dest 錦縣驛 | col 4
+江家屯 15.20
+錦縣驛 18.00

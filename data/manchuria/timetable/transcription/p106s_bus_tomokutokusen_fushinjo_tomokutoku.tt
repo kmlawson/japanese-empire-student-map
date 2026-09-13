@@ -1,0 +1,20 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 吐默特線
+title: 阜新城・吐默特間
+dir: 阜新城→吐默特
+season: 昭和16.10.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the left of bus 201
+stations: 阜新城 | 吐默特
+fares: 阜新城 | 吐默特 1.05
+
+train: 201 | dest 吐默特 | col 2
+阜新城 9.00
+吐默特 10.00
+
+train: 203 | dest 吐默特 | col 3
+阜新城 14.00
+吐默特 15.00

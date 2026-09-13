@@ -1,0 +1,21 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 東水線
+title: 東京城驛・四吉通間
+dir: 四吉通→東京城驛
+season: (運休)
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（東京城驛起點）。
+note: 表題下に「この外、東京城驛・東京城街間15往復」と註記。
+stations: 四吉通 | 東京城驛
+fares: 四吉通 1.50 | 東京城驛
+
+train: 552 | dest 東京城驛 | col 1
+四吉通 10.30
+東京城驛 12.00
+
+train: 554 | dest 東京城驛 | col 2
+四吉通 15.00
+東京城驛 16.30

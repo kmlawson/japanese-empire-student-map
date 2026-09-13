@@ -1,0 +1,743 @@
+{
+ "stations": [
+  {
+   "name": "京城",
+   "km": 0.0
+  },
+  {
+   "name": "龍山",
+   "km": 3.2
+  },
+  {
+   "name": "永登浦",
+   "km": 9.2
+  },
+  {
+   "name": "素砂",
+   "km": 21.4
+  },
+  {
+   "name": "上仁川",
+   "km": 37.0
+  },
+  {
+   "name": "仁川",
+   "km": 38.9
+  }
+ ],
+ "trains": [
+  {
+   "no": "401",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "06:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "6.35",
+     "bold": false,
+     "t": "06:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "6.46",
+     "bold": false,
+     "t": "06:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "7.03",
+     "bold": false,
+     "t": "07:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "7.26",
+     "bold": false,
+     "t": "07:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "1"
+  },
+  {
+   "no": "403",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "7.35",
+     "bold": false,
+     "t": "07:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "7.46",
+     "bold": false,
+     "t": "07:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "8.03",
+     "bold": false,
+     "t": "08:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "8.26",
+     "bold": false,
+     "t": "08:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "2"
+  },
+  {
+   "no": "405",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": false,
+     "t": "08:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "8.46",
+     "bold": false,
+     "t": "08:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "9.03",
+     "bold": false,
+     "t": "09:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "9.26",
+     "bold": false,
+     "t": "09:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "407",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "9.35",
+     "bold": false,
+     "t": "09:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "9.46",
+     "bold": false,
+     "t": "09:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "10.03",
+     "bold": false,
+     "t": "10:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "10.26",
+     "bold": false,
+     "t": "10:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "4"
+  },
+  {
+   "no": "411",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "11.35",
+     "bold": false,
+     "t": "11:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "11.46",
+     "bold": false,
+     "t": "11:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "12.03",
+     "bold": false,
+     "t": "12:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "12.26",
+     "bold": false,
+     "t": "12:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "5"
+  },
+  {
+   "no": "413",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "12.35",
+     "bold": false,
+     "t": "12:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "12.46",
+     "bold": false,
+     "t": "12:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "13.03",
+     "bold": false,
+     "t": "13:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "13.26",
+     "bold": false,
+     "t": "13:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "6"
+  },
+  {
+   "no": "417",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "14.35",
+     "bold": false,
+     "t": "14:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "14.46",
+     "bold": false,
+     "t": "14:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "15.03",
+     "bold": false,
+     "t": "15:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "15.26",
+     "bold": false,
+     "t": "15:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "7"
+  },
+  {
+   "no": "419",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "15.35",
+     "bold": false,
+     "t": "15:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "15.46",
+     "bold": false,
+     "t": "15:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "16.03",
+     "bold": false,
+     "t": "16:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "16.26",
+     "bold": false,
+     "t": "16:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "8"
+  },
+  {
+   "no": "421",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "16.35",
+     "bold": false,
+     "t": "16:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "16.46",
+     "bold": false,
+     "t": "16:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "17.03",
+     "bold": false,
+     "t": "17:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "17.26",
+     "bold": false,
+     "t": "17:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "9"
+  },
+  {
+   "no": "423",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "17.35",
+     "bold": false,
+     "t": "17:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "17.46",
+     "bold": false,
+     "t": "17:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "18.03",
+     "bold": false,
+     "t": "18:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "18.26",
+     "bold": false,
+     "t": "18:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "10"
+  },
+  {
+   "no": "425",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "t": "18:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "18.46",
+     "bold": false,
+     "t": "18:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "19.03",
+     "bold": false,
+     "t": "19:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "19.26",
+     "bold": false,
+     "t": "19:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "11"
+  },
+  {
+   "no": "427",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "19.35",
+     "bold": false,
+     "t": "19:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "19.46",
+     "bold": false,
+     "t": "19:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "20.03",
+     "bold": false,
+     "t": "20:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "20.26",
+     "bold": false,
+     "t": "20:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "20.30",
+     "bold": false,
+     "t": "20:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "12"
+  },
+  {
+   "no": "431",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "21.30",
+     "bold": false,
+     "t": "21:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "21.35",
+     "bold": false,
+     "t": "21:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "21.46",
+     "bold": false,
+     "t": "21:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "22.03",
+     "bold": false,
+     "t": "22:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "22.26",
+     "bold": false,
+     "t": "22:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "22.30",
+     "bold": false,
+     "t": "22:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "13"
+  },
+  {
+   "no": "433",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "22.30",
+     "bold": false,
+     "t": "22:30"
+    },
+    {
+     "st": "龍山",
+     "ev": "dep",
+     "printed": "22.35",
+     "bold": false,
+     "t": "22:35"
+    },
+    {
+     "st": "永登浦",
+     "ev": "dep",
+     "printed": "22.46",
+     "bold": false,
+     "t": "22:46"
+    },
+    {
+     "st": "素砂",
+     "ev": "dep",
+     "printed": "23.03",
+     "bold": false,
+     "t": "23:03"
+    },
+    {
+     "st": "上仁川",
+     "ev": "dep",
+     "printed": "23.26",
+     "bold": false,
+     "t": "23:26"
+    },
+    {
+     "st": "仁川",
+     "ev": "dep",
+     "printed": "23.30",
+     "bold": false,
+     "t": "23:30"
+    }
+   ],
+   "dest": "仁川",
+   "cls": "2.3",
+   "col": "14"
+  }
+ ],
+ "notes": [
+  "昭和17.2.1改正。頁76最下段の表の上半（下半＝京城行は p76f）。表は頁の全幅にわたる。",
+  "表題の右に「(全部2.3等車)(鮮鐵・京仁線)」。從つて全列車 cls 2.3。",
+  "左端に「自京城 運賃 2等・3等」欄があるが運賃は轉記せず。粁程（自京城）は stations に入れた。驛名の左の⊓・〒・◎等の設備記號も轉記せず。",
+  "朝鮮の表につき24時制。列車欄は14欄（401 403 405 407 411 413 417 419 421 423 425 427 431 433）。409・415・429 の番號は無い。",
+  "主要驛のみを載せた抄錄表で、富平・梧柳洞・朱安等の中間驛は省かれてゐる。",
+  "全列車がパターンダイヤ（京城 毎時30分發、龍山 35分、永登浦 46分、素砂 翌時03分、上仁川 26分、仁川著 30分）。"
+ ],
+ "source": "IMG_1867",
+ "page": "76",
+ "title": "京城・仁川間",
+ "line": "鮮鐵 京仁線",
+ "dir": "仁川行（京城→仁川）"
+}

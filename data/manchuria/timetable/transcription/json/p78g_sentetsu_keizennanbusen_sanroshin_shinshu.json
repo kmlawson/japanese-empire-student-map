@@ -1,0 +1,1308 @@
+{
+ "stations": [
+  {
+   "name": "釜山",
+   "km": null
+  },
+  {
+   "name": "三浪津",
+   "km": 0.0
+  },
+  {
+   "name": "洛東江",
+   "km": 1.9
+  },
+  {
+   "name": "韓林亭",
+   "km": 10.3
+  },
+  {
+   "name": "進永",
+   "km": 17.8
+  },
+  {
+   "name": "德山",
+   "km": 22.9
+  },
+  {
+   "name": "昌原",
+   "km": 31.8
+  },
+  {
+   "name": "舊馬山",
+   "km": 37.5
+  },
+  {
+   "name": "馬山",
+   "km": 40.1
+  },
+  {
+   "name": "北馬山",
+   "km": 42.8
+  },
+  {
+   "name": "中里",
+   "km": 49.5
+  },
+  {
+   "name": "咸安",
+   "km": 60.8
+  },
+  {
+   "name": "郡北",
+   "km": 69.6
+  },
+  {
+   "name": "坪村",
+   "km": 78.9
+  },
+  {
+   "name": "班城",
+   "km": 85.3
+  },
+  {
+   "name": "南文山",
+   "km": 100.2
+  },
+  {
+   "name": "開陽",
+   "km": 105.4
+  },
+  {
+   "name": "晉州",
+   "km": 110.1
+  }
+ ],
+ "trains": [
+  {
+   "no": "1711",
+   "stops": [
+    {
+     "st": "馬山",
+     "ev": "dep",
+     "printed": "4.45",
+     "bold": false,
+     "t": "04:45"
+    },
+    {
+     "st": "北馬山",
+     "ev": "dep",
+     "printed": "4.53",
+     "bold": false,
+     "t": "04:53"
+    },
+    {
+     "st": "中里",
+     "ev": "dep",
+     "printed": "5.07",
+     "bold": false,
+     "t": "05:07"
+    },
+    {
+     "st": "咸安",
+     "ev": "dep",
+     "printed": "5.30",
+     "bold": false,
+     "t": "05:30"
+    },
+    {
+     "st": "郡北",
+     "ev": "arr",
+     "printed": "5.44",
+     "bold": false,
+     "t": "05:44"
+    },
+    {
+     "st": "郡北",
+     "ev": "dep",
+     "printed": "5.49",
+     "bold": false,
+     "t": "05:49"
+    },
+    {
+     "st": "坪村",
+     "ev": "dep",
+     "printed": "6.12",
+     "bold": false,
+     "t": "06:12"
+    },
+    {
+     "st": "班城",
+     "ev": "dep",
+     "printed": "6.29",
+     "bold": false,
+     "t": "06:29"
+    },
+    {
+     "st": "南文山",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "開陽",
+     "ev": "dep",
+     "printed": "7.11",
+     "bold": false,
+     "t": "07:11"
+    },
+    {
+     "st": "晉州",
+     "ev": "dep",
+     "printed": "7.20",
+     "bold": false,
+     "t": "07:20"
+    }
+   ],
+   "dest": "晉州",
+   "cls": "3",
+   "origin": "馬山",
+   "col": "1"
+  },
+  {
+   "no": "1701",
+   "stops": [
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "7.05",
+     "bold": false,
+     "t": "07:05"
+    },
+    {
+     "st": "洛東江",
+     "ev": "dep",
+     "printed": "7.11",
+     "bold": false,
+     "t": "07:11"
+    },
+    {
+     "st": "韓林亭",
+     "ev": "dep",
+     "printed": "7.26",
+     "bold": false,
+     "t": "07:26"
+    },
+    {
+     "st": "進永",
+     "ev": "dep",
+     "printed": "7.41",
+     "bold": false,
+     "t": "07:41"
+    },
+    {
+     "st": "德山",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": false,
+     "t": "07:50"
+    },
+    {
+     "st": "昌原",
+     "ev": "arr",
+     "printed": "8.06",
+     "bold": false,
+     "t": "08:06"
+    },
+    {
+     "st": "昌原",
+     "ev": "dep",
+     "printed": "8.12",
+     "bold": false,
+     "t": "08:12"
+    },
+    {
+     "st": "舊馬山",
+     "ev": "dep",
+     "printed": "8.22",
+     "bold": false,
+     "t": "08:22"
+    },
+    {
+     "st": "馬山",
+     "ev": "arr",
+     "printed": "8.27",
+     "bold": false,
+     "t": "08:27"
+    },
+    {
+     "st": "馬山",
+     "ev": "dep",
+     "printed": "9.25",
+     "bold": false,
+     "t": "09:25"
+    },
+    {
+     "st": "北馬山",
+     "ev": "dep",
+     "printed": "9.37",
+     "bold": false,
+     "t": "09:37"
+    },
+    {
+     "st": "中里",
+     "ev": "dep",
+     "printed": "9.52",
+     "bold": false,
+     "t": "09:52"
+    },
+    {
+     "st": "咸安",
+     "ev": "dep",
+     "printed": "10.16",
+     "bold": false,
+     "t": "10:16"
+    },
+    {
+     "st": "郡北",
+     "ev": "arr",
+     "printed": "10.33",
+     "bold": false,
+     "t": "10:33"
+    },
+    {
+     "st": "郡北",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "坪村",
+     "ev": "dep",
+     "printed": "11.05",
+     "bold": false,
+     "t": "11:05"
+    },
+    {
+     "st": "班城",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "南文山",
+     "ev": "dep",
+     "printed": "12.06",
+     "bold": false,
+     "t": "12:06"
+    },
+    {
+     "st": "開陽",
+     "ev": "dep",
+     "printed": "12.17",
+     "bold": false,
+     "t": "12:17"
+    },
+    {
+     "st": "晉州",
+     "ev": "dep",
+     "printed": "12.25",
+     "bold": false,
+     "t": "12:25"
+    }
+   ],
+   "dest": "晉州",
+   "cls": "3",
+   "col": "2"
+  },
+  {
+   "no": "1703",
+   "stops": [
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "洛東江",
+     "ev": "dep",
+     "printed": "8.31",
+     "bold": false,
+     "t": "08:31"
+    },
+    {
+     "st": "韓林亭",
+     "ev": "dep",
+     "printed": "8.48",
+     "bold": false,
+     "t": "08:48"
+    },
+    {
+     "st": "進永",
+     "ev": "dep",
+     "printed": "9.05",
+     "bold": false,
+     "t": "09:05"
+    },
+    {
+     "st": "德山",
+     "ev": "dep",
+     "printed": "9.14",
+     "bold": false,
+     "t": "09:14"
+    },
+    {
+     "st": "昌原",
+     "ev": "arr",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "昌原",
+     "ev": "dep",
+     "printed": "9.38",
+     "bold": false,
+     "t": "09:38"
+    },
+    {
+     "st": "舊馬山",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "馬山",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    }
+   ],
+   "dest": "馬山",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "707",
+   "stops": [
+    {
+     "st": "釜山",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "note": "抄錄行（74頁）",
+     "t": "09:10"
+    },
+    {
+     "st": "三浪津",
+     "ev": "arr",
+     "printed": "10.16",
+     "bold": false,
+     "note": "著は抄錄行（74頁）",
+     "t": "10:16"
+    },
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "note": "著は抄錄行（74頁）",
+     "t": "10:30"
+    },
+    {
+     "st": "洛東江",
+     "ev": "dep",
+     "printed": "10.34",
+     "bold": false,
+     "t": "10:34"
+    },
+    {
+     "st": "韓林亭",
+     "ev": "dep",
+     "printed": "10.45",
+     "bold": false,
+     "t": "10:45"
+    },
+    {
+     "st": "進永",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "德山",
+     "ev": "dep",
+     "printed": "11.02",
+     "bold": false,
+     "t": "11:02"
+    },
+    {
+     "st": "昌原",
+     "ev": "arr",
+     "printed": "11.15",
+     "bold": false,
+     "t": "11:15"
+    },
+    {
+     "st": "昌原",
+     "ev": "dep",
+     "printed": "11.18",
+     "bold": false,
+     "t": "11:18"
+    },
+    {
+     "st": "舊馬山",
+     "ev": "dep",
+     "printed": "11.27",
+     "bold": false,
+     "t": "11:27"
+    },
+    {
+     "st": "馬山",
+     "ev": "arr",
+     "printed": "11.31",
+     "bold": false,
+     "t": "11:31"
+    },
+    {
+     "st": "馬山",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "北馬山",
+     "ev": "dep",
+     "printed": "11.45",
+     "bold": false,
+     "t": "11:45"
+    },
+    {
+     "st": "中里",
+     "ev": "dep",
+     "printed": "11.58",
+     "bold": false,
+     "t": "11:58"
+    },
+    {
+     "st": "咸安",
+     "ev": "dep",
+     "printed": "12.17",
+     "bold": false,
+     "t": "12:17"
+    },
+    {
+     "st": "郡北",
+     "ev": "arr",
+     "printed": "12.28",
+     "bold": false,
+     "t": "12:28"
+    },
+    {
+     "st": "郡北",
+     "ev": "dep",
+     "printed": "12.31",
+     "bold": false,
+     "t": "12:31"
+    },
+    {
+     "st": "坪村",
+     "ev": "dep",
+     "printed": "12.51",
+     "bold": false,
+     "t": "12:51"
+    },
+    {
+     "st": "班城",
+     "ev": "dep",
+     "printed": "13.06",
+     "bold": false,
+     "t": "13:06"
+    },
+    {
+     "st": "南文山",
+     "ev": "dep",
+     "printed": "13.29",
+     "bold": false,
+     "t": "13:29"
+    },
+    {
+     "st": "開陽",
+     "ev": "dep",
+     "printed": "13.38",
+     "bold": false,
+     "t": "13:38"
+    },
+    {
+     "st": "晉州",
+     "ev": "dep",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    }
+   ],
+   "dest": "晉州",
+   "cls": "2.3",
+   "col": "4",
+   "from_page": "74"
+  },
+  {
+   "no": "1705",
+   "stops": [
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "12.45",
+     "bold": false,
+     "t": "12:45"
+    },
+    {
+     "st": "洛東江",
+     "ev": "dep",
+     "printed": "12.51",
+     "bold": false,
+     "t": "12:51"
+    },
+    {
+     "st": "韓林亭",
+     "ev": "dep",
+     "printed": "13.06",
+     "bold": false,
+     "t": "13:06"
+    },
+    {
+     "st": "進永",
+     "ev": "dep",
+     "printed": "13.22",
+     "bold": false,
+     "t": "13:22"
+    },
+    {
+     "st": "德山",
+     "ev": "dep",
+     "printed": "13.32",
+     "bold": false,
+     "t": "13:32"
+    },
+    {
+     "st": "昌原",
+     "ev": "arr",
+     "printed": "13.48",
+     "bold": false,
+     "t": "13:48"
+    },
+    {
+     "st": "昌原",
+     "ev": "dep",
+     "printed": "13.52",
+     "bold": false,
+     "t": "13:52"
+    },
+    {
+     "st": "舊馬山",
+     "ev": "dep",
+     "printed": "14.07",
+     "bold": false,
+     "t": "14:07"
+    },
+    {
+     "st": "馬山",
+     "ev": "arr",
+     "printed": "14.12",
+     "bold": false,
+     "t": "14:12"
+    },
+    {
+     "st": "馬山",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "北馬山",
+     "ev": "dep",
+     "printed": "14.39",
+     "bold": false,
+     "t": "14:39"
+    },
+    {
+     "st": "中里",
+     "ev": "dep",
+     "printed": "14.52",
+     "bold": false,
+     "t": "14:52"
+    },
+    {
+     "st": "咸安",
+     "ev": "dep",
+     "printed": "15.17",
+     "bold": false,
+     "t": "15:17"
+    },
+    {
+     "st": "郡北",
+     "ev": "arr",
+     "printed": "15.31",
+     "bold": false,
+     "t": "15:31"
+    },
+    {
+     "st": "郡北",
+     "ev": "dep",
+     "printed": "15.36",
+     "bold": false,
+     "t": "15:36"
+    },
+    {
+     "st": "坪村",
+     "ev": "dep",
+     "printed": "15.53",
+     "bold": false,
+     "t": "15:53"
+    },
+    {
+     "st": "班城",
+     "ev": "dep",
+     "printed": "16.11",
+     "bold": false,
+     "t": "16:11"
+    },
+    {
+     "st": "南文山",
+     "ev": "dep",
+     "printed": "16.48",
+     "bold": false,
+     "t": "16:48"
+    },
+    {
+     "st": "開陽",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "晉州",
+     "ev": "dep",
+     "printed": "17.08",
+     "bold": false,
+     "t": "17:08"
+    }
+   ],
+   "dest": "晉州",
+   "cls": "3",
+   "col": "5"
+  },
+  {
+   "no": "715",
+   "stops": [
+    {
+     "st": "釜山",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "note": "抄錄行（74頁）",
+     "t": "12:40"
+    },
+    {
+     "st": "三浪津",
+     "ev": "arr",
+     "printed": "13.59",
+     "bold": false,
+     "note": "著は抄錄行（74頁）",
+     "t": "13:59"
+    },
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "14.20",
+     "bold": false,
+     "note": "著は抄錄行（74頁）",
+     "t": "14:20"
+    },
+    {
+     "st": "洛東江",
+     "ev": "dep",
+     "printed": "14.27",
+     "bold": false,
+     "t": "14:27"
+    },
+    {
+     "st": "韓林亭",
+     "ev": "dep",
+     "printed": "14.42",
+     "bold": false,
+     "t": "14:42"
+    },
+    {
+     "st": "進永",
+     "ev": "dep",
+     "printed": "14.59",
+     "bold": false,
+     "t": "14:59"
+    },
+    {
+     "st": "德山",
+     "ev": "dep",
+     "printed": "15.09",
+     "bold": false,
+     "t": "15:09"
+    },
+    {
+     "st": "昌原",
+     "ev": "arr",
+     "printed": "15.25",
+     "bold": false,
+     "t": "15:25"
+    },
+    {
+     "st": "昌原",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "舊馬山",
+     "ev": "dep",
+     "printed": "15.45",
+     "bold": false,
+     "t": "15:45"
+    },
+    {
+     "st": "馬山",
+     "ev": "arr",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "馬山",
+     "ev": "dep",
+     "printed": "16.38",
+     "bold": false,
+     "t": "16:38"
+    },
+    {
+     "st": "北馬山",
+     "ev": "dep",
+     "printed": "16.47",
+     "bold": false,
+     "t": "16:47"
+    },
+    {
+     "st": "中里",
+     "ev": "dep",
+     "printed": "17.02",
+     "bold": false,
+     "t": "17:02"
+    },
+    {
+     "st": "咸安",
+     "ev": "dep",
+     "printed": "17.27",
+     "bold": false,
+     "t": "17:27"
+    },
+    {
+     "st": "郡北",
+     "ev": "arr",
+     "printed": "17.41",
+     "bold": false,
+     "t": "17:41"
+    },
+    {
+     "st": "郡北",
+     "ev": "dep",
+     "printed": "17.48",
+     "bold": false,
+     "t": "17:48"
+    },
+    {
+     "st": "坪村",
+     "ev": "dep",
+     "printed": "18.11",
+     "bold": false,
+     "t": "18:11"
+    },
+    {
+     "st": "班城",
+     "ev": "dep",
+     "printed": "18.24",
+     "bold": false,
+     "t": "18:24"
+    },
+    {
+     "st": "南文山",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    },
+    {
+     "st": "開陽",
+     "ev": "dep",
+     "printed": "19.12",
+     "bold": false,
+     "t": "19:12"
+    },
+    {
+     "st": "晉州",
+     "ev": "dep",
+     "printed": "19.20",
+     "bold": false,
+     "t": "19:20"
+    }
+   ],
+   "dest": "晉州",
+   "cls": "3",
+   "col": "6",
+   "from_page": "74"
+  },
+  {
+   "no": "1724",
+   "stops": [
+    {
+     "st": "鎭海",
+     "ev": "dep",
+     "printed": "16.45",
+     "bold": false,
+     "note": "驛名欄に無く、1724欄の進永～德山の行に縦書きで「鎭海發 16.45」と印刷",
+     "t": "16:45"
+    },
+    {
+     "st": "昌原",
+     "ev": "arr",
+     "printed": "17.29",
+     "bold": false,
+     "t": "17:29"
+    },
+    {
+     "st": "昌原",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    },
+    {
+     "st": "舊馬山",
+     "ev": "dep",
+     "printed": "17.51",
+     "bold": false,
+     "t": "17:51"
+    },
+    {
+     "st": "馬山",
+     "ev": "dep",
+     "printed": "17.56",
+     "bold": false,
+     "t": "17:56"
+    }
+   ],
+   "dest": "馬山",
+   "cls": "2.3",
+   "origin": "鎭海",
+   "col": "7"
+  },
+  {
+   "no": "1707",
+   "stops": [
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "16.50",
+     "bold": false,
+     "t": "16:50"
+    },
+    {
+     "st": "洛東江",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "韓林亭",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "進永",
+     "ev": "dep",
+     "printed": "17.47",
+     "bold": false,
+     "t": "17:47"
+    },
+    {
+     "st": "德山",
+     "ev": "dep",
+     "printed": "18.02",
+     "bold": false,
+     "t": "18:02"
+    },
+    {
+     "st": "昌原",
+     "ev": "arr",
+     "printed": "18.18",
+     "bold": false,
+     "t": "18:18"
+    },
+    {
+     "st": "昌原",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    },
+    {
+     "st": "舊馬山",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    },
+    {
+     "st": "馬山",
+     "ev": "arr",
+     "printed": "18.55",
+     "bold": false,
+     "t": "18:55"
+    },
+    {
+     "st": "馬山",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    },
+    {
+     "st": "北馬山",
+     "ev": "dep",
+     "printed": "19.50",
+     "bold": false,
+     "t": "19:50"
+    },
+    {
+     "st": "中里",
+     "ev": "dep",
+     "printed": "20.08",
+     "bold": false,
+     "t": "20:08"
+    },
+    {
+     "st": "咸安",
+     "ev": "dep",
+     "printed": "20.40",
+     "bold": false,
+     "t": "20:40"
+    },
+    {
+     "st": "郡北",
+     "ev": "arr",
+     "printed": "20.54",
+     "bold": false,
+     "t": "20:54"
+    },
+    {
+     "st": "郡北",
+     "ev": "dep",
+     "printed": "21.15",
+     "bold": false,
+     "t": "21:15"
+    },
+    {
+     "st": "坪村",
+     "ev": "dep",
+     "printed": "21.40",
+     "bold": false,
+     "t": "21:40"
+    },
+    {
+     "st": "班城",
+     "ev": "dep",
+     "printed": "21.55",
+     "bold": false,
+     "t": "21:55"
+    },
+    {
+     "st": "南文山",
+     "ev": "dep",
+     "printed": "22.37",
+     "bold": false,
+     "t": "22:37"
+    },
+    {
+     "st": "開陽",
+     "ev": "dep",
+     "printed": "22.52",
+     "bold": false,
+     "t": "22:52"
+    },
+    {
+     "st": "晉州",
+     "ev": "dep",
+     "printed": "23.00",
+     "bold": false,
+     "t": "23:00"
+    }
+   ],
+   "dest": "晉州",
+   "cls": "3",
+   "col": "8"
+  },
+  {
+   "no": "701",
+   "stops": [
+    {
+     "st": "釜山",
+     "ev": "dep",
+     "printed": "20.32",
+     "bold": false,
+     "note": "抄錄行（74頁）",
+     "t": "20:32"
+    },
+    {
+     "st": "三浪津",
+     "ev": "arr",
+     "printed": "21.40",
+     "bold": false,
+     "note": "著は抄錄行（74頁）",
+     "t": "21:40"
+    },
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "21.47",
+     "bold": false,
+     "note": "著は抄錄行（74頁）",
+     "t": "21:47"
+    },
+    {
+     "st": "洛東江",
+     "ev": "dep",
+     "printed": "21.51",
+     "bold": false,
+     "t": "21:51"
+    },
+    {
+     "st": "韓林亭",
+     "ev": "dep",
+     "printed": "22.02",
+     "bold": false,
+     "t": "22:02"
+    },
+    {
+     "st": "進永",
+     "ev": "dep",
+     "printed": "22.12",
+     "bold": false,
+     "t": "22:12"
+    },
+    {
+     "st": "德山",
+     "ev": "dep",
+     "printed": "22.19",
+     "bold": false,
+     "t": "22:19"
+    },
+    {
+     "st": "昌原",
+     "ev": "arr",
+     "printed": "22.32",
+     "bold": false,
+     "t": "22:32"
+    },
+    {
+     "st": "昌原",
+     "ev": "dep",
+     "printed": "22.33",
+     "bold": false,
+     "t": "22:33"
+    },
+    {
+     "st": "舊馬山",
+     "ev": "dep",
+     "printed": "22.42",
+     "bold": false,
+     "t": "22:42"
+    },
+    {
+     "st": "馬山",
+     "ev": "arr",
+     "printed": "22.46",
+     "bold": false,
+     "t": "22:46"
+    },
+    {
+     "st": "馬山",
+     "ev": "dep",
+     "printed": "22.53",
+     "bold": false,
+     "t": "22:53"
+    },
+    {
+     "st": "北馬山",
+     "ev": "dep",
+     "printed": "22.59",
+     "bold": false,
+     "t": "22:59"
+    },
+    {
+     "st": "中里",
+     "ev": "dep",
+     "printed": "23.11",
+     "bold": false,
+     "t": "23:11"
+    },
+    {
+     "st": "咸安",
+     "ev": "dep",
+     "printed": "23.28",
+     "bold": false,
+     "t": "23:28"
+    },
+    {
+     "st": "郡北",
+     "ev": "arr",
+     "printed": "23.39",
+     "bold": false,
+     "t": "23:39"
+    },
+    {
+     "st": "郡北",
+     "ev": "dep",
+     "printed": "23.42",
+     "bold": false,
+     "t": "23:42"
+    },
+    {
+     "st": "坪村",
+     "ev": "dep",
+     "printed": "23.59",
+     "bold": false,
+     "t": "23:59"
+    },
+    {
+     "st": "班城",
+     "ev": "dep",
+     "printed": "0.08",
+     "bold": false,
+     "t": "24:08"
+    },
+    {
+     "st": "南文山",
+     "ev": "dep",
+     "printed": "0.35",
+     "bold": false,
+     "t": "24:35"
+    },
+    {
+     "st": "開陽",
+     "ev": "dep",
+     "printed": "0.44",
+     "bold": false,
+     "t": "24:44"
+    },
+    {
+     "st": "晉州",
+     "ev": "dep",
+     "printed": "0.50",
+     "bold": false,
+     "t": "24:50"
+    }
+   ],
+   "dest": "晉州",
+   "cls": "3",
+   "col": "9",
+   "from_page": "74"
+  },
+  {
+   "no": "1709",
+   "stops": [
+    {
+     "st": "三浪津",
+     "ev": "dep",
+     "printed": "20.45",
+     "bold": false,
+     "t": "20:45"
+    },
+    {
+     "st": "洛東江",
+     "ev": "dep",
+     "printed": "20.50",
+     "bold": false,
+     "t": "20:50"
+    },
+    {
+     "st": "韓林亭",
+     "ev": "dep",
+     "printed": "21.02",
+     "bold": false,
+     "t": "21:02"
+    },
+    {
+     "st": "進永",
+     "ev": "dep",
+     "printed": "21.15",
+     "bold": false,
+     "t": "21:15"
+    },
+    {
+     "st": "德山",
+     "ev": "dep",
+     "printed": "21.23",
+     "bold": false,
+     "t": "21:23"
+    },
+    {
+     "st": "昌原",
+     "ev": "arr",
+     "printed": "21.37",
+     "bold": false,
+     "t": "21:37"
+    },
+    {
+     "st": "昌原",
+     "ev": "dep",
+     "printed": "21.41",
+     "bold": false,
+     "t": "21:41"
+    },
+    {
+     "st": "舊馬山",
+     "ev": "dep",
+     "printed": "21.52",
+     "bold": false,
+     "t": "21:52"
+    },
+    {
+     "st": "馬山",
+     "ev": "dep",
+     "printed": "21.57",
+     "bold": false,
+     "t": "21:57"
+    }
+   ],
+   "dest": "馬山",
+   "cls": "3",
+   "col": "10"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改正。この表は綴じ目をまたぐ：粁程・運賃・驛名欄が頁78の右欄、列車欄が頁79の左欄（見出し「三／浪津・晋州間（鮮鐵・慶全南部線）」も兩頁に分かれて組まれてゐる）。反對方向（晉州→三浪津）は p78h。",
+  "左端に「粁程／運賃 2等・3等」欄があるが運賃は轉記せず。粁程（自三浪津）は stations に入れた。設備記號は轉記せず。",
+  "朝鮮の表につき24時制。列車欄は10欄（1711 1701 1703 707 1705 715 1724 1707 701 1709）。",
+  "表の最上段に「74頁{」と括られた2行（釜山發／三浪津著）がある。74頁（京釜線）からの抄錄で、粁程は別建て（釜山 0.0／三浪津 49.2）。707・715・701 の3列車のみ時刻が入る。ここでは釜山の行を stop 行として殘し、三浪津は抄錄の著と本表の發を arr/dep にまとめた。",
+  "1724 は驛名欄に無い鎭海（鎭海線）發で、進永～德山の行に縦書きで「鎭海發 16.45」と印刷されてゐる。",
+  "行先（列車番號の上）：1711 晉州行、1701 晉州行、1703 馬山行、707 晉州行、1705 晉州行、715 晉州行、1724 馬山行、1707 晉州行、701 晉州行、1709 馬山行。",
+  "等級枠（反轉）：1703・707・1724 が 2.3、他は 3。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。"
+ ],
+ "source": "IMG_1868",
+ "page": "78-79",
+ "title": "三浪津・晉州間（鮮鐵・慶全南部線）",
+ "line": "鮮鐵 慶全南部線",
+ "dir": "晉州行（三浪津→晉州）"
+}

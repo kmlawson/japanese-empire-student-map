@@ -1,0 +1,435 @@
+{
+ "stations": [
+  {
+   "name": "白城子",
+   "km": null
+  },
+  {
+   "name": "到樂",
+   "km": null
+  },
+  {
+   "name": "舍力",
+   "km": null
+  },
+  {
+   "name": "來圖",
+   "km": null
+  },
+  {
+   "name": "安廣",
+   "km": null
+  },
+  {
+   "name": "南榮",
+   "km": null
+  },
+  {
+   "name": "大賚城",
+   "km": null
+  },
+  {
+   "name": "八郞",
+   "km": null
+  },
+  {
+   "name": "新廟",
+   "km": null
+  },
+  {
+   "name": "木頭",
+   "km": null
+  },
+  {
+   "name": "前郭旗",
+   "km": null
+  },
+  {
+   "name": "七家子",
+   "km": null
+  },
+  {
+   "name": "玉府",
+   "km": null
+  },
+  {
+   "name": "哈拉海",
+   "km": null
+  },
+  {
+   "name": "柴崗",
+   "km": null
+  },
+  {
+   "name": "農安",
+   "km": null
+  },
+  {
+   "name": "□家",
+   "km": null
+  },
+  {
+   "name": "萬寶山",
+   "km": null
+  },
+  {
+   "name": "小合隆",
+   "km": null
+  },
+  {
+   "name": "新京",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "846",
+   "stops": [
+    {
+     "st": "前郭旗",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "七家子",
+     "ev": "dep",
+     "printed": "8.47",
+     "bold": false,
+     "t": "08:47"
+    },
+    {
+     "st": "玉府",
+     "ev": "dep",
+     "printed": "9.42",
+     "bold": false,
+     "t": "09:42"
+    },
+    {
+     "st": "哈拉海",
+     "ev": "dep",
+     "printed": "10.35",
+     "bold": false,
+     "t": "10:35"
+    },
+    {
+     "st": "柴崗",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "農安",
+     "ev": "dep",
+     "printed": "11.35",
+     "bold": false,
+     "t": "11:35"
+    },
+    {
+     "st": "□家",
+     "ev": "dep",
+     "printed": "11.59",
+     "bold": false,
+     "t": "11:59"
+    },
+    {
+     "st": "萬寶山",
+     "ev": "dep",
+     "printed": "12.25",
+     "bold": false,
+     "t": "12:25"
+    },
+    {
+     "st": "小合隆",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    }
+   ],
+   "dest": "新京",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "前郭旗",
+   "col": "1"
+  },
+  {
+   "no": "844",
+   "stops": [
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "7.43",
+     "bold": false,
+     "t": "07:43"
+    },
+    {
+     "st": "到樂",
+     "ev": "dep",
+     "printed": "8.28",
+     "bold": false,
+     "t": "08:28"
+    },
+    {
+     "st": "舍力",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "來圖",
+     "ev": "dep",
+     "printed": "9.19",
+     "bold": false,
+     "t": "09:19"
+    },
+    {
+     "st": "安廣",
+     "ev": "dep",
+     "printed": "9.57",
+     "bold": false,
+     "t": "09:57"
+    },
+    {
+     "st": "南榮",
+     "ev": "dep",
+     "printed": "10.18",
+     "bold": false,
+     "t": "10:18"
+    },
+    {
+     "st": "大賚城",
+     "ev": "arr",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "大賚城",
+     "ev": "dep",
+     "printed": "11.15",
+     "bold": false,
+     "t": "11:15"
+    },
+    {
+     "st": "八郞",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "新廟",
+     "ev": "dep",
+     "printed": "12.11",
+     "bold": false,
+     "t": "12:11"
+    },
+    {
+     "st": "木頭",
+     "ev": "dep",
+     "printed": "12.31",
+     "bold": false,
+     "t": "12:31"
+    },
+    {
+     "st": "前郭旗",
+     "ev": "arr",
+     "printed": "12.55",
+     "bold": false,
+     "t": "12:55"
+    },
+    {
+     "st": "前郭旗",
+     "ev": "dep",
+     "printed": "13.13",
+     "bold": false,
+     "t": "13:13"
+    },
+    {
+     "st": "七家子",
+     "ev": "dep",
+     "printed": "14.11",
+     "bold": false,
+     "t": "14:11"
+    },
+    {
+     "st": "玉府",
+     "ev": "dep",
+     "printed": "15.05",
+     "bold": false,
+     "t": "15:05"
+    },
+    {
+     "st": "哈拉海",
+     "ev": "dep",
+     "printed": "15.56",
+     "bold": false,
+     "t": "15:56"
+    },
+    {
+     "st": "柴崗",
+     "ev": "dep",
+     "printed": "16.27",
+     "bold": false,
+     "t": "16:27"
+    },
+    {
+     "st": "農安",
+     "ev": "dep",
+     "printed": "17.05",
+     "bold": false,
+     "t": "17:05"
+    },
+    {
+     "st": "□家",
+     "ev": "dep",
+     "printed": "17.33",
+     "bold": false,
+     "t": "17:33"
+    },
+    {
+     "st": "萬寶山",
+     "ev": "dep",
+     "printed": "18.09",
+     "bold": false,
+     "t": "18:09"
+    },
+    {
+     "st": "小合隆",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "t": "18:35"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "19.05",
+     "bold": false,
+     "t": "19:05"
+    }
+   ],
+   "dest": "新京",
+   "cls": "2.3",
+   "marks": "混",
+   "col": "2"
+  },
+  {
+   "no": "1822",
+   "stops": [
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "到樂",
+     "ev": "dep",
+     "printed": "15.19",
+     "bold": false,
+     "t": "15:19"
+    },
+    {
+     "st": "舍力",
+     "ev": "dep",
+     "printed": "15.41",
+     "bold": false,
+     "t": "15:41"
+    },
+    {
+     "st": "來圖",
+     "ev": "dep",
+     "printed": "16.09",
+     "bold": false,
+     "t": "16:09"
+    },
+    {
+     "st": "安廣",
+     "ev": "dep",
+     "printed": "16.29",
+     "bold": false,
+     "t": "16:29"
+    },
+    {
+     "st": "南榮",
+     "ev": "dep",
+     "printed": "16.44",
+     "bold": false,
+     "t": "16:44"
+    },
+    {
+     "st": "大賚城",
+     "ev": "arr",
+     "printed": "17.17",
+     "bold": false,
+     "t": "17:17"
+    },
+    {
+     "st": "大賚城",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "八郞",
+     "ev": "dep",
+     "printed": "17.42",
+     "bold": false,
+     "t": "17:42"
+    },
+    {
+     "st": "新廟",
+     "ev": "dep",
+     "printed": "18.04",
+     "bold": false,
+     "t": "18:04"
+    },
+    {
+     "st": "木頭",
+     "ev": "dep",
+     "printed": "18.24",
+     "bold": false,
+     "t": "18:24"
+    },
+    {
+     "st": "前郭旗",
+     "ev": "dep",
+     "printed": "18.44",
+     "bold": false,
+     "t": "18:44"
+    }
+   ],
+   "dest": "前郭旗",
+   "cls": "3",
+   "marks": "動",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "昭和16.10.1改正（頁37上段の下り表と同じ改正日）。頁37の右下段。反對方向（新京→白城子）は同頁の p37b。",
+  "左端に「自白城子 運賃 2等・3等」欄があるが轉記せず。粁程欄は無い。設備記號も轉記せず。",
+  "列車欄は3欄。左から 846（混合2等3等・新京行）・844（混合2等3等・新京行）・1822（動車3等・前郭旗行）。右端に空欄が1欄ある。",
+  "列車846は前郭旗8.25發で、それより西の各驛は「…」。列車1822は前郭旗18.44著止り。",
+  "驛名は p37b と同一（順序は逆）。判讀に自信の無い驛名については p37b の note を參照。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。"
+ ],
+ "source": "IMG_1847",
+ "page": "37",
+ "title": "白城子・新京間（國線・京白線）",
+ "line": "國線 京白線",
+ "dir": "白城子→新京（上り）"
+}

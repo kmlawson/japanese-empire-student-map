@@ -1,0 +1,17 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 葉惠線
+title: 葉柏壽驛・新惠間
+dir: 葉柏壽驛→新惠
+season: 昭和16.10.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the left of bus 532
+stations: 葉柏壽驛 | 建平 | 新惠
+fares: 葉柏壽驛 | 建平 3.05 | 新惠 5.75
+
+train: 532 | dest 建平 | col 3
+葉柏壽驛 8.30
+建平 11.30
+新惠 -

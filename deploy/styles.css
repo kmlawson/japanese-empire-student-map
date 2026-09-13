@@ -1241,13 +1241,15 @@ button.plain:hover { background: var(--hover-fill); }
    the map-units/screen-pixels rule in CLAUDE.md. */
 #tw-rail.picked .rail,
 #kr-rail.picked .rail,
-#kf-rail.picked .rail {
+#kf-rail.picked .rail,
+#mn-rail.picked .rail {
   stroke-width: 3.4;
   stroke: var(--pick, #b8860b);
 }
 #tw-rail.picked .rail-tie,
 #kr-rail.picked .rail-tie,
-#kf-rail.picked .rail-tie {
+#kf-rail.picked .rail-tie,
+#mn-rail.picked .rail-tie {
   stroke-width: 3.4;
 }
 

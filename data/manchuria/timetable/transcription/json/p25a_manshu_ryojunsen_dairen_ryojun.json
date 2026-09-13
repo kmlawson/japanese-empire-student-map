@@ -1,0 +1,760 @@
+{
+ "stations": [
+  {
+   "name": "大連",
+   "km": null
+  },
+  {
+   "name": "沙河口",
+   "km": null
+  },
+  {
+   "name": "周水子",
+   "km": null
+  },
+  {
+   "name": "革鎭堡",
+   "km": null
+  },
+  {
+   "name": "夏家河子",
+   "km": null
+  },
+  {
+   "name": "牧城子",
+   "km": null
+  },
+  {
+   "name": "營城子",
+   "km": null
+  },
+  {
+   "name": "長嶺子",
+   "km": null
+  },
+  {
+   "name": "龍頭",
+   "km": null
+  },
+  {
+   "name": "水師營",
+   "km": null
+  },
+  {
+   "name": "旅順",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "601",
+   "stops": [
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": false,
+     "t": "07:38"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "7.46",
+     "bold": false,
+     "t": "07:46"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "7.47",
+     "bold": false,
+     "t": "07:47"
+    },
+    {
+     "st": "革鎭堡",
+     "ev": "dep",
+     "printed": "7.56",
+     "bold": false,
+     "t": "07:56"
+    },
+    {
+     "st": "夏家河子",
+     "ev": "dep",
+     "printed": "8.04",
+     "bold": false,
+     "t": "08:04"
+    },
+    {
+     "st": "牧城子",
+     "ev": "dep",
+     "printed": "8.13",
+     "bold": false,
+     "t": "08:13"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    },
+    {
+     "st": "長嶺子",
+     "ev": "dep",
+     "printed": "8.33",
+     "bold": false,
+     "t": "08:33"
+    },
+    {
+     "st": "龍頭",
+     "ev": "dep",
+     "printed": "8.44",
+     "bold": false,
+     "t": "08:44"
+    },
+    {
+     "st": "水師營",
+     "ev": "dep",
+     "printed": "8.53",
+     "bold": false,
+     "t": "08:53"
+    },
+    {
+     "st": "旅順",
+     "ev": "dep",
+     "printed": "8.59",
+     "bold": false,
+     "t": "08:59"
+    }
+   ],
+   "dest": "旅順",
+   "cls": "2.3",
+   "col": "1"
+  },
+  {
+   "no": "603",
+   "stops": [
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "9.48",
+     "bold": false,
+     "t": "09:48"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "9.56",
+     "bold": false,
+     "t": "09:56"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "9.57",
+     "bold": false,
+     "t": "09:57"
+    },
+    {
+     "st": "革鎭堡",
+     "ev": "dep",
+     "printed": "10.07",
+     "bold": false,
+     "t": "10:07"
+    },
+    {
+     "st": "夏家河子",
+     "ev": "dep",
+     "printed": "10.14",
+     "bold": false,
+     "t": "10:14"
+    },
+    {
+     "st": "牧城子",
+     "ev": "dep",
+     "printed": "10.23",
+     "bold": false,
+     "t": "10:23"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "長嶺子",
+     "ev": "dep",
+     "printed": "10.43",
+     "bold": false,
+     "t": "10:43"
+    },
+    {
+     "st": "龍頭",
+     "ev": "dep",
+     "printed": "10.54",
+     "bold": false,
+     "t": "10:54"
+    },
+    {
+     "st": "水師營",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": false,
+     "t": "11:03"
+    },
+    {
+     "st": "旅順",
+     "ev": "dep",
+     "printed": "11.09",
+     "bold": false,
+     "t": "11:09"
+    }
+   ],
+   "dest": "旅順",
+   "cls": "2.3",
+   "col": "2"
+  },
+  {
+   "no": "605",
+   "stops": [
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "12.18",
+     "bold": false,
+     "t": "12:18"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "12.26",
+     "bold": false,
+     "t": "12:26"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "12.27",
+     "bold": false,
+     "t": "12:27"
+    },
+    {
+     "st": "革鎭堡",
+     "ev": "pass"
+    },
+    {
+     "st": "夏家河子",
+     "ev": "dep",
+     "printed": "12.41",
+     "bold": false,
+     "t": "12:41"
+    },
+    {
+     "st": "牧城子",
+     "ev": "pass"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "12.54",
+     "bold": false,
+     "t": "12:54"
+    },
+    {
+     "st": "長嶺子",
+     "ev": "dep",
+     "printed": "13.07",
+     "bold": false,
+     "t": "13:07"
+    },
+    {
+     "st": "龍頭",
+     "ev": "dep",
+     "printed": "13.18",
+     "bold": false,
+     "t": "13:18"
+    },
+    {
+     "st": "水師營",
+     "ev": "pass"
+    },
+    {
+     "st": "旅順",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "旅順",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "607",
+   "stops": [
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "14.13",
+     "bold": false,
+     "t": "14:13"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "14.21",
+     "bold": false,
+     "t": "14:21"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "14.23",
+     "bold": false,
+     "t": "14:23"
+    },
+    {
+     "st": "革鎭堡",
+     "ev": "dep",
+     "printed": "14.32",
+     "bold": false,
+     "t": "14:32"
+    },
+    {
+     "st": "夏家河子",
+     "ev": "dep",
+     "printed": "14.38",
+     "bold": false,
+     "t": "14:38"
+    },
+    {
+     "st": "牧城子",
+     "ev": "pass"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "14.51",
+     "bold": false,
+     "t": "14:51"
+    },
+    {
+     "st": "長嶺子",
+     "ev": "dep",
+     "printed": "15.04",
+     "bold": false,
+     "t": "15:04"
+    },
+    {
+     "st": "龍頭",
+     "ev": "dep",
+     "printed": "15.15",
+     "bold": false,
+     "t": "15:15"
+    },
+    {
+     "st": "水師營",
+     "ev": "pass"
+    },
+    {
+     "st": "旅順",
+     "ev": "dep",
+     "printed": "15.27",
+     "bold": false,
+     "t": "15:27"
+    }
+   ],
+   "dest": "旅順",
+   "cls": "2.3",
+   "col": "4"
+  },
+  {
+   "no": "609",
+   "stops": [
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "16.08",
+     "bold": false,
+     "t": "16:08"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "16.17",
+     "bold": false,
+     "t": "16:17"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "16.26",
+     "bold": false,
+     "t": "16:26"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "16.28",
+     "bold": false,
+     "t": "16:28"
+    },
+    {
+     "st": "革鎭堡",
+     "ev": "dep",
+     "printed": "16.41",
+     "bold": false,
+     "t": "16:41"
+    },
+    {
+     "st": "夏家河子",
+     "ev": "dep",
+     "printed": "16.49",
+     "bold": false,
+     "t": "16:49"
+    },
+    {
+     "st": "牧城子",
+     "ev": "dep",
+     "printed": "16.50",
+     "bold": false,
+     "uncertain": true,
+     "t": "16:50"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "17.07",
+     "bold": false,
+     "t": "17:07"
+    },
+    {
+     "st": "長嶺子",
+     "ev": "dep",
+     "printed": "17.21",
+     "bold": false,
+     "t": "17:21"
+    },
+    {
+     "st": "水師營",
+     "ev": "dep",
+     "printed": "17.43",
+     "bold": false,
+     "t": "17:43"
+    },
+    {
+     "st": "旅順",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "t": "17:50"
+    }
+   ],
+   "dest": "旅順",
+   "cls": "2.3",
+   "col": "5"
+  },
+  {
+   "no": "611",
+   "stops": [
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "17.19",
+     "bold": false,
+     "t": "17:19"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "17.28",
+     "bold": false,
+     "t": "17:28"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "17.29",
+     "bold": false,
+     "t": "17:29"
+    },
+    {
+     "st": "革鎭堡",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    },
+    {
+     "st": "夏家河子",
+     "ev": "dep",
+     "printed": "17.51",
+     "bold": false,
+     "t": "17:51"
+    },
+    {
+     "st": "牧城子",
+     "ev": "dep",
+     "printed": "18.01",
+     "bold": false,
+     "t": "18:01"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "18.09",
+     "bold": false,
+     "t": "18:09"
+    },
+    {
+     "st": "長嶺子",
+     "ev": "dep",
+     "printed": "18.23",
+     "bold": false,
+     "t": "18:23"
+    },
+    {
+     "st": "龍頭",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "t": "18:35"
+    },
+    {
+     "st": "水師營",
+     "ev": "dep",
+     "printed": "18.45",
+     "bold": false,
+     "t": "18:45"
+    },
+    {
+     "st": "旅順",
+     "ev": "dep",
+     "printed": "18.52",
+     "bold": false,
+     "t": "18:52"
+    }
+   ],
+   "dest": "旅順",
+   "cls": "2.3",
+   "col": "6"
+  },
+  {
+   "no": "613",
+   "stops": [
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "20.20",
+     "bold": false,
+     "t": "20:20"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "20.28",
+     "bold": false,
+     "t": "20:28"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "20.36",
+     "bold": false,
+     "t": "20:36"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "20.38",
+     "bold": false,
+     "t": "20:38"
+    },
+    {
+     "st": "革鎭堡",
+     "ev": "pass"
+    },
+    {
+     "st": "夏家河子",
+     "ev": "dep",
+     "printed": "20.52",
+     "bold": false,
+     "t": "20:52"
+    },
+    {
+     "st": "牧城子",
+     "ev": "pass"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "21.10",
+     "bold": false,
+     "t": "21:10"
+    },
+    {
+     "st": "長嶺子",
+     "ev": "dep",
+     "printed": "21.23",
+     "bold": false,
+     "t": "21:23"
+    },
+    {
+     "st": "龍頭",
+     "ev": "dep",
+     "printed": "21.34",
+     "bold": false,
+     "t": "21:34"
+    },
+    {
+     "st": "水師營",
+     "ev": "pass"
+    },
+    {
+     "st": "旅順",
+     "ev": "dep",
+     "printed": "21.48",
+     "bold": false,
+     "t": "21:48"
+    }
+   ],
+   "dest": "旅順",
+   "cls": "2.3",
+   "col": "7"
+  },
+  {
+   "no": "615",
+   "stops": [
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "22.55",
+     "bold": false,
+     "t": "22:55"
+    },
+    {
+     "st": "沙河口",
+     "ev": "dep",
+     "printed": "23.03",
+     "bold": false,
+     "t": "23:03"
+    },
+    {
+     "st": "周水子",
+     "ev": "arr",
+     "printed": "23.11",
+     "bold": false,
+     "t": "23:11"
+    },
+    {
+     "st": "周水子",
+     "ev": "dep",
+     "printed": "23.16",
+     "bold": false,
+     "t": "23:16"
+    },
+    {
+     "st": "革鎭堡",
+     "ev": "pass"
+    },
+    {
+     "st": "夏家河子",
+     "ev": "dep",
+     "printed": "23.30",
+     "bold": false,
+     "t": "23:30"
+    },
+    {
+     "st": "牧城子",
+     "ev": "pass"
+    },
+    {
+     "st": "營城子",
+     "ev": "dep",
+     "printed": "23.43",
+     "bold": false,
+     "t": "23:43"
+    },
+    {
+     "st": "長嶺子",
+     "ev": "dep",
+     "printed": "23.56",
+     "bold": false,
+     "t": "23:56"
+    },
+    {
+     "st": "龍頭",
+     "ev": "dep",
+     "printed": "0.07",
+     "bold": false,
+     "t": "24:07"
+    },
+    {
+     "st": "水師營",
+     "ev": "pass"
+    },
+    {
+     "st": "旅順",
+     "ev": "dep",
+     "printed": "0.19",
+     "bold": false,
+     "t": "24:19"
+    }
+   ],
+   "dest": "旅順",
+   "cls": "2.3",
+   "col": "8"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改訂。頁25の上段。同じ表の下半分（大連行）は p25b。",
+  "左端に「運賃 2等・3等」欄があるが轉記せず。粁程欄は無い。設備記號は轉記せず。",
+  "列車は8欄（601・603・605・607・609・611・613・615）。全欄とも等級標記は反轉枠の「2」「3」＝2等3等。",
+  "「v」は原表のレ（通過）。",
+  "驛名「牧城子」の第3字は「子」と讀めるが、通例この驛は「牧城驛」と記される。原表の見えるまま「牧城子」とした。",
+  "列車609の牧城子は「16.50」と讀めるが、夏家河子16.49・營城子17.07との間隔が他列車（9分・7分）と合はず、16.58の誤植の疑ひがある。同列車の龍頭欄は活字が潰れて判讀不能（他欄からは17.33前後）。"
+ ],
+ "source": "IMG_1841",
+ "page": "25",
+ "title": "大連・旅順間（滿鐵・旅順線）",
+ "line": "滿鐵社線 旅順線",
+ "dir": "旅順行（下り）"
+}

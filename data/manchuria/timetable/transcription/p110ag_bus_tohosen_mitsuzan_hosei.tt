@@ -1,0 +1,18 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 東寶線
+title: 密山・寶淸間
+dir: 密山→寶淸
+season: 昭和16.12.1改正
+service: 每日運行
+note: 中央の驛名欄をはさみ左が密山方向（本表）、右が寶淸發（p110ah）。左端は運賃（圓.分）欄。
+note: 211は東安驛始發（密山欄は…）。
+stations: 密山 | 東安驛 | 寶淸
+fares: 密山 | 東安驛 0.60 | 寶淸 8.70
+
+train: 211 | dest 寶淸 | col 1 | origin 東安驛
+密山 -
+東安驛 9.00
+寶淸 16.30

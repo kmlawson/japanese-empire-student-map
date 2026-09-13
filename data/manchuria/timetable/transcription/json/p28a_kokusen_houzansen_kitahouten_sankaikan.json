@@ -1,0 +1,2638 @@
+{
+ "stations": [
+  {
+   "name": "北奉天",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "裕國",
+   "km": null
+  },
+  {
+   "name": "馬三家",
+   "km": null
+  },
+  {
+   "name": "三臺",
+   "km": null
+  },
+  {
+   "name": "興隆店",
+   "km": null
+  },
+  {
+   "name": "巨流河",
+   "km": null
+  },
+  {
+   "name": "新民",
+   "km": null
+  },
+  {
+   "name": "柳河溝",
+   "km": null
+  },
+  {
+   "name": "白旗堡",
+   "km": null
+  },
+  {
+   "name": "饒陽河",
+   "km": null
+  },
+  {
+   "name": "勵家",
+   "km": null
+  },
+  {
+   "name": "唐家",
+   "km": null
+  },
+  {
+   "name": "大虎山",
+   "km": null
+  },
+  {
+   "name": "高山子",
+   "km": null
+  },
+  {
+   "name": "青堆子",
+   "km": null
+  },
+  {
+   "name": "頭家屯",
+   "km": null
+  },
+  {
+   "name": "溝幫子",
+   "km": null
+  },
+  {
+   "name": "羊圈子",
+   "km": null
+  },
+  {
+   "name": "石山",
+   "km": null
+  },
+  {
+   "name": "圓家",
+   "km": null
+  },
+  {
+   "name": "大凌河",
+   "km": null
+  },
+  {
+   "name": "後羊店",
+   "km": null
+  },
+  {
+   "name": "錦縣",
+   "km": null
+  },
+  {
+   "name": "女兒河",
+   "km": null
+  },
+  {
+   "name": "陳家屯",
+   "km": null
+  },
+  {
+   "name": "高橋",
+   "km": null
+  },
+  {
+   "name": "塔山",
+   "km": null
+  },
+  {
+   "name": "錦西",
+   "km": null
+  },
+  {
+   "name": "鵬家溝",
+   "km": null
+  },
+  {
+   "name": "興城",
+   "km": null
+  },
+  {
+   "name": "白廟子",
+   "km": null
+  },
+  {
+   "name": "沙後所",
+   "km": null
+  },
+  {
+   "name": "東辛莊",
+   "km": null
+  },
+  {
+   "name": "綏中",
+   "km": null
+  },
+  {
+   "name": "荒地",
+   "km": null
+  },
+  {
+   "name": "前衛",
+   "km": null
+  },
+  {
+   "name": "萬橋",
+   "km": null
+  },
+  {
+   "name": "前所",
+   "km": null
+  },
+  {
+   "name": "茂家屯",
+   "km": null
+  },
+  {
+   "name": "山海關",
+   "km": null
+  },
+  {
+   "name": "北戴河",
+   "km": null
+  },
+  {
+   "name": "塘沽埠頭",
+   "km": null
+  },
+  {
+   "name": "天津",
+   "km": null
+  },
+  {
+   "name": "北京",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "419",
+   "stops": [
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "6.40",
+     "bold": false,
+     "t": "06:40"
+    },
+    {
+     "st": "女兒河",
+     "ev": "dep",
+     "printed": "6.59",
+     "bold": false,
+     "t": "06:59"
+    },
+    {
+     "st": "陳家屯",
+     "ev": "dep",
+     "printed": "7.13",
+     "bold": false,
+     "t": "07:13"
+    },
+    {
+     "st": "高橋",
+     "ev": "dep",
+     "printed": "7.28",
+     "bold": false,
+     "t": "07:28"
+    },
+    {
+     "st": "塔山",
+     "ev": "dep",
+     "printed": "7.46",
+     "bold": false,
+     "t": "07:46"
+    },
+    {
+     "st": "錦西",
+     "ev": "arr",
+     "printed": "8.01",
+     "bold": false,
+     "t": "08:01"
+    },
+    {
+     "st": "錦西",
+     "ev": "dep",
+     "printed": "8.07",
+     "bold": false,
+     "t": "08:07"
+    },
+    {
+     "st": "鵬家溝",
+     "ev": "dep",
+     "printed": "8.27",
+     "bold": false,
+     "t": "08:27"
+    },
+    {
+     "st": "興城",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": false,
+     "t": "08:40"
+    },
+    {
+     "st": "白廟子",
+     "ev": "dep",
+     "printed": "9.06",
+     "bold": false,
+     "t": "09:06"
+    },
+    {
+     "st": "沙後所",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "東辛莊",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": false,
+     "t": "10:01"
+    },
+    {
+     "st": "綏中",
+     "ev": "dep",
+     "printed": "10.24",
+     "bold": false,
+     "t": "10:24"
+    },
+    {
+     "st": "荒地",
+     "ev": "dep",
+     "printed": "10.42",
+     "bold": false,
+     "t": "10:42"
+    },
+    {
+     "st": "前衛",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": false,
+     "t": "11:03"
+    },
+    {
+     "st": "萬橋",
+     "ev": "dep",
+     "printed": "11.23",
+     "bold": false,
+     "t": "11:23"
+    },
+    {
+     "st": "前所",
+     "ev": "dep",
+     "printed": "11.35",
+     "bold": false,
+     "t": "11:35"
+    },
+    {
+     "st": "茂家屯",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "12.06",
+     "bold": false,
+     "t": "12:06"
+    }
+   ],
+   "dest": "山海關",
+   "cls": "2.3",
+   "col": "1"
+  },
+  {
+   "no": "427",
+   "stops": [
+    {
+     "st": "溝幫子",
+     "ev": "dep",
+     "printed": "7.20",
+     "bold": false,
+     "t": "07:20"
+    },
+    {
+     "st": "羊圈子",
+     "ev": "dep",
+     "printed": "7.41",
+     "bold": false,
+     "t": "07:41"
+    },
+    {
+     "st": "石山",
+     "ev": "dep",
+     "printed": "7.52",
+     "bold": false,
+     "t": "07:52"
+    },
+    {
+     "st": "圓家",
+     "ev": "dep",
+     "printed": "8.04",
+     "bold": false,
+     "t": "08:04"
+    },
+    {
+     "st": "大凌河",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": false,
+     "t": "08:15"
+    },
+    {
+     "st": "後羊店",
+     "ev": "dep",
+     "printed": "8.48",
+     "bold": false,
+     "t": "08:48"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "9.06",
+     "bold": false,
+     "t": "09:06"
+    }
+   ],
+   "dest": "錦縣",
+   "cls": "3",
+   "marks": "動",
+   "col": "2"
+  },
+  {
+   "no": "429",
+   "stops": [
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    },
+    {
+     "st": "女兒河",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": false,
+     "t": "09:31"
+    },
+    {
+     "st": "陳家屯",
+     "ev": "dep",
+     "printed": "9.52",
+     "bold": false,
+     "t": "09:52"
+    },
+    {
+     "st": "高橋",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": false,
+     "t": "10:17"
+    },
+    {
+     "st": "塔山",
+     "ev": "dep",
+     "printed": "10.36",
+     "bold": false,
+     "t": "10:36"
+    },
+    {
+     "st": "錦西",
+     "ev": "arr",
+     "printed": "10.53",
+     "bold": false,
+     "t": "10:53"
+    },
+    {
+     "st": "錦西",
+     "ev": "dep",
+     "printed": "11.05",
+     "bold": false,
+     "t": "11:05"
+    },
+    {
+     "st": "鵬家溝",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "興城",
+     "ev": "dep",
+     "printed": "11.37",
+     "bold": false,
+     "t": "11:37"
+    }
+   ],
+   "dest": "興城",
+   "cls": "3",
+   "marks": "動",
+   "col": "3"
+  },
+  {
+   "no": "411",
+   "stops": [
+    {
+     "st": "北奉天",
+     "ev": "dep",
+     "printed": "7.35",
+     "bold": false,
+     "t": "07:35"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "7.45",
+     "bold": false,
+     "t": "07:45"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    },
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "8.46",
+     "bold": false,
+     "t": "08:46"
+    },
+    {
+     "st": "馬三家",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "三臺",
+     "ev": "pass"
+    },
+    {
+     "st": "興隆店",
+     "ev": "dep",
+     "printed": "9.21",
+     "bold": false,
+     "t": "09:21"
+    },
+    {
+     "st": "巨流河",
+     "ev": "dep",
+     "printed": "9.47",
+     "bold": false,
+     "t": "09:47"
+    },
+    {
+     "st": "新民",
+     "ev": "dep",
+     "printed": "10.04",
+     "bold": false,
+     "t": "10:04"
+    },
+    {
+     "st": "柳河溝",
+     "ev": "dep",
+     "printed": "15.19",
+     "bold": false,
+     "note": "印刷のまま。前後（10.04→10.34）と合はず、10.19の誤植とみられる",
+     "t": "15:19"
+    },
+    {
+     "st": "白旗堡",
+     "ev": "dep",
+     "printed": "10.34",
+     "bold": false,
+     "t": "34:34"
+    },
+    {
+     "st": "饒陽河",
+     "ev": "dep",
+     "printed": "10.53",
+     "bold": false,
+     "t": "34:53"
+    },
+    {
+     "st": "勵家",
+     "ev": "dep",
+     "printed": "11.08",
+     "bold": false,
+     "t": "35:08"
+    },
+    {
+     "st": "唐家",
+     "ev": "dep",
+     "printed": "11.22",
+     "bold": false,
+     "t": "35:22"
+    },
+    {
+     "st": "大虎山",
+     "ev": "arr",
+     "printed": "11.37",
+     "bold": false,
+     "t": "35:37"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "11.43",
+     "bold": false,
+     "t": "35:43"
+    },
+    {
+     "st": "高山子",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": false,
+     "t": "35:55"
+    },
+    {
+     "st": "青堆子",
+     "ev": "dep",
+     "printed": "12.16",
+     "bold": false,
+     "t": "36:16"
+    },
+    {
+     "st": "頭家屯",
+     "ev": "dep",
+     "printed": "12.34",
+     "bold": false,
+     "t": "36:34"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "arr",
+     "printed": "12.44",
+     "bold": false,
+     "t": "36:44"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "dep",
+     "printed": "12.46",
+     "bold": false,
+     "t": "36:46"
+    },
+    {
+     "st": "羊圈子",
+     "ev": "dep",
+     "printed": "13.05",
+     "bold": false,
+     "t": "37:05"
+    },
+    {
+     "st": "石山",
+     "ev": "dep",
+     "printed": "13.17",
+     "bold": false,
+     "t": "37:17"
+    },
+    {
+     "st": "圓家",
+     "ev": "dep",
+     "printed": "13.28",
+     "bold": false,
+     "t": "37:28"
+    },
+    {
+     "st": "大凌河",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "note": "圓家13.28の2分後。印刷のまま",
+     "t": "37:30"
+    },
+    {
+     "st": "後羊店",
+     "ev": "dep",
+     "printed": "13.56",
+     "bold": false,
+     "t": "37:56"
+    },
+    {
+     "st": "錦縣",
+     "ev": "arr",
+     "printed": "14.14",
+     "bold": false,
+     "t": "38:14"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "14.33",
+     "bold": false,
+     "t": "38:33"
+    },
+    {
+     "st": "女兒河",
+     "ev": "dep",
+     "printed": "14.48",
+     "bold": false,
+     "t": "38:48"
+    },
+    {
+     "st": "陳家屯",
+     "ev": "dep",
+     "printed": "15.02",
+     "bold": false,
+     "t": "39:02"
+    },
+    {
+     "st": "高橋",
+     "ev": "dep",
+     "printed": "15.17",
+     "bold": false,
+     "t": "39:17"
+    },
+    {
+     "st": "塔山",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "39:40"
+    },
+    {
+     "st": "錦西",
+     "ev": "arr",
+     "printed": "15.55",
+     "bold": false,
+     "t": "39:55"
+    },
+    {
+     "st": "錦西",
+     "ev": "dep",
+     "printed": "15.57",
+     "bold": false,
+     "t": "39:57"
+    },
+    {
+     "st": "鵬家溝",
+     "ev": "dep",
+     "printed": "16.16",
+     "bold": false,
+     "t": "40:16"
+    },
+    {
+     "st": "興城",
+     "ev": "dep",
+     "printed": "16.41",
+     "bold": false,
+     "t": "40:41"
+    },
+    {
+     "st": "白廟子",
+     "ev": "dep",
+     "printed": "16.59",
+     "bold": false,
+     "t": "40:59"
+    },
+    {
+     "st": "沙後所",
+     "ev": "dep",
+     "printed": "17.12",
+     "bold": false,
+     "t": "41:12"
+    },
+    {
+     "st": "東辛莊",
+     "ev": "dep",
+     "printed": "17.35",
+     "bold": false,
+     "t": "41:35"
+    },
+    {
+     "st": "綏中",
+     "ev": "dep",
+     "printed": "17.57",
+     "bold": false,
+     "t": "41:57"
+    },
+    {
+     "st": "荒地",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "42:15"
+    },
+    {
+     "st": "前衛",
+     "ev": "dep",
+     "printed": "18.36",
+     "bold": false,
+     "t": "42:36"
+    },
+    {
+     "st": "萬橋",
+     "ev": "dep",
+     "printed": "19.17",
+     "bold": false,
+     "t": "43:17"
+    },
+    {
+     "st": "前所",
+     "ev": "dep",
+     "printed": "19.29",
+     "bold": false,
+     "t": "43:29"
+    },
+    {
+     "st": "茂家屯",
+     "ev": "dep",
+     "printed": "19.45",
+     "bold": false,
+     "t": "43:45"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "20.01",
+     "bold": false,
+     "t": "44:01"
+    }
+   ],
+   "dest": "山海關",
+   "cls": "2.3",
+   "col": "4"
+  },
+  {
+   "no": "417",
+   "stops": [
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "高山子",
+     "ev": "dep",
+     "printed": "8.13",
+     "bold": false,
+     "t": "08:13"
+    },
+    {
+     "st": "青堆子",
+     "ev": "dep",
+     "printed": "8.36",
+     "bold": false,
+     "t": "08:36"
+    },
+    {
+     "st": "頭家屯",
+     "ev": "dep",
+     "printed": "8.46",
+     "bold": false,
+     "t": "08:46"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "arr",
+     "printed": "8.57",
+     "bold": false,
+     "t": "08:57"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "dep",
+     "printed": "8.59",
+     "bold": false,
+     "t": "08:59"
+    },
+    {
+     "st": "羊圈子",
+     "ev": "dep",
+     "printed": "9.37",
+     "bold": false,
+     "t": "09:37"
+    },
+    {
+     "st": "石山",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    },
+    {
+     "st": "圓家",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": false,
+     "t": "10:01"
+    },
+    {
+     "st": "大凌河",
+     "ev": "dep",
+     "printed": "10.13",
+     "bold": false,
+     "t": "10:13"
+    },
+    {
+     "st": "後羊店",
+     "ev": "dep",
+     "printed": "10.32",
+     "bold": false,
+     "t": "10:32"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    }
+   ],
+   "dest": "錦縣",
+   "cls": "2.3",
+   "col": "5"
+  },
+  {
+   "no": "53",
+   "stops": [
+    {
+     "st": "錦縣",
+     "ev": "arr",
+     "printed": "15.55",
+     "bold": false,
+     "t": "15:55"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "16.26",
+     "bold": false,
+     "t": "16:26"
+    },
+    {
+     "st": "女兒河",
+     "ev": "dep",
+     "printed": "16.43",
+     "bold": false,
+     "t": "16:43"
+    },
+    {
+     "st": "陳家屯",
+     "ev": "dep",
+     "printed": "16.59",
+     "bold": false,
+     "t": "16:59"
+    },
+    {
+     "st": "高橋",
+     "ev": "dep",
+     "printed": "17.24",
+     "bold": false,
+     "t": "17:24"
+    },
+    {
+     "st": "塔山",
+     "ev": "dep",
+     "printed": "17.43",
+     "bold": false,
+     "t": "17:43"
+    },
+    {
+     "st": "錦西",
+     "ev": "arr",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "錦西",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    }
+   ],
+   "dest": "壺蘆島",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "新邱 10.01發",
+   "col": "6",
+   "note": "錦西發18.15の後、原表に「壺蘆島著 18.40」の標記"
+  },
+  {
+   "no": "9",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "7.15",
+     "bold": false,
+     "t": "07:15"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "07:25"
+    },
+    {
+     "st": "興隆店",
+     "ev": "pass"
+    },
+    {
+     "st": "巨流河",
+     "ev": "pass"
+    },
+    {
+     "st": "新民",
+     "ev": "pass"
+    },
+    {
+     "st": "柳河溝",
+     "ev": "pass"
+    },
+    {
+     "st": "白旗堡",
+     "ev": "pass"
+    },
+    {
+     "st": "饒陽河",
+     "ev": "pass"
+    },
+    {
+     "st": "勵家",
+     "ev": "pass"
+    },
+    {
+     "st": "唐家",
+     "ev": "pass"
+    },
+    {
+     "st": "大虎山",
+     "ev": "arr",
+     "printed": "9.46",
+     "bold": false,
+     "t": "09:46"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "9.51",
+     "bold": false,
+     "t": "09:51"
+    },
+    {
+     "st": "高山子",
+     "ev": "pass"
+    },
+    {
+     "st": "青堆子",
+     "ev": "pass"
+    },
+    {
+     "st": "頭家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "arr",
+     "printed": "10.31",
+     "bold": false,
+     "t": "10:31"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "dep",
+     "printed": "10.32",
+     "bold": false,
+     "t": "10:32"
+    },
+    {
+     "st": "羊圈子",
+     "ev": "pass"
+    },
+    {
+     "st": "石山",
+     "ev": "pass"
+    },
+    {
+     "st": "圓家",
+     "ev": "pass"
+    },
+    {
+     "st": "大凌河",
+     "ev": "pass"
+    },
+    {
+     "st": "後羊店",
+     "ev": "pass"
+    },
+    {
+     "st": "錦縣",
+     "ev": "arr",
+     "printed": "11.32",
+     "bold": false,
+     "t": "11:32"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "女兒河",
+     "ev": "pass"
+    },
+    {
+     "st": "陳家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "高橋",
+     "ev": "pass"
+    },
+    {
+     "st": "塔山",
+     "ev": "pass"
+    },
+    {
+     "st": "錦西",
+     "ev": "arr",
+     "printed": "12.28",
+     "bold": false,
+     "t": "12:28"
+    },
+    {
+     "st": "錦西",
+     "ev": "dep",
+     "printed": "12.29",
+     "bold": false,
+     "t": "12:29"
+    },
+    {
+     "st": "鵬家溝",
+     "ev": "pass"
+    },
+    {
+     "st": "興城",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    },
+    {
+     "st": "白廟子",
+     "ev": "pass"
+    },
+    {
+     "st": "沙後所",
+     "ev": "pass"
+    },
+    {
+     "st": "東辛莊",
+     "ev": "pass"
+    },
+    {
+     "st": "綏中",
+     "ev": "dep",
+     "printed": "13.38",
+     "bold": false,
+     "t": "13:38"
+    },
+    {
+     "st": "荒地",
+     "ev": "pass"
+    },
+    {
+     "st": "前衛",
+     "ev": "pass"
+    },
+    {
+     "st": "萬橋",
+     "ev": "pass"
+    },
+    {
+     "st": "前所",
+     "ev": "pass"
+    },
+    {
+     "st": "茂家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "14.42",
+     "bold": false,
+     "t": "14:42"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "15.14",
+     "bold": false,
+     "t": "15:14"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "塘沽埠頭",
+     "ev": "dep",
+     "printed": "19.22",
+     "bold": false,
+     "t": "19:22"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "20.11",
+     "bold": false,
+     "t": "20:11"
+    },
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "22.45",
+     "bold": false,
+     "t": "22:45"
+    }
+   ],
+   "dest": "北京",
+   "name": "大陸",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "origin": "釜山棧橋 7.20發",
+   "col": "7"
+  },
+  {
+   "no": "429",
+   "stops": [
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "女兒河",
+     "ev": "dep",
+     "printed": "12.48",
+     "bold": false,
+     "t": "12:48"
+    },
+    {
+     "st": "陳家屯",
+     "ev": "dep",
+     "printed": "13.01",
+     "bold": false,
+     "t": "13:01"
+    },
+    {
+     "st": "高橋",
+     "ev": "dep",
+     "printed": "13.22",
+     "bold": false,
+     "t": "13:22"
+    },
+    {
+     "st": "塔山",
+     "ev": "dep",
+     "printed": "13.41",
+     "bold": false,
+     "t": "13:41"
+    },
+    {
+     "st": "錦西",
+     "ev": "dep",
+     "printed": "13.58",
+     "bold": false,
+     "t": "13:58"
+    }
+   ],
+   "dest": "錦西",
+   "cls": "3",
+   "marks": "動",
+   "col": "8"
+  },
+  {
+   "no": "415",
+   "stops": [
+    {
+     "st": "北奉天",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "10.25",
+     "bold": false,
+     "t": "10:25"
+    },
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "10.47",
+     "bold": false,
+     "t": "10:47"
+    },
+    {
+     "st": "馬三家",
+     "ev": "dep",
+     "printed": "10.56",
+     "bold": false,
+     "t": "10:56"
+    },
+    {
+     "st": "三臺",
+     "ev": "dep",
+     "printed": "11.11",
+     "bold": false,
+     "t": "11:11"
+    },
+    {
+     "st": "興隆店",
+     "ev": "dep",
+     "printed": "11.27",
+     "bold": false,
+     "t": "11:27"
+    },
+    {
+     "st": "巨流河",
+     "ev": "dep",
+     "printed": "11.46",
+     "bold": false,
+     "t": "11:46"
+    },
+    {
+     "st": "新民",
+     "ev": "dep",
+     "printed": "12.05",
+     "bold": false,
+     "t": "12:05"
+    },
+    {
+     "st": "柳河溝",
+     "ev": "dep",
+     "printed": "12.22",
+     "bold": false,
+     "t": "12:22"
+    },
+    {
+     "st": "白旗堡",
+     "ev": "dep",
+     "printed": "12.39",
+     "bold": false,
+     "t": "12:39"
+    },
+    {
+     "st": "饒陽河",
+     "ev": "dep",
+     "printed": "12.59",
+     "bold": false,
+     "t": "12:59"
+    },
+    {
+     "st": "勵家",
+     "ev": "dep",
+     "printed": "13.16",
+     "bold": false,
+     "t": "13:16"
+    },
+    {
+     "st": "唐家",
+     "ev": "dep",
+     "printed": "13.47",
+     "bold": false,
+     "t": "13:47"
+    },
+    {
+     "st": "大虎山",
+     "ev": "arr",
+     "printed": "13.58",
+     "bold": false,
+     "t": "13:58"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "14.35",
+     "bold": false,
+     "t": "14:35"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "22.00",
+     "bold": false,
+     "note": "大虎山發の下に下向き矢印と「新立屯・義縣經由」の標記",
+     "t": "22:00"
+    }
+   ],
+   "dest": "錦縣",
+   "cls": "2.3",
+   "via": "新立屯・義縣經由",
+   "col": "9"
+  },
+  {
+   "no": "405",
+   "stops": [
+    {
+     "st": "北奉天",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    },
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "12.42",
+     "bold": false,
+     "t": "12:42"
+    },
+    {
+     "st": "馬三家",
+     "ev": "dep",
+     "printed": "12.51",
+     "bold": false,
+     "t": "12:51"
+    },
+    {
+     "st": "三臺",
+     "ev": "dep",
+     "printed": "13.04",
+     "bold": false,
+     "t": "13:04"
+    },
+    {
+     "st": "興隆店",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    },
+    {
+     "st": "巨流河",
+     "ev": "dep",
+     "printed": "13.37",
+     "bold": false,
+     "t": "13:37"
+    },
+    {
+     "st": "新民",
+     "ev": "dep",
+     "printed": "13.54",
+     "bold": false,
+     "t": "13:54"
+    },
+    {
+     "st": "柳河溝",
+     "ev": "dep",
+     "printed": "14.18",
+     "bold": false,
+     "t": "14:18"
+    },
+    {
+     "st": "白旗堡",
+     "ev": "dep",
+     "printed": "14.33",
+     "bold": false,
+     "t": "14:33"
+    },
+    {
+     "st": "饒陽河",
+     "ev": "dep",
+     "printed": "14.52",
+     "bold": false,
+     "t": "14:52"
+    },
+    {
+     "st": "勵家",
+     "ev": "dep",
+     "printed": "15.07",
+     "bold": false,
+     "t": "15:07"
+    },
+    {
+     "st": "唐家",
+     "ev": "dep",
+     "printed": "15.21",
+     "bold": false,
+     "t": "15:21"
+    },
+    {
+     "st": "大虎山",
+     "ev": "arr",
+     "printed": "15.38",
+     "bold": false,
+     "t": "15:38"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "15.46",
+     "bold": false,
+     "t": "15:46"
+    },
+    {
+     "st": "高山子",
+     "ev": "dep",
+     "printed": "15.58",
+     "bold": false,
+     "t": "15:58"
+    },
+    {
+     "st": "青堆子",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "頭家屯",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "arr",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "dep",
+     "printed": "16.42",
+     "bold": false,
+     "t": "16:42"
+    },
+    {
+     "st": "羊圈子",
+     "ev": "dep",
+     "printed": "17.01",
+     "bold": false,
+     "t": "17:01"
+    },
+    {
+     "st": "石山",
+     "ev": "dep",
+     "printed": "17.24",
+     "bold": false,
+     "t": "17:24"
+    },
+    {
+     "st": "圓家",
+     "ev": "dep",
+     "printed": "17.33",
+     "bold": false,
+     "t": "17:33"
+    },
+    {
+     "st": "大凌河",
+     "ev": "dep",
+     "printed": "17.44",
+     "bold": false,
+     "t": "17:44"
+    },
+    {
+     "st": "後羊店",
+     "ev": "dep",
+     "printed": "18.11",
+     "bold": false,
+     "t": "18:11"
+    },
+    {
+     "st": "錦縣",
+     "ev": "arr",
+     "printed": "18.26",
+     "bold": false,
+     "t": "18:26"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "18.34",
+     "bold": false,
+     "t": "18:34"
+    },
+    {
+     "st": "女兒河",
+     "ev": "dep",
+     "printed": "18.49",
+     "bold": false,
+     "t": "18:49"
+    },
+    {
+     "st": "陳家屯",
+     "ev": "dep",
+     "printed": "19.03",
+     "bold": false,
+     "t": "19:03"
+    },
+    {
+     "st": "高橋",
+     "ev": "dep",
+     "printed": "19.18",
+     "bold": false,
+     "t": "19:18"
+    },
+    {
+     "st": "塔山",
+     "ev": "dep",
+     "printed": "19.36",
+     "bold": false,
+     "t": "19:36"
+    },
+    {
+     "st": "錦西",
+     "ev": "arr",
+     "printed": "19.51",
+     "bold": false,
+     "t": "19:51"
+    },
+    {
+     "st": "錦西",
+     "ev": "dep",
+     "printed": "19.53",
+     "bold": false,
+     "t": "19:53"
+    },
+    {
+     "st": "鵬家溝",
+     "ev": "dep",
+     "printed": "20.13",
+     "bold": false,
+     "t": "20:13"
+    },
+    {
+     "st": "興城",
+     "ev": "dep",
+     "printed": "20.26",
+     "bold": false,
+     "t": "20:26"
+    },
+    {
+     "st": "白廟子",
+     "ev": "dep",
+     "printed": "20.44",
+     "bold": false,
+     "t": "20:44"
+    },
+    {
+     "st": "沙後所",
+     "ev": "dep",
+     "printed": "21.03",
+     "bold": false,
+     "t": "21:03"
+    },
+    {
+     "st": "東辛莊",
+     "ev": "dep",
+     "printed": "21.25",
+     "bold": false,
+     "t": "21:25"
+    },
+    {
+     "st": "綏中",
+     "ev": "dep",
+     "printed": "22.15",
+     "bold": false,
+     "t": "22:15"
+    },
+    {
+     "st": "荒地",
+     "ev": "dep",
+     "printed": "22.33",
+     "bold": false,
+     "t": "22:33"
+    },
+    {
+     "st": "前衛",
+     "ev": "dep",
+     "printed": "23.02",
+     "bold": false,
+     "t": "23:02"
+    },
+    {
+     "st": "萬橋",
+     "ev": "dep",
+     "printed": "23.22",
+     "bold": false,
+     "t": "23:22"
+    },
+    {
+     "st": "前所",
+     "ev": "dep",
+     "printed": "23.34",
+     "bold": false,
+     "t": "23:34"
+    },
+    {
+     "st": "茂家屯",
+     "ev": "dep",
+     "printed": "23.49",
+     "bold": false,
+     "t": "23:49"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "0.04",
+     "bold": false,
+     "t": "24:04"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "0.48",
+     "bold": false,
+     "t": "24:48"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "1.41",
+     "bold": false,
+     "t": "25:41"
+    },
+    {
+     "st": "塘沽埠頭",
+     "ev": "dep",
+     "printed": "6.22",
+     "bold": false,
+     "t": "30:22"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "31:25"
+    },
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "11.35",
+     "bold": false,
+     "t": "35:35"
+    }
+   ],
+   "dest": "北京",
+   "cls": "2.3",
+   "marks": "食",
+   "col": "10"
+  },
+  {
+   "no": "403",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "馬三家",
+     "ev": "pass"
+    },
+    {
+     "st": "三臺",
+     "ev": "pass"
+    },
+    {
+     "st": "興隆店",
+     "ev": "dep",
+     "printed": "15.28",
+     "bold": false,
+     "t": "15:28"
+    },
+    {
+     "st": "巨流河",
+     "ev": "dep",
+     "printed": "15.39",
+     "bold": false,
+     "t": "15:39"
+    },
+    {
+     "st": "新民",
+     "ev": "dep",
+     "printed": "15.52",
+     "bold": false,
+     "t": "15:52"
+    },
+    {
+     "st": "柳河溝",
+     "ev": "pass"
+    },
+    {
+     "st": "白旗堡",
+     "ev": "pass"
+    },
+    {
+     "st": "饒陽河",
+     "ev": "pass"
+    },
+    {
+     "st": "勵家",
+     "ev": "pass"
+    },
+    {
+     "st": "唐家",
+     "ev": "pass"
+    },
+    {
+     "st": "大虎山",
+     "ev": "arr",
+     "printed": "17.08",
+     "bold": false,
+     "t": "17:08"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "17.16",
+     "bold": false,
+     "t": "17:16"
+    },
+    {
+     "st": "高山子",
+     "ev": "dep",
+     "printed": "17.27",
+     "bold": false,
+     "t": "17:27"
+    },
+    {
+     "st": "青堆子",
+     "ev": "pass"
+    },
+    {
+     "st": "頭家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "arr",
+     "printed": "17.58",
+     "bold": false,
+     "t": "17:58"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "dep",
+     "printed": "17.59",
+     "bold": false,
+     "t": "17:59"
+    },
+    {
+     "st": "羊圈子",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    },
+    {
+     "st": "石山",
+     "ev": "dep",
+     "printed": "18.36",
+     "bold": false,
+     "t": "18:36"
+    },
+    {
+     "st": "圓家",
+     "ev": "pass"
+    },
+    {
+     "st": "大凌河",
+     "ev": "pass"
+    },
+    {
+     "st": "後羊店",
+     "ev": "pass"
+    },
+    {
+     "st": "錦縣",
+     "ev": "arr",
+     "printed": "19.19",
+     "bold": false,
+     "t": "19:19"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "19.27",
+     "bold": false,
+     "t": "19:27"
+    },
+    {
+     "st": "女兒河",
+     "ev": "pass"
+    },
+    {
+     "st": "陳家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "高橋",
+     "ev": "pass"
+    },
+    {
+     "st": "塔山",
+     "ev": "pass"
+    },
+    {
+     "st": "錦西",
+     "ev": "arr",
+     "printed": "20.30",
+     "bold": false,
+     "t": "20:30"
+    },
+    {
+     "st": "錦西",
+     "ev": "dep",
+     "printed": "20.31",
+     "bold": false,
+     "t": "20:31"
+    },
+    {
+     "st": "鵬家溝",
+     "ev": "pass"
+    },
+    {
+     "st": "興城",
+     "ev": "dep",
+     "printed": "20.59",
+     "bold": false,
+     "t": "20:59"
+    },
+    {
+     "st": "白廟子",
+     "ev": "pass"
+    },
+    {
+     "st": "沙後所",
+     "ev": "pass"
+    },
+    {
+     "st": "東辛莊",
+     "ev": "pass"
+    },
+    {
+     "st": "綏中",
+     "ev": "dep",
+     "printed": "22.00",
+     "bold": false,
+     "t": "22:00"
+    },
+    {
+     "st": "荒地",
+     "ev": "pass"
+    },
+    {
+     "st": "前衛",
+     "ev": "pass"
+    },
+    {
+     "st": "萬橋",
+     "ev": "pass"
+    },
+    {
+     "st": "前所",
+     "ev": "dep",
+     "printed": "23.05",
+     "bold": false,
+     "t": "23:05"
+    },
+    {
+     "st": "茂家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "23.30",
+     "bold": false,
+     "t": "23:30"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "0.00",
+     "bold": false,
+     "t": "24:00"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "1.00",
+     "bold": false,
+     "t": "25:00"
+    },
+    {
+     "st": "塘沽埠頭",
+     "ev": "dep",
+     "printed": "5.25",
+     "bold": false,
+     "t": "29:25"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "6.20",
+     "bold": false,
+     "t": "30:20"
+    },
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "9.35",
+     "bold": false,
+     "t": "33:35"
+    }
+   ],
+   "dest": "北京",
+   "cls": "2.3",
+   "marks": "急 食 寢2.3",
+   "col": "11"
+  },
+  {
+   "no": "407",
+   "stops": [
+    {
+     "st": "北奉天",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "16.35",
+     "bold": false,
+     "t": "16:35"
+    },
+    {
+     "st": "裕國",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "馬三家",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "三臺",
+     "ev": "dep",
+     "printed": "17.24",
+     "bold": false,
+     "t": "17:24"
+    },
+    {
+     "st": "興隆店",
+     "ev": "dep",
+     "printed": "17.39",
+     "bold": false,
+     "t": "17:39"
+    },
+    {
+     "st": "巨流河",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "t": "17:50"
+    },
+    {
+     "st": "新民",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    },
+    {
+     "st": "柳河溝",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    },
+    {
+     "st": "白旗堡",
+     "ev": "dep",
+     "printed": "18.45",
+     "bold": false,
+     "t": "18:45"
+    },
+    {
+     "st": "饒陽河",
+     "ev": "dep",
+     "printed": "19.04",
+     "bold": false,
+     "t": "19:04"
+    },
+    {
+     "st": "勵家",
+     "ev": "dep",
+     "printed": "19.19",
+     "bold": false,
+     "t": "19:19"
+    },
+    {
+     "st": "唐家",
+     "ev": "dep",
+     "printed": "20.02",
+     "bold": false,
+     "note": "勵家19.19の43分後。判讀は確か",
+     "t": "20:02"
+    },
+    {
+     "st": "大虎山",
+     "ev": "arr",
+     "printed": "20.16",
+     "bold": false,
+     "t": "20:16"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "20.26",
+     "bold": false,
+     "t": "20:26"
+    },
+    {
+     "st": "高山子",
+     "ev": "dep",
+     "printed": "20.38",
+     "bold": false,
+     "t": "20:38"
+    },
+    {
+     "st": "青堆子",
+     "ev": "dep",
+     "printed": "20.50",
+     "bold": false,
+     "t": "20:50"
+    },
+    {
+     "st": "頭家屯",
+     "ev": "dep",
+     "printed": "21.15",
+     "bold": false,
+     "t": "21:15"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "arr",
+     "printed": "21.25",
+     "bold": false,
+     "t": "21:25"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "dep",
+     "printed": "21.27",
+     "bold": false,
+     "t": "21:27"
+    },
+    {
+     "st": "羊圈子",
+     "ev": "dep",
+     "printed": "21.46",
+     "bold": false,
+     "t": "21:46"
+    },
+    {
+     "st": "石山",
+     "ev": "dep",
+     "printed": "21.58",
+     "bold": false,
+     "t": "21:58"
+    },
+    {
+     "st": "圓家",
+     "ev": "pass"
+    },
+    {
+     "st": "大凌河",
+     "ev": "dep",
+     "printed": "22.19",
+     "bold": false,
+     "t": "22:19"
+    },
+    {
+     "st": "後羊店",
+     "ev": "dep",
+     "printed": "22.36",
+     "bold": false,
+     "t": "22:36"
+    },
+    {
+     "st": "錦縣",
+     "ev": "arr",
+     "printed": "22.51",
+     "bold": false,
+     "t": "22:51"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "23.01",
+     "bold": false,
+     "t": "23:01"
+    },
+    {
+     "st": "女兒河",
+     "ev": "dep",
+     "printed": "23.17",
+     "bold": false,
+     "t": "23:17"
+    },
+    {
+     "st": "陳家屯",
+     "ev": "dep",
+     "printed": "23.31",
+     "bold": false,
+     "t": "23:31"
+    },
+    {
+     "st": "高橋",
+     "ev": "dep",
+     "printed": "23.46",
+     "bold": false,
+     "t": "23:46"
+    },
+    {
+     "st": "塔山",
+     "ev": "dep",
+     "printed": "0.04",
+     "bold": false,
+     "t": "24:04"
+    },
+    {
+     "st": "錦西",
+     "ev": "arr",
+     "printed": "0.19",
+     "bold": false,
+     "t": "24:19"
+    },
+    {
+     "st": "錦西",
+     "ev": "dep",
+     "printed": "0.21",
+     "bold": false,
+     "t": "24:21"
+    },
+    {
+     "st": "鵬家溝",
+     "ev": "dep",
+     "printed": "0.41",
+     "bold": false,
+     "t": "24:41"
+    },
+    {
+     "st": "興城",
+     "ev": "dep",
+     "printed": "1.03",
+     "bold": false,
+     "t": "25:03"
+    },
+    {
+     "st": "白廟子",
+     "ev": "dep",
+     "printed": "1.21",
+     "bold": false,
+     "t": "25:21"
+    },
+    {
+     "st": "沙後所",
+     "ev": "dep",
+     "printed": "1.34",
+     "bold": false,
+     "t": "25:34"
+    },
+    {
+     "st": "東辛莊",
+     "ev": "dep",
+     "printed": "1.56",
+     "bold": false,
+     "t": "25:56"
+    },
+    {
+     "st": "綏中",
+     "ev": "dep",
+     "printed": "2.18",
+     "bold": false,
+     "t": "26:18"
+    },
+    {
+     "st": "荒地",
+     "ev": "pass"
+    },
+    {
+     "st": "前衛",
+     "ev": "pass"
+    },
+    {
+     "st": "萬橋",
+     "ev": "pass"
+    },
+    {
+     "st": "前所",
+     "ev": "pass"
+    },
+    {
+     "st": "茂家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "3.48",
+     "bold": false,
+     "t": "27:48"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "4.30",
+     "bold": false,
+     "t": "28:30"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "5.21",
+     "bold": false,
+     "t": "29:21"
+    },
+    {
+     "st": "塘沽埠頭",
+     "ev": "dep",
+     "printed": "11.49",
+     "bold": false,
+     "t": "35:49"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "12.55",
+     "bold": false,
+     "t": "36:55"
+    },
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "17.08",
+     "bold": false,
+     "uncertain": true,
+     "t": "41:08"
+    }
+   ],
+   "dest": "北京",
+   "cls": "2.3",
+   "col": "12"
+  },
+  {
+   "no": "3",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "20.28",
+     "bold": false,
+     "t": "20:28"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "20.45",
+     "bold": false,
+     "t": "20:45"
+    },
+    {
+     "st": "巨流河",
+     "ev": "pass"
+    },
+    {
+     "st": "新民",
+     "ev": "dep",
+     "printed": "21.53",
+     "bold": false,
+     "t": "21:53"
+    },
+    {
+     "st": "柳河溝",
+     "ev": "pass"
+    },
+    {
+     "st": "白旗堡",
+     "ev": "pass"
+    },
+    {
+     "st": "饒陽河",
+     "ev": "pass"
+    },
+    {
+     "st": "勵家",
+     "ev": "pass"
+    },
+    {
+     "st": "唐家",
+     "ev": "pass"
+    },
+    {
+     "st": "大虎山",
+     "ev": "arr",
+     "printed": "23.03",
+     "bold": false,
+     "t": "23:03"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "23.11",
+     "bold": false,
+     "t": "23:11"
+    },
+    {
+     "st": "高山子",
+     "ev": "pass"
+    },
+    {
+     "st": "青堆子",
+     "ev": "pass"
+    },
+    {
+     "st": "頭家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "arr",
+     "printed": "23.52",
+     "bold": false,
+     "t": "23:52"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "dep",
+     "printed": "23.53",
+     "bold": false,
+     "t": "23:53"
+    },
+    {
+     "st": "羊圈子",
+     "ev": "pass"
+    },
+    {
+     "st": "石山",
+     "ev": "pass"
+    },
+    {
+     "st": "圓家",
+     "ev": "pass"
+    },
+    {
+     "st": "大凌河",
+     "ev": "pass"
+    },
+    {
+     "st": "後羊店",
+     "ev": "pass"
+    },
+    {
+     "st": "錦縣",
+     "ev": "arr",
+     "printed": "0.55",
+     "bold": false,
+     "t": "24:55"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "1.03",
+     "bold": false,
+     "t": "25:03"
+    },
+    {
+     "st": "女兒河",
+     "ev": "pass"
+    },
+    {
+     "st": "陳家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "高橋",
+     "ev": "pass"
+    },
+    {
+     "st": "塔山",
+     "ev": "pass"
+    },
+    {
+     "st": "錦西",
+     "ev": "arr",
+     "printed": "2.08",
+     "bold": false,
+     "t": "26:08"
+    },
+    {
+     "st": "錦西",
+     "ev": "dep",
+     "printed": "2.09",
+     "bold": false,
+     "t": "26:09"
+    },
+    {
+     "st": "鵬家溝",
+     "ev": "pass"
+    },
+    {
+     "st": "興城",
+     "ev": "dep",
+     "printed": "2.32",
+     "bold": false,
+     "t": "26:32"
+    },
+    {
+     "st": "白廟子",
+     "ev": "pass"
+    },
+    {
+     "st": "沙後所",
+     "ev": "pass"
+    },
+    {
+     "st": "東辛莊",
+     "ev": "pass"
+    },
+    {
+     "st": "綏中",
+     "ev": "dep",
+     "printed": "3.24",
+     "bold": false,
+     "t": "27:24"
+    },
+    {
+     "st": "荒地",
+     "ev": "pass"
+    },
+    {
+     "st": "前衛",
+     "ev": "pass"
+    },
+    {
+     "st": "萬橋",
+     "ev": "pass"
+    },
+    {
+     "st": "前所",
+     "ev": "pass"
+    },
+    {
+     "st": "茂家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "4.34",
+     "bold": false,
+     "t": "28:34"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "5.04",
+     "bold": false,
+     "t": "29:04"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "5.36",
+     "bold": false,
+     "t": "29:36"
+    },
+    {
+     "st": "塘沽埠頭",
+     "ev": "dep",
+     "printed": "9.59",
+     "bold": false,
+     "t": "33:59"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "10.53",
+     "bold": false,
+     "t": "34:53"
+    },
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "13.55",
+     "bold": false,
+     "uncertain": true,
+     "t": "37:55"
+    }
+   ],
+   "dest": "北京",
+   "name": "興亞",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "col": "13"
+  }
+ ],
+ "notes": [
+  "昭和17.2.20改訂。頁29へ續く同一表の前半（列車欄はこの頁が第1〜13欄、頁29が第14〜17欄）。驛名欄・停車行はこの頁と頁29で共通。頁29の驛名欄は列車欄の右にある。原表に上り・下りの表示は無い。頁29の表頭に「（國線・奉山線）」。",
+  "左端に「自奉天 運賃 1等・2等・3等」欄があるが轉記せず。粁程（キロ程）欄はこの表には無い。驛名の左に⊕・〒・◎等の設備記號が付くが轉記せず。",
+  "頁頭に車窓展望圖の帶（頁29へ續く）。左端に縦書きで「滿洲 奉山線（北奉天―山海關間）」、線路を一本の太線で描き、山海關・前所・綏中・東辛荘・白廟子・興城・第四・錦縣・大虹螺山・紅崖山・高橋・錦西などの地名と山・寺社・煙突の繪記號を配する。展望圖の上に「讀みにくい驛名 溝幫子(コウバンズ)女兒河(ジョジガ)沙後所(サゴショ)荒地(クワウチ)」の枠がある。",
+  "表尾の「山海關發〜北京」5行（山海關・北戴河・塘沽埠頭・天津・北京）は接續の抄錄（原表註記「51頁」）。山海關は抄錄行の發と本表の著が別行で印刷されてゐるが、本ファイルでは1驛1行（著/發）にまとめた。",
+  "奉天・大虎山・溝幫子・錦縣・錦西の5驛は原表で著・發の2行に分かれる（本ファイルでは著/發）。他の驛は1行のみ。原表では著行と發行の間に細い罫線が引かれる。",
+  "「v」は原表のレ（通過）、「-」は原表の「…」（列車が走らない區間）。9列車の裕國の桝に「急行」の黑地標記、馬三家・三臺の桝に列車名「(大陸)」の標記が入り、その桝には時刻が無い。3列車は裕國に「急行」、馬三家・三臺・興隆店に「(興亞)」。403列車は裕國に「急行」。表頭の列車番號の脇にも小さな黑地標記（9・403・3列車）が付くが、綴込み側で判讀しにくい。",
+  "9列車の欄の右（空欄の429列車欄の上部）に縦書きで「釜山棧橋發 7.20」の標記があり、9列車の始發を示す。53列車の欄には「新邱發 10.01」、錦西發の下に「壺蘆島著 18.40」の標記がある。415列車の大虎山發の下に下向き矢印と「新立屯・義縣經由」の標記があり、大虎山―錦縣間は奉山線を通らない（同區間は「-」とした）。",
+  "列車番號429が第3欄（興城行 動3）と第8欄（錦西行 動3）に重複して印刷されてゐる。印刷のまま轉記した。",
+  "驛名の判讀に不確かさのある箇所（いづれも印刷のまま轉記）：第24驛「圓家」（1字目は口構への字、園・圍・閭等の可能性）、第26驛「後羊店」（1字目不確か）、第35驛「鵬家溝」（1字目不確か）、第43驛「萬橋」（2字目不確か）、第45驛「茂家屯」（1字目不確か）、抄錄の「塘沽埠頭」（4字名、3・4字目不確か）。第18驛「青堆子」・第19驛「頭家屯」も1字目に不確かさがある。",
+  "誤植と思はれる箇所（いづれも印刷のまま轉記）：411列車の柳河溝 15.19（新民10.04と白旗堡10.34の間で、10.19の誤植とみられる）。411列車の圓家 13.28／大凌河 13.30（2分間隔。405列車は同區間17.33→17.44で11分）。",
+  "異常に見えるが判讀は確かな箇所：407列車の勵家 19.19→唐家 20.02（43分。405列車は同區間14分）。419列車の沙後所 9.20→東辛莊 10.01（41分）。405列車の東辛莊 21.25→綏中 22.15（50分）。",
+  "頁尾に「記念スタンプ 北奉天、奉天、巨流河、新民、大虎山、溝幫子、錦縣、錦西、興城、綏中、山海關」。",
+  "運賃欄（自奉天 1等・2等・3等）は轉記せず。"
+ ],
+ "source": "IMG_1843",
+ "page": "28",
+ "title": "北奉天・山海關間",
+ "line": "滿洲國線 奉山線",
+ "dir": "北奉天→山海關"
+}

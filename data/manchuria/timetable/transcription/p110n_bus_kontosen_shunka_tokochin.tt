@@ -1,0 +1,20 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 琿東線
+title: 東興鎭・春化間
+dir: 春化→東興鎭
+season: 昭和16.12.1改正
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（東興鎭起點）。
+stations: 春化 | 東興鎭
+fares: 春化 0.20 ? | 東興鎭
+
+train: 2 | dest 東興鎭 | col 1
+春化 8.30
+東興鎭 12.10
+
+train: 4 | dest 東興鎭 | col 2
+春化 13.30
+東興鎭 17.10

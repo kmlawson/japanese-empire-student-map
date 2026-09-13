@@ -1,0 +1,59 @@
+{
+ "stations": [
+  {
+   "name": "建昌",
+   "km": null
+  },
+  {
+   "name": "江家屯",
+   "km": null
+  },
+  {
+   "name": "錦縣驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "126",
+   "stops": [
+    {
+     "st": "建昌",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "江家屯",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "錦縣驛",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "three unnumbered empty columns (…) stand to the right of bus 126"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "錦建線",
+ "title": "錦縣驛・建昌間",
+ "dir": "建昌→錦縣驛",
+ "season": "昭和16.12.1改正",
+ "service": "隔日運行",
+ "fares": "建昌 7.40 | 江家屯 2.65 | 錦縣驛"
+}

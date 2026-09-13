@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "磨刀石",
+   "km": null
+  },
+  {
+   "name": "牡丹江",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "532",
+   "stops": [
+    {
+     "st": "磨刀石",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    }
+   ],
+   "dest": "牡丹江",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "運賃欄は表の左端に1組のみ（牡丹江起點）。"
+ ],
+ "source": "IMG_1884",
+ "page": "111",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "牡梭線",
+ "title": "牡丹江・磨刀石間",
+ "dir": "磨刀石→牡丹江",
+ "season": "(運休)",
+ "service": "每日運行",
+ "fares": "磨刀石 0.90 | 牡丹江"
+}

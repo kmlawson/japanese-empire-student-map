@@ -1,0 +1,16 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 龍南線
+title: 和龍・南坪間
+dir: 南坪→和龍
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が南坪發（本表）。運賃欄は和龍起點のものを反轉して掲げた。
+stations: 南坪 | 和龍
+fares: 南坪 2.55 | 和龍
+
+train: 372 | dest 和龍 | col 1
+南坪 13.00
+和龍 16.20

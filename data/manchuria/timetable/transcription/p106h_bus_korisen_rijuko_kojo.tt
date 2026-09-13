@@ -1,0 +1,23 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 興梨線
+title: 興城・梨樹溝間
+dir: 梨樹溝→興城驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the right of bus 158
+note: bus 156 is printed 梨樹溝 11.00 / 唐家屯 14.30 / 興城驛 13.30 — the 唐家屯 figure is later than the 興城驛 arrival; transcribed as printed (the running time in the other direction suggests 12.30 was meant)
+stations: 梨樹溝 | 唐家屯 | 興城驛
+fares: 梨樹溝 2.90 | 唐家屯 0.90 | 興城驛
+
+train: 156 | dest 興城驛 | col 1
+梨樹溝 11.00
+唐家屯 14.30
+興城驛 13.30
+
+train: 158 | dest 興城驛 | col 2 | origin 唐家屯
+梨樹溝 -
+唐家屯 15.10
+興城驛 16.10

@@ -1,0 +1,28 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 林興線
+title: 林口驛・古城鎭驛間
+dir: 古城鎭驛→林口驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 運賃欄に金額の印刷はない。
+stations: 古城鎭驛 | 林口驛
+fares: 古城鎭驛 | 林口驛
+
+train: 652 | dest 林口驛 | col 1
+古城鎭驛 9.00
+林口驛 9.30
+
+train: 654 | dest 林口驛 | col 2
+古城鎭驛 12.00
+林口驛 12.30
+
+train: 656 | dest 林口驛 | col 3
+古城鎭驛 14.40
+林口驛 15.10
+
+train: 658 | dest 林口驛 | col 4
+古城鎭驛 16.40
+林口驛 17.10

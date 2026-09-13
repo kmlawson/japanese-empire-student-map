@@ -1,0 +1,81 @@
+{
+ "stations": [
+  {
+   "name": "圍場",
+   "km": null
+  },
+  {
+   "name": "隆化",
+   "km": null
+  },
+  {
+   "name": "承德",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "602",
+   "stops": [
+    {
+     "st": "圍場",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "隆化",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    },
+    {
+     "st": "承德",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "承德",
+   "col": "1"
+  },
+  {
+   "no": "604",
+   "stops": [
+    {
+     "st": "隆化",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "承德",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    }
+   ],
+   "dest": "承德",
+   "col": "2",
+   "origin": "隆化"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 604"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "承圍線",
+ "title": "承德・圍場間",
+ "dir": "圍場→承德",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "圍場 9.25 | 隆化 4.15 | 承德"
+}

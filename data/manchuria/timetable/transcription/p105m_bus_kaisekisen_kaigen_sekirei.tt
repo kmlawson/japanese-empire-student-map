@@ -1,0 +1,18 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 開石線
+title: 開原驛・石嶺驛間
+dir: 開原驛→石嶺驛
+season: 昭和17.1.28改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the left of bus 181
+note: bus 181's 開原驛 departure is almost unprinted in this copy; 9.10 is inferred from 蓮花 11.10 and the 2h leg in the other columns
+stations: 開原驛 | 蓮花 | 石嶺驛
+fares: 開原驛 0 | 蓮花 2.25 | 石嶺驛 4.50
+
+train: 181 | dest 石嶺驛 | col 3
+開原驛 9.10 ?
+蓮花 11.10
+石嶺驛 13.10

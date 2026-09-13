@@ -1,0 +1,125 @@
+{
+ "stations": [
+  {
+   "name": "普蘭店驛",
+   "km": null
+  },
+  {
+   "name": "快馬厰",
+   "km": null
+  },
+  {
+   "name": "朝陽寺",
+   "km": null
+  },
+  {
+   "name": "農區前",
+   "km": null
+  },
+  {
+   "name": "普蘭店驛著",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "52",
+   "stops": [
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "快馬厰",
+     "ev": "dep",
+     "printed": "11.24",
+     "bold": false,
+     "t": "11:24"
+    },
+    {
+     "st": "朝陽寺",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": false,
+     "t": "11:55"
+    },
+    {
+     "st": "農區前",
+     "ev": "dep",
+     "printed": "12.05",
+     "bold": false,
+     "t": "12:05"
+    },
+    {
+     "st": "普蘭店驛著",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    }
+   ],
+   "dest": "普蘭店驛",
+   "col": "2"
+  },
+  {
+   "no": "54",
+   "stops": [
+    {
+     "st": "普蘭店驛",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "快馬厰",
+     "ev": "dep",
+     "printed": "16.54",
+     "bold": false,
+     "t": "16:54"
+    },
+    {
+     "st": "朝陽寺",
+     "ev": "dep",
+     "printed": "17.25",
+     "bold": false,
+     "t": "17:25"
+    },
+    {
+     "st": "農區前",
+     "ev": "dep",
+     "printed": "17.35",
+     "bold": false,
+     "t": "17:35"
+    },
+    {
+     "st": "普蘭店驛著",
+     "ev": "dep",
+     "printed": "18.10",
+     "bold": false,
+     "t": "18:10"
+    }
+   ],
+   "dest": "普蘭店驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "a circular service; 普蘭店驛 is both first and last stop",
+  "the fourth station is printed 農區前 — the middle character is blurred (區 or 園)",
+  "an unnumbered empty column (…) stands to the left of bus 52"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "普朝線",
+ "title": "普蘭店(朝陽寺)普蘭店驛間",
+ "dir": "普蘭店驛→快馬厰→朝陽寺→農區前→普蘭店驛",
+ "season": "昭和16.10.改正",
+ "service": "每日運行",
+ "fares": "普蘭店驛 0 | 快馬厰 0.20 | 朝陽寺 0.45 | 農區前 0.60 | 普蘭店驛著 0.85"
+}

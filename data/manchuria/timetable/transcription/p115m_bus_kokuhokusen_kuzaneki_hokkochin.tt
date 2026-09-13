@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 克北線
+title: 克山驛・北興鎭間
+dir: 克山驛→北興鎭
+season: 昭和16.12.1改正
+service: 每日運行
+note: 左端は運賃（圓.分）欄。逆方向は p115n。
+stations: 克山驛 | 北興鎭
+fares: 克山驛 | 北興鎭 3.60
+
+train: 183 | dest 北興鎭 | col 3
+克山驛 9.00
+北興鎭 12.00

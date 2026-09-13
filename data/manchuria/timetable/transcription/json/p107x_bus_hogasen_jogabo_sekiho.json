@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "上瓦房",
+   "km": null
+  },
+  {
+   "name": "赤峰",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "504",
+   "stops": [
+    {
+     "st": "上瓦房",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "赤峰",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    }
+   ],
+   "dest": "赤峰",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "three unnumbered empty columns (…) stand to the right of bus 504"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "峰瓦線",
+ "title": "赤峰・上瓦房間",
+ "dir": "上瓦房→赤峰",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "上瓦房 3.80 | 赤峰"
+}

@@ -1,0 +1,36 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 黑山線
+title: 黑山驛・大虎山驛間
+dir: 黑山驛→大虎山驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: a narrow column between the two groups of buses reads 此の間3往復 (three further round trips in between)
+stations: 黑山驛 | 大虎山驛
+fares: 黑山驛 | 大虎山驛 0.50
+
+train: 232 | dest 大虎山驛 | col 1
+黑山驛 8.40
+大虎山驛 9.10
+
+train: 234 | dest 大虎山驛 | col 2
+黑山驛 10.30
+大虎山驛 11.00
+
+train: 236 | dest 大虎山驛 | col 3
+黑山驛 11.10
+大虎山驛 11.40
+
+train: 244 | dest 大虎山驛 | col 5
+黑山驛 14.40
+大虎山驛 15.10
+
+train: 246 | dest 大虎山驛 | col 6
+黑山驛 16.00
+大虎山驛 16.30
+
+train: 248 | dest 大虎山驛 | col 7
+黑山驛 17.20
+大虎山驛 17.50

@@ -1,0 +1,20 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 峰烏線
+title: 赤峰・烏丹城間
+dir: 烏丹城→赤峰
+season: 昭和16.12.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the right of bus 412
+stations: 烏丹城 | 赤峰
+fares: 烏丹城 4.20 | 赤峰
+
+train: 514 | dest 赤峰 | col 1
+烏丹城 8.30
+赤峰 12.20
+
+train: 412 | dest 赤峰 | col 2
+烏丹城 15.00
+赤峰 18.50

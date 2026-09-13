@@ -1,0 +1,92 @@
+{
+ "stations": [
+  {
+   "name": "建昌",
+   "km": null
+  },
+  {
+   "name": "凌源驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "646",
+   "stops": [
+    {
+     "st": "建昌",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "凌源驛",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "uncertain": true,
+     "t": "12:00"
+    }
+   ],
+   "dest": "凌源驛",
+   "col": "1"
+  },
+  {
+   "no": "644",
+   "stops": [
+    {
+     "st": "建昌",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "凌源驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    }
+   ],
+   "dest": "凌源驛",
+   "col": "2"
+  },
+  {
+   "no": "642",
+   "stops": [
+    {
+     "st": "建昌",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "凌源驛",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "凌源驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "an unnumbered empty column (…) stands to the right of bus 642",
+  "the 凌源驛 arrival of bus 646 is badly inked; read as 12.00 from the 3h30 running time of the other buses"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "凌建線",
+ "title": "凌源驛・建昌間",
+ "dir": "建昌→凌源驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "建昌 4.35 | 凌源驛"
+}

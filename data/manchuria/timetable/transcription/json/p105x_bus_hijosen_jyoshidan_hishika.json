@@ -1,0 +1,109 @@
+{
+ "stations": [
+  {
+   "name": "城子疃驛",
+   "km": null
+  },
+  {
+   "name": "藍子河",
+   "km": null
+  },
+  {
+   "name": "貔子窩",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "26",
+   "stops": [
+    {
+     "st": "藍子河",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": false,
+     "t": "07:55"
+    },
+    {
+     "st": "貔子窩",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    }
+   ],
+   "dest": "貔子窩",
+   "col": "1",
+   "origin": "藍子河"
+  },
+  {
+   "no": "22",
+   "stops": [
+    {
+     "st": "城子疃驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "藍子河",
+     "ev": "dep",
+     "printed": "11.29",
+     "bold": false,
+     "t": "11:29"
+    },
+    {
+     "st": "貔子窩",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    }
+   ],
+   "dest": "貔子窩",
+   "col": "2"
+  },
+  {
+   "no": "24",
+   "stops": [
+    {
+     "st": "城子疃驛",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "藍子河",
+     "ev": "dep",
+     "printed": "17.29",
+     "bold": false,
+     "t": "17:29"
+    },
+    {
+     "st": "貔子窩",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "t": "17:50"
+    }
+   ],
+   "dest": "貔子窩",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 貔子窩→城子疃驛 direction"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "貔城線",
+ "title": "貔子窩・城子疃驛間",
+ "dir": "城子疃驛→貔子窩",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "城子疃驛 0.50 | 藍子河 0.20 | 貔子窩 0"
+}

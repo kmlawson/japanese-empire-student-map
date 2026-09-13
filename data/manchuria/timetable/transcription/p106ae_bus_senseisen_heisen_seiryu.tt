@@ -1,0 +1,22 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 泉靑線
+title: 平泉・靑龍間
+dir: 平泉→靑龍
+season: 昭和16.10.1改正
+service: 每日運行
+note: a narrow label column reading 偶數日 stands immediately left of bus 623 (and, on the other side, right of bus 624), apparently qualifying those outer columns as even-day services
+stations: 平泉 | 寬城 | 靑龍
+fares: 平泉 | 寬城 3.15 | 靑龍 6.25
+
+train: 623 | dest 寬城 | col 2 | days 偶數日
+平泉 7.00
+寬城 10.10
+靑龍 -
+
+train: 631 | dest 靑龍 | col 3
+平泉 9.30
+寬城 13.00
+靑龍 16.00

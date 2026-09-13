@@ -1,0 +1,153 @@
+{
+ "stations": [
+  {
+   "name": "大虎山驛",
+   "km": null
+  },
+  {
+   "name": "黑山驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "231",
+   "stops": [
+    {
+     "st": "大虎山驛",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "黑山驛",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    }
+   ],
+   "dest": "黑山驛",
+   "col": "1"
+  },
+  {
+   "no": "233",
+   "stops": [
+    {
+     "st": "大虎山驛",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    },
+    {
+     "st": "黑山驛",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    }
+   ],
+   "dest": "黑山驛",
+   "col": "2"
+  },
+  {
+   "no": "235",
+   "stops": [
+    {
+     "st": "大虎山驛",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "黑山驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    }
+   ],
+   "dest": "黑山驛",
+   "col": "3"
+  },
+  {
+   "no": "243",
+   "stops": [
+    {
+     "st": "大虎山驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "黑山驛",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "黑山驛",
+   "col": "5"
+  },
+  {
+   "no": "245",
+   "stops": [
+    {
+     "st": "大虎山驛",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "黑山驛",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    }
+   ],
+   "dest": "黑山驛",
+   "col": "6"
+  },
+  {
+   "no": "247",
+   "stops": [
+    {
+     "st": "大虎山驛",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "黑山驛",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    }
+   ],
+   "dest": "黑山驛",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "a narrow column between the two groups of buses reads 此の間3往復 (three further round trips in between)"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "黑山線",
+ "title": "黑山驛・大虎山驛間",
+ "dir": "大虎山驛→黑山驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "大虎山驛 | 黑山驛 0.50"
+}

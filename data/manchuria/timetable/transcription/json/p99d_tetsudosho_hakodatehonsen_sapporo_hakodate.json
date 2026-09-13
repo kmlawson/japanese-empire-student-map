@@ -1,0 +1,843 @@
+{
+ "stations": [
+  {
+   "name": "稚内港",
+   "km": null
+  },
+  {
+   "name": "旭川",
+   "km": null
+  },
+  {
+   "name": "岩見澤",
+   "km": null
+  },
+  {
+   "name": "札幌",
+   "km": 0.0
+  },
+  {
+   "name": "南小樽",
+   "km": 32.2
+  },
+  {
+   "name": "小樽",
+   "km": 33.8
+  },
+  {
+   "name": "小澤",
+   "km": 82.7
+  },
+  {
+   "name": "倶知安",
+   "km": 93.0
+  },
+  {
+   "name": "長萬部",
+   "km": 174.0
+  },
+  {
+   "name": "森",
+   "km": 236.8
+  },
+  {
+   "name": "函館",
+   "km": 286.3
+  }
+ ],
+ "trains": [
+  {
+   "no": "108",
+   "stops": [
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": false,
+     "t": "06:54"
+    },
+    {
+     "st": "小澤",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "07:25"
+    },
+    {
+     "st": "倶知安",
+     "ev": "dep",
+     "printed": "7.53",
+     "bold": false,
+     "t": "07:53"
+    },
+    {
+     "st": "長萬部",
+     "ev": "dep",
+     "printed": "10.16",
+     "bold": false,
+     "t": "10:16"
+    },
+    {
+     "st": "森",
+     "ev": "dep",
+     "printed": "0.05",
+     "bold": true,
+     "t": "12:05"
+    },
+    {
+     "st": "函館",
+     "ev": "dep",
+     "printed": "1.10",
+     "bold": true,
+     "t": "13:10"
+    }
+   ],
+   "dest": "函館",
+   "origin": "小樽",
+   "col": "1"
+  },
+  {
+   "no": "402",
+   "stops": [
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "6.33",
+     "bold": false,
+     "t": "06:33"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": false,
+     "t": "07:38"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "小澤",
+     "ev": "dep",
+     "printed": "9.46",
+     "bold": false,
+     "t": "09:46"
+    },
+    {
+     "st": "倶知安",
+     "ev": "dep",
+     "printed": "10.14",
+     "bold": false,
+     "t": "10:14"
+    },
+    {
+     "st": "長萬部",
+     "ev": "dep",
+     "printed": "0.51",
+     "bold": true,
+     "t": "12:51"
+    },
+    {
+     "st": "森",
+     "ev": "dep",
+     "printed": "2.11",
+     "bold": true,
+     "t": "14:11"
+    },
+    {
+     "st": "函館",
+     "ev": "dep",
+     "printed": "3.01",
+     "bold": true,
+     "t": "15:01"
+    }
+   ],
+   "dest": "函館",
+   "marks": "寢2",
+   "origin": "釧路",
+   "col": "2"
+  },
+  {
+   "no": "502",
+   "stops": [
+    {
+     "st": "旭川",
+     "ev": "dep",
+     "printed": "3.55",
+     "bold": false,
+     "t": "03:55"
+    },
+    {
+     "st": "岩見澤",
+     "ev": "dep",
+     "printed": "6.53",
+     "bold": false,
+     "t": "06:53"
+    },
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "8.07",
+     "bold": false,
+     "t": "08:07"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "9.05",
+     "bold": false,
+     "t": "09:05"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "9.14",
+     "bold": false,
+     "t": "09:14"
+    }
+   ],
+   "dest": "小樽",
+   "marks": "寢2",
+   "origin": "網走",
+   "col": "3"
+  },
+  {
+   "no": "8",
+   "stops": [
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "7.40",
+     "bold": false,
+     "t": "07:40"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "8.21",
+     "bold": false,
+     "t": "08:21"
+    },
+    {
+     "st": "倶知安",
+     "ev": "dep",
+     "printed": "9.46",
+     "bold": false,
+     "t": "09:46"
+    }
+   ],
+   "dest": "函館",
+   "marks": "急 食 寢2",
+   "origin": "根室",
+   "col": "4"
+  },
+  {
+   "no": "2",
+   "stops": [
+    {
+     "st": "稚内港",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": true,
+     "t": "22:17"
+    },
+    {
+     "st": "旭川",
+     "ev": "dep",
+     "printed": "6.45",
+     "bold": false,
+     "t": "30:45"
+    },
+    {
+     "st": "岩見澤",
+     "ev": "dep",
+     "printed": "9.01",
+     "bold": false,
+     "t": "33:01"
+    },
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": false,
+     "t": "34:05"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "10.42",
+     "bold": false,
+     "t": "34:42"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "10.52",
+     "bold": false,
+     "t": "34:52"
+    },
+    {
+     "st": "倶知安",
+     "ev": "dep",
+     "printed": "0.22",
+     "bold": true,
+     "t": "36:22"
+    },
+    {
+     "st": "長萬部",
+     "ev": "dep",
+     "printed": "2.13",
+     "bold": true,
+     "t": "38:13"
+    },
+    {
+     "st": "森",
+     "ev": "dep",
+     "printed": "3.42",
+     "bold": true,
+     "t": "39:42"
+    },
+    {
+     "st": "函館",
+     "ev": "dep",
+     "printed": "4.45",
+     "bold": true,
+     "t": "40:45"
+    }
+   ],
+   "dest": "函館",
+   "marks": "急 寢2",
+   "origin": "稚内港",
+   "col": "5"
+  },
+  {
+   "no": "18",
+   "stops": [
+    {
+     "st": "旭川",
+     "ev": "dep",
+     "printed": "5.58",
+     "bold": false,
+     "t": "05:58"
+    },
+    {
+     "st": "岩見澤",
+     "ev": "dep",
+     "printed": "8.39",
+     "bold": false,
+     "t": "08:39"
+    },
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "10.12",
+     "bold": false,
+     "t": "10:12"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "11.22",
+     "bold": false,
+     "t": "11:22"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "11.34",
+     "bold": false,
+     "t": "11:34"
+    },
+    {
+     "st": "小澤",
+     "ev": "dep",
+     "printed": "1.04",
+     "bold": true,
+     "t": "13:04"
+    },
+    {
+     "st": "倶知安",
+     "ev": "dep",
+     "printed": "1.56",
+     "bold": true,
+     "t": "13:56"
+    },
+    {
+     "st": "長萬部",
+     "ev": "dep",
+     "printed": "4.04",
+     "bold": true,
+     "t": "16:04"
+    },
+    {
+     "st": "森",
+     "ev": "dep",
+     "printed": "6.01",
+     "bold": true,
+     "t": "18:01"
+    },
+    {
+     "st": "函館",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": true,
+     "t": "19:38"
+    }
+   ],
+   "dest": "函館",
+   "origin": "旭川",
+   "col": "6"
+  },
+  {
+   "no": "12",
+   "stops": [
+    {
+     "st": "旭川",
+     "ev": "dep",
+     "printed": "8.10",
+     "bold": false,
+     "t": "08:10"
+    },
+    {
+     "st": "岩見澤",
+     "ev": "dep",
+     "printed": "10.12",
+     "bold": false,
+     "t": "10:12"
+    },
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": false,
+     "t": "11:03"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "11.42",
+     "bold": false,
+     "t": "11:42"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "11.46",
+     "bold": false,
+     "t": "11:46"
+    }
+   ],
+   "dest": "小樽",
+   "origin": "旭川",
+   "col": "7"
+  },
+  {
+   "no": "22",
+   "stops": [
+    {
+     "st": "旭川",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": false,
+     "t": "08:35"
+    },
+    {
+     "st": "岩見澤",
+     "ev": "dep",
+     "printed": "11.35",
+     "bold": false,
+     "t": "11:35"
+    },
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "0.44",
+     "bold": true,
+     "t": "12:44"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "1.41",
+     "bold": true,
+     "t": "13:41"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "1.46",
+     "bold": true,
+     "t": "13:46"
+    }
+   ],
+   "dest": "小樽",
+   "origin": "旭川",
+   "col": "8"
+  },
+  {
+   "no": "14",
+   "stops": [
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "2.11",
+     "bold": true,
+     "t": "14:11"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "3.06",
+     "bold": true,
+     "t": "15:06"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "3.17",
+     "bold": true,
+     "t": "15:17"
+    },
+    {
+     "st": "小澤",
+     "ev": "dep",
+     "printed": "4.47",
+     "bold": true,
+     "t": "16:47"
+    },
+    {
+     "st": "倶知安",
+     "ev": "dep",
+     "printed": "5.20",
+     "bold": true,
+     "t": "17:20"
+    },
+    {
+     "st": "長萬部",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": true,
+     "t": "19:30"
+    },
+    {
+     "st": "森",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": true,
+     "t": "21:31"
+    },
+    {
+     "st": "函館",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": true,
+     "uncertain": true,
+     "t": "22:55"
+    }
+   ],
+   "dest": "函館",
+   "origin": "名寄",
+   "col": "9"
+  },
+  {
+   "no": "205",
+   "stops": [
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "3.20",
+     "bold": true,
+     "t": "15:20"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "4.22",
+     "bold": true,
+     "t": "16:22"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "4.27",
+     "bold": true,
+     "t": "16:27"
+    }
+   ],
+   "dest": "小樽",
+   "col": "10"
+  },
+  {
+   "no": "24",
+   "stops": [
+    {
+     "st": "旭川",
+     "ev": "dep",
+     "printed": "0.20",
+     "bold": true,
+     "t": "12:20"
+    },
+    {
+     "st": "岩見澤",
+     "ev": "dep",
+     "printed": "3.12",
+     "bold": true,
+     "t": "15:12"
+    },
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "4.24",
+     "bold": true,
+     "t": "16:24"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "5.22",
+     "bold": true,
+     "t": "17:22"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "5.27",
+     "bold": true,
+     "t": "17:27"
+    }
+   ],
+   "dest": "小樽",
+   "origin": "旭川",
+   "col": "11"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "4.55",
+     "bold": true,
+     "t": "16:55"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "5.32",
+     "bold": true,
+     "t": "17:32"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "5.42",
+     "bold": true,
+     "t": "17:42"
+    },
+    {
+     "st": "倶知安",
+     "ev": "dep",
+     "printed": "7.22",
+     "bold": true,
+     "t": "19:22"
+    },
+    {
+     "st": "長萬部",
+     "ev": "dep",
+     "printed": "9.17",
+     "bold": true,
+     "t": "21:17"
+    },
+    {
+     "st": "森",
+     "ev": "dep",
+     "printed": "10.45",
+     "bold": true,
+     "uncertain": true,
+     "t": "22:45"
+    },
+    {
+     "st": "函館",
+     "ev": "dep",
+     "printed": "11.45",
+     "bold": true,
+     "t": "23:45"
+    }
+   ],
+   "dest": "函館",
+   "marks": "急 食",
+   "origin": "網走",
+   "col": "12"
+  },
+  {
+   "no": "16",
+   "stops": [
+    {
+     "st": "岩見澤",
+     "ev": "dep",
+     "printed": "6.29",
+     "bold": true,
+     "uncertain": true,
+     "t": "18:29"
+    },
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "7.42",
+     "bold": true,
+     "t": "19:42"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "8.57",
+     "bold": true,
+     "t": "20:57"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "9.14",
+     "bold": true,
+     "t": "21:14"
+    },
+    {
+     "st": "小澤",
+     "ev": "dep",
+     "printed": "10.57",
+     "bold": true,
+     "t": "22:57"
+    },
+    {
+     "st": "倶知安",
+     "ev": "dep",
+     "printed": "11.31",
+     "bold": true,
+     "t": "23:31"
+    },
+    {
+     "st": "長萬部",
+     "ev": "dep",
+     "printed": "1.51",
+     "bold": false,
+     "t": "25:51"
+    }
+   ],
+   "dest": "長萬部",
+   "origin": "岩見澤",
+   "col": "13"
+  },
+  {
+   "no": "306",
+   "stops": [
+    {
+     "st": "岩見澤",
+     "ev": "dep",
+     "printed": "7.28",
+     "bold": false,
+     "t": "07:28"
+    },
+    {
+     "st": "長萬部",
+     "ev": "dep",
+     "printed": "2.10",
+     "bold": true,
+     "t": "14:10"
+    },
+    {
+     "st": "森",
+     "ev": "dep",
+     "printed": "4.01",
+     "bold": true,
+     "t": "16:01"
+    },
+    {
+     "st": "函館",
+     "ev": "dep",
+     "printed": "5.30",
+     "bold": true,
+     "t": "17:30"
+    }
+   ],
+   "dest": "函館",
+   "marks": "寢2",
+   "via": "室蘭本線（岩見澤〜長萬部）",
+   "col": "14"
+  },
+  {
+   "no": "406",
+   "stops": [
+    {
+     "st": "札幌",
+     "ev": "dep",
+     "printed": "9.17",
+     "bold": true,
+     "t": "21:17"
+    },
+    {
+     "st": "南小樽",
+     "ev": "dep",
+     "printed": "10.19",
+     "bold": true,
+     "t": "22:19"
+    },
+    {
+     "st": "小樽",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": true,
+     "t": "22:30"
+    },
+    {
+     "st": "倶知安",
+     "ev": "dep",
+     "printed": "0.30",
+     "bold": false,
+     "uncertain": true,
+     "t": "24:30"
+    },
+    {
+     "st": "長萬部",
+     "ev": "dep",
+     "printed": "3.10",
+     "bold": false,
+     "t": "27:10"
+    },
+    {
+     "st": "森",
+     "ev": "dep",
+     "printed": "4.53",
+     "bold": false,
+     "t": "28:53"
+    },
+    {
+     "st": "函館",
+     "ev": "dep",
+     "printed": "6.32",
+     "bold": false,
+     "t": "30:32"
+    }
+   ],
+   "dest": "函館",
+   "marks": "寢2",
+   "origin": "釧路",
+   "col": "15"
+  }
+ ],
+ "notes": [
+  "8列車の長萬部・森・函館の3桝は活字が擦れて讀めない。16欄の右隣の空欄に縦書きで「（609列車は函館・長萬部間に單に寢臺車を連結）」の意の註記あり（文字が細かく全文は確言できず）。",
+  "標題（頁上部）に「昭和17.4.1改正 函館・札幌・稚内間（鐵道省・函館本線）特に示したるものの他は2.3等車」。頁99は上段が下り（p99c）、下段が上り（本ファイル）。本表は15欄。",
+  "左端に「自札幌 粁程／運賃 3等」欄があるが運賃は轉記せず。表頭の稚内港・旭川・岩見澤の3行は別の粁程（自稚内港 0.0／258.9／357.7）を掲げる參考の發時刻で、stations: には粁程を記さない。驛名左の設備記號も轉記せず。",
+  "日本の表は12時制。細字＝午前・太字＝午後だが寫眞では太細を判別できない。各欄の時刻の進行順から午前・午後を判定し、午後には B を附けた。12.xx は印刷のまま。"
+ ],
+ "source": "IMG_1878",
+ "page": "99",
+ "title": "函館・札幌・稚内間（下段 札幌→函館）",
+ "line": "鐵道省 函館本線",
+ "dir": "上り 稚内港・旭川・岩見澤・札幌→函館",
+ "clock": "12"
+}

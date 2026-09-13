@@ -1,0 +1,46 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 錦老線
+title: 錦縣・虹螺峴・老邊間
+dir: 老邊→錦縣驛
+season: 昭和16.12.1改正
+service: 每日運行
+stations: 老邊 | 虹螺峴 | 錦縣驛
+fares: 老邊 | 虹螺峴 3.00 | 錦縣驛 4.40
+
+train: 112 | dest 錦縣驛 | col 1 | origin 虹螺峴
+老邊 -
+虹螺峴 9.40
+錦縣驛 11.00
+
+train: 114 | dest 錦縣驛 | col 2 | origin 虹螺峴
+老邊 -
+虹螺峴 11.10
+錦縣驛 12.30
+
+train: 116 | dest 錦縣驛 | col 3 | origin 虹螺峴
+老邊 -
+虹螺峴 12.40
+錦縣驛 14.00
+
+train: 118 | dest 錦縣驛 | col 4 | origin 虹螺峴
+老邊 -
+虹螺峴 14.10
+錦縣驛 15.30
+
+train: 120 | dest 錦縣驛 | col 5 | origin 虹螺峴
+老邊 -
+虹螺峴 15.10
+錦縣驛 16.30
+
+train: 122 | dest 錦縣驛 | col 6 | origin 虹螺峴
+老邊 -
+虹螺峴 16.40
+錦縣驛 18.00
+
+train: 133 | dest 虹螺峴 | col 7
+老邊 12.00
+虹螺峴 14.10 ?
+錦縣驛 -

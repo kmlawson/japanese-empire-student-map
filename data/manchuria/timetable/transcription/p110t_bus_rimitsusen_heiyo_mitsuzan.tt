@@ -1,0 +1,23 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 梨密線
+title: 密山・平陽間
+dir: 平陽→密山
+season: 昭和17.1.15改正
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（密山起點）。
+note: 204は半截河始發（平陽欄は…）。
+stations: 平陽 | 半截河 | 密山
+fares: 平陽 3.85 | 半截河 2.75 | 密山
+
+train: 200 | dest 密山 | col 1
+平陽 8.00
+半截河 9.30
+密山 12.30
+
+train: 204 | dest 密山 | col 2 | origin 半截河
+平陽 -
+半截河 12.30
+密山 15.30

@@ -1,0 +1,132 @@
+{
+ "stations": [
+  {
+   "name": "寶東驛",
+   "km": null
+  },
+  {
+   "name": "泰和屯",
+   "km": null
+  },
+  {
+   "name": "虎林驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "262",
+   "stops": [
+    {
+     "st": "寶東驛",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "泰和屯",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    },
+    {
+     "st": "虎林驛",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    }
+   ],
+   "dest": "虎林驛",
+   "col": "1"
+  },
+  {
+   "no": "264",
+   "stops": [
+    {
+     "st": "泰和屯",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "虎林驛",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "虎林驛",
+   "col": "2",
+   "origin": "泰和屯"
+  },
+  {
+   "no": "266",
+   "stops": [
+    {
+     "st": "寶東驛",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "泰和屯",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "虎林驛",
+     "ev": "dep",
+     "printed": "16.50",
+     "bold": false,
+     "t": "16:50"
+    }
+   ],
+   "dest": "虎林驛",
+   "col": "3"
+  },
+  {
+   "no": "268",
+   "stops": [
+    {
+     "st": "泰和屯",
+     "ev": "dep",
+     "printed": "18.40",
+     "bold": false,
+     "t": "18:40"
+    },
+    {
+     "st": "虎林驛",
+     "ev": "dep",
+     "printed": "19.10",
+     "bold": false,
+     "t": "19:10"
+    }
+   ],
+   "dest": "虎林驛",
+   "col": "4",
+   "origin": "泰和屯"
+  }
+ ],
+ "notes": [
+  "運賃欄は表の左端に1組のみ（虎林驛起點）。",
+  "264・268は泰和屯始發（寶東驛欄は…）。"
+ ],
+ "source": "IMG_1884",
+ "page": "110",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "虎寶線",
+ "title": "虎林驛・寶東驛間",
+ "dir": "寶東驛→虎林驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "寶東驛 0.55 | 泰和屯 0.35 | 虎林驛"
+}

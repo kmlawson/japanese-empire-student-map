@@ -1,0 +1,69 @@
+{
+ "stations": [
+  {
+   "name": "老邊",
+   "km": null
+  },
+  {
+   "name": "錦西驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "132",
+   "stops": [
+    {
+     "st": "老邊",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "錦西驛",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "錦西驛",
+   "col": "1"
+  },
+  {
+   "no": "134",
+   "stops": [
+    {
+     "st": "老邊",
+     "ev": "dep",
+     "printed": "17.55",
+     "bold": false,
+     "t": "17:55"
+    },
+    {
+     "st": "錦西驛",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "錦西驛",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 134"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "西楊線",
+ "title": "錦西驛・老邊間",
+ "dir": "老邊→錦西驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "老邊 1.75 | 錦西驛"
+}

@@ -1,0 +1,60 @@
+{
+ "stations": [
+  {
+   "name": "石嶺驛",
+   "km": null
+  },
+  {
+   "name": "蓮花",
+   "km": null
+  },
+  {
+   "name": "開原驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "182",
+   "stops": [
+    {
+     "st": "石嶺驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "蓮花",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "開原驛",
+     "ev": "dep",
+     "printed": "18.10",
+     "bold": false,
+     "t": "18:10"
+    }
+   ],
+   "dest": "開原驛",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 開原驛→石嶺驛 direction",
+  "a second column headed 184 stands beside 182 but carries no times at all (… in every row); no train block written for it"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "開石線",
+ "title": "開原驛・石嶺驛間",
+ "dir": "石嶺驛→開原驛",
+ "season": "昭和17.1.28改正",
+ "service": "每日運行",
+ "fares": "石嶺驛 4.50 | 蓮花 2.25 | 開原驛 0"
+}

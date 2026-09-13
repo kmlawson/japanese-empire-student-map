@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "長嶺",
+   "km": null
+  },
+  {
+   "name": "楊家城",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "277",
+   "stops": [
+    {
+     "st": "長嶺",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "楊家城",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "楊家城",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "左端は運賃（圓.分）欄。逆方向は p115ah。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "長楊線",
+ "title": "長嶺・楊家城間",
+ "dir": "長嶺→楊家城",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "長嶺 | 楊家城 3.15"
+}

@@ -1,0 +1,20 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 牡丹江局管內
+line: 佳樺線
+title: 佳木斯驛・樺川間
+dir: 樺川→佳木斯驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表は左右2組で、右が樺川發（本表）。運賃欄は佳木斯驛起點のものを反轉して掲げた。
+stations: 樺川 | 佳木斯驛
+fares: 樺川 2.35 | 佳木斯驛
+
+train: 322 | dest 佳木斯驛 | col 1
+樺川 10.00
+佳木斯驛 11.50
+
+train: 324 | dest 佳木斯驛 | col 2
+樺川 15.00
+佳木斯驛 16.50

@@ -1,0 +1,22 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 齊齊哈爾局管內
+line: 康依線
+title: 泰康驛・依安間
+dir: 泰康驛→依安
+season: 昭和16.12.1改正
+service: 每日運行
+note: 62・64とも林甸止り（時刻に終着の下線）。依安欄は全便「…」。逆方向は p114ad。
+stations: 泰康驛 | 林甸 | 依安
+fares: 泰康驛 | 林甸 3.30 | 依安 6.60
+
+train: 62 | dest 林甸 | col 2
+泰康驛 10.00
+林甸 12.00
+依安 -
+
+train: 64 | dest 林甸 | col 3
+泰康驛 17.00
+林甸 19.00
+依安 -

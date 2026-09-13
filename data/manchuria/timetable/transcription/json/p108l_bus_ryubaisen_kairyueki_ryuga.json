@@ -1,0 +1,164 @@
+{
+ "stations": [
+  {
+   "name": "海龍驛",
+   "km": null
+  },
+  {
+   "name": "大平村",
+   "km": null
+  },
+  {
+   "name": "安樂村",
+   "km": null
+  },
+  {
+   "name": "聖河村",
+   "km": null
+  },
+  {
+   "name": "柳河驛",
+   "km": null
+  },
+  {
+   "name": "柳河",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "36",
+   "stops": [
+    {
+     "st": "聖河村",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    },
+    {
+     "st": "柳河驛",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "柳河",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    }
+   ],
+   "dest": "柳河",
+   "origin": "聖河村",
+   "col": "1"
+  },
+  {
+   "no": "38",
+   "stops": [
+    {
+     "st": "海龍驛",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "大平村",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    },
+    {
+     "st": "安樂村",
+     "ev": "pass"
+    },
+    {
+     "st": "聖河村",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "柳河驛",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "柳河",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    }
+   ],
+   "dest": "柳河",
+   "col": "2"
+  },
+  {
+   "no": "40",
+   "stops": [
+    {
+     "st": "海龍驛",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    },
+    {
+     "st": "大平村",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "安樂村",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    },
+    {
+     "st": "聖河村",
+     "ev": "pass"
+    },
+    {
+     "st": "柳河驛",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "柳河",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    }
+   ],
+   "dest": "柳河",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、右が海龍驛發（本表）。36は聖河村始發。縱棒（レ）は通過。運賃欄は柳河起點のものを反轉して掲げた。"
+ ],
+ "source": "IMG_1883",
+ "page": "108",
+ "kind": "bus",
+ "office": "吉林局管內",
+ "line": "柳梅線",
+ "title": "柳河・海龍驛間",
+ "dir": "海龍驛→柳河",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "海龍驛 3.10 | 大平村 2.25 | 安樂村 2.00 | 聖河村 1.60 | 柳河驛 0.15 | 柳河"
+}

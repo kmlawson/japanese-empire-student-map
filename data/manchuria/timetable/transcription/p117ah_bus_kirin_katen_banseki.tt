@@ -1,0 +1,19 @@
+source: IMG_1887
+page: 117
+kind: bus
+office: 各地自動車會社線
+line: 吉林交通郊外線（吉林交通會社）
+title: 磐石・樺甸間
+dir: 樺甸→磐石
+season: 昭和16.11.1改正
+note: 左3欄（樺甸發）。第3欄は「…」。右3欄は p117ai（磐石發）。左端は運賃（円分）欄。
+stations: 樺甸 | 磐石
+fares: 樺甸 | 磐石 2.65
+
+train: 無番 | dest 磐石 | col 1
+樺甸 8.00
+磐石 11.00
+
+train: 無番 | dest 磐石 | col 2
+樺甸 11.30
+磐石 14.30

@@ -1,0 +1,17 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 海拜線
+title: 拜泉・海倫間
+dir: 拜泉→海倫
+season: 昭和16.12.1改正
+service: 每日運行
+note: 改正日は「昭和16.12 1改正」と中黑點が缺けて印刷。中間の三道鎭は全便「…」。逆方向は p115h。
+stations: 拜泉 | 三道鎭 | 海倫
+fares: 拜泉 | 三道鎭 2.40 | 海倫 5.10
+
+train: 121 | dest 海倫 | col 3
+拜泉 9.00
+三道鎭 -
+海倫 13.00

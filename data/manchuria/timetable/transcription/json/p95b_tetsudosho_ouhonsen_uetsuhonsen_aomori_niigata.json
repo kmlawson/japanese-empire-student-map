@@ -1,0 +1,1113 @@
+{
+ "stations": [
+  {
+   "name": "青森",
+   "km": 0.0
+  },
+  {
+   "name": "川部",
+   "km": 31.1
+  },
+  {
+   "name": "弘前",
+   "km": 37.4
+  },
+  {
+   "name": "大鰐",
+   "km": 49.2
+  },
+  {
+   "name": "大館",
+   "km": 81.6
+  },
+  {
+   "name": "能代",
+   "km": 129.1
+  },
+  {
+   "name": "秋田",
+   "km": 185.8
+  },
+  {
+   "name": "羽後本荘",
+   "km": 228.6
+  },
+  {
+   "name": "酒田",
+   "km": 290.6
+  },
+  {
+   "name": "鶴岡",
+   "km": 318.1
+  },
+  {
+   "name": "村上",
+   "km": 398.1
+  },
+  {
+   "name": "新發田",
+   "km": 431.5
+  },
+  {
+   "name": "新津",
+   "km": 457.5
+  },
+  {
+   "name": "新潟",
+   "km": 474.5
+  },
+  {
+   "name": "上野",
+   "km": 772.2
+  },
+  {
+   "name": "大阪",
+   "km": 1055.6
+  }
+ ],
+ "trains": [
+  {
+   "no": "814",
+   "stops": [
+    {
+     "st": "酒田",
+     "ev": "dep",
+     "printed": "5.02",
+     "bold": false,
+     "t": "05:02"
+    },
+    {
+     "st": "鶴岡",
+     "ev": "dep",
+     "printed": "5.42",
+     "bold": false,
+     "t": "05:42"
+    },
+    {
+     "st": "村上",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": false,
+     "t": "07:45"
+    },
+    {
+     "st": "新發田",
+     "ev": "dep",
+     "printed": "8.48",
+     "bold": false,
+     "t": "08:48"
+    }
+   ],
+   "dest": "新津",
+   "cls": "2.3",
+   "col": "1",
+   "origin": "酒田"
+  },
+  {
+   "no": "816",
+   "stops": [
+    {
+     "st": "羽後本荘",
+     "ev": "dep",
+     "printed": "5.20",
+     "bold": false,
+     "t": "05:20"
+    },
+    {
+     "st": "酒田",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "鶴岡",
+     "ev": "dep",
+     "printed": "7.43",
+     "bold": false,
+     "t": "07:43"
+    },
+    {
+     "st": "村上",
+     "ev": "dep",
+     "printed": "9.54",
+     "bold": false,
+     "t": "09:54"
+    },
+    {
+     "st": "新發田",
+     "ev": "dep",
+     "printed": "10.56",
+     "bold": false,
+     "t": "10:56"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "11.38",
+     "bold": false,
+     "t": "11:38"
+    },
+    {
+     "st": "新潟",
+     "ev": "dep",
+     "printed": "0.03",
+     "bold": true,
+     "t": "12:03"
+    }
+   ],
+   "dest": "新潟",
+   "cls": "2.3",
+   "col": "2",
+   "origin": "羽後本荘"
+  },
+  {
+   "no": "822",
+   "stops": [
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "6.15",
+     "bold": false,
+     "t": "06:15"
+    },
+    {
+     "st": "羽後本荘",
+     "ev": "dep",
+     "printed": "7.18",
+     "bold": false,
+     "t": "07:18"
+    },
+    {
+     "st": "酒田",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    },
+    {
+     "st": "鶴岡",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": false,
+     "t": "09:31"
+    },
+    {
+     "st": "村上",
+     "ev": "dep",
+     "printed": "11.24",
+     "bold": false,
+     "t": "11:24"
+    },
+    {
+     "st": "新發田",
+     "ev": "dep",
+     "printed": "0.18",
+     "bold": true,
+     "t": "12:18"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "0.50",
+     "bold": true,
+     "t": "12:50"
+    }
+   ],
+   "dest": "新津",
+   "cls": "2.3",
+   "col": "3",
+   "origin": "秋田"
+  },
+  {
+   "no": "422",
+   "stops": [
+    {
+     "st": "大館",
+     "ev": "dep",
+     "printed": "5.55",
+     "bold": false,
+     "t": "05:55"
+    },
+    {
+     "st": "能代",
+     "ev": "dep",
+     "printed": "6.58",
+     "bold": false,
+     "t": "06:58"
+    },
+    {
+     "st": "秋田",
+     "ev": "arr",
+     "printed": "8.15",
+     "bold": false,
+     "t": "08:15"
+    },
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "8.21",
+     "bold": false,
+     "t": "08:21"
+    }
+   ],
+   "dest": "福島",
+   "cls": "2.3",
+   "col": "4",
+   "origin": "大館",
+   "via": "奧羽本線"
+  },
+  {
+   "no": "824",
+   "stops": [
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    },
+    {
+     "st": "羽後本荘",
+     "ev": "dep",
+     "printed": "9.18",
+     "bold": false,
+     "t": "09:18"
+    },
+    {
+     "st": "酒田",
+     "ev": "dep",
+     "printed": "10.46",
+     "bold": false,
+     "t": "10:46"
+    },
+    {
+     "st": "鶴岡",
+     "ev": "dep",
+     "printed": "11.27",
+     "bold": false,
+     "t": "11:27"
+    },
+    {
+     "st": "村上",
+     "ev": "dep",
+     "printed": "1.17",
+     "bold": true,
+     "t": "13:17"
+    },
+    {
+     "st": "新發田",
+     "ev": "dep",
+     "printed": "2.11",
+     "bold": true,
+     "t": "14:11"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "2.41",
+     "bold": true,
+     "t": "14:41"
+    }
+   ],
+   "dest": "新津",
+   "cls": "2.3",
+   "col": "5",
+   "origin": "秋田"
+  },
+  {
+   "no": "504",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "5.50",
+     "bold": false,
+     "t": "05:50"
+    },
+    {
+     "st": "川部",
+     "ev": "dep",
+     "printed": "6.41",
+     "bold": false,
+     "t": "06:41"
+    },
+    {
+     "st": "弘前",
+     "ev": "dep",
+     "printed": "6.55",
+     "bold": false,
+     "t": "06:55"
+    },
+    {
+     "st": "大鰐",
+     "ev": "dep",
+     "printed": "7.13",
+     "bold": false,
+     "t": "07:13"
+    },
+    {
+     "st": "大館",
+     "ev": "dep",
+     "printed": "8.07",
+     "bold": false,
+     "t": "08:07"
+    },
+    {
+     "st": "能代",
+     "ev": "dep",
+     "printed": "9.05",
+     "bold": false,
+     "t": "09:05"
+    },
+    {
+     "st": "秋田",
+     "ev": "arr",
+     "printed": "10.19",
+     "bold": false,
+     "t": "10:19"
+    },
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "10.26",
+     "bold": false,
+     "t": "10:26"
+    },
+    {
+     "st": "羽後本荘",
+     "ev": "dep",
+     "printed": "11.27",
+     "bold": false,
+     "t": "11:27"
+    },
+    {
+     "st": "酒田",
+     "ev": "dep",
+     "printed": "0.57",
+     "bold": true,
+     "t": "12:57"
+    },
+    {
+     "st": "鶴岡",
+     "ev": "dep",
+     "printed": "1.38",
+     "bold": true,
+     "t": "13:38"
+    },
+    {
+     "st": "村上",
+     "ev": "dep",
+     "printed": "3.30",
+     "bold": true,
+     "t": "15:30"
+    },
+    {
+     "st": "新發田",
+     "ev": "dep",
+     "printed": "4.26",
+     "bold": true,
+     "t": "16:26"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "5.07",
+     "bold": true,
+     "t": "17:07"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "8.26",
+     "bold": false,
+     "t": "32:26"
+    }
+   ],
+   "dest": "大阪",
+   "cls": "2.3",
+   "marks": "寢2",
+   "col": "6",
+   "to_page": "94"
+  },
+  {
+   "no": "424",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "06:30"
+    },
+    {
+     "st": "川部",
+     "ev": "dep",
+     "printed": "7.29",
+     "bold": false,
+     "t": "07:29"
+    },
+    {
+     "st": "弘前",
+     "ev": "dep",
+     "printed": "7.42",
+     "bold": false,
+     "t": "07:42"
+    },
+    {
+     "st": "大鰐",
+     "ev": "dep",
+     "printed": "8.03",
+     "bold": false,
+     "t": "08:03"
+    },
+    {
+     "st": "大館",
+     "ev": "dep",
+     "printed": "9.02",
+     "bold": false,
+     "t": "09:02"
+    },
+    {
+     "st": "能代",
+     "ev": "dep",
+     "printed": "10.04",
+     "bold": false,
+     "t": "10:04"
+    },
+    {
+     "st": "秋田",
+     "ev": "arr",
+     "printed": "11.28",
+     "bold": false,
+     "t": "11:28"
+    },
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "11.35",
+     "bold": false,
+     "t": "11:35"
+    }
+   ],
+   "dest": "福島",
+   "cls": "2.3",
+   "col": "7",
+   "via": "奧羽本線"
+  },
+  {
+   "no": "826",
+   "stops": [
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "0.25",
+     "bold": true,
+     "t": "12:25"
+    },
+    {
+     "st": "羽後本荘",
+     "ev": "dep",
+     "printed": "1.26",
+     "bold": true,
+     "t": "13:26"
+    },
+    {
+     "st": "酒田",
+     "ev": "dep",
+     "printed": "3.07",
+     "bold": true,
+     "t": "15:07"
+    },
+    {
+     "st": "鶴岡",
+     "ev": "dep",
+     "printed": "3.48",
+     "bold": true,
+     "t": "15:48"
+    },
+    {
+     "st": "村上",
+     "ev": "dep",
+     "printed": "5.45",
+     "bold": true,
+     "t": "17:45"
+    },
+    {
+     "st": "新發田",
+     "ev": "dep",
+     "printed": "6.59",
+     "bold": true,
+     "t": "18:59"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "7.34",
+     "bold": true,
+     "t": "19:34"
+    }
+   ],
+   "dest": "新津",
+   "cls": "2.3",
+   "col": "8",
+   "origin": "秋田"
+  },
+  {
+   "no": "404",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "川部",
+     "ev": "dep",
+     "printed": "9.51",
+     "bold": false,
+     "t": "09:51"
+    },
+    {
+     "st": "弘前",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": false,
+     "t": "10:05"
+    },
+    {
+     "st": "大鰐",
+     "ev": "dep",
+     "printed": "10.23",
+     "bold": false,
+     "t": "10:23"
+    },
+    {
+     "st": "大館",
+     "ev": "dep",
+     "printed": "11.18",
+     "bold": false,
+     "t": "11:18"
+    },
+    {
+     "st": "能代",
+     "ev": "dep",
+     "printed": "0.25",
+     "bold": true,
+     "t": "12:25"
+    },
+    {
+     "st": "秋田",
+     "ev": "arr",
+     "printed": "1.53",
+     "bold": true,
+     "t": "13:53"
+    },
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "2.02",
+     "bold": true,
+     "t": "14:02"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "5.48",
+     "bold": false,
+     "t": "29:48"
+    }
+   ],
+   "dest": "上野",
+   "cls": "2.3",
+   "marks": "寢2",
+   "col": "9",
+   "via": "奧羽本線"
+  },
+  {
+   "no": "704",
+   "stops": [
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "3.00",
+     "bold": true,
+     "t": "15:00"
+    },
+    {
+     "st": "羽後本荘",
+     "ev": "dep",
+     "printed": "4.01",
+     "bold": true,
+     "t": "16:01"
+    },
+    {
+     "st": "酒田",
+     "ev": "dep",
+     "printed": "5.41",
+     "bold": true,
+     "t": "17:41"
+    },
+    {
+     "st": "鶴岡",
+     "ev": "dep",
+     "printed": "6.26",
+     "bold": true,
+     "t": "18:26"
+    },
+    {
+     "st": "村上",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": true,
+     "t": "20:25"
+    },
+    {
+     "st": "新發田",
+     "ev": "dep",
+     "printed": "9.29",
+     "bold": true,
+     "t": "21:29"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "10.11",
+     "bold": true,
+     "t": "22:11"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "6.21",
+     "bold": false,
+     "t": "30:21"
+    }
+   ],
+   "dest": "上野",
+   "cls": "2.3",
+   "marks": "寢2",
+   "col": "10",
+   "origin": "秋田"
+  },
+  {
+   "no": "406",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "川部",
+     "ev": "dep",
+     "printed": "11.51",
+     "bold": false,
+     "t": "11:51"
+    },
+    {
+     "st": "弘前",
+     "ev": "dep",
+     "printed": "0.05",
+     "bold": true,
+     "t": "12:05"
+    },
+    {
+     "st": "大鰐",
+     "ev": "dep",
+     "printed": "0.23",
+     "bold": true,
+     "t": "12:23"
+    },
+    {
+     "st": "大館",
+     "ev": "dep",
+     "printed": "1.17",
+     "bold": true,
+     "t": "13:17"
+    },
+    {
+     "st": "能代",
+     "ev": "dep",
+     "printed": "2.31",
+     "bold": true,
+     "t": "14:31"
+    },
+    {
+     "st": "秋田",
+     "ev": "arr",
+     "printed": "4.00",
+     "bold": true,
+     "t": "16:00"
+    },
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "4.08",
+     "bold": true,
+     "t": "16:08"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": false,
+     "note": "同頁下段の福島・秋田間の表（p95d）では406の上野著を「6.51」と印刷する。兩表で3分喰ひちがふ",
+     "t": "30:54"
+    }
+   ],
+   "dest": "上野",
+   "cls": "2.3",
+   "marks": "寢2",
+   "col": "11",
+   "via": "奧羽本線"
+  },
+  {
+   "no": "506",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "0.50",
+     "bold": true,
+     "t": "12:50"
+    },
+    {
+     "st": "川部",
+     "ev": "dep",
+     "printed": "1.43",
+     "bold": true,
+     "t": "13:43"
+    },
+    {
+     "st": "弘前",
+     "ev": "dep",
+     "printed": "1.58",
+     "bold": true,
+     "t": "13:58"
+    },
+    {
+     "st": "大鰐",
+     "ev": "dep",
+     "printed": "2.17",
+     "bold": true,
+     "t": "14:17"
+    },
+    {
+     "st": "大館",
+     "ev": "dep",
+     "printed": "3.13",
+     "bold": true,
+     "t": "15:13"
+    },
+    {
+     "st": "能代",
+     "ev": "dep",
+     "printed": "4.15",
+     "bold": true,
+     "t": "16:15"
+    },
+    {
+     "st": "秋田",
+     "ev": "arr",
+     "printed": "5.36",
+     "bold": true,
+     "t": "17:36"
+    },
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "5.43",
+     "bold": true,
+     "t": "17:43"
+    },
+    {
+     "st": "羽後本荘",
+     "ev": "dep",
+     "printed": "6.42",
+     "bold": true,
+     "t": "18:42"
+    },
+    {
+     "st": "酒田",
+     "ev": "dep",
+     "printed": "8.18",
+     "bold": true,
+     "t": "20:18"
+    },
+    {
+     "st": "鶴岡",
+     "ev": "dep",
+     "printed": "8.59",
+     "bold": true,
+     "t": "20:59"
+    },
+    {
+     "st": "村上",
+     "ev": "dep",
+     "printed": "10.51",
+     "bold": true,
+     "t": "22:51"
+    },
+    {
+     "st": "新發田",
+     "ev": "dep",
+     "printed": "11.45",
+     "bold": true,
+     "t": "23:45"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "0.25",
+     "bold": false,
+     "t": "24:25"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "4.20",
+     "bold": true,
+     "t": "40:20"
+    }
+   ],
+   "dest": "大阪",
+   "cls": "2.3",
+   "col": "12",
+   "to_page": "94"
+  },
+  {
+   "no": "432",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "3.20",
+     "bold": true,
+     "t": "15:20"
+    },
+    {
+     "st": "川部",
+     "ev": "dep",
+     "printed": "4.12",
+     "bold": true,
+     "t": "16:12"
+    },
+    {
+     "st": "弘前",
+     "ev": "dep",
+     "printed": "4.25",
+     "bold": true,
+     "t": "16:25"
+    },
+    {
+     "st": "大鰐",
+     "ev": "dep",
+     "printed": "4.44",
+     "bold": true,
+     "t": "16:44"
+    },
+    {
+     "st": "大館",
+     "ev": "dep",
+     "printed": "5.36",
+     "bold": true,
+     "t": "17:36"
+    },
+    {
+     "st": "能代",
+     "ev": "dep",
+     "printed": "6.43",
+     "bold": true,
+     "t": "18:43"
+    },
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "8.13",
+     "bold": true,
+     "t": "20:13"
+    }
+   ],
+   "dest": "秋田",
+   "cls": "2.3",
+   "col": "13"
+  },
+  {
+   "no": "436",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "5.10",
+     "bold": true,
+     "t": "17:10"
+    },
+    {
+     "st": "川部",
+     "ev": "dep",
+     "printed": "5.59",
+     "bold": true,
+     "t": "17:59"
+    },
+    {
+     "st": "弘前",
+     "ev": "dep",
+     "printed": "6.13",
+     "bold": true,
+     "t": "18:13"
+    },
+    {
+     "st": "大鰐",
+     "ev": "dep",
+     "printed": "6.33",
+     "bold": true,
+     "t": "18:33"
+    },
+    {
+     "st": "大館",
+     "ev": "dep",
+     "printed": "7.36",
+     "bold": true,
+     "t": "19:36"
+    },
+    {
+     "st": "能代",
+     "ev": "dep",
+     "printed": "8.51",
+     "bold": true,
+     "t": "20:51"
+    },
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": true,
+     "t": "22:17"
+    }
+   ],
+   "dest": "秋田",
+   "cls": "2.3",
+   "col": "14"
+  },
+  {
+   "no": "502",
+   "stops": [
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "10.35",
+     "bold": true,
+     "t": "22:35"
+    },
+    {
+     "st": "川部",
+     "ev": "pass"
+    },
+    {
+     "st": "弘前",
+     "ev": "dep",
+     "printed": "11.28",
+     "bold": true,
+     "t": "23:28"
+    },
+    {
+     "st": "大館",
+     "ev": "dep",
+     "printed": "0.32",
+     "bold": false,
+     "t": "24:32"
+    },
+    {
+     "st": "能代",
+     "ev": "dep",
+     "printed": "1.21",
+     "bold": false,
+     "t": "25:21"
+    },
+    {
+     "st": "秋田",
+     "ev": "arr",
+     "printed": "2.16",
+     "bold": false,
+     "t": "26:16"
+    },
+    {
+     "st": "秋田",
+     "ev": "dep",
+     "printed": "2.24",
+     "bold": false,
+     "t": "26:24"
+    },
+    {
+     "st": "羽後本荘",
+     "ev": "pass"
+    },
+    {
+     "st": "酒田",
+     "ev": "dep",
+     "printed": "4.22",
+     "bold": false,
+     "t": "28:22"
+    },
+    {
+     "st": "鶴岡",
+     "ev": "dep",
+     "printed": "4.53",
+     "bold": false,
+     "t": "28:53"
+    },
+    {
+     "st": "村上",
+     "ev": "dep",
+     "printed": "6.23",
+     "bold": false,
+     "t": "30:23"
+    },
+    {
+     "st": "新發田",
+     "ev": "dep",
+     "printed": "7.04",
+     "bold": false,
+     "t": "31:04"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "7.35",
+     "bold": false,
+     "t": "31:35"
+    },
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "7.37",
+     "bold": true,
+     "t": "43:37"
+    }
+   ],
+   "dest": "大阪",
+   "cls": "2.3",
+   "marks": "急 食 寢2",
+   "col": "15",
+   "to_page": "94"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改正。標題は上段と共通（新潟・青森間、鐵道省・羽越本線・奧羽本線、特に示したるものの他は2.3等車）。反對方向（新潟→青森）は同頁 p95a。",
+  "左端に「自青森 粁程／運賃 3等」欄があるが運賃は轉記せず。驛名左の設備記號も轉記せず。",
+  "頁尾（頁94）に「細字は午前、太字は午後を示す」とあるが寫眞では太細を判別できない。各欄の時刻の進行順と、94頁の大阪・新潟間の表に現れる同番號列車（504・506・502）の時刻との照合により午前・午後を判定し、午後の時刻に B を附けた。",
+  "本表の末尾に「上野 ヵ（粁程772.2）／大阪 著（粁程1055.6）」の二行があり、上野・大阪への直通列車の終著時刻を示す。粁程は新津經由（新潟は通らぬ）。",
+  "「v」は原表の「レ」（通過）、「-」は原表の「…」または空白。"
+ ],
+ "source": "IMG_1876",
+ "page": "95",
+ "title": "新潟・青森間（下段 青森→新潟）",
+ "line": "鐵道省 奧羽本線・羽越本線",
+ "dir": "上り 青森→新潟",
+ "clock": "12"
+}

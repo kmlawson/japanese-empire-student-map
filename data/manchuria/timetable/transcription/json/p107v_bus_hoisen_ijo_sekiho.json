@@ -1,0 +1,76 @@
+{
+ "stations": [
+  {
+   "name": "圍場",
+   "km": null
+  },
+  {
+   "name": "老府",
+   "km": null
+  },
+  {
+   "name": "赤峰",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "506",
+   "stops": [
+    {
+     "st": "圍場",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    },
+    {
+     "st": "赤峰",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "40:30"
+    }
+   ],
+   "dest": "赤峰",
+   "col": "1"
+  },
+  {
+   "no": "無番",
+   "stops": [
+    {
+     "st": "老府",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "赤峰",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "赤峰",
+   "col": "2",
+   "origin": "老府"
+  }
+ ],
+ "notes": [
+  "the second column carries no bus number in the head (blank cell); entered as 無番",
+  "two unnumbered empty columns (…) stand to the right of it",
+  "bus 506 is printed 圍場 發 19.30 / 赤峰 著 16.30 — the departure is later than the arrival; transcribed as printed"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "峰圍線",
+ "title": "赤峰・老府・圍場間",
+ "dir": "圍場→赤峰",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "圍場 7.00 | 老府 3.55 | 赤峰"
+}

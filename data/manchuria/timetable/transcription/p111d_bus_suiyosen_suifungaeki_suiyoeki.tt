@@ -1,0 +1,23 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 綏陽線
+title: 綏陽驛・綏芬河驛間
+dir: 綏芬河驛→綏陽驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（綏陽驛起點）。
+note: 142・144とも綏南始發（綏芬河驛欄は…）。
+stations: 綏芬河驛 | 綏南 | 綏陽驛
+fares: 綏芬河驛 | 綏南 0.90 | 綏陽驛
+
+train: 142 | dest 綏陽驛 | col 1 | origin 綏南
+綏芬河驛 -
+綏南 9.20
+綏陽驛 10.30
+
+train: 144 | dest 綏陽驛 | col 2 | origin 綏南
+綏芬河驛 -
+綏南 16.50
+綏陽驛 18.00

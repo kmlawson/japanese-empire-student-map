@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 農伏北線
+title: 農安・伏龍泉間
+dir: 農安→伏龍泉
+season: 昭和16.12.1改正
+service: 每日運行
+note: 左端は運賃（圓.分）欄。逆方向は p115z。
+stations: 農安 | 伏龍泉
+fares: 農安 | 伏龍泉 3.50
+
+train: 289 | dest 伏龍泉 | col 3
+農安 9.00
+伏龍泉 12.30

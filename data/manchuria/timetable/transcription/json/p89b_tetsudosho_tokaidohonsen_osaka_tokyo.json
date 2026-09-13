@@ -1,0 +1,2620 @@
+{
+ "stations": [
+  {
+   "name": "大阪",
+   "km": 540.1
+  },
+  {
+   "name": "京都",
+   "km": 582.9
+  },
+  {
+   "name": "大津",
+   "km": 592.9
+  },
+  {
+   "name": "草津",
+   "km": 605.1
+  },
+  {
+   "name": "彦根",
+   "km": 644.6
+  },
+  {
+   "name": "米原",
+   "km": 650.6
+  },
+  {
+   "name": "大垣",
+   "km": 686.5
+  },
+  {
+   "name": "岐阜",
+   "km": 700.2
+  },
+  {
+   "name": "名古屋",
+   "km": 730.5
+  },
+  {
+   "name": "大府",
+   "km": 750.0
+  },
+  {
+   "name": "岡崎",
+   "km": 770.6
+  },
+  {
+   "name": "豐橋",
+   "km": 802.9
+  },
+  {
+   "name": "濱松",
+   "km": 839.4
+  },
+  {
+   "name": "靜岡",
+   "km": 916.3
+  },
+  {
+   "name": "清水",
+   "km": 927.5
+  },
+  {
+   "name": "富士",
+   "km": 950.3
+  },
+  {
+   "name": "沼津",
+   "km": 970.3
+  },
+  {
+   "name": "熱海",
+   "km": 991.9
+  },
+  {
+   "name": "小田原",
+   "km": 1012.6
+  },
+  {
+   "name": "國府津",
+   "km": 1018.8
+  },
+  {
+   "name": "大船",
+   "km": 1050.0
+  },
+  {
+   "name": "横濱",
+   "km": 1067.7
+  },
+  {
+   "name": "品川",
+   "km": 1089.7
+  },
+  {
+   "name": "新橋",
+   "km": 1091.4
+  },
+  {
+   "name": "東京",
+   "km": 1092.3
+  }
+ ],
+ "trains": [
+  {
+   "no": "2",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "6.48",
+     "bold": false,
+     "t": "06:48"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "7.32",
+     "bold": false,
+     "t": "07:32"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "7.46",
+     "bold": false,
+     "t": "07:46"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": false,
+     "uncertain": true,
+     "note": "印刷がほとんど掠れ、分の十位が讀めない。前後（大津7.46―大垣9.10）から8.35と推定",
+     "t": "08:35"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "9.25",
+     "bold": false,
+     "t": "09:25"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "9.51",
+     "bold": false,
+     "t": "09:51"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "9.56",
+     "bold": false,
+     "t": "09:56"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "10.54",
+     "bold": false,
+     "uncertain": true,
+     "t": "10:54"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "0.38",
+     "bold": true,
+     "t": "12:38"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "1.27",
+     "bold": true,
+     "t": "13:27"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "1.49",
+     "bold": true,
+     "t": "13:49"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "2.11",
+     "bold": true,
+     "t": "14:11"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "pass"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "3.01",
+     "bold": true,
+     "t": "15:01"
+    },
+    {
+     "st": "品川",
+     "ev": "pass"
+    },
+    {
+     "st": "新橋",
+     "ev": "pass"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "3.25",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "15:25"
+    }
+   ],
+   "dest": "東京",
+   "cls": "1.2.3",
+   "marks": "特急 食 寢",
+   "name": "ふじ",
+   "col": "1",
+   "from_page": "89",
+   "note": "表頭は反轉枠の「特別急行」。大府・岡崎の空桝に括弧書きで「（ふじ）」。寢台車の等級枠は「1.2」"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": false,
+     "t": "08:40"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "9.45",
+     "bold": false,
+     "t": "09:45"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "10.21",
+     "bold": false,
+     "t": "10:21"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "11.02",
+     "bold": false,
+     "t": "11:02"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "11.07",
+     "bold": false,
+     "t": "11:07"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "0.05",
+     "bold": true,
+     "t": "12:05"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "0.42",
+     "bold": true,
+     "t": "12:42"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "1.50",
+     "bold": true,
+     "t": "13:50"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "2.39",
+     "bold": true,
+     "t": "14:39"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "3.02",
+     "bold": true,
+     "t": "15:02"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "3.25",
+     "bold": true,
+     "t": "15:25"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "pass"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "4.15",
+     "bold": true,
+     "t": "16:15"
+    },
+    {
+     "st": "品川",
+     "ev": "pass"
+    },
+    {
+     "st": "新橋",
+     "ev": "pass"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "4.40",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "16:40"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "特急 食 寢",
+   "name": "さくら",
+   "col": "2",
+   "from_page": "89",
+   "note": "表頭は反轉枠の「特別急行」。大府・岡崎の空桝に括弧書きで「（櫻）」。寢台車の等級枠は「2」"
+  },
+  {
+   "no": "1032",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "9.37",
+     "bold": false,
+     "t": "09:37"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": false,
+     "t": "11:55"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "2.33",
+     "bold": true,
+     "t": "14:33"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "3.24",
+     "bold": true,
+     "t": "15:24"
+    },
+    {
+     "st": "熱海",
+     "ev": "pass"
+    },
+    {
+     "st": "小田原",
+     "ev": "pass"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "pass"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "4.55",
+     "bold": true,
+     "t": "16:55"
+    },
+    {
+     "st": "品川",
+     "ev": "pass"
+    },
+    {
+     "st": "新橋",
+     "ev": "pass"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "5.20",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "17:20"
+    }
+   ],
+   "dest": "東京",
+   "cls": "1.2.3",
+   "marks": "特急 食",
+   "name": "かもめ",
+   "origin": "神戶",
+   "col": "3",
+   "note": "表頭は反轉枠の「特別急行」。大津〜岐阜の空桝に縦書きで「神戶 8.23 發」、大府〜濱松の空桝に括弧書きで「（かもめ）」"
+  },
+  {
+   "no": "10",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": false,
+     "uncertain": true,
+     "t": "09:31"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "彦根",
+     "ev": "pass"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "11.39",
+     "bold": false,
+     "t": "11:39"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "0.22",
+     "bold": true,
+     "t": "12:22"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "0.38",
+     "bold": true,
+     "t": "12:38"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "1.11",
+     "bold": true,
+     "t": "13:11"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "1.17",
+     "bold": true,
+     "t": "13:17"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "dep",
+     "printed": "1.59",
+     "bold": true,
+     "t": "13:59"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "2.30",
+     "bold": true,
+     "t": "14:30"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "3.11",
+     "bold": true,
+     "t": "15:11"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "4.30",
+     "bold": true,
+     "t": "16:30"
+    },
+    {
+     "st": "清水",
+     "ev": "dep",
+     "printed": "4.42",
+     "bold": true,
+     "t": "16:42"
+    },
+    {
+     "st": "富士",
+     "ev": "dep",
+     "printed": "5.06",
+     "bold": true,
+     "t": "17:06"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "5.32",
+     "bold": true,
+     "t": "17:32"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "5.56",
+     "bold": true,
+     "t": "17:56"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "6.20",
+     "bold": true,
+     "t": "18:20"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": true,
+     "t": "18:54"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "7.14",
+     "bold": true,
+     "t": "19:14"
+    },
+    {
+     "st": "品川",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": true,
+     "t": "19:33"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "7.42",
+     "bold": true,
+     "t": "19:42"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "19:45"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "4",
+   "from_page": "89",
+   "note": "寢台車の等級枠は「2」"
+  },
+  {
+   "no": "1038",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "uncertain": true,
+     "t": "10:20"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": false,
+     "t": "11:03"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "11.24",
+     "bold": false,
+     "t": "11:24"
+    },
+    {
+     "st": "彦根",
+     "ev": "dep",
+     "printed": "0.12",
+     "bold": true,
+     "t": "12:12"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "0.25",
+     "bold": true,
+     "t": "12:25"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "1.08",
+     "bold": true,
+     "t": "13:08"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "1.24",
+     "bold": true,
+     "t": "13:24"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "1.54",
+     "bold": true,
+     "t": "13:54"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "2.00",
+     "bold": true,
+     "t": "14:00"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "dep",
+     "printed": "2.39",
+     "bold": true,
+     "t": "14:39"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "3.11",
+     "bold": true,
+     "t": "15:11"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "3.53",
+     "bold": true,
+     "t": "15:53"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "5.20",
+     "bold": true,
+     "t": "17:20"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "6.15",
+     "bold": true,
+     "t": "18:15"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "6.40",
+     "bold": true,
+     "t": "18:40"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "7.04",
+     "bold": true,
+     "t": "19:04"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "7.40",
+     "bold": true,
+     "t": "19:40"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "7.59",
+     "bold": true,
+     "t": "19:59"
+    },
+    {
+     "st": "品川",
+     "ev": "dep",
+     "printed": "8.18",
+     "bold": true,
+     "t": "20:18"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": true,
+     "t": "20:25"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "20:30"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "5",
+   "from_page": "89",
+   "note": "寢台車の等級枠は「2」。大阪發の分の十位が刷れて讀めない。上段（p89a）の大阪著10.15から10.20とした"
+  },
+  {
+   "no": "1012",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "0.50",
+     "bold": true,
+     "t": "12:50"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "1.26",
+     "bold": true,
+     "t": "13:26"
+    },
+    {
+     "st": "米原",
+     "ev": "pass"
+    },
+    {
+     "st": "大垣",
+     "ev": "pass"
+    },
+    {
+     "st": "岐阜",
+     "ev": "pass"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "3.31",
+     "bold": true,
+     "t": "15:31"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "3.35",
+     "bold": true,
+     "t": "15:35"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "6.08",
+     "bold": true,
+     "t": "18:08"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "6.59",
+     "bold": true,
+     "t": "18:59"
+    },
+    {
+     "st": "熱海",
+     "ev": "pass"
+    },
+    {
+     "st": "小田原",
+     "ev": "pass"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "pass"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": true,
+     "t": "20:25"
+    },
+    {
+     "st": "品川",
+     "ev": "pass"
+    },
+    {
+     "st": "新橋",
+     "ev": "pass"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "20:50"
+    }
+   ],
+   "dest": "東京",
+   "cls": "1.2.3",
+   "marks": "特急 食",
+   "name": "つばめ",
+   "col": "6",
+   "note": "表頭は反轉枠の「特別急行」。大府〜濱松の空桝に括弧書きで「（つばめ）」。大津の桝に「※」印（不定期列車）"
+  },
+  {
+   "no": "12",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "1.00",
+     "bold": true,
+     "t": "13:00"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "1.36",
+     "bold": true,
+     "t": "13:36"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "3.41",
+     "bold": true,
+     "t": "15:41"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "3.45",
+     "bold": true,
+     "t": "15:45"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "6.18",
+     "bold": true,
+     "t": "18:18"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "7.07",
+     "bold": true,
+     "t": "19:07"
+    },
+    {
+     "st": "熱海",
+     "ev": "pass"
+    },
+    {
+     "st": "小田原",
+     "ev": "pass"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "pass"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": true,
+     "t": "20:35"
+    },
+    {
+     "st": "品川",
+     "ev": "pass"
+    },
+    {
+     "st": "新橋",
+     "ev": "pass"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "21:00"
+    }
+   ],
+   "dest": "東京",
+   "cls": "1.2.3",
+   "marks": "特急 食",
+   "name": "つばめ",
+   "origin": "神戶",
+   "col": "7",
+   "note": "表頭は反轉枠の「特別急行」。彦根〜岐阜の空桝に縦書きで「神戶 0.20 發」、大府〜濱松の空桝に括弧書きで「（つばめ）」"
+  },
+  {
+   "no": "1022",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "1.30",
+     "bold": true,
+     "t": "13:30"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "2.09",
+     "bold": true,
+     "t": "14:09"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "2.26",
+     "bold": true,
+     "t": "14:26"
+    },
+    {
+     "st": "彦根",
+     "ev": "pass"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "3.22",
+     "bold": true,
+     "t": "15:22"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "4.00",
+     "bold": true,
+     "t": "16:00"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "4.15",
+     "bold": true,
+     "t": "16:15"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "4.46",
+     "bold": true,
+     "t": "16:46"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "4.52",
+     "bold": true,
+     "t": "16:52"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "dep",
+     "printed": "5.30",
+     "bold": true,
+     "t": "17:30"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "5.59",
+     "bold": true,
+     "t": "17:59"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "6.38",
+     "bold": true,
+     "t": "18:38"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "7.49",
+     "bold": true,
+     "t": "19:49"
+    },
+    {
+     "st": "清水",
+     "ev": "dep",
+     "printed": "8.01",
+     "bold": true,
+     "t": "20:01"
+    },
+    {
+     "st": "富士",
+     "ev": "dep",
+     "printed": "8.24",
+     "bold": true,
+     "t": "20:24"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "8.47",
+     "bold": true,
+     "t": "20:47"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "9.09",
+     "bold": true,
+     "t": "21:09"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "9.32",
+     "bold": true,
+     "t": "21:32"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": true,
+     "t": "22:05"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "10.25",
+     "bold": true,
+     "uncertain": true,
+     "note": "原印は「12.25」に見えるが、大船10.05―品川10.43の間なので10.25",
+     "t": "22:25"
+    },
+    {
+     "st": "品川",
+     "ev": "dep",
+     "printed": "10.43",
+     "bold": true,
+     "t": "22:43"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": true,
+     "t": "22:50"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "22:55"
+    }
+   ],
+   "dest": "東京",
+   "cls": "1.2.3",
+   "marks": "急 食",
+   "col": "8"
+  },
+  {
+   "no": "14",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "7.01",
+     "bold": true,
+     "t": "19:01"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "7.44",
+     "bold": true,
+     "t": "19:44"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "8.04",
+     "bold": true,
+     "t": "20:04"
+    },
+    {
+     "st": "彦根",
+     "ev": "pass"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "9.03",
+     "bold": true,
+     "t": "21:03"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "9.49",
+     "bold": true,
+     "t": "21:49"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": true,
+     "t": "22:05"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "10.40",
+     "bold": true,
+     "t": "22:40"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "10.46",
+     "bold": true,
+     "t": "22:46"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "pass"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "0.12",
+     "bold": false,
+     "t": "24:12"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "1.10",
+     "bold": false,
+     "t": "25:10"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "2.39",
+     "bold": false,
+     "t": "26:39"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "4.13",
+     "bold": false,
+     "t": "28:13"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "4.45",
+     "bold": false,
+     "t": "28:45"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "5.15",
+     "bold": false,
+     "t": "29:15"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "6.04",
+     "bold": false,
+     "uncertain": true,
+     "t": "30:04"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "6.24",
+     "bold": false,
+     "t": "30:24"
+    },
+    {
+     "st": "品川",
+     "ev": "dep",
+     "printed": "6.43",
+     "bold": false,
+     "t": "30:43"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "6.50",
+     "bold": false,
+     "t": "30:50"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "6.55",
+     "bold": false,
+     "note": "終着（著時刻）",
+     "t": "30:55"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "9",
+   "from_page": "89",
+   "note": "寢台車の等級枠は「2」"
+  },
+  {
+   "no": "8",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "8.01",
+     "bold": true,
+     "t": "20:01"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": true,
+     "t": "20:45"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "9.05",
+     "bold": true,
+     "t": "21:05"
+    },
+    {
+     "st": "彦根",
+     "ev": "pass"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "10.03",
+     "bold": true,
+     "t": "22:03"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "10.49",
+     "bold": true,
+     "t": "22:49"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "11.06",
+     "bold": true,
+     "t": "23:06"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "11.41",
+     "bold": true,
+     "t": "23:41"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "11.47",
+     "bold": true,
+     "t": "23:47"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "dep",
+     "printed": "0.37",
+     "bold": false,
+     "t": "24:37"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "1.19",
+     "bold": false,
+     "t": "25:19"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "2.09",
+     "bold": false,
+     "t": "26:09"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "3.38",
+     "bold": false,
+     "t": "27:38"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "4.46",
+     "bold": false,
+     "t": "28:46"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "5.18",
+     "bold": false,
+     "t": "29:18"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "5.46",
+     "bold": false,
+     "t": "29:46"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "6.36",
+     "bold": false,
+     "t": "30:36"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "6.57",
+     "bold": false,
+     "t": "30:57"
+    },
+    {
+     "st": "品川",
+     "ev": "dep",
+     "printed": "7.16",
+     "bold": false,
+     "t": "31:16"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "7.24",
+     "bold": false,
+     "t": "31:24"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "note": "終着（著時刻）",
+     "t": "31:30"
+    }
+   ],
+   "dest": "東京",
+   "cls": "1.2.3",
+   "marks": "急 食 寢",
+   "col": "10",
+   "from_page": "89",
+   "note": "寢台車の等級枠は「1.2」"
+  },
+  {
+   "no": "16",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "8.31",
+     "bold": true,
+     "t": "20:31"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "9.14",
+     "bold": true,
+     "t": "21:14"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "9.35",
+     "bold": true,
+     "t": "21:35"
+    },
+    {
+     "st": "彦根",
+     "ev": "dep",
+     "printed": "10.24",
+     "bold": true,
+     "t": "22:24"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "10.36",
+     "bold": true,
+     "t": "22:36"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "11.26",
+     "bold": true,
+     "t": "23:26"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "11.44",
+     "bold": true,
+     "t": "23:44"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "0.18",
+     "bold": false,
+     "t": "24:18"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "0.24",
+     "bold": false,
+     "t": "24:24"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "pass"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "1.48",
+     "bold": false,
+     "t": "25:48"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "2.40",
+     "bold": false,
+     "t": "26:40"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "4.05",
+     "bold": false,
+     "t": "28:05"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "5.15",
+     "bold": false,
+     "t": "29:15"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "5.46",
+     "bold": false,
+     "t": "29:46"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "6.14",
+     "bold": false,
+     "t": "30:14"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "7.07",
+     "bold": false,
+     "t": "31:07"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "7.27",
+     "bold": false,
+     "t": "31:27"
+    },
+    {
+     "st": "品川",
+     "ev": "dep",
+     "printed": "7.46",
+     "bold": false,
+     "t": "31:46"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "7.54",
+     "bold": false,
+     "t": "31:54"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "note": "終着（著時刻）",
+     "t": "32:00"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "11",
+   "note": "寢台車の等級枠は「1.2」"
+  },
+  {
+   "no": "1034",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "9.01",
+     "bold": true,
+     "t": "21:01"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "9.44",
+     "bold": true,
+     "t": "21:44"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "10.04",
+     "bold": true,
+     "t": "22:04"
+    },
+    {
+     "st": "彦根",
+     "ev": "pass"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": true,
+     "t": "23:10"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "11.56",
+     "bold": true,
+     "t": "23:56"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "0.13",
+     "bold": false,
+     "t": "24:13"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "0.45",
+     "bold": false,
+     "t": "24:45"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "0.51",
+     "bold": false,
+     "t": "24:51"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "pass"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "2.06",
+     "bold": false,
+     "t": "26:06"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "2.56",
+     "bold": false,
+     "t": "26:56"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "4.32",
+     "bold": false,
+     "t": "28:32"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "5.38",
+     "bold": false,
+     "t": "29:38"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "6.07",
+     "bold": false,
+     "t": "30:07"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "6.34",
+     "bold": false,
+     "t": "30:34"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "7.29",
+     "bold": false,
+     "t": "31:29"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "7.49",
+     "bold": false,
+     "t": "31:49"
+    },
+    {
+     "st": "品川",
+     "ev": "dep",
+     "printed": "8.02",
+     "bold": false,
+     "t": "32:02"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "8.10",
+     "bold": false,
+     "t": "32:10"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": false,
+     "note": "終着（著時刻）",
+     "t": "32:15"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "12",
+   "note": "寢台車の等級枠は「2」"
+  },
+  {
+   "no": "1024",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": true,
+     "t": "21:30"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "10.15",
+     "bold": true,
+     "t": "22:15"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "10.36",
+     "bold": true,
+     "t": "22:36"
+    },
+    {
+     "st": "彦根",
+     "ev": "pass"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "11.43",
+     "bold": true,
+     "t": "23:43"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "0.23",
+     "bold": false,
+     "t": "24:23"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "0.46",
+     "bold": false,
+     "t": "24:46"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "1.19",
+     "bold": false,
+     "t": "25:19"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "1.25",
+     "bold": false,
+     "t": "25:25"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "pass"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "2.39",
+     "bold": false,
+     "t": "26:39"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "3.23",
+     "bold": false,
+     "t": "27:23"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "4.53",
+     "bold": false,
+     "t": "28:53"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "5.56",
+     "bold": false,
+     "t": "29:56"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "6.26",
+     "bold": false,
+     "t": "30:26"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "6.53",
+     "bold": false,
+     "t": "30:53"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "7.35",
+     "bold": false,
+     "t": "31:35"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": false,
+     "t": "31:55"
+    },
+    {
+     "st": "品川",
+     "ev": "dep",
+     "printed": "8.17",
+     "bold": false,
+     "t": "32:17"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "8.24",
+     "bold": false,
+     "t": "32:24"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "note": "終着（著時刻）",
+     "t": "32:30"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "13",
+   "note": "寢台車の等級枠は「2」"
+  },
+  {
+   "no": "18",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": true,
+     "t": "21:40"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "10.25",
+     "bold": true,
+     "t": "22:25"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "10.46",
+     "bold": true,
+     "t": "22:46"
+    },
+    {
+     "st": "彦根",
+     "ev": "pass"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "11.53",
+     "bold": true,
+     "t": "23:53"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "0.44",
+     "bold": false,
+     "t": "24:44"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "1.01",
+     "bold": false,
+     "t": "25:01"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "1.34",
+     "bold": false,
+     "t": "25:34"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "1.40",
+     "bold": false,
+     "t": "25:40"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "pass"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "2.54",
+     "bold": false,
+     "t": "26:54"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "3.38",
+     "bold": false,
+     "t": "27:38"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "5.06",
+     "bold": false,
+     "t": "29:06"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "6.06",
+     "bold": false,
+     "t": "30:06"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "6.38",
+     "bold": false,
+     "t": "30:38"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "7.05",
+     "bold": false,
+     "t": "31:05"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": false,
+     "t": "31:55"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "8.16",
+     "bold": false,
+     "t": "32:16"
+    },
+    {
+     "st": "品川",
+     "ev": "pass"
+    },
+    {
+     "st": "新橋",
+     "ev": "pass"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "note": "終着（著時刻）",
+     "t": "32:45"
+    }
+   ],
+   "dest": "東京",
+   "cls": "1.2.3",
+   "marks": "急 食 寢",
+   "col": "14",
+   "note": "寢台車の等級枠は「1.2」"
+  },
+  {
+   "no": "20",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": true,
+     "t": "22:30"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "11.21",
+     "bold": true,
+     "t": "23:21"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "11.42",
+     "bold": true,
+     "t": "23:42"
+    },
+    {
+     "st": "彦根",
+     "ev": "pass"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "1.01",
+     "bold": false,
+     "t": "25:01"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "1.44",
+     "bold": false,
+     "t": "25:44"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "2.00",
+     "bold": false,
+     "t": "26:00"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "2.30",
+     "bold": false,
+     "t": "26:30"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "2.35",
+     "bold": false,
+     "t": "26:35"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "pass"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "3.49",
+     "bold": false,
+     "t": "27:49"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "4.32",
+     "bold": false,
+     "t": "28:32"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "5.56",
+     "bold": false,
+     "t": "29:56"
+    },
+    {
+     "st": "清水",
+     "ev": "pass"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "6.55",
+     "bold": false,
+     "t": "30:55"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "7.26",
+     "bold": false,
+     "t": "31:26"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "7.53",
+     "bold": false,
+     "t": "31:53"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "8.36",
+     "bold": false,
+     "t": "32:36"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "32:55"
+    },
+    {
+     "st": "品川",
+     "ev": "dep",
+     "printed": "9.16",
+     "bold": false,
+     "t": "33:16"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "9.24",
+     "bold": false,
+     "t": "33:24"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "note": "終着（著時刻）",
+     "t": "33:30"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "15",
+   "note": "寢台車の等級枠は「2」"
+  },
+  {
+   "no": "6",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "11.05",
+     "bold": true,
+     "t": "23:05"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "11.59",
+     "bold": true,
+     "t": "23:59"
+    },
+    {
+     "st": "大津",
+     "ev": "dep",
+     "printed": "0.12",
+     "bold": false,
+     "t": "24:12"
+    },
+    {
+     "st": "彦根",
+     "ev": "pass"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "1.19",
+     "bold": false,
+     "t": "25:19"
+    },
+    {
+     "st": "大垣",
+     "ev": "dep",
+     "printed": "2.05",
+     "bold": false,
+     "t": "26:05"
+    },
+    {
+     "st": "岐阜",
+     "ev": "dep",
+     "printed": "2.19",
+     "bold": false,
+     "t": "26:19"
+    },
+    {
+     "st": "名古屋",
+     "ev": "arr",
+     "printed": "2.51",
+     "bold": false,
+     "t": "26:51"
+    },
+    {
+     "st": "名古屋",
+     "ev": "dep",
+     "printed": "2.57",
+     "bold": false,
+     "t": "26:57"
+    },
+    {
+     "st": "大府",
+     "ev": "pass"
+    },
+    {
+     "st": "岡崎",
+     "ev": "pass"
+    },
+    {
+     "st": "豐橋",
+     "ev": "dep",
+     "printed": "4.18",
+     "bold": false,
+     "t": "28:18"
+    },
+    {
+     "st": "濱松",
+     "ev": "dep",
+     "printed": "4.59",
+     "bold": false,
+     "t": "28:59"
+    },
+    {
+     "st": "靜岡",
+     "ev": "dep",
+     "printed": "6.25",
+     "bold": false,
+     "t": "30:25"
+    },
+    {
+     "st": "清水",
+     "ev": "dep",
+     "printed": "6.39",
+     "bold": false,
+     "t": "30:39"
+    },
+    {
+     "st": "富士",
+     "ev": "pass"
+    },
+    {
+     "st": "沼津",
+     "ev": "dep",
+     "printed": "7.32",
+     "bold": false,
+     "t": "31:32"
+    },
+    {
+     "st": "熱海",
+     "ev": "dep",
+     "printed": "7.58",
+     "bold": false,
+     "t": "31:58"
+    },
+    {
+     "st": "小田原",
+     "ev": "dep",
+     "printed": "8.26",
+     "bold": false,
+     "t": "32:26"
+    },
+    {
+     "st": "國府津",
+     "ev": "pass"
+    },
+    {
+     "st": "大船",
+     "ev": "dep",
+     "printed": "9.19",
+     "bold": false,
+     "t": "33:19"
+    },
+    {
+     "st": "横濱",
+     "ev": "dep",
+     "printed": "9.34",
+     "bold": false,
+     "uncertain": true,
+     "t": "33:34"
+    },
+    {
+     "st": "品川",
+     "ev": "dep",
+     "printed": "9.54",
+     "bold": false,
+     "t": "33:54"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "10.02",
+     "bold": false,
+     "t": "34:02"
+    },
+    {
+     "st": "東京",
+     "ev": "dep",
+     "printed": "10.07",
+     "bold": false,
+     "note": "終着（著時刻）",
+     "t": "34:07"
+    }
+   ],
+   "dest": "東京",
+   "cls": "2.3",
+   "marks": "急 食 寢",
+   "col": "16",
+   "from_page": "89",
+   "note": "最右欄。寢台車の等級枠は「2」"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改正。頁89の下半分。上半分（下關→大阪）は p89a。上下段は別の欄組で、下段は大阪發の時刻順に竝べ直したもの。上段に現れぬ列車（1032・1012・12・1022・16・1034・1024・18・20）は神戶または大阪以東の始發、上段の大阪行・京都行（1026・104・110・1028・112・114）は下段に現れない。反對方向（下り）は頁90。",
+  "左端に「自下關 粁程／運賃 3等」欄があるが運賃は轉記せず。驛名左の⊓・〒・◎・♨等の設備記號も轉記せず。",
+  "粁程は下關起點で通し。東京1092.3から引くと頁90（自東京）の粁程に一致する。",
+  "頁尾に「細字は午前、太字は午後を示す」とあるが寫眞では太細を判別できない。第1〜8欄は大阪發6.48午前→1.30午後、第9〜16欄は大阪發7.01午後→11.05午後の夜行で、いづれも欄順が時刻順に竝ぶ。これと各欄内部の時刻順序、上段（p89a）の大阪著時刻との接續（例 急8＝上段大阪著7.55午後→下段大阪發8.01午後）、および頁9の抄錄（p09c、つばめ12 大阪1.00午後→東京9.00午後、ふじ2 大阪6.48午前、急8 東京著7.30午前、急6 東京著10.07午前）とから午前・午後を判定して午後に B を附けた。",
+  "表頭は上から 行先（全欄「東京行」）／反轉枠の「急行」または「特別急行」／✕印（食堂車）／枠入り數字（寢台車の等級）／寢台の圖（寢台車）／枠入り數字（列車の等級）／列車番號 の順。",
+  "「v」は原表の「レ」（通過）、「-」は原表の空白。"
+ ],
+ "source": "IMG_1873",
+ "page": "89",
+ "title": "下關・大阪・東京間（下段 大阪→東京）",
+ "line": "鐵道省 東海道本線",
+ "dir": "上り 大阪→東京",
+ "clock": "12"
+}

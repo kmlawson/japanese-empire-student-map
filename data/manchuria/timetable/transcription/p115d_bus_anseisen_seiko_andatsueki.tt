@@ -1,0 +1,17 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 安靑線
+title: 安達驛・靑崗間
+dir: 靑崗→安達驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表の右半（靑崗發）。逆方向は p115c。
+stations: 靑崗 | 正亞 | 安達驛
+fares: 安達驛 | 正亞 2.10 | 靑崗 4.65
+
+train: 132 | dest 安達驛 | col 5
+靑崗 13.30
+正亞 15.20
+安達驛 16.30

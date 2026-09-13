@@ -1,0 +1,16 @@
+source: IMG_1883
+page: 108
+kind: bus
+office: 吉林局管內
+line: 朝樺線
+title: 朝陽鎭驛前・樺甸間
+dir: 樺甸→朝陽鎭驛前
+season: （運休）
+service: 每日運行
+note: 改正年月日の位置に「（運休）」と刷る。表は左右2組で、右が樺甸發（本表）。
+stations: 樺甸 | 朝陽鎭驛前
+fares: 樺甸 5.10 | 朝陽鎭驛前
+
+train: 82 | dest 朝陽鎭驛前 | col 1
+樺甸 9.00
+朝陽鎭驛前 15.30

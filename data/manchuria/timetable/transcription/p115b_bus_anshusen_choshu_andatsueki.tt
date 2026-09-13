@@ -1,0 +1,22 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 安州線
+title: 安達驛・肇州間
+dir: 肇州→安達驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 144の大同鎭欄は縱線（通過印）で v とした。146は大同鎭始發。逆方向は p115a。
+stations: 肇州 | 大同鎭 | 安達驛
+fares: 安達驛 | 大同鎭 3.95 | 肇州 6.20
+
+train: 144 | dest 安達驛 | col 5
+肇州 9.30
+大同鎭 v
+安達驛 16.00
+
+train: 146 | origin 大同鎭 | dest 安達驛 | col 6
+肇州 -
+大同鎭 13.00
+安達驛 16.00

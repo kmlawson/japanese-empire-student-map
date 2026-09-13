@@ -1,0 +1,69 @@
+{
+ "stations": [
+  {
+   "name": "西海口",
+   "km": null
+  },
+  {
+   "name": "錦縣驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "西海口",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "錦縣驛",
+   "col": "1"
+  },
+  {
+   "no": "106",
+   "stops": [
+    {
+     "st": "西海口",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "錦縣驛",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 錦縣驛→西海口 direction"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "錦壺線",
+ "title": "錦縣驛・西海口間",
+ "dir": "西海口→錦縣驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "西海口 1.55 | 錦縣驛 0"
+}

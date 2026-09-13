@@ -1,0 +1,81 @@
+{
+ "stations": [
+  {
+   "name": "多倫",
+   "km": null
+  },
+  {
+   "name": "半截塔",
+   "km": null
+  },
+  {
+   "name": "圍場",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "522",
+   "stops": [
+    {
+     "st": "多倫",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "半截塔",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "圍場",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    }
+   ],
+   "dest": "圍場",
+   "col": "1"
+  },
+  {
+   "no": "524",
+   "stops": [
+    {
+     "st": "半截塔",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "圍場",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "圍場",
+   "col": "2",
+   "origin": "半截塔"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 524"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "圍倫線",
+ "title": "圍場・多倫間",
+ "dir": "多倫→圍場",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "多倫 6.50 | 半截塔 1.50 | 圍場"
+}

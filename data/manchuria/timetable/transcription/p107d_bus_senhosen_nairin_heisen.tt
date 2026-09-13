@@ -1,0 +1,27 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 泉峰線
+title: 平泉・乃林間
+dir: 乃林→平泉
+season: 昭和16.12.1改正
+service: 隔日運行
+note: two unnumbered empty columns (…) stand to the right of bus 614
+note: the second stop is printed too small to be certain; read as 新城
+note: buses 612 and 614 are printed with the same times at 八里罕 (12.30) and 平泉 (16.00); transcribed as printed
+note: no bus in this direction shows a time at 乃林 (…)
+stations: 乃林 | 新城 | 八里罕 | 平泉
+fares: 乃林 7.55 | 新城 5.60 | 八里罕 3.45 | 平泉
+
+train: 612 | dest 平泉 | col 1 | origin 新城
+乃林 -
+新城 9.00
+八里罕 12.30
+平泉 16.00
+
+train: 614 | dest 平泉 | col 2 | origin 八里罕
+乃林 -
+新城 -
+八里罕 12.30
+平泉 16.00

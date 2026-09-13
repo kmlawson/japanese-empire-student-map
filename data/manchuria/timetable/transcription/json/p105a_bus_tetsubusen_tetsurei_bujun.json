@@ -1,0 +1,191 @@
+{
+ "stations": [
+  {
+   "name": "鐵嶺驛",
+   "km": null
+  },
+  {
+   "name": "李小屯",
+   "km": null
+  },
+  {
+   "name": "會元堡",
+   "km": null
+  },
+  {
+   "name": "撫順驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "125",
+   "stops": [
+    {
+     "st": "鐵嶺驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "李小屯",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    }
+   ],
+   "dest": "李小屯",
+   "col": "1"
+  },
+  {
+   "no": "192",
+   "stops": [
+    {
+     "st": "會元堡",
+     "ev": "dep",
+     "printed": "9.25",
+     "bold": false,
+     "t": "09:25"
+    },
+    {
+     "st": "撫順驛",
+     "ev": "dep",
+     "printed": "10.15",
+     "bold": false,
+     "t": "10:15"
+    }
+   ],
+   "dest": "撫順驛",
+   "col": "2",
+   "origin": "會元堡"
+  },
+  {
+   "no": "121",
+   "stops": [
+    {
+     "st": "鐵嶺驛",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "李小屯",
+     "ev": "dep",
+     "printed": "11.11",
+     "bold": false,
+     "t": "11:11"
+    },
+    {
+     "st": "會元堡",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "撫順驛",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    }
+   ],
+   "dest": "撫順驛",
+   "col": "3"
+  },
+  {
+   "no": "123",
+   "stops": [
+    {
+     "st": "鐵嶺驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "李小屯",
+     "ev": "dep",
+     "printed": "15.11",
+     "bold": false,
+     "t": "15:11"
+    },
+    {
+     "st": "會元堡",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "撫順驛",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "撫順驛",
+   "col": "4"
+  },
+  {
+   "no": "712",
+   "stops": [
+    {
+     "st": "鐵嶺驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "李小屯",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    }
+   ],
+   "dest": "李小屯",
+   "col": "5"
+  },
+  {
+   "no": "無番",
+   "stops": [
+    {
+     "st": "會元堡",
+     "ev": "dep",
+     "printed": "16.25",
+     "bold": false,
+     "t": "16:25"
+    },
+    {
+     "st": "撫順驛",
+     "ev": "dep",
+     "printed": "17.15",
+     "bold": false,
+     "t": "17:15"
+    }
+   ],
+   "dest": "撫順驛",
+   "col": "6",
+   "origin": "會元堡"
+  }
+ ],
+ "notes": [
+  "the sixth column carries no bus number in the head (blank cell); entered as 無番"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "鐵撫線",
+ "title": "鐵嶺驛・撫順驛間",
+ "dir": "鐵嶺驛→撫順驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "鐵嶺驛 0 | 李小屯 1.20 | 會元堡 2.55 | 撫順驛 3.25"
+}

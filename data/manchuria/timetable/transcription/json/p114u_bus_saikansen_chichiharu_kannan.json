@@ -1,0 +1,80 @@
+{
+ "stations": [
+  {
+   "name": "齊齊哈爾",
+   "km": null
+  },
+  {
+   "name": "雙崗子",
+   "km": null
+  },
+  {
+   "name": "甘南",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "91",
+   "stops": [
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "甘南",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "甘南",
+   "col": "2"
+  },
+  {
+   "no": "93",
+   "stops": [
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "雙崗子",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "甘南",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "甘南",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "左端は運賃（圓.分）欄。逆方向は p114v。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "齊甘線",
+ "title": "齊齊哈爾・甘南間",
+ "dir": "齊齊哈爾→甘南",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "齊齊哈爾 | 雙崗子 3.20 | 甘南 6.45"
+}

@@ -1,0 +1,16 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 德城線
+title: 德惠・城子街間
+dir: 城子街→德惠
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表は左右2組で、右が城子街發（本表）。運賃欄は德惠起點のものを反轉して掲げた。
+stations: 城子街 | 德惠
+fares: 城子街 2.15 | 德惠
+
+train: 712 | dest 德惠 | col 1
+城子街 10.10
+德惠 11.40

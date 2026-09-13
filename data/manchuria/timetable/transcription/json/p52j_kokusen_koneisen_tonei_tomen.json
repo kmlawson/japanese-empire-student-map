@@ -1,0 +1,397 @@
+{
+ "stations": [
+  {
+   "name": "東寧",
+   "km": null
+  },
+  {
+   "name": "城子溝",
+   "km": null
+  },
+  {
+   "name": "神洞",
+   "km": null
+  },
+  {
+   "name": "肚西",
+   "km": null
+  },
+  {
+   "name": "羅圈",
+   "km": null
+  },
+  {
+   "name": "老黑山",
+   "km": null
+  },
+  {
+   "name": "黑□",
+   "km": null
+  },
+  {
+   "name": "狼溪",
+   "km": null
+  },
+  {
+   "name": "豆燒",
+   "km": null
+  },
+  {
+   "name": "金蒼",
+   "km": null
+  },
+  {
+   "name": "北荒□",
+   "km": null
+  },
+  {
+   "name": "荒溝",
+   "km": null
+  },
+  {
+   "name": "蒼林",
+   "km": null
+  },
+  {
+   "name": "廟嶺",
+   "km": null
+  },
+  {
+   "name": "十里坪",
+   "km": null
+  },
+  {
+   "name": "西大坡",
+   "km": null
+  },
+  {
+   "name": "小汪淸",
+   "km": null
+  },
+  {
+   "name": "新興",
+   "km": null
+  },
+  {
+   "name": "圖們",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "7144",
+   "stops": [
+    {
+     "st": "東寧",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "城子溝",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "神洞",
+     "ev": "dep",
+     "printed": "16.03",
+     "bold": false,
+     "t": "16:03"
+    },
+    {
+     "st": "肚西",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "羅圈",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "老黑山",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "黑□",
+     "ev": "dep",
+     "printed": "19.06",
+     "bold": false,
+     "t": "19:06"
+    },
+    {
+     "st": "狼溪",
+     "ev": "dep",
+     "printed": "20.24",
+     "bold": false,
+     "t": "20:24"
+    },
+    {
+     "st": "豆燒",
+     "ev": "dep",
+     "printed": "21.22",
+     "bold": false,
+     "t": "21:22"
+    },
+    {
+     "st": "金蒼",
+     "ev": "dep",
+     "printed": "22.30",
+     "bold": false,
+     "t": "22:30"
+    },
+    {
+     "st": "北荒□",
+     "ev": "dep",
+     "printed": "22.51",
+     "bold": false,
+     "t": "22:51"
+    },
+    {
+     "st": "荒溝",
+     "ev": "dep",
+     "printed": "23.36",
+     "bold": false,
+     "t": "23:36"
+    },
+    {
+     "st": "蒼林",
+     "ev": "dep",
+     "printed": "0.28",
+     "bold": false,
+     "t": "24:28"
+    },
+    {
+     "st": "廟嶺",
+     "ev": "dep",
+     "printed": "0.49",
+     "bold": false,
+     "t": "24:49"
+    },
+    {
+     "st": "十里坪",
+     "ev": "dep",
+     "printed": "1.12",
+     "bold": false,
+     "t": "25:12"
+    },
+    {
+     "st": "西大坡",
+     "ev": "dep",
+     "printed": "2.00",
+     "bold": false,
+     "t": "26:00"
+    },
+    {
+     "st": "小汪淸",
+     "ev": "dep",
+     "printed": "2.26",
+     "bold": false,
+     "t": "26:26"
+    },
+    {
+     "st": "新興",
+     "ev": "arr",
+     "printed": "2.52",
+     "bold": false,
+     "note": "發は抄錄行（51頁）",
+     "t": "26:52"
+    },
+    {
+     "st": "新興",
+     "ev": "dep",
+     "printed": "3.00",
+     "bold": false,
+     "note": "發は抄錄行（51頁）",
+     "t": "27:00"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "4.46",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "28:46"
+    }
+   ],
+   "dest": "圖們",
+   "cls": "2.3",
+   "marks": "混",
+   "col": "1"
+  },
+  {
+   "no": "1142",
+   "stops": [
+    {
+     "st": "東寧",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "城子溝",
+     "ev": "dep",
+     "printed": "9.06",
+     "bold": false,
+     "t": "09:06"
+    },
+    {
+     "st": "神洞",
+     "ev": "dep",
+     "printed": "9.45",
+     "bold": false,
+     "t": "09:45"
+    },
+    {
+     "st": "肚西",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": false,
+     "t": "10:05"
+    },
+    {
+     "st": "羅圈",
+     "ev": "dep",
+     "printed": "10.42",
+     "bold": false,
+     "t": "10:42"
+    },
+    {
+     "st": "老黑山",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "黑□",
+     "ev": "dep",
+     "printed": "12.39",
+     "bold": false,
+     "t": "12:39"
+    },
+    {
+     "st": "狼溪",
+     "ev": "dep",
+     "printed": "13.55",
+     "bold": false,
+     "t": "13:55"
+    },
+    {
+     "st": "豆燒",
+     "ev": "dep",
+     "printed": "14.32",
+     "bold": false,
+     "t": "14:32"
+    },
+    {
+     "st": "金蒼",
+     "ev": "dep",
+     "printed": "15.08",
+     "bold": false,
+     "t": "15:08"
+    },
+    {
+     "st": "北荒□",
+     "ev": "dep",
+     "printed": "15.26",
+     "bold": false,
+     "t": "15:26"
+    },
+    {
+     "st": "荒溝",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "蒼林",
+     "ev": "dep",
+     "printed": "16.36",
+     "bold": false,
+     "t": "16:36"
+    },
+    {
+     "st": "廟嶺",
+     "ev": "dep",
+     "printed": "16.55",
+     "bold": false,
+     "t": "16:55"
+    },
+    {
+     "st": "十里坪",
+     "ev": "dep",
+     "printed": "17.16",
+     "bold": false,
+     "t": "17:16"
+    },
+    {
+     "st": "西大坡",
+     "ev": "dep",
+     "printed": "17.59",
+     "bold": false,
+     "t": "17:59"
+    },
+    {
+     "st": "小汪淸",
+     "ev": "dep",
+     "printed": "18.27",
+     "bold": false,
+     "t": "18:27"
+    },
+    {
+     "st": "新興",
+     "ev": "arr",
+     "printed": "18.50",
+     "bold": false,
+     "note": "發は抄錄行（51頁）",
+     "t": "18:50"
+    },
+    {
+     "st": "新興",
+     "ev": "dep",
+     "printed": "19.15",
+     "bold": false,
+     "note": "發は抄錄行（51頁）",
+     "t": "19:15"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "20.30",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "20:30"
+    }
+   ],
+   "dest": "圖們",
+   "cls": "2.3",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "昭和16.10.1改正。頁52最下段の表の右半。反對方向（東寧行）は同じ表の左半 p52i。",
+  "中央に「自東寧 運賃 2等・3等」欄があるが轉記せず。粁程欄は無い。",
+  "列車欄は2欄（7144＝混2.3、1142＝2.3〔「混」の記號無し〕）＋右に空欄3欄（全行「…」）。",
+  "表尾に「51頁{新興 發／圖們 著}」の連絡抄錄が2行あり、7144＝3.00／4.46、1142＝19.15／20.30（頁51 圖佳線 p51a と對照）。",
+  "驛名は本表の方が p52i より鮮明。「北荒□」の第3字と「黑□」の第2字は判讀できなかつた。詳細は p52i の note 參照。"
+ ],
+ "source": "IMG_1855",
+ "page": "52",
+ "title": "新興・東寧間（國線・興寧線）",
+ "line": "國線 興寧線",
+ "dir": "圖們行（東寧→新興→圖們）"
+}

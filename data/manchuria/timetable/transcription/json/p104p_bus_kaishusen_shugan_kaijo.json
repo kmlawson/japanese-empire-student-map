@@ -1,0 +1,191 @@
+{
+ "stations": [
+  {
+   "name": "岫巖",
+   "km": null
+  },
+  {
+   "name": "李家房",
+   "km": null
+  },
+  {
+   "name": "析木城",
+   "km": null
+  },
+  {
+   "name": "海城驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "112",
+   "stops": [
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "1",
+   "origin": "析木城"
+  },
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "岫巖",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "李家房",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "2"
+  },
+  {
+   "no": "114",
+   "stops": [
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "3",
+   "origin": "析木城"
+  },
+  {
+   "no": "118",
+   "stops": [
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "4",
+   "origin": "析木城"
+  },
+  {
+   "no": "104",
+   "stops": [
+    {
+     "st": "岫巖",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "李家房",
+     "ev": "dep",
+     "printed": "15.55",
+     "bold": false,
+     "t": "15:55"
+    },
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "5"
+  },
+  {
+   "no": "124",
+   "stops": [
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "6",
+   "origin": "析木城"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "海岫線",
+ "title": "海城驛・岫巖間",
+ "dir": "岫巖→海城驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "岫巖 0 | 李家房 3.00 | 析木城 3.45 | 海城驛 4.75"
+}

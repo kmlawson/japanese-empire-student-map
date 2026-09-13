@@ -1,0 +1,1266 @@
+{
+ "stations": [
+  {
+   "name": "四平",
+   "km": null
+  },
+  {
+   "name": "泉溝",
+   "km": null
+  },
+  {
+   "name": "八面城",
+   "km": null
+  },
+  {
+   "name": "曲家店",
+   "km": null
+  },
+  {
+   "name": "偏家屯",
+   "km": null
+  },
+  {
+   "name": "三江口",
+   "km": null
+  },
+  {
+   "name": "金寶屯",
+   "km": null
+  },
+  {
+   "name": "鄭家屯",
+   "km": null
+  },
+  {
+   "name": "臥虎屯",
+   "km": null
+  },
+  {
+   "name": "玻璃山",
+   "km": null
+  },
+  {
+   "name": "茂林",
+   "km": null
+  },
+  {
+   "name": "三林",
+   "km": null
+  },
+  {
+   "name": "保康",
+   "km": null
+  },
+  {
+   "name": "金山",
+   "km": null
+  },
+  {
+   "name": "巨寶",
+   "km": null
+  },
+  {
+   "name": "大平川",
+   "km": null
+  },
+  {
+   "name": "邊昭",
+   "km": null
+  },
+  {
+   "name": "開通",
+   "km": null
+  },
+  {
+   "name": "溝興",
+   "km": null
+  },
+  {
+   "name": "雙崗",
+   "km": null
+  },
+  {
+   "name": "黑水",
+   "km": null
+  },
+  {
+   "name": "洮南",
+   "km": null
+  },
+  {
+   "name": "白城子",
+   "km": null
+  },
+  {
+   "name": "鎭東",
+   "km": null
+  },
+  {
+   "name": "東屏",
+   "km": null
+  },
+  {
+   "name": "坦途",
+   "km": null
+  },
+  {
+   "name": "街基",
+   "km": null
+  },
+  {
+   "name": "泰來",
+   "km": null
+  },
+  {
+   "name": "五廟子",
+   "km": null
+  },
+  {
+   "name": "江橋",
+   "km": null
+  },
+  {
+   "name": "大興",
+   "km": null
+  },
+  {
+   "name": "三間房",
+   "km": null
+  },
+  {
+   "name": "榆樹屯",
+   "km": null
+  },
+  {
+   "name": "齊齊哈爾",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "805",
+   "stops": [
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "6.40",
+     "bold": false,
+     "t": "06:40"
+    },
+    {
+     "st": "泉溝",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": false,
+     "t": "06:54"
+    },
+    {
+     "st": "八面城",
+     "ev": "dep",
+     "printed": "7.12",
+     "bold": false,
+     "t": "07:12"
+    },
+    {
+     "st": "曲家店",
+     "ev": "dep",
+     "printed": "7.24",
+     "bold": false,
+     "t": "07:24"
+    },
+    {
+     "st": "偏家屯",
+     "ev": "dep",
+     "printed": "7.40",
+     "bold": false,
+     "t": "07:40"
+    },
+    {
+     "st": "三江口",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": false,
+     "t": "07:55"
+    },
+    {
+     "st": "金寶屯",
+     "ev": "dep",
+     "printed": "8.08",
+     "bold": false,
+     "t": "08:08"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "arr",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": false,
+     "t": "08:35"
+    },
+    {
+     "st": "臥虎屯",
+     "ev": "dep",
+     "printed": "9.05",
+     "bold": false,
+     "t": "09:05"
+    },
+    {
+     "st": "玻璃山",
+     "ev": "dep",
+     "printed": "9.21",
+     "bold": false,
+     "t": "09:21"
+    },
+    {
+     "st": "茂林",
+     "ev": "dep",
+     "printed": "9.42",
+     "bold": false,
+     "t": "09:42"
+    },
+    {
+     "st": "三林",
+     "ev": "dep",
+     "printed": "9.54",
+     "bold": false,
+     "t": "09:54"
+    },
+    {
+     "st": "保康",
+     "ev": "dep",
+     "printed": "10.04",
+     "bold": false,
+     "t": "10:04"
+    },
+    {
+     "st": "金山",
+     "ev": "dep",
+     "printed": "10.15",
+     "bold": false,
+     "t": "10:15"
+    },
+    {
+     "st": "巨寶",
+     "ev": "dep",
+     "printed": "10.26",
+     "bold": false,
+     "t": "10:26"
+    },
+    {
+     "st": "大平川",
+     "ev": "dep",
+     "printed": "10.48",
+     "bold": false,
+     "t": "10:48"
+    },
+    {
+     "st": "邊昭",
+     "ev": "dep",
+     "printed": "11.16",
+     "bold": false,
+     "t": "11:16"
+    },
+    {
+     "st": "開通",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "溝興",
+     "ev": "dep",
+     "printed": "12.01",
+     "bold": false,
+     "t": "12:01"
+    },
+    {
+     "st": "雙崗",
+     "ev": "dep",
+     "printed": "12.17",
+     "bold": false,
+     "t": "12:17"
+    },
+    {
+     "st": "黑水",
+     "ev": "dep",
+     "printed": "12.34",
+     "bold": false,
+     "t": "12:34"
+    },
+    {
+     "st": "洮南",
+     "ev": "dep",
+     "printed": "12.52",
+     "bold": false,
+     "t": "12:52"
+    },
+    {
+     "st": "白城子",
+     "ev": "arr",
+     "printed": "13.22",
+     "bold": false,
+     "t": "13:22"
+    },
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "13.31",
+     "bold": false,
+     "t": "13:31"
+    },
+    {
+     "st": "鎭東",
+     "ev": "dep",
+     "printed": "14.06",
+     "bold": false,
+     "t": "14:06"
+    },
+    {
+     "st": "東屏",
+     "ev": "dep",
+     "printed": "14.33",
+     "bold": false,
+     "t": "14:33"
+    },
+    {
+     "st": "坦途",
+     "ev": "dep",
+     "printed": "14.46",
+     "bold": false,
+     "t": "14:46"
+    },
+    {
+     "st": "街基",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "泰來",
+     "ev": "dep",
+     "printed": "15.21",
+     "bold": false,
+     "t": "15:21"
+    },
+    {
+     "st": "五廟子",
+     "ev": "dep",
+     "printed": "15.49",
+     "bold": false,
+     "t": "15:49"
+    },
+    {
+     "st": "江橋",
+     "ev": "dep",
+     "printed": "16.14",
+     "bold": false,
+     "t": "16:14"
+    },
+    {
+     "st": "大興",
+     "ev": "dep",
+     "printed": "16.28",
+     "bold": false,
+     "t": "16:28"
+    },
+    {
+     "st": "三間房",
+     "ev": "dep",
+     "printed": "16.54",
+     "bold": false,
+     "t": "16:54"
+    },
+    {
+     "st": "榆樹屯",
+     "ev": "dep",
+     "printed": "17.06",
+     "bold": false,
+     "t": "17:06"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "17.28",
+     "bold": false,
+     "t": "17:28"
+    }
+   ],
+   "dest": "齊齊哈爾",
+   "cls": "2.3",
+   "col": "1"
+  },
+  {
+   "no": "825",
+   "stops": [
+    {
+     "st": "洮南",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "10.09",
+     "bold": false,
+     "t": "10:09"
+    }
+   ],
+   "dest": "白城子",
+   "cls": "3",
+   "marks": "動",
+   "origin": "洮南",
+   "col": "2"
+  },
+  {
+   "no": "807",
+   "stops": [
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "12.25",
+     "bold": false,
+     "t": "12:25"
+    },
+    {
+     "st": "泉溝",
+     "ev": "dep",
+     "printed": "12.37",
+     "bold": false,
+     "t": "12:37"
+    },
+    {
+     "st": "八面城",
+     "ev": "dep",
+     "printed": "12.56",
+     "bold": false,
+     "t": "12:56"
+    },
+    {
+     "st": "曲家店",
+     "ev": "dep",
+     "printed": "13.08",
+     "bold": false,
+     "t": "13:08"
+    },
+    {
+     "st": "偏家屯",
+     "ev": "dep",
+     "printed": "13.23",
+     "bold": false,
+     "t": "13:23"
+    },
+    {
+     "st": "三江口",
+     "ev": "dep",
+     "printed": "13.37",
+     "bold": false,
+     "t": "13:37"
+    },
+    {
+     "st": "金寶屯",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "arr",
+     "printed": "14.06",
+     "bold": false,
+     "t": "14:06"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "dep",
+     "printed": "14.17",
+     "bold": false,
+     "t": "14:17"
+    },
+    {
+     "st": "臥虎屯",
+     "ev": "dep",
+     "printed": "14.39",
+     "bold": false,
+     "t": "14:39"
+    },
+    {
+     "st": "玻璃山",
+     "ev": "dep",
+     "printed": "14.55",
+     "bold": false,
+     "t": "14:55"
+    },
+    {
+     "st": "茂林",
+     "ev": "dep",
+     "printed": "15.22",
+     "bold": false,
+     "t": "15:22"
+    },
+    {
+     "st": "三林",
+     "ev": "dep",
+     "printed": "15.33",
+     "bold": false,
+     "t": "15:33"
+    },
+    {
+     "st": "保康",
+     "ev": "dep",
+     "printed": "15.43",
+     "bold": false,
+     "t": "15:43"
+    },
+    {
+     "st": "金山",
+     "ev": "dep",
+     "printed": "15.54",
+     "bold": false,
+     "t": "15:54"
+    },
+    {
+     "st": "巨寶",
+     "ev": "dep",
+     "printed": "16.04",
+     "bold": false,
+     "t": "16:04"
+    },
+    {
+     "st": "大平川",
+     "ev": "dep",
+     "printed": "16.25",
+     "bold": false,
+     "t": "16:25"
+    },
+    {
+     "st": "邊昭",
+     "ev": "dep",
+     "printed": "16.49",
+     "bold": false,
+     "t": "16:49"
+    },
+    {
+     "st": "開通",
+     "ev": "dep",
+     "printed": "17.12",
+     "bold": false,
+     "t": "17:12"
+    },
+    {
+     "st": "溝興",
+     "ev": "dep",
+     "printed": "17.31",
+     "bold": false,
+     "t": "17:31"
+    },
+    {
+     "st": "雙崗",
+     "ev": "dep",
+     "printed": "17.46",
+     "bold": false,
+     "t": "17:46"
+    },
+    {
+     "st": "黑水",
+     "ev": "dep",
+     "printed": "18.02",
+     "bold": false,
+     "t": "18:02"
+    },
+    {
+     "st": "洮南",
+     "ev": "dep",
+     "printed": "18.19",
+     "bold": false,
+     "t": "18:19"
+    },
+    {
+     "st": "白城子",
+     "ev": "arr",
+     "printed": "18.47",
+     "bold": false,
+     "t": "18:47"
+    },
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "18.58",
+     "bold": false,
+     "t": "18:58"
+    },
+    {
+     "st": "鎭東",
+     "ev": "dep",
+     "printed": "19.32",
+     "bold": false,
+     "t": "19:32"
+    },
+    {
+     "st": "東屏",
+     "ev": "dep",
+     "printed": "19.58",
+     "bold": false,
+     "t": "19:58"
+    },
+    {
+     "st": "坦途",
+     "ev": "dep",
+     "printed": "20.11",
+     "bold": false,
+     "t": "20:11"
+    },
+    {
+     "st": "街基",
+     "ev": "dep",
+     "printed": "20.31",
+     "bold": false,
+     "t": "20:31"
+    },
+    {
+     "st": "泰來",
+     "ev": "dep",
+     "printed": "20.52",
+     "bold": false,
+     "t": "20:52"
+    },
+    {
+     "st": "五廟子",
+     "ev": "dep",
+     "printed": "21.19",
+     "bold": false,
+     "t": "21:19"
+    },
+    {
+     "st": "江橋",
+     "ev": "dep",
+     "printed": "21.43",
+     "bold": false,
+     "t": "21:43"
+    },
+    {
+     "st": "大興",
+     "ev": "dep",
+     "printed": "21.56",
+     "bold": false,
+     "t": "21:56"
+    },
+    {
+     "st": "三間房",
+     "ev": "dep",
+     "printed": "22.22",
+     "bold": false,
+     "t": "22:22"
+    },
+    {
+     "st": "榆樹屯",
+     "ev": "dep",
+     "printed": "22.34",
+     "bold": false,
+     "t": "22:34"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "22.55",
+     "bold": false,
+     "t": "22:55"
+    }
+   ],
+   "dest": "齊齊哈爾",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "809",
+   "stops": [
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "泉溝",
+     "ev": "dep",
+     "printed": "16.56",
+     "bold": false,
+     "t": "16:56"
+    },
+    {
+     "st": "八面城",
+     "ev": "dep",
+     "printed": "17.19",
+     "bold": false,
+     "t": "17:19"
+    },
+    {
+     "st": "曲家店",
+     "ev": "dep",
+     "printed": "17.34",
+     "bold": false,
+     "t": "17:34"
+    },
+    {
+     "st": "偏家屯",
+     "ev": "dep",
+     "printed": "17.54",
+     "bold": false,
+     "t": "17:54"
+    },
+    {
+     "st": "三江口",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "金寶屯",
+     "ev": "dep",
+     "printed": "18.36",
+     "bold": false,
+     "t": "18:36"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "arr",
+     "printed": "18.56",
+     "bold": false,
+     "note": "原表に「通遼著 21.45」と縦書きで添記",
+     "t": "18:56"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "dep",
+     "printed": "19.08",
+     "bold": false,
+     "note": "原表に「通遼著 21.45」と縦書きで添記",
+     "t": "19:08"
+    }
+   ],
+   "dest": "通遼",
+   "cls": "2.3",
+   "col": "4"
+  },
+  {
+   "no": "801",
+   "stops": [
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "23.50",
+     "bold": false,
+     "t": "23:50"
+    },
+    {
+     "st": "泉溝",
+     "ev": "pass"
+    },
+    {
+     "st": "八面城",
+     "ev": "dep",
+     "printed": "0.24",
+     "bold": false,
+     "t": "24:24"
+    },
+    {
+     "st": "曲家店",
+     "ev": "pass"
+    },
+    {
+     "st": "偏家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "三江口",
+     "ev": "pass"
+    },
+    {
+     "st": "金寶屯",
+     "ev": "pass"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "arr",
+     "printed": "1.40",
+     "bold": false,
+     "t": "25:40"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "dep",
+     "printed": "1.50",
+     "bold": false,
+     "t": "25:50"
+    },
+    {
+     "st": "臥虎屯",
+     "ev": "pass"
+    },
+    {
+     "st": "玻璃山",
+     "ev": "pass"
+    },
+    {
+     "st": "茂林",
+     "ev": "dep",
+     "printed": "3.02",
+     "bold": false,
+     "t": "27:02"
+    },
+    {
+     "st": "三林",
+     "ev": "pass"
+    },
+    {
+     "st": "保康",
+     "ev": "dep",
+     "printed": "3.29",
+     "bold": false,
+     "t": "27:29"
+    },
+    {
+     "st": "金山",
+     "ev": "pass"
+    },
+    {
+     "st": "巨寶",
+     "ev": "pass"
+    },
+    {
+     "st": "大平川",
+     "ev": "dep",
+     "printed": "4.17",
+     "bold": false,
+     "t": "28:17"
+    },
+    {
+     "st": "邊昭",
+     "ev": "dep",
+     "printed": "4.48",
+     "bold": false,
+     "t": "28:48"
+    },
+    {
+     "st": "開通",
+     "ev": "dep",
+     "printed": "5.16",
+     "bold": false,
+     "t": "29:16"
+    },
+    {
+     "st": "溝興",
+     "ev": "dep",
+     "printed": "5.37",
+     "bold": false,
+     "t": "29:37"
+    },
+    {
+     "st": "雙崗",
+     "ev": "dep",
+     "printed": "5.57",
+     "bold": false,
+     "t": "29:57"
+    },
+    {
+     "st": "黑水",
+     "ev": "pass"
+    },
+    {
+     "st": "洮南",
+     "ev": "dep",
+     "printed": "6.33",
+     "bold": false,
+     "t": "30:33"
+    },
+    {
+     "st": "白城子",
+     "ev": "arr",
+     "printed": "7.10",
+     "bold": false,
+     "t": "31:10"
+    },
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "7.23",
+     "bold": false,
+     "t": "31:23"
+    },
+    {
+     "st": "鎭東",
+     "ev": "dep",
+     "printed": "8.06",
+     "bold": false,
+     "t": "32:06"
+    },
+    {
+     "st": "東屏",
+     "ev": "dep",
+     "printed": "8.36",
+     "bold": false,
+     "t": "32:36"
+    },
+    {
+     "st": "坦途",
+     "ev": "dep",
+     "printed": "8.51",
+     "bold": false,
+     "t": "32:51"
+    },
+    {
+     "st": "街基",
+     "ev": "dep",
+     "printed": "9.07",
+     "bold": false,
+     "t": "33:07"
+    },
+    {
+     "st": "泰來",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": false,
+     "t": "33:31"
+    },
+    {
+     "st": "五廟子",
+     "ev": "dep",
+     "printed": "10.03",
+     "bold": false,
+     "t": "34:03"
+    },
+    {
+     "st": "江橋",
+     "ev": "dep",
+     "printed": "10.33",
+     "bold": false,
+     "t": "34:33"
+    },
+    {
+     "st": "大興",
+     "ev": "dep",
+     "printed": "10.49",
+     "bold": false,
+     "t": "34:49"
+    },
+    {
+     "st": "三間房",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "35:20"
+    },
+    {
+     "st": "榆樹屯",
+     "ev": "dep",
+     "printed": "11.34",
+     "bold": false,
+     "t": "35:34"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "36:00"
+    }
+   ],
+   "dest": "北安",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "col": "5"
+  },
+  {
+   "no": "803",
+   "stops": [
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    },
+    {
+     "st": "泉溝",
+     "ev": "dep",
+     "printed": "19.05",
+     "bold": false,
+     "t": "19:05"
+    },
+    {
+     "st": "八面城",
+     "ev": "dep",
+     "printed": "19.24",
+     "bold": false,
+     "t": "19:24"
+    },
+    {
+     "st": "曲家店",
+     "ev": "dep",
+     "printed": "19.37",
+     "bold": false,
+     "t": "19:37"
+    },
+    {
+     "st": "偏家屯",
+     "ev": "dep",
+     "printed": "19.53",
+     "bold": false,
+     "t": "19:53"
+    },
+    {
+     "st": "三江口",
+     "ev": "dep",
+     "printed": "20.09",
+     "bold": false,
+     "t": "20:09"
+    },
+    {
+     "st": "金寶屯",
+     "ev": "dep",
+     "printed": "20.22",
+     "bold": false,
+     "t": "20:22"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "arr",
+     "printed": "20.40",
+     "bold": false,
+     "t": "20:40"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "dep",
+     "printed": "20.52",
+     "bold": false,
+     "t": "20:52"
+    },
+    {
+     "st": "臥虎屯",
+     "ev": "dep",
+     "printed": "21.20",
+     "bold": false,
+     "t": "21:20"
+    },
+    {
+     "st": "玻璃山",
+     "ev": "dep",
+     "printed": "21.38",
+     "bold": false,
+     "t": "21:38"
+    },
+    {
+     "st": "茂林",
+     "ev": "dep",
+     "printed": "22.01",
+     "bold": false,
+     "t": "22:01"
+    },
+    {
+     "st": "三林",
+     "ev": "dep",
+     "printed": "22.13",
+     "bold": false,
+     "t": "22:13"
+    },
+    {
+     "st": "保康",
+     "ev": "dep",
+     "printed": "22.27",
+     "bold": false,
+     "t": "22:27"
+    },
+    {
+     "st": "金山",
+     "ev": "dep",
+     "printed": "22.40",
+     "bold": false,
+     "t": "22:40"
+    },
+    {
+     "st": "巨寶",
+     "ev": "dep",
+     "printed": "22.54",
+     "bold": false,
+     "t": "22:54"
+    },
+    {
+     "st": "大平川",
+     "ev": "dep",
+     "printed": "23.20",
+     "bold": false,
+     "t": "23:20"
+    },
+    {
+     "st": "邊昭",
+     "ev": "dep",
+     "printed": "23.51",
+     "bold": false,
+     "t": "23:51"
+    },
+    {
+     "st": "開通",
+     "ev": "dep",
+     "printed": "0.23",
+     "bold": false,
+     "t": "24:23"
+    },
+    {
+     "st": "溝興",
+     "ev": "dep",
+     "printed": "0.47",
+     "bold": false,
+     "t": "24:47"
+    },
+    {
+     "st": "雙崗",
+     "ev": "dep",
+     "printed": "1.05",
+     "bold": false,
+     "t": "25:05"
+    },
+    {
+     "st": "黑水",
+     "ev": "dep",
+     "printed": "1.22",
+     "bold": false,
+     "t": "25:22"
+    },
+    {
+     "st": "洮南",
+     "ev": "dep",
+     "printed": "1.41",
+     "bold": false,
+     "t": "25:41"
+    },
+    {
+     "st": "白城子",
+     "ev": "arr",
+     "printed": "2.17",
+     "bold": false,
+     "t": "26:17"
+    },
+    {
+     "st": "白城子",
+     "ev": "dep",
+     "printed": "2.27",
+     "bold": false,
+     "t": "26:27"
+    },
+    {
+     "st": "鎭東",
+     "ev": "dep",
+     "printed": "3.13",
+     "bold": false,
+     "t": "27:13"
+    },
+    {
+     "st": "東屏",
+     "ev": "dep",
+     "printed": "3.44",
+     "bold": false,
+     "t": "27:44"
+    },
+    {
+     "st": "坦途",
+     "ev": "dep",
+     "printed": "3.59",
+     "bold": false,
+     "t": "27:59"
+    },
+    {
+     "st": "街基",
+     "ev": "dep",
+     "printed": "4.14",
+     "bold": false,
+     "t": "28:14"
+    },
+    {
+     "st": "泰來",
+     "ev": "dep",
+     "printed": "4.39",
+     "bold": false,
+     "t": "28:39"
+    },
+    {
+     "st": "五廟子",
+     "ev": "dep",
+     "printed": "5.11",
+     "bold": false,
+     "t": "29:11"
+    },
+    {
+     "st": "江橋",
+     "ev": "dep",
+     "printed": "5.42",
+     "bold": false,
+     "t": "29:42"
+    },
+    {
+     "st": "大興",
+     "ev": "dep",
+     "printed": "5.58",
+     "bold": false,
+     "t": "29:58"
+    },
+    {
+     "st": "三間房",
+     "ev": "dep",
+     "printed": "6.29",
+     "bold": false,
+     "t": "30:29"
+    },
+    {
+     "st": "榆樹屯",
+     "ev": "dep",
+     "printed": "6.43",
+     "bold": false,
+     "t": "30:43"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "7.10",
+     "bold": false,
+     "t": "31:10"
+    }
+   ],
+   "dest": "北安",
+   "cls": "2.3",
+   "marks": "寢2",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "昭和17.6.15改訂。頁36の上段。反對方向（齊齊哈爾・四平間）は頁37の p37a で、驛名欄も列車欄も別立て（同一表の續きではない）。",
+  "左端に「自四平 運賃 2等・3等」欄があるが轉記せず。粁程（キロ程）欄はこの表には無い。驛名の左に⊕・〒・✕・◎等の設備記號が付くが轉記せず。",
+  "列車欄は6欄。左から 805・825・807・809・801・803。右端に空欄が7欄あり、その右に頁37の上り表用の「自齊齊哈爾 運賃 2等・3等」欄が印刷されてゐる（運賃欄なので轉記せず）。",
+  "表頭に「14.15頁{奉天 發／四平 著}」の連絡抄錄行、表尾に「40頁{齊齊哈爾 發／北安 著}」の連絡抄錄行がある。抄錄行に時刻があるのは列車801・803のみ。801は奉天發19.15・四平著23.27、齊齊哈爾發12.20・北安著17.25。803は奉天發13.45・四平著18.15、齊齊哈爾發7.11・北安著12.20（齊齊哈爾著7.10の1分後で、原表のまま）。",
+  "列車809は鄭家屯で本線を離れ、原表の809欄に縦書きで「通遼著 21.45」とある。",
+  "列車825は洮南9.30發・白城子10.09著のみで、それより南の各驛は「…」。",
+  "頁頭に「讀みにくい驛名 三江口(サンジヤンコウ)溝興(コウコウ)東屏(トウヘイ)」の枠と、その下に車窓展望圖の帶。展望圖は左端に縦書きで「滿洲 平齊線・榆樹線」、四平街・泉溝・八面城・鄭家屯・臥虎屯・茂林・金山・大平川・開通・洮南・白城子などの地名と繪記號を配する（頁37へ續く）。",
+  "頁尾に「記念スタンプ 四平、鄭家屯、洮南、白城子、泰來、江橋、齊齊哈爾、昂昂溪」。",
+  "展望圖では「大平川」「臥虎屯」と印刷され、表中の活字も「大」（點無し）。一般に「太平川」と書かれる驛だが、本ファイルは印刷通り「大平川」とした。",
+  "第5驛「偏家屯」の第1字は活字が潰れ氣味で、亻＋扁と讀んだが確實ではない。",
+  "「v」は原表のレ（通過）、「-」は原表の「…」（列車が走らない區間）。"
+ ],
+ "source": "IMG_1847",
+ "page": "36",
+ "title": "四平・齊齊哈爾間（國線・平齊線）",
+ "line": "國線 平齊線",
+ "dir": "四平→齊齊哈爾（下り）"
+}

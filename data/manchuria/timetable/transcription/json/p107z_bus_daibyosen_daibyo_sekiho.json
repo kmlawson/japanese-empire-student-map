@@ -1,0 +1,49 @@
+{
+ "stations": [
+  {
+   "name": "大廟",
+   "km": null
+  },
+  {
+   "name": "赤峰",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "420",
+   "stops": [
+    {
+     "st": "大廟",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "赤峰",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "赤峰",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "「(運休)」 is printed where the other blocks carry a 改正 date — the service is suspended",
+  "three unnumbered empty columns (…) stand to the right of bus 420"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "大廟線",
+ "title": "赤峰・大廟間",
+ "dir": "大廟→赤峰",
+ "season": "(運休)",
+ "service": "每日運行",
+ "fares": "大廟 3.45 | 赤峰"
+}

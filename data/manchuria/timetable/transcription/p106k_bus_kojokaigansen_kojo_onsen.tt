@@ -1,0 +1,36 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 興城海岸線
+title: 興城驛・溫泉間
+dir: 興城驛→溫泉
+season: 昭和16.10.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the right of the last bus
+stations: 興城驛 | 溫泉
+fares: 興城驛 | 溫泉 0.15
+
+train: 141 | dest 溫泉 | col 1
+興城驛 8.30
+溫泉 8.45
+
+train: 143 | dest 溫泉 | col 2
+興城驛 9.40
+溫泉 9.55
+
+train: 145 | dest 溫泉 | col 3
+興城驛 13.15
+溫泉 13.30
+
+train: 147 | dest 溫泉 | col 4
+興城驛 16.40
+溫泉 16.55
+
+train: 149 | dest 溫泉 | col 5
+興城驛 18.00
+溫泉 18.15
+
+train: 151 | dest 溫泉 | col 6
+興城驛 20.35
+溫泉 20.50

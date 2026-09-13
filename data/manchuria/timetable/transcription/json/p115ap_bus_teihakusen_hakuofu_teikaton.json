@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "博王府",
+   "km": null
+  },
+  {
+   "name": "鄭家屯",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "296",
+   "stops": [
+    {
+     "st": "博王府",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "鄭家屯",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "鄭家屯",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "表の右半（博王府發）。逆方向は p115ao。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "鄭博線",
+ "title": "鄭家屯・博王府間",
+ "dir": "博王府→鄭家屯",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "鄭家屯 | 博王府 3.75"
+}

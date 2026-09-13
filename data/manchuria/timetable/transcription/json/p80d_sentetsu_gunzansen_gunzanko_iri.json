@@ -1,0 +1,623 @@
+{
+ "stations": [
+  {
+   "name": "群山港",
+   "km": 0.0
+  },
+  {
+   "name": "群山",
+   "km": 1.7
+  },
+  {
+   "name": "地境",
+   "km": 11.7
+  },
+  {
+   "name": "臨陂",
+   "km": 16.9
+  },
+  {
+   "name": "裡里",
+   "km": 24.7
+  }
+ ],
+ "trains": [
+  {
+   "no": "1628",
+   "stops": [
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "5.00",
+     "bold": false,
+     "t": "05:00"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "5.19",
+     "bold": false,
+     "t": "05:19"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "5.28",
+     "bold": false,
+     "t": "05:28"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "5.42",
+     "bold": false,
+     "t": "05:42"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "origin": "群山",
+   "col": "1"
+  },
+  {
+   "no": "684",
+   "stops": [
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の下一桁の印刷が缺け「7.39」とも見えるが所要時分から 7.30 と讀んだ",
+     "t": "07:30"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "7.52",
+     "bold": false,
+     "t": "07:52"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "8.03",
+     "bold": false,
+     "t": "08:03"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "origin": "群山",
+   "col": "2"
+  },
+  {
+   "no": "1618",
+   "stops": [
+    {
+     "st": "群山港",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    },
+    {
+     "st": "群山",
+     "ev": "arr",
+     "printed": "8.26",
+     "bold": false,
+     "t": "08:26"
+    },
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "8.34",
+     "bold": false,
+     "t": "08:34"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "8.56",
+     "bold": false,
+     "t": "08:56"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "9.08",
+     "bold": false,
+     "t": "09:08"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "9.24",
+     "bold": false,
+     "t": "09:24"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "1620",
+   "stops": [
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "10.31",
+     "bold": false,
+     "t": "10:31"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "10.53",
+     "bold": false,
+     "t": "10:53"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "11.04",
+     "bold": false,
+     "t": "11:04"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "origin": "群山",
+   "col": "4"
+  },
+  {
+   "no": "686",
+   "stops": [
+    {
+     "st": "群山港",
+     "ev": "dep",
+     "printed": "11.17",
+     "bold": false,
+     "t": "11:17"
+    },
+    {
+     "st": "群山",
+     "ev": "arr",
+     "printed": "11.23",
+     "bold": false,
+     "t": "11:23"
+    },
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "11.27",
+     "bold": false,
+     "t": "11:27"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "11.49",
+     "bold": false,
+     "t": "11:49"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "12.02",
+     "bold": false,
+     "t": "12:02"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "12.18",
+     "bold": false,
+     "t": "12:18"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "col": "5"
+  },
+  {
+   "no": "688",
+   "stops": [
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "12.45",
+     "bold": false,
+     "t": "12:45"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "13.13",
+     "bold": false,
+     "t": "13:13"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "13.24",
+     "bold": false,
+     "t": "13:24"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "origin": "群山",
+   "col": "6"
+  },
+  {
+   "no": "690",
+   "stops": [
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "14.25",
+     "bold": false,
+     "t": "14:25"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "14.48",
+     "bold": false,
+     "t": "14:48"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "15.03",
+     "bold": false,
+     "t": "15:03"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "origin": "群山",
+   "col": "7"
+  },
+  {
+   "no": "692",
+   "stops": [
+    {
+     "st": "群山港",
+     "ev": "dep",
+     "printed": "15.33",
+     "bold": false,
+     "t": "15:33"
+    },
+    {
+     "st": "群山",
+     "ev": "arr",
+     "printed": "15.39",
+     "bold": false,
+     "t": "15:39"
+    },
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "15.47",
+     "bold": false,
+     "t": "15:47"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "16.12",
+     "bold": false,
+     "t": "16:12"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "16.23",
+     "bold": false,
+     "t": "16:23"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "16.39",
+     "bold": false,
+     "t": "16:39"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "col": "8"
+  },
+  {
+   "no": "694",
+   "stops": [
+    {
+     "st": "群山港",
+     "ev": "dep",
+     "printed": "17.14",
+     "bold": false,
+     "t": "17:14"
+    },
+    {
+     "st": "群山",
+     "ev": "arr",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "17.25",
+     "bold": false,
+     "t": "17:25"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "17.49",
+     "bold": false,
+     "t": "17:49"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "18.16",
+     "bold": false,
+     "t": "18:16"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "col": "9"
+  },
+  {
+   "no": "1622",
+   "stops": [
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "18.49",
+     "bold": false,
+     "t": "18:49"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "18.58",
+     "bold": false,
+     "t": "18:58"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "19.12",
+     "bold": false,
+     "t": "19:12"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "origin": "群山",
+   "col": "10"
+  },
+  {
+   "no": "696",
+   "stops": [
+    {
+     "st": "群山港",
+     "ev": "dep",
+     "printed": "19.24",
+     "bold": false,
+     "t": "19:24"
+    },
+    {
+     "st": "群山",
+     "ev": "arr",
+     "printed": "19.29",
+     "bold": false,
+     "t": "19:29"
+    },
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "19.34",
+     "bold": false,
+     "t": "19:34"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "19.53",
+     "bold": false,
+     "t": "19:53"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "20.02",
+     "bold": false,
+     "t": "20:02"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "20.16",
+     "bold": false,
+     "t": "20:16"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "col": "11"
+  },
+  {
+   "no": "1624",
+   "stops": [
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "21.00",
+     "bold": false,
+     "t": "21:00"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "21.24",
+     "bold": false,
+     "t": "21:24"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "21.35",
+     "bold": false,
+     "t": "21:35"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "21.51",
+     "bold": false,
+     "t": "21:51"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "origin": "群山",
+   "col": "12"
+  },
+  {
+   "no": "698",
+   "stops": [
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "22.00",
+     "bold": false,
+     "t": "22:00"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "22.19",
+     "bold": false,
+     "t": "22:19"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "22.28",
+     "bold": false,
+     "t": "22:28"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "22.42",
+     "bold": false,
+     "t": "22:42"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "origin": "群山",
+   "col": "13"
+  },
+  {
+   "no": "1626",
+   "stops": [
+    {
+     "st": "群山",
+     "ev": "dep",
+     "printed": "22.35",
+     "bold": false,
+     "t": "22:35"
+    },
+    {
+     "st": "地境",
+     "ev": "dep",
+     "printed": "22.56",
+     "bold": false,
+     "t": "22:56"
+    },
+    {
+     "st": "臨陂",
+     "ev": "dep",
+     "printed": "23.06",
+     "bold": false,
+     "t": "23:06"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "23.21",
+     "bold": false,
+     "t": "23:21"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "2.3",
+   "origin": "群山",
+   "col": "14"
+  }
+ ],
+ "notes": [
+  "昭和17.2.20改正。頁80最下段の表。反對方向（裡里→群山港）は同頁第3段の p80c。表頭は共通で「全部2.3等車」。",
+  "左端に「粁程／運賃 2等・3等」欄があるが運賃は轉記せず。粁程（自群山港）は stations に入れた。驛名の左の⊓・〒・◎等の設備記號も轉記せず。",
+  "朝鮮の表につき24時制。列車欄は14欄。その右にもう1欄あり全行「…」（列車番號の印刷が無い空欄）。",
+  "群山港發は 1618・686・692・694・696 の5列車のみ。他は群山始發。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。"
+ ],
+ "source": "IMG_1869",
+ "page": "80",
+ "title": "群山港・裡里間",
+ "line": "鮮鐵 群山線",
+ "dir": "裡里行（群山港→裡里）"
+}

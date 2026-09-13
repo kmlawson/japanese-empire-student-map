@@ -1,0 +1,28 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 阜套線
+title: 阜新城・哈拉套街間
+dir: 阜新城→哈拉套街
+season: 昭和16.12.1改正
+service: 每日運行
+note: the middle stop is printed too small to be certain; read as 務歡池
+note: no bus in this direction is shown running through to 哈拉套街 (thick rule in that row)
+stations: 阜新城 | 務歡池 | 哈拉套街
+fares: 阜新城 | 務歡池 1.75 | 哈拉套街 3.10
+
+train: 211 | dest 務歡池 | col 1
+阜新城 7.30
+務歡池 9.30
+哈拉套街 -
+
+train: 205 | dest 務歡池 | col 2
+阜新城 8.30
+務歡池 10.30
+哈拉套街 -
+
+train: 207 | dest 務歡池 | col 3
+阜新城 12.30
+務歡池 14.30
+哈拉套街 -

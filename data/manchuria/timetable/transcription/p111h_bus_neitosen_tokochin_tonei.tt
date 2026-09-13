@@ -1,0 +1,17 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 寧東線
+title: 東寧・東興鎭間
+dir: 東興鎭→東寧
+season: (運休)
+service: 五日目運行
+note: 運賃欄は表の左端に1組のみ（東寧起點）。
+stations: 東興鎭 | 石門子 | 東寧
+fares: 東興鎭 4.35 | 石門子 0.95 | 東寧
+
+train: 102 | dest 東寧 | col 1
+東興鎭 12.30
+石門子 16.50
+東寧 18.30

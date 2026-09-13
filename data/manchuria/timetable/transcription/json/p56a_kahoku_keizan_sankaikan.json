@@ -1,0 +1,3905 @@
+{
+ "stations": [
+  {
+   "name": "北京",
+   "km": 0.0
+  },
+  {
+   "name": "東便門",
+   "km": 2.8
+  },
+  {
+   "name": "永定門",
+   "km": 9.3
+  },
+  {
+   "name": "豐臺",
+   "km": 19.1
+  },
+  {
+   "name": "黄土坡",
+   "km": 26.2
+  },
+  {
+   "name": "黄村",
+   "km": 35.4
+  },
+  {
+   "name": "魏善莊",
+   "km": 44.2
+  },
+  {
+   "name": "安定",
+   "km": 52.9
+  },
+  {
+   "name": "萬莊",
+   "km": 63.4
+  },
+  {
+   "name": "郎坊",
+   "km": 74.2
+  },
+  {
+   "name": "落垡",
+   "km": 89.9
+  },
+  {
+   "name": "豆張莊",
+   "km": 99.5
+  },
+  {
+   "name": "楊村",
+   "km": 110.4
+  },
+  {
+   "name": "北倉",
+   "km": 125.3
+  },
+  {
+   "name": "天津北站",
+   "km": 135.1
+  },
+  {
+   "name": "天津",
+   "km": 139.4
+  },
+  {
+   "name": "張貴莊",
+   "km": 150.5
+  },
+  {
+   "name": "軍糧城",
+   "km": 162.6
+  },
+  {
+   "name": "新河",
+   "km": 178.7
+  },
+  {
+   "name": "塘沽碼頭",
+   "km": 183.2
+  },
+  {
+   "name": "北塘",
+   "km": 195.6
+  },
+  {
+   "name": "茶淀",
+   "km": 209.1
+  },
+  {
+   "name": "漢沽",
+   "km": 217.2
+  },
+  {
+   "name": "蘆臺",
+   "km": 225.1
+  },
+  {
+   "name": "田莊",
+   "km": 237.5
+  },
+  {
+   "name": "唐坊",
+   "km": 247.6
+  },
+  {
+   "name": "胥各莊",
+   "km": 260.1
+  },
+  {
+   "name": "唐山",
+   "km": 269.8
+  },
+  {
+   "name": "開平",
+   "km": 279.1
+  },
+  {
+   "name": "窪里",
+   "km": 285.9
+  },
+  {
+   "name": "古冶",
+   "km": 294.1
+  },
+  {
+   "name": "碑家店",
+   "km": 300.1
+  },
+  {
+   "name": "雷莊",
+   "km": 308.9
+  },
+  {
+   "name": "坨子頭",
+   "km": 316.6
+  },
+  {
+   "name": "灤縣",
+   "km": 321.6
+  },
+  {
+   "name": "朱各莊",
+   "km": 327.8
+  },
+  {
+   "name": "石龍",
+   "km": 332.3
+  },
+  {
+   "name": "安山",
+   "km": 344.1
+  },
+  {
+   "name": "後封台",
+   "km": 350.7
+  },
+  {
+   "name": "昌黎",
+   "km": 359.3
+  },
+  {
+   "name": "張家莊",
+   "km": 366.1
+  },
+  {
+   "name": "留守營",
+   "km": 375.5
+  },
+  {
+   "name": "北戴河",
+   "km": 387.1
+  },
+  {
+   "name": "南大寺",
+   "km": 395.7
+  },
+  {
+   "name": "秦皇島",
+   "km": 405.1
+  },
+  {
+   "name": "龍家營",
+   "km": 413.9
+  },
+  {
+   "name": "山海關",
+   "km": 422.3
+  },
+  {
+   "name": "錦州",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "釜山棧橋",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "516",
+   "stops": [
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "7.10",
+     "bold": false,
+     "t": "07:10"
+    },
+    {
+     "st": "開平",
+     "ev": "dep",
+     "printed": "7.23",
+     "bold": false,
+     "t": "07:23"
+    },
+    {
+     "st": "窪里",
+     "ev": "dep",
+     "printed": "7.36",
+     "bold": false,
+     "t": "07:36"
+    },
+    {
+     "st": "古冶",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": false,
+     "t": "07:50"
+    },
+    {
+     "st": "碑家店",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "雷莊",
+     "ev": "dep",
+     "printed": "8.11",
+     "bold": false,
+     "t": "08:11"
+    },
+    {
+     "st": "坨子頭",
+     "ev": "dep",
+     "printed": "8.21",
+     "bold": false,
+     "t": "08:21"
+    },
+    {
+     "st": "灤縣",
+     "ev": "dep",
+     "printed": "8.29",
+     "bold": false,
+     "t": "08:29"
+    },
+    {
+     "st": "朱各莊",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": false,
+     "t": "08:38"
+    },
+    {
+     "st": "石龍",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "t": "08:45"
+    },
+    {
+     "st": "安山",
+     "ev": "dep",
+     "printed": "8.58",
+     "bold": false,
+     "t": "08:58"
+    },
+    {
+     "st": "後封台",
+     "ev": "dep",
+     "printed": "9.07",
+     "bold": false,
+     "t": "09:07"
+    },
+    {
+     "st": "昌黎",
+     "ev": "dep",
+     "printed": "9.19",
+     "bold": false,
+     "t": "09:19"
+    },
+    {
+     "st": "張家莊",
+     "ev": "dep",
+     "printed": "9.28",
+     "bold": false,
+     "t": "09:28"
+    },
+    {
+     "st": "留守營",
+     "ev": "dep",
+     "printed": "9.39",
+     "bold": false,
+     "t": "09:39"
+    },
+    {
+     "st": "北戴河",
+     "ev": "arr",
+     "printed": "9.53",
+     "bold": false,
+     "t": "09:53"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "南大寺",
+     "ev": "dep",
+     "printed": "10.06",
+     "bold": false,
+     "t": "10:06"
+    },
+    {
+     "st": "秦皇島",
+     "ev": "dep",
+     "printed": "10.22",
+     "bold": false,
+     "t": "10:22"
+    },
+    {
+     "st": "龍家營",
+     "ev": "dep",
+     "printed": "10.34",
+     "bold": false,
+     "t": "10:34"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "10.46",
+     "bold": false,
+     "t": "10:46"
+    }
+   ],
+   "dest": "山海關",
+   "cls": "2.3",
+   "origin": "唐山",
+   "col": "1"
+  },
+  {
+   "no": "514",
+   "stops": [
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": false,
+     "t": "07:45"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "dep",
+     "printed": "8.04",
+     "bold": false,
+     "t": "08:04"
+    },
+    {
+     "st": "新河",
+     "ev": "dep",
+     "printed": "8.21",
+     "bold": false,
+     "t": "08:21"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "arr",
+     "printed": "8.28",
+     "bold": false,
+     "t": "08:28"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "8.33",
+     "bold": false,
+     "t": "08:33"
+    },
+    {
+     "st": "北塘",
+     "ev": "dep",
+     "printed": "8.50",
+     "bold": false,
+     "t": "08:50"
+    },
+    {
+     "st": "茶淀",
+     "ev": "dep",
+     "printed": "9.29",
+     "bold": false,
+     "t": "09:29"
+    },
+    {
+     "st": "漢沽",
+     "ev": "dep",
+     "printed": "9.45",
+     "bold": false,
+     "t": "09:45"
+    },
+    {
+     "st": "蘆臺",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "田莊",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "唐坊",
+     "ev": "dep",
+     "printed": "10.34",
+     "bold": false,
+     "t": "10:34"
+    },
+    {
+     "st": "胥各莊",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    },
+    {
+     "st": "唐山",
+     "ev": "arr",
+     "printed": "11.04",
+     "bold": false,
+     "t": "11:04"
+    },
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "11.07",
+     "bold": false,
+     "t": "11:07"
+    },
+    {
+     "st": "開平",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "窪里",
+     "ev": "dep",
+     "printed": "11.31",
+     "bold": false,
+     "t": "11:31"
+    },
+    {
+     "st": "古冶",
+     "ev": "dep",
+     "printed": "11.48",
+     "bold": false,
+     "t": "11:48"
+    },
+    {
+     "st": "碑家店",
+     "ev": "dep",
+     "printed": "11.58",
+     "bold": false,
+     "t": "11:58"
+    },
+    {
+     "st": "雷莊",
+     "ev": "dep",
+     "printed": "12.09",
+     "bold": false,
+     "t": "12:09"
+    },
+    {
+     "st": "坨子頭",
+     "ev": "dep",
+     "printed": "12.18",
+     "bold": false,
+     "t": "12:18"
+    },
+    {
+     "st": "灤縣",
+     "ev": "dep",
+     "printed": "12.58",
+     "bold": false,
+     "t": "12:58"
+    },
+    {
+     "st": "朱各莊",
+     "ev": "dep",
+     "printed": "13.07",
+     "bold": false,
+     "t": "13:07"
+    },
+    {
+     "st": "石龍",
+     "ev": "dep",
+     "printed": "13.14",
+     "bold": false,
+     "t": "13:14"
+    },
+    {
+     "st": "安山",
+     "ev": "dep",
+     "printed": "13.29",
+     "bold": false,
+     "t": "13:29"
+    },
+    {
+     "st": "後封台",
+     "ev": "dep",
+     "printed": "13.36",
+     "bold": false,
+     "t": "13:36"
+    },
+    {
+     "st": "昌黎",
+     "ev": "dep",
+     "printed": "13.48",
+     "bold": false,
+     "t": "13:48"
+    },
+    {
+     "st": "張家莊",
+     "ev": "dep",
+     "printed": "13.57",
+     "bold": false,
+     "t": "13:57"
+    },
+    {
+     "st": "留守營",
+     "ev": "dep",
+     "printed": "14.08",
+     "bold": false,
+     "t": "14:08"
+    },
+    {
+     "st": "北戴河",
+     "ev": "arr",
+     "printed": "14.22",
+     "bold": false,
+     "t": "14:22"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "14.26",
+     "bold": false,
+     "t": "14:26"
+    },
+    {
+     "st": "南大寺",
+     "ev": "dep",
+     "printed": "14.35",
+     "bold": false,
+     "t": "14:35"
+    },
+    {
+     "st": "秦皇島",
+     "ev": "dep",
+     "printed": "14.48",
+     "bold": false,
+     "t": "14:48"
+    },
+    {
+     "st": "龍家營",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    }
+   ],
+   "dest": "山海關",
+   "cls": "2.3",
+   "origin": "天津",
+   "col": "2"
+  },
+  {
+   "no": "520",
+   "stops": [
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": false,
+     "t": "08:40"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "dep",
+     "printed": "8.56",
+     "bold": false,
+     "t": "08:56"
+    },
+    {
+     "st": "新河",
+     "ev": "dep",
+     "printed": "9.13",
+     "bold": false,
+     "t": "09:13"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    }
+   ],
+   "dest": "塘沽碼頭",
+   "cls": "1.2.3",
+   "origin": "天津",
+   "col": "3"
+  },
+  {
+   "no": "10",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "6.45",
+     "bold": false,
+     "t": "06:45"
+    },
+    {
+     "st": "東便門",
+     "ev": "pass"
+    },
+    {
+     "st": "永定門",
+     "ev": "pass"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "7.07",
+     "bold": false,
+     "t": "07:07"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "pass"
+    },
+    {
+     "st": "黄村",
+     "ev": "pass"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "pass"
+    },
+    {
+     "st": "萬莊",
+     "ev": "pass"
+    },
+    {
+     "st": "郎坊",
+     "ev": "pass"
+    },
+    {
+     "st": "落垡",
+     "ev": "pass"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊村",
+     "ev": "pass"
+    },
+    {
+     "st": "北倉",
+     "ev": "pass"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "9.02",
+     "bold": false,
+     "t": "09:02"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "9.18",
+     "bold": false,
+     "t": "09:18"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "pass"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "pass"
+    },
+    {
+     "st": "新河",
+     "ev": "pass"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "arr",
+     "printed": "10.01",
+     "bold": false,
+     "t": "10:01"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "10.04",
+     "bold": false,
+     "t": "10:04"
+    },
+    {
+     "st": "蘆臺",
+     "ev": "pass"
+    },
+    {
+     "st": "田莊",
+     "ev": "pass"
+    },
+    {
+     "st": "唐坊",
+     "ev": "pass"
+    },
+    {
+     "st": "胥各莊",
+     "ev": "pass"
+    },
+    {
+     "st": "唐山",
+     "ev": "arr",
+     "printed": "11.38",
+     "bold": false,
+     "note": "著の分の末尾一桁が潰れてゐる（8と讀んだ）",
+     "t": "11:38"
+    },
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "11.39",
+     "bold": false,
+     "note": "著の分の末尾一桁が潰れてゐる（8と讀んだ）",
+     "t": "11:39"
+    },
+    {
+     "st": "開平",
+     "ev": "pass"
+    },
+    {
+     "st": "窪里",
+     "ev": "pass"
+    },
+    {
+     "st": "古冶",
+     "ev": "dep",
+     "printed": "12.09",
+     "bold": false,
+     "t": "12:09"
+    },
+    {
+     "st": "碑家店",
+     "ev": "pass"
+    },
+    {
+     "st": "雷莊",
+     "ev": "pass"
+    },
+    {
+     "st": "坨子頭",
+     "ev": "pass"
+    },
+    {
+     "st": "灤縣",
+     "ev": "pass"
+    },
+    {
+     "st": "朱各莊",
+     "ev": "pass"
+    },
+    {
+     "st": "石龍",
+     "ev": "pass"
+    },
+    {
+     "st": "安山",
+     "ev": "pass"
+    },
+    {
+     "st": "後封台",
+     "ev": "pass"
+    },
+    {
+     "st": "昌黎",
+     "ev": "pass"
+    },
+    {
+     "st": "張家莊",
+     "ev": "pass"
+    },
+    {
+     "st": "留守營",
+     "ev": "pass"
+    },
+    {
+     "st": "北戴河",
+     "ev": "arr",
+     "printed": "13.36",
+     "bold": false,
+     "t": "13:36"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "13.37",
+     "bold": false,
+     "t": "13:37"
+    },
+    {
+     "st": "南大寺",
+     "ev": "pass"
+    },
+    {
+     "st": "秦皇島",
+     "ev": "dep",
+     "printed": "13.56",
+     "bold": false,
+     "t": "13:56"
+    },
+    {
+     "st": "龍家營",
+     "ev": "pass"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "14.14",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "14:14"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "14.44",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "14:44"
+    },
+    {
+     "st": "錦州",
+     "ev": "dep",
+     "printed": "17.48",
+     "bold": false,
+     "note": "連絡抄錄（30.31頁）",
+     "t": "17:48"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "21.54",
+     "bold": false,
+     "note": "連絡抄錄（20.21頁）",
+     "t": "21:54"
+    },
+    {
+     "st": "釜山",
+     "ev": "dep",
+     "printed": "21.15",
+     "bold": false,
+     "note": "連絡抄錄（72.73頁）翌日",
+     "t": "45:15"
+    }
+   ],
+   "dest": "釜山",
+   "cls": "1.2.3",
+   "marks": "急 食 寢",
+   "name": "大陸",
+   "col": "4",
+   "note": "列車名「（大陸）」は北塘―漢沽の空桝に縦書き"
+  },
+  {
+   "no": "502",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "東便門",
+     "ev": "pass"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "9.22",
+     "bold": false,
+     "t": "09:22"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "9.33",
+     "bold": false,
+     "t": "09:33"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "pass"
+    },
+    {
+     "st": "黄村",
+     "ev": "dep",
+     "printed": "9.49",
+     "bold": false,
+     "t": "09:49"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "pass"
+    },
+    {
+     "st": "萬莊",
+     "ev": "pass"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "10.29",
+     "bold": false,
+     "t": "10:29"
+    },
+    {
+     "st": "落垡",
+     "ev": "pass"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "11.06",
+     "bold": false,
+     "t": "11:06"
+    },
+    {
+     "st": "北倉",
+     "ev": "dep",
+     "printed": "11.28",
+     "bold": false,
+     "t": "11:28"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "11.42",
+     "bold": false,
+     "t": "11:42"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "11.58",
+     "bold": false,
+     "t": "11:58"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "pass"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "pass"
+    },
+    {
+     "st": "新河",
+     "ev": "pass"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "12.45",
+     "bold": false,
+     "t": "12:45"
+    }
+   ],
+   "dest": "塘沽碼頭",
+   "cls": "2.3",
+   "col": "5"
+  },
+  {
+   "no": "410",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "東便門",
+     "ev": "dep",
+     "printed": "9.47",
+     "bold": false,
+     "t": "09:47"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "9.57",
+     "bold": false,
+     "t": "09:57"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "黄村",
+     "ev": "dep",
+     "printed": "10.37",
+     "bold": false,
+     "t": "10:37"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "dep",
+     "printed": "10.47",
+     "bold": false,
+     "t": "10:47"
+    },
+    {
+     "st": "安定",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "萬莊",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "11.28",
+     "bold": false,
+     "t": "11:28"
+    },
+    {
+     "st": "落垡",
+     "ev": "dep",
+     "printed": "11.46",
+     "bold": false,
+     "t": "11:46"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "12.26",
+     "bold": false,
+     "t": "12:26"
+    },
+    {
+     "st": "北倉",
+     "ev": "dep",
+     "printed": "12.45",
+     "bold": false,
+     "t": "12:45"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "13.04",
+     "bold": false,
+     "t": "13:04"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "13.12",
+     "bold": false,
+     "t": "13:12"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "13.24",
+     "bold": false,
+     "t": "13:24"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "dep",
+     "printed": "13.41",
+     "bold": false,
+     "t": "13:41"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "dep",
+     "printed": "13.56",
+     "bold": false,
+     "t": "13:56"
+    },
+    {
+     "st": "新河",
+     "ev": "dep",
+     "printed": "14.18",
+     "bold": false,
+     "t": "14:18"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "arr",
+     "printed": "14.27",
+     "bold": false,
+     "t": "14:27"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "14.32",
+     "bold": false,
+     "t": "14:32"
+    },
+    {
+     "st": "北塘",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "茶淀",
+     "ev": "dep",
+     "printed": "15.12",
+     "bold": false,
+     "t": "15:12"
+    },
+    {
+     "st": "漢沽",
+     "ev": "dep",
+     "printed": "15.29",
+     "bold": false,
+     "t": "15:29"
+    },
+    {
+     "st": "蘆臺",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "田莊",
+     "ev": "dep",
+     "printed": "15.58",
+     "bold": false,
+     "t": "15:58"
+    },
+    {
+     "st": "唐坊",
+     "ev": "dep",
+     "printed": "16.19",
+     "bold": false,
+     "t": "16:19"
+    },
+    {
+     "st": "胥各莊",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "唐山",
+     "ev": "arr",
+     "printed": "16.44",
+     "bold": false,
+     "t": "16:44"
+    },
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "16.47",
+     "bold": false,
+     "t": "16:47"
+    },
+    {
+     "st": "開平",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "窪里",
+     "ev": "dep",
+     "printed": "17.13",
+     "bold": false,
+     "t": "17:13"
+    },
+    {
+     "st": "古冶",
+     "ev": "dep",
+     "printed": "17.31",
+     "bold": false,
+     "t": "17:31"
+    },
+    {
+     "st": "碑家店",
+     "ev": "dep",
+     "printed": "17.42",
+     "bold": false,
+     "t": "17:42"
+    },
+    {
+     "st": "雷莊",
+     "ev": "dep",
+     "printed": "17.54",
+     "bold": false,
+     "t": "17:54"
+    },
+    {
+     "st": "坨子頭",
+     "ev": "dep",
+     "printed": "18.05",
+     "bold": false,
+     "t": "18:05"
+    },
+    {
+     "st": "灤縣",
+     "ev": "dep",
+     "printed": "18.13",
+     "bold": false,
+     "t": "18:13"
+    },
+    {
+     "st": "朱各莊",
+     "ev": "dep",
+     "printed": "18.22",
+     "bold": false,
+     "t": "18:22"
+    },
+    {
+     "st": "石龍",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    },
+    {
+     "st": "安山",
+     "ev": "dep",
+     "printed": "18.44",
+     "bold": false,
+     "t": "18:44"
+    },
+    {
+     "st": "後封台",
+     "ev": "dep",
+     "printed": "18.54",
+     "bold": false,
+     "t": "18:54"
+    },
+    {
+     "st": "昌黎",
+     "ev": "dep",
+     "printed": "19.07",
+     "bold": false,
+     "t": "19:07"
+    },
+    {
+     "st": "張家莊",
+     "ev": "dep",
+     "printed": "19.17",
+     "bold": false,
+     "t": "19:17"
+    },
+    {
+     "st": "留守營",
+     "ev": "dep",
+     "printed": "19.29",
+     "bold": false,
+     "t": "19:29"
+    },
+    {
+     "st": "北戴河",
+     "ev": "arr",
+     "printed": "19.43",
+     "bold": false,
+     "t": "19:43"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "19.46",
+     "bold": false,
+     "t": "19:46"
+    },
+    {
+     "st": "南大寺",
+     "ev": "dep",
+     "printed": "19.58",
+     "bold": false,
+     "t": "19:58"
+    },
+    {
+     "st": "秦皇島",
+     "ev": "dep",
+     "printed": "20.11",
+     "bold": false,
+     "t": "20:11"
+    },
+    {
+     "st": "龍家營",
+     "ev": "dep",
+     "printed": "20.23",
+     "bold": false,
+     "t": "20:23"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "20.35",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "20:35"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "21.23",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "21:23"
+    },
+    {
+     "st": "錦州",
+     "ev": "dep",
+     "printed": "3.27",
+     "bold": false,
+     "note": "連絡抄錄（30.31頁）",
+     "t": "27:27"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": false,
+     "note": "連絡抄錄（20.21頁）",
+     "t": "34:17"
+    }
+   ],
+   "dest": "北奉天",
+   "cls": "1.2.3",
+   "col": "6"
+  },
+  {
+   "no": "101",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "東便門",
+     "ev": "pass"
+    },
+    {
+     "st": "永定門",
+     "ev": "pass"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "10.54",
+     "bold": false,
+     "t": "10:54"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "pass"
+    },
+    {
+     "st": "黄村",
+     "ev": "dep",
+     "printed": "11.12",
+     "bold": false,
+     "t": "11:12"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "pass"
+    },
+    {
+     "st": "萬莊",
+     "ev": "pass"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "11.57",
+     "bold": false,
+     "t": "11:57"
+    },
+    {
+     "st": "落垡",
+     "ev": "pass"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "12.49",
+     "bold": false,
+     "t": "12:49"
+    },
+    {
+     "st": "北倉",
+     "ev": "pass"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "13.18",
+     "bold": false,
+     "t": "13:18"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "13.26",
+     "bold": false,
+     "t": "13:26"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "13.36",
+     "bold": false,
+     "t": "13:36"
+    }
+   ],
+   "dest": "浦口",
+   "cls": "1.2.3",
+   "marks": "急 食 寢",
+   "col": "7",
+   "note": "天津以遠は津浦線。空欄に縦書きで「浦口著 14.50」"
+  },
+  {
+   "no": "802",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "12.15",
+     "bold": false,
+     "t": "12:15"
+    },
+    {
+     "st": "東便門",
+     "ev": "pass"
+    },
+    {
+     "st": "永定門",
+     "ev": "pass"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "12.39",
+     "bold": false,
+     "t": "12:39"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "pass"
+    },
+    {
+     "st": "黄村",
+     "ev": "dep",
+     "printed": "12.57",
+     "bold": false,
+     "t": "12:57"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "pass"
+    },
+    {
+     "st": "萬莊",
+     "ev": "pass"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "13.48",
+     "bold": false,
+     "t": "13:48"
+    },
+    {
+     "st": "落垡",
+     "ev": "pass"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "14.33",
+     "bold": false,
+     "t": "14:33"
+    },
+    {
+     "st": "北倉",
+     "ev": "dep",
+     "printed": "14.59",
+     "bold": false,
+     "t": "14:59"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "15.13",
+     "bold": false,
+     "t": "15:13"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "15.21",
+     "bold": false,
+     "t": "15:21"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "15.32",
+     "bold": false,
+     "t": "15:32"
+    }
+   ],
+   "dest": "青島",
+   "cls": "1.2.3",
+   "marks": "急 食 寢",
+   "col": "8",
+   "note": "天津以遠は津浦線・膠濟線。空欄に縦書きで「青島著 9.00」"
+  },
+  {
+   "no": "402",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "13.05",
+     "bold": false,
+     "t": "13:05"
+    },
+    {
+     "st": "東便門",
+     "ev": "pass"
+    },
+    {
+     "st": "永定門",
+     "ev": "pass"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "13.29",
+     "bold": false,
+     "t": "13:29"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "pass"
+    },
+    {
+     "st": "黄村",
+     "ev": "dep",
+     "printed": "13.47",
+     "bold": false,
+     "t": "13:47"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "pass"
+    },
+    {
+     "st": "萬莊",
+     "ev": "pass"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "14.32",
+     "bold": false,
+     "t": "14:32"
+    },
+    {
+     "st": "落垡",
+     "ev": "pass"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "15.14",
+     "bold": false,
+     "t": "15:14"
+    },
+    {
+     "st": "北倉",
+     "ev": "dep",
+     "printed": "15.32",
+     "bold": false,
+     "t": "15:32"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "15.48",
+     "bold": false,
+     "t": "15:48"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "15.56",
+     "bold": false,
+     "t": "15:56"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "16.06",
+     "bold": false,
+     "t": "16:06"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "pass"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "pass"
+    },
+    {
+     "st": "新河",
+     "ev": "pass"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "arr",
+     "printed": "16.56",
+     "bold": false,
+     "t": "16:56"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "17.02",
+     "bold": false,
+     "t": "17:02"
+    },
+    {
+     "st": "北塘",
+     "ev": "pass"
+    },
+    {
+     "st": "茶淀",
+     "ev": "pass"
+    },
+    {
+     "st": "漢沽",
+     "ev": "pass"
+    },
+    {
+     "st": "蘆臺",
+     "ev": "dep",
+     "printed": "17.57",
+     "bold": false,
+     "t": "17:57"
+    },
+    {
+     "st": "田莊",
+     "ev": "dep",
+     "printed": "18.23",
+     "bold": false,
+     "t": "18:23"
+    },
+    {
+     "st": "唐坊",
+     "ev": "pass"
+    },
+    {
+     "st": "胥各莊",
+     "ev": "pass"
+    },
+    {
+     "st": "唐山",
+     "ev": "arr",
+     "printed": "19.02",
+     "bold": false,
+     "t": "19:02"
+    },
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "19.05",
+     "bold": false,
+     "t": "19:05"
+    },
+    {
+     "st": "開平",
+     "ev": "pass"
+    },
+    {
+     "st": "窪里",
+     "ev": "pass"
+    },
+    {
+     "st": "古冶",
+     "ev": "dep",
+     "printed": "19.43",
+     "bold": false,
+     "t": "19:43"
+    },
+    {
+     "st": "碑家店",
+     "ev": "pass"
+    },
+    {
+     "st": "雷莊",
+     "ev": "pass"
+    },
+    {
+     "st": "坨子頭",
+     "ev": "pass"
+    },
+    {
+     "st": "灤縣",
+     "ev": "dep",
+     "printed": "20.16",
+     "bold": false,
+     "t": "20:16"
+    },
+    {
+     "st": "朱各莊",
+     "ev": "pass"
+    },
+    {
+     "st": "石龍",
+     "ev": "pass"
+    },
+    {
+     "st": "安山",
+     "ev": "pass"
+    },
+    {
+     "st": "後封台",
+     "ev": "pass"
+    },
+    {
+     "st": "昌黎",
+     "ev": "dep",
+     "printed": "20.56",
+     "bold": false,
+     "t": "20:56"
+    },
+    {
+     "st": "張家莊",
+     "ev": "pass"
+    },
+    {
+     "st": "留守營",
+     "ev": "pass"
+    },
+    {
+     "st": "北戴河",
+     "ev": "arr",
+     "printed": "21.25",
+     "bold": false,
+     "t": "21:25"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "21.27",
+     "bold": false,
+     "t": "21:27"
+    },
+    {
+     "st": "南大寺",
+     "ev": "pass"
+    },
+    {
+     "st": "秦皇島",
+     "ev": "dep",
+     "printed": "21.49",
+     "bold": false,
+     "t": "21:49"
+    },
+    {
+     "st": "龍家營",
+     "ev": "pass"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "22.10",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "22:10"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "22.40",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "22:40"
+    },
+    {
+     "st": "錦州",
+     "ev": "dep",
+     "printed": "2.21",
+     "bold": false,
+     "note": "連絡抄錄（30.31頁）",
+     "t": "26:21"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "2.07",
+     "bold": false,
+     "note": "連絡抄錄（20.21頁）。錦州著 2.21 より早く印刷されてゐる（原表の通り／誤植か）",
+     "t": "50:07"
+    }
+   ],
+   "dest": "新京",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "col": "9"
+  },
+  {
+   "no": "406",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "13.35",
+     "bold": false,
+     "t": "13:35"
+    },
+    {
+     "st": "東便門",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "14.13",
+     "bold": false,
+     "t": "14:13"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "dep",
+     "printed": "14.23",
+     "bold": false,
+     "t": "14:23"
+    },
+    {
+     "st": "黄村",
+     "ev": "dep",
+     "printed": "14.34",
+     "bold": false,
+     "t": "14:34"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "dep",
+     "printed": "14.45",
+     "bold": false,
+     "t": "14:45"
+    },
+    {
+     "st": "安定",
+     "ev": "dep",
+     "printed": "14.56",
+     "bold": false,
+     "t": "14:56"
+    },
+    {
+     "st": "萬莊",
+     "ev": "dep",
+     "printed": "15.17",
+     "bold": false,
+     "t": "15:17"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "15.34",
+     "bold": false,
+     "t": "15:34"
+    },
+    {
+     "st": "落垡",
+     "ev": "dep",
+     "printed": "15.56",
+     "bold": false,
+     "t": "15:56"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "dep",
+     "printed": "16.11",
+     "bold": false,
+     "t": "16:11"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "16.27",
+     "bold": false,
+     "t": "16:27"
+    },
+    {
+     "st": "北倉",
+     "ev": "dep",
+     "printed": "16.46",
+     "bold": false,
+     "t": "16:46"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "17.03",
+     "bold": false,
+     "t": "17:03"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "17.11",
+     "bold": false,
+     "t": "17:11"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "17.22",
+     "bold": false,
+     "t": "17:22"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "dep",
+     "printed": "17.39",
+     "bold": false,
+     "t": "17:39"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "dep",
+     "printed": "17.55",
+     "bold": false,
+     "t": "17:55"
+    },
+    {
+     "st": "新河",
+     "ev": "dep",
+     "printed": "18.16",
+     "bold": false,
+     "t": "18:16"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "arr",
+     "printed": "18.25",
+     "bold": false,
+     "t": "18:25"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "18.32",
+     "bold": false,
+     "t": "18:32"
+    },
+    {
+     "st": "北塘",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    },
+    {
+     "st": "茶淀",
+     "ev": "dep",
+     "printed": "19.22",
+     "bold": false,
+     "t": "19:22"
+    },
+    {
+     "st": "漢沽",
+     "ev": "dep",
+     "printed": "19.38",
+     "bold": false,
+     "t": "19:38"
+    },
+    {
+     "st": "蘆臺",
+     "ev": "dep",
+     "printed": "19.49",
+     "bold": false,
+     "t": "19:49"
+    },
+    {
+     "st": "田莊",
+     "ev": "dep",
+     "printed": "20.07",
+     "bold": false,
+     "t": "20:07"
+    },
+    {
+     "st": "唐坊",
+     "ev": "dep",
+     "printed": "20.21",
+     "bold": false,
+     "t": "20:21"
+    },
+    {
+     "st": "胥各莊",
+     "ev": "dep",
+     "printed": "20.43",
+     "bold": false,
+     "t": "20:43"
+    },
+    {
+     "st": "唐山",
+     "ev": "arr",
+     "printed": "20.57",
+     "bold": false,
+     "t": "20:57"
+    },
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "21.00",
+     "bold": false,
+     "t": "21:00"
+    },
+    {
+     "st": "開平",
+     "ev": "dep",
+     "printed": "21.13",
+     "bold": false,
+     "t": "21:13"
+    },
+    {
+     "st": "窪里",
+     "ev": "dep",
+     "printed": "21.26",
+     "bold": false,
+     "t": "21:26"
+    },
+    {
+     "st": "古冶",
+     "ev": "dep",
+     "printed": "21.44",
+     "bold": false,
+     "t": "21:44"
+    },
+    {
+     "st": "碑家店",
+     "ev": "dep",
+     "printed": "21.55",
+     "bold": false,
+     "t": "21:55"
+    },
+    {
+     "st": "雷莊",
+     "ev": "dep",
+     "printed": "22.07",
+     "bold": false,
+     "t": "22:07"
+    },
+    {
+     "st": "坨子頭",
+     "ev": "dep",
+     "printed": "22.18",
+     "bold": false,
+     "t": "22:18"
+    },
+    {
+     "st": "灤縣",
+     "ev": "dep",
+     "printed": "22.52",
+     "bold": false,
+     "t": "22:52"
+    },
+    {
+     "st": "朱各莊",
+     "ev": "dep",
+     "printed": "23.01",
+     "bold": false,
+     "t": "23:01"
+    },
+    {
+     "st": "石龍",
+     "ev": "dep",
+     "printed": "23.09",
+     "bold": false,
+     "t": "23:09"
+    },
+    {
+     "st": "安山",
+     "ev": "dep",
+     "printed": "23.23",
+     "bold": false,
+     "t": "23:23"
+    },
+    {
+     "st": "後封台",
+     "ev": "dep",
+     "printed": "23.33",
+     "bold": false,
+     "t": "23:33"
+    },
+    {
+     "st": "昌黎",
+     "ev": "dep",
+     "printed": "23.46",
+     "bold": false,
+     "t": "23:46"
+    },
+    {
+     "st": "張家莊",
+     "ev": "dep",
+     "printed": "23.56",
+     "bold": false,
+     "t": "23:56"
+    },
+    {
+     "st": "留守營",
+     "ev": "dep",
+     "printed": "0.08",
+     "bold": false,
+     "t": "24:08"
+    },
+    {
+     "st": "北戴河",
+     "ev": "arr",
+     "printed": "0.22",
+     "bold": false,
+     "t": "24:22"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "0.25",
+     "bold": false,
+     "t": "24:25"
+    },
+    {
+     "st": "南大寺",
+     "ev": "dep",
+     "printed": "0.37",
+     "bold": false,
+     "t": "24:37"
+    },
+    {
+     "st": "秦皇島",
+     "ev": "dep",
+     "printed": "0.51",
+     "bold": false,
+     "t": "24:51"
+    },
+    {
+     "st": "龍家營",
+     "ev": "dep",
+     "printed": "1.03",
+     "bold": false,
+     "t": "25:03"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "1.15",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "25:15"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "1.55",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "25:55"
+    },
+    {
+     "st": "錦州",
+     "ev": "dep",
+     "printed": "7.48",
+     "bold": false,
+     "note": "連絡抄錄（30.31頁）",
+     "t": "31:48"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "14.23",
+     "bold": false,
+     "note": "連絡抄錄（20.21頁）",
+     "t": "38:23"
+    }
+   ],
+   "dest": "北奉天",
+   "cls": "1.2.3",
+   "col": "10"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "東便門",
+     "ev": "pass"
+    },
+    {
+     "st": "永定門",
+     "ev": "pass"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "16.03",
+     "bold": false,
+     "t": "16:03"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "pass"
+    },
+    {
+     "st": "黄村",
+     "ev": "dep",
+     "printed": "16.21",
+     "bold": false,
+     "t": "16:21"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "pass"
+    },
+    {
+     "st": "萬莊",
+     "ev": "pass"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "17.14",
+     "bold": false,
+     "t": "17:14"
+    },
+    {
+     "st": "落垡",
+     "ev": "pass"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "17.55",
+     "bold": false,
+     "t": "17:55"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "18.27",
+     "bold": false,
+     "t": "18:27"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "18.35",
+     "bold": false,
+     "t": "18:35"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "18.45",
+     "bold": false,
+     "t": "18:45"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "pass"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "pass"
+    },
+    {
+     "st": "新河",
+     "ev": "pass"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "arr",
+     "printed": "19.32",
+     "bold": false,
+     "t": "19:32"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "19.37",
+     "bold": false,
+     "t": "19:37"
+    },
+    {
+     "st": "蘆臺",
+     "ev": "dep",
+     "printed": "20.32",
+     "bold": false,
+     "t": "20:32"
+    },
+    {
+     "st": "田莊",
+     "ev": "pass"
+    },
+    {
+     "st": "唐坊",
+     "ev": "pass"
+    },
+    {
+     "st": "胥各莊",
+     "ev": "pass"
+    },
+    {
+     "st": "唐山",
+     "ev": "arr",
+     "printed": "21.26",
+     "bold": false,
+     "t": "21:26"
+    },
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "21.29",
+     "bold": false,
+     "t": "21:29"
+    },
+    {
+     "st": "開平",
+     "ev": "pass"
+    },
+    {
+     "st": "窪里",
+     "ev": "pass"
+    },
+    {
+     "st": "古冶",
+     "ev": "dep",
+     "printed": "22.07",
+     "bold": false,
+     "t": "22:07"
+    },
+    {
+     "st": "碑家店",
+     "ev": "pass"
+    },
+    {
+     "st": "雷莊",
+     "ev": "pass"
+    },
+    {
+     "st": "坨子頭",
+     "ev": "pass"
+    },
+    {
+     "st": "灤縣",
+     "ev": "dep",
+     "printed": "22.40",
+     "bold": false,
+     "t": "22:40"
+    },
+    {
+     "st": "朱各莊",
+     "ev": "pass"
+    },
+    {
+     "st": "石龍",
+     "ev": "pass"
+    },
+    {
+     "st": "安山",
+     "ev": "pass"
+    },
+    {
+     "st": "後封台",
+     "ev": "pass"
+    },
+    {
+     "st": "昌黎",
+     "ev": "dep",
+     "printed": "23.20",
+     "bold": false,
+     "t": "23:20"
+    },
+    {
+     "st": "張家莊",
+     "ev": "pass"
+    },
+    {
+     "st": "留守營",
+     "ev": "pass"
+    },
+    {
+     "st": "北戴河",
+     "ev": "arr",
+     "printed": "23.48",
+     "bold": false,
+     "t": "23:48"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "23.50",
+     "bold": false,
+     "t": "23:50"
+    },
+    {
+     "st": "南大寺",
+     "ev": "pass"
+    },
+    {
+     "st": "秦皇島",
+     "ev": "dep",
+     "printed": "0.13",
+     "bold": false,
+     "t": "24:13"
+    },
+    {
+     "st": "龍家營",
+     "ev": "pass"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "0.37",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "24:37"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "1.07",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "25:07"
+    },
+    {
+     "st": "錦州",
+     "ev": "dep",
+     "printed": "4.44",
+     "bold": false,
+     "note": "連絡抄錄（30.31頁）",
+     "t": "28:44"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "9.33",
+     "bold": false,
+     "note": "連絡抄錄（20.21頁）",
+     "t": "33:33"
+    },
+    {
+     "st": "釜山棧橋",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "note": "連絡抄錄（72.73頁）翌日",
+     "t": "56:45"
+    }
+   ],
+   "dest": "釜山",
+   "cls": "1.2.3",
+   "marks": "急 食 寢",
+   "name": "興亞",
+   "col": "11",
+   "note": "列車名「（興亞）」は北塘―漢沽の空桝に縦書き"
+  },
+  {
+   "no": "518",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "15.55",
+     "bold": false,
+     "t": "15:55"
+    },
+    {
+     "st": "東便門",
+     "ev": "dep",
+     "printed": "16.02",
+     "bold": false,
+     "t": "16:02"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "16.11",
+     "bold": false,
+     "t": "16:11"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "16.24",
+     "bold": false,
+     "t": "16:24"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "dep",
+     "printed": "16.33",
+     "bold": false,
+     "t": "16:33"
+    },
+    {
+     "st": "黄村",
+     "ev": "dep",
+     "printed": "16.44",
+     "bold": false,
+     "t": "16:44"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "dep",
+     "printed": "16.57",
+     "bold": false,
+     "t": "16:57"
+    },
+    {
+     "st": "安定",
+     "ev": "dep",
+     "printed": "17.09",
+     "bold": false,
+     "t": "17:09"
+    },
+    {
+     "st": "萬莊",
+     "ev": "dep",
+     "printed": "17.25",
+     "bold": false,
+     "t": "17:25"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "17.43",
+     "bold": false,
+     "t": "17:43"
+    },
+    {
+     "st": "落垡",
+     "ev": "dep",
+     "printed": "18.02",
+     "bold": false,
+     "t": "18:02"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "18.51",
+     "bold": false,
+     "t": "18:51"
+    },
+    {
+     "st": "北倉",
+     "ev": "dep",
+     "printed": "19.13",
+     "bold": false,
+     "t": "19:13"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "19.31",
+     "bold": false,
+     "t": "19:31"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "19.40",
+     "bold": false,
+     "t": "19:40"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "19.55",
+     "bold": false,
+     "t": "19:55"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "dep",
+     "printed": "20.10",
+     "bold": false,
+     "t": "20:10"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "dep",
+     "printed": "20.26",
+     "bold": false,
+     "t": "20:26"
+    },
+    {
+     "st": "新河",
+     "ev": "dep",
+     "printed": "20.43",
+     "bold": false,
+     "t": "20:43"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "arr",
+     "printed": "20.51",
+     "bold": false,
+     "t": "20:51"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "20.56",
+     "bold": false,
+     "t": "20:56"
+    },
+    {
+     "st": "北塘",
+     "ev": "dep",
+     "printed": "21.14",
+     "bold": false,
+     "t": "21:14"
+    },
+    {
+     "st": "茶淀",
+     "ev": "dep",
+     "printed": "21.45",
+     "bold": false,
+     "t": "21:45"
+    },
+    {
+     "st": "漢沽",
+     "ev": "dep",
+     "printed": "22.05",
+     "bold": false,
+     "t": "22:05"
+    },
+    {
+     "st": "蘆臺",
+     "ev": "dep",
+     "printed": "22.15",
+     "bold": false,
+     "t": "22:15"
+    },
+    {
+     "st": "田莊",
+     "ev": "dep",
+     "printed": "22.33",
+     "bold": false,
+     "t": "22:33"
+    },
+    {
+     "st": "唐坊",
+     "ev": "dep",
+     "printed": "22.49",
+     "bold": false,
+     "t": "22:49"
+    },
+    {
+     "st": "胥各莊",
+     "ev": "dep",
+     "printed": "23.07",
+     "bold": false,
+     "t": "23:07"
+    },
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "23.20",
+     "bold": false,
+     "t": "23:20"
+    }
+   ],
+   "dest": "唐山",
+   "cls": "2.3",
+   "col": "12"
+  },
+  {
+   "no": "504",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    },
+    {
+     "st": "東便門",
+     "ev": "pass"
+    },
+    {
+     "st": "永定門",
+     "ev": "pass"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "19.12",
+     "bold": false,
+     "t": "19:12"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "pass"
+    },
+    {
+     "st": "黄村",
+     "ev": "pass"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "pass"
+    },
+    {
+     "st": "萬莊",
+     "ev": "pass"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "20.08",
+     "bold": false,
+     "t": "20:08"
+    },
+    {
+     "st": "落垡",
+     "ev": "dep",
+     "printed": "20.35",
+     "bold": false,
+     "t": "20:35"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "21.08",
+     "bold": false,
+     "t": "21:08"
+    },
+    {
+     "st": "北倉",
+     "ev": "pass"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "21.33",
+     "bold": false,
+     "t": "21:33"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "21.40",
+     "bold": false,
+     "t": "21:40"
+    }
+   ],
+   "dest": "天津",
+   "cls": "2.3",
+   "marks": "急",
+   "col": "13"
+  },
+  {
+   "no": "408",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "19.03",
+     "bold": false,
+     "t": "19:03"
+    },
+    {
+     "st": "東便門",
+     "ev": "dep",
+     "printed": "19.12",
+     "bold": false,
+     "t": "19:12"
+    },
+    {
+     "st": "永定門",
+     "ev": "dep",
+     "printed": "19.22",
+     "bold": false,
+     "t": "19:22"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "19.35",
+     "bold": false,
+     "t": "19:35"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "dep",
+     "printed": "19.45",
+     "bold": false,
+     "t": "19:45"
+    },
+    {
+     "st": "黄村",
+     "ev": "dep",
+     "printed": "19.56",
+     "bold": false,
+     "t": "19:56"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "dep",
+     "printed": "20.07",
+     "bold": false,
+     "t": "20:07"
+    },
+    {
+     "st": "安定",
+     "ev": "dep",
+     "printed": "20.18",
+     "bold": false,
+     "t": "20:18"
+    },
+    {
+     "st": "萬莊",
+     "ev": "dep",
+     "printed": "20.35",
+     "bold": false,
+     "t": "20:35"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "20.54",
+     "bold": false,
+     "t": "20:54"
+    },
+    {
+     "st": "落垡",
+     "ev": "dep",
+     "printed": "21.16",
+     "bold": false,
+     "t": "21:16"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "dep",
+     "printed": "21.38",
+     "bold": false,
+     "t": "21:38"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "21.55",
+     "bold": false,
+     "t": "21:55"
+    },
+    {
+     "st": "北倉",
+     "ev": "dep",
+     "printed": "22.15",
+     "bold": false,
+     "t": "22:15"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "22.32",
+     "bold": false,
+     "t": "22:32"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "22.40",
+     "bold": false,
+     "t": "22:40"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "22.50",
+     "bold": false,
+     "t": "22:50"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "dep",
+     "printed": "23.05",
+     "bold": false,
+     "t": "23:05"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "dep",
+     "printed": "23.25",
+     "bold": false,
+     "t": "23:25"
+    },
+    {
+     "st": "新河",
+     "ev": "dep",
+     "printed": "23.46",
+     "bold": false,
+     "t": "23:46"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "arr",
+     "printed": "23.54",
+     "bold": false,
+     "t": "23:54"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "23.57",
+     "bold": false,
+     "t": "23:57"
+    },
+    {
+     "st": "北塘",
+     "ev": "dep",
+     "printed": "0.15",
+     "bold": false,
+     "t": "24:15"
+    },
+    {
+     "st": "茶淀",
+     "ev": "dep",
+     "printed": "0.38",
+     "bold": false,
+     "t": "24:38"
+    },
+    {
+     "st": "漢沽",
+     "ev": "dep",
+     "printed": "0.55",
+     "bold": false,
+     "t": "24:55"
+    },
+    {
+     "st": "蘆臺",
+     "ev": "dep",
+     "printed": "1.06",
+     "bold": false,
+     "t": "25:06"
+    },
+    {
+     "st": "田莊",
+     "ev": "dep",
+     "printed": "1.24",
+     "bold": false,
+     "t": "25:24"
+    },
+    {
+     "st": "唐坊",
+     "ev": "dep",
+     "printed": "1.39",
+     "bold": false,
+     "t": "25:39"
+    },
+    {
+     "st": "胥各莊",
+     "ev": "dep",
+     "printed": "1.56",
+     "bold": false,
+     "t": "25:56"
+    },
+    {
+     "st": "唐山",
+     "ev": "arr",
+     "printed": "2.10",
+     "bold": false,
+     "t": "26:10"
+    },
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "2.13",
+     "bold": false,
+     "t": "26:13"
+    },
+    {
+     "st": "開平",
+     "ev": "dep",
+     "printed": "2.26",
+     "bold": false,
+     "t": "26:26"
+    },
+    {
+     "st": "窪里",
+     "ev": "dep",
+     "printed": "2.39",
+     "bold": false,
+     "t": "26:39"
+    },
+    {
+     "st": "古冶",
+     "ev": "dep",
+     "printed": "2.57",
+     "bold": false,
+     "t": "26:57"
+    },
+    {
+     "st": "碑家店",
+     "ev": "dep",
+     "printed": "3.08",
+     "bold": false,
+     "t": "27:08"
+    },
+    {
+     "st": "雷莊",
+     "ev": "dep",
+     "printed": "3.20",
+     "bold": false,
+     "t": "27:20"
+    },
+    {
+     "st": "坨子頭",
+     "ev": "dep",
+     "printed": "3.31",
+     "bold": false,
+     "t": "27:31"
+    },
+    {
+     "st": "灤縣",
+     "ev": "dep",
+     "printed": "4.12",
+     "bold": false,
+     "t": "28:12"
+    },
+    {
+     "st": "朱各莊",
+     "ev": "dep",
+     "printed": "4.22",
+     "bold": false,
+     "t": "28:22"
+    },
+    {
+     "st": "石龍",
+     "ev": "dep",
+     "printed": "4.32",
+     "bold": false,
+     "t": "28:32"
+    },
+    {
+     "st": "安山",
+     "ev": "dep",
+     "printed": "4.46",
+     "bold": false,
+     "t": "28:46"
+    },
+    {
+     "st": "後封台",
+     "ev": "dep",
+     "printed": "4.57",
+     "bold": false,
+     "t": "28:57"
+    },
+    {
+     "st": "昌黎",
+     "ev": "dep",
+     "printed": "5.10",
+     "bold": false,
+     "t": "29:10"
+    },
+    {
+     "st": "張家莊",
+     "ev": "dep",
+     "printed": "5.21",
+     "bold": false,
+     "t": "29:21"
+    },
+    {
+     "st": "留守營",
+     "ev": "dep",
+     "printed": "5.34",
+     "bold": false,
+     "t": "29:34"
+    },
+    {
+     "st": "北戴河",
+     "ev": "arr",
+     "printed": "5.49",
+     "bold": false,
+     "t": "29:49"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "5.54",
+     "bold": false,
+     "t": "29:54"
+    },
+    {
+     "st": "南大寺",
+     "ev": "dep",
+     "printed": "6.06",
+     "bold": false,
+     "t": "30:06"
+    },
+    {
+     "st": "秦皇島",
+     "ev": "dep",
+     "printed": "6.21",
+     "bold": false,
+     "t": "30:21"
+    },
+    {
+     "st": "龍家營",
+     "ev": "dep",
+     "printed": "6.33",
+     "bold": false,
+     "t": "30:33"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "6.45",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "30:45"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "7.36",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "31:36"
+    },
+    {
+     "st": "錦州",
+     "ev": "dep",
+     "printed": "12.37",
+     "bold": false,
+     "note": "連絡抄錄（30.31頁）",
+     "t": "36:37"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "18.40",
+     "bold": false,
+     "note": "連絡抄錄（20.21頁）",
+     "t": "42:40"
+    }
+   ],
+   "dest": "北奉天",
+   "cls": "2.3",
+   "marks": "食",
+   "col": "14"
+  },
+  {
+   "no": "404",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "20.15",
+     "bold": false,
+     "t": "20:15"
+    },
+    {
+     "st": "東便門",
+     "ev": "pass"
+    },
+    {
+     "st": "永定門",
+     "ev": "pass"
+    },
+    {
+     "st": "豐臺",
+     "ev": "dep",
+     "printed": "20.42",
+     "bold": false,
+     "t": "20:42"
+    },
+    {
+     "st": "黄土坡",
+     "ev": "pass"
+    },
+    {
+     "st": "黄村",
+     "ev": "dep",
+     "printed": "21.01",
+     "bold": false,
+     "t": "21:01"
+    },
+    {
+     "st": "魏善莊",
+     "ev": "pass"
+    },
+    {
+     "st": "萬莊",
+     "ev": "pass"
+    },
+    {
+     "st": "郎坊",
+     "ev": "dep",
+     "printed": "22.03",
+     "bold": false,
+     "t": "22:03"
+    },
+    {
+     "st": "落垡",
+     "ev": "pass"
+    },
+    {
+     "st": "豆張莊",
+     "ev": "pass"
+    },
+    {
+     "st": "楊村",
+     "ev": "dep",
+     "printed": "22.46",
+     "bold": false,
+     "t": "22:46"
+    },
+    {
+     "st": "北倉",
+     "ev": "pass"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "23.20",
+     "bold": false,
+     "t": "23:20"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "23.28",
+     "bold": false,
+     "t": "23:28"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "23.38",
+     "bold": false,
+     "t": "23:38"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "pass"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "pass"
+    },
+    {
+     "st": "新河",
+     "ev": "pass"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "arr",
+     "printed": "0.33",
+     "bold": false,
+     "t": "24:33"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "0.38",
+     "bold": false,
+     "t": "24:38"
+    },
+    {
+     "st": "北塘",
+     "ev": "pass"
+    },
+    {
+     "st": "茶淀",
+     "ev": "pass"
+    },
+    {
+     "st": "漢沽",
+     "ev": "pass"
+    },
+    {
+     "st": "蘆臺",
+     "ev": "dep",
+     "printed": "1.38",
+     "bold": false,
+     "t": "25:38"
+    },
+    {
+     "st": "田莊",
+     "ev": "pass"
+    },
+    {
+     "st": "唐坊",
+     "ev": "pass"
+    },
+    {
+     "st": "胥各莊",
+     "ev": "pass"
+    },
+    {
+     "st": "唐山",
+     "ev": "arr",
+     "printed": "2.33",
+     "bold": false,
+     "t": "26:33"
+    },
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "2.36",
+     "bold": false,
+     "t": "26:36"
+    },
+    {
+     "st": "開平",
+     "ev": "pass"
+    },
+    {
+     "st": "窪里",
+     "ev": "pass"
+    },
+    {
+     "st": "古冶",
+     "ev": "dep",
+     "printed": "3.16",
+     "bold": false,
+     "t": "27:16"
+    },
+    {
+     "st": "碑家店",
+     "ev": "pass"
+    },
+    {
+     "st": "雷莊",
+     "ev": "pass"
+    },
+    {
+     "st": "坨子頭",
+     "ev": "pass"
+    },
+    {
+     "st": "灤縣",
+     "ev": "dep",
+     "printed": "3.53",
+     "bold": false,
+     "t": "27:53"
+    },
+    {
+     "st": "朱各莊",
+     "ev": "pass"
+    },
+    {
+     "st": "石龍",
+     "ev": "pass"
+    },
+    {
+     "st": "安山",
+     "ev": "pass"
+    },
+    {
+     "st": "後封台",
+     "ev": "pass"
+    },
+    {
+     "st": "昌黎",
+     "ev": "dep",
+     "printed": "4.37",
+     "bold": false,
+     "t": "28:37"
+    },
+    {
+     "st": "張家莊",
+     "ev": "pass"
+    },
+    {
+     "st": "留守營",
+     "ev": "pass"
+    },
+    {
+     "st": "北戴河",
+     "ev": "arr",
+     "printed": "5.11",
+     "bold": false,
+     "t": "29:11"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "5.13",
+     "bold": false,
+     "t": "29:13"
+    },
+    {
+     "st": "南大寺",
+     "ev": "pass"
+    },
+    {
+     "st": "秦皇島",
+     "ev": "dep",
+     "printed": "5.37",
+     "bold": false,
+     "t": "29:37"
+    },
+    {
+     "st": "龍家營",
+     "ev": "pass"
+    },
+    {
+     "st": "山海關",
+     "ev": "arr",
+     "printed": "6.00",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "30:00"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "6.35",
+     "bold": false,
+     "note": "發は連絡抄錄欄の「山海關發」",
+     "t": "30:35"
+    },
+    {
+     "st": "錦州",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "note": "連絡抄錄（30.31頁）",
+     "t": "34:50"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "note": "連絡抄錄（20.21頁）",
+     "t": "39:50"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "2.3",
+   "marks": "急 食 寢2.3",
+   "col": "15"
+  },
+  {
+   "no": "512",
+   "stops": [
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "22.57",
+     "bold": false,
+     "t": "22:57"
+    },
+    {
+     "st": "天津",
+     "ev": "arr",
+     "printed": "23.05",
+     "bold": false,
+     "t": "23:05"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "23.20",
+     "bold": false,
+     "t": "23:20"
+    },
+    {
+     "st": "張貴莊",
+     "ev": "pass"
+    },
+    {
+     "st": "軍糧城",
+     "ev": "pass"
+    },
+    {
+     "st": "新河",
+     "ev": "dep",
+     "printed": "0.36",
+     "bold": false,
+     "t": "24:36"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "arr",
+     "printed": "0.49",
+     "bold": false,
+     "uncertain": true,
+     "t": "24:49"
+    },
+    {
+     "st": "塘沽碼頭",
+     "ev": "dep",
+     "printed": "0.51",
+     "bold": false,
+     "uncertain": true,
+     "t": "24:51"
+    },
+    {
+     "st": "北塘",
+     "ev": "dep",
+     "printed": "1.11",
+     "bold": false,
+     "uncertain": true,
+     "t": "25:11"
+    },
+    {
+     "st": "茶淀",
+     "ev": "dep",
+     "printed": "1.39",
+     "bold": false,
+     "t": "25:39"
+    },
+    {
+     "st": "漢沽",
+     "ev": "dep",
+     "printed": "2.03",
+     "bold": false,
+     "uncertain": true,
+     "t": "26:03"
+    },
+    {
+     "st": "蘆臺",
+     "ev": "dep",
+     "printed": "2.16",
+     "bold": false,
+     "t": "26:16"
+    },
+    {
+     "st": "田莊",
+     "ev": "dep",
+     "printed": "2.37",
+     "bold": false,
+     "t": "26:37"
+    },
+    {
+     "st": "唐坊",
+     "ev": "dep",
+     "printed": "2.59",
+     "bold": false,
+     "t": "26:59"
+    },
+    {
+     "st": "胥各莊",
+     "ev": "dep",
+     "printed": "3.18",
+     "bold": false,
+     "t": "27:18"
+    },
+    {
+     "st": "唐山",
+     "ev": "arr",
+     "printed": "3.35",
+     "bold": false,
+     "note": "著の分の末尾一桁が綴込みに掛かり不確か",
+     "t": "27:35"
+    },
+    {
+     "st": "唐山",
+     "ev": "dep",
+     "printed": "3.38",
+     "bold": false,
+     "note": "著の分の末尾一桁が綴込みに掛かり不確か",
+     "t": "27:38"
+    },
+    {
+     "st": "開平",
+     "ev": "dep",
+     "printed": "3.53",
+     "bold": false,
+     "uncertain": true,
+     "t": "27:53"
+    },
+    {
+     "st": "窪里",
+     "ev": "dep",
+     "printed": "4.05",
+     "bold": false,
+     "t": "28:05"
+    },
+    {
+     "st": "古冶",
+     "ev": "dep",
+     "printed": "4.32",
+     "bold": false,
+     "t": "28:32"
+    },
+    {
+     "st": "碑家店",
+     "ev": "dep",
+     "printed": "4.45",
+     "bold": false,
+     "t": "28:45"
+    },
+    {
+     "st": "雷莊",
+     "ev": "dep",
+     "printed": "4.59",
+     "bold": false,
+     "t": "28:59"
+    },
+    {
+     "st": "坨子頭",
+     "ev": "dep",
+     "printed": "5.12",
+     "bold": false,
+     "t": "29:12"
+    },
+    {
+     "st": "灤縣",
+     "ev": "dep",
+     "printed": "5.24",
+     "bold": false,
+     "t": "29:24"
+    },
+    {
+     "st": "朱各莊",
+     "ev": "dep",
+     "printed": "5.34",
+     "bold": false,
+     "t": "29:34"
+    },
+    {
+     "st": "石龍",
+     "ev": "dep",
+     "printed": "5.41",
+     "bold": false,
+     "t": "29:41"
+    },
+    {
+     "st": "安山",
+     "ev": "dep",
+     "printed": "5.56",
+     "bold": false,
+     "t": "29:56"
+    },
+    {
+     "st": "後封台",
+     "ev": "dep",
+     "printed": "6.09",
+     "bold": false,
+     "t": "30:09"
+    },
+    {
+     "st": "昌黎",
+     "ev": "dep",
+     "printed": "6.24",
+     "bold": false,
+     "t": "30:24"
+    },
+    {
+     "st": "張家莊",
+     "ev": "dep",
+     "printed": "6.35",
+     "bold": false,
+     "t": "30:35"
+    },
+    {
+     "st": "留守營",
+     "ev": "dep",
+     "printed": "6.49",
+     "bold": false,
+     "t": "30:49"
+    },
+    {
+     "st": "北戴河",
+     "ev": "arr",
+     "printed": "7.05",
+     "bold": false,
+     "t": "31:05"
+    },
+    {
+     "st": "北戴河",
+     "ev": "dep",
+     "printed": "7.09",
+     "bold": false,
+     "t": "31:09"
+    },
+    {
+     "st": "南大寺",
+     "ev": "dep",
+     "printed": "7.22",
+     "bold": false,
+     "t": "31:22"
+    },
+    {
+     "st": "秦皇島",
+     "ev": "dep",
+     "printed": "7.39",
+     "bold": false,
+     "t": "31:39"
+    },
+    {
+     "st": "龍家營",
+     "ev": "dep",
+     "printed": "7.52",
+     "bold": false,
+     "t": "31:52"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": false,
+     "t": "32:05"
+    }
+   ],
+   "dest": "山海關",
+   "cls": "2.3",
+   "origin": "天津北站",
+   "col": "16",
+   "note": "頁の綴込み側の最終欄で分の末尾一桁が缺けてゐる箇所が多い。天津以前の空桝に縦書きの注記（「○○發 ○.○○」らしい）があるが判讀できず。"
+  }
+ ],
+ "notes": [
+  "全16欄轉記濟。",
+  "昭和17.2.20改正。頁56の全幅の表。反對方向（山海關→北京）は頁57の p57a。表題は頁56に「北京・山海」、頁57に「關間」と分けて印刷し、線名「（華北・京山幹線）」は頁57の表頭右に印刷。",
+  "左端に「自北京 運賃 3等」欄があるが運賃は轉記せず。粁程（自北京）は stations に入れた。驛名の左の⊓・〒・◎・✕・♨等の設備記號も轉記せず。",
+  "支那の表につき24時制。列車欄は16欄（516・514・520・10・502・410・101・802・402・406・4・518・504・408・404・512）。",
+  "頁頭に「讀みにくい驛名 落垡(ラクタイ)豆張莊(トウチヤンチヨワン)窪里(ウリ)古冶(グーイエ)北戴河(ペイダイホー)昌黎(チヤンリー)唐山(タンシヤン)胥各莊(シユイゴージユワン)塘沽(タンクー)」の帶。",
+  "頁尾に「記念スタンプ 北京、豐臺、天津、天津北站、塘沽碼頭、唐山、古冶、灤縣、昌黎、北戴河、秦皇島、山海關、海濱、京山幹線列車」。",
+  "表頭の記號：反轉枠の「急」＝急行、✕＝食堂車、寢臺の繪記號と反轉枠の寢臺等級、列車番號の上の反轉枠は列車の等級。潰れて讀めない等級枠がいくつかある（502・410・406・504・512）。",
+  "驛名は横書き左→右で組まれてゐる。判讀の確度が低い驛名：魏善莊（44.2）、田莊（237.5）、石龍（332.3）、後封台（350.7）。いづれも頁57（p57a）の同じ驛名と照合した。",
+  "表の最下部に山海關以遠への連絡抄錄（自山海關 運賃欄付き、頁 30.31／20.21／72.73 を指示）があり、山海關發・錦州著・奉天著・釜山棧橋著の4行が入る。stations の末尾に加へた。",
+  "514の坨子頭 12.18→灤縣 12.58 は5.0粁に40分かかるが印刷の通り（他列車は8分前後）。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。「v」は原表の「レ」（通過）。"
+ ],
+ "source": "IMG_1857",
+ "page": "56",
+ "title": "北京・山海關間（華北・京山幹線）",
+ "line": "華北交通 京山幹線",
+ "dir": "山海關方面（北京→山海關）"
+}

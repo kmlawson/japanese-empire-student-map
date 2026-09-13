@@ -1,0 +1,16 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 牡丹江局管內
+line: 佳依北線
+title: 佳木斯驛・依蘭間
+dir: 依蘭→佳木斯驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表は左右2組で、右が依蘭發（本表）。運賃欄は佳木斯驛起點のものを反轉して掲げた。
+stations: 依蘭 | 佳木斯驛
+fares: 依蘭 7.20 | 佳木斯驛
+
+train: 142 | dest 佳木斯驛 | col 1
+依蘭 8.30
+佳木斯驛 14.50

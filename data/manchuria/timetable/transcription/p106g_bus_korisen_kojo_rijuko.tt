@@ -1,0 +1,22 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 興梨線
+title: 興城・梨樹溝間
+dir: 興城驛→梨樹溝
+season: 昭和16.12.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the left of bus 155
+stations: 興城驛 | 唐家屯 | 梨樹溝
+fares: 興城驛 | 唐家屯 0.90 | 梨樹溝 2.90
+
+train: 155 | dest 梨樹溝 | col 2
+興城驛 8.00
+唐家屯 9.00
+梨樹溝 10.30
+
+train: 157 | dest 唐家屯 | col 3
+興城驛 14.00
+唐家屯 15.00
+梨樹溝 -

@@ -1,0 +1,809 @@
+{
+ "stations": [
+  {
+   "name": "北奉天",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "大虎山",
+   "km": null
+  },
+  {
+   "name": "溝幫子",
+   "km": null
+  },
+  {
+   "name": "錦縣",
+   "km": null
+  },
+  {
+   "name": "薛家",
+   "km": null
+  },
+  {
+   "name": "上齊營",
+   "km": null
+  },
+  {
+   "name": "七里河",
+   "km": null
+  },
+  {
+   "name": "泥河子",
+   "km": null
+  },
+  {
+   "name": "義縣",
+   "km": null
+  },
+  {
+   "name": "周家屯",
+   "km": null
+  },
+  {
+   "name": "上圓",
+   "km": null
+  },
+  {
+   "name": "南嶺",
+   "km": null
+  },
+  {
+   "name": "金嶺寺",
+   "km": null
+  },
+  {
+   "name": "能家",
+   "km": null
+  },
+  {
+   "name": "金溝",
+   "km": null
+  },
+  {
+   "name": "朝陽",
+   "km": null
+  },
+  {
+   "name": "大營子",
+   "km": null
+  },
+  {
+   "name": "大平房",
+   "km": null
+  },
+  {
+   "name": "東大道",
+   "km": null
+  },
+  {
+   "name": "波羅赤",
+   "km": null
+  },
+  {
+   "name": "公營子",
+   "km": null
+  },
+  {
+   "name": "小平房",
+   "km": null
+  },
+  {
+   "name": "葉柏壽",
+   "km": null
+  },
+  {
+   "name": "紅石",
+   "km": null
+  },
+  {
+   "name": "河□溝",
+   "km": null
+  },
+  {
+   "name": "凌源",
+   "km": null
+  },
+  {
+   "name": "宋杖子",
+   "km": null
+  },
+  {
+   "name": "水泉",
+   "km": null
+  },
+  {
+   "name": "三十家",
+   "km": null
+  },
+  {
+   "name": "老鴿",
+   "km": null
+  },
+  {
+   "name": "楊樹嶺",
+   "km": null
+  },
+  {
+   "name": "平泉",
+   "km": null
+  },
+  {
+   "name": "小寺溝",
+   "km": null
+  },
+  {
+   "name": "上谷",
+   "km": null
+  },
+  {
+   "name": "永和",
+   "km": null
+  },
+  {
+   "name": "下板城",
+   "km": null
+  },
+  {
+   "name": "上板城",
+   "km": null
+  },
+  {
+   "name": "承德",
+   "km": null
+  },
+  {
+   "name": "雙□山",
+   "km": null
+  },
+  {
+   "name": "灤河",
+   "km": null
+  },
+  {
+   "name": "藍旗",
+   "km": null
+  },
+  {
+   "name": "窰溝門",
+   "km": null
+  },
+  {
+   "name": "灤平",
+   "km": null
+  },
+  {
+   "name": "拉海溝",
+   "km": null
+  },
+  {
+   "name": "火斗山",
+   "km": null
+  },
+  {
+   "name": "古北口",
+   "km": null
+  },
+  {
+   "name": "密雲",
+   "km": null
+  },
+  {
+   "name": "新通州",
+   "km": null
+  },
+  {
+   "name": "北京",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "91",
+   "stops": [
+    {
+     "st": "葉柏壽",
+     "ev": "dep",
+     "printed": "4.00",
+     "bold": false,
+     "t": "04:00"
+    },
+    {
+     "st": "紅石",
+     "ev": "dep",
+     "printed": "4.35",
+     "bold": false,
+     "t": "04:35"
+    },
+    {
+     "st": "河□溝",
+     "ev": "dep",
+     "printed": "4.58",
+     "bold": false,
+     "t": "04:58"
+    },
+    {
+     "st": "凌源",
+     "ev": "arr",
+     "printed": "5.16",
+     "bold": false,
+     "t": "05:16"
+    },
+    {
+     "st": "凌源",
+     "ev": "dep",
+     "printed": "5.37",
+     "bold": false,
+     "t": "05:37"
+    },
+    {
+     "st": "宋杖子",
+     "ev": "dep",
+     "printed": "6.02",
+     "bold": false,
+     "t": "06:02"
+    },
+    {
+     "st": "水泉",
+     "ev": "dep",
+     "printed": "6.33",
+     "bold": false,
+     "t": "06:33"
+    },
+    {
+     "st": "三十家",
+     "ev": "dep",
+     "printed": "7.14",
+     "bold": false,
+     "t": "07:14"
+    },
+    {
+     "st": "老鴿",
+     "ev": "dep",
+     "printed": "7.41",
+     "bold": false,
+     "t": "07:41"
+    },
+    {
+     "st": "楊樹嶺",
+     "ev": "dep",
+     "printed": "8.16",
+     "bold": false,
+     "t": "08:16"
+    },
+    {
+     "st": "平泉",
+     "ev": "arr",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "平泉",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "小寺溝",
+     "ev": "dep",
+     "printed": "10.13",
+     "bold": false,
+     "t": "10:13"
+    },
+    {
+     "st": "上谷",
+     "ev": "dep",
+     "printed": "10.57",
+     "bold": false,
+     "t": "10:57"
+    },
+    {
+     "st": "永和",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "下板城",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "上板城",
+     "ev": "dep",
+     "printed": "12.42",
+     "bold": false,
+     "t": "12:42"
+    },
+    {
+     "st": "承德",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    }
+   ],
+   "dest": "承德",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "葉柏壽",
+   "col": "1"
+  },
+  {
+   "no": "59",
+   "stops": [
+    {
+     "st": "承德",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "雙□山",
+     "ev": "dep",
+     "printed": "9.36",
+     "bold": false,
+     "t": "09:36"
+    },
+    {
+     "st": "灤河",
+     "ev": "arr",
+     "printed": "9.51",
+     "bold": false,
+     "t": "09:51"
+    },
+    {
+     "st": "灤河",
+     "ev": "dep",
+     "printed": "10.02",
+     "bold": false,
+     "t": "10:02"
+    },
+    {
+     "st": "藍旗",
+     "ev": "dep",
+     "printed": "10.37",
+     "bold": false,
+     "t": "10:37"
+    },
+    {
+     "st": "窰溝門",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "灤平",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    },
+    {
+     "st": "拉海溝",
+     "ev": "dep",
+     "printed": "12.53",
+     "bold": false,
+     "t": "12:53"
+    },
+    {
+     "st": "火斗山",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "古北口",
+     "ev": "arr",
+     "printed": "13.50",
+     "bold": false,
+     "note": "發は表尾「58頁」の連絡抄錄",
+     "t": "13:50"
+    },
+    {
+     "st": "古北口",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "note": "發は表尾「58頁」の連絡抄錄",
+     "t": "14:50"
+    },
+    {
+     "st": "密雲",
+     "ev": "dep",
+     "printed": "17.18",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "17:18"
+    },
+    {
+     "st": "新通州",
+     "ev": "dep",
+     "printed": "19.48",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "19:48"
+    },
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "20.30",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "20:30"
+    }
+   ],
+   "dest": "北京",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "承德",
+   "col": "2"
+  },
+  {
+   "no": "413",
+   "stops": [
+    {
+     "st": "北奉天",
+     "ev": "dep",
+     "printed": "23.05",
+     "bold": false,
+     "note": "抄錄行（28.29頁）",
+     "t": "23:05"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "23.53",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "23:53"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "3.30",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "27:30"
+    },
+    {
+     "st": "溝幫子",
+     "ev": "dep",
+     "printed": "4.41",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "28:41"
+    },
+    {
+     "st": "錦縣",
+     "ev": "arr",
+     "printed": "6.27",
+     "bold": false,
+     "uncertain": true,
+     "note": "著は抄錄行。6.27の末位は印刷が薄い",
+     "t": "30:27"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "uncertain": true,
+     "note": "著は抄錄行。6.27の末位は印刷が薄い",
+     "t": "31:00"
+    },
+    {
+     "st": "薛家",
+     "ev": "dep",
+     "printed": "7.12",
+     "bold": false,
+     "t": "31:12"
+    },
+    {
+     "st": "上齊營",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "31:25"
+    },
+    {
+     "st": "七里河",
+     "ev": "dep",
+     "printed": "7.41",
+     "bold": false,
+     "t": "31:41"
+    },
+    {
+     "st": "泥河子",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "32:00"
+    },
+    {
+     "st": "義縣",
+     "ev": "arr",
+     "printed": "8.11",
+     "bold": false,
+     "t": "32:11"
+    },
+    {
+     "st": "義縣",
+     "ev": "dep",
+     "printed": "8.13",
+     "bold": false,
+     "t": "32:13"
+    },
+    {
+     "st": "周家屯",
+     "ev": "dep",
+     "printed": "8.37",
+     "bold": false,
+     "t": "32:37"
+    },
+    {
+     "st": "上圓",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "32:55"
+    },
+    {
+     "st": "南嶺",
+     "ev": "dep",
+     "printed": "9.14",
+     "bold": false,
+     "t": "33:14"
+    },
+    {
+     "st": "金嶺寺",
+     "ev": "arr",
+     "printed": "9.27",
+     "bold": false,
+     "t": "33:27"
+    },
+    {
+     "st": "金嶺寺",
+     "ev": "dep",
+     "printed": "9.34",
+     "bold": false,
+     "t": "33:34"
+    },
+    {
+     "st": "能家",
+     "ev": "dep",
+     "printed": "9.54",
+     "bold": false,
+     "t": "33:54"
+    },
+    {
+     "st": "金溝",
+     "ev": "dep",
+     "printed": "10.12",
+     "bold": false,
+     "t": "34:12"
+    },
+    {
+     "st": "朝陽",
+     "ev": "arr",
+     "printed": "10.27",
+     "bold": false,
+     "t": "34:27"
+    },
+    {
+     "st": "朝陽",
+     "ev": "dep",
+     "printed": "10.33",
+     "bold": false,
+     "t": "34:33"
+    },
+    {
+     "st": "大營子",
+     "ev": "dep",
+     "printed": "10.56",
+     "bold": false,
+     "t": "34:56"
+    },
+    {
+     "st": "大平房",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "35:20"
+    },
+    {
+     "st": "東大道",
+     "ev": "dep",
+     "printed": "11.44",
+     "bold": false,
+     "t": "35:44"
+    },
+    {
+     "st": "波羅赤",
+     "ev": "dep",
+     "printed": "12.06",
+     "bold": false,
+     "t": "36:06"
+    },
+    {
+     "st": "公營子",
+     "ev": "dep",
+     "printed": "12.24",
+     "bold": false,
+     "t": "36:24"
+    },
+    {
+     "st": "小平房",
+     "ev": "dep",
+     "printed": "12.47",
+     "bold": false,
+     "t": "36:47"
+    },
+    {
+     "st": "葉柏壽",
+     "ev": "arr",
+     "printed": "12.58",
+     "bold": false,
+     "t": "36:58"
+    },
+    {
+     "st": "葉柏壽",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "37:10"
+    },
+    {
+     "st": "紅石",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "37:30"
+    },
+    {
+     "st": "河□溝",
+     "ev": "dep",
+     "printed": "13.57",
+     "bold": false,
+     "t": "37:57"
+    },
+    {
+     "st": "凌源",
+     "ev": "arr",
+     "printed": "14.12",
+     "bold": false,
+     "t": "38:12"
+    },
+    {
+     "st": "凌源",
+     "ev": "dep",
+     "printed": "14.17",
+     "bold": false,
+     "t": "38:17"
+    },
+    {
+     "st": "宋杖子",
+     "ev": "dep",
+     "printed": "14.37",
+     "bold": false,
+     "t": "38:37"
+    },
+    {
+     "st": "水泉",
+     "ev": "dep",
+     "printed": "14.55",
+     "bold": false,
+     "t": "38:55"
+    },
+    {
+     "st": "三十家",
+     "ev": "dep",
+     "printed": "15.24",
+     "bold": false,
+     "t": "39:24"
+    },
+    {
+     "st": "老鴿",
+     "ev": "dep",
+     "printed": "15.45",
+     "bold": false,
+     "t": "39:45"
+    },
+    {
+     "st": "楊樹嶺",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "40:10"
+    },
+    {
+     "st": "平泉",
+     "ev": "arr",
+     "printed": "16.37",
+     "bold": false,
+     "t": "40:37"
+    },
+    {
+     "st": "平泉",
+     "ev": "dep",
+     "printed": "16.44",
+     "bold": false,
+     "t": "40:44"
+    },
+    {
+     "st": "小寺溝",
+     "ev": "dep",
+     "printed": "17.07",
+     "bold": false,
+     "t": "41:07"
+    },
+    {
+     "st": "上谷",
+     "ev": "dep",
+     "printed": "17.47",
+     "bold": false,
+     "t": "41:47"
+    },
+    {
+     "st": "永和",
+     "ev": "dep",
+     "printed": "18.05",
+     "bold": false,
+     "t": "42:05"
+    },
+    {
+     "st": "下板城",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "42:30"
+    },
+    {
+     "st": "上板城",
+     "ev": "dep",
+     "printed": "18.56",
+     "bold": false,
+     "t": "42:56"
+    },
+    {
+     "st": "承德",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "43:30"
+    }
+   ],
+   "dest": "承德",
+   "cls": "2.3",
+   "marks": "混 寢2.3",
+   "origin": "北奉天",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "昭和16.12.20改訂。表題「錦縣・古北口間（國線・錦古線）」は頁33の上部に印刷されてゐる。この下り表は頁32右半（列車91・59・413）から頁33左端（列車416・55・54・1021・57）へ續く。頁33側の5欄は p33a に收めた。驛名欄は頁32のみに印刷されてをり、p33a も同じ驛名表を用ゐる。",
+  "左端に「自錦縣 運賃 1等・2等・3等」欄があるが轉記せず。粁程欄は無い。驛名の左の⊕・〒・◎等の設備記號も轉記せず。",
+  "表頭に「28.29頁」の括弧で 北奉天・奉天・大虎山・溝幫子・錦縣 の5行、表尾に「58頁」の括弧で 古北口・密雲・新通州・北京 の4行の連絡抄錄がある。抄錄行の時刻も本ファイルに收めた（古北口は本表の著と抄錄の發を著/發として一行にまとめた）。",
+  "判讀できなかった驛名——第7驛は「上齊」＋第3字（活字が潰れ、營か榮か決め難い。營と記した）、第26驛は「河」＋潰れた1字＋「溝」、第40驛は「雙」＋潰れた1字＋「山」（承德近傍ゆゑ雙塔山か）。それぞれ 上齊營・河□溝・雙□山 と記した。",
+  "第45驛は表中では「拉海溝」と印刷されてゐる（頁32・頁33の兩表とも第3字は氵偏の「溝」）。頁頭の「讀みにくい驛名」欄では山冠の字（嶺か）に「ラハイレ…」と振つてあり喰ひ違ふ。表の印刷に從つた。",
+  "列車91・59は「混」＋反轉枠「2 3」。列車413は同じ「混」＋「2 3」の上に寢台の繪記號と反轉枠「2 3」が添へられてをり、2等3等寢台車を示す（marks 混 寢2.3）。",
+  "列車413の抄錄行「北奉天23.05→奉天23.53」は48分を要し、他表の北奉天・奉天間（約10分）と合はないが、印刷のまま記した。"
+ ],
+ "source": "IMG_1845",
+ "page": "32",
+ "title": "錦縣・古北口間（國線・錦古線）",
+ "line": "國線 錦古線",
+ "dir": "下り（錦縣→古北口）"
+}

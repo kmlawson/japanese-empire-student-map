@@ -1,0 +1,19 @@
+source: IMG_1887
+page: 117
+kind: bus
+office: 各地自動車會社線
+line: 登普線（大連都市交通會社）
+title: 普蘭店・登沙河間
+dir: 登沙河→普蘭店
+season: 昭和16.11.1改正
+note: 右3欄（登沙河發）。中央欄は「…」。運賃は共通欄（0.70）。
+stations: 登沙河 | 普蘭店
+fares: 登沙河 | 普蘭店 0.70
+
+train: 無番 | dest 普蘭店 | col 1
+登沙河 9.10
+普蘭店 10.20
+
+train: 無番 | dest 普蘭店 | col 3
+登沙河 17.10
+普蘭店 18.20

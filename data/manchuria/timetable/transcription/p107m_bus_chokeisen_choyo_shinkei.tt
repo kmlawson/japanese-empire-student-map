@@ -1,0 +1,27 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 朝惠線
+title: 朝陽驛・新惠間
+dir: 朝陽驛→新惠
+season: 昭和15.12.1改正
+service: 每日運行
+note: the year of the 改正 date is printed smaller than on the other blocks; read as 昭和15
+stations: 朝陽驛 | 四家子 | 新惠
+fares: 朝陽驛 | 四家子 2.60 | 新惠 5.45
+
+train: 541 | dest 新惠 | col 1
+朝陽驛 7.30
+四家子 -
+新惠 12.30
+
+train: 531 | dest 四家子 | col 2
+朝陽驛 7.30
+四家子 10.10
+新惠 -
+
+train: 543 | dest 新惠 | col 3
+朝陽驛 11.00
+四家子 -
+新惠 16.30

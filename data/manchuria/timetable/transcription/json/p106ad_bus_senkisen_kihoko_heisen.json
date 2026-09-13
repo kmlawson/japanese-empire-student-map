@@ -1,0 +1,49 @@
+{
+ "stations": [
+  {
+   "name": "喜峰口",
+   "km": null
+  },
+  {
+   "name": "平泉",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "622",
+   "stops": [
+    {
+     "st": "喜峰口",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "平泉",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "平泉",
+   "col": "1",
+   "days": "奇數日"
+  }
+ ],
+ "notes": [
+  "a narrow label column reading 奇數日 stands immediately right of bus 622, i.e. the service runs on odd-numbered days"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "泉喜線",
+ "title": "平泉・喜峰口間",
+ "dir": "喜峰口→平泉",
+ "season": "昭和16.12.1改正",
+ "service": "隔日運行",
+ "fares": "喜峰口 4.95 | 平泉"
+}

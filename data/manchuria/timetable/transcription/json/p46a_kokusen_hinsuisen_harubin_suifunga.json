@@ -1,0 +1,1284 @@
+{
+ "stations": [
+  {
+   "name": "三棵樹",
+   "km": null
+  },
+  {
+   "name": "濱江",
+   "km": null
+  },
+  {
+   "name": "哈爾濱",
+   "km": null
+  },
+  {
+   "name": "香坊",
+   "km": null
+  },
+  {
+   "name": "東香坊",
+   "km": null
+  },
+  {
+   "name": "新香坊",
+   "km": null
+  },
+  {
+   "name": "成高子",
+   "km": null
+  },
+  {
+   "name": "沙利屯",
+   "km": null
+  },
+  {
+   "name": "阿城",
+   "km": null
+  },
+  {
+   "name": "亞溝",
+   "km": null
+  },
+  {
+   "name": "玉泉",
+   "km": null
+  },
+  {
+   "name": "小嶺",
+   "km": null
+  },
+  {
+   "name": "平山",
+   "km": null
+  },
+  {
+   "name": "帽兒山",
+   "km": null
+  },
+  {
+   "name": "密蜂",
+   "km": null
+  },
+  {
+   "name": "小九",
+   "km": null
+  },
+  {
+   "name": "鳥吉密",
+   "km": null
+  },
+  {
+   "name": "珠河",
+   "km": null
+  },
+  {
+   "name": "一面坡",
+   "km": null
+  },
+  {
+   "name": "葦河",
+   "km": null
+  },
+  {
+   "name": "靑雲",
+   "km": null
+  },
+  {
+   "name": "亞布洛泥",
+   "km": null
+  },
+  {
+   "name": "亮子河",
+   "km": null
+  },
+  {
+   "name": "冷山",
+   "km": null
+  },
+  {
+   "name": "高嶺子",
+   "km": null
+  },
+  {
+   "name": "横道河子",
+   "km": null
+  },
+  {
+   "name": "道林",
+   "km": null
+  },
+  {
+   "name": "山市",
+   "km": null
+  },
+  {
+   "name": "海林",
+   "km": null
+  },
+  {
+   "name": "拉古",
+   "km": null
+  },
+  {
+   "name": "牡丹江",
+   "km": null
+  },
+  {
+   "name": "愛河",
+   "km": null
+  },
+  {
+   "name": "磨刀石",
+   "km": null
+  },
+  {
+   "name": "代馬灣",
+   "km": null
+  },
+  {
+   "name": "穆稜",
+   "km": null
+  },
+  {
+   "name": "伊林",
+   "km": null
+  },
+  {
+   "name": "下城子",
+   "km": null
+  },
+  {
+   "name": "馬橋河",
+   "km": null
+  },
+  {
+   "name": "太嶺",
+   "km": null
+  },
+  {
+   "name": "細鱗河",
+   "km": null
+  },
+  {
+   "name": "綏西",
+   "km": null
+  },
+  {
+   "name": "河西",
+   "km": null
+  },
+  {
+   "name": "綏陽",
+   "km": null
+  },
+  {
+   "name": "綏芬河",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "7945",
+   "stops": [
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "愛河",
+     "ev": "dep",
+     "printed": "15.44",
+     "bold": false,
+     "t": "15:44"
+    },
+    {
+     "st": "磨刀石",
+     "ev": "dep",
+     "printed": "16.39",
+     "bold": false,
+     "t": "16:39"
+    },
+    {
+     "st": "代馬灣",
+     "ev": "dep",
+     "printed": "18.05",
+     "bold": false,
+     "t": "18:05"
+    },
+    {
+     "st": "穆稜",
+     "ev": "arr",
+     "printed": "18.47",
+     "bold": false,
+     "t": "18:47"
+    },
+    {
+     "st": "穆稜",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    },
+    {
+     "st": "伊林",
+     "ev": "dep",
+     "printed": "19.17",
+     "bold": false,
+     "t": "19:17"
+    },
+    {
+     "st": "下城子",
+     "ev": "arr",
+     "printed": "19.33",
+     "bold": false,
+     "t": "19:33"
+    },
+    {
+     "st": "下城子",
+     "ev": "dep",
+     "printed": "19.35",
+     "bold": false,
+     "t": "19:35"
+    },
+    {
+     "st": "馬橋河",
+     "ev": "dep",
+     "printed": "19.59",
+     "bold": false,
+     "t": "19:59"
+    },
+    {
+     "st": "太嶺",
+     "ev": "dep",
+     "printed": "21.06",
+     "bold": false,
+     "t": "21:06"
+    },
+    {
+     "st": "細鱗河",
+     "ev": "dep",
+     "printed": "21.44",
+     "bold": false,
+     "t": "21:44"
+    },
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "22.05",
+     "bold": false,
+     "t": "22:05"
+    },
+    {
+     "st": "河西",
+     "ev": "dep",
+     "printed": "22.15",
+     "bold": false,
+     "t": "22:15"
+    },
+    {
+     "st": "綏陽",
+     "ev": "dep",
+     "printed": "22.32",
+     "bold": false,
+     "t": "22:32"
+    },
+    {
+     "st": "綏芬河",
+     "ev": "dep",
+     "printed": "23.40",
+     "bold": false,
+     "t": "23:40"
+    }
+   ],
+   "dest": "綏芬河",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "牡丹江",
+   "col": "1"
+  },
+  {
+   "no": "3307",
+   "stops": [
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "18.47",
+     "bold": false,
+     "note": "三棵樹廻り。哈爾濱發の後に濱江・三棵樹を經る（上向きの↑印）",
+     "t": "18:47"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "18.24",
+     "bold": false,
+     "t": "42:24"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "17.56",
+     "bold": false,
+     "note": "著欄は↑印",
+     "t": "65:56"
+    },
+    {
+     "st": "新香坊",
+     "ev": "dep",
+     "printed": "19.39",
+     "bold": false,
+     "t": "67:39"
+    },
+    {
+     "st": "成高子",
+     "ev": "dep",
+     "printed": "19.54",
+     "bold": false,
+     "t": "67:54"
+    },
+    {
+     "st": "沙利屯",
+     "ev": "dep",
+     "printed": "20.26",
+     "bold": false,
+     "t": "68:26"
+    },
+    {
+     "st": "阿城",
+     "ev": "dep",
+     "printed": "21.25",
+     "bold": false,
+     "t": "69:25"
+    },
+    {
+     "st": "亞溝",
+     "ev": "dep",
+     "printed": "21.48",
+     "bold": false,
+     "t": "69:48"
+    },
+    {
+     "st": "玉泉",
+     "ev": "dep",
+     "printed": "22.55",
+     "bold": false,
+     "t": "70:55"
+    },
+    {
+     "st": "小嶺",
+     "ev": "dep",
+     "printed": "23.00",
+     "bold": false,
+     "t": "71:00"
+    },
+    {
+     "st": "平山",
+     "ev": "dep",
+     "printed": "23.20",
+     "bold": false,
+     "t": "71:20"
+    },
+    {
+     "st": "帽兒山",
+     "ev": "dep",
+     "printed": "0.10",
+     "bold": false,
+     "t": "72:10"
+    },
+    {
+     "st": "密蜂",
+     "ev": "dep",
+     "printed": "0.42",
+     "bold": false,
+     "t": "72:42"
+    },
+    {
+     "st": "小九",
+     "ev": "dep",
+     "printed": "1.06",
+     "bold": false,
+     "t": "73:06"
+    },
+    {
+     "st": "鳥吉密",
+     "ev": "dep",
+     "printed": "1.32",
+     "bold": false,
+     "t": "73:32"
+    },
+    {
+     "st": "珠河",
+     "ev": "dep",
+     "printed": "2.06",
+     "bold": false,
+     "t": "74:06"
+    },
+    {
+     "st": "一面坡",
+     "ev": "arr",
+     "printed": "2.41",
+     "bold": false,
+     "t": "74:41"
+    },
+    {
+     "st": "一面坡",
+     "ev": "dep",
+     "printed": "4.42",
+     "bold": false,
+     "t": "76:42"
+    },
+    {
+     "st": "葦河",
+     "ev": "dep",
+     "printed": "5.00",
+     "bold": false,
+     "t": "77:00"
+    },
+    {
+     "st": "靑雲",
+     "ev": "dep",
+     "printed": "6.21",
+     "bold": false,
+     "uncertain": true,
+     "t": "78:21"
+    },
+    {
+     "st": "亞布洛泥",
+     "ev": "dep",
+     "printed": "6.40",
+     "bold": false,
+     "t": "78:40"
+    },
+    {
+     "st": "亮子河",
+     "ev": "dep",
+     "printed": "7.20",
+     "bold": false,
+     "t": "79:20"
+    },
+    {
+     "st": "冷山",
+     "ev": "dep",
+     "printed": "8.01",
+     "bold": false,
+     "t": "80:01"
+    },
+    {
+     "st": "高嶺子",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "81:00"
+    },
+    {
+     "st": "横道河子",
+     "ev": "arr",
+     "printed": "10.07",
+     "bold": false,
+     "t": "82:07"
+    },
+    {
+     "st": "横道河子",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "82:40"
+    },
+    {
+     "st": "道林",
+     "ev": "dep",
+     "printed": "11.01",
+     "bold": false,
+     "t": "83:01"
+    },
+    {
+     "st": "山市",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "84:50"
+    },
+    {
+     "st": "海林",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "86:00"
+    },
+    {
+     "st": "拉古",
+     "ev": "dep",
+     "printed": "14.19",
+     "bold": false,
+     "t": "86:19"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "14.38",
+     "bold": false,
+     "t": "86:38"
+    }
+   ],
+   "dest": "一面坡",
+   "cls": "2.3",
+   "marks": "混",
+   "via": "三棵樹",
+   "col": "2",
+   "note": "行先欄は「一面坡行」だが時刻は牡丹江著14.38まで印刷されてゐる"
+  },
+  {
+   "no": "903",
+   "stops": [
+    {
+     "st": "哈爾濱",
+     "ev": "arr",
+     "printed": "7.50",
+     "bold": false,
+     "t": "07:50"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "8.10",
+     "bold": false,
+     "t": "08:10"
+    },
+    {
+     "st": "東香坊",
+     "ev": "pass"
+    },
+    {
+     "st": "新香坊",
+     "ev": "dep",
+     "printed": "9.09",
+     "bold": false,
+     "t": "09:09"
+    },
+    {
+     "st": "成高子",
+     "ev": "dep",
+     "printed": "9.27",
+     "bold": false,
+     "t": "09:27"
+    },
+    {
+     "st": "沙利屯",
+     "ev": "dep",
+     "printed": "9.42",
+     "bold": false,
+     "t": "09:42"
+    },
+    {
+     "st": "阿城",
+     "ev": "dep",
+     "printed": "9.58",
+     "bold": false,
+     "t": "09:58"
+    },
+    {
+     "st": "亞溝",
+     "ev": "dep",
+     "printed": "10.14",
+     "bold": false,
+     "t": "10:14"
+    },
+    {
+     "st": "玉泉",
+     "ev": "dep",
+     "printed": "10.38",
+     "bold": false,
+     "t": "10:38"
+    },
+    {
+     "st": "小嶺",
+     "ev": "dep",
+     "printed": "11.14",
+     "bold": false,
+     "t": "11:14"
+    },
+    {
+     "st": "平山",
+     "ev": "dep",
+     "printed": "11.33",
+     "bold": false,
+     "t": "11:33"
+    },
+    {
+     "st": "帽兒山",
+     "ev": "dep",
+     "printed": "11.49",
+     "bold": false,
+     "t": "11:49"
+    },
+    {
+     "st": "密蜂",
+     "ev": "dep",
+     "printed": "12.14",
+     "bold": false,
+     "t": "12:14"
+    },
+    {
+     "st": "小九",
+     "ev": "dep",
+     "printed": "12.36",
+     "bold": false,
+     "t": "12:36"
+    },
+    {
+     "st": "鳥吉密",
+     "ev": "dep",
+     "printed": "12.51",
+     "bold": false,
+     "t": "12:51"
+    },
+    {
+     "st": "珠河",
+     "ev": "dep",
+     "printed": "13.18",
+     "bold": false,
+     "t": "13:18"
+    },
+    {
+     "st": "一面坡",
+     "ev": "arr",
+     "printed": "13.48",
+     "bold": false,
+     "t": "13:48"
+    },
+    {
+     "st": "一面坡",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "葦河",
+     "ev": "dep",
+     "printed": "14.47",
+     "bold": false,
+     "t": "14:47"
+    },
+    {
+     "st": "靑雲",
+     "ev": "dep",
+     "printed": "15.15",
+     "bold": false,
+     "t": "15:15"
+    },
+    {
+     "st": "亞布洛泥",
+     "ev": "dep",
+     "printed": "15.31",
+     "bold": false,
+     "t": "15:31"
+    },
+    {
+     "st": "亮子河",
+     "ev": "dep",
+     "printed": "15.58",
+     "bold": false,
+     "t": "15:58"
+    },
+    {
+     "st": "冷山",
+     "ev": "dep",
+     "printed": "16.29",
+     "bold": false,
+     "t": "16:29"
+    },
+    {
+     "st": "高嶺子",
+     "ev": "dep",
+     "printed": "17.07",
+     "bold": false,
+     "t": "17:07"
+    },
+    {
+     "st": "横道河子",
+     "ev": "arr",
+     "printed": "17.48",
+     "bold": false,
+     "t": "17:48"
+    },
+    {
+     "st": "横道河子",
+     "ev": "dep",
+     "printed": "17.58",
+     "bold": false,
+     "t": "17:58"
+    },
+    {
+     "st": "道林",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    },
+    {
+     "st": "山市",
+     "ev": "dep",
+     "printed": "18.47",
+     "bold": false,
+     "t": "18:47"
+    },
+    {
+     "st": "海林",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    },
+    {
+     "st": "拉古",
+     "ev": "dep",
+     "printed": "19.46",
+     "bold": false,
+     "t": "19:46"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "20.02",
+     "bold": false,
+     "t": "20:02"
+    }
+   ],
+   "dest": "牡丹江",
+   "cls": "2.3",
+   "origin": "新京",
+   "col": "3",
+   "note": "隣の空欄に「新京發 15.05」（下一桁不鮮明）と食堂車・2.3等寢台車の記號"
+  },
+  {
+   "no": "951",
+   "stops": [
+    {
+     "st": "河西",
+     "ev": "dep",
+     "printed": "7.52",
+     "bold": false,
+     "t": "07:52"
+    },
+    {
+     "st": "綏陽",
+     "ev": "dep",
+     "printed": "8.18",
+     "bold": false,
+     "t": "08:18"
+    },
+    {
+     "st": "綏芬河",
+     "ev": "dep",
+     "printed": "9.15",
+     "bold": false,
+     "t": "09:15"
+    }
+   ],
+   "dest": "綏芬河",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "河西",
+   "col": "4"
+  },
+  {
+   "no": "947",
+   "stops": [
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "22.40",
+     "bold": false,
+     "t": "22:40"
+    },
+    {
+     "st": "愛河",
+     "ev": "pass"
+    },
+    {
+     "st": "磨刀石",
+     "ev": "dep",
+     "printed": "23.54",
+     "bold": false,
+     "t": "23:54"
+    },
+    {
+     "st": "代馬灣",
+     "ev": "dep",
+     "printed": "1.30",
+     "bold": false,
+     "t": "25:30"
+    },
+    {
+     "st": "穆稜",
+     "ev": "arr",
+     "printed": "2.16",
+     "bold": false,
+     "t": "26:16"
+    },
+    {
+     "st": "穆稜",
+     "ev": "dep",
+     "printed": "2.28",
+     "bold": false,
+     "t": "26:28"
+    },
+    {
+     "st": "伊林",
+     "ev": "dep",
+     "printed": "3.03",
+     "bold": false,
+     "t": "27:03"
+    },
+    {
+     "st": "下城子",
+     "ev": "arr",
+     "printed": "3.25",
+     "bold": false,
+     "t": "27:25"
+    },
+    {
+     "st": "下城子",
+     "ev": "dep",
+     "printed": "3.30",
+     "bold": false,
+     "t": "27:30"
+    },
+    {
+     "st": "馬橋河",
+     "ev": "dep",
+     "printed": "4.04",
+     "bold": false,
+     "t": "28:04"
+    },
+    {
+     "st": "太嶺",
+     "ev": "dep",
+     "printed": "5.22",
+     "bold": false,
+     "t": "29:22"
+    },
+    {
+     "st": "細鱗河",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "30:30"
+    },
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "6.49",
+     "bold": false,
+     "t": "30:49"
+    },
+    {
+     "st": "河西",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "31:30"
+    }
+   ],
+   "dest": "東寧",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "牡丹江",
+   "col": "5",
+   "note": "河西で綏寧線に入る。隣欄に「東寧著 12.20」"
+  },
+  {
+   "no": "949",
+   "stops": [
+    {
+     "st": "細鱗河",
+     "ev": "dep",
+     "printed": "16.18",
+     "bold": false,
+     "t": "16:18"
+    },
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "16.37",
+     "bold": false,
+     "t": "16:37"
+    },
+    {
+     "st": "河西",
+     "ev": "dep",
+     "printed": "16.54",
+     "bold": false,
+     "t": "16:54"
+    }
+   ],
+   "dest": "東寧",
+   "cls": "2.3",
+   "marks": "混",
+   "col": "6",
+   "note": "河西で綏寧線に入る。隣欄に「東寧著 20.45」。細鱗河より上は「…」"
+  },
+  {
+   "no": "901",
+   "stops": [
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "21.54",
+     "bold": false,
+     "t": "21:54"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "22.07",
+     "bold": false,
+     "t": "22:07"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "arr",
+     "printed": "22.15",
+     "bold": false,
+     "t": "22:15"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "22.33",
+     "bold": false,
+     "t": "22:33"
+    },
+    {
+     "st": "東香坊",
+     "ev": "dep",
+     "printed": "22.47",
+     "bold": false,
+     "t": "22:47"
+    },
+    {
+     "st": "新香坊",
+     "ev": "pass"
+    },
+    {
+     "st": "成高子",
+     "ev": "dep",
+     "printed": "23.18",
+     "bold": false,
+     "t": "23:18"
+    },
+    {
+     "st": "沙利屯",
+     "ev": "dep",
+     "printed": "23.33",
+     "bold": false,
+     "t": "23:33"
+    },
+    {
+     "st": "阿城",
+     "ev": "dep",
+     "printed": "23.50",
+     "bold": false,
+     "t": "23:50"
+    },
+    {
+     "st": "亞溝",
+     "ev": "dep",
+     "printed": "0.06",
+     "bold": false,
+     "t": "24:06"
+    },
+    {
+     "st": "玉泉",
+     "ev": "dep",
+     "printed": "0.30",
+     "bold": false,
+     "t": "24:30"
+    },
+    {
+     "st": "小嶺",
+     "ev": "dep",
+     "printed": "1.07",
+     "bold": false,
+     "t": "25:07"
+    },
+    {
+     "st": "平山",
+     "ev": "dep",
+     "printed": "1.27",
+     "bold": false,
+     "t": "25:27"
+    },
+    {
+     "st": "帽兒山",
+     "ev": "dep",
+     "printed": "1.46",
+     "bold": false,
+     "t": "25:46"
+    },
+    {
+     "st": "密蜂",
+     "ev": "dep",
+     "printed": "2.10",
+     "bold": false,
+     "t": "26:10"
+    },
+    {
+     "st": "小九",
+     "ev": "dep",
+     "printed": "2.30",
+     "bold": false,
+     "t": "26:30"
+    },
+    {
+     "st": "鳥吉密",
+     "ev": "dep",
+     "printed": "2.54",
+     "bold": false,
+     "t": "26:54"
+    },
+    {
+     "st": "珠河",
+     "ev": "dep",
+     "printed": "3.10",
+     "bold": false,
+     "t": "27:10"
+    },
+    {
+     "st": "一面坡",
+     "ev": "arr",
+     "printed": "3.40",
+     "bold": false,
+     "t": "27:40"
+    },
+    {
+     "st": "一面坡",
+     "ev": "dep",
+     "printed": "3.52",
+     "bold": false,
+     "t": "27:52"
+    },
+    {
+     "st": "葦河",
+     "ev": "dep",
+     "printed": "4.37",
+     "bold": false,
+     "t": "28:37"
+    },
+    {
+     "st": "靑雲",
+     "ev": "dep",
+     "printed": "4.53",
+     "bold": false,
+     "t": "28:53"
+    },
+    {
+     "st": "亞布洛泥",
+     "ev": "dep",
+     "printed": "5.09",
+     "bold": false,
+     "t": "29:09"
+    },
+    {
+     "st": "亮子河",
+     "ev": "dep",
+     "printed": "5.36",
+     "bold": false,
+     "t": "29:36"
+    },
+    {
+     "st": "冷山",
+     "ev": "pass"
+    },
+    {
+     "st": "高嶺子",
+     "ev": "dep",
+     "printed": "6.42",
+     "bold": false,
+     "t": "30:42"
+    },
+    {
+     "st": "横道河子",
+     "ev": "arr",
+     "printed": "7.20",
+     "bold": false,
+     "t": "31:20"
+    },
+    {
+     "st": "横道河子",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "31:30"
+    },
+    {
+     "st": "道林",
+     "ev": "pass"
+    },
+    {
+     "st": "山市",
+     "ev": "dep",
+     "printed": "8.16",
+     "bold": false,
+     "t": "32:16"
+    },
+    {
+     "st": "海林",
+     "ev": "dep",
+     "printed": "8.59",
+     "bold": false,
+     "t": "32:59"
+    },
+    {
+     "st": "拉古",
+     "ev": "dep",
+     "printed": "9.15",
+     "bold": false,
+     "t": "33:15"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "arr",
+     "printed": "9.31",
+     "bold": false,
+     "t": "33:31"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "34:00"
+    },
+    {
+     "st": "愛河",
+     "ev": "dep",
+     "printed": "10.15",
+     "bold": false,
+     "t": "34:15"
+    },
+    {
+     "st": "磨刀石",
+     "ev": "dep",
+     "printed": "10.57",
+     "bold": false,
+     "t": "34:57"
+    },
+    {
+     "st": "代馬灣",
+     "ev": "dep",
+     "printed": "12.11",
+     "bold": false,
+     "t": "36:11"
+    },
+    {
+     "st": "穆稜",
+     "ev": "arr",
+     "printed": "12.55",
+     "bold": false,
+     "t": "36:55"
+    },
+    {
+     "st": "穆稜",
+     "ev": "dep",
+     "printed": "13.05",
+     "bold": false,
+     "t": "37:05"
+    },
+    {
+     "st": "伊林",
+     "ev": "dep",
+     "printed": "13.22",
+     "bold": false,
+     "t": "37:22"
+    },
+    {
+     "st": "下城子",
+     "ev": "arr",
+     "printed": "13.38",
+     "bold": false,
+     "t": "37:38"
+    },
+    {
+     "st": "下城子",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "37:40"
+    },
+    {
+     "st": "馬橋河",
+     "ev": "dep",
+     "printed": "14.01",
+     "bold": false,
+     "t": "38:01"
+    },
+    {
+     "st": "太嶺",
+     "ev": "dep",
+     "printed": "15.01",
+     "bold": false,
+     "t": "39:01"
+    },
+    {
+     "st": "細鱗河",
+     "ev": "dep",
+     "printed": "15.34",
+     "bold": false,
+     "t": "39:34"
+    },
+    {
+     "st": "綏西",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "39:50"
+    },
+    {
+     "st": "河西",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "40:00"
+    },
+    {
+     "st": "綏陽",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "40:10"
+    },
+    {
+     "st": "綏芬河",
+     "ev": "dep",
+     "printed": "17.05",
+     "bold": false,
+     "t": "41:05"
+    }
+   ],
+   "dest": "綏芬河",
+   "cls": "1.2.3",
+   "marks": "食 寢1.2.3",
+   "origin": "三棵樹",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "昭和17.7.1改訂。反對方向（綏芬河→哈爾濱）は頁47の p47a。",
+  "左端に「自哈爾濱 運賃 1等・2等・3等」欄があるが轉記せず。粁程欄は無い。驛名の左の⊓・〒・◎・✕等の設備記號も轉記せず。",
+  "列車欄は7欄（7945・3307・903・951・947・949・901）。その間・右に空欄が5欄あり、設備記號（食堂車・寢台車・等級）や連絡抄錄「東寧著」等が入る。",
+  "表頭に「讀みにくい驛名 沙利屯(シャリトン)帽兒山(ボワルサン)鳥同密(ウジミ)一面坡(イーメンポ)亞布洛泥(ヤブロニ)穆稜(ムウロン)綏芬河(スイフンガ)」の枠。頁尾に「記念スタンプ 朝陽川、龍井、閖山屯、上三峰、三棵樹、濱江、哈爾濱、阿城、玉泉、帽兒山、一面坡、横道河子、牡丹江、穆稜、下城子、綏芬河」。",
+  "三棵樹・濱江の2行は濱北線側の連絡抄錄。",
+  "行ずれについて。哈爾濱と一面坡の間、驛名欄には15驛（香坊…珠河）が印刷されてゐるが、運賃欄・著發欄（ヵ）・各列車欄はいづれも14行しか無い。頁47（上り）は同區間を15行で組んでをり、また903と反對列車904の走行時分（玉泉―小嶺 36分／39分等）が一致するのは下から詰めた讀み方であるため、本ファイルでは14個の時刻を東香坊―珠河に充て、香坊は時刻無し（-）とした。別解として時刻を1驛づつ繰り下げ（香坊レ…鳥吉密13.18、珠河無し）も有り得る。"
+ ],
+ "source": "IMG_1852",
+ "page": "46",
+ "title": "哈爾濱・綏芬河間（國線・濱綏線）",
+ "line": "國線 濱綏線",
+ "dir": "綏芬河行（哈爾濱→綏芬河、下り）"
+}

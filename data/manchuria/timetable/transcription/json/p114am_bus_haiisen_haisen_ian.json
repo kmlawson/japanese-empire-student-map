@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "拜泉",
+   "km": null
+  },
+  {
+   "name": "依安",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "161",
+   "stops": [
+    {
+     "st": "拜泉",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "依安",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "依安",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "左端は運賃（圓.分）欄。逆方向は p114an。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "拜依線",
+ "title": "拜泉・依安間",
+ "dir": "拜泉→依安",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "拜泉 | 依安 3.90"
+}

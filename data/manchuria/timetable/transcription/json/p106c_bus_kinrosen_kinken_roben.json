@@ -1,0 +1,177 @@
+{
+ "stations": [
+  {
+   "name": "錦縣驛",
+   "km": null
+  },
+  {
+   "name": "虹螺峴",
+   "km": null
+  },
+  {
+   "name": "老邊",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "111",
+   "stops": [
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "虹螺峴",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    }
+   ],
+   "dest": "虹螺峴",
+   "col": "1"
+  },
+  {
+   "no": "113",
+   "stops": [
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "虹螺峴",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    }
+   ],
+   "dest": "虹螺峴",
+   "col": "2"
+  },
+  {
+   "no": "115",
+   "stops": [
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "虹螺峴",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    }
+   ],
+   "dest": "虹螺峴",
+   "col": "3"
+  },
+  {
+   "no": "117",
+   "stops": [
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "虹螺峴",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    }
+   ],
+   "dest": "虹螺峴",
+   "col": "4"
+  },
+  {
+   "no": "119",
+   "stops": [
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "虹螺峴",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    }
+   ],
+   "dest": "虹螺峴",
+   "col": "5"
+  },
+  {
+   "no": "121",
+   "stops": [
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "虹螺峴",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    }
+   ],
+   "dest": "虹螺峴",
+   "col": "6"
+  },
+  {
+   "no": "134",
+   "stops": [
+    {
+     "st": "虹螺峴",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "老邊",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "t": "17:50"
+    }
+   ],
+   "dest": "老邊",
+   "col": "7",
+   "origin": "虹螺峴"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "錦老線",
+ "title": "錦縣・虹螺峴・老邊間",
+ "dir": "錦縣驛→老邊",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "錦縣驛 | 虹螺峴 1.40 | 老邊 4.40"
+}

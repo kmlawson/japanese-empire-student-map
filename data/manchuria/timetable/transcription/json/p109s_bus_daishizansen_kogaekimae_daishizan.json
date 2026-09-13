@@ -1,0 +1,177 @@
+{
+ "stations": [
+  {
+   "name": "蛟河驛前",
+   "km": null
+  },
+  {
+   "name": "奶子山",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "231",
+   "stops": [
+    {
+     "st": "蛟河驛前",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "奶子山",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    }
+   ],
+   "dest": "奶子山",
+   "col": "1"
+  },
+  {
+   "no": "233",
+   "stops": [
+    {
+     "st": "蛟河驛前",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": false,
+     "t": "08:40"
+    },
+    {
+     "st": "奶子山",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    }
+   ],
+   "dest": "奶子山",
+   "col": "2"
+  },
+  {
+   "no": "235",
+   "stops": [
+    {
+     "st": "蛟河驛前",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "奶子山",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    }
+   ],
+   "dest": "奶子山",
+   "col": "3"
+  },
+  {
+   "no": "237",
+   "stops": [
+    {
+     "st": "蛟河驛前",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "奶子山",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "奶子山",
+   "col": "4"
+  },
+  {
+   "no": "239",
+   "stops": [
+    {
+     "st": "蛟河驛前",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "奶子山",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "奶子山",
+   "col": "5"
+  },
+  {
+   "no": "241",
+   "stops": [
+    {
+     "st": "蛟河驛前",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    },
+    {
+     "st": "奶子山",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    }
+   ],
+   "dest": "奶子山",
+   "col": "6"
+  },
+  {
+   "no": "243",
+   "stops": [
+    {
+     "st": "蛟河驛前",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "uncertain": true,
+     "t": "15:30"
+    },
+    {
+     "st": "奶子山",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "uncertain": true,
+     "t": "16:00"
+    }
+   ],
+   "dest": "奶子山",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "この表は上下2段で、上段が蛟河驛前發（本表）、下段が奶子山發（p109t）。",
+  "243欄は綴目に掛かり分位の末尾が讀めない。所要30分の等間隔運轉から15.30／16.00と讀んだ。"
+ ],
+ "source": "IMG_1883",
+ "page": "109",
+ "kind": "bus",
+ "office": "吉林局管內",
+ "line": "奶子山線",
+ "title": "蛟河驛前・奶子山間",
+ "dir": "蛟河驛前→奶子山",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "蛟河驛前 | 奶子山 0.50"
+}

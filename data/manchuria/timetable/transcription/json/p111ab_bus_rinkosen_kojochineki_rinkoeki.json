@@ -1,0 +1,111 @@
+{
+ "stations": [
+  {
+   "name": "古城鎭驛",
+   "km": null
+  },
+  {
+   "name": "林口驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "652",
+   "stops": [
+    {
+     "st": "古城鎭驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "林口驛",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    }
+   ],
+   "dest": "林口驛",
+   "col": "1"
+  },
+  {
+   "no": "654",
+   "stops": [
+    {
+     "st": "古城鎭驛",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "林口驛",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "林口驛",
+   "col": "2"
+  },
+  {
+   "no": "656",
+   "stops": [
+    {
+     "st": "古城鎭驛",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "林口驛",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    }
+   ],
+   "dest": "林口驛",
+   "col": "3"
+  },
+  {
+   "no": "658",
+   "stops": [
+    {
+     "st": "古城鎭驛",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "林口驛",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    }
+   ],
+   "dest": "林口驛",
+   "col": "4"
+  }
+ ],
+ "notes": [
+  "運賃欄に金額の印刷はない。"
+ ],
+ "source": "IMG_1884",
+ "page": "111",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "林興線",
+ "title": "林口驛・古城鎭驛間",
+ "dir": "古城鎭驛→林口驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "古城鎭驛 | 林口驛"
+}

@@ -1,0 +1,1901 @@
+{
+ "stations": [
+  {
+   "name": "大阪",
+   "km": 0.0
+  },
+  {
+   "name": "京都",
+   "km": 42.8
+  },
+  {
+   "name": "彦根",
+   "km": 104.5
+  },
+  {
+   "name": "米原",
+   "km": 110.5
+  },
+  {
+   "name": "敦賀",
+   "km": 159.0
+  },
+  {
+   "name": "今庄",
+   "km": 185.4
+  },
+  {
+   "name": "福井",
+   "km": 220.3
+  },
+  {
+   "name": "金津",
+   "km": 238.1
+  },
+  {
+   "name": "金澤",
+   "km": 297.7
+  },
+  {
+   "name": "津幡",
+   "km": 308.7
+  },
+  {
+   "name": "高岡",
+   "km": 338.6
+  },
+  {
+   "name": "富山",
+   "km": 356.8
+  },
+  {
+   "name": "糸魚川",
+   "km": 435.8
+  },
+  {
+   "name": "直江津",
+   "km": 477.0
+  },
+  {
+   "name": "柏崎",
+   "km": 518.3
+  },
+  {
+   "name": "宮内",
+   "km": 547.0
+  },
+  {
+   "name": "長岡",
+   "km": 550.6
+  },
+  {
+   "name": "東三條",
+   "km": 573.2
+  },
+  {
+   "name": "新津",
+   "km": 598.1
+  },
+  {
+   "name": "新潟",
+   "km": 615.1
+  },
+  {
+   "name": "青森",
+   "km": 1055.6
+  },
+  {
+   "name": "直江津(97頁)",
+   "km": 477.0
+  },
+  {
+   "name": "長野",
+   "km": 552.6
+  },
+  {
+   "name": "上野",
+   "km": 767.2
+  }
+ ],
+ "trains": [
+  {
+   "no": "103",
+   "stops": [
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "6.25",
+     "bold": false,
+     "t": "06:25"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "7.18",
+     "bold": false,
+     "t": "07:18"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": false,
+     "t": "07:45"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "9.28",
+     "bold": false,
+     "t": "09:28"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "9.34",
+     "bold": false,
+     "t": "09:34"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "10.44",
+     "bold": false,
+     "t": "10:44"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    }
+   ],
+   "dest": "富山",
+   "cls": "2.3",
+   "col": "1",
+   "origin": "今庄"
+  },
+  {
+   "no": "105",
+   "stops": [
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "5.19",
+     "bold": false,
+     "t": "05:19"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "6.47",
+     "bold": false,
+     "t": "06:47"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": false,
+     "t": "07:50"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "8.53",
+     "bold": false,
+     "t": "08:53"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "9.22",
+     "bold": false,
+     "t": "09:22"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": false,
+     "t": "11:03"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "11.24",
+     "bold": false,
+     "t": "11:24"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "0.07",
+     "bold": true,
+     "t": "12:07"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "0.42",
+     "bold": true,
+     "t": "12:42"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "2.33",
+     "bold": true,
+     "t": "14:33"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "3.38",
+     "bold": true,
+     "t": "15:38"
+    }
+   ],
+   "dest": "直江津",
+   "cls": "2.3",
+   "col": "2",
+   "origin": "米原"
+  },
+  {
+   "no": "608",
+   "stops": [
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "8.58",
+     "bold": false,
+     "t": "08:58"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "9.51",
+     "bold": false,
+     "t": "09:51"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "10.58",
+     "bold": false,
+     "t": "10:58"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "1.07",
+     "bold": true,
+     "t": "13:07"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "1.14",
+     "bold": true,
+     "t": "13:14"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "1.35",
+     "bold": true,
+     "t": "13:35"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "2.15",
+     "bold": true,
+     "t": "14:15"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "2.49",
+     "bold": true,
+     "t": "14:49"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "4.45",
+     "bold": true,
+     "t": "16:45"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "5.50",
+     "bold": true,
+     "t": "17:50"
+    },
+    {
+     "st": "直江津(97頁)",
+     "ev": "dep",
+     "printed": "6.13",
+     "bold": true,
+     "t": "18:13"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "8.51",
+     "bold": true,
+     "t": "20:51"
+    }
+   ],
+   "dest": "輕井澤",
+   "cls": "2.3",
+   "col": "3",
+   "origin": "米原",
+   "to_page": "97"
+  },
+  {
+   "no": "1023",
+   "stops": [
+    {
+     "st": "米原",
+     "ev": "arr",
+     "printed": "7.01",
+     "bold": false,
+     "t": "07:01"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "9.05",
+     "bold": false,
+     "t": "09:05"
+    }
+   ],
+   "dest": "敦賀港",
+   "cls": "2.3",
+   "marks": "急",
+   "col": "4",
+   "origin": "東京",
+   "days": "毎月11・17の日"
+  },
+  {
+   "no": "321",
+   "stops": [
+    {
+     "st": "直江津",
+     "ev": "arr",
+     "printed": "5.57",
+     "bold": false,
+     "t": "05:57"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "6.03",
+     "bold": false,
+     "t": "06:03"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "7.04",
+     "bold": false,
+     "t": "07:04"
+    },
+    {
+     "st": "宮内",
+     "ev": "dep",
+     "printed": "7.56",
+     "bold": false,
+     "t": "07:56"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "8.06",
+     "bold": false,
+     "t": "08:06"
+    },
+    {
+     "st": "東三條",
+     "ev": "dep",
+     "printed": "8.47",
+     "bold": false,
+     "t": "08:47"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "9.33",
+     "bold": false,
+     "t": "09:33"
+    },
+    {
+     "st": "新潟",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    }
+   ],
+   "dest": "新潟",
+   "cls": "2.3",
+   "col": "5",
+   "origin": "上野"
+  },
+  {
+   "no": "604",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "7.07",
+     "bold": false,
+     "t": "07:07"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "7.44",
+     "bold": false,
+     "t": "07:44"
+    },
+    {
+     "st": "彦根",
+     "ev": "dep",
+     "printed": "9.25",
+     "bold": false,
+     "t": "09:25"
+    },
+    {
+     "st": "米原",
+     "ev": "arr",
+     "printed": "9.33",
+     "bold": false,
+     "note": "米原發は「9.4」まで讀めるが末尾1桁が印刷の掠れで讀めない",
+     "t": "09:33"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "0.03",
+     "bold": true,
+     "t": "12:03"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "1.00",
+     "bold": true,
+     "t": "13:00"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "1.26",
+     "bold": true,
+     "t": "13:26"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "3.00",
+     "bold": true,
+     "t": "15:00"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "3.09",
+     "bold": true,
+     "t": "15:09"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "3.30",
+     "bold": true,
+     "t": "15:30"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "4.10",
+     "bold": true,
+     "t": "16:10"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "4.41",
+     "bold": true,
+     "t": "16:41"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "6.39",
+     "bold": true,
+     "t": "18:39"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "8.02",
+     "bold": true,
+     "t": "20:02"
+    },
+    {
+     "st": "直江津(97頁)",
+     "ev": "dep",
+     "printed": "8.36",
+     "bold": true,
+     "t": "20:36"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "10.49",
+     "bold": true,
+     "t": "22:49"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "5.21",
+     "bold": false,
+     "t": "29:21"
+    }
+   ],
+   "dest": "上野",
+   "cls": "2.3",
+   "col": "6",
+   "to_page": "97"
+  },
+  {
+   "no": "501",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "10.42",
+     "bold": false,
+     "t": "10:42"
+    },
+    {
+     "st": "米原",
+     "ev": "arr",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "0.07",
+     "bold": true,
+     "t": "12:07"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "1.05",
+     "bold": true,
+     "t": "13:05"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "1.50",
+     "bold": true,
+     "t": "13:50"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "2.32",
+     "bold": true,
+     "t": "14:32"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "2.53",
+     "bold": true,
+     "t": "14:53"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "4.01",
+     "bold": true,
+     "t": "16:01"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "4.07",
+     "bold": true,
+     "t": "16:07"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "4.23",
+     "bold": true,
+     "t": "16:23"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "4.59",
+     "bold": true,
+     "t": "16:59"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "5.26",
+     "bold": true,
+     "t": "17:26"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": true,
+     "t": "18:54"
+    },
+    {
+     "st": "直江津",
+     "ev": "arr",
+     "printed": "7.42",
+     "bold": true,
+     "t": "19:42"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "7.49",
+     "bold": true,
+     "t": "19:49"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "8.32",
+     "bold": true,
+     "t": "20:32"
+    },
+    {
+     "st": "宮内",
+     "ev": "pass"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "9.17",
+     "bold": true,
+     "t": "21:17"
+    },
+    {
+     "st": "東三條",
+     "ev": "dep",
+     "printed": "9.43",
+     "bold": true,
+     "t": "21:43"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "10.15",
+     "bold": true,
+     "t": "22:15"
+    },
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "7.35",
+     "bold": false,
+     "t": "31:35"
+    }
+   ],
+   "dest": "青森",
+   "cls": "2.3",
+   "marks": "急 食 寢2",
+   "col": "7",
+   "to_page": "95"
+  },
+  {
+   "no": "606",
+   "stops": [
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "0.20",
+     "bold": true,
+     "t": "12:20"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "1.44",
+     "bold": true,
+     "t": "13:44"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "2.42",
+     "bold": true,
+     "t": "14:42"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "3.37",
+     "bold": true,
+     "t": "15:37"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "4.03",
+     "bold": true,
+     "t": "16:03"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "5.30",
+     "bold": true,
+     "t": "17:30"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "5.36",
+     "bold": true,
+     "t": "17:36"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "5.56",
+     "bold": true,
+     "t": "17:56"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "6.36",
+     "bold": true,
+     "t": "18:36"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "7.07",
+     "bold": true,
+     "t": "19:07"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "8.56",
+     "bold": true,
+     "t": "20:56"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "9.54",
+     "bold": true,
+     "t": "21:54"
+    },
+    {
+     "st": "直江津(97頁)",
+     "ev": "dep",
+     "printed": "10.02",
+     "bold": true,
+     "t": "22:02"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "0.33",
+     "bold": false,
+     "t": "24:33"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "7.04",
+     "bold": false,
+     "t": "31:04"
+    }
+   ],
+   "dest": "上野",
+   "cls": "2.3",
+   "col": "8",
+   "origin": "米原",
+   "to_page": "97"
+  },
+  {
+   "no": "111",
+   "stops": [
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "1.52",
+     "bold": true,
+     "t": "13:52"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "3.03",
+     "bold": true,
+     "t": "15:03"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "4.02",
+     "bold": true,
+     "t": "16:02"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "5.11",
+     "bold": true,
+     "t": "17:11"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "5.41",
+     "bold": true,
+     "t": "17:41"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "7.13",
+     "bold": true,
+     "t": "19:13"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "7.23",
+     "bold": true,
+     "t": "19:23"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": true,
+     "t": "19:45"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "8.28",
+     "bold": true,
+     "t": "20:28"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "9.02",
+     "bold": true,
+     "t": "21:02"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "10.48",
+     "bold": true,
+     "t": "22:48"
+    }
+   ],
+   "dest": "糸魚川",
+   "cls": "2.3",
+   "col": "9",
+   "origin": "米原"
+  },
+  {
+   "no": "505",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "1.08",
+     "bold": true,
+     "t": "13:08"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "1.46",
+     "bold": true,
+     "t": "13:46"
+    },
+    {
+     "st": "彦根",
+     "ev": "dep",
+     "printed": "3.17",
+     "bold": true,
+     "t": "15:17"
+    },
+    {
+     "st": "米原",
+     "ev": "arr",
+     "printed": "3.25",
+     "bold": true,
+     "t": "15:25"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "3.30",
+     "bold": true,
+     "t": "15:30"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "5.19",
+     "bold": true,
+     "t": "17:19"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "6.12",
+     "bold": true,
+     "t": "18:12"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "7.03",
+     "bold": true,
+     "t": "19:03"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "7.29",
+     "bold": true,
+     "t": "19:29"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "8.54",
+     "bold": true,
+     "t": "20:54"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": true,
+     "t": "21:00"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": true,
+     "t": "21:20"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": true,
+     "t": "22:00"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": true,
+     "t": "22:30"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "0.25",
+     "bold": false,
+     "t": "24:25"
+    },
+    {
+     "st": "直江津",
+     "ev": "arr",
+     "printed": "1.23",
+     "bold": false,
+     "t": "25:23"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "1.29",
+     "bold": false,
+     "t": "25:29"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "2.17",
+     "bold": false,
+     "t": "26:17"
+    },
+    {
+     "st": "宮内",
+     "ev": "pass"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "3.15",
+     "bold": false,
+     "t": "27:15"
+    },
+    {
+     "st": "東三條",
+     "ev": "dep",
+     "printed": "5.49",
+     "bold": false,
+     "note": "長岡3.15と新津4.30の間にあり得ぬ時刻。3.49の誤植と思はれるが印刷のまま轉記した",
+     "t": "29:49"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "4.30",
+     "bold": false,
+     "t": "52:30"
+    },
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "4.55",
+     "bold": true,
+     "t": "64:55"
+    }
+   ],
+   "dest": "青森",
+   "cls": "2.3",
+   "col": "10",
+   "to_page": "95"
+  },
+  {
+   "no": "602",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "2.00",
+     "bold": true,
+     "t": "14:00"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "2.41",
+     "bold": true,
+     "t": "14:41"
+    },
+    {
+     "st": "米原",
+     "ev": "arr",
+     "printed": "3.47",
+     "bold": true,
+     "t": "15:47"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "3.52",
+     "bold": true,
+     "t": "15:52"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "4.58",
+     "bold": true,
+     "t": "16:58"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "5.43",
+     "bold": true,
+     "t": "17:43"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "6.28",
+     "bold": true,
+     "t": "18:28"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "6.52",
+     "bold": true,
+     "t": "18:52"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "8.03",
+     "bold": true,
+     "t": "20:03"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "8.09",
+     "bold": true,
+     "t": "20:09"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "8.24",
+     "bold": true,
+     "t": "20:24"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "9.03",
+     "bold": true,
+     "t": "21:03"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": true,
+     "t": "21:30"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "11.04",
+     "bold": true,
+     "t": "23:04"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "11.52",
+     "bold": true,
+     "note": "直江津の發の桝には「レ」が入る（柏崎方面には行かず、下の97頁の行に續く）",
+     "t": "23:52"
+    },
+    {
+     "st": "直江津(97頁)",
+     "ev": "dep",
+     "printed": "11.58",
+     "bold": true,
+     "t": "23:58"
+    },
+    {
+     "st": "長野",
+     "ev": "dep",
+     "printed": "1.56",
+     "bold": false,
+     "t": "25:56"
+    },
+    {
+     "st": "上野",
+     "ev": "dep",
+     "printed": "7.36",
+     "bold": false,
+     "t": "31:36"
+    }
+   ],
+   "dest": "上野",
+   "cls": "2.3",
+   "marks": "急 寢2",
+   "col": "11",
+   "to_page": "97"
+  },
+  {
+   "no": "723",
+   "stops": [
+    {
+     "st": "米原",
+     "ev": "arr",
+     "printed": "5.07",
+     "bold": true,
+     "t": "17:07"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "5.14",
+     "bold": true,
+     "t": "17:14"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "6.41",
+     "bold": true,
+     "t": "18:41"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": true,
+     "t": "19:38"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "8.32",
+     "bold": true,
+     "t": "20:32"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": true,
+     "t": "21:00"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "10.26",
+     "bold": true,
+     "t": "22:26"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "10.33",
+     "bold": true,
+     "t": "22:33"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "10.53",
+     "bold": true,
+     "t": "22:53"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "11.33",
+     "bold": true,
+     "t": "23:33"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "11.59",
+     "bold": true,
+     "t": "23:59"
+    }
+   ],
+   "dest": "富山",
+   "cls": "2.3",
+   "col": "12",
+   "origin": "名古屋"
+  },
+  {
+   "no": "113",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "4.20",
+     "bold": true,
+     "t": "16:20"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "5.05",
+     "bold": true,
+     "t": "17:05"
+    },
+    {
+     "st": "彦根",
+     "ev": "dep",
+     "printed": "6.47",
+     "bold": true,
+     "t": "18:47"
+    },
+    {
+     "st": "米原",
+     "ev": "arr",
+     "printed": "6.55",
+     "bold": true,
+     "t": "18:55"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": true,
+     "t": "19:00"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "8.21",
+     "bold": true,
+     "t": "20:21"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "9.14",
+     "bold": true,
+     "t": "21:14"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "10.04",
+     "bold": true,
+     "t": "22:04"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": true,
+     "t": "22:30"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "11.57",
+     "bold": true,
+     "t": "23:57"
+    }
+   ],
+   "dest": "金澤",
+   "cls": "2.3",
+   "col": "13"
+  },
+  {
+   "no": "503",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": true,
+     "t": "20:40"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "9.23",
+     "bold": true,
+     "t": "21:23"
+    },
+    {
+     "st": "彦根",
+     "ev": "dep",
+     "printed": "11.07",
+     "bold": true,
+     "t": "23:07"
+    },
+    {
+     "st": "米原",
+     "ev": "arr",
+     "printed": "11.14",
+     "bold": true,
+     "t": "23:14"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "11.23",
+     "bold": true,
+     "t": "23:23"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "0.40",
+     "bold": false,
+     "t": "24:40"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "1.31",
+     "bold": false,
+     "t": "25:31"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "2.21",
+     "bold": false,
+     "t": "26:21"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "2.45",
+     "bold": false,
+     "t": "26:45"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "4.10",
+     "bold": false,
+     "t": "28:10"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "4.18",
+     "bold": false,
+     "t": "28:18"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "4.40",
+     "bold": false,
+     "t": "28:40"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "5.24",
+     "bold": false,
+     "t": "29:24"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "6.02",
+     "bold": false,
+     "t": "30:02"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": false,
+     "t": "31:55"
+    },
+    {
+     "st": "直江津",
+     "ev": "arr",
+     "printed": "8.56",
+     "bold": false,
+     "t": "32:56"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "9.03",
+     "bold": false,
+     "t": "33:03"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "10.06",
+     "bold": false,
+     "t": "34:06"
+    },
+    {
+     "st": "宮内",
+     "ev": "dep",
+     "printed": "10.58",
+     "bold": false,
+     "t": "34:58"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "11.07",
+     "bold": false,
+     "t": "35:07"
+    },
+    {
+     "st": "東三條",
+     "ev": "dep",
+     "printed": "11.43",
+     "bold": false,
+     "t": "35:43"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "0.24",
+     "bold": true,
+     "t": "36:24"
+    },
+    {
+     "st": "青森",
+     "ev": "dep",
+     "printed": "11.45",
+     "bold": true,
+     "t": "47:45"
+    }
+   ],
+   "dest": "青森",
+   "cls": "2.3",
+   "marks": "寢2",
+   "col": "14",
+   "to_page": "95"
+  },
+  {
+   "no": "509",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": true,
+     "t": "22:20"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": true,
+     "t": "23:03"
+    },
+    {
+     "st": "彦根",
+     "ev": "dep",
+     "printed": "0.38",
+     "bold": false,
+     "t": "24:38"
+    },
+    {
+     "st": "米原",
+     "ev": "arr",
+     "printed": "0.46",
+     "bold": false,
+     "t": "24:46"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "1.00",
+     "bold": false,
+     "t": "25:00"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "2.17",
+     "bold": false,
+     "t": "26:17"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "3.15",
+     "bold": false,
+     "t": "27:15"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "4.06",
+     "bold": false,
+     "t": "28:06"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "4.34",
+     "bold": false,
+     "t": "28:34"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "6.03",
+     "bold": false,
+     "t": "30:03"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "6.10",
+     "bold": false,
+     "t": "30:10"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "6.31",
+     "bold": false,
+     "t": "30:31"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "7.14",
+     "bold": false,
+     "t": "31:14"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "7.48",
+     "bold": false,
+     "t": "31:48"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "33:40"
+    },
+    {
+     "st": "直江津",
+     "ev": "arr",
+     "printed": "10.43",
+     "bold": false,
+     "t": "34:43"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "10.53",
+     "bold": false,
+     "t": "34:53"
+    },
+    {
+     "st": "柏崎",
+     "ev": "dep",
+     "printed": "11.57",
+     "bold": false,
+     "t": "35:57"
+    },
+    {
+     "st": "宮内",
+     "ev": "dep",
+     "printed": "0.52",
+     "bold": true,
+     "t": "36:52"
+    },
+    {
+     "st": "長岡",
+     "ev": "dep",
+     "printed": "1.03",
+     "bold": true,
+     "t": "37:03"
+    },
+    {
+     "st": "東三條",
+     "ev": "dep",
+     "printed": "2.02",
+     "bold": true,
+     "t": "38:02"
+    },
+    {
+     "st": "新津",
+     "ev": "dep",
+     "printed": "2.48",
+     "bold": true,
+     "t": "38:48"
+    },
+    {
+     "st": "新潟",
+     "ev": "dep",
+     "printed": "3.25",
+     "bold": true,
+     "t": "39:25"
+    }
+   ],
+   "dest": "新潟",
+   "cls": "2.3",
+   "col": "15"
+  },
+  {
+   "no": "507",
+   "stops": [
+    {
+     "st": "大阪",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": true,
+     "t": "23:10"
+    },
+    {
+     "st": "京都",
+     "ev": "dep",
+     "printed": "0.05",
+     "bold": false,
+     "t": "24:05"
+    },
+    {
+     "st": "彦根",
+     "ev": "dep",
+     "printed": "1.39",
+     "bold": false,
+     "t": "25:39"
+    },
+    {
+     "st": "米原",
+     "ev": "arr",
+     "printed": "1.48",
+     "bold": false,
+     "t": "25:48"
+    },
+    {
+     "st": "米原",
+     "ev": "dep",
+     "printed": "2.00",
+     "bold": false,
+     "t": "26:00"
+    },
+    {
+     "st": "敦賀",
+     "ev": "dep",
+     "printed": "3.36",
+     "bold": false,
+     "t": "27:36"
+    },
+    {
+     "st": "今庄",
+     "ev": "dep",
+     "printed": "4.22",
+     "bold": false,
+     "t": "28:22"
+    },
+    {
+     "st": "福井",
+     "ev": "dep",
+     "printed": "5.14",
+     "bold": false,
+     "t": "29:14"
+    },
+    {
+     "st": "金津",
+     "ev": "dep",
+     "printed": "5.41",
+     "bold": false,
+     "t": "29:41"
+    },
+    {
+     "st": "金澤",
+     "ev": "arr",
+     "printed": "7.26",
+     "bold": false,
+     "t": "31:26"
+    },
+    {
+     "st": "金澤",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": false,
+     "t": "31:33"
+    },
+    {
+     "st": "津幡",
+     "ev": "dep",
+     "printed": "7.54",
+     "bold": false,
+     "t": "31:54"
+    },
+    {
+     "st": "高岡",
+     "ev": "dep",
+     "printed": "8.39",
+     "bold": false,
+     "t": "32:39"
+    },
+    {
+     "st": "富山",
+     "ev": "dep",
+     "printed": "9.27",
+     "bold": false,
+     "t": "33:27"
+    },
+    {
+     "st": "糸魚川",
+     "ev": "dep",
+     "printed": "0.02",
+     "bold": true,
+     "t": "36:02"
+    },
+    {
+     "st": "直江津",
+     "ev": "dep",
+     "printed": "1.03",
+     "bold": true,
+     "note": "直江津以下の空桝に縦書きで「輕井澤 8.14 著」（午後）＝直江津から信越線輕井澤方面への接續著時刻",
+     "t": "37:03"
+    }
+   ],
+   "dest": "直江津",
+   "cls": "2.3",
+   "marks": "寢2",
+   "col": "16"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改正。標題右に「（鐵道省・北陸本線・信越本線）特に示したるものの外は2.3等車」。標題下に「（敦賀港發第140列車は東京直通の[2]を連結米原にて第10列車に併結東京著7.45）」。反對方向（新潟→大阪）は同頁下段 p94b。",
+  "左端に「自大阪 粁程／運賃 3等」欄があるが運賃は轉記せず。驛名左の⊓・〒・◎・♨等の設備記號も轉記せず。",
+  "頁尾に「細字は午前、太字は午後を示す」とあるが寫眞では太細を判別できない。各欄の時刻の進行順（欄が大阪發＝米原發の時刻順に竝ぶ）と、501・503・602等の夜行急行の走りから午前・午後を判定し、午後の時刻に B を附けた。",
+  "12時制のため正午の時臺は「0.xx」と印刷される（例 105欄の高岡0.07＝午後0時07分）。深夜0時臺も「0.xx」。B の有無で區別した。",
+  "本表末尾には本線の驛の下に三つの附加行がある。（1）「青森 著」（粁程1055.6）＝新津から羽越線經由青森行の接續（95頁）。（2）「97頁｛直江津 發／長野 著／上野 著｝」＝直江津から信越本線經由長野・上野への接續。粁程欄は直江津477.0・長野552.6・上野767.2。stations では重複を避けるため「直江津(97頁)」と表記した。",
+  "「v」は原表の「レ」（通過）、「-」は原表の「…」または空白。"
+ ],
+ "source": "IMG_1876",
+ "page": "94",
+ "title": "大阪・新潟間（上段 大阪→新潟）",
+ "line": "鐵道省 北陸本線・信越本線",
+ "dir": "下り 大阪→新潟",
+ "clock": "12"
+}

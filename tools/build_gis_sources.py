@@ -62,6 +62,9 @@ FILES = [
     ("data/karafuto/karafuto-coast-detailed.geojson", "karafuto-coast-detailed.geojson"),
     ("data/kf-1935-timetable/karafuto-1935-stations.geojson",
      "karafuto-1935-stations.geojson"),
+
+    ("data/manchuria/manchuria-1942-lines.geojson", "manchuria-1942-lines.geojson"),
+    ("data/manchuria/manchuria-1942-stations.geojson", "manchuria-1942-stations.geojson"),
 ]
 
 

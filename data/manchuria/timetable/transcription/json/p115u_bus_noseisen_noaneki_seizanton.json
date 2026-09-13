@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "農安驛",
+   "km": null
+  },
+  {
+   "name": "靑山屯",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "297",
+   "stops": [
+    {
+     "st": "農安驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "靑山屯",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "靑山屯",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "左端は運賃（圓.分）欄。逆方向は p115v。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "農靑線",
+ "title": "農安驛・靑山屯間",
+ "dir": "農安驛→靑山屯",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "農安驛 | 靑山屯 3.00"
+}

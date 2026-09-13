@@ -1,0 +1,96 @@
+{
+ "stations": [
+  {
+   "name": "札賚特",
+   "km": null
+  },
+  {
+   "name": "塔子城",
+   "km": null
+  },
+  {
+   "name": "泰來",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "36",
+   "stops": [
+    {
+     "st": "塔子城",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "泰來",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    }
+   ],
+   "origin": "塔子城",
+   "dest": "泰來",
+   "col": "5"
+  },
+  {
+   "no": "34",
+   "stops": [
+    {
+     "st": "札賚特",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "泰來",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "泰來",
+   "col": "6"
+  },
+  {
+   "no": "38",
+   "stops": [
+    {
+     "st": "塔子城",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "泰來",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    }
+   ],
+   "origin": "塔子城",
+   "dest": "泰來",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "36・38は塔子城始發。34は塔子城の欄が「…」。逆方向は p114o。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "泰景線",
+ "title": "泰來・札賚特間",
+ "dir": "札賚特→泰來",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "泰來 | 塔子城 2.15 | 札賚特 3.25"
+}

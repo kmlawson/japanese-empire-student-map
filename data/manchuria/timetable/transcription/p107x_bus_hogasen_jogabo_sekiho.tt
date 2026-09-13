@@ -1,0 +1,16 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 峰瓦線
+title: 赤峰・上瓦房間
+dir: 上瓦房→赤峰
+season: 昭和16.10.1改正
+service: 每日運行
+note: three unnumbered empty columns (…) stand to the right of bus 504
+stations: 上瓦房 | 赤峰
+fares: 上瓦房 3.80 | 赤峰
+
+train: 504 | dest 赤峰 | col 1
+上瓦房 12.30
+赤峰 16.20

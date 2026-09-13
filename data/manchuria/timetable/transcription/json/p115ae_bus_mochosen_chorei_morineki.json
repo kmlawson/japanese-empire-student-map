@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "長嶺",
+   "km": null
+  },
+  {
+   "name": "茂林驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "271",
+   "stops": [
+    {
+     "st": "長嶺",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "茂林驛",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "茂林驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "左端は運賃（圓.分）欄。逆方向は p115af。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "茂長線",
+ "title": "長嶺・茂林驛間",
+ "dir": "長嶺→茂林驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "長嶺 | 茂林驛 3.50"
+}

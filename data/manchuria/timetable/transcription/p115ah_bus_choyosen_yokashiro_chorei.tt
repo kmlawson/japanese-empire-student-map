@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 長楊線
+title: 長嶺・楊家城間
+dir: 楊家城→長嶺
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表の右半（楊家城發）。逆方向は p115ag。
+stations: 楊家城 | 長嶺
+fares: 長嶺 | 楊家城 3.15
+
+train: 278 | dest 長嶺 | col 5
+楊家城 13.00
+長嶺 16.30

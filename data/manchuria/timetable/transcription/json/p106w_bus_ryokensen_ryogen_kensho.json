@@ -1,0 +1,88 @@
+{
+ "stations": [
+  {
+   "name": "凌源驛",
+   "km": null
+  },
+  {
+   "name": "建昌",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "643",
+   "stops": [
+    {
+     "st": "凌源驛",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "建昌",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    }
+   ],
+   "dest": "建昌",
+   "col": "1"
+  },
+  {
+   "no": "641",
+   "stops": [
+    {
+     "st": "凌源驛",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "建昌",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "建昌",
+   "col": "2"
+  },
+  {
+   "no": "645",
+   "stops": [
+    {
+     "st": "凌源驛",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "建昌",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    }
+   ],
+   "dest": "建昌",
+   "col": "3"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "凌建線",
+ "title": "凌源驛・建昌間",
+ "dir": "凌源驛→建昌",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "凌源驛 | 建昌 4.35"
+}

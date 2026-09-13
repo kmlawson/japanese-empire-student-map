@@ -1,0 +1,75 @@
+{
+ "stations": [
+  {
+   "name": "依安",
+   "km": null
+  },
+  {
+   "name": "林甸",
+   "km": null
+  },
+  {
+   "name": "泰康驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "61",
+   "stops": [
+    {
+     "st": "林甸",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "泰康驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    }
+   ],
+   "origin": "林甸",
+   "dest": "泰康驛",
+   "col": "5"
+  },
+  {
+   "no": "63",
+   "stops": [
+    {
+     "st": "林甸",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "泰康驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    }
+   ],
+   "origin": "林甸",
+   "dest": "泰康驛",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "61・63とも林甸始發。依安欄は全便「…」。逆方向は p114ac。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "康依線",
+ "title": "泰康驛・依安間",
+ "dir": "依安→泰康驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "泰康驛 | 林甸 3.30 | 依安 6.60"
+}

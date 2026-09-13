@@ -1,0 +1,94 @@
+{
+ "stations": [
+  {
+   "name": "寧年驛",
+   "km": null
+  },
+  {
+   "name": "富裕",
+   "km": null
+  },
+  {
+   "name": "三興鎭",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "43",
+   "stops": [
+    {
+     "st": "寧年驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "富裕",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    }
+   ],
+   "dest": "富裕",
+   "col": "1"
+  },
+  {
+   "no": "41",
+   "stops": [
+    {
+     "st": "寧年驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "三興鎭",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    }
+   ],
+   "dest": "三興鎭",
+   "col": "2"
+  },
+  {
+   "no": "45",
+   "stops": [
+    {
+     "st": "寧年驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "富裕",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    }
+   ],
+   "dest": "富裕",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "43・45は富裕止り（時刻に終着の下線）。左端は運賃（圓.分）欄。逆方向は p114ab。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "寧依線",
+ "title": "寧年驛・三興鎭間",
+ "dir": "寧年驛→三興鎭",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "寧年驛 | 富裕 1.60 | 三興鎭 3.00"
+}

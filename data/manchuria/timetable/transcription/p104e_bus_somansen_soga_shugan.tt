@@ -1,0 +1,21 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 莊萬線
+title: 莊河・岫巖間
+dir: 莊河→岫巖
+season: 昭和17.2.20改正
+service: 每日運行
+note: line name printed 莊萬線 although the route is 莊河・岫巖 (the next block, 莊河・萬福莊間, is printed 莊岫線) — the two brackets look interchanged in the original
+note: an unnumbered empty column (…) stands to the left of bus 91
+stations: 莊河 | 岫巖
+fares: 莊河 0 | 岫巖 4.30
+
+train: 91 | dest 岫巖 | col 1
+莊河 8.40
+岫巖 12.00
+
+train: 93 | dest 岫巖 | col 2
+莊河 10.00
+岫巖 13.20

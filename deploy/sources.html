@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Sources — The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b66e350d7d">
+<link rel="stylesheet" href="styles.css?v=e048b60a70">
 <style>
   /* Nothing to undo here any more: the map's scroll lock is scoped to
      `html.app` in styles.css and this page does not carry that class. */
@@ -131,6 +131,11 @@
   <li><strong>Burma Railways</strong> - The railways of Burma are traced for this map and drawn on both dates 1930 and 1942 given there were limited changes. Note: The Siam-Burma/Thai-Burma railroad, or the "Death Railroad" which was under construction in Dec 1942 is a planned addition, likely as a thematic layer.</li>
   <li><strong>Karafuto Railways</strong> The railway lines were first traced from <a href="https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=002469542">最新樺太地圖 附全樺太及北海道略圖</a> but these did not provide enough detail. The line was corrected by examining remnant contemporary train lines and tracks from the ESRI Satellite layer. This still left considerable ambiguities in the area between 手井 in the west and 豊原 in the east. Then an inspection of the detailed 樺太路線図 at <a href="https://jikokusouko.pages.dev/index.htm">時刻表倉庫</a> suggested that this had been done with significant care, so this source was used to further correct and update the lines layer throughout, with occasional consultation with the <a href="https://maps.lib.utexas.edu/maps/ams/eastern_siberia/">1947 U.S. Army Map Eastern Siberia</a> maps cited by the 時刻表倉庫 as a source. </li>
   <li><strong>Train Tools, Karafuto</strong> The timetables for the railway come from <a href="https://archive.org/details/karafuto-kokuyu-tetsudo-ressha-jikokuhyo">樺太国有鉄道列車時刻表 1935</a> on Internet Archive. The fourteen printed tables are reproduced whole at the <a href="https://kmlawson.github.io/japanese-empire-student-map/timetable/karafuto-1935.html">timetable page</a>. Station names in the 1935 timetable, which was OCRed and reassembled with Claude Fable 5.1, were then manually proofread against the 1947 U.S. Army Map to check the names and locations. Some of the station locations have no extant buildings on satellite, and in these cases I have followed the 時刻表倉庫 locations for them. Note: The LLM digitized times for the timetables have been only spot checked and need further verification from the original source. </li>
+  <li><strong>Manchurian Railways 1942</strong> The lines are traced by comparing station names in <a href="https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7">満州支那汽車時間表 1942.7</a> with this <a href="https://jikokusouko.pages.dev/manshuekimei.htm">満洲鉄道駅名一覧</a> and then drawing the lines over an Openstreet Map layer. Almost all of the lines that were not shut down were traced along current train lines via Openstreet map. Note: Claude Fable 5.1 cross compared and found matches on around 600 stations between the present day and those from the lines in 1942, matching names of stations that were within meters of the line they were on. They still need manual checking over. </li>
+</ul>
+
+<ul>
+  <li><strong>Train Tools Manchuria 1942</strong> The time tables come from <a href="https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7">満州支那汽車時間表 1942.7</a>. The tables were reconstructed by Claude Fable 5.1 over a period of several days. Note: these tables have only been spot checked, and will need further checking and verification. Some incorrect station names were fixed but some mistakes no doubt remain as well as stations that were not fully deciphered.</li>
 </ul>
 
 <ul>
@@ -228,6 +233,8 @@
   <li><strong><a href="gis/source/japan-railway-stations-1942.geojson">Japan, railway stations, 1942</a></strong> — 6.1 MB</li>
   <li><strong><a href="gis/source/karafuto-coast-detailed.geojson">Karafuto, detailed coastline</a></strong> — 675 KB</li>
   <li><strong><a href="gis/source/karafuto-1935-stations.geojson">Karafuto, railway stations, 1935</a></strong> — 87 KB</li>
+  <li><strong><a href="gis/source/manchuria-1942-lines.geojson">Manchuria, railway lines, 1942</a></strong> — 594 KB</li>
+  <li><strong><a href="gis/source/manchuria-1942-stations.geojson">Manchuria, railway stations, 1942</a></strong> — 166 KB</li>
 </ul>
 
 <h3>The shaded relief</h3>

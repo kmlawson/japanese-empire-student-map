@@ -1,0 +1,33 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 奉撫線
+title: 奉天・撫順間
+dir: 奉天→撫順
+season: 昭和16.10.1改正
+service: 每日運行
+note: between buses 33 and 67 the table prints 「此の間奉天、撫順間30分毎に運行す」 (a bus every 30 minutes over that interval); only the named columns are transcribed
+note: bus 69's 撫順 arrival is printed 17.50, impossible after 18.51 at 東陵; the corresponding up column (70) has 19.50, so the type is broken. Left as printed
+stations: 奉天 | 東陵 | 撫順
+fares: 奉天 0 | 東陵 0.55 | 撫順 1.35
+
+train: 31 | dest 撫順 | col 1
+奉天 8.00
+東陵 8.51
+撫順 9.50
+
+train: 33 | dest 撫順 | col 2
+奉天 8.30
+東陵 9.21
+撫順 10.20
+
+train: 67 | dest 撫順 | col 3
+奉天 17.00
+東陵 17.55
+撫順 18.50
+
+train: 69 | dest 撫順 | col 4
+奉天 18.00
+東陵 18.51
+撫順 17.50 ?

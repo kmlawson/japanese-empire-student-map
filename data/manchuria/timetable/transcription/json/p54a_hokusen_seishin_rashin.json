@@ -1,0 +1,2926 @@
+{
+ "stations": [
+  {
+   "name": "淸津",
+   "km": null
+  },
+  {
+   "name": "輸城",
+   "km": null
+  },
+  {
+   "name": "石幕",
+   "km": null
+  },
+  {
+   "name": "章興",
+   "km": null
+  },
+  {
+   "name": "富寧",
+   "km": null
+  },
+  {
+   "name": "古茂山",
+   "km": null
+  },
+  {
+   "name": "蒼坪",
+   "km": null
+  },
+  {
+   "name": "全巨里",
+   "km": null
+  },
+  {
+   "name": "豊山",
+   "km": null
+  },
+  {
+   "name": "中島",
+   "km": null
+  },
+  {
+   "name": "大德",
+   "km": null
+  },
+  {
+   "name": "會寧",
+   "km": null
+  },
+  {
+   "name": "金生",
+   "km": null
+  },
+  {
+   "name": "高嶺鎭",
+   "km": null
+  },
+  {
+   "name": "鶴浦",
+   "km": null
+  },
+  {
+   "name": "新田",
+   "km": null
+  },
+  {
+   "name": "間坪",
+   "km": null
+  },
+  {
+   "name": "上三峰",
+   "km": null
+  },
+  {
+   "name": "鍾城",
+   "km": null
+  },
+  {
+   "name": "小岩",
+   "km": null
+  },
+  {
+   "name": "東關",
+   "km": null
+  },
+  {
+   "name": "水口浦",
+   "km": null
+  },
+  {
+   "name": "江陽",
+   "km": null
+  },
+  {
+   "name": "南陽",
+   "km": null
+  },
+  {
+   "name": "圖們",
+   "km": null
+  },
+  {
+   "name": "豊利",
+   "km": null
+  },
+  {
+   "name": "世仙",
+   "km": null
+  },
+  {
+   "name": "穩城",
+   "km": null
+  },
+  {
+   "name": "豊仁",
+   "km": null
+  },
+  {
+   "name": "黄坡",
+   "km": null
+  },
+  {
+   "name": "訓戎",
+   "km": null
+  },
+  {
+   "name": "下面",
+   "km": null
+  },
+  {
+   "name": "慶源",
+   "km": null
+  },
+  {
+   "name": "農圃",
+   "km": null
+  },
+  {
+   "name": "承良",
+   "km": null
+  },
+  {
+   "name": "新乾",
+   "km": null
+  },
+  {
+   "name": "新阿山",
+   "km": null
+  },
+  {
+   "name": "松鶴",
+   "km": null
+  },
+  {
+   "name": "阿吾地",
+   "km": null
+  },
+  {
+   "name": "靑鶴",
+   "km": null
+  },
+  {
+   "name": "四會",
+   "km": null
+  },
+  {
+   "name": "洪儀",
+   "km": null
+  },
+  {
+   "name": "九龍坪",
+   "km": null
+  },
+  {
+   "name": "雄尙",
+   "km": null
+  },
+  {
+   "name": "東雄基",
+   "km": null
+  },
+  {
+   "name": "雄基",
+   "km": null
+  },
+  {
+   "name": "寛谷",
+   "km": null
+  },
+  {
+   "name": "羅津",
+   "km": null
+  },
+  {
+   "name": "羅津埠頭",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "301",
+   "stops": [
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "0.10",
+     "bold": false,
+     "t": "00:10"
+    },
+    {
+     "st": "輸城",
+     "ev": "pass"
+    },
+    {
+     "st": "章興",
+     "ev": "pass"
+    },
+    {
+     "st": "富寧",
+     "ev": "pass"
+    },
+    {
+     "st": "古茂山",
+     "ev": "dep",
+     "printed": "1.41",
+     "bold": false,
+     "t": "01:41"
+    },
+    {
+     "st": "蒼坪",
+     "ev": "pass"
+    },
+    {
+     "st": "全巨里",
+     "ev": "pass"
+    },
+    {
+     "st": "豊山",
+     "ev": "pass"
+    },
+    {
+     "st": "中島",
+     "ev": "pass"
+    },
+    {
+     "st": "大德",
+     "ev": "pass"
+    },
+    {
+     "st": "會寧",
+     "ev": "arr",
+     "printed": "3.45",
+     "bold": false,
+     "t": "03:45"
+    },
+    {
+     "st": "會寧",
+     "ev": "dep",
+     "printed": "3.52",
+     "bold": false,
+     "t": "03:52"
+    },
+    {
+     "st": "金生",
+     "ev": "pass"
+    },
+    {
+     "st": "高嶺鎭",
+     "ev": "pass"
+    },
+    {
+     "st": "鶴浦",
+     "ev": "pass"
+    },
+    {
+     "st": "新田",
+     "ev": "pass"
+    },
+    {
+     "st": "間坪",
+     "ev": "pass"
+    },
+    {
+     "st": "上三峰",
+     "ev": "arr",
+     "printed": "4.58",
+     "bold": false,
+     "t": "04:58"
+    },
+    {
+     "st": "上三峰",
+     "ev": "dep",
+     "printed": "5.10",
+     "bold": false,
+     "t": "05:10"
+    },
+    {
+     "st": "鍾城",
+     "ev": "dep",
+     "printed": "5.23",
+     "bold": false,
+     "t": "05:23"
+    },
+    {
+     "st": "小岩",
+     "ev": "dep",
+     "printed": "5.32",
+     "bold": false,
+     "t": "05:32"
+    },
+    {
+     "st": "東關",
+     "ev": "dep",
+     "printed": "5.39",
+     "bold": false,
+     "t": "05:39"
+    },
+    {
+     "st": "水口浦",
+     "ev": "dep",
+     "printed": "5.49",
+     "bold": false,
+     "t": "05:49"
+    },
+    {
+     "st": "江陽",
+     "ev": "dep",
+     "printed": "6.00",
+     "bold": false,
+     "t": "06:00"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "6.09",
+     "bold": false,
+     "t": "06:09"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "6.35",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）南陽發",
+     "t": "06:35"
+    },
+    {
+     "st": "圖們",
+     "ev": "arr",
+     "printed": "6.43",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）。以下は圖佳線へ。欄の空所に縱書き「牡丹江著 15.02」",
+     "t": "06:43"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "7.35",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）。以下は圖佳線へ。欄の空所に縱書き「牡丹江著 15.02」",
+     "t": "07:35"
+    }
+   ],
+   "dest": "牡丹江",
+   "cls": "2.3",
+   "marks": "急 食 寢2.3",
+   "col": "2",
+   "note": "行先欄「牡丹江行」の右に反轉枠「急行」。隣（第3欄）の空所に鉤括弧付きで縱書き「京城發 7.50」「（京城・上三峰間急行）」があり本列車を指すと解した"
+  },
+  {
+   "no": "1345",
+   "stops": [
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "5.00",
+     "bold": false,
+     "t": "05:00"
+    },
+    {
+     "st": "輸城",
+     "ev": "dep",
+     "printed": "5.18",
+     "bold": false,
+     "t": "05:18"
+    },
+    {
+     "st": "石幕",
+     "ev": "dep",
+     "printed": "5.31",
+     "bold": false,
+     "t": "05:31"
+    },
+    {
+     "st": "章興",
+     "ev": "dep",
+     "printed": "5.54",
+     "bold": false,
+     "t": "05:54"
+    },
+    {
+     "st": "富寧",
+     "ev": "dep",
+     "printed": "6.39",
+     "bold": false,
+     "t": "06:39"
+    },
+    {
+     "st": "古茂山",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": false,
+     "t": "07:33"
+    },
+    {
+     "st": "蒼坪",
+     "ev": "dep",
+     "printed": "8.32",
+     "bold": false,
+     "t": "08:32"
+    },
+    {
+     "st": "全巨里",
+     "ev": "dep",
+     "printed": "9.48",
+     "bold": false,
+     "t": "09:48"
+    },
+    {
+     "st": "豊山",
+     "ev": "dep",
+     "printed": "9.59",
+     "bold": false,
+     "t": "09:59"
+    },
+    {
+     "st": "中島",
+     "ev": "dep",
+     "printed": "10.16",
+     "bold": false,
+     "t": "10:16"
+    },
+    {
+     "st": "大德",
+     "ev": "dep",
+     "printed": "10.29",
+     "bold": false,
+     "t": "10:29"
+    },
+    {
+     "st": "會寧",
+     "ev": "dep",
+     "printed": "10.42",
+     "bold": false,
+     "t": "10:42"
+    }
+   ],
+   "dest": "會寧",
+   "cls": "3",
+   "marks": "混",
+   "col": "4"
+  },
+  {
+   "no": "309",
+   "stops": [
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": false,
+     "t": "07:45"
+    },
+    {
+     "st": "輸城",
+     "ev": "pass"
+    },
+    {
+     "st": "石幕",
+     "ev": "pass"
+    },
+    {
+     "st": "章興",
+     "ev": "pass"
+    },
+    {
+     "st": "古茂山",
+     "ev": "pass"
+    },
+    {
+     "st": "蒼坪",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": false,
+     "t": "08:38"
+    },
+    {
+     "st": "全巨里",
+     "ev": "pass"
+    },
+    {
+     "st": "豊山",
+     "ev": "pass"
+    },
+    {
+     "st": "中島",
+     "ev": "pass"
+    },
+    {
+     "st": "大德",
+     "ev": "pass"
+    },
+    {
+     "st": "會寧",
+     "ev": "arr",
+     "printed": "9.51",
+     "bold": false,
+     "t": "09:51"
+    },
+    {
+     "st": "會寧",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "金生",
+     "ev": "pass"
+    },
+    {
+     "st": "高嶺鎭",
+     "ev": "pass"
+    },
+    {
+     "st": "鶴浦",
+     "ev": "pass"
+    },
+    {
+     "st": "新田",
+     "ev": "pass"
+    },
+    {
+     "st": "間坪",
+     "ev": "pass"
+    },
+    {
+     "st": "上三峰",
+     "ev": "arr",
+     "printed": "10.44",
+     "bold": false,
+     "t": "10:44"
+    },
+    {
+     "st": "上三峰",
+     "ev": "dep",
+     "printed": "10.51",
+     "bold": false,
+     "t": "10:51"
+    },
+    {
+     "st": "鍾城",
+     "ev": "pass"
+    },
+    {
+     "st": "小岩",
+     "ev": "pass"
+    },
+    {
+     "st": "東關",
+     "ev": "pass"
+    },
+    {
+     "st": "水口浦",
+     "ev": "pass"
+    },
+    {
+     "st": "江陽",
+     "ev": "pass"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "11.31",
+     "bold": false,
+     "t": "11:31"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "11.39",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）南陽發",
+     "t": "11:39"
+    },
+    {
+     "st": "圖們",
+     "ev": "arr",
+     "printed": "11.45",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）。以下は圖佳線へ。欄の空所に縱書き「牡丹江著 19.00」",
+     "t": "11:45"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）。以下は圖佳線へ。欄の空所に縱書き「牡丹江著 19.00」",
+     "t": "12:20"
+    }
+   ],
+   "dest": "牡丹江",
+   "cls": "2.3",
+   "marks": "急 食 寢2.3",
+   "col": "5",
+   "note": "行先欄「牡丹江行」の右に反轉枠「急行」"
+  },
+  {
+   "no": "329",
+   "stops": [
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "7.58",
+     "bold": false,
+     "t": "07:58"
+    },
+    {
+     "st": "輸城",
+     "ev": "dep",
+     "printed": "8.10",
+     "bold": false,
+     "t": "08:10"
+    },
+    {
+     "st": "石幕",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    },
+    {
+     "st": "章興",
+     "ev": "dep",
+     "printed": "8.34",
+     "bold": false,
+     "t": "08:34"
+    },
+    {
+     "st": "富寧",
+     "ev": "dep",
+     "printed": "9.02",
+     "bold": false,
+     "t": "09:02"
+    },
+    {
+     "st": "古茂山",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "蒼坪",
+     "ev": "dep",
+     "printed": "9.59",
+     "bold": false,
+     "t": "09:59"
+    },
+    {
+     "st": "全巨里",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": false,
+     "t": "10:17"
+    },
+    {
+     "st": "豊山",
+     "ev": "dep",
+     "printed": "10.26",
+     "bold": false,
+     "t": "10:26"
+    },
+    {
+     "st": "中島",
+     "ev": "dep",
+     "printed": "10.31",
+     "bold": false,
+     "t": "10:31"
+    },
+    {
+     "st": "大德",
+     "ev": "dep",
+     "printed": "10.51",
+     "bold": false,
+     "t": "10:51"
+    },
+    {
+     "st": "會寧",
+     "ev": "arr",
+     "printed": "11.01",
+     "bold": false,
+     "t": "11:01"
+    },
+    {
+     "st": "會寧",
+     "ev": "dep",
+     "printed": "11.05",
+     "bold": false,
+     "t": "11:05"
+    },
+    {
+     "st": "金生",
+     "ev": "dep",
+     "printed": "11.12",
+     "bold": false,
+     "t": "11:12"
+    },
+    {
+     "st": "高嶺鎭",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "鶴浦",
+     "ev": "dep",
+     "printed": "11.32",
+     "bold": false,
+     "t": "11:32"
+    },
+    {
+     "st": "新田",
+     "ev": "dep",
+     "printed": "11.46",
+     "bold": false,
+     "t": "11:46"
+    },
+    {
+     "st": "間坪",
+     "ev": "dep",
+     "printed": "11.57",
+     "bold": false,
+     "t": "11:57"
+    },
+    {
+     "st": "上三峰",
+     "ev": "arr",
+     "printed": "12.07",
+     "bold": false,
+     "t": "12:07"
+    },
+    {
+     "st": "上三峰",
+     "ev": "dep",
+     "printed": "12.17",
+     "bold": false,
+     "t": "12:17"
+    },
+    {
+     "st": "鍾城",
+     "ev": "dep",
+     "printed": "12.28",
+     "bold": false,
+     "t": "12:28"
+    },
+    {
+     "st": "小岩",
+     "ev": "dep",
+     "printed": "12.36",
+     "bold": false,
+     "t": "12:36"
+    },
+    {
+     "st": "東關",
+     "ev": "dep",
+     "printed": "12.42",
+     "bold": false,
+     "t": "12:42"
+    },
+    {
+     "st": "水口浦",
+     "ev": "dep",
+     "printed": "12.51",
+     "bold": false,
+     "t": "12:51"
+    },
+    {
+     "st": "江陽",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "13.08",
+     "bold": false,
+     "t": "13:08"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "13.46",
+     "bold": false,
+     "note": "抄錄の4行は↓印（圖們へは行かず本線を直通）",
+     "t": "13:46"
+    },
+    {
+     "st": "豊利",
+     "ev": "dep",
+     "printed": "13.53",
+     "bold": false,
+     "t": "13:53"
+    },
+    {
+     "st": "世仙",
+     "ev": "dep",
+     "printed": "14.03",
+     "bold": false,
+     "t": "14:03"
+    },
+    {
+     "st": "穩城",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    },
+    {
+     "st": "豊仁",
+     "ev": "dep",
+     "printed": "14.19",
+     "bold": false,
+     "t": "14:19"
+    },
+    {
+     "st": "黄坡",
+     "ev": "dep",
+     "printed": "14.33",
+     "bold": false,
+     "t": "14:33"
+    },
+    {
+     "st": "訓戎",
+     "ev": "dep",
+     "printed": "14.52",
+     "bold": false,
+     "t": "14:52"
+    },
+    {
+     "st": "下面",
+     "ev": "dep",
+     "printed": "15.01",
+     "bold": false,
+     "t": "15:01"
+    },
+    {
+     "st": "慶源",
+     "ev": "dep",
+     "printed": "15.08",
+     "bold": false,
+     "t": "15:08"
+    },
+    {
+     "st": "農圃",
+     "ev": "dep",
+     "printed": "15.18",
+     "bold": false,
+     "t": "15:18"
+    },
+    {
+     "st": "承良",
+     "ev": "dep",
+     "printed": "15.25",
+     "bold": false,
+     "t": "15:25"
+    },
+    {
+     "st": "新乾",
+     "ev": "dep",
+     "printed": "15.37",
+     "bold": false,
+     "t": "15:37"
+    },
+    {
+     "st": "新阿山",
+     "ev": "dep",
+     "printed": "15.57",
+     "bold": false,
+     "t": "15:57"
+    },
+    {
+     "st": "松鶴",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "阿吾地",
+     "ev": "dep",
+     "printed": "16.24",
+     "bold": false,
+     "t": "16:24"
+    },
+    {
+     "st": "靑鶴",
+     "ev": "dep",
+     "printed": "16.39",
+     "bold": false,
+     "t": "16:39"
+    },
+    {
+     "st": "四會",
+     "ev": "dep",
+     "printed": "16.54",
+     "bold": false,
+     "t": "16:54"
+    },
+    {
+     "st": "洪儀",
+     "ev": "dep",
+     "printed": "17.03",
+     "bold": false,
+     "t": "17:03"
+    },
+    {
+     "st": "九龍坪",
+     "ev": "dep",
+     "printed": "17.14",
+     "bold": false,
+     "t": "17:14"
+    },
+    {
+     "st": "雄尙",
+     "ev": "dep",
+     "printed": "17.26",
+     "bold": false,
+     "t": "17:26"
+    },
+    {
+     "st": "東雄基",
+     "ev": "dep",
+     "printed": "17.41",
+     "bold": false,
+     "t": "17:41"
+    },
+    {
+     "st": "雄基",
+     "ev": "arr",
+     "printed": "17.47",
+     "bold": false,
+     "t": "17:47"
+    },
+    {
+     "st": "雄基",
+     "ev": "dep",
+     "printed": "17.54",
+     "bold": false,
+     "t": "17:54"
+    },
+    {
+     "st": "寛谷",
+     "ev": "dep",
+     "printed": "18.09",
+     "bold": false,
+     "t": "18:09"
+    },
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    }
+   ],
+   "dest": "羅津",
+   "cls": "2.3",
+   "col": "7"
+  },
+  {
+   "no": "325",
+   "stops": [
+    {
+     "st": "會寧",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "金生",
+     "ev": "dep",
+     "printed": "13.32",
+     "bold": false,
+     "t": "13:32"
+    },
+    {
+     "st": "高嶺鎭",
+     "ev": "dep",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    },
+    {
+     "st": "鶴浦",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "新田",
+     "ev": "dep",
+     "printed": "14.17",
+     "bold": false,
+     "t": "14:17"
+    },
+    {
+     "st": "間坪",
+     "ev": "dep",
+     "printed": "14.29",
+     "bold": false,
+     "t": "14:29"
+    },
+    {
+     "st": "上三峰",
+     "ev": "arr",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "上三峰",
+     "ev": "dep",
+     "printed": "15.05",
+     "bold": false,
+     "t": "15:05"
+    },
+    {
+     "st": "鍾城",
+     "ev": "dep",
+     "printed": "15.15",
+     "bold": false,
+     "t": "15:15"
+    },
+    {
+     "st": "小岩",
+     "ev": "dep",
+     "printed": "15.23",
+     "bold": false,
+     "t": "15:23"
+    },
+    {
+     "st": "東關",
+     "ev": "dep",
+     "printed": "15.29",
+     "bold": false,
+     "t": "15:29"
+    },
+    {
+     "st": "水口浦",
+     "ev": "dep",
+     "printed": "15.38",
+     "bold": false,
+     "t": "15:38"
+    },
+    {
+     "st": "江陽",
+     "ev": "dep",
+     "printed": "15.47",
+     "bold": false,
+     "t": "15:47"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "15.55",
+     "bold": false,
+     "t": "15:55"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "16.14",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）南陽發",
+     "t": "16:14"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "16.22",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）。圖們止",
+     "t": "16:22"
+    }
+   ],
+   "dest": "圖們",
+   "cls": "2.3",
+   "origin": "會寧",
+   "col": "9",
+   "note": "淸津・會寧著の各行は「…」。11頁（日滿連絡・北鮮經由）の抄錄では325は淸津10.05發となつてゐるが本表では會寧13.25發"
+  },
+  {
+   "no": "327",
+   "stops": [
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    },
+    {
+     "st": "輸城",
+     "ev": "dep",
+     "printed": "12.33",
+     "bold": false,
+     "t": "12:33"
+    },
+    {
+     "st": "石幕",
+     "ev": "dep",
+     "printed": "12.43",
+     "bold": false,
+     "t": "12:43"
+    },
+    {
+     "st": "章興",
+     "ev": "dep",
+     "printed": "12.58",
+     "bold": false,
+     "t": "12:58"
+    },
+    {
+     "st": "富寧",
+     "ev": "dep",
+     "printed": "13.28",
+     "bold": false,
+     "t": "13:28"
+    },
+    {
+     "st": "古茂山",
+     "ev": "dep",
+     "printed": "13.47",
+     "bold": false,
+     "t": "13:47"
+    },
+    {
+     "st": "蒼坪",
+     "ev": "dep",
+     "printed": "14.27",
+     "bold": false,
+     "t": "14:27"
+    },
+    {
+     "st": "全巨里",
+     "ev": "dep",
+     "printed": "14.47",
+     "bold": false,
+     "t": "14:47"
+    },
+    {
+     "st": "豊山",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "中島",
+     "ev": "dep",
+     "printed": "15.17",
+     "bold": false,
+     "t": "15:17"
+    },
+    {
+     "st": "大德",
+     "ev": "dep",
+     "printed": "15.27",
+     "bold": false,
+     "t": "15:27"
+    },
+    {
+     "st": "會寧",
+     "ev": "arr",
+     "printed": "15.37",
+     "bold": false,
+     "t": "15:37"
+    },
+    {
+     "st": "會寧",
+     "ev": "dep",
+     "printed": "15.42",
+     "bold": false,
+     "t": "15:42"
+    },
+    {
+     "st": "金生",
+     "ev": "dep",
+     "printed": "15.49",
+     "bold": false,
+     "t": "15:49"
+    },
+    {
+     "st": "高嶺鎭",
+     "ev": "dep",
+     "printed": "15.58",
+     "bold": false,
+     "t": "15:58"
+    },
+    {
+     "st": "鶴浦",
+     "ev": "dep",
+     "printed": "16.13",
+     "bold": false,
+     "t": "16:13"
+    },
+    {
+     "st": "新田",
+     "ev": "dep",
+     "printed": "16.29",
+     "bold": false,
+     "t": "16:29"
+    },
+    {
+     "st": "間坪",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "上三峰",
+     "ev": "arr",
+     "printed": "16.50",
+     "bold": false,
+     "t": "16:50"
+    },
+    {
+     "st": "上三峰",
+     "ev": "dep",
+     "printed": "17.08",
+     "bold": false,
+     "t": "17:08"
+    },
+    {
+     "st": "鍾城",
+     "ev": "dep",
+     "printed": "17.19",
+     "bold": false,
+     "t": "17:19"
+    },
+    {
+     "st": "小岩",
+     "ev": "dep",
+     "printed": "17.27",
+     "bold": false,
+     "t": "17:27"
+    },
+    {
+     "st": "東關",
+     "ev": "dep",
+     "printed": "17.33",
+     "bold": false,
+     "t": "17:33"
+    },
+    {
+     "st": "水口浦",
+     "ev": "dep",
+     "printed": "17.42",
+     "bold": false,
+     "t": "17:42"
+    },
+    {
+     "st": "江陽",
+     "ev": "dep",
+     "printed": "17.51",
+     "bold": false,
+     "t": "17:51"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "17.59",
+     "bold": false,
+     "t": "17:59"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）南陽發",
+     "t": "18:35"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "18.43",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）。圖們止",
+     "t": "18:43"
+    }
+   ],
+   "dest": "圖們",
+   "cls": "2.3",
+   "col": "10"
+  },
+  {
+   "no": "1351",
+   "stops": [
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "輸城",
+     "ev": "dep",
+     "printed": "13.47",
+     "bold": false,
+     "t": "13:47"
+    },
+    {
+     "st": "石幕",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "章興",
+     "ev": "dep",
+     "printed": "14.21",
+     "bold": false,
+     "t": "14:21"
+    },
+    {
+     "st": "富寧",
+     "ev": "dep",
+     "printed": "15.08",
+     "bold": false,
+     "t": "15:08"
+    },
+    {
+     "st": "古茂山",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "蒼坪",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "全巨里",
+     "ev": "dep",
+     "printed": "17.33",
+     "bold": false,
+     "t": "17:33"
+    },
+    {
+     "st": "豊山",
+     "ev": "dep",
+     "printed": "18.08",
+     "bold": false,
+     "t": "18:08"
+    },
+    {
+     "st": "中島",
+     "ev": "dep",
+     "printed": "18.25",
+     "bold": false,
+     "t": "18:25"
+    },
+    {
+     "st": "大德",
+     "ev": "dep",
+     "printed": "18.46",
+     "bold": false,
+     "t": "18:46"
+    },
+    {
+     "st": "會寧",
+     "ev": "dep",
+     "printed": "18.59",
+     "bold": false,
+     "t": "18:59"
+    }
+   ],
+   "dest": "會寧",
+   "cls": "3",
+   "marks": "混",
+   "col": "11"
+  },
+  {
+   "no": "206",
+   "stops": [
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "16.50",
+     "bold": false,
+     "t": "16:50"
+    },
+    {
+     "st": "輸城",
+     "ev": "dep",
+     "printed": "17.03",
+     "bold": false,
+     "t": "17:03"
+    },
+    {
+     "st": "石幕",
+     "ev": "dep",
+     "printed": "17.13",
+     "bold": false,
+     "t": "17:13"
+    },
+    {
+     "st": "章興",
+     "ev": "dep",
+     "printed": "17.28",
+     "bold": false,
+     "t": "17:28"
+    },
+    {
+     "st": "富寧",
+     "ev": "dep",
+     "printed": "17.57",
+     "bold": false,
+     "t": "17:57"
+    },
+    {
+     "st": "古茂山",
+     "ev": "dep",
+     "printed": "18.16",
+     "bold": false,
+     "t": "18:16"
+    },
+    {
+     "st": "蒼坪",
+     "ev": "dep",
+     "printed": "18.59",
+     "bold": false,
+     "t": "18:59"
+    },
+    {
+     "st": "全巨里",
+     "ev": "dep",
+     "printed": "19.19",
+     "bold": false,
+     "t": "19:19"
+    },
+    {
+     "st": "豊山",
+     "ev": "dep",
+     "printed": "19.29",
+     "bold": false,
+     "t": "19:29"
+    },
+    {
+     "st": "中島",
+     "ev": "dep",
+     "printed": "19.43",
+     "bold": false,
+     "t": "19:43"
+    },
+    {
+     "st": "大德",
+     "ev": "dep",
+     "printed": "19.55",
+     "bold": false,
+     "t": "19:55"
+    },
+    {
+     "st": "會寧",
+     "ev": "arr",
+     "printed": "20.05",
+     "bold": false,
+     "t": "20:05"
+    },
+    {
+     "st": "會寧",
+     "ev": "dep",
+     "printed": "20.12",
+     "bold": false,
+     "t": "20:12"
+    },
+    {
+     "st": "金生",
+     "ev": "dep",
+     "printed": "20.19",
+     "bold": false,
+     "t": "20:19"
+    },
+    {
+     "st": "高嶺鎭",
+     "ev": "dep",
+     "printed": "20.28",
+     "bold": false,
+     "t": "20:28"
+    },
+    {
+     "st": "鶴浦",
+     "ev": "dep",
+     "printed": "20.40",
+     "bold": false,
+     "t": "20:40"
+    },
+    {
+     "st": "新田",
+     "ev": "dep",
+     "printed": "20.55",
+     "bold": false,
+     "t": "20:55"
+    },
+    {
+     "st": "間坪",
+     "ev": "dep",
+     "printed": "21.06",
+     "bold": false,
+     "t": "21:06"
+    },
+    {
+     "st": "上三峰",
+     "ev": "arr",
+     "printed": "21.16",
+     "bold": false,
+     "t": "21:16"
+    },
+    {
+     "st": "上三峰",
+     "ev": "dep",
+     "printed": "21.23",
+     "bold": false,
+     "t": "21:23"
+    },
+    {
+     "st": "鍾城",
+     "ev": "dep",
+     "printed": "21.34",
+     "bold": false,
+     "t": "21:34"
+    },
+    {
+     "st": "小岩",
+     "ev": "dep",
+     "printed": "21.42",
+     "bold": false,
+     "t": "21:42"
+    },
+    {
+     "st": "東關",
+     "ev": "dep",
+     "printed": "21.48",
+     "bold": false,
+     "t": "21:48"
+    },
+    {
+     "st": "水口浦",
+     "ev": "dep",
+     "printed": "21.57",
+     "bold": false,
+     "t": "21:57"
+    },
+    {
+     "st": "江陽",
+     "ev": "dep",
+     "printed": "22.06",
+     "bold": false,
+     "t": "22:06"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "22.14",
+     "bold": false,
+     "t": "22:14"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "22.28",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）南陽發",
+     "t": "22:28"
+    },
+    {
+     "st": "圖們",
+     "ev": "arr",
+     "printed": "22.35",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）。以下は京圖線へ。欄の空所に縱書き「新京著 14.26」",
+     "t": "22:35"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "23.40",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）。以下は京圖線へ。欄の空所に縱書き「新京著 14.26」",
+     "t": "23:40"
+    }
+   ],
+   "dest": "新京",
+   "cls": "2.3",
+   "marks": "食 寢1.2.3",
+   "col": "13"
+  },
+  {
+   "no": "1353",
+   "stops": [
+    {
+     "st": "淸津",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    },
+    {
+     "st": "輸城",
+     "ev": "dep",
+     "printed": "19.40",
+     "bold": false,
+     "t": "19:40"
+    },
+    {
+     "st": "石幕",
+     "ev": "dep",
+     "printed": "19.57",
+     "bold": false,
+     "t": "19:57"
+    },
+    {
+     "st": "章興",
+     "ev": "dep",
+     "printed": "20.18",
+     "bold": false,
+     "t": "20:18"
+    },
+    {
+     "st": "富寧",
+     "ev": "dep",
+     "printed": "21.04",
+     "bold": false,
+     "t": "21:04"
+    },
+    {
+     "st": "古茂山",
+     "ev": "dep",
+     "printed": "21.38",
+     "bold": false,
+     "t": "21:38"
+    },
+    {
+     "st": "蒼坪",
+     "ev": "dep",
+     "printed": "22.38",
+     "bold": false,
+     "t": "22:38"
+    },
+    {
+     "st": "全巨里",
+     "ev": "dep",
+     "printed": "23.04",
+     "bold": false,
+     "t": "23:04"
+    },
+    {
+     "st": "豊山",
+     "ev": "dep",
+     "printed": "23.51",
+     "bold": false,
+     "note": "印刷のまま。前後（全巨里23.04・中島23.32）と合はず、23.15の誤植か",
+     "t": "23:51"
+    },
+    {
+     "st": "中島",
+     "ev": "dep",
+     "printed": "23.32",
+     "bold": false,
+     "t": "47:32"
+    },
+    {
+     "st": "大德",
+     "ev": "dep",
+     "printed": "23.45",
+     "bold": false,
+     "t": "47:45"
+    },
+    {
+     "st": "會寧",
+     "ev": "dep",
+     "printed": "23.58",
+     "bold": false,
+     "t": "47:58"
+    }
+   ],
+   "dest": "會寧",
+   "cls": "3",
+   "marks": "混",
+   "col": "14"
+  },
+  {
+   "no": "1171",
+   "stops": [
+    {
+     "st": "上三峰",
+     "ev": "dep",
+     "printed": "6.42",
+     "bold": false,
+     "t": "06:42"
+    },
+    {
+     "st": "鍾城",
+     "ev": "dep",
+     "printed": "7.12",
+     "bold": false,
+     "t": "07:12"
+    },
+    {
+     "st": "小岩",
+     "ev": "dep",
+     "printed": "7.23",
+     "bold": false,
+     "t": "07:23"
+    },
+    {
+     "st": "東關",
+     "ev": "dep",
+     "printed": "7.40",
+     "bold": false,
+     "t": "07:40"
+    },
+    {
+     "st": "水口浦",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": false,
+     "t": "07:55"
+    },
+    {
+     "st": "江陽",
+     "ev": "dep",
+     "printed": "8.10",
+     "bold": false,
+     "t": "08:10"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "8.22",
+     "bold": false,
+     "t": "08:22"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "9.04",
+     "bold": false,
+     "note": "抄錄の4行は↓印（圖們へは行かず本線を直通）",
+     "t": "09:04"
+    },
+    {
+     "st": "豊利",
+     "ev": "dep",
+     "printed": "9.18",
+     "bold": false,
+     "t": "09:18"
+    },
+    {
+     "st": "世仙",
+     "ev": "dep",
+     "printed": "9.35",
+     "bold": false,
+     "t": "09:35"
+    },
+    {
+     "st": "穩城",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "豊仁",
+     "ev": "dep",
+     "printed": "10.47",
+     "bold": false,
+     "t": "10:47"
+    },
+    {
+     "st": "黄坡",
+     "ev": "dep",
+     "printed": "11.04",
+     "bold": false,
+     "t": "11:04"
+    },
+    {
+     "st": "訓戎",
+     "ev": "dep",
+     "printed": "11.46",
+     "bold": false,
+     "t": "11:46"
+    },
+    {
+     "st": "下面",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "慶源",
+     "ev": "dep",
+     "printed": "12.22",
+     "bold": false,
+     "t": "12:22"
+    },
+    {
+     "st": "農圃",
+     "ev": "dep",
+     "printed": "12.39",
+     "bold": false,
+     "t": "12:39"
+    },
+    {
+     "st": "承良",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "新乾",
+     "ev": "dep",
+     "printed": "14.14",
+     "bold": false,
+     "t": "14:14"
+    },
+    {
+     "st": "新阿山",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "松鶴",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "阿吾地",
+     "ev": "dep",
+     "printed": "15.45",
+     "bold": false,
+     "t": "15:45"
+    },
+    {
+     "st": "靑鶴",
+     "ev": "dep",
+     "printed": "16.12",
+     "bold": false,
+     "t": "16:12"
+    },
+    {
+     "st": "四會",
+     "ev": "dep",
+     "printed": "17.08",
+     "bold": false,
+     "t": "17:08"
+    },
+    {
+     "st": "洪儀",
+     "ev": "dep",
+     "printed": "17.24",
+     "bold": false,
+     "t": "17:24"
+    },
+    {
+     "st": "九龍坪",
+     "ev": "dep",
+     "printed": "17.46",
+     "bold": false,
+     "t": "17:46"
+    },
+    {
+     "st": "雄尙",
+     "ev": "dep",
+     "printed": "18.06",
+     "bold": false,
+     "t": "18:06"
+    },
+    {
+     "st": "東雄基",
+     "ev": "dep",
+     "printed": "18.36",
+     "bold": false,
+     "t": "18:36"
+    },
+    {
+     "st": "雄基",
+     "ev": "arr",
+     "printed": "18.46",
+     "bold": false,
+     "t": "18:46"
+    },
+    {
+     "st": "雄基",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    },
+    {
+     "st": "寛谷",
+     "ev": "dep",
+     "printed": "19.16",
+     "bold": false,
+     "t": "19:16"
+    },
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "19.34",
+     "bold": false,
+     "t": "19:34"
+    }
+   ],
+   "dest": "羅津",
+   "cls": "3",
+   "marks": "混",
+   "origin": "上三峰",
+   "col": "3",
+   "note": "淸津・上三峰著の各行は「…」。この欄の上部の空所に鉤括弧付きで縱書き「京城發 7.50」「（京城・上三峰間急行）」とあり、隣（第2欄）の301を指す"
+  },
+  {
+   "no": "104",
+   "stops": [
+    {
+     "st": "圖們",
+     "ev": "arr",
+     "printed": "5.45",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）",
+     "t": "05:45"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "6.25",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）",
+     "t": "06:25"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "6.32",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）南陽著",
+     "t": "06:32"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "6.50",
+     "bold": false,
+     "t": "06:50"
+    },
+    {
+     "st": "豊利",
+     "ev": "dep",
+     "printed": "6.58",
+     "bold": false,
+     "t": "06:58"
+    },
+    {
+     "st": "世仙",
+     "ev": "dep",
+     "printed": "7.08",
+     "bold": false,
+     "t": "07:08"
+    },
+    {
+     "st": "穩城",
+     "ev": "dep",
+     "printed": "7.16",
+     "bold": false,
+     "t": "07:16"
+    },
+    {
+     "st": "豊仁",
+     "ev": "dep",
+     "printed": "7.26",
+     "bold": false,
+     "t": "07:26"
+    },
+    {
+     "st": "黄坡",
+     "ev": "dep",
+     "printed": "7.42",
+     "bold": false,
+     "t": "07:42"
+    },
+    {
+     "st": "訓戎",
+     "ev": "dep",
+     "printed": "8.01",
+     "bold": false,
+     "t": "08:01"
+    },
+    {
+     "st": "下面",
+     "ev": "dep",
+     "printed": "8.11",
+     "bold": false,
+     "t": "08:11"
+    },
+    {
+     "st": "慶源",
+     "ev": "dep",
+     "printed": "8.19",
+     "bold": false,
+     "t": "08:19"
+    },
+    {
+     "st": "農圃",
+     "ev": "dep",
+     "printed": "8.31",
+     "bold": false,
+     "t": "08:31"
+    },
+    {
+     "st": "承良",
+     "ev": "dep",
+     "printed": "8.39",
+     "bold": false,
+     "t": "08:39"
+    },
+    {
+     "st": "新乾",
+     "ev": "dep",
+     "printed": "8.52",
+     "bold": false,
+     "t": "08:52"
+    },
+    {
+     "st": "新阿山",
+     "ev": "dep",
+     "printed": "9.08",
+     "bold": false,
+     "t": "09:08"
+    },
+    {
+     "st": "松鶴",
+     "ev": "dep",
+     "printed": "9.22",
+     "bold": false,
+     "t": "09:22"
+    },
+    {
+     "st": "阿吾地",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "靑鶴",
+     "ev": "dep",
+     "printed": "9.57",
+     "bold": false,
+     "t": "09:57"
+    },
+    {
+     "st": "四會",
+     "ev": "dep",
+     "printed": "10.14",
+     "bold": false,
+     "t": "10:14"
+    },
+    {
+     "st": "洪儀",
+     "ev": "dep",
+     "printed": "10.38",
+     "bold": false,
+     "t": "10:38"
+    },
+    {
+     "st": "九龍坪",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    },
+    {
+     "st": "雄尙",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": false,
+     "t": "11:03"
+    },
+    {
+     "st": "東雄基",
+     "ev": "dep",
+     "printed": "11.18",
+     "bold": false,
+     "t": "11:18"
+    },
+    {
+     "st": "雄基",
+     "ev": "arr",
+     "printed": "11.24",
+     "bold": false,
+     "t": "11:24"
+    },
+    {
+     "st": "雄基",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "寛谷",
+     "ev": "dep",
+     "printed": "11.46",
+     "bold": false,
+     "t": "11:46"
+    },
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "羅津",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "origin": "佳木斯",
+   "col": "1",
+   "note": "淸津・南陽著の各行は「…」。欄の空所に縱書きで「佳木斯發 10.40」（鉤括弧なし＝本列車自身の連絡）"
+  },
+  {
+   "no": "203",
+   "stops": [
+    {
+     "st": "圖們",
+     "ev": "arr",
+     "printed": "10.50",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）",
+     "t": "10:50"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）",
+     "t": "11:25"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "11.31",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）南陽著",
+     "t": "11:31"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "11.58",
+     "bold": false,
+     "t": "11:58"
+    },
+    {
+     "st": "豊利",
+     "ev": "dep",
+     "printed": "12.05",
+     "bold": false,
+     "t": "12:05"
+    },
+    {
+     "st": "世仙",
+     "ev": "dep",
+     "printed": "12.15",
+     "bold": false,
+     "t": "12:15"
+    },
+    {
+     "st": "穩城",
+     "ev": "dep",
+     "printed": "12.22",
+     "bold": false,
+     "t": "12:22"
+    },
+    {
+     "st": "豊仁",
+     "ev": "dep",
+     "printed": "12.31",
+     "bold": false,
+     "t": "12:31"
+    },
+    {
+     "st": "黄坡",
+     "ev": "dep",
+     "printed": "12.56",
+     "bold": false,
+     "t": "12:56"
+    },
+    {
+     "st": "訓戎",
+     "ev": "dep",
+     "printed": "13.11",
+     "bold": false,
+     "t": "13:11"
+    },
+    {
+     "st": "下面",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    },
+    {
+     "st": "慶源",
+     "ev": "dep",
+     "printed": "13.27",
+     "bold": false,
+     "t": "13:27"
+    },
+    {
+     "st": "農圃",
+     "ev": "dep",
+     "printed": "13.37",
+     "bold": false,
+     "t": "13:37"
+    },
+    {
+     "st": "承良",
+     "ev": "dep",
+     "printed": "13.44",
+     "bold": false,
+     "t": "13:44"
+    },
+    {
+     "st": "新乾",
+     "ev": "dep",
+     "printed": "13.55",
+     "bold": false,
+     "t": "13:55"
+    },
+    {
+     "st": "新阿山",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    },
+    {
+     "st": "松鶴",
+     "ev": "dep",
+     "printed": "14.23",
+     "bold": false,
+     "t": "14:23"
+    },
+    {
+     "st": "阿吾地",
+     "ev": "dep",
+     "printed": "14.34",
+     "bold": false,
+     "t": "14:34"
+    },
+    {
+     "st": "靑鶴",
+     "ev": "dep",
+     "printed": "14.48",
+     "bold": false,
+     "t": "14:48"
+    },
+    {
+     "st": "四會",
+     "ev": "dep",
+     "printed": "15.02",
+     "bold": false,
+     "t": "15:02"
+    },
+    {
+     "st": "洪儀",
+     "ev": "dep",
+     "printed": "15.11",
+     "bold": false,
+     "t": "15:11"
+    },
+    {
+     "st": "九龍坪",
+     "ev": "dep",
+     "printed": "15.21",
+     "bold": false,
+     "t": "15:21"
+    },
+    {
+     "st": "雄尙",
+     "ev": "dep",
+     "printed": "15.32",
+     "bold": false,
+     "t": "15:32"
+    },
+    {
+     "st": "東雄基",
+     "ev": "dep",
+     "printed": "15.46",
+     "bold": false,
+     "t": "15:46"
+    },
+    {
+     "st": "雄基",
+     "ev": "arr",
+     "printed": "15.52",
+     "bold": false,
+     "t": "15:52"
+    },
+    {
+     "st": "雄基",
+     "ev": "dep",
+     "printed": "15.55",
+     "bold": false,
+     "t": "15:55"
+    },
+    {
+     "st": "寛谷",
+     "ev": "dep",
+     "printed": "16.04",
+     "bold": false,
+     "t": "16:04"
+    },
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "16.15",
+     "bold": false,
+     "t": "16:15"
+    }
+   ],
+   "dest": "羅津",
+   "cls": "1.2.3",
+   "marks": "食 寢1.2.3",
+   "origin": "新京",
+   "col": "6",
+   "note": "淸津・南陽著（本線）の各行は「…」。欄の空所に縱書きで「新京發 21.00」（本列車自身の連絡、48頁 p48a の203と一致）。この欄の上部には別に鉤括弧付きで縱書き「京城發 15.55」があり、左隣（第5欄）の309を指す"
+  },
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "圖們",
+     "ev": "arr",
+     "printed": "15.24",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）",
+     "t": "15:24"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "15.53",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）",
+     "t": "15:53"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "16.01",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）南陽著",
+     "t": "16:01"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "16.15",
+     "bold": false,
+     "t": "16:15"
+    },
+    {
+     "st": "豊利",
+     "ev": "dep",
+     "printed": "16.22",
+     "bold": false,
+     "t": "16:22"
+    },
+    {
+     "st": "世仙",
+     "ev": "dep",
+     "printed": "16.32",
+     "bold": false,
+     "t": "16:32"
+    },
+    {
+     "st": "穩城",
+     "ev": "dep",
+     "printed": "16.39",
+     "bold": false,
+     "t": "16:39"
+    },
+    {
+     "st": "豊仁",
+     "ev": "dep",
+     "printed": "16.48",
+     "bold": false,
+     "t": "16:48"
+    },
+    {
+     "st": "黄坡",
+     "ev": "dep",
+     "printed": "17.15",
+     "bold": false,
+     "t": "17:15"
+    },
+    {
+     "st": "訓戎",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    },
+    {
+     "st": "下面",
+     "ev": "dep",
+     "printed": "17.39",
+     "bold": false,
+     "t": "17:39"
+    },
+    {
+     "st": "慶源",
+     "ev": "dep",
+     "printed": "17.46",
+     "bold": false,
+     "t": "17:46"
+    },
+    {
+     "st": "農圃",
+     "ev": "dep",
+     "printed": "17.56",
+     "bold": false,
+     "t": "17:56"
+    },
+    {
+     "st": "承良",
+     "ev": "dep",
+     "printed": "18.03",
+     "bold": false,
+     "t": "18:03"
+    },
+    {
+     "st": "新乾",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    },
+    {
+     "st": "新阿山",
+     "ev": "dep",
+     "printed": "18.29",
+     "bold": false,
+     "t": "18:29"
+    },
+    {
+     "st": "松鶴",
+     "ev": "dep",
+     "printed": "18.42",
+     "bold": false,
+     "t": "18:42"
+    },
+    {
+     "st": "阿吾地",
+     "ev": "dep",
+     "printed": "18.53",
+     "bold": false,
+     "t": "18:53"
+    },
+    {
+     "st": "靑鶴",
+     "ev": "dep",
+     "printed": "19.08",
+     "bold": false,
+     "t": "19:08"
+    },
+    {
+     "st": "四會",
+     "ev": "dep",
+     "printed": "19.28",
+     "bold": false,
+     "t": "19:28"
+    },
+    {
+     "st": "洪儀",
+     "ev": "dep",
+     "printed": "19.37",
+     "bold": false,
+     "t": "19:37"
+    },
+    {
+     "st": "九龍坪",
+     "ev": "dep",
+     "printed": "19.47",
+     "bold": false,
+     "t": "19:47"
+    },
+    {
+     "st": "雄尙",
+     "ev": "dep",
+     "printed": "19.58",
+     "bold": false,
+     "t": "19:58"
+    },
+    {
+     "st": "東雄基",
+     "ev": "dep",
+     "printed": "20.11",
+     "bold": false,
+     "t": "20:11"
+    },
+    {
+     "st": "雄基",
+     "ev": "arr",
+     "printed": "20.17",
+     "bold": false,
+     "t": "20:17"
+    },
+    {
+     "st": "雄基",
+     "ev": "dep",
+     "printed": "20.20",
+     "bold": false,
+     "t": "20:20"
+    },
+    {
+     "st": "寛谷",
+     "ev": "dep",
+     "printed": "20.29",
+     "bold": false,
+     "t": "20:29"
+    },
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "20.40",
+     "bold": false,
+     "t": "20:40"
+    }
+   ],
+   "dest": "羅津",
+   "cls": "1.2.3",
+   "marks": "食 寢1.2.3",
+   "origin": "佳木斯",
+   "col": "8",
+   "note": "淸津・南陽著（本線）の各行は「…」。欄の空所に縱書きで「佳木斯發 21.00」（本列車自身の連絡）"
+  },
+  {
+   "no": "1181",
+   "stops": [
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）",
+     "t": "18:50"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "18.58",
+     "bold": false,
+     "note": "抄錄行（48.49／50.51頁）南陽著",
+     "t": "18:58"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "19.04",
+     "bold": false,
+     "t": "19:04"
+    },
+    {
+     "st": "豊利",
+     "ev": "dep",
+     "printed": "19.14",
+     "bold": false,
+     "t": "19:14"
+    },
+    {
+     "st": "世仙",
+     "ev": "dep",
+     "printed": "19.29",
+     "bold": false,
+     "t": "19:29"
+    },
+    {
+     "st": "穩城",
+     "ev": "dep",
+     "printed": "19.40",
+     "bold": false,
+     "t": "19:40"
+    },
+    {
+     "st": "豊仁",
+     "ev": "dep",
+     "printed": "19.54",
+     "bold": false,
+     "t": "19:54"
+    },
+    {
+     "st": "黄坡",
+     "ev": "dep",
+     "printed": "20.16",
+     "bold": false,
+     "t": "20:16"
+    },
+    {
+     "st": "訓戎",
+     "ev": "dep",
+     "printed": "20.54",
+     "bold": false,
+     "t": "20:54"
+    },
+    {
+     "st": "下面",
+     "ev": "dep",
+     "printed": "21.07",
+     "bold": false,
+     "t": "21:07"
+    },
+    {
+     "st": "慶源",
+     "ev": "dep",
+     "printed": "21.21",
+     "bold": false,
+     "t": "21:21"
+    },
+    {
+     "st": "農圃",
+     "ev": "dep",
+     "printed": "21.36",
+     "bold": false,
+     "t": "21:36"
+    },
+    {
+     "st": "承良",
+     "ev": "dep",
+     "printed": "21.46",
+     "bold": false,
+     "t": "21:46"
+    },
+    {
+     "st": "新乾",
+     "ev": "dep",
+     "printed": "22.11",
+     "bold": false,
+     "t": "22:11"
+    },
+    {
+     "st": "新阿山",
+     "ev": "dep",
+     "printed": "22.33",
+     "bold": false,
+     "t": "22:33"
+    },
+    {
+     "st": "松鶴",
+     "ev": "dep",
+     "printed": "22.53",
+     "bold": false,
+     "t": "22:53"
+    },
+    {
+     "st": "阿吾地",
+     "ev": "dep",
+     "printed": "23.05",
+     "bold": false,
+     "t": "23:05"
+    }
+   ],
+   "dest": "阿吾地",
+   "cls": "3",
+   "marks": "混",
+   "origin": "圖們",
+   "col": "12",
+   "note": "淸津・南陽著（本線）の各行は「…」。圖們始發"
+  },
+  {
+   "no": "1175",
+   "stops": [
+    {
+     "st": "阿吾地",
+     "ev": "dep",
+     "printed": "6.27",
+     "bold": false,
+     "uncertain": true,
+     "t": "06:27"
+    },
+    {
+     "st": "靑鶴",
+     "ev": "dep",
+     "printed": "6.44",
+     "bold": false,
+     "uncertain": true,
+     "t": "06:44"
+    },
+    {
+     "st": "四會",
+     "ev": "dep",
+     "printed": "7.05",
+     "bold": false,
+     "uncertain": true,
+     "t": "07:05"
+    },
+    {
+     "st": "洪儀",
+     "ev": "dep",
+     "printed": "7.16",
+     "bold": false,
+     "uncertain": true,
+     "t": "07:16"
+    },
+    {
+     "st": "九龍坪",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "uncertain": true,
+     "t": "07:30"
+    },
+    {
+     "st": "雄尙",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": false,
+     "uncertain": true,
+     "t": "07:45"
+    },
+    {
+     "st": "東雄基",
+     "ev": "dep",
+     "printed": "8.06",
+     "bold": false,
+     "uncertain": true,
+     "t": "08:06"
+    },
+    {
+     "st": "雄基",
+     "ev": "arr",
+     "printed": "8.15",
+     "bold": false,
+     "uncertain": true,
+     "t": "08:15"
+    },
+    {
+     "st": "雄基",
+     "ev": "dep",
+     "printed": "8.24",
+     "bold": false,
+     "uncertain": true,
+     "t": "08:24"
+    },
+    {
+     "st": "寛谷",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": false,
+     "uncertain": true,
+     "t": "08:40"
+    },
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "uncertain": true,
+     "t": "08:55"
+    }
+   ],
+   "dest": "羅津",
+   "cls": "3",
+   "marks": "混",
+   "origin": "阿吾地",
+   "col": "15",
+   "note": "頁の綴込（ノド）に入る最右欄。分の一位が印刷の折れ目に入り確度が低いので全時刻に ? を付した。淸津・松鶴の各行は「…」"
+  },
+  {
+   "no": "1便",
+   "stops": [
+    {
+     "st": "東雄基",
+     "ev": "dep",
+     "printed": "7.02",
+     "bold": false,
+     "t": "07:02"
+    },
+    {
+     "st": "雄基",
+     "ev": "arr",
+     "printed": "7.08",
+     "bold": false,
+     "t": "07:08"
+    },
+    {
+     "st": "雄基",
+     "ev": "dep",
+     "printed": "7.10",
+     "bold": false,
+     "t": "07:10"
+    },
+    {
+     "st": "寛谷",
+     "ev": "dep",
+     "printed": "7.36",
+     "bold": false,
+     "t": "07:36"
+    },
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "7.37",
+     "bold": false,
+     "note": "印刷のまま。寛谷7.36との差が1分で他列車（14分前後）と合はない",
+     "t": "07:37"
+    }
+   ],
+   "dest": "羅津",
+   "cls": "3",
+   "marks": "動",
+   "origin": "東雄基",
+   "col": "10i",
+   "note": "第10欄（327）の下部の空所に別掲された動車。327が圖們止のため同じ欄に印刷されてゐる"
+  },
+  {
+   "no": "7便",
+   "stops": [
+    {
+     "st": "東雄基",
+     "ev": "dep",
+     "printed": "17.14",
+     "bold": false,
+     "t": "17:14"
+    },
+    {
+     "st": "雄基",
+     "ev": "arr",
+     "printed": "17.20",
+     "bold": false,
+     "note": "著・發とも17.20と印刷",
+     "t": "17:20"
+    },
+    {
+     "st": "雄基",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "note": "著・發とも17.20と印刷",
+     "t": "17:20"
+    },
+    {
+     "st": "寛谷",
+     "ev": "dep",
+     "printed": "17.32",
+     "bold": false,
+     "t": "17:32"
+    },
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "17.45",
+     "bold": false,
+     "t": "17:45"
+    }
+   ],
+   "dest": "羅津",
+   "cls": "3",
+   "marks": "動",
+   "origin": "東雄基",
+   "col": "13i",
+   "note": "第13欄（206）の下部の空所に別掲された動車。206が圖們經由で去るため同じ欄に印刷されてゐる"
+  }
+ ],
+ "notes": [
+  "昭和17.5.25改正（月の數字は不鮮明。5か6）（表頭左）。表題は頁54に「淸津・」、頁55に「羅津間」と分けて印刷。表尾右に「（滿鐵・北鮮線）（鮮鐵・咸鏡線）」。反對方向（羅津→淸津）は頁55の p55a。",
+  "左端に「自淸津 運賃 1等・2等・3等」欄があるが轉記せず。粁程欄は無い。驛名の左の⊓・〒・◎・✕・♨等の設備記號も轉記せず。",
+  "「v」は原表の「レ」（通過）、「-」は原表の「…」（時刻の印刷が無い）。",
+  "「南陽（發）／圖們（著）／圖們（發）／南陽（著）」の4行は「48.49／50.51頁」の連絡抄錄行（京圖線・圖佳線への接續）。本ファイルではその4行の stop に「; 抄錄行」と注記した。",
+  "表の最下部、羅津（著）の下に細罫を隔てて「羅津（發）／羅津埠頭（著）」の2行があるが、全欄「…」で時刻の印刷は無い。",
+  "驛名について。1938年の驛一覽に無い驛が4つ印刷されてゐる：大德（會寧の北隣。頁55では「連德」に見える字で印刷）、下面（訓戎・慶源間）、松鶴（新阿山・阿吾地間。鶴松の可能性あり）、東雄基（雄尙・雄基間）。いづれも印刷のまま。",
+  "列車欄は15欄（104・301・1171・1345・309・203・329・102・325・327・1351・1181・206・1353・1175）。第10欄（327）と第13欄（206）の下部には別掲の動車1便・7便が入る（本ファイルでは col 10i・13i）。",
+  "203の羅津著は本表では16.15。48頁 p48a の抄錄では「16.4□」と讀まれてゐるが、本頁の印刷は16.15。",
+  "頁尾に「記念スタンプ 淸津、會寧、上三峰、南陽、慶源、雄基、羅津、豊仁、訓戎、阿吾地、洪儀、羅津埠頭」。頁數は「(54)」。"
+ ],
+ "source": "IMG_1856",
+ "page": "54",
+ "title": "淸津・羅津間（滿鐵・北鮮線）（鮮鐵・咸鏡線）",
+ "line": "滿鐵 北鮮線（上三峰・羅津間）／朝鮮總督府鐵道局 咸鏡線（淸津・上三峰間）",
+ "dir": "羅津行（淸津→上三峰→羅津、下り）"
+}

@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "三河",
+   "km": null
+  },
+  {
+   "name": "海拉爾",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "312",
+   "stops": [
+    {
+     "st": "三河",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "海拉爾",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "海拉爾",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "表の右半（三河發）。逆方向は p115ac。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "海三線",
+ "title": "海拉爾・三河間",
+ "dir": "三河→海拉爾",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "海拉爾 | 三河 10.80"
+}

@@ -1,0 +1,111 @@
+{
+ "stations": [
+  {
+   "name": "平陽驛",
+   "km": null
+  },
+  {
+   "name": "平陽",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "252",
+   "stops": [
+    {
+     "st": "平陽驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    }
+   ],
+   "dest": "平陽",
+   "col": "1"
+  },
+  {
+   "no": "254",
+   "stops": [
+    {
+     "st": "平陽驛",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "平陽",
+   "col": "2"
+  },
+  {
+   "no": "256",
+   "stops": [
+    {
+     "st": "平陽驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    }
+   ],
+   "dest": "平陽",
+   "col": "3"
+  },
+  {
+   "no": "258",
+   "stops": [
+    {
+     "st": "平陽驛",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "平陽",
+   "col": "4"
+  }
+ ],
+ "notes": [
+  "運賃欄は表の左端に1組のみ（平陽起點）。"
+ ],
+ "source": "IMG_1884",
+ "page": "110",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "平陽驛線",
+ "title": "平陽・平陽驛間",
+ "dir": "平陽驛→平陽",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "平陽驛 0.75 | 平陽"
+}

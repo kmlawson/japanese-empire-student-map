@@ -1,0 +1,16 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 九靑線
+title: 下九臺・大靑子間
+dir: 下九臺→大靑子
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が下九臺發（本表）、右が大靑子發（p109n）。
+stations: 下九臺 | 大靑子
+fares: 下九臺 | 大靑子 1.55
+
+train: 661 | dest 大靑子 | col 1
+下九臺 9.00
+大靑子 10.30

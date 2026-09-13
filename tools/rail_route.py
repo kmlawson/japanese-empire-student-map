@@ -61,36 +61,115 @@ class Network:
     did not exist. Kept small for that reason, and the effect is reported.
     """
 
-    def __init__(self, files, weld_m=0):
+    def __init__(self, files, weld_m=0, node_crossings=False):
         self.adj = {}
         self.segs = []            # (a, b) for snapping, as keys
         seen = set()
+        runs = []                 # each feature's vertex runs, for the crossing pass
+        # True nodes every file; a list of paths nodes those files, each
+        # against itself only, and leaves the rest as they were traced
+        noded = (set(files) if node_crossings is True
+                 else set(node_crossings or ()))
         for path in files:
             if not os.path.exists(path):
                 sys.stderr.write("rail_route: %s missing\n" % path)
                 continue
             with open(path) as fh:
                 feats = json.load(fh)["features"]
-            for f in feats:
+            for fi, f in enumerate(feats):
                 g = f.get("geometry") or {}
                 lines = ([g["coordinates"]] if g.get("type") == "LineString"
                          else g.get("coordinates", []) if g.get("type") == "MultiLineString"
                          else [])
                 for line in lines:
                     pts = [_key(c) for c in line]
+                    if path in noded:
+                        runs.append((len(runs), pts, path))
+                        continue
                     for a, b in zip(pts, pts[1:]):
-                        if a == b:
-                            continue
-                        e = (a, b) if a < b else (b, a)
-                        if e in seen:
-                            continue
-                        seen.add(e)
-                        d = _km(a, b)
-                        self.adj.setdefault(a, []).append((b, d))
-                        self.adj.setdefault(b, []).append((a, d))
-                        self.segs.append(e)
+                        self._edge(a, b, seen)
+        if runs:
+            self._node_crossings(runs, seen)
         if weld_m:
             self._weld(weld_m)
+
+    def _edge(self, a, b, seen):
+        if a == b:
+            return
+        e = (a, b) if a < b else (b, a)
+        if e in seen:
+            return
+        seen.add(e)
+        d = _km(a, b)
+        self.adj.setdefault(a, []).append((b, d))
+        self.adj.setdefault(b, []).append((a, d))
+        self.segs.append(e)
+
+    def _node_crossings(self, runs, seen):
+        """Put a node where two features cross without sharing a vertex.
+
+        A hand trace draws each line as its own feature, and two lines that
+        cross -- the 平齊線 over the 濱洲線 at 昂昂溪 -- cross between vertices:
+        the nearest two vertices are two kilometres apart, so the graph has no
+        junction there and a six-kilometre chord routed 855 km round the whole
+        network. Welding cannot help, because welding joins *nodes*, and the
+        junction has none. So every pair of segments from different features
+        that properly cross is split at the crossing and the crossing made a
+        node of both.
+
+        Only proper crossings, strictly inside both segments: a segment that
+        ends on another is the weld's case, and a pair that merely come close
+        is nobody's. Bucketed on a grid so the pairwise test is local. Opt-in,
+        because a file traced to share its junctions already has them and a
+        second junction a metre from the first would only add noise; reported
+        when it runs.
+        """
+        cell = 0.02
+        buck = {}
+        for ri, pts, path in runs:
+            for si, (a, b) in enumerate(zip(pts, pts[1:])):
+                if a == b:
+                    continue
+                x0, x1 = sorted((a[0], b[0]))
+                y0, y1 = sorted((a[1], b[1]))
+                for cx in range(int(x0 / cell), int(x1 / cell) + 1):
+                    for cy in range(int(y0 / cell), int(y1 / cell) + 1):
+                        buck.setdefault((cx, cy), []).append((ri, si, a, b, path))
+        cuts = {}                 # (run, seg) -> [(t, point)]
+        done = set()
+        for items in buck.values():
+            for i in range(len(items)):
+                ri, si, a, b, pi = items[i]
+                for j in range(i + 1, len(items)):
+                    rj, sj, c, d, pj = items[j]
+                    if ri == rj or pi != pj:
+                        continue
+                    pair = (ri, si, rj, sj)
+                    if pair in done:
+                        continue
+                    done.add(pair)
+                    # segment intersection in plain degrees; the point, not
+                    # its distance, is what is wanted, so no projection
+                    r = (b[0] - a[0], b[1] - a[1])
+                    s = (d[0] - c[0], d[1] - c[1])
+                    den = r[0] * s[1] - r[1] * s[0]
+                    if den == 0:
+                        continue
+                    q = (c[0] - a[0], c[1] - a[1])
+                    t = (q[0] * s[1] - q[1] * s[0]) / den
+                    u = (q[0] * r[1] - q[1] * r[0]) / den
+                    if not (0.001 < t < 0.999 and 0.001 < u < 0.999):
+                        continue
+                    p = _key((a[0] + t * r[0], a[1] + t * r[1]))
+                    cuts.setdefault((ri, si), []).append((t, p))
+                    cuts.setdefault((rj, sj), []).append((u, p))
+        for ri, pts, path in runs:
+            for si, (a, b) in enumerate(zip(pts, pts[1:])):
+                chain = [a] + [p for _, p in sorted(cuts.get((ri, si), []))] + [b]
+                for x, y in zip(chain, chain[1:]):
+                    self._edge(x, y, seen)
+        n = len({p for lst in cuts.values() for _, p in lst})
+        sys.stderr.write("rail_route: %d crossings between features made junctions\n" % n)
 
     def _weld(self, weld_m):
         """Join nodes within `weld_m` of each other with a zero-cost edge.
@@ -242,7 +321,7 @@ def _thin(pts, tol_m):
 
 
 def fill(doc, files, name="the bundle", weld_m=0, bridge_km=None, simplify_m=0,
-         stretch=None, skip_li=None):
+         stretch=None, skip_li=None, node_crossings=False):
     """Route the chords in `doc` along the rails in `files`. Adds `routed`.
 
     `doc` is the bundle as written: `stations` with lon/lat, `trains` with
@@ -252,8 +331,13 @@ def fill(doc, files, name="the bundle", weld_m=0, bridge_km=None, simplify_m=0,
     `skip_li` is a set of line indices whose trains are left alone whatever
     rails they pass near. **A ferry is the case it exists for**: nothing
     sails along a railway, so a crossing that finds a route has found a
-    wrong answer rather than a better one. See the caller."""
-    net = Network(files, weld_m=weld_m)
+    wrong answer rather than a better one. See the caller.
+
+    `node_crossings` makes a junction wherever two features cross between
+    their vertices; see `Network._node_crossings`. True for every file, or
+    the list of files it applies to -- a trace drawn one line per feature,
+    which Manchuria's is, and not a file traced to share its junctions."""
+    net = Network(files, weld_m=weld_m, node_crossings=node_crossings)
     stations = doc["stations"]
     paths = doc["paths"]
     # every pair of consecutive placed stops, as trains.js walks them

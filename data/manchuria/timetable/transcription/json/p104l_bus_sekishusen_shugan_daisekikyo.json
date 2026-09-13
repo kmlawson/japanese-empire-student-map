@@ -1,0 +1,131 @@
+{
+ "stations": [
+  {
+   "name": "岫巖",
+   "km": null
+  },
+  {
+   "name": "石門嶺",
+   "km": null
+  },
+  {
+   "name": "大石橋驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "192",
+   "stops": [
+    {
+     "st": "岫巖",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "石門嶺",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "大石橋驛",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    }
+   ],
+   "dest": "大石橋驛",
+   "col": "1"
+  },
+  {
+   "no": "196",
+   "stops": [
+    {
+     "st": "石門嶺",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "大石橋驛",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    }
+   ],
+   "dest": "大石橋驛",
+   "col": "2",
+   "origin": "石門嶺"
+  },
+  {
+   "no": "194",
+   "stops": [
+    {
+     "st": "岫巖",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "石門嶺",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "大石橋驛",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "大石橋驛",
+   "col": "3"
+  },
+  {
+   "no": "198",
+   "stops": [
+    {
+     "st": "石門嶺",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "大石橋驛",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "t": "17:50"
+    }
+   ],
+   "dest": "大石橋驛",
+   "col": "4",
+   "origin": "石門嶺"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 大石橋驛→岫巖 direction"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "石岫線",
+ "title": "大石橋驛・岫巖間",
+ "dir": "岫巖→大石橋驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "岫巖 5.30 | 石門嶺 1.85 | 大石橋驛 0"
+}

@@ -34,13 +34,16 @@ below are what it holds, named relative to it.
 | `trains.js` | 46 KB | 15 KB | when the train tools are asked for |
 | `tw-trains.js` | 182 KB | 46 KB | with them, over Taiwan — the track, the stations and the line colours |
 | `tw-times.js` | 102 KB | 22 KB | and its timetable, when the reader runs the clock or opens a line or a station |
-| `kr-trains.js` | 766 KB | 217 KB | with them, over Korea |
+| `kr-trains.js` | 1,026 KB | — | with them, over Korea, its connections now routed along Manchuria's track |
 | `kr-times.js` | 455 KB | 97 KB | and its timetable, on the same terms |
 | `kf-trains.js` | 45 KB | 16 KB | with them, over Karafuto |
 | `kf-times.js` | 24 KB | 7 KB | and its timetable, on the same terms |
+| `mn-trains.js` | 435 KB | — | with them, over Manchuria |
+| `mn-times.js` | 208 KB | — | and its timetable, on the same terms |
 | `tw-stations.js` | 50 KB | 11 KB | when Taiwan's stations are switched on (fetched then, not with the page) |
 | `kr-stations.js` | 229 KB | 38 KB | when Korea's are |
 | `kf-stations.js` | 41 KB | 8 KB | when Karafuto's are |
+| `mn-stations.js` | 117 KB | — | when Manchuria's are |
 | `jp-rails.js` | 1,706 KB | 328 KB | when **Japan Railways** is switched on — 1,977 lines, never with the page |
 | `themes.js` | 100 KB | 30 KB | when a **thematic layer** is opened from the book beside the map |
 | `jp-stations.js` | 1,059 KB | 210 KB | when **Show Japan Stations** is — 12,800 places |

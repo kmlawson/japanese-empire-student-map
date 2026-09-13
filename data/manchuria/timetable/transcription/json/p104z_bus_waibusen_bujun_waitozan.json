@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "撫順驛",
+   "km": null
+  },
+  {
+   "name": "歪頭山驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "112",
+   "stops": [
+    {
+     "st": "撫順驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "歪頭山驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    }
+   ],
+   "dest": "歪頭山驛",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 歪頭山驛→撫順驛 direction"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "歪撫線",
+ "title": "歪頭山・撫順間",
+ "dir": "撫順驛→歪頭山驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "撫順驛 3.00 | 歪頭山驛 0"
+}

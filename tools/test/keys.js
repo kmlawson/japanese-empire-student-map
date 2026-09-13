@@ -66,12 +66,12 @@ const open = async (b, url) => {
     const m = document.getElementById('rail-menu');
     return { shown: !!m && !m.hidden && getComputedStyle(m).display !== 'none',
              rows: m ? m.querySelectorAll('label.row').length : 0,
-             drawn: ['tw-rail', 'kr-rail', 'kf-rail', 'burma-rail', 'jp-rail']
+             drawn: ['tw-rail', 'kr-rail', 'kf-rail', 'mn-rail', 'burma-rail', 'jp-rail']
                .filter(id => { const g = document.getElementById(id);
                                return g && getComputedStyle(g).display !== 'none'; }) };
   });
   check('r offers the railways rather than drawing them',
-    railMenu.shown && railMenu.rows === 5 && railMenu.drawn.length === 0,
+    railMenu.shown && railMenu.rows === 6 && railMenu.drawn.length === 0,
     JSON.stringify(railMenu));
   await p.keyboard.press('Escape'); await sleep(400);
   await p.keyboard.press('c'); await sleep(650);
@@ -132,7 +132,7 @@ const open = async (b, url) => {
     return { menu: !!m && !m.hidden && getComputedStyle(m).display !== 'none',
              rows: m ? m.querySelectorAll('label.row').length : 0 };
   });
-  check('and r offers them out here as well', wide.menu && wide.rows === 5,
+  check('and r offers them out here as well', wide.menu && wide.rows === 6,
     JSON.stringify(wide));
   /* And choosing one draws it at this view, which is the whole point of the
      fade being off by default: a reader who asks for a railway sees it. */

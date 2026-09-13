@@ -1,0 +1,21 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 哈爾濱局管內
+line: 阿蜚線
+title: 阿城・蜚克圖間
+dir: 蜚克圖→阿城
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が蜚克圖發（本表）。運賃欄は阿城起點のものを反轉して掲げた。
+note: 58の番號の右に「※」の符號が刷られてゐる。
+stations: 蜚克圖 | 阿城
+fares: 蜚克圖 1.70 | 阿城
+
+train: 56 | dest 阿城 | col 1
+蜚克圖 10.10
+阿城 11.40
+
+train: 58 | dest 阿城 | marks ※ | col 2
+蜚克圖 15.10
+阿城 16.40

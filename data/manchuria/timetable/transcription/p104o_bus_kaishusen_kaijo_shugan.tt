@@ -1,0 +1,48 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 海岫線
+title: 海城驛・岫巖間
+dir: 海城驛→岫巖
+season: 昭和16.10.1改正
+service: 每日運行
+note: bus 117's 海城驛 departure prints as what looks like 11.06; read 11.00 (every other column leaves on the hour or half hour and takes 70 min to 析木城)
+stations: 海城驛 | 析木城 | 李家房 | 岫巖
+fares: 海城驛 0 | 析木城 1.30 | 李家房 1.75 | 岫巖 4.75
+
+train: 111 | dest 析木城 | col 1
+海城驛 8.00
+析木城 9.10
+李家房 -
+岫巖 -
+
+train: 101 | dest 岫巖 | col 2
+海城驛 8.30
+析木城 9.42
+李家房 10.05
+岫巖 12.30
+
+train: 115 | dest 析木城 | col 3
+海城驛 9.00
+析木城 10.10
+李家房 -
+岫巖 -
+
+train: 117 | dest 析木城 | col 4
+海城驛 11.00 ?
+析木城 12.10
+李家房 -
+岫巖 -
+
+train: 103 | dest 岫巖 | col 5
+海城驛 13.30
+析木城 14.42
+李家房 15.05
+岫巖 17.30
+
+train: 123 | dest 析木城 | col 6
+海城驛 14.30
+析木城 15.40
+李家房 -
+岫巖 -

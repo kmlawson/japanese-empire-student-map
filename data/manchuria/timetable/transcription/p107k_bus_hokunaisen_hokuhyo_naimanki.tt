@@ -1,0 +1,17 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 北奈線
+title: 北票・奈曼旗間
+dir: 北票→奈曼旗
+season: 昭和16.12.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the left of bus 553
+stations: 北票 | 黑城子 | 奈曼旗
+fares: 北票 | 黑城子 2.15 | 奈曼旗 7.60
+
+train: 553 | dest 奈曼旗 | col 3
+北票 8.00
+黑城子 v
+奈曼旗 15.40

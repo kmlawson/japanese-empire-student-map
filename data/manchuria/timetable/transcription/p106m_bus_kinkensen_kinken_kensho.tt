@@ -1,0 +1,17 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 錦建線
+title: 錦縣驛・建昌間
+dir: 錦縣驛→建昌
+season: 昭和16.12.1改正
+service: 隔日運行
+note: two unnumbered empty columns (…) stand to the left of bus 125
+stations: 錦縣驛 | 江家屯 | 建昌
+fares: 錦縣驛 | 江家屯 2.65 | 建昌 7.40
+
+train: 125 | dest 建昌 | col 3
+錦縣驛 8.30
+江家屯 11.20
+建昌 16.30

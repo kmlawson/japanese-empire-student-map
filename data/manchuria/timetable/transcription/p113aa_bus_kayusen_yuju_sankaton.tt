@@ -1,0 +1,18 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 河楡線
+title: 楡樹・山河屯間
+dir: 楡樹→山河屯
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が楡樹發（本表）、右が山河屯方面發（p113ab）。
+note: 541は山河屯の行に終着の太罫があり土橋子止り。
+stations: 楡樹 | 土橋子 | 山河屯
+fares: 楡樹 | 土橋子 3.05 | 山河屯 4.20
+
+train: 541 | dest 土橋子 | col 1
+楡樹 8.30
+土橋子 11.00
+山河屯 -

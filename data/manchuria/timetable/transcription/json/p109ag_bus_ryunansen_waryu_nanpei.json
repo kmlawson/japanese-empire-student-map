@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "和龍",
+   "km": null
+  },
+  {
+   "name": "南坪",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "371",
+   "stops": [
+    {
+     "st": "和龍",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "南坪",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    }
+   ],
+   "dest": "南坪",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、左が和龍發（本表）、右が南坪發（p109ah）。p109最後の表。"
+ ],
+ "source": "IMG_1883",
+ "page": "109",
+ "kind": "bus",
+ "office": "吉林局管內",
+ "line": "龍南線",
+ "title": "和龍・南坪間",
+ "dir": "和龍→南坪",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "和龍 | 南坪 2.55"
+}

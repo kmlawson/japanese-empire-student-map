@@ -1,0 +1,99 @@
+{
+ "stations": [
+  {
+   "name": "奉天驛",
+   "km": null
+  },
+  {
+   "name": "城內",
+   "km": null
+  },
+  {
+   "name": "荒山子",
+   "km": null
+  },
+  {
+   "name": "姚千戶屯",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "211",
+   "stops": [
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "城內",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": false,
+     "t": "08:15"
+    },
+    {
+     "st": "荒山子",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    }
+   ],
+   "dest": "荒山子",
+   "col": "2"
+  },
+  {
+   "no": "213",
+   "stops": [
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "城內",
+     "ev": "dep",
+     "printed": "14.45",
+     "bold": false,
+     "t": "14:45"
+    },
+    {
+     "st": "荒山子",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "姚千戶屯",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    }
+   ],
+   "dest": "姚千戶屯",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "the 運賃 column is headed 円分 but carries no figures for this line",
+  "an unnumbered empty column (…) stands to the left of bus 211"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "奉姚線",
+ "title": "奉天驛・姚千戶屯驛間",
+ "dir": "奉天驛→姚千戶屯驛",
+ "season": "昭和17.2.1開始",
+ "service": "每日運行",
+ "fares": "奉天驛 | 城內 | 荒山子 | 姚千戶屯"
+}

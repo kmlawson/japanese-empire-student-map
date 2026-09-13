@@ -1,0 +1,27 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 貔城線
+title: 貔子窩・城子疃驛間
+dir: 貔子窩→城子疃驛
+season: 昭和16.10.1改正
+service: 每日運行
+note: the middle station is printed 藍子河 (first character blurred; 藍 is the best reading)
+stations: 貔子窩 | 藍子河 | 城子疃驛
+fares: 貔子窩 0 | 藍子河 0.20 | 城子疃驛 0.50
+
+train: 25 | dest 藍子河 | col 1
+貔子窩 7.30
+藍子河 7.55
+城子疃驛 -
+
+train: 21 | dest 城子疃驛 | col 2
+貔子窩 10.00
+藍子河 10.23
+城子疃驛 10.50
+
+train: 23 | dest 城子疃驛 | col 3
+貔子窩 16.00
+藍子河 16.23
+城子疃驛 16.50

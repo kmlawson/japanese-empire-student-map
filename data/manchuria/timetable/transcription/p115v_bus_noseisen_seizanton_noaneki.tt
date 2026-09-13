@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 農靑線
+title: 農安驛・靑山屯間
+dir: 靑山屯→農安驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表の右半（靑山屯發）。逆方向は p115u。
+stations: 靑山屯 | 農安驛
+fares: 農安驛 | 靑山屯 3.00
+
+train: 298 | dest 農安驛 | col 5
+靑山屯 13.00
+農安驛 16.00

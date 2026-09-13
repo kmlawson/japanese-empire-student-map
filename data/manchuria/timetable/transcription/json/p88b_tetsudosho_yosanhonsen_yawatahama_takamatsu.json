@@ -1,0 +1,1359 @@
+{
+ "stations": [
+  {
+   "name": "八幡濱",
+   "km": 0.0
+  },
+  {
+   "name": "伊豫長濱",
+   "km": 29.7
+  },
+  {
+   "name": "松山",
+   "km": 68.4
+  },
+  {
+   "name": "伊豫北條",
+   "km": 85.9
+  },
+  {
+   "name": "今治",
+   "km": 117.9
+  },
+  {
+   "name": "伊豫西條",
+   "km": 148.5
+  },
+  {
+   "name": "觀音寺",
+   "km": 206.3
+  },
+  {
+   "name": "多度津",
+   "km": 230.1
+  },
+  {
+   "name": "丸龜",
+   "km": 234.3
+  },
+  {
+   "name": "坂出",
+   "km": 241.1
+  },
+  {
+   "name": "高松",
+   "km": 262.4
+  },
+  {
+   "name": "高松棧橋",
+   "km": 262.4
+  }
+ ],
+ "trains": [
+  {
+   "no": "2",
+   "stops": [
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "5.27",
+     "bold": false,
+     "t": "05:27"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "5.33",
+     "bold": false,
+     "t": "05:33"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "5.45",
+     "bold": false,
+     "t": "05:45"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "6.20",
+     "bold": false,
+     "t": "06:20"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "6.24",
+     "bold": false,
+     "t": "06:24"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "origin": "多度津",
+   "col": "1"
+  },
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "6.28",
+     "bold": false,
+     "t": "06:28"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "6.29",
+     "bold": false,
+     "t": "06:29"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "6.36",
+     "bold": false,
+     "t": "06:36"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "6.49",
+     "bold": false,
+     "t": "06:49"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "7.26",
+     "bold": false,
+     "t": "07:26"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "origin": "琴平",
+   "col": "2",
+   "note": "觀音寺の桝に縦書きで「琴平 6.10 發」。多度津まで土讃線"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "5.20",
+     "bold": false,
+     "t": "05:20"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "6.55",
+     "bold": false,
+     "t": "06:55"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "7.32",
+     "bold": false,
+     "t": "07:32"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": false,
+     "t": "07:38"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": false,
+     "t": "07:45"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "7.58",
+     "bold": false,
+     "t": "07:58"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": false,
+     "t": "08:38"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "8.42",
+     "bold": false,
+     "t": "08:42"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "origin": "伊豫西條",
+   "col": "3"
+  },
+  {
+   "no": "6",
+   "stops": [
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "5.30",
+     "bold": false,
+     "t": "05:30"
+    },
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "6.19",
+     "bold": false,
+     "t": "06:19"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "7.47",
+     "bold": false,
+     "t": "07:47"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "8.26",
+     "bold": false,
+     "t": "08:26"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "8.37",
+     "bold": false,
+     "t": "08:37"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "8.46",
+     "bold": false,
+     "t": "08:46"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "8.58",
+     "bold": false,
+     "t": "08:58"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "9.32",
+     "bold": false,
+     "t": "09:32"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "9.36",
+     "bold": false,
+     "t": "09:36"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "origin": "今治",
+   "col": "4"
+  },
+  {
+   "no": "8",
+   "stops": [
+    {
+     "st": "伊豫北條",
+     "ev": "dep",
+     "printed": "5.25",
+     "bold": false,
+     "t": "05:25"
+    },
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "5.54",
+     "bold": false,
+     "t": "05:54"
+    },
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "6.48",
+     "bold": false,
+     "t": "06:48"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "7.40",
+     "bold": false,
+     "t": "07:40"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "9.04",
+     "bold": false,
+     "t": "09:04"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": false,
+     "t": "10:01"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "10.13",
+     "bold": false,
+     "t": "10:13"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "10.46",
+     "bold": false,
+     "t": "10:46"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "origin": "伊豫北條",
+   "col": "5"
+  },
+  {
+   "no": "10",
+   "stops": [
+    {
+     "st": "八幡濱",
+     "ev": "dep",
+     "printed": "5.00",
+     "bold": false,
+     "t": "05:00"
+    },
+    {
+     "st": "伊豫長濱",
+     "ev": "dep",
+     "printed": "6.04",
+     "bold": false,
+     "t": "06:04"
+    },
+    {
+     "st": "松山",
+     "ev": "arr",
+     "printed": "7.07",
+     "bold": false,
+     "t": "07:07"
+    },
+    {
+     "st": "松山",
+     "ev": "dep",
+     "printed": "7.21",
+     "bold": false,
+     "t": "07:21"
+    },
+    {
+     "st": "伊豫北條",
+     "ev": "dep",
+     "printed": "7.42",
+     "bold": false,
+     "t": "07:42"
+    },
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "8.42",
+     "bold": false,
+     "t": "08:42"
+    },
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "9.38",
+     "bold": false,
+     "t": "09:38"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "11.07",
+     "bold": false,
+     "t": "11:07"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "11.43",
+     "bold": false,
+     "t": "11:43"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "11.48",
+     "bold": false,
+     "t": "11:48"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": false,
+     "t": "11:55"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "0.07",
+     "bold": true,
+     "t": "12:07"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "0.42",
+     "bold": true,
+     "t": "12:42"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "0.45",
+     "bold": true,
+     "t": "12:45"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "col": "6"
+  },
+  {
+   "no": "12",
+   "stops": [
+    {
+     "st": "八幡濱",
+     "ev": "dep",
+     "printed": "6.10",
+     "bold": false,
+     "t": "06:10"
+    },
+    {
+     "st": "伊豫長濱",
+     "ev": "dep",
+     "printed": "7.16",
+     "bold": false,
+     "t": "07:16"
+    },
+    {
+     "st": "松山",
+     "ev": "arr",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    },
+    {
+     "st": "松山",
+     "ev": "dep",
+     "printed": "8.26",
+     "bold": false,
+     "t": "08:26"
+    },
+    {
+     "st": "伊豫北條",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "9.46",
+     "bold": false,
+     "t": "09:46"
+    },
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "10.35",
+     "bold": false,
+     "t": "10:35"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "0.07",
+     "bold": true,
+     "t": "12:07"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "0.45",
+     "bold": true,
+     "t": "12:45"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "0.50",
+     "bold": true,
+     "t": "12:50"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "0.57",
+     "bold": true,
+     "t": "12:57"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "1.11",
+     "bold": true,
+     "t": "13:11"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "1.46",
+     "bold": true,
+     "t": "13:46"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "1.53",
+     "bold": true,
+     "t": "13:53"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "col": "7"
+  },
+  {
+   "no": "14",
+   "stops": [
+    {
+     "st": "八幡濱",
+     "ev": "dep",
+     "printed": "7.40",
+     "bold": false,
+     "t": "07:40"
+    },
+    {
+     "st": "伊豫長濱",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "t": "08:45"
+    },
+    {
+     "st": "松山",
+     "ev": "arr",
+     "printed": "9.48",
+     "bold": false,
+     "t": "09:48"
+    },
+    {
+     "st": "松山",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "伊豫北條",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "11.01",
+     "bold": false,
+     "t": "11:01"
+    },
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "0.49",
+     "bold": true,
+     "t": "12:49"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "1.17",
+     "bold": true,
+     "t": "13:17"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "1.22",
+     "bold": true,
+     "t": "13:22"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "1.28",
+     "bold": true,
+     "t": "13:28"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "1.38",
+     "bold": true,
+     "t": "13:38"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "2.04",
+     "bold": true,
+     "t": "14:04"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "2.08",
+     "bold": true,
+     "t": "14:08"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "col": "8"
+  },
+  {
+   "no": "16",
+   "stops": [
+    {
+     "st": "八幡濱",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "t": "08:45"
+    },
+    {
+     "st": "伊豫長濱",
+     "ev": "dep",
+     "printed": "9.57",
+     "bold": false,
+     "t": "09:57"
+    },
+    {
+     "st": "松山",
+     "ev": "arr",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "松山",
+     "ev": "dep",
+     "printed": "11.08",
+     "bold": false,
+     "t": "11:08"
+    },
+    {
+     "st": "伊豫北條",
+     "ev": "dep",
+     "printed": "11.35",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の末位が刷れて讀めない（11.3□）",
+     "t": "11:35"
+    },
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "0.29",
+     "bold": true,
+     "t": "12:29"
+    },
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "1.20",
+     "bold": true,
+     "t": "13:20"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "2.41",
+     "bold": true,
+     "t": "14:41"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "3.16",
+     "bold": true,
+     "t": "15:16"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "3.18",
+     "bold": true,
+     "t": "15:18"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "3.24",
+     "bold": true,
+     "t": "15:24"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "3.35",
+     "bold": true,
+     "t": "15:35"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "4.08",
+     "bold": true,
+     "t": "16:08"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "4.12",
+     "bold": true,
+     "t": "16:12"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "col": "9"
+  },
+  {
+   "no": "114",
+   "stops": [
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "3.52",
+     "bold": true,
+     "t": "15:52"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "3.56",
+     "bold": true,
+     "t": "15:56"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "4.03",
+     "bold": true,
+     "t": "16:03"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "4.14",
+     "bold": true,
+     "t": "16:14"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "4.48",
+     "bold": true,
+     "t": "16:48"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "4.52",
+     "bold": true,
+     "t": "16:52"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "origin": "土佐久禮",
+   "col": "10",
+   "note": "伊豫西條・觀音寺の桝に縦書きで「土佐久禮 9.25 發」（午前）。多度津まで土讃線"
+  },
+  {
+   "no": "18",
+   "stops": [
+    {
+     "st": "八幡濱",
+     "ev": "dep",
+     "printed": "10.51",
+     "bold": false,
+     "t": "10:51"
+    },
+    {
+     "st": "伊豫長濱",
+     "ev": "dep",
+     "printed": "11.56",
+     "bold": false,
+     "t": "11:56"
+    },
+    {
+     "st": "松山",
+     "ev": "arr",
+     "printed": "1.03",
+     "bold": true,
+     "t": "13:03"
+    },
+    {
+     "st": "松山",
+     "ev": "dep",
+     "printed": "1.12",
+     "bold": true,
+     "t": "13:12"
+    },
+    {
+     "st": "伊豫北條",
+     "ev": "dep",
+     "printed": "1.41",
+     "bold": true,
+     "t": "13:41"
+    },
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "2.65",
+     "bold": true,
+     "note": "原印の通り。前後（1.41發―3.31發）と合はず、2.35頃の誤植とみられる",
+     "t": "15:05"
+    },
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "3.31",
+     "bold": true,
+     "t": "15:31"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "5.05",
+     "bold": true,
+     "t": "17:05"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "5.42",
+     "bold": true,
+     "t": "17:42"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "5.49",
+     "bold": true,
+     "t": "17:49"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "5.56",
+     "bold": true,
+     "t": "17:56"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "6.08",
+     "bold": true,
+     "t": "18:08"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "6.43",
+     "bold": true,
+     "t": "18:43"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "6.47",
+     "bold": true,
+     "t": "18:47"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "col": "11"
+  },
+  {
+   "no": "20",
+   "stops": [
+    {
+     "st": "八幡濱",
+     "ev": "dep",
+     "printed": "0.40",
+     "bold": true,
+     "t": "12:40"
+    },
+    {
+     "st": "伊豫長濱",
+     "ev": "dep",
+     "printed": "1.46",
+     "bold": true,
+     "t": "13:46"
+    },
+    {
+     "st": "松山",
+     "ev": "arr",
+     "printed": "3.01",
+     "bold": true,
+     "t": "15:01"
+    },
+    {
+     "st": "松山",
+     "ev": "dep",
+     "printed": "3.09",
+     "bold": true,
+     "t": "15:09"
+    },
+    {
+     "st": "伊豫北條",
+     "ev": "dep",
+     "printed": "3.40",
+     "bold": true,
+     "t": "15:40"
+    },
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "4.34",
+     "bold": true,
+     "t": "16:34"
+    },
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "5.33",
+     "bold": true,
+     "t": "17:33"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "7.18",
+     "bold": true,
+     "t": "19:18"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "7.56",
+     "bold": true,
+     "t": "19:56"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "7.59",
+     "bold": true,
+     "t": "19:59"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": true,
+     "t": "20:05"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "8.17",
+     "bold": true,
+     "t": "20:17"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "8.51",
+     "bold": true,
+     "t": "20:51"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": true,
+     "t": "20:55"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "col": "12"
+  },
+  {
+   "no": "22",
+   "stops": [
+    {
+     "st": "八幡濱",
+     "ev": "dep",
+     "printed": "2.10",
+     "bold": true,
+     "t": "14:10"
+    },
+    {
+     "st": "伊豫長濱",
+     "ev": "dep",
+     "printed": "3.20",
+     "bold": true,
+     "t": "15:20"
+    },
+    {
+     "st": "松山",
+     "ev": "arr",
+     "printed": "4.24",
+     "bold": true,
+     "t": "16:24"
+    },
+    {
+     "st": "松山",
+     "ev": "dep",
+     "printed": "4.33",
+     "bold": true,
+     "t": "16:33"
+    },
+    {
+     "st": "伊豫北條",
+     "ev": "dep",
+     "printed": "5.02",
+     "bold": true,
+     "t": "17:02"
+    },
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "5.58",
+     "bold": true,
+     "t": "17:58"
+    },
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": true,
+     "t": "18:54"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": true,
+     "t": "20:20"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "8.54",
+     "bold": true,
+     "t": "20:54"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "9.09",
+     "bold": true,
+     "t": "21:09"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "9.16",
+     "bold": true,
+     "t": "21:16"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "9.28",
+     "bold": true,
+     "t": "21:28"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "10.02",
+     "bold": true,
+     "t": "22:02"
+    },
+    {
+     "st": "高松棧橋",
+     "ev": "dep",
+     "printed": "10.06",
+     "bold": true,
+     "t": "22:06"
+    }
+   ],
+   "dest": "高松棧橋",
+   "cls": "2.3",
+   "col": "13"
+  },
+  {
+   "no": "24",
+   "stops": [
+    {
+     "st": "八幡濱",
+     "ev": "dep",
+     "printed": "4.05",
+     "bold": true,
+     "t": "16:05"
+    },
+    {
+     "st": "伊豫長濱",
+     "ev": "dep",
+     "printed": "5.12",
+     "bold": true,
+     "t": "17:12"
+    },
+    {
+     "st": "松山",
+     "ev": "arr",
+     "printed": "6.21",
+     "bold": true,
+     "t": "18:21"
+    },
+    {
+     "st": "松山",
+     "ev": "dep",
+     "printed": "6.28",
+     "bold": true,
+     "t": "18:28"
+    },
+    {
+     "st": "伊豫北條",
+     "ev": "dep",
+     "printed": "6.57",
+     "bold": true,
+     "t": "18:57"
+    },
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": true,
+     "t": "19:50"
+    },
+    {
+     "st": "伊豫西條",
+     "ev": "dep",
+     "printed": "8.43",
+     "bold": true,
+     "t": "20:43"
+    },
+    {
+     "st": "觀音寺",
+     "ev": "dep",
+     "printed": "10.16",
+     "bold": true,
+     "t": "22:16"
+    },
+    {
+     "st": "多度津",
+     "ev": "arr",
+     "printed": "10.53",
+     "bold": true,
+     "t": "22:53"
+    },
+    {
+     "st": "多度津",
+     "ev": "dep",
+     "printed": "11.01",
+     "bold": true,
+     "t": "23:01"
+    },
+    {
+     "st": "丸龜",
+     "ev": "dep",
+     "printed": "11.09",
+     "bold": true,
+     "t": "23:09"
+    },
+    {
+     "st": "坂出",
+     "ev": "dep",
+     "printed": "11.21",
+     "bold": true,
+     "t": "23:21"
+    },
+    {
+     "st": "高松",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "23:55"
+    }
+   ],
+   "dest": "高松",
+   "cls": "2.3",
+   "col": "14"
+  },
+  {
+   "no": "60",
+   "stops": [
+    {
+     "st": "八幡濱",
+     "ev": "dep",
+     "printed": "5.11",
+     "bold": true,
+     "t": "17:11"
+    },
+    {
+     "st": "伊豫長濱",
+     "ev": "dep",
+     "printed": "6.48",
+     "bold": true,
+     "t": "18:48"
+    },
+    {
+     "st": "松山",
+     "ev": "arr",
+     "printed": "8.11",
+     "bold": true,
+     "t": "20:11"
+    },
+    {
+     "st": "松山",
+     "ev": "dep",
+     "printed": "9.57",
+     "bold": true,
+     "t": "21:57"
+    },
+    {
+     "st": "伊豫北條",
+     "ev": "dep",
+     "printed": "10.26",
+     "bold": true,
+     "t": "22:26"
+    },
+    {
+     "st": "今治",
+     "ev": "dep",
+     "printed": "11.19",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "23:19"
+    }
+   ],
+   "dest": "今治",
+   "cls": "2.3",
+   "col": "15",
+   "note": "松山で1時間46分停車（著8.11午後／發9.57午後）。原表のまま"
+  },
+  {
+   "no": "28",
+   "stops": [
+    {
+     "st": "八幡濱",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": true,
+     "t": "19:33"
+    },
+    {
+     "st": "伊豫長濱",
+     "ev": "dep",
+     "printed": "8.47",
+     "bold": true,
+     "t": "20:47"
+    },
+    {
+     "st": "松山",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": true,
+     "note": "終着（著時刻）",
+     "t": "21:50"
+    }
+   ],
+   "dest": "松山",
+   "cls": "2.3",
+   "col": "16",
+   "note": "最右欄で綴込みに掛かる"
+  }
+ ],
+ "notes": [
+  "昭和17.4.1改正。頁88の上から2段目の表。下り（高松棧橋→八幡濱）は同頁最上段（p88a）。標題・線名は上段と共通で「（鐵道省・豫讃本線）特に示したるものの他は2.3等車」。",
+  "主要驛のみを拔いた抄錄表。左端に「自八幡濱 粁程／運賃 3等」欄があるが運賃は轉記せず。驛名の左の⊓・〒・◎・♨等の設備記號も轉記せず。",
+  "粁程は八幡濱起點。高松と高松棧橋がともに262.4と印刷されてゐる（原表のまま）。下り表（p88a、自高松）の粁程を262.4から引いた値とは觀音寺・伊豫西條・今治・丸龜で約2粁食ひ違ふ。兩表とも印刷のまま轉記した。",
+  "頁尾に「細字は午前、太字は午後を示す」とあるが寫眞では太細を判別できない。欄は八幡濱（または起點驛）發の時刻順に竝ぶので、その竝びと各欄内部の時刻順序とから午前・午後を判定し、午後には B を附けた。",
+  "「…」は時刻の印刷なし（本文では「-」）。土讃線から入る列車（102・114）は空桝に「琴平 6.10 發」「土佐久禮 9.25 發」の縦書きが入る。"
+ ],
+ "source": "IMG_1873",
+ "page": "88",
+ "title": "高松・八幡濱間（上り）",
+ "line": "鐵道省 豫讃本線",
+ "dir": "八幡濱→高松棧橋（上り）",
+ "clock": "12"
+}

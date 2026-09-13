@@ -1,0 +1,82 @@
+{
+ "stations": [
+  {
+   "name": "平陽",
+   "km": null
+  },
+  {
+   "name": "半截河",
+   "km": null
+  },
+  {
+   "name": "密山",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "200",
+   "stops": [
+    {
+     "st": "平陽",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "半截河",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "密山",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "密山",
+   "col": "1"
+  },
+  {
+   "no": "204",
+   "stops": [
+    {
+     "st": "半截河",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "密山",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    }
+   ],
+   "dest": "密山",
+   "col": "2",
+   "origin": "半截河"
+  }
+ ],
+ "notes": [
+  "運賃欄は表の左端に1組のみ（密山起點）。",
+  "204は半截河始發（平陽欄は…）。"
+ ],
+ "source": "IMG_1884",
+ "page": "110",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "梨密線",
+ "title": "密山・平陽間",
+ "dir": "平陽→密山",
+ "season": "昭和17.1.15改正",
+ "service": "每日運行",
+ "fares": "平陽 3.85 | 半截河 2.75 | 密山"
+}

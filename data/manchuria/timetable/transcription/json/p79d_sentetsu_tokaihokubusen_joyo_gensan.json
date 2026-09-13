@@ -1,0 +1,886 @@
+{
+ "stations": [
+  {
+   "name": "襄陽",
+   "km": 0.0
+  },
+  {
+   "name": "東草",
+   "km": 16.9
+  },
+  {
+   "name": "天津里",
+   "km": 23.4
+  },
+  {
+   "name": "公峴津",
+   "km": 35.2
+  },
+  {
+   "name": "杆城",
+   "km": 41.9
+  },
+  {
+   "name": "巨津",
+   "km": 49.3
+  },
+  {
+   "name": "縣内",
+   "km": 56.7
+  },
+  {
+   "name": "草邱",
+   "km": 72.7
+  },
+  {
+   "name": "高城",
+   "km": 81.2
+  },
+  {
+   "name": "外金剛",
+   "km": 91.6
+  },
+  {
+   "name": "長箭",
+   "km": 99.4
+  },
+  {
+   "name": "南涯",
+   "km": 106.4
+  },
+  {
+   "name": "通川",
+   "km": 131.6
+  },
+  {
+   "name": "庫底",
+   "km": 138.3
+  },
+  {
+   "name": "松田",
+   "km": 145.2
+  },
+  {
+   "name": "歙谷",
+   "km": 161.2
+  },
+  {
+   "name": "安邊",
+   "km": 192.6
+  },
+  {
+   "name": "培花",
+   "km": 197.5
+  },
+  {
+   "name": "葛麻",
+   "km": 204.2
+  },
+  {
+   "name": "元山",
+   "km": 208.3
+  }
+ ],
+ "trains": [
+  {
+   "no": "774",
+   "stops": [
+    {
+     "st": "高城",
+     "ev": "dep",
+     "printed": "3.45",
+     "bold": false,
+     "t": "03:45"
+    },
+    {
+     "st": "外金剛",
+     "ev": "dep",
+     "printed": "4.04",
+     "bold": false,
+     "t": "04:04"
+    },
+    {
+     "st": "長箭",
+     "ev": "dep",
+     "printed": "4.17",
+     "bold": false,
+     "t": "04:17"
+    },
+    {
+     "st": "南涯",
+     "ev": "dep",
+     "printed": "4.28",
+     "bold": false,
+     "t": "04:28"
+    },
+    {
+     "st": "通川",
+     "ev": "dep",
+     "printed": "5.15",
+     "bold": false,
+     "t": "05:15"
+    },
+    {
+     "st": "庫底",
+     "ev": "arr",
+     "printed": "5.26",
+     "bold": false,
+     "t": "05:26"
+    },
+    {
+     "st": "庫底",
+     "ev": "dep",
+     "printed": "5.27",
+     "bold": false,
+     "t": "05:27"
+    },
+    {
+     "st": "松田",
+     "ev": "dep",
+     "printed": "5.40",
+     "bold": false,
+     "t": "05:40"
+    },
+    {
+     "st": "歙谷",
+     "ev": "dep",
+     "printed": "6.09",
+     "bold": false,
+     "t": "06:09"
+    },
+    {
+     "st": "安邊",
+     "ev": "arr",
+     "printed": "6.58",
+     "bold": false,
+     "t": "06:58"
+    },
+    {
+     "st": "安邊",
+     "ev": "dep",
+     "printed": "7.01",
+     "bold": false,
+     "t": "07:01"
+    },
+    {
+     "st": "培花",
+     "ev": "dep",
+     "printed": "7.19",
+     "bold": false,
+     "t": "07:19"
+    },
+    {
+     "st": "葛麻",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "元山",
+     "ev": "dep",
+     "printed": "7.37",
+     "bold": false,
+     "t": "07:37"
+    }
+   ],
+   "dest": "元山",
+   "cls": "2.3",
+   "origin": "高城",
+   "col": "1"
+  },
+  {
+   "no": "1770",
+   "stops": [
+    {
+     "st": "襄陽",
+     "ev": "dep",
+     "printed": "5.06",
+     "bold": false,
+     "t": "05:06"
+    },
+    {
+     "st": "東草",
+     "ev": "dep",
+     "printed": "5.36",
+     "bold": false,
+     "t": "05:36"
+    },
+    {
+     "st": "天津里",
+     "ev": "dep",
+     "printed": "5.48",
+     "bold": false,
+     "t": "05:48"
+    },
+    {
+     "st": "公峴津",
+     "ev": "dep",
+     "printed": "6.13",
+     "bold": false,
+     "t": "06:13"
+    },
+    {
+     "st": "杆城",
+     "ev": "dep",
+     "printed": "6.32",
+     "bold": false,
+     "t": "06:32"
+    },
+    {
+     "st": "巨津",
+     "ev": "dep",
+     "printed": "6.47",
+     "bold": false,
+     "t": "06:47"
+    },
+    {
+     "st": "縣内",
+     "ev": "dep",
+     "printed": "7.01",
+     "bold": false,
+     "t": "07:01"
+    },
+    {
+     "st": "草邱",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "高城",
+     "ev": "arr",
+     "printed": "7.45",
+     "bold": false,
+     "t": "07:45"
+    },
+    {
+     "st": "高城",
+     "ev": "dep",
+     "printed": "8.02",
+     "bold": false,
+     "t": "08:02"
+    },
+    {
+     "st": "外金剛",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "長箭",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": false,
+     "t": "08:35"
+    },
+    {
+     "st": "南涯",
+     "ev": "dep",
+     "printed": "9.06",
+     "bold": false,
+     "t": "09:06"
+    },
+    {
+     "st": "通川",
+     "ev": "dep",
+     "printed": "10.07",
+     "bold": false,
+     "t": "10:07"
+    },
+    {
+     "st": "庫底",
+     "ev": "arr",
+     "printed": "10.21",
+     "bold": false,
+     "t": "10:21"
+    },
+    {
+     "st": "庫底",
+     "ev": "dep",
+     "printed": "10.26",
+     "bold": false,
+     "t": "10:26"
+    },
+    {
+     "st": "松田",
+     "ev": "dep",
+     "printed": "10.41",
+     "bold": false,
+     "t": "10:41"
+    },
+    {
+     "st": "歙谷",
+     "ev": "dep",
+     "printed": "11.13",
+     "bold": false,
+     "t": "11:13"
+    },
+    {
+     "st": "安邊",
+     "ev": "arr",
+     "printed": "12.11",
+     "bold": false,
+     "t": "12:11"
+    },
+    {
+     "st": "安邊",
+     "ev": "dep",
+     "printed": "12.39",
+     "bold": false,
+     "t": "12:39"
+    },
+    {
+     "st": "培花",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    },
+    {
+     "st": "葛麻",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "13:10"
+    },
+    {
+     "st": "元山",
+     "ev": "dep",
+     "printed": "13.18",
+     "bold": false,
+     "t": "13:18"
+    }
+   ],
+   "dest": "元山",
+   "cls": "2.3",
+   "col": "2"
+  },
+  {
+   "no": "770",
+   "stops": [
+    {
+     "st": "襄陽",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "東草",
+     "ev": "dep",
+     "printed": "10.09",
+     "bold": false,
+     "t": "10:09"
+    },
+    {
+     "st": "天津里",
+     "ev": "dep",
+     "printed": "10.19",
+     "bold": false,
+     "t": "10:19"
+    },
+    {
+     "st": "公峴津",
+     "ev": "dep",
+     "printed": "10.42",
+     "bold": false,
+     "t": "10:42"
+    },
+    {
+     "st": "杆城",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "巨津",
+     "ev": "dep",
+     "printed": "11.07",
+     "bold": false,
+     "t": "11:07"
+    },
+    {
+     "st": "縣内",
+     "ev": "dep",
+     "printed": "11.18",
+     "bold": false,
+     "t": "11:18"
+    },
+    {
+     "st": "草邱",
+     "ev": "dep",
+     "printed": "11.49",
+     "bold": false,
+     "t": "11:49"
+    },
+    {
+     "st": "高城",
+     "ev": "arr",
+     "printed": "11.55",
+     "bold": false,
+     "t": "11:55"
+    },
+    {
+     "st": "高城",
+     "ev": "dep",
+     "printed": "12.08",
+     "bold": false,
+     "t": "12:08"
+    },
+    {
+     "st": "外金剛",
+     "ev": "dep",
+     "printed": "12.28",
+     "bold": false,
+     "t": "12:28"
+    },
+    {
+     "st": "長箭",
+     "ev": "dep",
+     "printed": "12.42",
+     "bold": false,
+     "t": "12:42"
+    },
+    {
+     "st": "南涯",
+     "ev": "dep",
+     "printed": "12.53",
+     "bold": false,
+     "t": "12:53"
+    },
+    {
+     "st": "通川",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    },
+    {
+     "st": "庫底",
+     "ev": "arr",
+     "printed": "13.51",
+     "bold": false,
+     "t": "13:51"
+    },
+    {
+     "st": "庫底",
+     "ev": "dep",
+     "printed": "13.54",
+     "bold": false,
+     "t": "13:54"
+    },
+    {
+     "st": "松田",
+     "ev": "dep",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    },
+    {
+     "st": "歙谷",
+     "ev": "dep",
+     "printed": "14.33",
+     "bold": false,
+     "t": "14:33"
+    },
+    {
+     "st": "安邊",
+     "ev": "arr",
+     "printed": "15.28",
+     "bold": false,
+     "t": "15:28"
+    },
+    {
+     "st": "安邊",
+     "ev": "dep",
+     "printed": "15.37",
+     "bold": false,
+     "t": "15:37"
+    },
+    {
+     "st": "培花",
+     "ev": "dep",
+     "printed": "15.47",
+     "bold": false,
+     "t": "15:47"
+    },
+    {
+     "st": "葛麻",
+     "ev": "dep",
+     "printed": "15.58",
+     "bold": false,
+     "t": "15:58"
+    },
+    {
+     "st": "元山",
+     "ev": "dep",
+     "printed": "16.05",
+     "bold": false,
+     "t": "16:05"
+    }
+   ],
+   "dest": "元山",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "1772",
+   "stops": [
+    {
+     "st": "襄陽",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "uncertain": true,
+     "note": "印刷のまま。東草13.18まで48分あり他列車（29-30分）と合はない",
+     "t": "12:30"
+    },
+    {
+     "st": "東草",
+     "ev": "dep",
+     "printed": "13.18",
+     "bold": false,
+     "t": "13:18"
+    },
+    {
+     "st": "天津里",
+     "ev": "dep",
+     "printed": "13.32",
+     "bold": false,
+     "t": "13:32"
+    },
+    {
+     "st": "公峴津",
+     "ev": "dep",
+     "printed": "14.02",
+     "bold": false,
+     "t": "14:02"
+    },
+    {
+     "st": "杆城",
+     "ev": "dep",
+     "printed": "14.28",
+     "bold": false,
+     "t": "14:28"
+    },
+    {
+     "st": "巨津",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "縣内",
+     "ev": "dep",
+     "printed": "15.06",
+     "bold": false,
+     "t": "15:06"
+    },
+    {
+     "st": "草邱",
+     "ev": "dep",
+     "printed": "15.38",
+     "bold": false,
+     "t": "15:38"
+    },
+    {
+     "st": "高城",
+     "ev": "arr",
+     "printed": "15.53",
+     "bold": false,
+     "t": "15:53"
+    },
+    {
+     "st": "高城",
+     "ev": "dep",
+     "printed": "16.15",
+     "bold": false,
+     "t": "16:15"
+    },
+    {
+     "st": "外金剛",
+     "ev": "dep",
+     "printed": "16.39",
+     "bold": false,
+     "t": "16:39"
+    },
+    {
+     "st": "長箭",
+     "ev": "dep",
+     "printed": "17.16",
+     "bold": false,
+     "note": "外金剛から37分。他列車は10-14分。印刷のまま",
+     "t": "17:16"
+    },
+    {
+     "st": "南涯",
+     "ev": "dep",
+     "printed": "17.29",
+     "bold": false,
+     "t": "17:29"
+    },
+    {
+     "st": "通川",
+     "ev": "dep",
+     "printed": "18.32",
+     "bold": false,
+     "t": "18:32"
+    },
+    {
+     "st": "庫底",
+     "ev": "arr",
+     "printed": "18.46",
+     "bold": false,
+     "t": "18:46"
+    },
+    {
+     "st": "庫底",
+     "ev": "dep",
+     "printed": "18.54",
+     "bold": false,
+     "t": "18:54"
+    },
+    {
+     "st": "松田",
+     "ev": "dep",
+     "printed": "19.10",
+     "bold": false,
+     "t": "19:10"
+    },
+    {
+     "st": "歙谷",
+     "ev": "dep",
+     "printed": "19.46",
+     "bold": false,
+     "t": "19:46"
+    },
+    {
+     "st": "安邊",
+     "ev": "arr",
+     "printed": "20.44",
+     "bold": false,
+     "t": "20:44"
+    },
+    {
+     "st": "安邊",
+     "ev": "dep",
+     "printed": "20.55",
+     "bold": false,
+     "t": "20:55"
+    },
+    {
+     "st": "培花",
+     "ev": "dep",
+     "printed": "21.05",
+     "bold": false,
+     "t": "21:05"
+    },
+    {
+     "st": "葛麻",
+     "ev": "dep",
+     "printed": "21.18",
+     "bold": false,
+     "t": "21:18"
+    },
+    {
+     "st": "元山",
+     "ev": "dep",
+     "printed": "21.26",
+     "bold": false,
+     "t": "21:26"
+    }
+   ],
+   "dest": "元山",
+   "cls": "3",
+   "col": "4"
+  },
+  {
+   "no": "772",
+   "stops": [
+    {
+     "st": "襄陽",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "東草",
+     "ev": "dep",
+     "printed": "18.29",
+     "bold": false,
+     "t": "18:29"
+    },
+    {
+     "st": "天津里",
+     "ev": "dep",
+     "printed": "18.39",
+     "bold": false,
+     "t": "18:39"
+    },
+    {
+     "st": "公峴津",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    },
+    {
+     "st": "杆城",
+     "ev": "dep",
+     "printed": "19.18",
+     "bold": false,
+     "t": "19:18"
+    },
+    {
+     "st": "巨津",
+     "ev": "dep",
+     "printed": "19.28",
+     "bold": false,
+     "t": "19:28"
+    },
+    {
+     "st": "縣内",
+     "ev": "dep",
+     "printed": "19.39",
+     "bold": false,
+     "t": "19:39"
+    },
+    {
+     "st": "草邱",
+     "ev": "dep",
+     "printed": "20.04",
+     "bold": false,
+     "t": "20:04"
+    },
+    {
+     "st": "高城",
+     "ev": "arr",
+     "printed": "20.16",
+     "bold": false,
+     "t": "20:16"
+    },
+    {
+     "st": "高城",
+     "ev": "dep",
+     "printed": "20.26",
+     "bold": false,
+     "t": "20:26"
+    },
+    {
+     "st": "外金剛",
+     "ev": "dep",
+     "printed": "20.46",
+     "bold": false,
+     "t": "20:46"
+    },
+    {
+     "st": "長箭",
+     "ev": "dep",
+     "printed": "21.00",
+     "bold": false,
+     "t": "21:00"
+    },
+    {
+     "st": "南涯",
+     "ev": "dep",
+     "printed": "21.11",
+     "bold": false,
+     "t": "21:11"
+    },
+    {
+     "st": "通川",
+     "ev": "dep",
+     "printed": "21.58",
+     "bold": false,
+     "t": "21:58"
+    },
+    {
+     "st": "庫底",
+     "ev": "arr",
+     "printed": "22.09",
+     "bold": false,
+     "t": "22:09"
+    },
+    {
+     "st": "庫底",
+     "ev": "dep",
+     "printed": "22.14",
+     "bold": false,
+     "t": "22:14"
+    },
+    {
+     "st": "松田",
+     "ev": "dep",
+     "printed": "22.27",
+     "bold": false,
+     "t": "22:27"
+    },
+    {
+     "st": "歙谷",
+     "ev": "dep",
+     "printed": "22.55",
+     "bold": false,
+     "t": "22:55"
+    },
+    {
+     "st": "安邊",
+     "ev": "arr",
+     "printed": "23.45",
+     "bold": false,
+     "t": "23:45"
+    },
+    {
+     "st": "安邊",
+     "ev": "dep",
+     "printed": "0.10",
+     "bold": false,
+     "t": "24:10"
+    },
+    {
+     "st": "培花",
+     "ev": "dep",
+     "printed": "0.18",
+     "bold": false,
+     "t": "24:18"
+    },
+    {
+     "st": "葛麻",
+     "ev": "dep",
+     "printed": "0.29",
+     "bold": false,
+     "t": "24:29"
+    },
+    {
+     "st": "元山",
+     "ev": "dep",
+     "printed": "0.36",
+     "bold": false,
+     "t": "24:36"
+    }
+   ],
+   "dest": "元山",
+   "cls": "2.3",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "昭和17.2.1改正。頁79右下の表の下半。反對方向（元山→襄陽）は同じ位置の上半 p79c。表題（上半）の右に「動車は3等車のみ」と註記あり。",
+  "左端に「粁程／運賃 2等・3等」欄があるが運賃は轉記せず。粁程（自襄陽）は stations に入れた。p79c（自元山）との和が全驛で 208.3 になることを確認した。",
+  "朝鮮の表につき24時制。列車欄は5欄（774 1770 770 1772 772）。等級枠（反轉）：774・1770・770・772 が 2.3。1772 の枠は狹く2字入りで動車（3等）と思はれるが印刷が潰れて確定できない。",
+  "774 は高城發から（襄陽～高城著の行は「…」）。",
+  "1772 は襄陽發 12.30 の次の東草が 13.18 で48分あき（他列車は29-30分）、また外金剛 16.39 の次の長箭が 17.16 で37分あく（他列車は10-14分）。いづれも印刷のまま轉記し、襄陽發には ? を附した。",
+  "驛名 東草 は印字のまま（今日の束草）。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。"
+ ],
+ "source": "IMG_1868",
+ "page": "79",
+ "title": "元山・襄陽間（鮮鐵・東海北部線）",
+ "line": "鮮鐵 東海北部線",
+ "dir": "元山行（襄陽→元山）"
+}

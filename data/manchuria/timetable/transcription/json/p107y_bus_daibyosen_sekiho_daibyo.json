@@ -1,0 +1,49 @@
+{
+ "stations": [
+  {
+   "name": "赤峰",
+   "km": null
+  },
+  {
+   "name": "大廟",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "419",
+   "stops": [
+    {
+     "st": "赤峰",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "大廟",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "大廟",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "「(運休)」 is printed where the other blocks carry a 改正 date — the service is suspended",
+  "two unnumbered empty columns (…) stand to the left of bus 419"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "大廟線",
+ "title": "赤峰・大廟間",
+ "dir": "赤峰→大廟",
+ "season": "(運休)",
+ "service": "每日運行",
+ "fares": "赤峰 | 大廟 3.45"
+}

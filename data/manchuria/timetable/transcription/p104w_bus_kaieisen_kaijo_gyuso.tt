@@ -1,0 +1,36 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 海營線
+title: 海城驛・牛莊間
+dir: 海城驛→牛莊
+season: 昭和16.12.1改正
+service: 每日運行
+note: between buses 9 and 39 the table prints 「此の間30分每に運行す」 (a bus every 30 minutes over that interval); only the named columns are transcribed
+stations: 海城驛 | 牛莊
+fares: 海城驛 0 | 牛莊 1.00
+
+train: 5 | dest 牛莊 | col 1
+海城驛 8.00
+牛莊 9.00
+
+train: 7 | dest 牛莊 | col 2
+海城驛 8.30
+牛莊 9.30
+
+train: 9 | dest 牛莊 | col 3
+海城驛 9.00
+牛莊 10.00
+
+train: 39 | dest 牛莊 | col 4
+海城驛 16.30
+牛莊 17.30
+
+train: 41 | dest 牛莊 | col 5
+海城驛 17.00
+牛莊 18.00
+
+train: 1 | dest 牛莊 | col 6
+海城驛 17.40
+牛莊 18.40

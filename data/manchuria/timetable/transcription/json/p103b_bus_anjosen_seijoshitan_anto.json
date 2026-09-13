@@ -1,0 +1,810 @@
+{
+ "stations": [
+  {
+   "name": "西城子疃",
+   "km": null
+  },
+  {
+   "name": "莊河",
+   "km": null
+  },
+  {
+   "name": "青堆子",
+   "km": null
+  },
+  {
+   "name": "大孤山",
+   "km": null
+  },
+  {
+   "name": "黃土坎",
+   "km": null
+  },
+  {
+   "name": "北井子",
+   "km": null
+  },
+  {
+   "name": "大東溝",
+   "km": null
+  },
+  {
+   "name": "河深溝",
+   "km": null
+  },
+  {
+   "name": "安東",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "14",
+   "stops": [
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "黃土坎",
+     "ev": "dep",
+     "printed": "9.45",
+     "bold": false,
+     "t": "09:45"
+    },
+    {
+     "st": "北井子",
+     "ev": "dep",
+     "printed": "10.25",
+     "bold": false,
+     "t": "10:25"
+    },
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大孤山",
+   "col": "1"
+  },
+  {
+   "no": "16",
+   "stops": [
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "黃土坎",
+     "ev": "dep",
+     "printed": "10.45",
+     "bold": false,
+     "t": "10:45"
+    },
+    {
+     "st": "北井子",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大孤山",
+   "col": "2"
+  },
+  {
+   "no": "2",
+   "stops": [
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "青堆子",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "黃土坎",
+     "ev": "dep",
+     "printed": "12.15",
+     "bold": false,
+     "t": "12:15"
+    },
+    {
+     "st": "北井子",
+     "ev": "dep",
+     "printed": "12.55",
+     "bold": false,
+     "t": "12:55"
+    },
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "14.20",
+     "bold": false,
+     "t": "14:20"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    }
+   ],
+   "dest": "安東",
+   "origin": "莊河",
+   "col": "3"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "黃土坎",
+     "ev": "dep",
+     "printed": "12.45",
+     "bold": false,
+     "t": "12:45"
+    },
+    {
+     "st": "北井子",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大孤山",
+   "col": "4"
+  },
+  {
+   "no": "12",
+   "stops": [
+    {
+     "st": "北井子",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "12.45",
+     "bold": false,
+     "t": "12:45"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    }
+   ],
+   "dest": "安東",
+   "origin": "北井子",
+   "col": "5"
+  },
+  {
+   "no": "10",
+   "stops": [
+    {
+     "st": "黃土坎",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "北井子",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    },
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "14.25",
+     "bold": false,
+     "t": "14:25"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "15.05",
+     "bold": false,
+     "t": "15:05"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "15.45",
+     "bold": false,
+     "t": "15:45"
+    }
+   ],
+   "dest": "安東",
+   "origin": "黃土坎",
+   "col": "6"
+  },
+  {
+   "no": "6",
+   "stops": [
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "黃土坎",
+     "ev": "dep",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    },
+    {
+     "st": "北井子",
+     "ev": "dep",
+     "printed": "14.25",
+     "bold": false,
+     "t": "14:25"
+    },
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大孤山",
+   "col": "7"
+  },
+  {
+   "no": "8",
+   "stops": [
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "黃土坎",
+     "ev": "dep",
+     "printed": "15.15",
+     "bold": false,
+     "t": "15:15"
+    },
+    {
+     "st": "北井子",
+     "ev": "dep",
+     "printed": "15.55",
+     "bold": false,
+     "t": "15:55"
+    },
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大孤山",
+   "col": "8"
+  },
+  {
+   "no": "20",
+   "stops": [
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "青堆子",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    }
+   ],
+   "dest": "大孤山",
+   "origin": "莊河",
+   "col": "9"
+  },
+  {
+   "no": "26",
+   "stops": [
+    {
+     "st": "西城子疃",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "青堆子",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    }
+   ],
+   "dest": "大孤山",
+   "origin": "西城子疃",
+   "col": "10"
+  },
+  {
+   "no": "24",
+   "stops": [
+    {
+     "st": "西城子疃",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "青堆子",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    }
+   ],
+   "dest": "大孤山",
+   "origin": "西城子疃",
+   "col": "11"
+  },
+  {
+   "no": "18",
+   "stops": [
+    {
+     "st": "西城子疃",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "青堆子",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "大孤山",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    }
+   ],
+   "dest": "大孤山",
+   "origin": "西城子疃",
+   "col": "12"
+  },
+  {
+   "no": "28",
+   "stops": [
+    {
+     "st": "西城子疃",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    }
+   ],
+   "dest": "莊河",
+   "origin": "西城子疃",
+   "col": "13"
+  },
+  {
+   "no": "42",
+   "stops": [
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大東溝",
+   "col": "13",
+   "note": "28と同じ物理欄の下半分に番號42を刷り、大東溝以下の3行のみ時刻を入れる"
+  },
+  {
+   "no": "22",
+   "stops": [
+    {
+     "st": "西城子疃",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    }
+   ],
+   "dest": "莊河",
+   "origin": "西城子疃",
+   "col": "14"
+  },
+  {
+   "no": "44",
+   "stops": [
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大東溝",
+   "col": "14",
+   "note": "22と同じ物理欄の下半分に番號44を刷り、大東溝以下の3行のみ時刻を入れる"
+  },
+  {
+   "no": "46",
+   "stops": [
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大東溝",
+   "col": "15"
+  },
+  {
+   "no": "48",
+   "stops": [
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大東溝",
+   "col": "16"
+  },
+  {
+   "no": "50",
+   "stops": [
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大東溝",
+   "col": "17"
+  },
+  {
+   "no": "52",
+   "stops": [
+    {
+     "st": "大東溝",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "河深溝",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "安東",
+   "origin": "大東溝",
+   "col": "18"
+  }
+ ],
+ "notes": [
+  "鐵道總局線・奉天局管內の自動車（定期乘合）。頁103の安城線の表の下段。反對方向（安東發）は上段（p103a）。",
+  "左端は運賃（圓.分、西城子疃起點）欄で粁程欄はない。運賃欄の第1行は「圓分」の單位表示で西城子疃は0。",
+  "北井子の運賃は「8.30」と印刷されてゐるが、上段（自安東）の2.85から逆算すると8.80になる筈で、印刷のまま轉記した。",
+  "24時制。「…」は時刻の設定なしで、本文では - とした。太い横罫はその欄の終着を示す。",
+  "列車番號欄は18欄。28の下に42、22の下に44の番號を刷り、それぞれ大東溝・安東間のみを運行する別の便。",
+  "便24の西城子疃10.30發・莊河13.00著は、他の便（西城子疃・莊河間110分）より40分永い。印刷のまま。"
+ ],
+ "source": "IMG_1880",
+ "page": "103",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "安城線",
+ "title": "安東・大孤山・西城子疃間",
+ "dir": "西城子疃→安東",
+ "season": "昭和17.2.20改正",
+ "service": "每日運行",
+ "fares": "西城子疃 0 | 莊河 2.75 | 青堆子 4.45 | 大孤山 6.05 | 黃土坎 7.25 | 北井子 8.30 | 大東溝 9.45 | 河深溝 10.50 | 安東 11.65"
+}

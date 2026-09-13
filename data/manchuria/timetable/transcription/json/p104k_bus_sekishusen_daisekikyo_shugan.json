@@ -1,0 +1,106 @@
+{
+ "stations": [
+  {
+   "name": "大石橋驛",
+   "km": null
+  },
+  {
+   "name": "石門嶺",
+   "km": null
+  },
+  {
+   "name": "岫巖",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "191",
+   "stops": [
+    {
+     "st": "大石橋驛",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "石門嶺",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "岫巖",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    }
+   ],
+   "dest": "岫巖",
+   "col": "1"
+  },
+  {
+   "no": "195",
+   "stops": [
+    {
+     "st": "大石橋驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "石門嶺",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    }
+   ],
+   "dest": "石門嶺",
+   "col": "2"
+  },
+  {
+   "no": "193",
+   "stops": [
+    {
+     "st": "大石橋驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "石門嶺",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "岫巖",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "岫巖",
+   "col": "3"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "石岫線",
+ "title": "大石橋驛・岫巖間",
+ "dir": "大石橋驛→岫巖",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "大石橋驛 0 | 石門嶺 1.85 | 岫巖 5.30"
+}

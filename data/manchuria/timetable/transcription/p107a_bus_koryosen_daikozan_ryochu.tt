@@ -1,0 +1,42 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 虎遼線
+title: 大虎山驛・遼中間
+dir: 大虎山驛→遼中
+season: 昭和16.12.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the right of bus 261; no bus in this direction shows a time at 遼中 (thick rule in that row)
+stations: 大虎山驛 | 臺安 | 遼中
+fares: 大虎山驛 | 臺安 1.90 | 遼中 3.55
+
+train: 251 | dest 臺安 | col 1
+大虎山驛 8.30
+臺安 10.20
+遼中 -
+
+train: 259 | dest 臺安 | col 2
+大虎山驛 9.30
+臺安 11.20
+遼中 -
+
+train: 253 | dest 臺安 | col 3
+大虎山驛 11.00
+臺安 12.50
+遼中 -
+
+train: 255 | dest 臺安 | col 4
+大虎山驛 14.00
+臺安 15.40
+遼中 -
+
+train: 257 | dest 臺安 | col 5
+大虎山驛 16.00
+臺安 17.50
+遼中 -
+
+train: 261 | dest 臺安 | col 6
+大虎山驛 15.00
+臺安 16.40
+遼中 -

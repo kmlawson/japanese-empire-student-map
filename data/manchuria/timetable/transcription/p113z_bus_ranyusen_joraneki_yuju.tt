@@ -1,0 +1,16 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 蘭楡線
+title: 楡樹・舒蘭驛間
+dir: 舒蘭驛→楡樹
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が舒蘭驛發（本表）。運賃欄は楡樹起點のものを反轉して掲げた。
+stations: 舒蘭驛 | 楡樹
+fares: 舒蘭驛 3.95 | 楡樹
+
+train: 552 | dest 楡樹 | col 1
+舒蘭驛 12.30
+楡樹 16.30

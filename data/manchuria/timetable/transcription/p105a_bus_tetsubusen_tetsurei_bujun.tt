@@ -1,0 +1,48 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 鐵撫線
+title: 鐵嶺驛・撫順驛間
+dir: 鐵嶺驛→撫順驛
+season: 昭和16.10.1改正
+service: 每日運行
+note: the sixth column carries no bus number in the head (blank cell); entered as 無番
+stations: 鐵嶺驛 | 李小屯 | 會元堡 | 撫順驛
+fares: 鐵嶺驛 0 | 李小屯 1.20 | 會元堡 2.55 | 撫順驛 3.25
+
+train: 125 | dest 李小屯 | col 1
+鐵嶺驛 9.00
+李小屯 10.10
+會元堡 -
+撫順驛 -
+
+train: 192 | dest 撫順驛 | col 2 | origin 會元堡
+鐵嶺驛 -
+李小屯 -
+會元堡 9.25
+撫順驛 10.15
+
+train: 121 | dest 撫順驛 | col 3
+鐵嶺驛 10.00
+李小屯 11.11
+會元堡 12.10
+撫順驛 13.00
+
+train: 123 | dest 撫順驛 | col 4
+鐵嶺驛 14.00
+李小屯 15.11
+會元堡 16.10
+撫順驛 17.00
+
+train: 712 | dest 李小屯 | col 5
+鐵嶺驛 15.00
+李小屯 16.10
+會元堡 -
+撫順驛 -
+
+train: 無番 | dest 撫順驛 | col 6 | origin 會元堡
+鐵嶺驛 -
+李小屯 -
+會元堡 16.25
+撫順驛 17.15

@@ -1,0 +1,237 @@
+{
+ "stations": [
+  {
+   "name": "哈爾濱",
+   "km": null
+  },
+  {
+   "name": "呼蘭",
+   "km": null
+  },
+  {
+   "name": "巴彥",
+   "km": null
+  },
+  {
+   "name": "木蘭",
+   "km": null
+  },
+  {
+   "name": "通河",
+   "km": null
+  },
+  {
+   "name": "二道河",
+   "km": null
+  },
+  {
+   "name": "依蘭",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "101",
+   "stops": [
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "呼蘭",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "巴彥",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "木蘭",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "木蘭",
+   "col": "1"
+  },
+  {
+   "no": "105",
+   "stops": [
+    {
+     "st": "呼蘭",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "巴彥",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "木蘭",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "木蘭",
+   "origin": "呼蘭",
+   "col": "2"
+  },
+  {
+   "no": "111",
+   "stops": [
+    {
+     "st": "呼蘭",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "巴彥",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "巴彥",
+   "origin": "呼蘭",
+   "col": "3"
+  },
+  {
+   "no": "115",
+   "stops": [
+    {
+     "st": "呼蘭",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "巴彥",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "巴彥",
+   "origin": "呼蘭",
+   "col": "4"
+  },
+  {
+   "no": "103",
+   "stops": [
+    {
+     "st": "木蘭",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "通河",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "二道河",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "依蘭",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "依蘭",
+   "origin": "木蘭",
+   "col": "5"
+  },
+  {
+   "no": "107",
+   "stops": [
+    {
+     "st": "木蘭",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "通河",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    }
+   ],
+   "dest": "通河",
+   "origin": "木蘭",
+   "col": "6"
+  },
+  {
+   "no": "109",
+   "stops": [
+    {
+     "st": "通河",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "二道河",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    }
+   ],
+   "dest": "二道河",
+   "origin": "通河",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "この表は上下2段で、上段が哈爾濱發（本表）、下段が依蘭發（p112x）。段ごとに運賃欄がある。",
+  "番號の並びは印刷のまま（101・105・111・115・103・107・109）で、時刻順ではない。",
+  "各系統は區間運轉で、終着の太罫と「…」で始發・終着を示す。"
+ ],
+ "source": "IMG_1885",
+ "page": "112",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "濱依線",
+ "title": "哈爾濱・通河・依蘭間",
+ "dir": "哈爾濱→依蘭",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "哈爾濱 | 呼蘭 1.60 | 巴彥 6.00 | 木蘭 9.70 | 通河 13.60 | 二道河 16.95 | 依蘭 18.70"
+}

@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "通河",
+   "km": null
+  },
+  {
+   "name": "鳳山",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "11",
+   "stops": [
+    {
+     "st": "通河",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "鳳山",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "鳳山",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、左が通河發（本表）、右が鳳山發（p112af）。"
+ ],
+ "source": "IMG_1885",
+ "page": "112",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "通鳳線",
+ "title": "通河・鳳山間",
+ "dir": "通河→鳳山",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "通河 | 鳳山 3.60"
+}

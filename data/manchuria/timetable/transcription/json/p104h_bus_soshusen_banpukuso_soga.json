@@ -1,0 +1,82 @@
+{
+ "stations": [
+  {
+   "name": "萬福庄",
+   "km": null
+  },
+  {
+   "name": "桂雲",
+   "km": null
+  },
+  {
+   "name": "莊河",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "98",
+   "stops": [
+    {
+     "st": "桂雲",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    }
+   ],
+   "dest": "莊河",
+   "col": "1",
+   "origin": "桂雲"
+  },
+  {
+   "no": "96",
+   "stops": [
+    {
+     "st": "萬福庄",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "桂雲",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "莊河",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 莊河→萬福庄 direction",
+  "bus 98 is printed 桂雲 13.30 / 莊河著 14.00 — only 30 min for a leg that takes 2h30 in every other column; transcribed as printed"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "莊岫線",
+ "title": "莊河・萬福莊間",
+ "dir": "萬福庄→莊河",
+ "season": "昭和17.2.20改正",
+ "service": "每日運行",
+ "fares": "萬福庄 4.30 | 桂雲 2.65 | 莊河 0"
+}

@@ -1,0 +1,1547 @@
+{
+ "stations": [
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "北奉天",
+   "km": null
+  },
+  {
+   "name": "瀋陽",
+   "km": null
+  },
+  {
+   "name": "東陵",
+   "km": null
+  },
+  {
+   "name": "□姑",
+   "km": null
+  },
+  {
+   "name": "□婆",
+   "km": null
+  },
+  {
+   "name": "撫順城",
+   "km": null
+  },
+  {
+   "name": "前甸",
+   "km": null
+  },
+  {
+   "name": "章黨",
+   "km": null
+  },
+  {
+   "name": "營盤",
+   "km": null
+  },
+  {
+   "name": "元帥林",
+   "km": null
+  },
+  {
+   "name": "南雜木",
+   "km": null
+  },
+  {
+   "name": "蒼石",
+   "km": null
+  },
+  {
+   "name": "南口前",
+   "km": null
+  },
+  {
+   "name": "北三家",
+   "km": null
+  },
+  {
+   "name": "圈虎屯",
+   "km": null
+  },
+  {
+   "name": "淸原",
+   "km": null
+  },
+  {
+   "name": "英額門",
+   "km": null
+  },
+  {
+   "name": "草市",
+   "km": null
+  },
+  {
+   "name": "山城鎭",
+   "km": null
+  },
+  {
+   "name": "黑山頭",
+   "km": null
+  },
+  {
+   "name": "梅河口",
+   "km": null
+  },
+  {
+   "name": "連河",
+   "km": null
+  },
+  {
+   "name": "海龍",
+   "km": null
+  },
+  {
+   "name": "朝陽鎭",
+   "km": null
+  },
+  {
+   "name": "靠山屯",
+   "km": null
+  },
+  {
+   "name": "磐石",
+   "km": null
+  },
+  {
+   "name": "永寧",
+   "km": null
+  },
+  {
+   "name": "明城",
+   "km": null
+  },
+  {
+   "name": "煙筒山",
+   "km": null
+  },
+  {
+   "name": "取柴河",
+   "km": null
+  },
+  {
+   "name": "雙河鎭",
+   "km": null
+  },
+  {
+   "name": "西陽",
+   "km": null
+  },
+  {
+   "name": "口前",
+   "km": null
+  },
+  {
+   "name": "白山",
+   "km": null
+  },
+  {
+   "name": "黃旗屯",
+   "km": null
+  },
+  {
+   "name": "北山",
+   "km": null
+  },
+  {
+   "name": "吉林",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "512",
+   "stops": [
+    {
+     "st": "口前",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "白山",
+     "ev": "pass"
+    },
+    {
+     "st": "黃旗屯",
+     "ev": "dep",
+     "printed": "7.27",
+     "bold": false,
+     "t": "07:27"
+    },
+    {
+     "st": "北山",
+     "ev": "dep",
+     "printed": "7.34",
+     "bold": false,
+     "t": "07:34"
+    },
+    {
+     "st": "吉林",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": false,
+     "t": "07:45"
+    }
+   ],
+   "dest": "吉林",
+   "cls": "3",
+   "marks": "動",
+   "origin": "口前",
+   "col": "1"
+  },
+  {
+   "no": "590",
+   "stops": [
+    {
+     "st": "山城鎭",
+     "ev": "dep",
+     "printed": "6.49",
+     "bold": false,
+     "t": "06:49"
+    },
+    {
+     "st": "黑山頭",
+     "ev": "dep",
+     "printed": "7.06",
+     "bold": false,
+     "t": "07:06"
+    },
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "07:25"
+    }
+   ],
+   "dest": "梅河口",
+   "cls": "3",
+   "marks": "混",
+   "origin": "山城鎭",
+   "col": "2"
+  },
+  {
+   "no": "3510",
+   "stops": [
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "4.14",
+     "bold": false,
+     "t": "04:14"
+    },
+    {
+     "st": "連河",
+     "ev": "dep",
+     "printed": "4.26",
+     "bold": false,
+     "t": "04:26"
+    },
+    {
+     "st": "海龍",
+     "ev": "dep",
+     "printed": "4.54",
+     "bold": false,
+     "t": "04:54"
+    },
+    {
+     "st": "朝陽鎭",
+     "ev": "dep",
+     "printed": "5.24",
+     "bold": false,
+     "t": "05:24"
+    }
+   ],
+   "dest": "朝陽鎭",
+   "cls": "3",
+   "marks": "混",
+   "origin": "梅河口",
+   "col": "3"
+  },
+  {
+   "no": "3512",
+   "stops": [
+    {
+     "st": "山城鎭",
+     "ev": "dep",
+     "printed": "19.20",
+     "bold": false,
+     "t": "19:20"
+    },
+    {
+     "st": "黑山頭",
+     "ev": "dep",
+     "printed": "19.46",
+     "bold": false,
+     "t": "19:46"
+    },
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "20.00",
+     "bold": false,
+     "t": "20:00"
+    }
+   ],
+   "dest": "梅河口",
+   "cls": "3",
+   "marks": "混",
+   "origin": "山城鎭",
+   "col": "4"
+  },
+  {
+   "no": "584",
+   "stops": [
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "9.26",
+     "bold": false,
+     "t": "09:26"
+    },
+    {
+     "st": "連河",
+     "ev": "pass"
+    },
+    {
+     "st": "海龍",
+     "ev": "dep",
+     "printed": "10.24",
+     "bold": false,
+     "t": "10:24"
+    },
+    {
+     "st": "朝陽鎭",
+     "ev": "dep",
+     "printed": "10.57",
+     "bold": false,
+     "t": "10:57"
+    }
+   ],
+   "dest": "朝陽鎭",
+   "cls": "3",
+   "marks": "動",
+   "origin": "梅河口",
+   "col": "5"
+  },
+  {
+   "no": "502",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": false,
+     "t": "07:50"
+    },
+    {
+     "st": "北奉天",
+     "ev": "arr",
+     "printed": "7.58",
+     "bold": false,
+     "t": "07:58"
+    },
+    {
+     "st": "北奉天",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "瀋陽",
+     "ev": "arr",
+     "printed": "8.11",
+     "bold": false,
+     "t": "08:11"
+    },
+    {
+     "st": "瀋陽",
+     "ev": "dep",
+     "printed": "8.13",
+     "bold": false,
+     "t": "08:13"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "8.24",
+     "bold": false,
+     "t": "08:24"
+    },
+    {
+     "st": "□姑",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": false,
+     "t": "08:38"
+    },
+    {
+     "st": "□婆",
+     "ev": "dep",
+     "printed": "8.48",
+     "bold": false,
+     "t": "08:48"
+    },
+    {
+     "st": "撫順城",
+     "ev": "dep",
+     "printed": "9.03",
+     "bold": false,
+     "t": "09:03"
+    },
+    {
+     "st": "前甸",
+     "ev": "dep",
+     "printed": "9.14",
+     "bold": false,
+     "t": "09:14"
+    },
+    {
+     "st": "章黨",
+     "ev": "dep",
+     "printed": "9.24",
+     "bold": false,
+     "t": "09:24"
+    },
+    {
+     "st": "營盤",
+     "ev": "dep",
+     "printed": "9.51",
+     "bold": false,
+     "t": "09:51"
+    },
+    {
+     "st": "元帥林",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": false,
+     "t": "10:01"
+    },
+    {
+     "st": "南雜木",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": false,
+     "t": "10:17"
+    },
+    {
+     "st": "蒼石",
+     "ev": "dep",
+     "printed": "10.33",
+     "bold": false,
+     "t": "10:33"
+    },
+    {
+     "st": "南口前",
+     "ev": "dep",
+     "printed": "10.48",
+     "bold": false,
+     "t": "10:48"
+    },
+    {
+     "st": "北三家",
+     "ev": "dep",
+     "printed": "11.04",
+     "bold": false,
+     "t": "11:04"
+    },
+    {
+     "st": "圈虎屯",
+     "ev": "dep",
+     "printed": "11.17",
+     "bold": false,
+     "t": "11:17"
+    },
+    {
+     "st": "淸原",
+     "ev": "arr",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "淸原",
+     "ev": "dep",
+     "printed": "11.37",
+     "bold": false,
+     "t": "11:37"
+    },
+    {
+     "st": "英額門",
+     "ev": "dep",
+     "printed": "11.58",
+     "bold": false,
+     "t": "11:58"
+    },
+    {
+     "st": "草市",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "山城鎭",
+     "ev": "dep",
+     "printed": "12.52",
+     "bold": false,
+     "t": "12:52"
+    },
+    {
+     "st": "黑山頭",
+     "ev": "dep",
+     "printed": "13.08",
+     "bold": false,
+     "t": "13:08"
+    },
+    {
+     "st": "梅河口",
+     "ev": "arr",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "13.36",
+     "bold": false,
+     "t": "13:36"
+    },
+    {
+     "st": "連河",
+     "ev": "dep",
+     "printed": "13.46",
+     "bold": false,
+     "t": "13:46"
+    },
+    {
+     "st": "海龍",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "朝陽鎭",
+     "ev": "arr",
+     "printed": "14.19",
+     "bold": false,
+     "t": "14:19"
+    },
+    {
+     "st": "朝陽鎭",
+     "ev": "dep",
+     "printed": "14.22",
+     "bold": false,
+     "t": "14:22"
+    },
+    {
+     "st": "靠山屯",
+     "ev": "dep",
+     "printed": "14.42",
+     "bold": false,
+     "t": "14:42"
+    },
+    {
+     "st": "磐石",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    },
+    {
+     "st": "永寧",
+     "ev": "dep",
+     "printed": "15.27",
+     "bold": false,
+     "t": "15:27"
+    },
+    {
+     "st": "明城",
+     "ev": "dep",
+     "printed": "15.49",
+     "bold": false,
+     "t": "15:49"
+    },
+    {
+     "st": "煙筒山",
+     "ev": "dep",
+     "printed": "16.08",
+     "bold": false,
+     "t": "16:08"
+    },
+    {
+     "st": "取柴河",
+     "ev": "dep",
+     "printed": "16.34",
+     "bold": false,
+     "t": "16:34"
+    },
+    {
+     "st": "雙河鎭",
+     "ev": "dep",
+     "printed": "16.51",
+     "bold": false,
+     "t": "16:51"
+    },
+    {
+     "st": "西陽",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "口前",
+     "ev": "dep",
+     "printed": "17.44",
+     "bold": false,
+     "t": "17:44"
+    },
+    {
+     "st": "白山",
+     "ev": "pass"
+    },
+    {
+     "st": "黃旗屯",
+     "ev": "dep",
+     "printed": "18.05",
+     "bold": false,
+     "t": "18:05"
+    },
+    {
+     "st": "北山",
+     "ev": "dep",
+     "printed": "18.11",
+     "bold": false,
+     "t": "18:11"
+    },
+    {
+     "st": "吉林",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    }
+   ],
+   "dest": "吉林",
+   "cls": "2.3",
+   "marks": "食",
+   "col": "6"
+  },
+  {
+   "no": "530",
+   "stops": [
+    {
+     "st": "黃旗屯",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    },
+    {
+     "st": "北山",
+     "ev": "dep",
+     "printed": "18.57",
+     "bold": false,
+     "t": "18:57"
+    },
+    {
+     "st": "吉林",
+     "ev": "dep",
+     "printed": "19.08",
+     "bold": false,
+     "t": "19:08"
+    }
+   ],
+   "dest": "吉林",
+   "cls": "3",
+   "marks": "動",
+   "origin": "黃旗屯",
+   "col": "7"
+  },
+  {
+   "no": "524",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "15.35",
+     "bold": false,
+     "t": "15:35"
+    },
+    {
+     "st": "北奉天",
+     "ev": "arr",
+     "printed": "15.43",
+     "bold": false,
+     "t": "15:43"
+    },
+    {
+     "st": "北奉天",
+     "ev": "dep",
+     "printed": "15.44",
+     "bold": false,
+     "t": "15:44"
+    },
+    {
+     "st": "瀋陽",
+     "ev": "dep",
+     "printed": "15.56",
+     "bold": false,
+     "t": "15:56"
+    }
+   ],
+   "dest": "瀋陽",
+   "cls": "3",
+   "marks": "動",
+   "col": "8"
+  },
+  {
+   "no": "586",
+   "stops": [
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "17.25",
+     "bold": false,
+     "t": "17:25"
+    },
+    {
+     "st": "連河",
+     "ev": "dep",
+     "printed": "17.54",
+     "bold": false,
+     "t": "17:54"
+    },
+    {
+     "st": "海龍",
+     "ev": "dep",
+     "printed": "18.17",
+     "bold": false,
+     "t": "18:17"
+    },
+    {
+     "st": "朝陽鎭",
+     "ev": "dep",
+     "printed": "18.51",
+     "bold": false,
+     "t": "18:51"
+    }
+   ],
+   "dest": "朝陽鎭",
+   "cls": "3",
+   "marks": "混",
+   "origin": "梅河口",
+   "col": "9"
+  },
+  {
+   "no": "506",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "16.12",
+     "bold": false,
+     "t": "16:12"
+    },
+    {
+     "st": "北奉天",
+     "ev": "arr",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "北奉天",
+     "ev": "dep",
+     "printed": "16.24",
+     "bold": false,
+     "t": "16:24"
+    },
+    {
+     "st": "瀋陽",
+     "ev": "arr",
+     "printed": "16.34",
+     "bold": false,
+     "t": "16:34"
+    },
+    {
+     "st": "瀋陽",
+     "ev": "dep",
+     "printed": "16.37",
+     "bold": false,
+     "t": "16:37"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "16.48",
+     "bold": false,
+     "t": "16:48"
+    },
+    {
+     "st": "□姑",
+     "ev": "dep",
+     "printed": "17.02",
+     "bold": false,
+     "t": "17:02"
+    },
+    {
+     "st": "□婆",
+     "ev": "dep",
+     "printed": "17.12",
+     "bold": false,
+     "t": "17:12"
+    },
+    {
+     "st": "撫順城",
+     "ev": "dep",
+     "printed": "17.32",
+     "bold": false,
+     "t": "17:32"
+    },
+    {
+     "st": "前甸",
+     "ev": "dep",
+     "printed": "17.43",
+     "bold": false,
+     "t": "17:43"
+    },
+    {
+     "st": "章黨",
+     "ev": "dep",
+     "printed": "17.53",
+     "bold": false,
+     "t": "17:53"
+    },
+    {
+     "st": "營盤",
+     "ev": "dep",
+     "printed": "18.19",
+     "bold": false,
+     "t": "18:19"
+    },
+    {
+     "st": "元帥林",
+     "ev": "dep",
+     "printed": "18.29",
+     "bold": false,
+     "t": "18:29"
+    },
+    {
+     "st": "南雜木",
+     "ev": "dep",
+     "printed": "18.45",
+     "bold": false,
+     "t": "18:45"
+    },
+    {
+     "st": "蒼石",
+     "ev": "dep",
+     "printed": "19.01",
+     "bold": false,
+     "t": "19:01"
+    },
+    {
+     "st": "南口前",
+     "ev": "dep",
+     "printed": "19.16",
+     "bold": false,
+     "t": "19:16"
+    },
+    {
+     "st": "北三家",
+     "ev": "dep",
+     "printed": "19.32",
+     "bold": false,
+     "t": "19:32"
+    },
+    {
+     "st": "圈虎屯",
+     "ev": "dep",
+     "printed": "19.45",
+     "bold": false,
+     "t": "19:45"
+    },
+    {
+     "st": "淸原",
+     "ev": "arr",
+     "printed": "19.58",
+     "bold": false,
+     "t": "19:58"
+    },
+    {
+     "st": "淸原",
+     "ev": "dep",
+     "printed": "20.06",
+     "bold": false,
+     "t": "20:06"
+    },
+    {
+     "st": "英額門",
+     "ev": "dep",
+     "printed": "20.27",
+     "bold": false,
+     "t": "20:27"
+    },
+    {
+     "st": "草市",
+     "ev": "dep",
+     "printed": "20.59",
+     "bold": false,
+     "t": "20:59"
+    },
+    {
+     "st": "山城鎭",
+     "ev": "dep",
+     "printed": "21.21",
+     "bold": false,
+     "t": "21:21"
+    },
+    {
+     "st": "黑山頭",
+     "ev": "dep",
+     "printed": "21.37",
+     "bold": false,
+     "t": "21:37"
+    },
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "21.54",
+     "bold": false,
+     "t": "21:54"
+    }
+   ],
+   "dest": "梅河口",
+   "cls": "2.3",
+   "col": "10"
+  },
+  {
+   "no": "1845",
+   "stops": [
+    {
+     "st": "梅河口",
+     "ev": "arr",
+     "printed": "22.30",
+     "bold": false,
+     "t": "22:30"
+    },
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "22.56",
+     "bold": false,
+     "t": "22:56"
+    },
+    {
+     "st": "連河",
+     "ev": "dep",
+     "printed": "23.09",
+     "bold": false,
+     "t": "23:09"
+    },
+    {
+     "st": "海龍",
+     "ev": "dep",
+     "printed": "23.29",
+     "bold": false,
+     "t": "23:29"
+    },
+    {
+     "st": "朝陽鎭",
+     "ev": "arr",
+     "printed": "23.58",
+     "bold": false,
+     "t": "23:58"
+    },
+    {
+     "st": "朝陽鎭",
+     "ev": "dep",
+     "printed": "0.01",
+     "bold": false,
+     "t": "24:01"
+    },
+    {
+     "st": "靠山屯",
+     "ev": "dep",
+     "printed": "0.34",
+     "bold": false,
+     "t": "24:34"
+    },
+    {
+     "st": "磐石",
+     "ev": "dep",
+     "printed": "1.12",
+     "bold": false,
+     "t": "25:12"
+    },
+    {
+     "st": "永寧",
+     "ev": "dep",
+     "printed": "1.28",
+     "bold": false,
+     "t": "25:28"
+    },
+    {
+     "st": "明城",
+     "ev": "dep",
+     "printed": "2.21",
+     "bold": false,
+     "t": "26:21"
+    },
+    {
+     "st": "煙筒山",
+     "ev": "dep",
+     "printed": "3.00",
+     "bold": false,
+     "t": "27:00"
+    },
+    {
+     "st": "取柴河",
+     "ev": "dep",
+     "printed": "3.46",
+     "bold": false,
+     "t": "27:46"
+    },
+    {
+     "st": "雙河鎭",
+     "ev": "dep",
+     "printed": "4.13",
+     "bold": false,
+     "t": "28:13"
+    },
+    {
+     "st": "西陽",
+     "ev": "dep",
+     "printed": "5.10",
+     "bold": false,
+     "t": "29:10"
+    },
+    {
+     "st": "口前",
+     "ev": "dep",
+     "printed": "5.42",
+     "bold": false,
+     "t": "29:42"
+    },
+    {
+     "st": "白山",
+     "ev": "pass"
+    },
+    {
+     "st": "黃旗屯",
+     "ev": "dep",
+     "printed": "6.17",
+     "bold": false,
+     "t": "30:17"
+    },
+    {
+     "st": "北山",
+     "ev": "dep",
+     "printed": "6.25",
+     "bold": false,
+     "t": "30:25"
+    },
+    {
+     "st": "吉林",
+     "ev": "dep",
+     "printed": "6.40",
+     "bold": false,
+     "t": "30:40"
+    }
+   ],
+   "dest": "吉林",
+   "cls": "2.3",
+   "marks": "混 寢2.3 ※",
+   "origin": "滿浦 11.35發",
+   "col": "11"
+  },
+  {
+   "no": "522",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "17.55",
+     "bold": false,
+     "t": "17:55"
+    },
+    {
+     "st": "北奉天",
+     "ev": "arr",
+     "printed": "18.03",
+     "bold": false,
+     "t": "18:03"
+    },
+    {
+     "st": "北奉天",
+     "ev": "dep",
+     "printed": "18.05",
+     "bold": false,
+     "t": "18:05"
+    },
+    {
+     "st": "瀋陽",
+     "ev": "arr",
+     "printed": "18.17",
+     "bold": false,
+     "t": "18:17"
+    },
+    {
+     "st": "瀋陽",
+     "ev": "dep",
+     "printed": "18.24",
+     "bold": false,
+     "t": "18:24"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "t": "18:35"
+    },
+    {
+     "st": "□姑",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    },
+    {
+     "st": "□婆",
+     "ev": "dep",
+     "printed": "19.01",
+     "bold": false,
+     "t": "19:01"
+    },
+    {
+     "st": "撫順城",
+     "ev": "dep",
+     "printed": "19.20",
+     "bold": false,
+     "t": "19:20"
+    },
+    {
+     "st": "前甸",
+     "ev": "dep",
+     "printed": "19.31",
+     "bold": false,
+     "t": "19:31"
+    },
+    {
+     "st": "章黨",
+     "ev": "dep",
+     "printed": "19.42",
+     "bold": false,
+     "t": "19:42"
+    },
+    {
+     "st": "營盤",
+     "ev": "dep",
+     "printed": "20.11",
+     "bold": false,
+     "t": "20:11"
+    },
+    {
+     "st": "元帥林",
+     "ev": "dep",
+     "printed": "20.21",
+     "bold": false,
+     "t": "20:21"
+    },
+    {
+     "st": "南雜木",
+     "ev": "dep",
+     "printed": "20.36",
+     "bold": false,
+     "t": "20:36"
+    },
+    {
+     "st": "蒼石",
+     "ev": "dep",
+     "printed": "21.00",
+     "bold": false,
+     "t": "21:00"
+    },
+    {
+     "st": "南口前",
+     "ev": "dep",
+     "printed": "21.16",
+     "bold": false,
+     "t": "21:16"
+    },
+    {
+     "st": "北三家",
+     "ev": "dep",
+     "printed": "21.32",
+     "bold": false,
+     "t": "21:32"
+    },
+    {
+     "st": "圈虎屯",
+     "ev": "dep",
+     "printed": "21.47",
+     "bold": false,
+     "t": "21:47"
+    },
+    {
+     "st": "淸原",
+     "ev": "dep",
+     "printed": "22.01",
+     "bold": false,
+     "t": "22:01"
+    }
+   ],
+   "dest": "淸原",
+   "cls": "3",
+   "marks": "動",
+   "col": "12"
+  },
+  {
+   "no": "542",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "20.30",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の一の位が半分しか出てゐない。北奉天著20.38まで8分となる0と讀んだ",
+     "t": "20:30"
+    },
+    {
+     "st": "北奉天",
+     "ev": "arr",
+     "printed": "20.38",
+     "bold": false,
+     "t": "20:38"
+    },
+    {
+     "st": "北奉天",
+     "ev": "dep",
+     "printed": "20.40",
+     "bold": false,
+     "t": "20:40"
+    },
+    {
+     "st": "瀋陽",
+     "ev": "arr",
+     "printed": "20.53",
+     "bold": false,
+     "t": "20:53"
+    },
+    {
+     "st": "瀋陽",
+     "ev": "dep",
+     "printed": "21.12",
+     "bold": false,
+     "t": "21:12"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "21.26",
+     "bold": false,
+     "t": "21:26"
+    },
+    {
+     "st": "□姑",
+     "ev": "dep",
+     "printed": "21.44",
+     "bold": false,
+     "t": "21:44"
+    },
+    {
+     "st": "□婆",
+     "ev": "dep",
+     "printed": "21.57",
+     "bold": false,
+     "t": "21:57"
+    },
+    {
+     "st": "撫順城",
+     "ev": "dep",
+     "printed": "22.26",
+     "bold": false,
+     "t": "22:26"
+    },
+    {
+     "st": "前甸",
+     "ev": "dep",
+     "printed": "22.30",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の一の位が半分しか出てゐない。撫順城22.26から4分となり不審",
+     "t": "22:30"
+    },
+    {
+     "st": "章黨",
+     "ev": "dep",
+     "printed": "22.53",
+     "bold": false,
+     "t": "22:53"
+    },
+    {
+     "st": "營盤",
+     "ev": "dep",
+     "printed": "23.34",
+     "bold": false,
+     "t": "23:34"
+    },
+    {
+     "st": "元帥林",
+     "ev": "pass"
+    },
+    {
+     "st": "南雜木",
+     "ev": "dep",
+     "printed": "0.07",
+     "bold": false,
+     "t": "24:07"
+    },
+    {
+     "st": "蒼石",
+     "ev": "dep",
+     "printed": "0.30",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の一の位が半分しか出てゐない",
+     "t": "24:30"
+    },
+    {
+     "st": "南口前",
+     "ev": "dep",
+     "printed": "0.50",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の一の位が半分しか出てゐない",
+     "t": "24:50"
+    },
+    {
+     "st": "北三家",
+     "ev": "dep",
+     "printed": "1.12",
+     "bold": false,
+     "t": "25:12"
+    },
+    {
+     "st": "圈虎屯",
+     "ev": "dep",
+     "printed": "1.30",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の一の位が半分しか出てゐない",
+     "t": "25:30"
+    },
+    {
+     "st": "淸原",
+     "ev": "arr",
+     "printed": "1.48",
+     "bold": false,
+     "t": "25:48"
+    },
+    {
+     "st": "淸原",
+     "ev": "dep",
+     "printed": "2.05",
+     "bold": false,
+     "t": "26:05"
+    },
+    {
+     "st": "英額門",
+     "ev": "dep",
+     "printed": "2.38",
+     "bold": false,
+     "t": "26:38"
+    },
+    {
+     "st": "草市",
+     "ev": "dep",
+     "printed": "3.29",
+     "bold": false,
+     "t": "27:29"
+    },
+    {
+     "st": "山城鎭",
+     "ev": "dep",
+     "printed": "4.09",
+     "bold": false,
+     "t": "28:09"
+    },
+    {
+     "st": "黑山頭",
+     "ev": "dep",
+     "printed": "4.37",
+     "bold": false,
+     "t": "28:37"
+    },
+    {
+     "st": "梅河口",
+     "ev": "arr",
+     "printed": "5.00",
+     "bold": false,
+     "t": "29:00"
+    },
+    {
+     "st": "梅河口",
+     "ev": "dep",
+     "printed": "5.23",
+     "bold": false,
+     "t": "29:23"
+    },
+    {
+     "st": "連河",
+     "ev": "dep",
+     "printed": "5.33",
+     "bold": false,
+     "t": "29:33"
+    },
+    {
+     "st": "海龍",
+     "ev": "dep",
+     "printed": "5.48",
+     "bold": false,
+     "t": "29:48"
+    },
+    {
+     "st": "朝陽鎭",
+     "ev": "arr",
+     "printed": "6.03",
+     "bold": false,
+     "t": "30:03"
+    },
+    {
+     "st": "朝陽鎭",
+     "ev": "dep",
+     "printed": "6.11",
+     "bold": false,
+     "t": "30:11"
+    },
+    {
+     "st": "靠山屯",
+     "ev": "dep",
+     "printed": "6.34",
+     "bold": false,
+     "t": "30:34"
+    },
+    {
+     "st": "磐石",
+     "ev": "dep",
+     "printed": "7.03",
+     "bold": false,
+     "t": "31:03"
+    },
+    {
+     "st": "永寧",
+     "ev": "dep",
+     "printed": "7.22",
+     "bold": false,
+     "t": "31:22"
+    },
+    {
+     "st": "明城",
+     "ev": "dep",
+     "printed": "7.47",
+     "bold": false,
+     "t": "31:47"
+    },
+    {
+     "st": "煙筒山",
+     "ev": "dep",
+     "printed": "8.06",
+     "bold": false,
+     "t": "32:06"
+    },
+    {
+     "st": "取柴河",
+     "ev": "dep",
+     "printed": "8.37",
+     "bold": false,
+     "t": "32:37"
+    },
+    {
+     "st": "雙河鎭",
+     "ev": "dep",
+     "printed": "8.56",
+     "bold": false,
+     "t": "32:56"
+    },
+    {
+     "st": "西陽",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "33:40"
+    },
+    {
+     "st": "口前",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": false,
+     "t": "34:01"
+    },
+    {
+     "st": "白山",
+     "ev": "pass"
+    },
+    {
+     "st": "黃旗屯",
+     "ev": "dep",
+     "printed": "10.24",
+     "bold": false,
+     "t": "34:24"
+    },
+    {
+     "st": "北山",
+     "ev": "dep",
+     "printed": "10.32",
+     "bold": false,
+     "uncertain": true,
+     "note": "分の一の位が薄く2か9か決め難い",
+     "t": "34:32"
+    },
+    {
+     "st": "吉林",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "34:40"
+    }
+   ],
+   "dest": "吉林",
+   "cls": "2.3",
+   "marks": "混 寢2.3",
+   "col": "13"
+  }
+ ],
+ "notes": [
+  "頁27の上段。改訂日附の印刷は無い（反對方向の頁26は「昭和17.2.6改訂」）。反對方向（吉林・奉天間）は頁26の p26a で、驛名欄も列車欄も別立て（同一表の續きではない）。",
+  "左端に「自奉天 運賃 2等・3等」欄があるが轉記せず。粁程（キロ程）欄はこの表には無い。驛名の左に⊕・〒・✕・◎等の設備記號が付くが轉記せず。",
+  "列車欄は13欄。左から 512・590・3510・3512・584・502・530・524・586・506・1845・522・542。右端に空欄が2欄ある。",
+  "頁頭に車窓展望圖の帶（頁26から續く）。山城鎭・梅河口・海龍・朝陽鎭・口前・吉林などの地名を配する。右端の縦書き見出しは「滿洲・奉山線（奉天―吉林間）・壺蘆島線」と印刷されてゐる。「奉山線」は誤植と思はれる（頁26の同じ見出しは「奉吉線」、本表の題下も「國線・奉吉線」）。原表のまま記す。",
+  "東陵と撫順城の間の2驛は、寫眞の解像度では第1字が判讀できない。第2字はそれぞれ「姑」「婆」と讀めるので、本ファイルでは「□姑」「□婆」と記した（頁26と同じ2驛）。",
+  "第16驛「圈虎屯」の第1字は囗構への潰れた活字で、圈／圓／國の何れとも決め難い。「圈」と讀んで記した。",
+  "「v」は原表のレ（通過）、「-」は原表の「…」（列車が走らない區間）。",
+  "列車502の等級枠の上に食堂車の記號（ナイフとフォーク）がある。列車542は右の空欄に、列車1845は自らの空欄に「2 3」の反轉枠と寢台の繪記號が添へられてをり、2等3等寢台車を示す（marks 寢2.3 と記した）。",
+  "列車1845は列車番號の上に「※」が印刷されてゐる。原表に縦書きで「滿浦發 11.35」とあり、滿浦からの直通で梅河口22.30著。",
+  "列車584（動車3等）は梅河口9.26發→朝陽鎭10.57著で、同區間を走る混合列車3510（4.14→5.24）よりずつと遲い。連河はレ（通過）。判讀は確かだが不審なので記して置く。",
+  "列車542の分の一の位が半分しか出てゐない桝が5つある（奉天・前甸・蒼石・南口前・圈虎屯）。前後の所要時分から0と讀むのが自然なので0と記し「?」を付した。ただし前甸は撫順城22.26からわづか4分となり合はない。"
+ ],
+ "source": "IMG_1842",
+ "page": "27",
+ "title": "奉天・吉林間（國線・奉吉線）",
+ "line": "國線 奉吉線",
+ "dir": "奉天→吉林"
+}

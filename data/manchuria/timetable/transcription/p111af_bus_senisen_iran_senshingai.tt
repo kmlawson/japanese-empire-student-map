@@ -1,0 +1,17 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 千依線
+title: 千振街・依蘭間
+dir: 依蘭→千振街
+season: 昭和16.12.1改正
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（千振街起點）。
+stations: 依蘭 | 太平嶺 | 千振街
+fares: 依蘭 6.00 | 太平嶺 2.50 | 千振街
+
+train: 662 | dest 千振街 | col 1
+依蘭 9.00
+太平嶺 12.30
+千振街 14.30

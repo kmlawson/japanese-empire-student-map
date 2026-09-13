@@ -1,0 +1,959 @@
+{
+ "stations": [
+  {
+   "name": "哈爾濱",
+   "km": null
+  },
+  {
+   "name": "濱江",
+   "km": null
+  },
+  {
+   "name": "三棵樹",
+   "km": null
+  },
+  {
+   "name": "新松浦",
+   "km": null
+  },
+  {
+   "name": "徐家",
+   "km": null
+  },
+  {
+   "name": "呼蘭",
+   "km": null
+  },
+  {
+   "name": "馬家",
+   "km": null
+  },
+  {
+   "name": "沈家",
+   "km": null
+  },
+  {
+   "name": "康金井",
+   "km": null
+  },
+  {
+   "name": "石人城",
+   "km": null
+  },
+  {
+   "name": "白奎堡",
+   "km": null
+  },
+  {
+   "name": "興隆鎭",
+   "km": null
+  },
+  {
+   "name": "萬發屯",
+   "km": null
+  },
+  {
+   "name": "泥河",
+   "km": null
+  },
+  {
+   "name": "綏化",
+   "km": null
+  },
+  {
+   "name": "秦家",
+   "km": null
+  },
+  {
+   "name": "四方臺",
+   "km": null
+  },
+  {
+   "name": "張維屯",
+   "km": null
+  },
+  {
+   "name": "綏稜",
+   "km": null
+  },
+  {
+   "name": "東邊井",
+   "km": null
+  },
+  {
+   "name": "海倫",
+   "km": null
+  },
+  {
+   "name": "趙家",
+   "km": null
+  },
+  {
+   "name": "海北",
+   "km": null
+  },
+  {
+   "name": "通興",
+   "km": null
+  },
+  {
+   "name": "楊家",
+   "km": null
+  },
+  {
+   "name": "李家",
+   "km": null
+  },
+  {
+   "name": "通北",
+   "km": null
+  },
+  {
+   "name": "白家",
+   "km": null
+  },
+  {
+   "name": "北安",
+   "km": null
+  },
+  {
+   "name": "孫吳",
+   "km": null
+  },
+  {
+   "name": "黑河",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "305",
+   "stops": [
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "14.15",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "14:15"
+    },
+    {
+     "st": "濱江",
+     "ev": "arr",
+     "printed": "14.23",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "14:23"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "14.28",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "14:28"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "arr",
+     "printed": "14.38",
+     "bold": false,
+     "note": "著は抄錄行、發は本表",
+     "t": "14:38"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "14.58",
+     "bold": false,
+     "note": "著は抄錄行、發は本表",
+     "t": "14:58"
+    },
+    {
+     "st": "新松浦",
+     "ev": "dep",
+     "printed": "15.09",
+     "bold": false,
+     "t": "15:09"
+    },
+    {
+     "st": "徐家",
+     "ev": "dep",
+     "printed": "15.21",
+     "bold": false,
+     "t": "15:21"
+    },
+    {
+     "st": "呼蘭",
+     "ev": "arr",
+     "printed": "15.34",
+     "bold": false,
+     "t": "15:34"
+    },
+    {
+     "st": "呼蘭",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "馬家",
+     "ev": "dep",
+     "printed": "16.01",
+     "bold": false,
+     "t": "16:01"
+    },
+    {
+     "st": "沈家",
+     "ev": "dep",
+     "printed": "16.12",
+     "bold": false,
+     "t": "16:12"
+    },
+    {
+     "st": "康金井",
+     "ev": "dep",
+     "printed": "16.29",
+     "bold": false,
+     "t": "16:29"
+    },
+    {
+     "st": "石人城",
+     "ev": "dep",
+     "printed": "16.49",
+     "bold": false,
+     "t": "16:49"
+    },
+    {
+     "st": "白奎堡",
+     "ev": "dep",
+     "printed": "17.04",
+     "bold": false,
+     "t": "17:04"
+    },
+    {
+     "st": "興隆鎭",
+     "ev": "dep",
+     "printed": "17.21",
+     "bold": false,
+     "t": "17:21"
+    },
+    {
+     "st": "萬發屯",
+     "ev": "dep",
+     "printed": "17.36",
+     "bold": false,
+     "t": "17:36"
+    },
+    {
+     "st": "泥河",
+     "ev": "dep",
+     "printed": "17.45",
+     "bold": false,
+     "t": "17:45"
+    },
+    {
+     "st": "綏化",
+     "ev": "arr",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "綏化",
+     "ev": "dep",
+     "printed": "18.14",
+     "bold": false,
+     "t": "18:14"
+    },
+    {
+     "st": "秦家",
+     "ev": "dep",
+     "printed": "18.40",
+     "bold": false,
+     "t": "18:40"
+    },
+    {
+     "st": "四方臺",
+     "ev": "dep",
+     "printed": "18.58",
+     "bold": false,
+     "t": "18:58"
+    },
+    {
+     "st": "張維屯",
+     "ev": "dep",
+     "printed": "19.17",
+     "bold": false,
+     "t": "19:17"
+    },
+    {
+     "st": "綏稜",
+     "ev": "dep",
+     "printed": "19.43",
+     "bold": false,
+     "t": "19:43"
+    },
+    {
+     "st": "東邊井",
+     "ev": "dep",
+     "printed": "20.11",
+     "bold": false,
+     "t": "20:11"
+    },
+    {
+     "st": "海倫",
+     "ev": "arr",
+     "printed": "20.26",
+     "bold": false,
+     "t": "20:26"
+    },
+    {
+     "st": "海倫",
+     "ev": "dep",
+     "printed": "20.40",
+     "bold": false,
+     "t": "20:40"
+    },
+    {
+     "st": "趙家",
+     "ev": "dep",
+     "printed": "21.05",
+     "bold": false,
+     "t": "21:05"
+    },
+    {
+     "st": "海北",
+     "ev": "dep",
+     "printed": "21.36",
+     "bold": false,
+     "t": "21:36"
+    },
+    {
+     "st": "通興",
+     "ev": "dep",
+     "printed": "22.03",
+     "bold": false,
+     "t": "22:03"
+    },
+    {
+     "st": "楊家",
+     "ev": "dep",
+     "printed": "22.16",
+     "bold": false,
+     "t": "22:16"
+    },
+    {
+     "st": "李家",
+     "ev": "dep",
+     "printed": "22.42",
+     "bold": false,
+     "t": "22:42"
+    },
+    {
+     "st": "通北",
+     "ev": "dep",
+     "printed": "23.10",
+     "bold": false,
+     "t": "23:10"
+    },
+    {
+     "st": "白家",
+     "ev": "dep",
+     "printed": "23.31",
+     "bold": false,
+     "t": "23:31"
+    },
+    {
+     "st": "北安",
+     "ev": "dep",
+     "printed": "23.47",
+     "bold": false,
+     "t": "23:47"
+    }
+   ],
+   "dest": "北安",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "325",
+   "stops": [
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "18:30"
+    },
+    {
+     "st": "濱江",
+     "ev": "arr",
+     "printed": "18.36",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "18:36"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "18.40",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "18:40"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "arr",
+     "printed": "18.50",
+     "bold": false,
+     "note": "著は抄錄行、發は本表",
+     "t": "18:50"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "note": "著は抄錄行、發は本表",
+     "t": "19:00"
+    },
+    {
+     "st": "新松浦",
+     "ev": "dep",
+     "printed": "19.24",
+     "bold": false,
+     "t": "19:24"
+    },
+    {
+     "st": "徐家",
+     "ev": "dep",
+     "printed": "19.36",
+     "bold": false,
+     "t": "19:36"
+    },
+    {
+     "st": "呼蘭",
+     "ev": "arr",
+     "printed": "19.49",
+     "bold": false,
+     "t": "19:49"
+    },
+    {
+     "st": "呼蘭",
+     "ev": "dep",
+     "printed": "19.51",
+     "bold": false,
+     "t": "19:51"
+    },
+    {
+     "st": "馬家",
+     "ev": "dep",
+     "printed": "20.02",
+     "bold": false,
+     "t": "20:02"
+    },
+    {
+     "st": "沈家",
+     "ev": "dep",
+     "printed": "20.24",
+     "bold": false,
+     "t": "20:24"
+    },
+    {
+     "st": "康金井",
+     "ev": "dep",
+     "printed": "20.40",
+     "bold": false,
+     "t": "20:40"
+    },
+    {
+     "st": "石人城",
+     "ev": "dep",
+     "printed": "20.57",
+     "bold": false,
+     "t": "20:57"
+    },
+    {
+     "st": "白奎堡",
+     "ev": "dep",
+     "printed": "21.12",
+     "bold": false,
+     "t": "21:12"
+    },
+    {
+     "st": "興隆鎭",
+     "ev": "dep",
+     "printed": "21.29",
+     "bold": false,
+     "t": "21:29"
+    },
+    {
+     "st": "萬發屯",
+     "ev": "dep",
+     "printed": "21.44",
+     "bold": false,
+     "t": "21:44"
+    },
+    {
+     "st": "泥河",
+     "ev": "dep",
+     "printed": "21.53",
+     "bold": false,
+     "t": "21:53"
+    },
+    {
+     "st": "綏化",
+     "ev": "dep",
+     "printed": "22.08",
+     "bold": false,
+     "t": "22:08"
+    }
+   ],
+   "dest": "綏化",
+   "cls": "3",
+   "marks": "動",
+   "col": "4"
+  },
+  {
+   "no": "341",
+   "stops": [
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "23.50",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "23:50"
+    },
+    {
+     "st": "濱江",
+     "ev": "arr",
+     "printed": "0.02",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "24:02"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "0.04",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "24:04"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "arr",
+     "printed": "0.18",
+     "bold": false,
+     "note": "著は抄錄行、發は本表",
+     "t": "24:18"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "0.40",
+     "bold": false,
+     "note": "著は抄錄行、發は本表",
+     "t": "24:40"
+    },
+    {
+     "st": "新松浦",
+     "ev": "dep",
+     "printed": "0.58",
+     "bold": false,
+     "t": "24:58"
+    },
+    {
+     "st": "徐家",
+     "ev": "dep",
+     "printed": "1.17",
+     "bold": false,
+     "t": "25:17"
+    },
+    {
+     "st": "呼蘭",
+     "ev": "arr",
+     "printed": "1.38",
+     "bold": false,
+     "t": "25:38"
+    },
+    {
+     "st": "呼蘭",
+     "ev": "dep",
+     "printed": "1.53",
+     "bold": false,
+     "t": "25:53"
+    },
+    {
+     "st": "馬家",
+     "ev": "dep",
+     "printed": "2.10",
+     "bold": false,
+     "t": "26:10"
+    },
+    {
+     "st": "沈家",
+     "ev": "dep",
+     "printed": "2.27",
+     "bold": false,
+     "t": "26:27"
+    },
+    {
+     "st": "康金井",
+     "ev": "dep",
+     "printed": "2.56",
+     "bold": false,
+     "t": "26:56"
+    },
+    {
+     "st": "石人城",
+     "ev": "dep",
+     "printed": "3.27",
+     "bold": false,
+     "t": "27:27"
+    },
+    {
+     "st": "白奎堡",
+     "ev": "dep",
+     "printed": "3.52",
+     "bold": false,
+     "t": "27:52"
+    },
+    {
+     "st": "興隆鎭",
+     "ev": "dep",
+     "printed": "4.23",
+     "bold": false,
+     "t": "28:23"
+    },
+    {
+     "st": "萬發屯",
+     "ev": "dep",
+     "printed": "4.57",
+     "bold": false,
+     "t": "28:57"
+    },
+    {
+     "st": "泥河",
+     "ev": "dep",
+     "printed": "5.11",
+     "bold": false,
+     "t": "29:11"
+    },
+    {
+     "st": "綏化",
+     "ev": "arr",
+     "printed": "5.38",
+     "bold": false,
+     "t": "29:38"
+    },
+    {
+     "st": "綏化",
+     "ev": "dep",
+     "printed": "6.10",
+     "bold": false,
+     "t": "30:10"
+    }
+   ],
+   "dest": "佳木斯",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "col": "5",
+   "note": "綏化で濱北線を離れる。原表の秦家以下の桝に縦書きで「佳木斯著 22.50」"
+  },
+  {
+   "no": "301",
+   "stops": [
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "23.00",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "23:00"
+    },
+    {
+     "st": "濱江",
+     "ev": "arr",
+     "printed": "23.08",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "23:08"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "23.13",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "23:13"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "arr",
+     "printed": "23.27",
+     "bold": false,
+     "note": "著は抄錄行、發は本表",
+     "t": "23:27"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "23.37",
+     "bold": false,
+     "note": "著は抄錄行、發は本表",
+     "t": "23:37"
+    },
+    {
+     "st": "新松浦",
+     "ev": "dep",
+     "printed": "23.50",
+     "bold": false,
+     "t": "23:50"
+    },
+    {
+     "st": "徐家",
+     "ev": "dep",
+     "printed": "0.04",
+     "bold": false,
+     "t": "24:04"
+    },
+    {
+     "st": "呼蘭",
+     "ev": "arr",
+     "printed": "0.19",
+     "bold": false,
+     "t": "24:19"
+    },
+    {
+     "st": "呼蘭",
+     "ev": "dep",
+     "printed": "0.34",
+     "bold": false,
+     "t": "24:34"
+    },
+    {
+     "st": "馬家",
+     "ev": "dep",
+     "printed": "0.47",
+     "bold": false,
+     "t": "24:47"
+    },
+    {
+     "st": "沈家",
+     "ev": "dep",
+     "printed": "1.00",
+     "bold": false,
+     "t": "25:00"
+    },
+    {
+     "st": "康金井",
+     "ev": "dep",
+     "printed": "1.18",
+     "bold": false,
+     "t": "25:18"
+    },
+    {
+     "st": "石人城",
+     "ev": "dep",
+     "printed": "1.40",
+     "bold": false,
+     "t": "25:40"
+    },
+    {
+     "st": "白奎堡",
+     "ev": "dep",
+     "printed": "1.58",
+     "bold": false,
+     "t": "25:58"
+    },
+    {
+     "st": "興隆鎭",
+     "ev": "dep",
+     "printed": "2.18",
+     "bold": false,
+     "t": "26:18"
+    },
+    {
+     "st": "萬發屯",
+     "ev": "dep",
+     "printed": "2.36",
+     "bold": false,
+     "t": "26:36"
+    },
+    {
+     "st": "泥河",
+     "ev": "dep",
+     "printed": "2.46",
+     "bold": false,
+     "t": "26:46"
+    },
+    {
+     "st": "綏化",
+     "ev": "arr",
+     "printed": "3.01",
+     "bold": false,
+     "t": "27:01"
+    },
+    {
+     "st": "綏化",
+     "ev": "dep",
+     "printed": "3.13",
+     "bold": false,
+     "t": "27:13"
+    },
+    {
+     "st": "秦家",
+     "ev": "dep",
+     "printed": "3.46",
+     "bold": false,
+     "t": "27:46"
+    },
+    {
+     "st": "四方臺",
+     "ev": "dep",
+     "printed": "4.06",
+     "bold": false,
+     "t": "28:06"
+    },
+    {
+     "st": "張維屯",
+     "ev": "dep",
+     "printed": "4.31",
+     "bold": false,
+     "t": "28:31"
+    },
+    {
+     "st": "綏稜",
+     "ev": "dep",
+     "printed": "5.01",
+     "bold": false,
+     "t": "29:01"
+    },
+    {
+     "st": "東邊井",
+     "ev": "dep",
+     "printed": "5.35",
+     "bold": false,
+     "t": "29:35"
+    },
+    {
+     "st": "海倫",
+     "ev": "arr",
+     "printed": "5.53",
+     "bold": false,
+     "t": "29:53"
+    },
+    {
+     "st": "海倫",
+     "ev": "dep",
+     "printed": "6.08",
+     "bold": false,
+     "t": "30:08"
+    },
+    {
+     "st": "趙家",
+     "ev": "dep",
+     "printed": "6.32",
+     "bold": false,
+     "t": "30:32"
+    },
+    {
+     "st": "海北",
+     "ev": "dep",
+     "printed": "7.04",
+     "bold": false,
+     "t": "31:04"
+    },
+    {
+     "st": "通興",
+     "ev": "dep",
+     "printed": "7.31",
+     "bold": false,
+     "t": "31:31"
+    },
+    {
+     "st": "楊家",
+     "ev": "dep",
+     "printed": "7.44",
+     "bold": false,
+     "t": "31:44"
+    },
+    {
+     "st": "李家",
+     "ev": "dep",
+     "printed": "8.11",
+     "bold": false,
+     "t": "32:11"
+    },
+    {
+     "st": "通北",
+     "ev": "dep",
+     "printed": "8.39",
+     "bold": false,
+     "t": "32:39"
+    },
+    {
+     "st": "白家",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "33:00"
+    },
+    {
+     "st": "北安",
+     "ev": "arr",
+     "printed": "9.17",
+     "bold": false,
+     "note": "發は表尾「39頁」の連絡抄錄",
+     "t": "33:17"
+    },
+    {
+     "st": "北安",
+     "ev": "dep",
+     "printed": "9.32",
+     "bold": false,
+     "note": "發は表尾「39頁」の連絡抄錄",
+     "t": "33:32"
+    },
+    {
+     "st": "孫吳",
+     "ev": "dep",
+     "printed": "15.01",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "39:01"
+    },
+    {
+     "st": "黑河",
+     "ev": "dep",
+     "printed": "20.15",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "44:15"
+    }
+   ],
+   "dest": "黑河",
+   "cls": "1.2.3",
+   "marks": "食 寢1.2.3",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "昭和16.10.1改正。表題「哈爾濱・北安間（國線・濱北線）」は頁41の上部に印刷されてゐる。この下り表は頁40右半（列車303・32□＝p40c）から續き、本ファイルは頁41左端の4欄（305・325・341・301）を收める。驛名欄・運賃欄は頁40のみに印刷されてをり、本ファイルも同じ驛名表を用ゐる。",
+  "運賃欄（自三棵樹 1等・2等・3等）は頁40側にあり轉記せず。粁程欄は無い。",
+  "表頭に「42.43／45.4□頁」（頁41側の上り表では「42.43／44.46頁」）の括弧で 哈爾濱發・濱江著/發・三棵樹著 の4行、表尾に「39頁」の括弧で 北安發・孫吳著・黑河ヵ の3行の連絡抄錄がある。抄錄行の時刻も本ファイルに收めた。",
+  "325列車（綏化行）は綏化止り。341列車（佳木斯行）は綏化で濱北線を離れ、原表では秦家以下の桝に縦書きで「佳木斯著 22.50」と入る。",
+  "301列車の表尾抄錄「黑河 20.15」は、頁39の北黑線本表（p39a の301列車）の黑河著 20.13 と2分喰ひ違ふ（原表のまま）。北安・孫吳の時刻は頁39と一致する。",
+  "325列車の三棵樹發19.00→新松浦19.24は24分を要し、他列車（11〜18分）と合はないが印刷のまま記した。"
+ ],
+ "source": "IMG_1849",
+ "page": "41",
+ "title": "哈爾濱・北安間（國線・濱北線）",
+ "line": "國線 濱北線",
+ "dir": "北安行（哈爾濱→北安）"
+}

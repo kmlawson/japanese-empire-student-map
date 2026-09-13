@@ -1,0 +1,86 @@
+{
+ "stations": [
+  {
+   "name": "新臺門",
+   "km": null
+  },
+  {
+   "name": "舊門",
+   "km": null
+  },
+  {
+   "name": "興城驛",
+   "km": null
+  },
+  {
+   "name": "興城",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "154",
+   "stops": [
+    {
+     "st": "新臺門",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "舊門",
+     "ev": "pass"
+    },
+    {
+     "st": "興城驛",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    }
+   ],
+   "dest": "興城驛",
+   "col": "1"
+  },
+  {
+   "no": "160",
+   "stops": [
+    {
+     "st": "新臺門",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "舊門",
+     "ev": "pass"
+    },
+    {
+     "st": "興城驛",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "興城驛",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 160",
+  "the first up column is printed 154, the same number as the second down column; transcribed as printed"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "興臺線",
+ "title": "興城驛・新臺門間",
+ "dir": "新臺門→興城",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "新臺門 1.95 | 舊門 1.20 | 興城驛 0.10 | 興城"
+}

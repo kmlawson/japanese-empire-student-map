@@ -1,0 +1,20 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 錦州局管內
+line: 錦壺線
+title: 錦縣驛・西海口間
+dir: 西海口→錦縣驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: fare column printed once, for the 錦縣驛→西海口 direction
+stations: 西海口 | 錦縣驛
+fares: 西海口 1.55 | 錦縣驛 0
+
+train: 102 | dest 錦縣驛 | col 1
+西海口 10.00
+錦縣驛 12.00
+
+train: 106 | dest 錦縣驛 | col 2
+西海口 16.30
+錦縣驛 18.30

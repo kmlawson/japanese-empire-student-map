@@ -1,0 +1,53 @@
+{
+ "stations": [
+  {
+   "name": "新惠",
+   "km": null
+  },
+  {
+   "name": "建平",
+   "km": null
+  },
+  {
+   "name": "葉柏壽驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "531",
+   "stops": [
+    {
+     "st": "建平",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "葉柏壽驛",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "葉柏壽驛",
+   "col": "1",
+   "origin": "建平"
+  }
+ ],
+ "notes": [
+  "three unnumbered empty columns (…) stand to the right of bus 531"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "葉惠線",
+ "title": "葉柏壽驛・新惠間",
+ "dir": "新惠→葉柏壽驛",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "新惠 5.75 | 建平 3.05 | 葉柏壽驛"
+}

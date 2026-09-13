@@ -1,0 +1,121 @@
+{
+ "stations": [
+  {
+   "name": "五鳳樓",
+   "km": null
+  },
+  {
+   "name": "魚亮子",
+   "km": null
+  },
+  {
+   "name": "安口鎭",
+   "km": null
+  },
+  {
+   "name": "柳河",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "42",
+   "stops": [
+    {
+     "st": "魚亮子",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "安口鎭",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "柳河",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    }
+   ],
+   "dest": "柳河",
+   "origin": "魚亮子",
+   "col": "1"
+  },
+  {
+   "no": "44",
+   "stops": [
+    {
+     "st": "五鳳樓",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "魚亮子",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "安口鎭",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "柳河",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "柳河",
+   "col": "2"
+  },
+  {
+   "no": "46",
+   "stops": [
+    {
+     "st": "安口鎭",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "柳河",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    }
+   ],
+   "dest": "柳河",
+   "origin": "安口鎭",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、右が五鳳樓發（本表）。42は魚亮子始發、46は安口鎭始發。運賃欄は柳河起點のものを反轉して掲げた。"
+ ],
+ "source": "IMG_1883",
+ "page": "108",
+ "kind": "bus",
+ "office": "吉林局管內",
+ "line": "柳鳳線",
+ "title": "柳河・五鳳樓間",
+ "dir": "五鳳樓→柳河",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "五鳳樓 2.55 | 魚亮子 1.70 | 安口鎭 1.00 | 柳河"
+}

@@ -1,0 +1,20 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 莊萬線
+title: 莊河・岫巖間
+dir: 岫巖→莊河
+season: 昭和17.2.20改正
+service: 每日運行
+note: fare column printed once, for the 莊河→岫巖 direction
+stations: 岫巖 | 莊河
+fares: 岫巖 4.30 | 莊河 0
+
+train: 92 | dest 莊河 | col 1
+岫巖 13.00
+莊河 16.20
+
+train: 94 | dest 莊河 | col 2
+岫巖 14.20
+莊河 17.40

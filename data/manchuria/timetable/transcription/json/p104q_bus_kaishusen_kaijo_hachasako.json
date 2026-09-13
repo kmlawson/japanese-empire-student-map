@@ -1,0 +1,138 @@
+{
+ "stations": [
+  {
+   "name": "海城驛",
+   "km": null
+  },
+  {
+   "name": "析木城",
+   "km": null
+  },
+  {
+   "name": "李家房",
+   "km": null
+  },
+  {
+   "name": "八岔口",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "113",
+   "stops": [
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "9.42",
+     "bold": false,
+     "t": "09:42"
+    },
+    {
+     "st": "李家房",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": false,
+     "t": "10:05"
+    },
+    {
+     "st": "八岔口",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    }
+   ],
+   "dest": "八岔口",
+   "col": "1"
+  },
+  {
+   "no": "119",
+   "stops": [
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    },
+    {
+     "st": "李家房",
+     "ev": "dep",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    },
+    {
+     "st": "八岔口",
+     "ev": "dep",
+     "printed": "14.20",
+     "bold": false,
+     "t": "14:20"
+    }
+   ],
+   "dest": "八岔口",
+   "col": "2"
+  },
+  {
+   "no": "121",
+   "stops": [
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "析木城",
+     "ev": "dep",
+     "printed": "14.42",
+     "bold": false,
+     "t": "14:42"
+    },
+    {
+     "st": "李家房",
+     "ev": "dep",
+     "printed": "15.05",
+     "bold": false,
+     "t": "15:05"
+    },
+    {
+     "st": "八岔口",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    }
+   ],
+   "dest": "八岔口",
+   "col": "3"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "海岫線",
+ "title": "海城驛・八岔口間",
+ "dir": "海城驛→八岔口",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "海城驛 0 | 析木城 1.30 | 李家房 1.75 | 八岔口 1.90"
+}

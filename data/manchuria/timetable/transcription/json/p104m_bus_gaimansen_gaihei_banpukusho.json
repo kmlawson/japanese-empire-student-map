@@ -1,0 +1,214 @@
+{
+ "stations": [
+  {
+   "name": "蓋平驛",
+   "km": null
+  },
+  {
+   "name": "土門子",
+   "km": null
+  },
+  {
+   "name": "萬福庄",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "151",
+   "stops": [
+    {
+     "st": "蓋平驛",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "土門子",
+     "ev": "dep",
+     "printed": "10.37",
+     "bold": false,
+     "t": "10:37"
+    },
+    {
+     "st": "萬福庄",
+     "ev": "dep",
+     "printed": "11.05",
+     "bold": false,
+     "t": "11:05"
+    }
+   ],
+   "dest": "萬福庄",
+   "col": "1"
+  },
+  {
+   "no": "161",
+   "stops": [
+    {
+     "st": "蓋平驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "土門子",
+     "ev": "dep",
+     "printed": "11.05",
+     "bold": false,
+     "t": "11:05"
+    }
+   ],
+   "dest": "土門子",
+   "col": "2"
+  },
+  {
+   "no": "153",
+   "stops": [
+    {
+     "st": "蓋平驛",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "uncertain": true,
+     "t": "10:00"
+    },
+    {
+     "st": "土門子",
+     "ev": "dep",
+     "printed": "12.07",
+     "bold": false,
+     "t": "12:07"
+    },
+    {
+     "st": "萬福庄",
+     "ev": "dep",
+     "printed": "12.35",
+     "bold": false,
+     "t": "12:35"
+    }
+   ],
+   "dest": "萬福庄",
+   "col": "3"
+  },
+  {
+   "no": "155",
+   "stops": [
+    {
+     "st": "蓋平驛",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "土門子",
+     "ev": "dep",
+     "printed": "13.37",
+     "bold": false,
+     "t": "13:37"
+    },
+    {
+     "st": "萬福庄",
+     "ev": "dep",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    }
+   ],
+   "dest": "萬福庄",
+   "col": "4"
+  },
+  {
+   "no": "157",
+   "stops": [
+    {
+     "st": "蓋平驛",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "土門子",
+     "ev": "dep",
+     "printed": "15.07",
+     "bold": false,
+     "t": "15:07"
+    },
+    {
+     "st": "萬福庄",
+     "ev": "dep",
+     "printed": "15.35",
+     "bold": false,
+     "t": "15:35"
+    }
+   ],
+   "dest": "萬福庄",
+   "col": "5"
+  },
+  {
+   "no": "163",
+   "stops": [
+    {
+     "st": "蓋平驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "土門子",
+     "ev": "dep",
+     "printed": "16.05",
+     "bold": false,
+     "t": "16:05"
+    }
+   ],
+   "dest": "土門子",
+   "col": "6"
+  },
+  {
+   "no": "159",
+   "stops": [
+    {
+     "st": "蓋平驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "土門子",
+     "ev": "dep",
+     "printed": "17.07",
+     "bold": false,
+     "t": "17:07"
+    },
+    {
+     "st": "萬福庄",
+     "ev": "dep",
+     "printed": "17.35",
+     "bold": false,
+     "t": "17:35"
+    }
+   ],
+   "dest": "萬福庄",
+   "col": "7"
+  }
+ ],
+ "notes": [
+  "bus 153's 蓋平驛 departure prints as 19.00 (broken type); read 10.00 — the column order 8.30 9.00 ?.00 11.30 13.00 14.00 15.00 and the 12.07 at 土門子 (2h07 later) both require 10.00"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "蓋萬線",
+ "title": "蓋平驛・萬福庄間",
+ "dir": "蓋平驛→萬福庄",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "蓋平驛 0 | 土門子 2.15 | 萬福庄 2.65"
+}

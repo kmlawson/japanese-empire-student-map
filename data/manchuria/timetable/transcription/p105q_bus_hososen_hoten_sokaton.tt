@@ -1,0 +1,42 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 奉蘇線
+title: 奉天驛・蘇家屯間
+dir: 奉天驛→蘇家屯
+season: 昭和17.2.1開始
+service: 每日運行
+note: the 運賃 column is headed 円分 but carries no figures for this line
+stations: 奉天驛 | 城內 | 蘇家屯
+fares: 奉天驛 | 城內 | 蘇家屯
+
+train: 191 | dest 蘇家屯 | col 1
+奉天驛 8.30
+城內 8.45
+蘇家屯 10.00
+
+train: 193 | dest 蘇家屯 | col 2
+奉天驛 10.00
+城內 10.15
+蘇家屯 11.30
+
+train: 195 | dest 蘇家屯 | col 3
+奉天驛 11.30
+城內 11.45
+蘇家屯 13.00
+
+train: 197 | dest 蘇家屯 | col 4
+奉天驛 13.00
+城內 13.15
+蘇家屯 14.30
+
+train: 199 | dest 蘇家屯 | col 5
+奉天驛 14.00
+城內 14.15
+蘇家屯 15.30
+
+train: 201 | dest 蘇家屯 | col 6
+奉天驛 15.30
+城內 15.45
+蘇家屯 17.00

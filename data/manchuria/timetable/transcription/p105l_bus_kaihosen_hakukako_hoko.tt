@@ -1,0 +1,20 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 開法線
+title: 法庫・柏家溝間
+dir: 柏家溝→法庫
+season: 昭和16.10.1改正
+service: 每日運行
+note: fare column printed once, for the 法庫→柏家溝 direction; the even numbers (172/174) run 法庫→柏家溝 and the odd ones (171/173) the other way
+stations: 柏家溝 | 法庫
+fares: 柏家溝 0.95 | 法庫 0
+
+train: 171 | dest 法庫 | col 1
+柏家溝 9.30
+法庫 10.20
+
+train: 173 | dest 法庫 | col 2
+柏家溝 16.30
+法庫 17.20

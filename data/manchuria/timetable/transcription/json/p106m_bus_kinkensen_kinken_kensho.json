@@ -1,0 +1,59 @@
+{
+ "stations": [
+  {
+   "name": "錦縣驛",
+   "km": null
+  },
+  {
+   "name": "江家屯",
+   "km": null
+  },
+  {
+   "name": "建昌",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "125",
+   "stops": [
+    {
+     "st": "錦縣驛",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "江家屯",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "建昌",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "建昌",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the left of bus 125"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "錦建線",
+ "title": "錦縣驛・建昌間",
+ "dir": "錦縣驛→建昌",
+ "season": "昭和16.12.1改正",
+ "service": "隔日運行",
+ "fares": "錦縣驛 | 江家屯 2.65 | 建昌 7.40"
+}

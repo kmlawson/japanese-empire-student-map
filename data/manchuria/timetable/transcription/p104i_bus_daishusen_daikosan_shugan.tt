@@ -1,0 +1,20 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 大岫線
+title: 大孤山・岫巖間
+dir: 大孤山→岫巖
+season: 昭和17.2.20改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the left of bus 81
+stations: 大孤山 | 岫巖
+fares: 大孤山 0 | 岫巖 3.50
+
+train: 81 | dest 岫巖 | col 1
+大孤山 9.30
+岫巖 12.10
+
+train: 3 | dest 岫巖 | col 2
+大孤山 13.00
+岫巖 15.40

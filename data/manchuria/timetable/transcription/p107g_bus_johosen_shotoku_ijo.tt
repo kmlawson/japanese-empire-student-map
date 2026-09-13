@@ -1,0 +1,23 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 承圍線
+title: 承德・圍場間
+dir: 承德→圍場
+season: 昭和16.12.1改正
+service: 每日運行
+note: an unnumbered empty column (…) stands to the left of bus 601
+note: buses 601 and 603 are both printed 12.40 at 隆化; transcribed as printed
+stations: 承德 | 隆化 | 圍場
+fares: 承德 | 隆化 4.15 | 圍場 9.25
+
+train: 601 | dest 圍場 | col 2
+承德 9.00
+隆化 12.40
+圍場 17.00
+
+train: 603 | dest 隆化 | col 3
+承德 9.30
+隆化 12.40
+圍場 -

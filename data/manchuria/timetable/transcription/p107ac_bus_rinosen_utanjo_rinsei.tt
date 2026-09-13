@@ -1,0 +1,17 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 林烏線
+title: 林西・烏丹城間
+dir: 烏丹城→林西
+season: 昭和16.10.1改正
+service: 每日運行
+note: two unnumbered empty columns (…) stand to the left of bus 424
+stations: 烏丹城 | 一心村 | 林西
+fares: 烏丹城 | 一心村 2.50 | 林西 6.50
+
+train: 424 | dest 林西 | col 3
+烏丹城 7.00
+一心村 12.00
+林西 14.30

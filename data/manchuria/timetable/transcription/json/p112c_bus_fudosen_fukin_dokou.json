@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "富錦",
+   "km": null
+  },
+  {
+   "name": "同江",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "371",
+   "stops": [
+    {
+     "st": "富錦",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "同江",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    }
+   ],
+   "dest": "同江",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、左が富錦發（本表）、右が同江發（p112d）。"
+ ],
+ "source": "IMG_1885",
+ "page": "112",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "富同線",
+ "title": "富錦・同江間",
+ "dir": "富錦→同江",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "富錦 | 同江 5.33"
+}

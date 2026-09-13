@@ -1,0 +1,81 @@
+{
+ "stations": [
+  {
+   "name": "建昌",
+   "km": null
+  },
+  {
+   "name": "和尚房子",
+   "km": null
+  },
+  {
+   "name": "綏中驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "174",
+   "stops": [
+    {
+     "st": "和尚房子",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "綏中驛",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    }
+   ],
+   "dest": "綏中驛",
+   "col": "1",
+   "origin": "和尚房子"
+  },
+  {
+   "no": "172",
+   "stops": [
+    {
+     "st": "建昌",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "和尚房子",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    },
+    {
+     "st": "綏中驛",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "綏中驛",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 172"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "綏建線",
+ "title": "綏中驛・建昌間",
+ "dir": "建昌→綏中驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "建昌 6.75 | 和尚房子 3.50 | 綏中驛"
+}

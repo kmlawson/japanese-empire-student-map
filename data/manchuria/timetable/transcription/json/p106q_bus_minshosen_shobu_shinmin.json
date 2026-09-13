@@ -1,0 +1,88 @@
+{
+ "stations": [
+  {
+   "name": "彰武驛",
+   "km": null
+  },
+  {
+   "name": "新民驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "222",
+   "stops": [
+    {
+     "st": "彰武驛",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "新民驛",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    }
+   ],
+   "dest": "新民驛",
+   "col": "1"
+  },
+  {
+   "no": "224",
+   "stops": [
+    {
+     "st": "彰武驛",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "新民驛",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "新民驛",
+   "col": "2"
+  },
+  {
+   "no": "226",
+   "stops": [
+    {
+     "st": "彰武驛",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "新民驛",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "新民驛",
+   "col": "3"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "民彰線",
+ "title": "新民驛・彰武驛間",
+ "dir": "彰武驛→新民驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "彰武驛 | 新民驛 2.75"
+}

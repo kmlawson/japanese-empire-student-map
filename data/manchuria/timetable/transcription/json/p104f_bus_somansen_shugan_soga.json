@@ -1,0 +1,69 @@
+{
+ "stations": [
+  {
+   "name": "岫巖",
+   "km": null
+  },
+  {
+   "name": "莊河",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "92",
+   "stops": [
+    {
+     "st": "岫巖",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    }
+   ],
+   "dest": "莊河",
+   "col": "1"
+  },
+  {
+   "no": "94",
+   "stops": [
+    {
+     "st": "岫巖",
+     "ev": "dep",
+     "printed": "14.20",
+     "bold": false,
+     "t": "14:20"
+    },
+    {
+     "st": "莊河",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    }
+   ],
+   "dest": "莊河",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "fare column printed once, for the 莊河→岫巖 direction"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "莊萬線",
+ "title": "莊河・岫巖間",
+ "dir": "岫巖→莊河",
+ "season": "昭和17.2.20改正",
+ "service": "每日運行",
+ "fares": "岫巖 4.30 | 莊河 0"
+}

@@ -1,0 +1,19 @@
+source: IMG_1887
+page: 117
+kind: bus
+office: 各地自動車會社線
+line: 灣普線（大連都市交通會社）
+title: 普蘭店・復州灣間
+dir: 復州灣→普蘭店
+season: 昭和16.11.1改正
+note: 右3欄（復州灣發）。中央欄は「…」。運賃は共通欄（1.50）。
+stations: 復州灣 | 普蘭店
+fares: 復州灣 | 普蘭店 1.50
+
+train: 無番 | dest 普蘭店 | col 1
+復州灣 10.30
+普蘭店 12.00
+
+train: 無番 | dest 普蘭店 | col 3
+復州灣 16.30
+普蘭店 18.00

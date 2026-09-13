@@ -1,0 +1,21 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 哈爾濱局管內
+line: 阿林線
+title: 阿城・拉林間
+dir: 拉林→阿城
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が拉林發（本表）。運賃欄は阿城起點のものを反轉して掲げた。
+note: 54の番號の右に「※」の符號が刷られてゐる。
+stations: 拉林 | 阿城
+fares: 拉林 2.20 | 阿城
+
+train: 52 | dest 阿城 | col 1
+拉林 10.10
+阿城 12.10
+
+train: 54 | dest 阿城 | marks ※ | col 2
+拉林 15.40
+阿城 17.40

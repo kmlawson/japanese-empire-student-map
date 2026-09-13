@@ -1471,7 +1471,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     const jsGot = [];
     dp.on('request', rq => {
       const f = rq.url().split('/').pop().split('?')[0];
-      if (/^(tw|kr|kf)-(trains|times)\.js$/.test(f)) jsGot.push(f);
+      if (/^(tw|kr|kf|mn)-(trains|times)\.js$/.test(f)) jsGot.push(f);
     });
     await dp.goto(TAIWAN, {waitUntil:'domcontentloaded'});
     await ready(dp);
@@ -1620,7 +1620,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     const onlyOne = ()=>dp.evaluate(()=>({
       layers: document.querySelectorAll('#train-layer').length,
       bars: document.querySelectorAll('#train-bar').length,
-      rails: ['tw','kr','kf'].filter(k=>{
+      rails: ['tw','kr','kf','mn'].filter(k=>{
         const b=document.querySelector('#opt-'+k+'-rail');
         return !!(b && b.checked);
       }),

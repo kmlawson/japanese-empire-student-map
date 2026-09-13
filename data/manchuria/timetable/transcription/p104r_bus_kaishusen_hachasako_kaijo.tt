@@ -1,0 +1,31 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 海岫線
+title: 海城驛・八岔口間
+dir: 八岔口→海城驛
+season: 昭和16.10.1改正
+service: 每日運行
+note: fare column printed once, for the 海城驛→八岔口 direction
+note: bus 120 prints 14.36 at 八岔口 (11 min to 李家房, where the other columns take 17); transcribed as printed
+stations: 八岔口 | 李家房 | 析木城 | 海城驛
+fares: 八岔口 1.90 | 李家房 1.75 | 析木城 1.30 | 海城驛 0
+
+train: 116 | dest 海城驛 | col 1
+八岔口 10.30
+李家房 10.47
+析木城 11.10
+海城驛 12.20
+
+train: 120 | dest 海城驛 | col 2
+八岔口 14.36
+李家房 14.47
+析木城 15.10
+海城驛 16.20
+
+train: 122 | dest 海城驛 | col 3
+八岔口 15.30
+李家房 15.47
+析木城 16.10
+海城驛 17.20

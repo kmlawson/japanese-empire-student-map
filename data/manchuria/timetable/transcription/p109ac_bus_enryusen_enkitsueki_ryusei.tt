@@ -1,0 +1,21 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 延龍線
+title: 延吉驛・龍井間
+dir: 延吉驛→龍井
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が延吉驛發（本表）、右が龍井發（p109ad）。
+note: 311と345の間の欄には時刻を刷らず、縦組で「此間約30分毎發」と記す。
+stations: 延吉驛 | 龍井
+fares: 延吉驛 | 龍井 1.15
+
+train: 311 | dest 龍井 | col 1
+延吉驛 8.30
+龍井 9.30
+
+train: 345 | dest 龍井 | col 2 | note 此間約30分毎發の最終便
+延吉驛 18.30
+龍井 19.30

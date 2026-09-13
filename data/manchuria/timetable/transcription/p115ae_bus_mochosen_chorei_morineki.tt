@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 茂長線
+title: 長嶺・茂林驛間
+dir: 長嶺→茂林驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 左端は運賃（圓.分）欄。逆方向は p115af。
+stations: 長嶺 | 茂林驛
+fares: 長嶺 | 茂林驛 3.50
+
+train: 271 | dest 茂林驛 | col 3
+長嶺 10.00
+茂林驛 13.30

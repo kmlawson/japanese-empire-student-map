@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 海三線
+title: 海拉爾・三河間
+dir: 海拉爾→三河
+season: 昭和16.12.1改正
+service: 每日運行
+note: 左端は運賃（圓.分）欄。逆方向は p115ad。
+stations: 海拉爾 | 三河
+fares: 海拉爾 | 三河 10.80
+
+train: 311 | dest 三河 | col 3
+海拉爾 9.00
+三河 18.00

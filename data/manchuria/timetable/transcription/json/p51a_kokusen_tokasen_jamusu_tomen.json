@@ -1,0 +1,1920 @@
+{
+ "stations": [
+  {
+   "name": "佳木斯",
+   "km": null
+  },
+  {
+   "name": "長發屯",
+   "km": null
+  },
+  {
+   "name": "沼分",
+   "km": null
+  },
+  {
+   "name": "彌榮",
+   "km": null
+  },
+  {
+   "name": "八虎力",
+   "km": null
+  },
+  {
+   "name": "千振",
+   "km": null
+  },
+  {
+   "name": "閣家",
+   "km": null
+  },
+  {
+   "name": "倭肯",
+   "km": null
+  },
+  {
+   "name": "杏樹",
+   "km": null
+  },
+  {
+   "name": "勃利",
+   "km": null
+  },
+  {
+   "name": "通天",
+   "km": null
+  },
+  {
+   "name": "佛嶺",
+   "km": null
+  },
+  {
+   "name": "虎山",
+   "km": null
+  },
+  {
+   "name": "靑山",
+   "km": null
+  },
+  {
+   "name": "亞河",
+   "km": null
+  },
+  {
+   "name": "古城鎭",
+   "km": null
+  },
+  {
+   "name": "林口",
+   "km": null
+  },
+  {
+   "name": "龍爪",
+   "km": null
+  },
+  {
+   "name": "向陽",
+   "km": null
+  },
+  {
+   "name": "楚山",
+   "km": null
+  },
+  {
+   "name": "賀林",
+   "km": null
+  },
+  {
+   "name": "七星",
+   "km": null
+  },
+  {
+   "name": "仙洞",
+   "km": null
+  },
+  {
+   "name": "五河林",
+   "km": null
+  },
+  {
+   "name": "柴河",
+   "km": null
+  },
+  {
+   "name": "樺林",
+   "km": null
+  },
+  {
+   "name": "牡丹江",
+   "km": null
+  },
+  {
+   "name": "海浪",
+   "km": null
+  },
+  {
+   "name": "溫春",
+   "km": null
+  },
+  {
+   "name": "寧安",
+   "km": null
+  },
+  {
+   "name": "團崗",
+   "km": null
+  },
+  {
+   "name": "石頭",
+   "km": null
+  },
+  {
+   "name": "東京城",
+   "km": null
+  },
+  {
+   "name": "馬蓮河",
+   "km": null
+  },
+  {
+   "name": "斗溝子",
+   "km": null
+  },
+  {
+   "name": "鹿道",
+   "km": null
+  },
+  {
+   "name": "老松嶺",
+   "km": null
+  },
+  {
+   "name": "老廟",
+   "km": null
+  },
+  {
+   "name": "春陽",
+   "km": null
+  },
+  {
+   "name": "駱駝山",
+   "km": null
+  },
+  {
+   "name": "天橋嶺",
+   "km": null
+  },
+  {
+   "name": "廟嶺",
+   "km": null
+  },
+  {
+   "name": "大興溝",
+   "km": null
+  },
+  {
+   "name": "汪淸",
+   "km": null
+  },
+  {
+   "name": "新興",
+   "km": null
+  },
+  {
+   "name": "三道溝",
+   "km": null
+  },
+  {
+   "name": "石峴",
+   "km": null
+  },
+  {
+   "name": "圖們",
+   "km": null
+  },
+  {
+   "name": "南陽",
+   "km": null
+  },
+  {
+   "name": "羅津",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "142",
+   "stops": [
+    {
+     "st": "鹿道",
+     "ev": "dep",
+     "printed": "5.50",
+     "bold": false,
+     "t": "05:50"
+    },
+    {
+     "st": "老松嶺",
+     "ev": "dep",
+     "printed": "6.19",
+     "bold": false,
+     "t": "06:19"
+    },
+    {
+     "st": "老廟",
+     "ev": "dep",
+     "printed": "6.37",
+     "bold": false,
+     "t": "06:37"
+    },
+    {
+     "st": "春陽",
+     "ev": "dep",
+     "printed": "6.57",
+     "bold": false,
+     "t": "06:57"
+    },
+    {
+     "st": "駱駝山",
+     "ev": "dep",
+     "printed": "7.17",
+     "bold": false,
+     "t": "07:17"
+    },
+    {
+     "st": "天橋嶺",
+     "ev": "dep",
+     "printed": "7.39",
+     "bold": false,
+     "t": "07:39"
+    },
+    {
+     "st": "廟嶺",
+     "ev": "dep",
+     "printed": "8.02",
+     "bold": false,
+     "t": "08:02"
+    },
+    {
+     "st": "大興溝",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "汪淸",
+     "ev": "dep",
+     "printed": "8.44",
+     "bold": false,
+     "t": "08:44"
+    },
+    {
+     "st": "新興",
+     "ev": "dep",
+     "printed": "9.18",
+     "bold": false,
+     "t": "09:18"
+    },
+    {
+     "st": "三道溝",
+     "ev": "dep",
+     "printed": "9.34",
+     "bold": false,
+     "t": "09:34"
+    },
+    {
+     "st": "石峴",
+     "ev": "dep",
+     "printed": "9.39",
+     "bold": false,
+     "note": "三道溝との差5分で不自然（誤植か）",
+     "t": "09:39"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "10.28",
+     "bold": false,
+     "t": "10:28"
+    }
+   ],
+   "dest": "圖們",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "鹿道",
+   "col": "1"
+  },
+  {
+   "no": "146",
+   "stops": [
+    {
+     "st": "勃利",
+     "ev": "dep",
+     "printed": "8.10",
+     "bold": false,
+     "t": "08:10"
+    },
+    {
+     "st": "通天",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": false,
+     "t": "08:35"
+    },
+    {
+     "st": "佛嶺",
+     "ev": "dep",
+     "printed": "9.15",
+     "bold": false,
+     "t": "09:15"
+    },
+    {
+     "st": "虎山",
+     "ev": "dep",
+     "printed": "9.33",
+     "bold": false,
+     "t": "09:33"
+    },
+    {
+     "st": "靑山",
+     "ev": "dep",
+     "printed": "9.59",
+     "bold": false,
+     "t": "09:59"
+    },
+    {
+     "st": "亞河",
+     "ev": "dep",
+     "printed": "10.19",
+     "bold": false,
+     "t": "10:19"
+    },
+    {
+     "st": "古城鎭",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    },
+    {
+     "st": "林口",
+     "ev": "arr",
+     "printed": "11.06",
+     "bold": false,
+     "t": "11:06"
+    },
+    {
+     "st": "林口",
+     "ev": "dep",
+     "printed": "11.16",
+     "bold": false,
+     "t": "11:16"
+    },
+    {
+     "st": "龍爪",
+     "ev": "dep",
+     "printed": "11.38",
+     "bold": false,
+     "t": "11:38"
+    },
+    {
+     "st": "向陽",
+     "ev": "dep",
+     "printed": "11.54",
+     "bold": false,
+     "t": "11:54"
+    },
+    {
+     "st": "楚山",
+     "ev": "dep",
+     "printed": "12.19",
+     "bold": false,
+     "t": "12:19"
+    },
+    {
+     "st": "賀林",
+     "ev": "dep",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    },
+    {
+     "st": "七星",
+     "ev": "dep",
+     "printed": "13.04",
+     "bold": false,
+     "t": "13:04"
+    },
+    {
+     "st": "仙洞",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    },
+    {
+     "st": "五河林",
+     "ev": "dep",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    },
+    {
+     "st": "柴河",
+     "ev": "dep",
+     "printed": "14.09",
+     "bold": false,
+     "t": "14:09"
+    },
+    {
+     "st": "樺林",
+     "ev": "dep",
+     "printed": "14.27",
+     "bold": false,
+     "t": "14:27"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "14.45",
+     "bold": false,
+     "t": "14:45"
+    }
+   ],
+   "dest": "牡丹江",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "勃利",
+   "col": "2",
+   "note": "1142欄の空所に「（不定期運轉 勃利林口間）」"
+  },
+  {
+   "no": "1142",
+   "stops": [
+    {
+     "st": "新興",
+     "ev": "dep",
+     "printed": "19.15",
+     "bold": false,
+     "t": "19:15"
+    },
+    {
+     "st": "三道溝",
+     "ev": "dep",
+     "printed": "19.32",
+     "bold": false,
+     "t": "19:32"
+    },
+    {
+     "st": "石峴",
+     "ev": "dep",
+     "printed": "20.02",
+     "bold": false,
+     "t": "20:02"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "20.30",
+     "bold": false,
+     "t": "20:30"
+    }
+   ],
+   "dest": "圖們",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "東寧",
+   "col": "3",
+   "note": "空欄に縦書きで「東寧發 8.08」"
+  },
+  {
+   "no": "150",
+   "stops": [
+    {
+     "st": "林口",
+     "ev": "arr",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    },
+    {
+     "st": "林口",
+     "ev": "dep",
+     "printed": "15.28",
+     "bold": false,
+     "t": "15:28"
+    },
+    {
+     "st": "龍爪",
+     "ev": "dep",
+     "printed": "15.44",
+     "bold": false,
+     "t": "15:44"
+    },
+    {
+     "st": "向陽",
+     "ev": "dep",
+     "printed": "16.03",
+     "bold": false,
+     "t": "16:03"
+    },
+    {
+     "st": "楚山",
+     "ev": "dep",
+     "printed": "16.26",
+     "bold": false,
+     "t": "16:26"
+    },
+    {
+     "st": "賀林",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "七星",
+     "ev": "dep",
+     "printed": "17.14",
+     "bold": false,
+     "t": "17:14"
+    },
+    {
+     "st": "仙洞",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    },
+    {
+     "st": "五河林",
+     "ev": "dep",
+     "printed": "17.55",
+     "bold": false,
+     "t": "17:55"
+    },
+    {
+     "st": "柴河",
+     "ev": "dep",
+     "printed": "18.19",
+     "bold": false,
+     "t": "18:19"
+    },
+    {
+     "st": "樺林",
+     "ev": "dep",
+     "printed": "18.37",
+     "bold": false,
+     "t": "18:37"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "18.55",
+     "bold": false,
+     "t": "18:55"
+    }
+   ],
+   "dest": "牡丹江",
+   "cls": "2.3",
+   "marks": "食",
+   "origin": "虎林",
+   "col": "4",
+   "note": "林口より上の空欄に縦書きで「虎林發 5.10」"
+  },
+  {
+   "no": "302",
+   "stops": [
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "15.25",
+     "bold": false,
+     "t": "15:25"
+    },
+    {
+     "st": "海浪",
+     "ev": "dep",
+     "printed": "15.38",
+     "bold": false,
+     "t": "15:38"
+    },
+    {
+     "st": "溫春",
+     "ev": "dep",
+     "printed": "16.02",
+     "bold": false,
+     "t": "16:02"
+    },
+    {
+     "st": "寧安",
+     "ev": "dep",
+     "printed": "16.17",
+     "bold": false,
+     "t": "16:17"
+    },
+    {
+     "st": "團崗",
+     "ev": "dep",
+     "printed": "16.34",
+     "bold": false,
+     "t": "16:34"
+    },
+    {
+     "st": "石頭",
+     "ev": "dep",
+     "printed": "16.51",
+     "bold": false,
+     "t": "16:51"
+    },
+    {
+     "st": "東京城",
+     "ev": "dep",
+     "printed": "17.22",
+     "bold": false,
+     "t": "17:22"
+    },
+    {
+     "st": "馬蓮河",
+     "ev": "dep",
+     "printed": "17.38",
+     "bold": false,
+     "t": "17:38"
+    },
+    {
+     "st": "斗溝子",
+     "ev": "dep",
+     "printed": "17.55",
+     "bold": false,
+     "t": "17:55"
+    },
+    {
+     "st": "鹿道",
+     "ev": "arr",
+     "printed": "18.18",
+     "bold": false,
+     "t": "18:18"
+    },
+    {
+     "st": "鹿道",
+     "ev": "dep",
+     "printed": "18.25",
+     "bold": false,
+     "t": "18:25"
+    },
+    {
+     "st": "老松嶺",
+     "ev": "dep",
+     "printed": "18.52",
+     "bold": false,
+     "t": "18:52"
+    },
+    {
+     "st": "老廟",
+     "ev": "dep",
+     "printed": "19.09",
+     "bold": false,
+     "t": "19:09"
+    },
+    {
+     "st": "春陽",
+     "ev": "dep",
+     "printed": "19.28",
+     "bold": false,
+     "t": "19:28"
+    },
+    {
+     "st": "駱駝山",
+     "ev": "dep",
+     "printed": "19.48",
+     "bold": false,
+     "t": "19:48"
+    },
+    {
+     "st": "天橋嶺",
+     "ev": "dep",
+     "printed": "20.09",
+     "bold": false,
+     "t": "20:09"
+    },
+    {
+     "st": "廟嶺",
+     "ev": "dep",
+     "printed": "20.32",
+     "bold": false,
+     "t": "20:32"
+    },
+    {
+     "st": "大興溝",
+     "ev": "dep",
+     "printed": "20.54",
+     "bold": false,
+     "t": "20:54"
+    },
+    {
+     "st": "汪淸",
+     "ev": "dep",
+     "printed": "21.12",
+     "bold": false,
+     "t": "21:12"
+    },
+    {
+     "st": "新興",
+     "ev": "dep",
+     "printed": "21.38",
+     "bold": false,
+     "t": "21:38"
+    },
+    {
+     "st": "三道溝",
+     "ev": "dep",
+     "printed": "21.55",
+     "bold": false,
+     "t": "21:55"
+    },
+    {
+     "st": "石峴",
+     "ev": "dep",
+     "printed": "22.18",
+     "bold": false,
+     "t": "22:18"
+    },
+    {
+     "st": "圖們",
+     "ev": "arr",
+     "printed": "22.40",
+     "bold": false,
+     "note": "發は抄錄行（54・55頁）",
+     "t": "22:40"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "0.10",
+     "bold": false,
+     "note": "發は抄錄行（54・55頁）",
+     "t": "24:10"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "0.18",
+     "bold": false,
+     "note": "抄錄行（54・55頁）",
+     "t": "24:18"
+    }
+   ],
+   "dest": "京城",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "origin": "牡丹江",
+   "col": "5",
+   "note": "空欄に縦書きで「京城著 22.48」、柴河―牡丹江の空所に「（上三峰京城間急行）」"
+  },
+  {
+   "no": "104",
+   "stops": [
+    {
+     "st": "佳木斯",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "長發屯",
+     "ev": "dep",
+     "printed": "11.04",
+     "bold": false,
+     "t": "11:04"
+    },
+    {
+     "st": "沼分",
+     "ev": "dep",
+     "printed": "11.41",
+     "bold": false,
+     "t": "11:41"
+    },
+    {
+     "st": "彌榮",
+     "ev": "dep",
+     "printed": "12.26",
+     "bold": false,
+     "t": "12:26"
+    },
+    {
+     "st": "八虎力",
+     "ev": "dep",
+     "printed": "12.47",
+     "bold": false,
+     "t": "12:47"
+    },
+    {
+     "st": "千振",
+     "ev": "dep",
+     "printed": "13.06",
+     "bold": false,
+     "t": "13:06"
+    },
+    {
+     "st": "閣家",
+     "ev": "dep",
+     "printed": "13.42",
+     "bold": false,
+     "t": "13:42"
+    },
+    {
+     "st": "倭肯",
+     "ev": "dep",
+     "printed": "14.01",
+     "bold": false,
+     "t": "14:01"
+    },
+    {
+     "st": "杏樹",
+     "ev": "dep",
+     "printed": "14.27",
+     "bold": false,
+     "t": "14:27"
+    },
+    {
+     "st": "勃利",
+     "ev": "arr",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "勃利",
+     "ev": "dep",
+     "printed": "15.28",
+     "bold": false,
+     "t": "15:28"
+    },
+    {
+     "st": "通天",
+     "ev": "dep",
+     "printed": "15.53",
+     "bold": false,
+     "t": "15:53"
+    },
+    {
+     "st": "佛嶺",
+     "ev": "dep",
+     "printed": "16.33",
+     "bold": false,
+     "t": "16:33"
+    },
+    {
+     "st": "虎山",
+     "ev": "dep",
+     "printed": "16.46",
+     "bold": false,
+     "t": "16:46"
+    },
+    {
+     "st": "靑山",
+     "ev": "dep",
+     "printed": "17.12",
+     "bold": false,
+     "t": "17:12"
+    },
+    {
+     "st": "亞河",
+     "ev": "dep",
+     "printed": "17.32",
+     "bold": false,
+     "t": "17:32"
+    },
+    {
+     "st": "古城鎭",
+     "ev": "dep",
+     "printed": "18.03",
+     "bold": false,
+     "t": "18:03"
+    },
+    {
+     "st": "林口",
+     "ev": "arr",
+     "printed": "18.19",
+     "bold": false,
+     "t": "18:19"
+    },
+    {
+     "st": "林口",
+     "ev": "dep",
+     "printed": "18.27",
+     "bold": false,
+     "t": "18:27"
+    },
+    {
+     "st": "龍爪",
+     "ev": "dep",
+     "printed": "18.41",
+     "bold": false,
+     "t": "18:41"
+    },
+    {
+     "st": "向陽",
+     "ev": "dep",
+     "printed": "18.57",
+     "bold": false,
+     "t": "18:57"
+    },
+    {
+     "st": "楚山",
+     "ev": "dep",
+     "printed": "19.16",
+     "bold": false,
+     "t": "19:16"
+    },
+    {
+     "st": "賀林",
+     "ev": "dep",
+     "printed": "19.42",
+     "bold": false,
+     "t": "19:42"
+    },
+    {
+     "st": "七星",
+     "ev": "dep",
+     "printed": "19.56",
+     "bold": false,
+     "t": "19:56"
+    },
+    {
+     "st": "仙洞",
+     "ev": "dep",
+     "printed": "20.12",
+     "bold": false,
+     "t": "20:12"
+    },
+    {
+     "st": "五河林",
+     "ev": "dep",
+     "printed": "20.33",
+     "bold": false,
+     "t": "20:33"
+    },
+    {
+     "st": "柴河",
+     "ev": "dep",
+     "printed": "20.57",
+     "bold": false,
+     "t": "20:57"
+    },
+    {
+     "st": "樺林",
+     "ev": "dep",
+     "printed": "21.15",
+     "bold": false,
+     "t": "21:15"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "arr",
+     "printed": "21.33",
+     "bold": false,
+     "t": "21:33"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "22.00",
+     "bold": false,
+     "t": "22:00"
+    },
+    {
+     "st": "海浪",
+     "ev": "dep",
+     "printed": "22.14",
+     "bold": false,
+     "t": "22:14"
+    },
+    {
+     "st": "溫春",
+     "ev": "dep",
+     "printed": "22.42",
+     "bold": false,
+     "t": "22:42"
+    },
+    {
+     "st": "寧安",
+     "ev": "dep",
+     "printed": "22.59",
+     "bold": false,
+     "t": "22:59"
+    },
+    {
+     "st": "團崗",
+     "ev": "dep",
+     "printed": "23.18",
+     "bold": false,
+     "t": "23:18"
+    },
+    {
+     "st": "石頭",
+     "ev": "dep",
+     "printed": "23.37",
+     "bold": false,
+     "t": "23:37"
+    },
+    {
+     "st": "東京城",
+     "ev": "dep",
+     "printed": "0.03",
+     "bold": false,
+     "t": "24:03"
+    },
+    {
+     "st": "馬蓮河",
+     "ev": "dep",
+     "printed": "0.21",
+     "bold": false,
+     "t": "24:21"
+    },
+    {
+     "st": "斗溝子",
+     "ev": "dep",
+     "printed": "0.42",
+     "bold": false,
+     "t": "24:42"
+    },
+    {
+     "st": "鹿道",
+     "ev": "arr",
+     "printed": "1.07",
+     "bold": false,
+     "t": "25:07"
+    },
+    {
+     "st": "鹿道",
+     "ev": "dep",
+     "printed": "1.15",
+     "bold": false,
+     "t": "25:15"
+    },
+    {
+     "st": "老松嶺",
+     "ev": "dep",
+     "printed": "1.47",
+     "bold": false,
+     "t": "25:47"
+    },
+    {
+     "st": "老廟",
+     "ev": "dep",
+     "printed": "2.08",
+     "bold": false,
+     "t": "26:08"
+    },
+    {
+     "st": "春陽",
+     "ev": "dep",
+     "printed": "2.22",
+     "bold": false,
+     "t": "26:22"
+    },
+    {
+     "st": "駱駝山",
+     "ev": "dep",
+     "printed": "2.42",
+     "bold": false,
+     "t": "26:42"
+    },
+    {
+     "st": "天橋嶺",
+     "ev": "dep",
+     "printed": "3.04",
+     "bold": false,
+     "t": "27:04"
+    },
+    {
+     "st": "廟嶺",
+     "ev": "dep",
+     "printed": "3.28",
+     "bold": false,
+     "t": "27:28"
+    },
+    {
+     "st": "大興溝",
+     "ev": "dep",
+     "printed": "3.50",
+     "bold": false,
+     "t": "27:50"
+    },
+    {
+     "st": "汪淸",
+     "ev": "dep",
+     "printed": "4.10",
+     "bold": false,
+     "t": "28:10"
+    },
+    {
+     "st": "新興",
+     "ev": "dep",
+     "printed": "4.43",
+     "bold": false,
+     "t": "28:43"
+    },
+    {
+     "st": "三道溝",
+     "ev": "dep",
+     "printed": "4.58",
+     "bold": false,
+     "t": "28:58"
+    },
+    {
+     "st": "石峴",
+     "ev": "dep",
+     "printed": "5.22",
+     "bold": false,
+     "t": "29:22"
+    },
+    {
+     "st": "圖們",
+     "ev": "arr",
+     "printed": "5.45",
+     "bold": false,
+     "note": "發は抄錄行（54・55頁）",
+     "t": "29:45"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "6.25",
+     "bold": false,
+     "note": "發は抄錄行（54・55頁）",
+     "t": "30:25"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "6.32",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "30:32"
+    },
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "36:00"
+    }
+   ],
+   "dest": "羅津",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "col": "6"
+  },
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "佳木斯",
+     "ev": "dep",
+     "printed": "20.25",
+     "bold": false,
+     "t": "20:25"
+    },
+    {
+     "st": "長發屯",
+     "ev": "dep",
+     "printed": "20.49",
+     "bold": false,
+     "t": "20:49"
+    },
+    {
+     "st": "沼分",
+     "ev": "dep",
+     "printed": "21.26",
+     "bold": false,
+     "t": "21:26"
+    },
+    {
+     "st": "彌榮",
+     "ev": "dep",
+     "printed": "22.12",
+     "bold": false,
+     "t": "22:12"
+    },
+    {
+     "st": "八虎力",
+     "ev": "dep",
+     "printed": "22.33",
+     "bold": false,
+     "t": "22:33"
+    },
+    {
+     "st": "千振",
+     "ev": "dep",
+     "printed": "22.52",
+     "bold": false,
+     "t": "22:52"
+    },
+    {
+     "st": "閣家",
+     "ev": "dep",
+     "printed": "23.28",
+     "bold": false,
+     "t": "23:28"
+    },
+    {
+     "st": "倭肯",
+     "ev": "dep",
+     "printed": "23.54",
+     "bold": false,
+     "t": "23:54"
+    },
+    {
+     "st": "杏樹",
+     "ev": "dep",
+     "printed": "0.20",
+     "bold": false,
+     "t": "24:20"
+    },
+    {
+     "st": "勃利",
+     "ev": "arr",
+     "printed": "1.03",
+     "bold": false,
+     "t": "25:03"
+    },
+    {
+     "st": "勃利",
+     "ev": "dep",
+     "printed": "1.11",
+     "bold": false,
+     "t": "25:11"
+    },
+    {
+     "st": "通天",
+     "ev": "dep",
+     "printed": "1.26",
+     "bold": false,
+     "t": "25:26"
+    },
+    {
+     "st": "佛嶺",
+     "ev": "dep",
+     "printed": "2.16",
+     "bold": false,
+     "t": "26:16"
+    },
+    {
+     "st": "虎山",
+     "ev": "dep",
+     "printed": "2.29",
+     "bold": false,
+     "t": "26:29"
+    },
+    {
+     "st": "靑山",
+     "ev": "dep",
+     "printed": "2.55",
+     "bold": false,
+     "t": "26:55"
+    },
+    {
+     "st": "亞河",
+     "ev": "dep",
+     "printed": "3.15",
+     "bold": false,
+     "t": "27:15"
+    },
+    {
+     "st": "古城鎭",
+     "ev": "dep",
+     "printed": "3.46",
+     "bold": false,
+     "t": "27:46"
+    },
+    {
+     "st": "林口",
+     "ev": "arr",
+     "printed": "4.02",
+     "bold": false,
+     "t": "28:02"
+    },
+    {
+     "st": "林口",
+     "ev": "dep",
+     "printed": "4.10",
+     "bold": false,
+     "t": "28:10"
+    },
+    {
+     "st": "龍爪",
+     "ev": "dep",
+     "printed": "4.24",
+     "bold": false,
+     "t": "28:24"
+    },
+    {
+     "st": "向陽",
+     "ev": "dep",
+     "printed": "4.40",
+     "bold": false,
+     "t": "28:40"
+    },
+    {
+     "st": "楚山",
+     "ev": "dep",
+     "printed": "4.59",
+     "bold": false,
+     "t": "28:59"
+    },
+    {
+     "st": "賀林",
+     "ev": "dep",
+     "printed": "5.21",
+     "bold": false,
+     "t": "29:21"
+    },
+    {
+     "st": "七星",
+     "ev": "dep",
+     "printed": "5.40",
+     "bold": false,
+     "t": "29:40"
+    },
+    {
+     "st": "仙洞",
+     "ev": "dep",
+     "printed": "5.56",
+     "bold": false,
+     "t": "29:56"
+    },
+    {
+     "st": "五河林",
+     "ev": "dep",
+     "printed": "6.16",
+     "bold": false,
+     "t": "30:16"
+    },
+    {
+     "st": "柴河",
+     "ev": "dep",
+     "printed": "6.39",
+     "bold": false,
+     "t": "30:39"
+    },
+    {
+     "st": "樺林",
+     "ev": "dep",
+     "printed": "6.57",
+     "bold": false,
+     "t": "30:57"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "arr",
+     "printed": "7.15",
+     "bold": false,
+     "t": "31:15"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "7.45",
+     "bold": false,
+     "t": "31:45"
+    },
+    {
+     "st": "海浪",
+     "ev": "dep",
+     "printed": "7.58",
+     "bold": false,
+     "t": "31:58"
+    },
+    {
+     "st": "溫春",
+     "ev": "dep",
+     "printed": "8.22",
+     "bold": false,
+     "t": "32:22"
+    },
+    {
+     "st": "寧安",
+     "ev": "dep",
+     "printed": "8.37",
+     "bold": false,
+     "t": "32:37"
+    },
+    {
+     "st": "團崗",
+     "ev": "dep",
+     "printed": "8.54",
+     "bold": false,
+     "t": "32:54"
+    },
+    {
+     "st": "石頭",
+     "ev": "dep",
+     "printed": "9.11",
+     "bold": false,
+     "t": "33:11"
+    },
+    {
+     "st": "東京城",
+     "ev": "dep",
+     "printed": "9.34",
+     "bold": false,
+     "t": "33:34"
+    },
+    {
+     "st": "馬蓮河",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "33:50"
+    },
+    {
+     "st": "斗溝子",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": false,
+     "t": "34:17"
+    },
+    {
+     "st": "鹿道",
+     "ev": "arr",
+     "printed": "10.30",
+     "bold": false,
+     "t": "34:30"
+    },
+    {
+     "st": "鹿道",
+     "ev": "dep",
+     "printed": "10.38",
+     "bold": false,
+     "t": "34:38"
+    },
+    {
+     "st": "老松嶺",
+     "ev": "dep",
+     "printed": "11.04",
+     "bold": false,
+     "t": "35:04"
+    },
+    {
+     "st": "老廟",
+     "ev": "dep",
+     "printed": "11.21",
+     "bold": false,
+     "t": "35:21"
+    },
+    {
+     "st": "春陽",
+     "ev": "dep",
+     "printed": "11.38",
+     "bold": false,
+     "t": "35:38"
+    },
+    {
+     "st": "駱駝山",
+     "ev": "dep",
+     "printed": "11.57",
+     "bold": false,
+     "t": "35:57"
+    },
+    {
+     "st": "天橋嶺",
+     "ev": "dep",
+     "printed": "12.18",
+     "bold": false,
+     "t": "36:18"
+    },
+    {
+     "st": "廟嶺",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "36:40"
+    },
+    {
+     "st": "大興溝",
+     "ev": "dep",
+     "printed": "13.01",
+     "bold": false,
+     "t": "37:01"
+    },
+    {
+     "st": "汪淸",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "37:20"
+    },
+    {
+     "st": "新興",
+     "ev": "dep",
+     "printed": "14.06",
+     "bold": false,
+     "t": "38:06"
+    },
+    {
+     "st": "三道溝",
+     "ev": "dep",
+     "printed": "14.24",
+     "bold": false,
+     "t": "38:24"
+    },
+    {
+     "st": "石峴",
+     "ev": "dep",
+     "printed": "15.02",
+     "bold": false,
+     "note": "原表は「15002」と印刷",
+     "t": "39:02"
+    },
+    {
+     "st": "圖們",
+     "ev": "arr",
+     "printed": "15.24",
+     "bold": false,
+     "note": "發は抄錄行（54・55頁）",
+     "t": "39:24"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "15.55",
+     "bold": false,
+     "note": "發は抄錄行（54・55頁）",
+     "t": "39:55"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "16.01",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "40:01"
+    },
+    {
+     "st": "羅津",
+     "ev": "dep",
+     "printed": "20.40",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "44:40"
+    }
+   ],
+   "dest": "羅津",
+   "cls": "1.2.3",
+   "marks": "食 寢1.2.3",
+   "col": "7"
+  },
+  {
+   "no": "110",
+   "stops": [
+    {
+     "st": "林口",
+     "ev": "arr",
+     "printed": "5.54",
+     "bold": false,
+     "t": "05:54"
+    },
+    {
+     "st": "林口",
+     "ev": "dep",
+     "printed": "6.09",
+     "bold": false,
+     "t": "06:09"
+    },
+    {
+     "st": "龍爪",
+     "ev": "dep",
+     "printed": "6.23",
+     "bold": false,
+     "t": "06:23"
+    },
+    {
+     "st": "向陽",
+     "ev": "dep",
+     "printed": "6.39",
+     "bold": false,
+     "t": "06:39"
+    },
+    {
+     "st": "楚山",
+     "ev": "dep",
+     "printed": "6.58",
+     "bold": false,
+     "t": "06:58"
+    },
+    {
+     "st": "賀林",
+     "ev": "dep",
+     "printed": "7.23",
+     "bold": false,
+     "t": "07:23"
+    },
+    {
+     "st": "七星",
+     "ev": "dep",
+     "printed": "7.39",
+     "bold": false,
+     "t": "07:39"
+    },
+    {
+     "st": "仙洞",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": false,
+     "t": "07:55"
+    },
+    {
+     "st": "五河林",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": false,
+     "t": "08:15"
+    },
+    {
+     "st": "柴河",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": false,
+     "t": "08:38"
+    },
+    {
+     "st": "樺林",
+     "ev": "dep",
+     "printed": "9.01",
+     "bold": false,
+     "t": "09:01"
+    },
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "9.19",
+     "bold": false,
+     "t": "09:19"
+    }
+   ],
+   "dest": "牡丹江",
+   "cls": "1.2.3",
+   "marks": "食 寢1.2",
+   "origin": "虎頭",
+   "col": "8",
+   "note": "林口より上の空欄に縦書きで「虎頭發 11.05」"
+  },
+  {
+   "no": "310",
+   "stops": [
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "溫春",
+     "ev": "pass"
+    },
+    {
+     "st": "寧安",
+     "ev": "dep",
+     "printed": "11.16",
+     "bold": false,
+     "t": "11:16"
+    },
+    {
+     "st": "團崗",
+     "ev": "pass"
+    },
+    {
+     "st": "石頭",
+     "ev": "pass"
+    },
+    {
+     "st": "東京城",
+     "ev": "dep",
+     "printed": "12.08",
+     "bold": false,
+     "t": "12:08"
+    },
+    {
+     "st": "馬蓮河",
+     "ev": "pass"
+    },
+    {
+     "st": "斗溝子",
+     "ev": "pass"
+    },
+    {
+     "st": "鹿道",
+     "ev": "arr",
+     "printed": "13.00",
+     "bold": false,
+     "note": "發は印刷通り。次の停車 春陽 14.05 より後で矛盾（13.07の誤植か）",
+     "t": "13:00"
+    },
+    {
+     "st": "鹿道",
+     "ev": "dep",
+     "printed": "14.07",
+     "bold": false,
+     "note": "發は印刷通り。次の停車 春陽 14.05 より後で矛盾（13.07の誤植か）",
+     "t": "14:07"
+    },
+    {
+     "st": "老松嶺",
+     "ev": "pass"
+    },
+    {
+     "st": "老廟",
+     "ev": "pass"
+    },
+    {
+     "st": "春陽",
+     "ev": "dep",
+     "printed": "14.05",
+     "bold": false,
+     "t": "14:05"
+    },
+    {
+     "st": "駱駝山",
+     "ev": "pass"
+    },
+    {
+     "st": "天橋嶺",
+     "ev": "dep",
+     "printed": "14.49",
+     "bold": false,
+     "t": "14:49"
+    },
+    {
+     "st": "廟嶺",
+     "ev": "dep",
+     "printed": "15.11",
+     "bold": false,
+     "t": "15:11"
+    },
+    {
+     "st": "大興溝",
+     "ev": "pass"
+    },
+    {
+     "st": "汪淸",
+     "ev": "dep",
+     "printed": "15.49",
+     "bold": false,
+     "t": "15:49"
+    },
+    {
+     "st": "新興",
+     "ev": "dep",
+     "printed": "16.16",
+     "bold": false,
+     "t": "16:16"
+    },
+    {
+     "st": "三道溝",
+     "ev": "pass"
+    },
+    {
+     "st": "石峴",
+     "ev": "pass"
+    },
+    {
+     "st": "圖們",
+     "ev": "arr",
+     "printed": "17.15",
+     "bold": false,
+     "note": "發は抄錄行（54・55頁）",
+     "t": "17:15"
+    },
+    {
+     "st": "圖們",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "note": "發は抄錄行（54・55頁）",
+     "t": "17:30"
+    },
+    {
+     "st": "南陽",
+     "ev": "dep",
+     "printed": "17.37",
+     "bold": false,
+     "note": "抄錄行",
+     "t": "17:37"
+    }
+   ],
+   "dest": "京城",
+   "cls": "2.3",
+   "marks": "急 食 寢2.3",
+   "origin": "牡丹江",
+   "col": "9",
+   "note": "空欄に縦書きで「京城著 14.12」"
+  },
+  {
+   "no": "144",
+   "stops": [
+    {
+     "st": "牡丹江",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "海浪",
+     "ev": "dep",
+     "printed": "18.13",
+     "bold": false,
+     "t": "18:13"
+    },
+    {
+     "st": "溫春",
+     "ev": "dep",
+     "printed": "18.52",
+     "bold": false,
+     "t": "18:52"
+    },
+    {
+     "st": "寧安",
+     "ev": "dep",
+     "printed": "19.14",
+     "bold": false,
+     "t": "19:14"
+    },
+    {
+     "st": "團崗",
+     "ev": "dep",
+     "printed": "19.32",
+     "bold": false,
+     "t": "19:32"
+    },
+    {
+     "st": "石頭",
+     "ev": "dep",
+     "printed": "19.50",
+     "bold": false,
+     "t": "19:50"
+    },
+    {
+     "st": "東京城",
+     "ev": "dep",
+     "printed": "20.30",
+     "bold": false,
+     "t": "20:30"
+    },
+    {
+     "st": "馬蓮河",
+     "ev": "dep",
+     "printed": "20.47",
+     "bold": false,
+     "t": "20:47"
+    },
+    {
+     "st": "斗溝子",
+     "ev": "dep",
+     "printed": "21.05",
+     "bold": false,
+     "t": "21:05"
+    },
+    {
+     "st": "鹿道",
+     "ev": "dep",
+     "printed": "21.30",
+     "bold": false,
+     "t": "21:30"
+    }
+   ],
+   "dest": "鹿道",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "牡丹江",
+   "col": "10"
+  }
+ ],
+ "notes": [
+  "昭和17.6.15改訂。頁51の全幅の表。反對方向（圖們→佳木斯）は頁50の p50a。表題は頁50に「圖們・佳」、頁51に「木斯間」「（國線・圖佳線）」と分けて印刷。",
+  "左端に「自佳木斯 運賃 1等・2等・3等」欄があるが轉記せず。粁程欄は無い。驛名の左の設備記號も轉記せず。",
+  "列車欄は10欄（142・146・1142・150・302・104・102・110・310・144）。その右に列車の無い空欄が3欄あり全行「…」。",
+  "表頭の記號：150・302・104・102・110・310に食堂車の繪記號、302・104・102・110・310に寢臺の繪記號と反轉枠の寢臺等級（302 2.3／104 2.3／102 1.2.3／110 1.2／310 2.3）。310の「京城行」の右に小さな反轉枠の記號（急行の標示か）。",
+  "310の海浪の桝に反轉枠「急行」の標示があり時刻は入らない（通過）。同列車の他の通過驛は「レ」。",
+  "表尾に「54.55頁{圖們發／南陽著／羅津ヵ（著）}」の連絡抄錄が3行ある（302・104・102・310のみ時刻が入る）。302の左隣の空欄に縦書きで「京城著 22.48」、310の右隣の空欄に縦書きで「京城著 14.12」。",
+  "1142欄（col 3）の勃利―古城鎭の空所に縦書きで「（不定期運轉 勃利林口間）」と鉤括弧がある。勃利―林口間を走る普通列車は146のみなので146に係ると解した。",
+  "302欄（col 5）の柴河―牡丹江の空所に縦書きで「（上三峰京城間急行）」とある。",
+  "142の三道溝 9.34→石峴 9.39 は5分で、石峴→圖們が49分となり他列車（三道溝―石峴 23〜30分、石峴―圖們 22〜29分）と合はない。印刷の通りに記したが誤植の疑ひが濃い（9.59か）。",
+  "310の鹿道 著13.00／發14.07 は、次の停車驛 春陽 14.05 より後になり矛盾する。印刷の通りに記した（13.07の誤植か）。",
+  "102の石峴の桝は「15002」と印刷されてゐる（小數點が潰れたものと見て 15.02 と記した）。",
+  "102の汪淸 13.20→新興 14.06 は46分で他列車より長いが、印刷の通り。",
+  "頁頭は圖們―佳木斯間の車窓展望圖（牡丹江―佳木斯の部分）と讀みにくい驛名の帶の續き。右端の餘白に縦書きで「滿洲 圖佳線」。表の下には頁番號のみで、小表・脚註は無い。記念スタンプの行は頁50の下にある。",
+  "驛名は頁51の方が明瞭。「團崗」「閣家」「沼分」は字が小さく確度が低い。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。「v」は原表の「レ」（通過）。"
+ ],
+ "source": "IMG_1854",
+ "page": "51",
+ "title": "圖們・佳木斯間（國線・圖佳線）",
+ "line": "國線 圖佳線",
+ "dir": "圖們行（佳木斯→圖們）"
+}

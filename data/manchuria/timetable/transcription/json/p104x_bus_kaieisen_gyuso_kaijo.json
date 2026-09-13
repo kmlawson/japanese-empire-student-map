@@ -1,0 +1,154 @@
+{
+ "stations": [
+  {
+   "name": "牛莊",
+   "km": null
+  },
+  {
+   "name": "海城驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "2",
+   "stops": [
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "1"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "2"
+  },
+  {
+   "no": "12",
+   "stops": [
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "3"
+  },
+  {
+   "no": "36",
+   "stops": [
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "4"
+  },
+  {
+   "no": "38",
+   "stops": [
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "18.10",
+     "bold": false,
+     "t": "18:10"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "5"
+  },
+  {
+   "no": "40",
+   "stops": [
+    {
+     "st": "牛莊",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    },
+    {
+     "st": "海城驛",
+     "ev": "dep",
+     "printed": "18.40",
+     "bold": false,
+     "t": "18:40"
+    }
+   ],
+   "dest": "海城驛",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "between buses 12 and 36 the table prints 「此の間30分每に運行す」 (a bus every 30 minutes over that interval); only the named columns are transcribed",
+  "fare column printed once, for the 海城驛→牛莊 direction"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "海營線",
+ "title": "海城驛・牛莊間",
+ "dir": "牛莊→海城驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "牛莊 1.00 | 海城驛 0"
+}

@@ -1,0 +1,21 @@
+source: IMG_1887
+page: 117
+kind: bus
+office: 各地自動車會社線
+line: 金大線（大連都市交通會社）
+title: 大連・金州間
+dir: 大連→金州
+season: 昭和16.11.1改正
+note: 左3欄（大連發）。「初發｜此間40回｜終發」。運賃は円錢。
+stations: 大連 | 金州
+fares: 大連 | 金州 0.70
+
+train: 無番 | dest 金州 | col 1
+; 初發
+大連 8.00
+金州 9.15
+
+train: 無番 | dest 金州 | col 3
+; 終發。col 1 と col 3 の間は「此間 40回」
+大連 22.00
+金州 23.15

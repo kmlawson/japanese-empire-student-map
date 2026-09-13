@@ -51,6 +51,11 @@ SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is 
 # features together and routable stretches fell from 120 to 33. The *answer* is
 # thinned instead, by `simplify_m` below, so what is stored matches the
 # tolerance the map draws at.
+# The Manchurian lines traced for this map's own Manchuria system, and its
+# station file: what the connections beyond Korea are placed on and routed
+# along. See `mn_place` below.
+MN_LINES_GEOJSON = os.path.join(ROOT, "data", "manchuria", "manchuria-1942-lines.geojson")
+MN_STATIONS_JS = os.path.join(ROOT, "deploy", "mn-stations.js")
 JP_LINES_GEOJSON = os.path.join(ROOT, "data", "jp-rails",
                                 "japan-railway-lines-1942.geojson")
 SRC = os.path.join(ROOT, 'data', 'kr-1938-timetable')
@@ -338,6 +343,51 @@ def grab(text, name):
     return json.loads(text[i:j].rstrip().rstrip(';'))
 
 
+# **A MANCHURIAN CONNECTION STANDS AT ITS STATION, NOT AT ITS CITY.** The
+# Manchurian pages were transcribed with no line GIS behind them, so their
+# stops sat at the map's city points -- 奉天 3.6 km from the station, 哈爾濱
+# 8.6 -- or nowhere, and the track between two of them was a chord. The map
+# now draws Manchuria's railway from its own timetable (tools/build_mn_*.py),
+# and this puts every Manchurian stop the Korean tables print where that
+# system's station file has it, by the characters the two sources share. The
+# few the booklets spell differently are named here; a stop neither knows
+# keeps what it had. The lines stay flagged `x`: they are still the
+# connections beyond Korea's network, they just run along the railway now.
+MN_ALIAS = {'奉天總站': '北奉天', '四平街': '四平', '齊々哈爾': '齊齊哈爾',
+            '天津東站': '天津', '北平': '北京'}
+
+
+def mn_stations():
+    out = {}
+    if not os.path.exists(MN_STATIONS_JS):
+        return out
+    for line in open(MN_STATIONS_JS, encoding='utf-8'):
+        line = line.strip().rstrip(',')
+        if line.startswith('{') and line.endswith('}'):
+            o = json.loads(line)
+            out.setdefault(o['han'], o)
+    return out
+
+
+_MN = mn_stations()
+_mn_placed = []
+
+
+def mn_place(rec, name):
+    """Move a `@manchuria` stop onto the Manchuria system's station, if it has one."""
+    if not name.endswith('@manchuria'):
+        return False
+    han = name[:-len('@manchuria')]
+    o = _MN.get(MN_ALIAS.get(han, han))
+    if not o:
+        return False
+    # the position only: the readings stay this bundle's own, because the
+    # Manchurian file reads 京城 in pinyin and the Korean page wants its hangul
+    rec['lon'], rec['lat'] = o['lon'], o['lat']
+    _mn_placed.append(han)
+    return True
+
+
 def our_stations():
     """kr-stations.js, which is JSON with a JS wrapper and trailing commas."""
     txt = open(os.path.join(SITE, 'kr-stations.js'), encoding='utf-8').read()
@@ -346,6 +396,7 @@ def our_stations():
 
 
 def build_js(anchors=None):
+    del _mn_placed[:]            # build_js runs twice; count once
     src = open(os.path.join(SRC, 'data.js'), encoding='utf-8').read()
     stations = grab(src, 'STATIONS')
     trains = grab(src, 'TRAINS')
@@ -512,6 +563,7 @@ def build_js(anchors=None):
         if jl:
             rec['lon'], rec['lat'] = jl['lon'], jl['lat']
             jp_link.count('placed')
+        mn_place(rec, s['name'])
         out_st.append(rec)
 
     # **A CONNECTION STOP THAT IS ALREADY ON THIS MAP STANDS WHERE IT STANDS.**
@@ -724,11 +776,19 @@ def build_js(anchors=None):
     # the boat went by train, and it says it four years early.
     _ferry_li = {i for n, i in line_ix.items()
                  if n.endswith('連絡船') or n.endswith('連絡線')}
+    # The Manchurian stops from the station file sit up to 2.5 km from the
+    # traced alignment (貔子窩; see build_mn_trains.py), so the snap is
+    # loosened from 1.2 km to take them. Korea's own stations are from the
+    # line GIS and sit on it; the Japanese ones were moved onto N05 stations.
+    rail_route.SNAP_KM = 3.0
+    print('Manchurian connection stops placed at their station: %d' % len(_mn_placed))
     rail_route.fill(doc, [os.path.join(ROOT, 'tools', 'cache', f)
                           for f in ('korea_1942_lines_dedup.geojson',
                                     'korea_1930_lines_dedup.geojson')]
-                         + [JP_LINES_GEOJSON], 'Korea 1938',
+                         + [JP_LINES_GEOJSON, MN_LINES_GEOJSON], 'Korea 1938',
                     skip_li=_ferry_li,
+                    # the Manchurian trace crosses itself between vertices
+                    node_crossings=[MN_LINES_GEOJSON],
                     # **Welded at the tolerance the geometry is drawn at.**
                     # N05's 1,977 features come to 241 separate components, so
                     # 糸崎 and 尾道 — adjacent stations eight kilometres apart on

@@ -1,0 +1,1230 @@
+{
+ "stations": [
+  {
+   "name": "滿洲里",
+   "km": null
+  },
+  {
+   "name": "扎來諾爾",
+   "km": null
+  },
+  {
+   "name": "嵯崗",
+   "km": null
+  },
+  {
+   "name": "赫爾洪得",
+   "km": null
+  },
+  {
+   "name": "完工",
+   "km": null
+  },
+  {
+   "name": "烏奴諾爾",
+   "km": null
+  },
+  {
+   "name": "海拉爾",
+   "km": null
+  },
+  {
+   "name": "哈克",
+   "km": null
+  },
+  {
+   "name": "扎羅木得",
+   "km": null
+  },
+  {
+   "name": "牙克石",
+   "km": null
+  },
+  {
+   "name": "免渡河",
+   "km": null
+  },
+  {
+   "name": "烏奴爾",
+   "km": null
+  },
+  {
+   "name": "伊爾克得",
+   "km": null
+  },
+  {
+   "name": "興安",
+   "km": null
+  },
+  {
+   "name": "博克圖",
+   "km": null
+  },
+  {
+   "name": "雅魯",
+   "km": null
+  },
+  {
+   "name": "巴林",
+   "km": null
+  },
+  {
+   "name": "哈拉蘇",
+   "km": null
+  },
+  {
+   "name": "扎蘭屯",
+   "km": null
+  },
+  {
+   "name": "成吉思汗",
+   "km": null
+  },
+  {
+   "name": "碾子山",
+   "km": null
+  },
+  {
+   "name": "土爾池哈",
+   "km": null
+  },
+  {
+   "name": "虎爾虎拉",
+   "km": null
+  },
+  {
+   "name": "富拉爾基",
+   "km": null
+  },
+  {
+   "name": "昂昂溪",
+   "km": null
+  },
+  {
+   "name": "煙筒屯",
+   "km": null
+  },
+  {
+   "name": "泰康",
+   "km": null
+  },
+  {
+   "name": "喇嘛甸",
+   "km": null
+  },
+  {
+   "name": "薩爾圖",
+   "km": null
+  },
+  {
+   "name": "安達",
+   "km": null
+  },
+  {
+   "name": "宋",
+   "km": null
+  },
+  {
+   "name": "尚家",
+   "km": null
+  },
+  {
+   "name": "肇東",
+   "km": null
+  },
+  {
+   "name": "姜家",
+   "km": null
+  },
+  {
+   "name": "對青山",
+   "km": null
+  },
+  {
+   "name": "廟臺子",
+   "km": null
+  },
+  {
+   "name": "哈爾濱",
+   "km": null
+  },
+  {
+   "name": "濱江",
+   "km": null
+  },
+  {
+   "name": "三棵樹",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "744",
+   "stops": [
+    {
+     "st": "昂昂溪",
+     "ev": "arr",
+     "printed": "0.12",
+     "bold": false,
+     "t": "00:12"
+    },
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "0.38",
+     "bold": false,
+     "t": "00:38"
+    },
+    {
+     "st": "煙筒屯",
+     "ev": "dep",
+     "printed": "1.17",
+     "bold": false,
+     "t": "01:17"
+    },
+    {
+     "st": "泰康",
+     "ev": "dep",
+     "printed": "1.56",
+     "bold": false,
+     "t": "01:56"
+    },
+    {
+     "st": "喇嘛甸",
+     "ev": "dep",
+     "printed": "2.38",
+     "bold": false,
+     "t": "02:38"
+    },
+    {
+     "st": "薩爾圖",
+     "ev": "dep",
+     "printed": "3.10",
+     "bold": false,
+     "t": "03:10"
+    },
+    {
+     "st": "安達",
+     "ev": "arr",
+     "printed": "3.48",
+     "bold": false,
+     "t": "03:48"
+    },
+    {
+     "st": "安達",
+     "ev": "dep",
+     "printed": "4.10",
+     "bold": false,
+     "t": "04:10"
+    },
+    {
+     "st": "宋",
+     "ev": "dep",
+     "printed": "4.54",
+     "bold": false,
+     "t": "04:54"
+    },
+    {
+     "st": "尚家",
+     "ev": "dep",
+     "printed": "5.21",
+     "bold": false,
+     "t": "05:21"
+    },
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "5.46",
+     "bold": false,
+     "t": "05:46"
+    },
+    {
+     "st": "姜家",
+     "ev": "dep",
+     "printed": "6.02",
+     "bold": false,
+     "t": "06:02"
+    },
+    {
+     "st": "對青山",
+     "ev": "dep",
+     "printed": "6.29",
+     "bold": false,
+     "t": "06:29"
+    },
+    {
+     "st": "廟臺子",
+     "ev": "dep",
+     "printed": "6.56",
+     "bold": false,
+     "t": "06:56"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "arr",
+     "printed": "7.14",
+     "bold": false,
+     "t": "07:14"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": false,
+     "t": "07:55"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": false,
+     "t": "08:05"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": false,
+     "t": "08:15"
+    }
+   ],
+   "dest": "三棵樹",
+   "cls": "2.3",
+   "marks": "混 寢2.3",
+   "origin": "齊齊哈爾",
+   "col": "1",
+   "note": "昂昂溪より上の桝に縦書きで「齊齊哈爾發 23.25」"
+  },
+  {
+   "no": "726",
+   "stops": [
+    {
+     "st": "安達",
+     "ev": "dep",
+     "printed": "6.50",
+     "bold": false,
+     "t": "06:50"
+    },
+    {
+     "st": "宋",
+     "ev": "dep",
+     "printed": "7.35",
+     "bold": false,
+     "t": "07:35"
+    },
+    {
+     "st": "尚家",
+     "ev": "dep",
+     "printed": "8.02",
+     "bold": false,
+     "t": "08:02"
+    },
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "姜家",
+     "ev": "dep",
+     "printed": "8.52",
+     "bold": false,
+     "t": "08:52"
+    },
+    {
+     "st": "對青山",
+     "ev": "dep",
+     "printed": "9.19",
+     "bold": false,
+     "t": "09:19"
+    },
+    {
+     "st": "廟臺子",
+     "ev": "dep",
+     "printed": "9.46",
+     "bold": false,
+     "t": "09:46"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "arr",
+     "printed": "10.04",
+     "bold": false,
+     "t": "10:04"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "10.52",
+     "bold": false,
+     "t": "10:52"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "11.04",
+     "bold": false,
+     "t": "11:04"
+    }
+   ],
+   "dest": "三棵樹",
+   "cls": "3",
+   "col": "2"
+  },
+  {
+   "no": "702",
+   "stops": [
+    {
+     "st": "滿洲里",
+     "ev": "dep",
+     "printed": "14.45",
+     "bold": false,
+     "t": "14:45"
+    },
+    {
+     "st": "扎來諾爾",
+     "ev": "dep",
+     "printed": "15.23",
+     "bold": false,
+     "t": "15:23"
+    },
+    {
+     "st": "嵯崗",
+     "ev": "dep",
+     "printed": "16.01",
+     "bold": false,
+     "t": "16:01"
+    },
+    {
+     "st": "赫爾洪得",
+     "ev": "dep",
+     "printed": "16.54",
+     "bold": false,
+     "t": "16:54"
+    },
+    {
+     "st": "完工",
+     "ev": "dep",
+     "printed": "17.35",
+     "bold": false,
+     "t": "17:35"
+    },
+    {
+     "st": "烏奴諾爾",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "海拉爾",
+     "ev": "arr",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    },
+    {
+     "st": "海拉爾",
+     "ev": "dep",
+     "printed": "19.20",
+     "bold": false,
+     "t": "19:20"
+    },
+    {
+     "st": "哈克",
+     "ev": "dep",
+     "printed": "19.57",
+     "bold": false,
+     "t": "19:57"
+    },
+    {
+     "st": "扎羅木得",
+     "ev": "dep",
+     "printed": "20.40",
+     "bold": false,
+     "t": "20:40"
+    },
+    {
+     "st": "牙克石",
+     "ev": "dep",
+     "printed": "21.18",
+     "bold": false,
+     "t": "21:18"
+    },
+    {
+     "st": "免渡河",
+     "ev": "dep",
+     "printed": "22.06",
+     "bold": false,
+     "t": "22:06"
+    },
+    {
+     "st": "烏奴爾",
+     "ev": "dep",
+     "printed": "22.48",
+     "bold": false,
+     "t": "22:48"
+    },
+    {
+     "st": "伊爾克得",
+     "ev": "dep",
+     "printed": "23.47",
+     "bold": false,
+     "t": "23:47"
+    },
+    {
+     "st": "興安",
+     "ev": "dep",
+     "printed": "0.11",
+     "bold": false,
+     "t": "24:11"
+    },
+    {
+     "st": "博克圖",
+     "ev": "arr",
+     "printed": "0.54",
+     "bold": false,
+     "t": "24:54"
+    },
+    {
+     "st": "博克圖",
+     "ev": "dep",
+     "printed": "1.16",
+     "bold": false,
+     "t": "25:16"
+    },
+    {
+     "st": "雅魯",
+     "ev": "dep",
+     "printed": "1.53",
+     "bold": false,
+     "t": "25:53"
+    },
+    {
+     "st": "巴林",
+     "ev": "dep",
+     "printed": "2.32",
+     "bold": false,
+     "t": "26:32"
+    },
+    {
+     "st": "哈拉蘇",
+     "ev": "dep",
+     "printed": "3.11",
+     "bold": false,
+     "t": "27:11"
+    },
+    {
+     "st": "扎蘭屯",
+     "ev": "dep",
+     "printed": "3.55",
+     "bold": false,
+     "t": "27:55"
+    },
+    {
+     "st": "成吉思汗",
+     "ev": "dep",
+     "printed": "4.34",
+     "bold": false,
+     "t": "28:34"
+    },
+    {
+     "st": "碾子山",
+     "ev": "dep",
+     "printed": "5.18",
+     "bold": false,
+     "t": "29:18"
+    },
+    {
+     "st": "土爾池哈",
+     "ev": "dep",
+     "printed": "5.56",
+     "bold": false,
+     "t": "29:56"
+    },
+    {
+     "st": "虎爾虎拉",
+     "ev": "dep",
+     "printed": "6.37",
+     "bold": false,
+     "t": "30:37"
+    },
+    {
+     "st": "富拉爾基",
+     "ev": "dep",
+     "printed": "6.50",
+     "bold": false,
+     "t": "30:50"
+    },
+    {
+     "st": "昂昂溪",
+     "ev": "arr",
+     "printed": "7.11",
+     "bold": false,
+     "t": "31:11"
+    },
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "32:00"
+    },
+    {
+     "st": "煙筒屯",
+     "ev": "dep",
+     "printed": "8.39",
+     "bold": false,
+     "t": "32:39"
+    },
+    {
+     "st": "泰康",
+     "ev": "dep",
+     "printed": "9.13",
+     "bold": false,
+     "t": "33:13"
+    },
+    {
+     "st": "喇嘛甸",
+     "ev": "dep",
+     "printed": "9.53",
+     "bold": false,
+     "t": "33:53"
+    },
+    {
+     "st": "薩爾圖",
+     "ev": "dep",
+     "printed": "10.21",
+     "bold": false,
+     "t": "34:21"
+    },
+    {
+     "st": "安達",
+     "ev": "arr",
+     "printed": "10.59",
+     "bold": false,
+     "t": "34:59"
+    },
+    {
+     "st": "安達",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "35:10"
+    },
+    {
+     "st": "宋",
+     "ev": "dep",
+     "printed": "11.53",
+     "bold": false,
+     "t": "35:53"
+    },
+    {
+     "st": "尚家",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "36:20"
+    },
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "36:40"
+    },
+    {
+     "st": "姜家",
+     "ev": "dep",
+     "printed": "12.57",
+     "bold": false,
+     "t": "36:57"
+    },
+    {
+     "st": "對青山",
+     "ev": "dep",
+     "printed": "13.24",
+     "bold": false,
+     "t": "37:24"
+    },
+    {
+     "st": "廟臺子",
+     "ev": "dep",
+     "printed": "13.51",
+     "bold": false,
+     "t": "37:51"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "arr",
+     "printed": "14.10",
+     "bold": false,
+     "t": "38:10"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "14.22",
+     "bold": false,
+     "t": "38:22"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "14.36",
+     "bold": false,
+     "t": "38:36"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "38:50"
+    }
+   ],
+   "dest": "三棵樹",
+   "cls": "1.2.3",
+   "marks": "食 寢2.3",
+   "col": "3"
+  },
+  {
+   "no": "724",
+   "stops": [
+    {
+     "st": "安達",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "宋",
+     "ev": "dep",
+     "printed": "14.15",
+     "bold": false,
+     "t": "14:15"
+    },
+    {
+     "st": "尚家",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "姜家",
+     "ev": "dep",
+     "printed": "15.15",
+     "bold": false,
+     "t": "15:15"
+    },
+    {
+     "st": "對青山",
+     "ev": "dep",
+     "printed": "16.04",
+     "bold": false,
+     "t": "16:04"
+    },
+    {
+     "st": "廟臺子",
+     "ev": "dep",
+     "printed": "16.29",
+     "bold": false,
+     "t": "16:29"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "arr",
+     "printed": "16.43",
+     "bold": false,
+     "t": "16:43"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    }
+   ],
+   "dest": "三棵樹",
+   "cls": "2.3",
+   "marks": "動",
+   "col": "4"
+  },
+  {
+   "no": "742",
+   "stops": [
+    {
+     "st": "昂昂溪",
+     "ev": "arr",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    },
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "14.45",
+     "bold": false,
+     "t": "14:45"
+    },
+    {
+     "st": "煙筒屯",
+     "ev": "dep",
+     "printed": "15.24",
+     "bold": false,
+     "t": "15:24"
+    },
+    {
+     "st": "泰康",
+     "ev": "dep",
+     "printed": "16.02",
+     "bold": false,
+     "t": "16:02"
+    },
+    {
+     "st": "喇嘛甸",
+     "ev": "dep",
+     "printed": "16.42",
+     "bold": false,
+     "t": "16:42"
+    },
+    {
+     "st": "薩爾圖",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "安達",
+     "ev": "arr",
+     "printed": "17.48",
+     "bold": false,
+     "t": "17:48"
+    },
+    {
+     "st": "安達",
+     "ev": "dep",
+     "printed": "18.16",
+     "bold": false,
+     "t": "18:16"
+    },
+    {
+     "st": "宋",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    },
+    {
+     "st": "尚家",
+     "ev": "dep",
+     "printed": "19.27",
+     "bold": false,
+     "t": "19:27"
+    },
+    {
+     "st": "肇東",
+     "ev": "dep",
+     "printed": "19.52",
+     "bold": false,
+     "t": "19:52"
+    },
+    {
+     "st": "姜家",
+     "ev": "dep",
+     "printed": "20.09",
+     "bold": false,
+     "t": "20:09"
+    },
+    {
+     "st": "對青山",
+     "ev": "dep",
+     "printed": "20.36",
+     "bold": false,
+     "t": "20:36"
+    },
+    {
+     "st": "廟臺子",
+     "ev": "dep",
+     "printed": "21.03",
+     "bold": false,
+     "t": "21:03"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "arr",
+     "printed": "21.21",
+     "bold": false,
+     "t": "21:21"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "22.10",
+     "bold": false,
+     "t": "22:10"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "22.20",
+     "bold": false,
+     "t": "22:20"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "22.30",
+     "bold": false,
+     "t": "22:30"
+    }
+   ],
+   "dest": "三棵樹",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "齊齊哈爾",
+   "col": "5",
+   "note": "昂昂溪より上の桝に縦書きで「齊齊哈爾發 13.35」"
+  },
+  {
+   "no": "750",
+   "stops": [
+    {
+     "st": "土爾池哈",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "虎爾虎拉",
+     "ev": "dep",
+     "printed": "14.08",
+     "bold": false,
+     "t": "14:08"
+    },
+    {
+     "st": "富拉爾基",
+     "ev": "dep",
+     "printed": "14.19",
+     "bold": false,
+     "t": "14:19"
+    },
+    {
+     "st": "昂昂溪",
+     "ev": "arr",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "15.05",
+     "bold": false,
+     "t": "15:05"
+    }
+   ],
+   "dest": "齊齊哈爾",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "土爾池哈",
+   "col": "6",
+   "note": "昂昂溪より下の桝に縦書きで「齊齊哈爾著 15.50」"
+  },
+  {
+   "no": "772",
+   "stops": [
+    {
+     "st": "博克圖",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "雅魯",
+     "ev": "dep",
+     "printed": "9.12",
+     "bold": false,
+     "t": "09:12"
+    },
+    {
+     "st": "巴林",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    },
+    {
+     "st": "哈拉蘇",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "扎蘭屯",
+     "ev": "dep",
+     "printed": "12.15",
+     "bold": false,
+     "t": "12:15"
+    },
+    {
+     "st": "成吉思汗",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "13:10"
+    },
+    {
+     "st": "碾子山",
+     "ev": "dep",
+     "printed": "14.10",
+     "bold": false,
+     "t": "14:10"
+    },
+    {
+     "st": "土爾池哈",
+     "ev": "dep",
+     "printed": "15.15",
+     "bold": false,
+     "t": "15:15"
+    },
+    {
+     "st": "虎爾虎拉",
+     "ev": "dep",
+     "printed": "16.12",
+     "bold": false,
+     "t": "16:12"
+    },
+    {
+     "st": "富拉爾基",
+     "ev": "dep",
+     "printed": "16.55",
+     "bold": false,
+     "t": "16:55"
+    },
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    }
+   ],
+   "dest": "昂昂溪",
+   "cls": "3",
+   "marks": "混",
+   "origin": "博克圖",
+   "col": "7"
+  },
+  {
+   "no": "748",
+   "stops": [
+    {
+     "st": "海拉爾",
+     "ev": "dep",
+     "printed": "7.25",
+     "bold": false,
+     "t": "07:25"
+    },
+    {
+     "st": "哈克",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": false,
+     "t": "08:05"
+    },
+    {
+     "st": "扎羅木得",
+     "ev": "dep",
+     "printed": "8.53",
+     "bold": false,
+     "t": "08:53"
+    },
+    {
+     "st": "牙克石",
+     "ev": "dep",
+     "printed": "9.34",
+     "bold": false,
+     "t": "09:34"
+    },
+    {
+     "st": "免渡河",
+     "ev": "dep",
+     "printed": "10.27",
+     "bold": false,
+     "t": "10:27"
+    },
+    {
+     "st": "烏奴爾",
+     "ev": "dep",
+     "printed": "11.12",
+     "bold": false,
+     "t": "11:12"
+    },
+    {
+     "st": "伊爾克得",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "興安",
+     "ev": "dep",
+     "printed": "12.41",
+     "bold": false,
+     "t": "12:41"
+    },
+    {
+     "st": "博克圖",
+     "ev": "arr",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "博克圖",
+     "ev": "dep",
+     "printed": "13.53",
+     "bold": false,
+     "t": "13:53"
+    },
+    {
+     "st": "雅魯",
+     "ev": "dep",
+     "printed": "14.33",
+     "bold": false,
+     "t": "14:33"
+    },
+    {
+     "st": "巴林",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "哈拉蘇",
+     "ev": "dep",
+     "printed": "16.05",
+     "bold": false,
+     "t": "16:05"
+    },
+    {
+     "st": "扎蘭屯",
+     "ev": "dep",
+     "printed": "16.55",
+     "bold": false,
+     "t": "16:55"
+    },
+    {
+     "st": "成吉思汗",
+     "ev": "dep",
+     "printed": "17.38",
+     "bold": false,
+     "t": "17:38"
+    },
+    {
+     "st": "碾子山",
+     "ev": "dep",
+     "printed": "18.24",
+     "bold": false,
+     "t": "18:24"
+    },
+    {
+     "st": "土爾池哈",
+     "ev": "dep",
+     "printed": "19.12",
+     "bold": false,
+     "t": "19:12"
+    },
+    {
+     "st": "虎爾虎拉",
+     "ev": "dep",
+     "printed": "19.59",
+     "bold": false,
+     "t": "19:59"
+    },
+    {
+     "st": "富拉爾基",
+     "ev": "dep",
+     "printed": "20.15",
+     "bold": false,
+     "t": "20:15"
+    },
+    {
+     "st": "昂昂溪",
+     "ev": "arr",
+     "printed": "20.38",
+     "bold": false,
+     "t": "20:38"
+    },
+    {
+     "st": "昂昂溪",
+     "ev": "dep",
+     "printed": "21.07",
+     "bold": false,
+     "t": "21:07"
+    }
+   ],
+   "dest": "齊齊哈爾",
+   "cls": "2.3",
+   "marks": "混",
+   "origin": "海拉爾",
+   "col": "8",
+   "note": "昂昂溪より下の桝に縦書きで「齊齊哈爾著 21.50」"
+  }
+ ],
+ "notes": [
+  "昭和17.6.15改訂（改訂日付は頁44側に印刷）。頁45の上段の表。反對方向（哈爾濱→滿洲里）は頁44上段の p44a。線名「（國線・濱洲線）」は本表の表頭右に印刷されてゐる。",
+  "本表には運賃欄が無く、この表の驛順に對應する「自滿洲里 運賃 1等・2等・3等」欄は頁44の右端に印刷されてゐる。粁程欄は無い。設備記號（⊓・〒・✕・◎・♨等）も轉記せず。",
+  "列車欄は8欄（744・726・702・724・742・750・772・748）。その右に空欄が3欄あり全行「…」。",
+  "702（三棵樹行）の右隣724欄の空所に食堂車の繪記號・反轉枠「2 3」・寢臺の繪記號があり、鉤括弧で702を指す（702に食・寢2.3として記した）。744欄の空所（巴林・哈拉蘇の行）にも反轉枠「2 3」と寢臺の繪記號があり、夜行の744を指すと解して744に寢2.3と記した。",
+  "744欄の昂昂溪より上に縦書きで「齊齊哈爾發 23.25」、742欄に「齊齊哈爾發 13.35」。750欄の昂昂溪より下に「齊齊哈爾著 15.50」、748欄に「齊齊哈爾著 21.50」。",
+  "724（動2.3）の姜家15.15→對青山16.04は49分を要し、他列車の27分と大きく異なるが印刷のまま記した。廟臺子→哈爾濱著の14分も他列車（18〜19分）より短い。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。",
+  "頁頭に「讀みにくい驛名 虎爾虎拉(フルフラ)石尹(セキイン)土爾池哈(トルチハ)成吉思汗(ジンギスカン)烏奴爾(ウヌウル)免渡河(メントガ)牙克石(ヤクシ)扎羅木得(ジヤロムテ)嵯崗(サガン)扎來諾爾(ジヤライノウル)」の帶（頁44の帶の續き）。頁の右端に縦書きで「滿洲 濱洲線（滿洲里―哈爾濱間）・綏佳線」、その左に【哈爾濱】の都市案内欄（人口73萬、觀察順路、乘物料金等）。"
+ ],
+ "source": "IMG_1851",
+ "page": "45",
+ "title": "滿洲里・哈爾濱間（國線・濱洲線）",
+ "line": "國線 濱洲線",
+ "dir": "哈爾濱行（滿洲里→哈爾濱）"
+}

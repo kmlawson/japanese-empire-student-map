@@ -1,0 +1,21 @@
+source: IMG_1883
+page: 109
+kind: bus
+office: 吉林局管內
+line: 龍南線
+title: 龍井・二道溝間
+dir: 龍井→二道溝
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表題の下に「（此間龍井、頭道溝間6回往復）」と刷る。
+note: 表は左右2組で、左が龍井發（本表）、右が二道溝發（p109af）。
+stations: 龍井 | 二道溝
+fares: 龍井 | 二道溝 1.70
+
+train: 353 | dest 二道溝 | col 1
+龍井 10.00
+二道溝 11.50
+
+train: 355 | dest 二道溝 | col 2
+龍井 14.00
+二道溝 15.50

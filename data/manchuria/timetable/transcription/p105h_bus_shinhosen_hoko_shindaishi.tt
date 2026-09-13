@@ -1,0 +1,23 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 新法線
+title: 新臺子・法庫間
+dir: 法庫→新臺子
+season: 昭和17.1.28改正
+service: 每日運行
+stations: 法庫 | 新臺子
+fares: 法庫 0 | 新臺子 3.10
+
+train: 142 | dest 新臺子 | col 1
+法庫 9.00
+新臺子 11.30
+
+train: 144 | dest 新臺子 | col 2
+法庫 12.30
+新臺子 15.00
+
+train: 146 | dest 新臺子 | col 3
+法庫 14.00
+新臺子 16.30

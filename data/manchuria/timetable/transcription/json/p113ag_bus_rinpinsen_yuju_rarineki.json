@@ -1,0 +1,59 @@
+{
+ "stations": [
+  {
+   "name": "楡樹",
+   "km": null
+  },
+  {
+   "name": "大嶺",
+   "km": null
+  },
+  {
+   "name": "拉林驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "521",
+   "stops": [
+    {
+     "st": "楡樹",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "大嶺",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "拉林驛",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "拉林驛",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、左が楡樹發（本表）、右が拉林驛發（p113ah）。"
+ ],
+ "source": "IMG_1885",
+ "page": "113",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "林濱線",
+ "title": "楡樹・拉林驛間",
+ "dir": "楡樹→拉林驛",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "楡樹 | 大嶺 1.30 | 拉林驛 2.95"
+}

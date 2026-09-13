@@ -1,0 +1,145 @@
+{
+ "stations": [
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "東陵",
+   "km": null
+  },
+  {
+   "name": "撫順",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "31",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "8.51",
+     "bold": false,
+     "t": "08:51"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    }
+   ],
+   "dest": "撫順",
+   "col": "1"
+  },
+  {
+   "no": "33",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "9.21",
+     "bold": false,
+     "t": "09:21"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    }
+   ],
+   "dest": "撫順",
+   "col": "2"
+  },
+  {
+   "no": "67",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "17.55",
+     "bold": false,
+     "t": "17:55"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    }
+   ],
+   "dest": "撫順",
+   "col": "3"
+  },
+  {
+   "no": "69",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    },
+    {
+     "st": "東陵",
+     "ev": "dep",
+     "printed": "18.51",
+     "bold": false,
+     "t": "18:51"
+    },
+    {
+     "st": "撫順",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "uncertain": true,
+     "t": "41:50"
+    }
+   ],
+   "dest": "撫順",
+   "col": "4"
+  }
+ ],
+ "notes": [
+  "between buses 33 and 67 the table prints 「此の間奉天、撫順間30分毎に運行す」 (a bus every 30 minutes over that interval); only the named columns are transcribed",
+  "bus 69's 撫順 arrival is printed 17.50, impossible after 18.51 at 東陵; the corresponding up column (70) has 19.50, so the type is broken. Left as printed"
+ ],
+ "source": "IMG_1881",
+ "page": "104",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "奉撫線",
+ "title": "奉天・撫順間",
+ "dir": "奉天→撫順",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "奉天 0 | 東陵 0.55 | 撫順 1.35"
+}

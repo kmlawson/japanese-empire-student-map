@@ -1,0 +1,20 @@
+source: IMG_1885
+page: 112
+kind: bus
+office: 哈爾濱局管內
+line: 濱樂線
+title: 哈爾濱・樂安鎭間
+dir: 哈爾濱→樂安鎭
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が哈爾濱發（本表）、右が樂安鎭發（p112aj）。
+stations: 哈爾濱 | 樂安鎭
+fares: 哈爾濱 | 樂安鎭 1.15
+
+train: 41 | dest 樂安鎭 | col 1
+哈爾濱 9.00
+樂安鎭 11.00
+
+train: 43 | dest 樂安鎭 | col 2
+哈爾濱 10.00
+樂安鎭 12.00

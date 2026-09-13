@@ -1,0 +1,59 @@
+{
+ "stations": [
+  {
+   "name": "安達驛",
+   "km": null
+  },
+  {
+   "name": "正亞",
+   "km": null
+  },
+  {
+   "name": "靑崗",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "131",
+   "stops": [
+    {
+     "st": "安達驛",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "正亞",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "靑崗",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "靑崗",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "左端は運賃（圓.分）欄。逆方向は p115d。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "安靑線",
+ "title": "安達驛・靑崗間",
+ "dir": "安達驛→靑崗",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "安達驛 | 正亞 2.10 | 靑崗 4.65"
+}

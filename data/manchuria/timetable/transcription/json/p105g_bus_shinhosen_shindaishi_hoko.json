@@ -1,0 +1,88 @@
+{
+ "stations": [
+  {
+   "name": "新臺子",
+   "km": null
+  },
+  {
+   "name": "法庫",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "141",
+   "stops": [
+    {
+     "st": "新臺子",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    }
+   ],
+   "dest": "法庫",
+   "col": "1"
+  },
+  {
+   "no": "143",
+   "stops": [
+    {
+     "st": "新臺子",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    }
+   ],
+   "dest": "法庫",
+   "col": "2"
+  },
+  {
+   "no": "145",
+   "stops": [
+    {
+     "st": "新臺子",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    },
+    {
+     "st": "法庫",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "法庫",
+   "col": "3"
+  }
+ ],
+ "notes": [],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "新法線",
+ "title": "新臺子・法庫間",
+ "dir": "新臺子→法庫",
+ "season": "昭和17.1.28改正",
+ "service": "每日運行",
+ "fares": "新臺子 0 | 法庫 3.10"
+}

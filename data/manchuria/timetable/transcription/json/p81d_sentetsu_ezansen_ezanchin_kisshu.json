@@ -1,0 +1,539 @@
+{
+ "stations": [
+  {
+   "name": "惠山鎭",
+   "km": 0.0
+  },
+  {
+   "name": "深浦里",
+   "km": 25.6
+  },
+  {
+   "name": "鳳頭里",
+   "km": 42.0
+  },
+  {
+   "name": "佐長",
+   "km": 46.1
+  },
+  {
+   "name": "嶺下",
+   "km": 60.7
+  },
+  {
+   "name": "白岩",
+   "km": 71.7
+  },
+  {
+   "name": "南溪",
+   "km": 78.7
+  },
+  {
+   "name": "合水",
+   "km": 84.5
+  },
+  {
+   "name": "陽谷",
+   "km": 94.3
+  },
+  {
+   "name": "儉德",
+   "km": 115.5
+  },
+  {
+   "name": "吉州",
+   "km": 141.7
+  }
+ ],
+ "trains": [
+  {
+   "no": "1902",
+   "stops": [
+    {
+     "st": "白岩",
+     "ev": "dep",
+     "printed": "5.10",
+     "bold": false,
+     "t": "05:10"
+    },
+    {
+     "st": "南溪",
+     "ev": "dep",
+     "printed": "5.29",
+     "bold": false,
+     "t": "05:29"
+    },
+    {
+     "st": "合水",
+     "ev": "dep",
+     "printed": "5.50",
+     "bold": false,
+     "t": "05:50"
+    },
+    {
+     "st": "陽谷",
+     "ev": "dep",
+     "printed": "6.11",
+     "bold": false,
+     "t": "06:11"
+    },
+    {
+     "st": "儉德",
+     "ev": "dep",
+     "printed": "7.02",
+     "bold": false,
+     "t": "07:02"
+    },
+    {
+     "st": "吉州",
+     "ev": "dep",
+     "printed": "8.12",
+     "bold": false,
+     "t": "08:12"
+    }
+   ],
+   "dest": "吉州",
+   "cls": "3",
+   "origin": "白岩",
+   "col": "1"
+  },
+  {
+   "no": "1904",
+   "stops": [
+    {
+     "st": "惠山鎭",
+     "ev": "dep",
+     "printed": "5.15",
+     "bold": false,
+     "t": "05:15"
+    },
+    {
+     "st": "深浦里",
+     "ev": "dep",
+     "printed": "6.17",
+     "bold": false,
+     "t": "06:17"
+    },
+    {
+     "st": "鳳頭里",
+     "ev": "dep",
+     "printed": "6.55",
+     "bold": false,
+     "t": "06:55"
+    },
+    {
+     "st": "佐長",
+     "ev": "dep",
+     "printed": "7.05",
+     "bold": false,
+     "t": "07:05"
+    },
+    {
+     "st": "嶺下",
+     "ev": "dep",
+     "printed": "7.43",
+     "bold": false,
+     "t": "07:43"
+    },
+    {
+     "st": "白岩",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": false,
+     "t": "08:38"
+    },
+    {
+     "st": "南溪",
+     "ev": "dep",
+     "printed": "8.57",
+     "bold": false,
+     "t": "08:57"
+    },
+    {
+     "st": "合水",
+     "ev": "dep",
+     "printed": "9.16",
+     "bold": false,
+     "t": "09:16"
+    },
+    {
+     "st": "陽谷",
+     "ev": "dep",
+     "printed": "9.46",
+     "bold": false,
+     "t": "09:46"
+    },
+    {
+     "st": "儉德",
+     "ev": "dep",
+     "printed": "10.35",
+     "bold": false,
+     "t": "10:35"
+    },
+    {
+     "st": "吉州",
+     "ev": "dep",
+     "printed": "11.27",
+     "bold": false,
+     "t": "11:27"
+    }
+   ],
+   "dest": "吉州",
+   "cls": "3",
+   "col": "2"
+  },
+  {
+   "no": "902",
+   "stops": [
+    {
+     "st": "惠山鎭",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "深浦里",
+     "ev": "dep",
+     "printed": "8.54",
+     "bold": false,
+     "t": "08:54"
+    },
+    {
+     "st": "鳳頭里",
+     "ev": "dep",
+     "printed": "9.24",
+     "bold": false,
+     "t": "09:24"
+    },
+    {
+     "st": "佐長",
+     "ev": "dep",
+     "printed": "9.32",
+     "bold": false,
+     "t": "09:32"
+    },
+    {
+     "st": "嶺下",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": false,
+     "t": "10:05"
+    },
+    {
+     "st": "白岩",
+     "ev": "dep",
+     "printed": "10.53",
+     "bold": false,
+     "t": "10:53"
+    },
+    {
+     "st": "南溪",
+     "ev": "dep",
+     "printed": "11.11",
+     "bold": false,
+     "t": "11:11"
+    },
+    {
+     "st": "合水",
+     "ev": "dep",
+     "printed": "11.26",
+     "bold": false,
+     "t": "11:26"
+    },
+    {
+     "st": "陽谷",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    },
+    {
+     "st": "儉德",
+     "ev": "dep",
+     "printed": "12.35",
+     "bold": false,
+     "t": "12:35"
+    },
+    {
+     "st": "吉州",
+     "ev": "dep",
+     "printed": "13.26",
+     "bold": false,
+     "t": "13:26"
+    }
+   ],
+   "dest": "吉州",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "1908",
+   "stops": [
+    {
+     "st": "惠山鎭",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": false,
+     "t": "10:05"
+    },
+    {
+     "st": "深浦里",
+     "ev": "dep",
+     "printed": "11.16",
+     "bold": false,
+     "t": "11:16"
+    },
+    {
+     "st": "鳳頭里",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "佐長",
+     "ev": "dep",
+     "printed": "12.14",
+     "bold": false,
+     "t": "12:14"
+    },
+    {
+     "st": "嶺下",
+     "ev": "dep",
+     "printed": "12.51",
+     "bold": false,
+     "t": "12:51"
+    },
+    {
+     "st": "白岩",
+     "ev": "dep",
+     "printed": "14.15",
+     "bold": false,
+     "t": "14:15"
+    },
+    {
+     "st": "南溪",
+     "ev": "dep",
+     "printed": "14.35",
+     "bold": false,
+     "t": "14:35"
+    },
+    {
+     "st": "合水",
+     "ev": "dep",
+     "printed": "14.54",
+     "bold": false,
+     "t": "14:54"
+    },
+    {
+     "st": "陽谷",
+     "ev": "dep",
+     "printed": "15.22",
+     "bold": false,
+     "t": "15:22"
+    },
+    {
+     "st": "儉德",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "吉州",
+     "ev": "dep",
+     "printed": "17.11",
+     "bold": false,
+     "t": "17:11"
+    }
+   ],
+   "dest": "吉州",
+   "cls": "3",
+   "col": "4"
+  },
+  {
+   "no": "904",
+   "stops": [
+    {
+     "st": "惠山鎭",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    },
+    {
+     "st": "深浦里",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "鳳頭里",
+     "ev": "dep",
+     "printed": "15.27",
+     "bold": false,
+     "t": "15:27"
+    },
+    {
+     "st": "佐長",
+     "ev": "dep",
+     "printed": "15.37",
+     "bold": false,
+     "t": "15:37"
+    },
+    {
+     "st": "嶺下",
+     "ev": "dep",
+     "printed": "16.13",
+     "bold": false,
+     "t": "16:13"
+    },
+    {
+     "st": "白岩",
+     "ev": "dep",
+     "printed": "17.15",
+     "bold": false,
+     "t": "17:15"
+    },
+    {
+     "st": "南溪",
+     "ev": "dep",
+     "printed": "17.33",
+     "bold": false,
+     "t": "17:33"
+    },
+    {
+     "st": "合水",
+     "ev": "dep",
+     "printed": "17.57",
+     "bold": false,
+     "t": "17:57"
+    },
+    {
+     "st": "陽谷",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "儉德",
+     "ev": "dep",
+     "printed": "19.10",
+     "bold": false,
+     "t": "19:10"
+    },
+    {
+     "st": "吉州",
+     "ev": "dep",
+     "printed": "20.02",
+     "bold": false,
+     "t": "20:02"
+    }
+   ],
+   "dest": "吉州",
+   "cls": "3",
+   "col": "5"
+  },
+  {
+   "no": "906",
+   "stops": [
+    {
+     "st": "惠山鎭",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "深浦里",
+     "ev": "dep",
+     "printed": "19.21",
+     "bold": false,
+     "t": "19:21"
+    },
+    {
+     "st": "鳳頭里",
+     "ev": "dep",
+     "printed": "19.59",
+     "bold": false,
+     "t": "19:59"
+    },
+    {
+     "st": "佐長",
+     "ev": "dep",
+     "printed": "20.09",
+     "bold": false,
+     "t": "20:09"
+    },
+    {
+     "st": "嶺下",
+     "ev": "dep",
+     "printed": "20.50",
+     "bold": false,
+     "t": "20:50"
+    },
+    {
+     "st": "白岩",
+     "ev": "dep",
+     "printed": "22.10",
+     "bold": false,
+     "t": "22:10"
+    },
+    {
+     "st": "南溪",
+     "ev": "dep",
+     "printed": "22.28",
+     "bold": false,
+     "t": "22:28"
+    },
+    {
+     "st": "合水",
+     "ev": "dep",
+     "printed": "22.45",
+     "bold": false,
+     "t": "22:45"
+    },
+    {
+     "st": "陽谷",
+     "ev": "dep",
+     "printed": "23.08",
+     "bold": false,
+     "t": "23:08"
+    },
+    {
+     "st": "儉德",
+     "ev": "dep",
+     "printed": "23.55",
+     "bold": false,
+     "t": "23:55"
+    },
+    {
+     "st": "吉州",
+     "ev": "dep",
+     "printed": "0.47",
+     "bold": false,
+     "t": "24:47"
+    }
+   ],
+   "dest": "吉州",
+   "cls": "2.3",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "昭和17.2.1改正。頁81第3段の左表の下半。反對方向（吉州→惠山鎭）は同段上の p81c。",
+  "左端に「自惠山鎭 運賃 3等」欄があるが運賃は轉記せず。粁程（自惠山鎭）は stations に入れた。驛名の左の〒・◎等の設備記號も轉記せず。",
+  "朝鮮の表につき24時制。列車欄は6欄（1902 1904 902 1908 904 906）。",
+  "115.5粁の驛名は印刷が潰れてをり「儉德」と讀んだが確度は低い。",
+  "1902 は白岩始發。白岩（白茂線との接續驛）では嶺下→白岩の所要が48～84分と長い（原表の通り）。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。"
+ ],
+ "source": "IMG_1869",
+ "page": "81",
+ "title": "惠山鎭・吉州間",
+ "line": "鮮鐵 惠山線",
+ "dir": "吉州行（惠山鎭→吉州）"
+}

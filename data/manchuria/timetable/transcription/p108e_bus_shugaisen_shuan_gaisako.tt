@@ -1,0 +1,16 @@
+source: IMG_1883
+page: 108
+kind: bus
+office: 吉林局管內
+line: 輯外線
+title: 輯安・外岔溝間
+dir: 輯安→外岔溝
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が輯安發（本表）、右が外岔溝發（p108f）。
+stations: 輯安 | 外岔溝
+fares: 輯安 | 外岔溝 3.80
+
+train: 131 | dest 外岔溝 | col 1
+輯安 8.30
+外岔溝 11.30

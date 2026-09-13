@@ -1,0 +1,52 @@
+{
+ "stations": [
+  {
+   "name": "海倫",
+   "km": null
+  },
+  {
+   "name": "三道鎭",
+   "km": null
+  },
+  {
+   "name": "拜泉",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "122",
+   "stops": [
+    {
+     "st": "海倫",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "拜泉",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    }
+   ],
+   "dest": "拜泉",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "表の右半（海倫發）。中間の三道鎭は「…」。逆方向は p115g。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "海拜線",
+ "title": "拜泉・海倫間",
+ "dir": "海倫→拜泉",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "拜泉 | 三道鎭 2.40 | 海倫 5.10"
+}

@@ -1,0 +1,79 @@
+source: IMG_1874
+page: 91
+title: 宮島口・宮島間（宮島行）
+line: 鐵道省 宮島連絡船
+dir: 宮島口→宮島
+clock: 12
+note: 昭和17.4.1改正。標題右に「（鐵道省・連絡船）3等車のみ」。頁91の最上部の表。反對方向（宮島行→宮島口行）は同表の下段 p91b。
+note: 左端に「粁程 0.0／1.0」「運賃 3等 円錢／0.10」欄がある。粁程は stations に入れ、運賃は轉記せず。
+note: 12時間制。頁尾（頁90）に「細字は午前、太字は午後を示す」とあるが寫眞では太細を判別できない。便が宮島口發の時刻順に竝ぶこと（0.30→5.49→…→9.15）から午前・午後を判定して B を附けた。
+note: 便名（列車番號欄の數字）は原表のまま。所要は11〜12分（137便のみ8分）。
+stations: 宮島口 0.0 | 宮島 1.0
+
+train: 117 | dest 宮島 | cls 3 | marks 船 | col 1
+宮島口 0.30
+宮島 0.42
+
+train: 113 | dest 宮島 | cls 3 | marks 船 | col 2
+宮島口 5.49
+宮島 6.01
+
+train: 1 | dest 宮島 | cls 3 | marks 船 | col 3
+宮島口 6.21
+宮島 6.33
+
+train: 203 | dest 宮島 | cls 3 | marks 船 | col 4
+宮島口 7.46
+宮島 7.58
+
+train: 101 | dest 宮島 | cls 3 | marks 船 | col 5
+宮島口 8.40
+宮島 8.52
+
+train: 21 | dest 宮島 | cls 3 | marks 船 | col 6
+宮島口 10.05
+宮島 10.17
+
+train: 207 | dest 宮島 | cls 3 | marks 船 | col 7
+宮島口 10.36
+宮島 10.48
+
+train: 209 | dest 宮島 | cls 3 | marks 船 | col 8
+宮島口 11.06
+宮島 11.18
+
+train: 121 | dest 宮島 | cls 3 | marks 船 | col 9
+宮島口 11.52
+宮島 0.04B
+
+train: 213 | dest 宮島 | cls 3 | marks 船 | col 10
+宮島口 1.52B
+宮島 2.04B
+
+train: 5 | dest 宮島 | cls 3 | marks 船 | col 11
+宮島口 2.35B
+宮島 2.46B
+
+train: 23 | dest 宮島 | cls 3 | marks 船 | col 12
+宮島口 3.10B
+宮島 3.21B
+
+train: 19 | dest 宮島 | cls 3 | marks 船 | col 13
+宮島口 4.25B
+宮島 4.36B
+
+train: 125 | dest 宮島 | cls 3 | marks 船 | col 14
+宮島口 4.59B
+宮島 5.10B
+
+train: 103 | dest 宮島 | cls 3 | marks 船 | col 15
+宮島口 7.00B
+宮島 7.12B
+
+train: 137 | dest 宮島 | cls 3 | marks 船 | col 16
+宮島口 8.29B
+宮島 8.37B ; 所要8分。他便は11〜12分。原表のまま
+
+train: 119 | dest 宮島 | cls 3 | marks 船 | col 17
+宮島口 9.15B
+宮島 9.27B

@@ -1,0 +1,56 @@
+{
+ "stations": [
+  {
+   "name": "奈曼旗",
+   "km": null
+  },
+  {
+   "name": "黑城子",
+   "km": null
+  },
+  {
+   "name": "北票",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "554",
+   "stops": [
+    {
+     "st": "奈曼旗",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "黑城子",
+     "ev": "pass"
+    },
+    {
+     "st": "北票",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    }
+   ],
+   "dest": "北票",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "three unnumbered empty columns (…) stand to the right of bus 554"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "北奈線",
+ "title": "北票・奈曼旗間",
+ "dir": "奈曼旗→北票",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "奈曼旗 7.60 | 黑城子 2.15 | 北票"
+}

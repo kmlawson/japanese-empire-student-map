@@ -1,0 +1,20 @@
+source: IMG_1883
+page: 108
+kind: bus
+office: 吉林局管內
+line: 羊魚頭線
+title: 輯安・羊魚頭間
+dir: 羊魚頭→輯安
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表は左右2組で、右が羊魚頭發（本表）。運賃欄は輯安起點のものを反轉して掲げた。
+stations: 羊魚頭 | 輯安
+fares: 羊魚頭 0.60 | 輯安
+
+train: 151 | dest 輯安 | col 1
+羊魚頭 9.40
+輯安 10.10
+
+train: 153 | dest 輯安 | col 2
+羊魚頭 14.40
+輯安 15.10

@@ -1,0 +1,74 @@
+{
+ "stations": [
+  {
+   "name": "景星",
+   "km": null
+  },
+  {
+   "name": "富拉爾基",
+   "km": null
+  },
+  {
+   "name": "齊齊哈爾",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "22",
+   "stops": [
+    {
+     "st": "富拉爾基",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "origin": "富拉爾基",
+   "dest": "齊齊哈爾",
+   "col": "5"
+  },
+  {
+   "no": "26",
+   "stops": [
+    {
+     "st": "景星",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "dest": "齊齊哈爾",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "22は富拉爾基始發。逆方向は p114w。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "齊景線",
+ "title": "齊齊哈爾・景星間",
+ "dir": "景星→齊齊哈爾",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "齊齊哈爾 | 富拉爾基 2.35 | 景星 5.60"
+}

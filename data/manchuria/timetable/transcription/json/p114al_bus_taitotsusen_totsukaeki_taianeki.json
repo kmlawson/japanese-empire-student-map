@@ -1,0 +1,53 @@
+{
+ "stations": [
+  {
+   "name": "訥河驛",
+   "km": null
+  },
+  {
+   "name": "通南鎭",
+   "km": null
+  },
+  {
+   "name": "泰安驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "168",
+   "stops": [
+    {
+     "st": "通南鎭",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "泰安驛",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    }
+   ],
+   "origin": "通南鎭",
+   "dest": "泰安驛",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "168は通南鎭始發。訥河驛欄は「…」。逆方向は p114ak。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "泰訥線",
+ "title": "泰安驛・訥河驛間",
+ "dir": "訥河驛→泰安驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "泰安驛 | 通南鎭 | 訥河驛 6.10"
+}

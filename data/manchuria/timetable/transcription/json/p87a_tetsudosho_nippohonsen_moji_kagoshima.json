@@ -1,0 +1,1275 @@
+{
+ "stations": [
+  {
+   "name": "門司港",
+   "km": 0.0
+  },
+  {
+   "name": "小倉",
+   "km": 11.7
+  },
+  {
+   "name": "行橋",
+   "km": 36.0
+  },
+  {
+   "name": "中津",
+   "km": 62.8
+  },
+  {
+   "name": "宇佐",
+   "km": 86.8
+  },
+  {
+   "name": "別府",
+   "km": 131.9
+  },
+  {
+   "name": "大分",
+   "km": 144.0
+  },
+  {
+   "name": "佐伯",
+   "km": 208.9
+  },
+  {
+   "name": "延岡",
+   "km": 267.3
+  },
+  {
+   "name": "宮崎",
+   "km": 351.0
+  },
+  {
+   "name": "都城",
+   "km": 401.0
+  },
+  {
+   "name": "霧島神宮",
+   "km": 430.5
+  },
+  {
+   "name": "隼人",
+   "km": 445.8
+  },
+  {
+   "name": "鹿兒島",
+   "km": 473.7
+  }
+ ],
+ "trains": [
+  {
+   "no": "217",
+   "stops": [
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "5.58",
+     "bold": false,
+     "t": "05:58"
+    },
+    {
+     "st": "延岡",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": false,
+     "t": "07:33"
+    },
+    {
+     "st": "宮崎",
+     "ev": "dep",
+     "printed": "9.52",
+     "bold": false,
+     "t": "09:52"
+    },
+    {
+     "st": "都城",
+     "ev": "arr",
+     "printed": "11.15",
+     "bold": false,
+     "t": "11:15"
+    },
+    {
+     "st": "都城",
+     "ev": "dep",
+     "printed": "11.22",
+     "bold": false,
+     "t": "11:22"
+    },
+    {
+     "st": "霧島神宮",
+     "ev": "dep",
+     "printed": "0.29",
+     "bold": true,
+     "t": "12:29"
+    },
+    {
+     "st": "隼人",
+     "ev": "dep",
+     "printed": "1.00",
+     "bold": true,
+     "t": "13:00"
+    },
+    {
+     "st": "鹿兒島",
+     "ev": "dep",
+     "printed": "1.45",
+     "bold": true,
+     "t": "13:45"
+    }
+   ],
+   "dest": "鹿兒島",
+   "cls": "2.3",
+   "origin": "佐伯",
+   "col": "1"
+  },
+  {
+   "no": "219",
+   "stops": [
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "5.55",
+     "bold": false,
+     "t": "05:55"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "6.14",
+     "bold": false,
+     "t": "06:14"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "6.25",
+     "bold": false,
+     "t": "06:25"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "8.22",
+     "bold": false,
+     "t": "08:22"
+    },
+    {
+     "st": "延岡",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    },
+    {
+     "st": "宮崎",
+     "ev": "dep",
+     "printed": "0.18",
+     "bold": true,
+     "t": "12:18"
+    },
+    {
+     "st": "都城",
+     "ev": "arr",
+     "printed": "1.39",
+     "bold": true,
+     "t": "13:39"
+    },
+    {
+     "st": "都城",
+     "ev": "dep",
+     "printed": "1.41",
+     "bold": true,
+     "t": "13:41"
+    },
+    {
+     "st": "霧島神宮",
+     "ev": "dep",
+     "printed": "2.43",
+     "bold": true,
+     "t": "14:43"
+    },
+    {
+     "st": "隼人",
+     "ev": "dep",
+     "printed": "3.13",
+     "bold": true,
+     "t": "15:13"
+    },
+    {
+     "st": "鹿兒島",
+     "ev": "dep",
+     "printed": "4.00",
+     "bold": true,
+     "t": "16:00"
+    }
+   ],
+   "dest": "鹿兒島",
+   "cls": "2.3",
+   "origin": "別府",
+   "col": "2"
+  },
+  {
+   "no": "221",
+   "stops": [
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "5.45",
+     "bold": false,
+     "t": "05:45"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "6.44",
+     "bold": false,
+     "t": "06:44"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "7.59",
+     "bold": false,
+     "t": "07:59"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "8.13",
+     "bold": false,
+     "t": "08:13"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "8.26",
+     "bold": false,
+     "t": "08:26"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "10.15",
+     "bold": false,
+     "t": "10:15"
+    }
+   ],
+   "dest": "佐伯",
+   "cls": "2.3",
+   "origin": "中津",
+   "col": "3"
+  },
+  {
+   "no": "223",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "5.55",
+     "bold": false,
+     "t": "05:55"
+    },
+    {
+     "st": "小倉",
+     "ev": "dep",
+     "printed": "6.16",
+     "bold": false,
+     "t": "06:16"
+    },
+    {
+     "st": "行橋",
+     "ev": "dep",
+     "printed": "6.53",
+     "bold": false,
+     "t": "06:53"
+    },
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "7.36",
+     "bold": false,
+     "t": "07:36"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "8.16",
+     "bold": false,
+     "t": "08:16"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "9.42",
+     "bold": false,
+     "t": "09:42"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "10.01",
+     "bold": false,
+     "t": "10:01"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "10.12",
+     "bold": false,
+     "t": "10:12"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "0.15",
+     "bold": true,
+     "t": "12:15"
+    },
+    {
+     "st": "延岡",
+     "ev": "dep",
+     "printed": "1.42",
+     "bold": true,
+     "t": "13:42"
+    },
+    {
+     "st": "宮崎",
+     "ev": "dep",
+     "printed": "3.48",
+     "bold": true,
+     "t": "15:48"
+    },
+    {
+     "st": "都城",
+     "ev": "arr",
+     "printed": "5.00",
+     "bold": true,
+     "t": "17:00"
+    },
+    {
+     "st": "都城",
+     "ev": "dep",
+     "printed": "5.08",
+     "bold": true,
+     "t": "17:08"
+    },
+    {
+     "st": "霧島神宮",
+     "ev": "dep",
+     "printed": "6.08",
+     "bold": true,
+     "t": "18:08"
+    },
+    {
+     "st": "隼人",
+     "ev": "dep",
+     "printed": "6.31",
+     "bold": true,
+     "t": "18:31"
+    },
+    {
+     "st": "鹿兒島",
+     "ev": "dep",
+     "printed": "7.13",
+     "bold": true,
+     "t": "19:13"
+    }
+   ],
+   "dest": "鹿兒島",
+   "cls": "2.3",
+   "col": "4"
+  },
+  {
+   "no": "227",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "小倉",
+     "ev": "dep",
+     "printed": "7.54",
+     "bold": false,
+     "t": "07:54"
+    },
+    {
+     "st": "行橋",
+     "ev": "dep",
+     "printed": "8.33",
+     "bold": false,
+     "t": "08:33"
+    },
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "9.16",
+     "bold": false,
+     "t": "09:16"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": false,
+     "t": "10:01"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "0.13",
+     "bold": true,
+     "t": "12:13"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "2.25",
+     "bold": true,
+     "t": "14:25"
+    },
+    {
+     "st": "延岡",
+     "ev": "dep",
+     "printed": "4.02",
+     "bold": true,
+     "t": "16:02"
+    },
+    {
+     "st": "宮崎",
+     "ev": "dep",
+     "printed": "6.07",
+     "bold": true,
+     "t": "18:07"
+    },
+    {
+     "st": "都城",
+     "ev": "arr",
+     "printed": "7.24",
+     "bold": true,
+     "t": "19:24"
+    },
+    {
+     "st": "都城",
+     "ev": "dep",
+     "printed": "7.32",
+     "bold": true,
+     "t": "19:32"
+    },
+    {
+     "st": "霧島神宮",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": true,
+     "t": "20:35"
+    },
+    {
+     "st": "隼人",
+     "ev": "dep",
+     "printed": "9.01",
+     "bold": true,
+     "t": "21:01"
+    },
+    {
+     "st": "鹿兒島",
+     "ev": "dep",
+     "printed": "9.46",
+     "bold": true,
+     "t": "21:46"
+    }
+   ],
+   "dest": "鹿兒島",
+   "cls": "2.3",
+   "col": "5"
+  },
+  {
+   "no": "203",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "09:00"
+    },
+    {
+     "st": "小倉",
+     "ev": "dep",
+     "printed": "9.16",
+     "bold": false,
+     "t": "09:16"
+    },
+    {
+     "st": "行橋",
+     "ev": "dep",
+     "printed": "9.42",
+     "bold": false,
+     "t": "09:42"
+    },
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "10.36",
+     "bold": false,
+     "t": "10:36"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "11.34",
+     "bold": false,
+     "uncertain": true,
+     "note": "末位の數字が薄く讀めない（11.3□）",
+     "t": "11:34"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "11.54",
+     "bold": false,
+     "t": "11:54"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "0.01",
+     "bold": true,
+     "t": "12:01"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "1.26",
+     "bold": true,
+     "t": "13:26"
+    },
+    {
+     "st": "延岡",
+     "ev": "dep",
+     "printed": "2.47",
+     "bold": true,
+     "t": "14:47"
+    },
+    {
+     "st": "宮崎",
+     "ev": "dep",
+     "printed": "4.35",
+     "bold": true,
+     "t": "16:35"
+    },
+    {
+     "st": "都城",
+     "ev": "arr",
+     "printed": "5.49",
+     "bold": true,
+     "t": "17:49"
+    },
+    {
+     "st": "都城",
+     "ev": "dep",
+     "printed": "5.54",
+     "bold": true,
+     "t": "17:54"
+    },
+    {
+     "st": "霧島神宮",
+     "ev": "dep",
+     "printed": "6.47",
+     "bold": true,
+     "t": "18:47"
+    },
+    {
+     "st": "隼人",
+     "ev": "dep",
+     "printed": "7.03",
+     "bold": true,
+     "t": "19:03"
+    },
+    {
+     "st": "鹿兒島",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": true,
+     "t": "19:38"
+    }
+   ],
+   "dest": "鹿兒島",
+   "cls": "2.3",
+   "marks": "急 食",
+   "col": "6",
+   "note": "表頭に反轉枠「急行」と食堂車の✕印"
+  },
+  {
+   "no": "229",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "9.25",
+     "bold": false,
+     "t": "09:25"
+    },
+    {
+     "st": "小倉",
+     "ev": "dep",
+     "printed": "9.44",
+     "bold": false,
+     "t": "09:44"
+    },
+    {
+     "st": "行橋",
+     "ev": "dep",
+     "printed": "10.18",
+     "bold": false,
+     "t": "10:18"
+    },
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "11.05",
+     "bold": false,
+     "t": "11:05"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "11.45",
+     "bold": false,
+     "t": "11:45"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "1.01",
+     "bold": true,
+     "t": "13:01"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "1.21",
+     "bold": true,
+     "t": "13:21"
+    }
+   ],
+   "dest": "大分",
+   "cls": "2.3",
+   "col": "7"
+  },
+  {
+   "no": "231",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "10.47",
+     "bold": false,
+     "t": "10:47"
+    },
+    {
+     "st": "小倉",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "行橋",
+     "ev": "dep",
+     "printed": "11.47",
+     "bold": false,
+     "t": "11:47"
+    },
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "0.23",
+     "bold": true,
+     "t": "12:23"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "1.06",
+     "bold": true,
+     "t": "13:06"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "2.23",
+     "bold": true,
+     "t": "14:23"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "2.43",
+     "bold": true,
+     "t": "14:43"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "2.50",
+     "bold": true,
+     "t": "14:50"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "4.43",
+     "bold": true,
+     "t": "16:43"
+    },
+    {
+     "st": "延岡",
+     "ev": "dep",
+     "printed": "6.11",
+     "bold": true,
+     "t": "18:11"
+    },
+    {
+     "st": "宮崎",
+     "ev": "dep",
+     "printed": "8.09",
+     "bold": true,
+     "t": "20:09"
+    },
+    {
+     "st": "都城",
+     "ev": "arr",
+     "printed": "9.22",
+     "bold": true,
+     "t": "21:22"
+    },
+    {
+     "st": "都城",
+     "ev": "dep",
+     "printed": "9.28",
+     "bold": true,
+     "t": "21:28"
+    },
+    {
+     "st": "霧島神宮",
+     "ev": "dep",
+     "printed": "10.28",
+     "bold": true,
+     "t": "22:28"
+    },
+    {
+     "st": "隼人",
+     "ev": "dep",
+     "printed": "10.58",
+     "bold": true,
+     "t": "22:58"
+    },
+    {
+     "st": "鹿兒島",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": true,
+     "t": "23:40"
+    }
+   ],
+   "dest": "鹿兒島",
+   "cls": "2.3",
+   "col": "8"
+  },
+  {
+   "no": "235",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "0.00",
+     "bold": true,
+     "note": "正午12.00を「0.00」と印刷",
+     "t": "12:00"
+    },
+    {
+     "st": "小倉",
+     "ev": "dep",
+     "printed": "0.22",
+     "bold": true,
+     "t": "12:22"
+    },
+    {
+     "st": "行橋",
+     "ev": "dep",
+     "printed": "1.02",
+     "bold": true,
+     "t": "13:02"
+    },
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "1.49",
+     "bold": true,
+     "t": "13:49"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "2.37",
+     "bold": true,
+     "t": "14:37"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "3.55",
+     "bold": true,
+     "t": "15:55"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "4.15",
+     "bold": true,
+     "t": "16:15"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "4.28",
+     "bold": true,
+     "t": "16:28"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "6.41",
+     "bold": true,
+     "t": "18:41"
+    },
+    {
+     "st": "延岡",
+     "ev": "dep",
+     "printed": "8.27",
+     "bold": true,
+     "t": "20:27"
+    },
+    {
+     "st": "宮崎",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": true,
+     "t": "22:55"
+    },
+    {
+     "st": "都城",
+     "ev": "dep",
+     "printed": "0.06",
+     "bold": false,
+     "t": "24:06"
+    }
+   ],
+   "dest": "都城",
+   "cls": "2.3",
+   "col": "9"
+  },
+  {
+   "no": "237",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "1.56",
+     "bold": true,
+     "t": "13:56"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "6.00",
+     "bold": true,
+     "uncertain": true,
+     "note": "著の末位が薄い",
+     "t": "18:00"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "6.19",
+     "bold": true,
+     "uncertain": true,
+     "note": "著の末位が薄い",
+     "t": "18:19"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": true,
+     "t": "20:15"
+    }
+   ],
+   "dest": "佐伯",
+   "cls": "2.3",
+   "col": "10",
+   "note": "この欄は各時刻の末位の數字が印刷に出てをらず（活字の缺けか）、寫眞でも讀めない。讀めた分のみ記した"
+  },
+  {
+   "no": "241",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "4.03",
+     "bold": true,
+     "t": "16:03"
+    },
+    {
+     "st": "小倉",
+     "ev": "dep",
+     "printed": "4.28",
+     "bold": true,
+     "t": "16:28"
+    },
+    {
+     "st": "行橋",
+     "ev": "dep",
+     "printed": "5.07",
+     "bold": true,
+     "t": "17:07"
+    },
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "5.47",
+     "bold": true,
+     "t": "17:47"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "6.25",
+     "bold": true,
+     "t": "18:25"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "7.52",
+     "bold": true,
+     "t": "19:52"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "8.11",
+     "bold": true,
+     "t": "20:11"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "8.18",
+     "bold": true,
+     "t": "20:18"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "10.07",
+     "bold": true,
+     "t": "22:07"
+    }
+   ],
+   "dest": "佐伯",
+   "cls": "2.3",
+   "col": "11"
+  },
+  {
+   "no": "243",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "5.12",
+     "bold": true,
+     "t": "17:12"
+    },
+    {
+     "st": "小倉",
+     "ev": "dep",
+     "printed": "5.35",
+     "bold": true,
+     "t": "17:35"
+    },
+    {
+     "st": "行橋",
+     "ev": "dep",
+     "printed": "6.13",
+     "bold": true,
+     "t": "18:13"
+    },
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "6.53",
+     "bold": true,
+     "t": "18:53"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "7.41",
+     "bold": true,
+     "t": "19:41"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "9.03",
+     "bold": true,
+     "t": "21:03"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "9.23",
+     "bold": true,
+     "t": "21:23"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "9.33",
+     "bold": true,
+     "t": "21:33"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "11.23",
+     "bold": true,
+     "t": "23:23"
+    }
+   ],
+   "dest": "佐伯",
+   "cls": "2.3",
+   "col": "12"
+  },
+  {
+   "no": "205",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "7.15",
+     "bold": true,
+     "t": "19:15"
+    },
+    {
+     "st": "小倉",
+     "ev": "dep",
+     "printed": "7.36",
+     "bold": true,
+     "t": "19:36"
+    },
+    {
+     "st": "行橋",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": true,
+     "t": "20:15"
+    },
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "8.56",
+     "bold": true,
+     "t": "20:56"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "9.37",
+     "bold": true,
+     "t": "21:37"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "10.48",
+     "bold": true,
+     "t": "22:48"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "11.07",
+     "bold": true,
+     "t": "23:07"
+    }
+   ],
+   "dest": "大分",
+   "cls": "2.3",
+   "col": "13"
+  },
+  {
+   "no": "207",
+   "stops": [
+    {
+     "st": "門司港",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": true,
+     "t": "21:55"
+    },
+    {
+     "st": "小倉",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": true,
+     "t": "22:17"
+    },
+    {
+     "st": "行橋",
+     "ev": "dep",
+     "printed": "10.58",
+     "bold": true,
+     "t": "22:58"
+    },
+    {
+     "st": "中津",
+     "ev": "dep",
+     "printed": "11.37",
+     "bold": true,
+     "t": "23:37"
+    },
+    {
+     "st": "宇佐",
+     "ev": "dep",
+     "printed": "0.16",
+     "bold": false,
+     "t": "24:16"
+    },
+    {
+     "st": "別府",
+     "ev": "dep",
+     "printed": "1.27",
+     "bold": false,
+     "t": "25:27"
+    },
+    {
+     "st": "大分",
+     "ev": "arr",
+     "printed": "1.44",
+     "bold": false,
+     "t": "25:44"
+    },
+    {
+     "st": "大分",
+     "ev": "dep",
+     "printed": "1.53",
+     "bold": false,
+     "t": "25:53"
+    },
+    {
+     "st": "佐伯",
+     "ev": "dep",
+     "printed": "3.35",
+     "bold": false,
+     "t": "27:35"
+    },
+    {
+     "st": "延岡",
+     "ev": "dep",
+     "printed": "5.09",
+     "bold": false,
+     "t": "29:09"
+    },
+    {
+     "st": "宮崎",
+     "ev": "dep",
+     "printed": "7.29",
+     "bold": false,
+     "t": "31:29"
+    },
+    {
+     "st": "都城",
+     "ev": "arr",
+     "printed": "9.02",
+     "bold": false,
+     "t": "33:02"
+    },
+    {
+     "st": "都城",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "33:10"
+    },
+    {
+     "st": "霧島神宮",
+     "ev": "dep",
+     "printed": "10.14",
+     "bold": false,
+     "t": "34:14"
+    },
+    {
+     "st": "隼人",
+     "ev": "dep",
+     "printed": "10.45",
+     "bold": false,
+     "t": "34:45"
+    },
+    {
+     "st": "鹿兒島",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "35:30"
+    }
+   ],
+   "dest": "鹿兒島",
+   "cls": "2.3",
+   "marks": "寢2",
+   "col": "14",
+   "note": "表頭に反轉枠「2」と寢臺の繪記號（2等寢臺車）。夜行"
+  }
+ ],
+ "notes": [
+  "全14欄記入濟。",
+  "昭和17.4.1改正。標題右に「（鐵道省・日豐本線）」。頁87の上半分の表。反對方向（鹿兒島→門司港）は同頁下段の p87b。",
+  "主要驛のみを拔いた抄錄表。左端に「自門司 粁程／運賃 3等」欄があるが運賃は轉記せず。驛名の左の⊓・〒・◎・♨等の設備記號も轉記せず。",
+  "14欄（217 219 221 223 227 203 229 231 235 237 241 243 205 207）。右端に空欄が2欄ある。",
+  "日本の表につき12時間制。頁尾に「細字は午前、太字は午後を示す」とあるが寫眞では太細を判別できない。午前／午後は各欄の時刻の進行順と、欄が門司港發（門司港を出ない列車は最初の時刻）の順に竝ぶことから決めた。12.xx は印刷の通り。",
+  "表頭の反轉枠2字＝急行、✕＝食堂車、反轉枠の等級＋寢臺の繪記號＝寢臺車。203列車が急行・食堂車、207列車が2等寢臺車。",
+  "「v」は原表の「レ」（通過）、「-」は原表の「…」。"
+ ],
+ "source": "IMG_1872",
+ "page": "87",
+ "title": "門司・大分・鹿兒島間（下り）",
+ "line": "鐵道省 日豐本線",
+ "dir": "門司港→鹿兒島（下り）",
+ "clock": "12"
+}

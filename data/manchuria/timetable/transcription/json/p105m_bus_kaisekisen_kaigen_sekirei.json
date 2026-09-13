@@ -1,0 +1,61 @@
+{
+ "stations": [
+  {
+   "name": "開原驛",
+   "km": null
+  },
+  {
+   "name": "蓮花",
+   "km": null
+  },
+  {
+   "name": "石嶺驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "181",
+   "stops": [
+    {
+     "st": "開原驛",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "uncertain": true,
+     "t": "09:10"
+    },
+    {
+     "st": "蓮花",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "石嶺驛",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "13:10"
+    }
+   ],
+   "dest": "石嶺驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the left of bus 181",
+  "bus 181's 開原驛 departure is almost unprinted in this copy; 9.10 is inferred from 蓮花 11.10 and the 2h leg in the other columns"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "開石線",
+ "title": "開原驛・石嶺驛間",
+ "dir": "開原驛→石嶺驛",
+ "season": "昭和17.1.28改正",
+ "service": "每日運行",
+ "fares": "開原驛 0 | 蓮花 2.25 | 石嶺驛 4.50"
+}

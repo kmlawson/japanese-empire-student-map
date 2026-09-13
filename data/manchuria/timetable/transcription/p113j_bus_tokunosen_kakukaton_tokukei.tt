@@ -1,0 +1,21 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 德農線
+title: 德惠・郭家屯間
+dir: 郭家屯→德惠
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が郭家屯發（本表）。運賃欄は德惠起點のものを反轉して掲げた。
+note: 716の右の空欄に「※」の符號が刷られてゐる。
+stations: 郭家屯 | 德惠
+fares: 郭家屯 1.25 | 德惠
+
+train: 714 | dest 德惠 | col 1
+郭家屯 10.00
+德惠 11.00
+
+train: 716 | dest 德惠 | col 2
+郭家屯 14.10
+德惠 15.10

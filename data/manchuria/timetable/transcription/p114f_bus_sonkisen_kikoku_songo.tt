@@ -1,0 +1,17 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 哈爾濱局管內
+line: 孫奇線
+title: 孫吳・奇克間
+dir: 奇克→孫吳
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表の右半（奇克發）。逆方向は p114e。
+stations: 奇克 | 遜河 | 孫吳
+fares: 孫吳 | 遜河 3.60 | 奇克 6.50
+
+train: 322 | dest 孫吳 | col 5
+奇克 8.30
+遜河 11.10
+孫吳 14.30

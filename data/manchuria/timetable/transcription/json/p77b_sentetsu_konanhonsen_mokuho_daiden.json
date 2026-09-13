@@ -1,0 +1,1448 @@
+{
+ "stations": [
+  {
+   "name": "木浦",
+   "km": 0.0
+  },
+  {
+   "name": "學橋",
+   "km": 35.2
+  },
+  {
+   "name": "榮山浦",
+   "km": 53.1
+  },
+  {
+   "name": "羅州",
+   "km": 56.5
+  },
+  {
+   "name": "松汀里",
+   "km": 70.6
+  },
+  {
+   "name": "長城",
+   "km": 92.5
+  },
+  {
+   "name": "四街里",
+   "km": 109.8
+  },
+  {
+   "name": "井邑",
+   "km": 127.8
+  },
+  {
+   "name": "新泰仁",
+   "km": 141.5
+  },
+  {
+   "name": "金堤",
+   "km": 153.9
+  },
+  {
+   "name": "芙蓉",
+   "km": 164.9
+  },
+  {
+   "name": "裡里",
+   "km": 171.8
+  },
+  {
+   "name": "黃登",
+   "km": 178.4
+  },
+  {
+   "name": "江景",
+   "km": 199.0
+  },
+  {
+   "name": "論山",
+   "km": 209.0
+  },
+  {
+   "name": "連山",
+   "km": 220.6
+  },
+  {
+   "name": "西大田",
+   "km": 254.7
+  },
+  {
+   "name": "大田",
+   "km": 260.4
+  }
+ ],
+ "trains": [
+  {
+   "no": "614",
+   "stops": [
+    {
+     "st": "榮山浦",
+     "ev": "dep",
+     "printed": "6.22",
+     "bold": false,
+     "t": "06:22"
+    },
+    {
+     "st": "羅州",
+     "ev": "dep",
+     "printed": "6.29",
+     "bold": false,
+     "t": "06:29"
+    },
+    {
+     "st": "松汀里",
+     "ev": "arr",
+     "printed": "6.51",
+     "bold": false,
+     "note": "欄外に「光州着 7.27」と小字",
+     "t": "06:51"
+    },
+    {
+     "st": "松汀里",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "note": "欄外に「光州着 7.27」と小字",
+     "t": "07:00"
+    }
+   ],
+   "dest": "光州",
+   "cls": "3",
+   "origin": "榮山浦",
+   "via": "松汀里（慶全線經由）",
+   "col": "1"
+  },
+  {
+   "no": "624",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "4.55",
+     "bold": false,
+     "t": "04:55"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "5.05",
+     "bold": false,
+     "t": "05:05"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "5.40",
+     "bold": false,
+     "t": "05:40"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "5.54",
+     "bold": false,
+     "t": "05:54"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "6.14",
+     "bold": false,
+     "t": "06:14"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "7.15",
+     "bold": false,
+     "t": "07:15"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "7.27",
+     "bold": false,
+     "t": "07:27"
+    }
+   ],
+   "dest": "大田",
+   "cls": "3",
+   "origin": "裡里",
+   "col": "1"
+  },
+  {
+   "no": "604",
+   "stops": [
+    {
+     "st": "木浦",
+     "ev": "dep",
+     "printed": "5.30",
+     "bold": false,
+     "t": "05:30"
+    },
+    {
+     "st": "學橋",
+     "ev": "dep",
+     "printed": "6.23",
+     "bold": false,
+     "t": "06:23"
+    },
+    {
+     "st": "榮山浦",
+     "ev": "dep",
+     "printed": "6.50",
+     "bold": false,
+     "t": "06:50"
+    },
+    {
+     "st": "羅州",
+     "ev": "dep",
+     "printed": "6.56",
+     "bold": false,
+     "t": "06:56"
+    },
+    {
+     "st": "松汀里",
+     "ev": "arr",
+     "printed": "7.14",
+     "bold": false,
+     "t": "07:14"
+    },
+    {
+     "st": "松汀里",
+     "ev": "dep",
+     "printed": "7.20",
+     "bold": false,
+     "t": "07:20"
+    },
+    {
+     "st": "長城",
+     "ev": "dep",
+     "printed": "7.49",
+     "bold": false,
+     "t": "07:49"
+    },
+    {
+     "st": "四街里",
+     "ev": "dep",
+     "printed": "8.17",
+     "bold": false,
+     "t": "08:17"
+    },
+    {
+     "st": "井邑",
+     "ev": "dep",
+     "printed": "8.34",
+     "bold": false,
+     "t": "08:34"
+    },
+    {
+     "st": "新泰仁",
+     "ev": "dep",
+     "printed": "8.49",
+     "bold": false,
+     "t": "08:49"
+    },
+    {
+     "st": "金堤",
+     "ev": "dep",
+     "printed": "9.03",
+     "bold": false,
+     "t": "09:03"
+    },
+    {
+     "st": "芙蓉",
+     "ev": "dep",
+     "printed": "9.16",
+     "bold": false,
+     "t": "09:16"
+    },
+    {
+     "st": "裡里",
+     "ev": "arr",
+     "printed": "9.25",
+     "bold": false,
+     "t": "09:25"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "9.35",
+     "bold": false,
+     "t": "09:35"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "9.45",
+     "bold": false,
+     "t": "09:45"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "10.09",
+     "bold": false,
+     "t": "10:09"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "10.21",
+     "bold": false,
+     "t": "10:21"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "10.35",
+     "bold": false,
+     "t": "10:35"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "11.23",
+     "bold": false,
+     "t": "11:23"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    }
+   ],
+   "dest": "大田",
+   "cls": "2.3",
+   "col": "2"
+  },
+  {
+   "no": "608",
+   "stops": [
+    {
+     "st": "木浦",
+     "ev": "dep",
+     "printed": "6.35",
+     "bold": false,
+     "t": "06:35"
+    },
+    {
+     "st": "學橋",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": false,
+     "t": "07:33"
+    },
+    {
+     "st": "榮山浦",
+     "ev": "dep",
+     "printed": "8.02",
+     "bold": false,
+     "t": "08:02"
+    },
+    {
+     "st": "羅州",
+     "ev": "dep",
+     "printed": "8.08",
+     "bold": false,
+     "t": "08:08"
+    },
+    {
+     "st": "松汀里",
+     "ev": "arr",
+     "printed": "8.27",
+     "bold": false,
+     "note": "欄外に「麗水港着 14.50」と小字（數字不確か）",
+     "t": "08:27"
+    },
+    {
+     "st": "松汀里",
+     "ev": "dep",
+     "printed": "8.38",
+     "bold": false,
+     "note": "欄外に「麗水港着 14.50」と小字（數字不確か）",
+     "t": "08:38"
+    }
+   ],
+   "dest": "麗水港",
+   "cls": "2.3",
+   "via": "松汀里（慶全線經由）",
+   "col": "3"
+  },
+  {
+   "no": "1610",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "10.15",
+     "bold": false,
+     "t": "10:15"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "11.29",
+     "bold": false,
+     "t": "11:29"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "11.51",
+     "bold": false,
+     "t": "11:51"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "13.44",
+     "bold": false,
+     "t": "13:44"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "13.55",
+     "bold": false,
+     "t": "13:55"
+    }
+   ],
+   "dest": "大田",
+   "cls": "3",
+   "origin": "裡里",
+   "col": "3"
+  },
+  {
+   "no": "1608",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "7.00",
+     "bold": false,
+     "t": "07:00"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "7.20",
+     "bold": false,
+     "t": "07:20"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "8.18",
+     "bold": false,
+     "t": "08:18"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "8.39",
+     "bold": false,
+     "t": "08:39"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "9.04",
+     "bold": false,
+     "t": "09:04"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "10.29",
+     "bold": false,
+     "t": "10:29"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    }
+   ],
+   "dest": "大田",
+   "cls": "3",
+   "origin": "裡里",
+   "col": "4"
+  },
+  {
+   "no": "606",
+   "stops": [
+    {
+     "st": "木浦",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": false,
+     "t": "08:35"
+    },
+    {
+     "st": "學橋",
+     "ev": "dep",
+     "printed": "9.28",
+     "bold": false,
+     "t": "09:28"
+    },
+    {
+     "st": "榮山浦",
+     "ev": "dep",
+     "printed": "9.56",
+     "bold": false,
+     "t": "09:56"
+    },
+    {
+     "st": "羅州",
+     "ev": "dep",
+     "printed": "10.02",
+     "bold": false,
+     "t": "10:02"
+    },
+    {
+     "st": "松汀里",
+     "ev": "arr",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "松汀里",
+     "ev": "dep",
+     "printed": "10.26",
+     "bold": false,
+     "t": "10:26"
+    },
+    {
+     "st": "長城",
+     "ev": "dep",
+     "printed": "10.52",
+     "bold": false,
+     "t": "10:52"
+    },
+    {
+     "st": "四街里",
+     "ev": "dep",
+     "printed": "11.14",
+     "bold": false,
+     "t": "11:14"
+    },
+    {
+     "st": "井邑",
+     "ev": "dep",
+     "printed": "11.36",
+     "bold": false,
+     "t": "11:36"
+    },
+    {
+     "st": "新泰仁",
+     "ev": "dep",
+     "printed": "11.51",
+     "bold": false,
+     "t": "11:51"
+    },
+    {
+     "st": "金堤",
+     "ev": "dep",
+     "printed": "12.05",
+     "bold": false,
+     "t": "12:05"
+    },
+    {
+     "st": "芙蓉",
+     "ev": "dep",
+     "printed": "12.18",
+     "bold": false,
+     "t": "12:18"
+    },
+    {
+     "st": "裡里",
+     "ev": "arr",
+     "printed": "12.26",
+     "bold": false,
+     "t": "12:26"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "12.36",
+     "bold": false,
+     "t": "12:36"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "12.45",
+     "bold": false,
+     "t": "12:45"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "13.09",
+     "bold": false,
+     "t": "13:09"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "13.21",
+     "bold": false,
+     "t": "13:21"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "13.35",
+     "bold": false,
+     "t": "13:35"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "14.23",
+     "bold": false,
+     "t": "14:23"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "大田",
+   "cls": "2.3",
+   "col": "5"
+  },
+  {
+   "no": "1606",
+   "stops": [
+    {
+     "st": "松汀里",
+     "ev": "dep",
+     "printed": "7.43",
+     "bold": false,
+     "t": "07:43"
+    },
+    {
+     "st": "長城",
+     "ev": "dep",
+     "printed": "8.28",
+     "bold": false,
+     "t": "08:28"
+    },
+    {
+     "st": "四街里",
+     "ev": "dep",
+     "printed": "9.22",
+     "bold": false,
+     "t": "09:22"
+    },
+    {
+     "st": "井邑",
+     "ev": "dep",
+     "printed": "10.02",
+     "bold": false,
+     "t": "10:02"
+    },
+    {
+     "st": "新泰仁",
+     "ev": "dep",
+     "printed": "10.33",
+     "bold": false,
+     "t": "10:33"
+    },
+    {
+     "st": "金堤",
+     "ev": "dep",
+     "printed": "10.56",
+     "bold": false,
+     "t": "10:56"
+    },
+    {
+     "st": "芙蓉",
+     "ev": "dep",
+     "printed": "11.14",
+     "bold": false,
+     "t": "11:14"
+    },
+    {
+     "st": "裡里",
+     "ev": "arr",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "13:10"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "13.28",
+     "bold": false,
+     "t": "13:28"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "14.18",
+     "bold": false,
+     "t": "14:18"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "14.34",
+     "bold": false,
+     "t": "14:34"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "16.28",
+     "bold": false,
+     "t": "16:28"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    }
+   ],
+   "dest": "大田",
+   "cls": "2.3",
+   "origin": "松汀里",
+   "col": "6"
+  },
+  {
+   "no": "1602",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "18.45",
+     "bold": false,
+     "t": "18:45"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "18.59",
+     "bold": false,
+     "t": "18:59"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "19.47",
+     "bold": false,
+     "t": "19:47"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "20.05",
+     "bold": false,
+     "t": "20:05"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "20.35",
+     "bold": false,
+     "t": "20:35"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "21.59",
+     "bold": false,
+     "t": "21:59"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "22.10",
+     "bold": false,
+     "t": "22:10"
+    }
+   ],
+   "dest": "大田",
+   "cls": "3",
+   "origin": "裡里",
+   "col": "7"
+  },
+  {
+   "no": "620",
+   "stops": [
+    {
+     "st": "木浦",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "學橋",
+     "ev": "dep",
+     "printed": "12.35",
+     "bold": false,
+     "t": "12:35"
+    },
+    {
+     "st": "榮山浦",
+     "ev": "dep",
+     "printed": "13.13",
+     "bold": false,
+     "t": "13:13"
+    },
+    {
+     "st": "羅州",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    },
+    {
+     "st": "松汀里",
+     "ev": "arr",
+     "printed": "13.42",
+     "bold": false,
+     "t": "13:42"
+    },
+    {
+     "st": "松汀里",
+     "ev": "dep",
+     "printed": "14.06",
+     "bold": false,
+     "t": "14:06"
+    },
+    {
+     "st": "長城",
+     "ev": "dep",
+     "printed": "14.37",
+     "bold": false,
+     "t": "14:37"
+    },
+    {
+     "st": "四街里",
+     "ev": "dep",
+     "printed": "15.03",
+     "bold": false,
+     "t": "15:03"
+    },
+    {
+     "st": "井邑",
+     "ev": "dep",
+     "printed": "15.39",
+     "bold": false,
+     "t": "15:39"
+    },
+    {
+     "st": "新泰仁",
+     "ev": "dep",
+     "printed": "15.58",
+     "bold": false,
+     "t": "15:58"
+    },
+    {
+     "st": "金堤",
+     "ev": "dep",
+     "printed": "16.16",
+     "bold": false,
+     "t": "16:16"
+    },
+    {
+     "st": "芙蓉",
+     "ev": "dep",
+     "printed": "16.31",
+     "bold": false,
+     "t": "16:31"
+    },
+    {
+     "st": "裡里",
+     "ev": "arr",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "17.21",
+     "bold": false,
+     "t": "17:21"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "t": "17:50"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "18.04",
+     "bold": false,
+     "t": "18:04"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "18.28",
+     "bold": false,
+     "t": "18:28"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "19.38",
+     "bold": false,
+     "t": "19:38"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "19.47",
+     "bold": false,
+     "t": "19:47"
+    }
+   ],
+   "dest": "大田",
+   "cls": "3",
+   "col": "8"
+  },
+  {
+   "no": "1604",
+   "stops": [
+    {
+     "st": "木浦",
+     "ev": "dep",
+     "printed": "13.05",
+     "bold": false,
+     "t": "13:05"
+    },
+    {
+     "st": "學橋",
+     "ev": "dep",
+     "printed": "14.39",
+     "bold": false,
+     "t": "14:39"
+    },
+    {
+     "st": "榮山浦",
+     "ev": "dep",
+     "printed": "15.39",
+     "bold": false,
+     "t": "15:39"
+    },
+    {
+     "st": "羅州",
+     "ev": "dep",
+     "printed": "15.54",
+     "bold": false,
+     "t": "15:54"
+    },
+    {
+     "st": "松汀里",
+     "ev": "arr",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "松汀里",
+     "ev": "dep",
+     "printed": "17.02",
+     "bold": false,
+     "t": "17:02"
+    },
+    {
+     "st": "長城",
+     "ev": "dep",
+     "printed": "17.43",
+     "bold": false,
+     "t": "17:43"
+    },
+    {
+     "st": "四街里",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "井邑",
+     "ev": "dep",
+     "printed": "19.07",
+     "bold": false,
+     "t": "19:07"
+    },
+    {
+     "st": "新泰仁",
+     "ev": "dep",
+     "printed": "19.33",
+     "bold": false,
+     "t": "19:33"
+    },
+    {
+     "st": "金堤",
+     "ev": "dep",
+     "printed": "19.57",
+     "bold": false,
+     "t": "19:57"
+    },
+    {
+     "st": "芙蓉",
+     "ev": "dep",
+     "printed": "20.13",
+     "bold": false,
+     "t": "20:13"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "20.24",
+     "bold": false,
+     "t": "20:24"
+    }
+   ],
+   "dest": "裡里",
+   "cls": "3",
+   "col": "9"
+  },
+  {
+   "no": "612",
+   "stops": [
+    {
+     "st": "木浦",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "學橋",
+     "ev": "dep",
+     "printed": "17.53",
+     "bold": false,
+     "t": "17:53"
+    },
+    {
+     "st": "榮山浦",
+     "ev": "dep",
+     "printed": "18.28",
+     "bold": false,
+     "t": "18:28"
+    },
+    {
+     "st": "羅州",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "t": "18:35"
+    },
+    {
+     "st": "松汀里",
+     "ev": "arr",
+     "printed": "18.57",
+     "bold": false,
+     "note": "欄外に「光州着 19.49」と小字",
+     "t": "18:57"
+    },
+    {
+     "st": "松汀里",
+     "ev": "dep",
+     "printed": "19.20",
+     "bold": false,
+     "note": "欄外に「光州着 19.49」と小字",
+     "t": "19:20"
+    }
+   ],
+   "dest": "光州",
+   "cls": "3",
+   "via": "松汀里（慶全線經由）",
+   "col": "10"
+  },
+  {
+   "no": "626",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "21.11",
+     "bold": false,
+     "t": "21:11"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "21.21",
+     "bold": false,
+     "t": "21:21"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "21.50",
+     "bold": false,
+     "t": "21:50"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "22.04",
+     "bold": false,
+     "t": "22:04"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "22.28",
+     "bold": false,
+     "t": "22:28"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "23.23",
+     "bold": false,
+     "t": "23:23"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "23.32",
+     "bold": false,
+     "t": "23:32"
+    }
+   ],
+   "dest": "大田",
+   "cls": "3",
+   "origin": "裡里",
+   "col": "10"
+  },
+  {
+   "no": "602",
+   "stops": [
+    {
+     "st": "木浦",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    },
+    {
+     "st": "學橋",
+     "ev": "dep",
+     "printed": "20.04",
+     "bold": false,
+     "t": "20:04"
+    },
+    {
+     "st": "榮山浦",
+     "ev": "dep",
+     "printed": "20.35",
+     "bold": false,
+     "t": "20:35"
+    },
+    {
+     "st": "羅州",
+     "ev": "dep",
+     "printed": "20.42",
+     "bold": false,
+     "t": "20:42"
+    },
+    {
+     "st": "松汀里",
+     "ev": "arr",
+     "printed": "21.03",
+     "bold": false,
+     "t": "21:03"
+    },
+    {
+     "st": "松汀里",
+     "ev": "dep",
+     "printed": "21.10",
+     "bold": false,
+     "t": "21:10"
+    },
+    {
+     "st": "長城",
+     "ev": "dep",
+     "printed": "21.40",
+     "bold": false,
+     "t": "21:40"
+    },
+    {
+     "st": "四街里",
+     "ev": "dep",
+     "printed": "22.03",
+     "bold": false,
+     "t": "22:03"
+    },
+    {
+     "st": "井邑",
+     "ev": "dep",
+     "printed": "22.30",
+     "bold": false,
+     "t": "22:30"
+    },
+    {
+     "st": "新泰仁",
+     "ev": "dep",
+     "printed": "22.48",
+     "bold": false,
+     "t": "22:48"
+    },
+    {
+     "st": "金堤",
+     "ev": "dep",
+     "printed": "23.05",
+     "bold": false,
+     "t": "23:05"
+    },
+    {
+     "st": "芙蓉",
+     "ev": "dep",
+     "printed": "23.20",
+     "bold": false,
+     "t": "23:20"
+    },
+    {
+     "st": "裡里",
+     "ev": "arr",
+     "printed": "23.30",
+     "bold": false,
+     "t": "23:30"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "23.41",
+     "bold": false,
+     "t": "23:41"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "23.51",
+     "bold": false,
+     "t": "23:51"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "0.18",
+     "bold": false,
+     "t": "24:18"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "0.32",
+     "bold": false,
+     "t": "24:32"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "0.50",
+     "bold": false,
+     "t": "24:50"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "1.51",
+     "bold": false,
+     "t": "25:51"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "2.00",
+     "bold": false,
+     "t": "26:00"
+    }
+   ],
+   "dest": "大田",
+   "cls": "2.3",
+   "marks": "寢",
+   "col": "11"
+  },
+  {
+   "no": "6141",
+   "stops": [
+    {
+     "st": "木浦",
+     "ev": "dep",
+     "printed": "21.07",
+     "bold": false,
+     "t": "21:07"
+    },
+    {
+     "st": "學橋",
+     "ev": "dep",
+     "printed": "22.21",
+     "bold": false,
+     "t": "22:21"
+    },
+    {
+     "st": "榮山浦",
+     "ev": "dep",
+     "printed": "23.02",
+     "bold": false,
+     "t": "23:02"
+    },
+    {
+     "st": "羅州",
+     "ev": "dep",
+     "printed": "23.10",
+     "bold": false,
+     "t": "23:10"
+    },
+    {
+     "st": "松汀里",
+     "ev": "dep",
+     "printed": "23.35",
+     "bold": false,
+     "t": "23:35"
+    }
+   ],
+   "dest": "松汀里",
+   "cls": "3",
+   "col": "12"
+  },
+  {
+   "no": "642",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "arr",
+     "printed": "22.46",
+     "bold": false,
+     "note": "欄外に「麗水港發 11.05」と小字（數字不確か）",
+     "t": "22:46"
+    },
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "23.19",
+     "bold": false,
+     "note": "欄外に「麗水港發 11.05」と小字（數字不確か）",
+     "t": "23:19"
+    },
+    {
+     "st": "黃登",
+     "ev": "dep",
+     "printed": "23.25",
+     "bold": false,
+     "t": "23:25"
+    },
+    {
+     "st": "江景",
+     "ev": "dep",
+     "printed": "23.52",
+     "bold": false,
+     "t": "23:52"
+    },
+    {
+     "st": "論山",
+     "ev": "dep",
+     "printed": "0.08",
+     "bold": false,
+     "t": "24:08"
+    },
+    {
+     "st": "連山",
+     "ev": "dep",
+     "printed": "0.21",
+     "bold": false,
+     "t": "24:21"
+    },
+    {
+     "st": "西大田",
+     "ev": "dep",
+     "printed": "1.27",
+     "bold": false,
+     "t": "25:27"
+    },
+    {
+     "st": "大田",
+     "ev": "dep",
+     "printed": "1.38",
+     "bold": false,
+     "t": "25:38"
+    }
+   ],
+   "dest": "大田",
+   "cls": "3",
+   "origin": "麗水港",
+   "via": "裡里（全羅線經由）",
+   "col": "12"
+  }
+ ],
+ "notes": [
+  "昭和17.2.20改正。頁77第2段の表。反對方向（大田→木浦）は同頁最上段の p77a。",
+  "左端に「自木浦 運賃 2等・3等」欄があるが運賃は轉記せず。粁程（自木浦）は stations に入れた。驛名の左の⊓・〒・◎等の設備記號も轉記せず。",
+  "朝鮮の表につき24時制。主要驛のみを載せた抄錄表。",
+  "物理的な列は12欄（614 604 608 1608 606 1606 1602 620 1604 612 602 6141）。うち4欄は上下2列車が入つてをり、都合16の train ブロックとした：",
+  "1欄目＝614（榮山浦→松汀里→光州）の下に 624（裡里發、大田行）。3欄目＝608（木浦→松汀里→麗水港）の下に 1610（裡里發、大田行）。",
+  "10欄目＝612（木浦→松汀里→光州）の下に 626（裡里發、大田行）。12欄目＝6141（木浦→松汀里）の下に 642（麗水港發、大田行）。",
+  "光州行・麗水港行の欄には本線を離れた後の到着・發車時刻が小さく縱組（數字は横倒し）で刷り込まれてゐる：614「光州着 7.27」、612「光州着 19.49」、608「麗水港着 14.50」、642「麗水港發 11.05」。橫倒しの數字は下から上へ讀む組み方。608・642 の數字は特に潰れてゐて確度が低く ? を附した。",
+  "602 と 6141 の等級枠は完全に黑く潰れて讀めない。602 は對になる 601（寢・2等3等）と同じと見た。6141 は 3等と見た。",
+  "1606 は裡里で 11.25着・13.10發（1時間45分停車）と印刷されてゐる。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。"
+ ],
+ "source": "IMG_1867",
+ "page": "77",
+ "title": "大田・木浦間",
+ "line": "鮮鐵 湖南本線",
+ "dir": "大田方面（木浦→大田）"
+}

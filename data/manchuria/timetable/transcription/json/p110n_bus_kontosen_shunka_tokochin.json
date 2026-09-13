@@ -1,0 +1,69 @@
+{
+ "stations": [
+  {
+   "name": "春化",
+   "km": null
+  },
+  {
+   "name": "東興鎭",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "2",
+   "stops": [
+    {
+     "st": "春化",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "東興鎭",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    }
+   ],
+   "dest": "東興鎭",
+   "col": "1"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "春化",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "東興鎭",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    }
+   ],
+   "dest": "東興鎭",
+   "col": "2"
+  }
+ ],
+ "notes": [
+  "運賃欄は表の左端に1組のみ（東興鎭起點）。"
+ ],
+ "source": "IMG_1884",
+ "page": "110",
+ "kind": "bus",
+ "office": "牡丹江局管內",
+ "line": "琿東線",
+ "title": "東興鎭・春化間",
+ "dir": "春化→東興鎭",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "春化 0.20 ? | 東興鎭"
+}

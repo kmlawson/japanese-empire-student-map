@@ -1,0 +1,59 @@
+{
+ "stations": [
+  {
+   "name": "楡樹",
+   "km": null
+  },
+  {
+   "name": "弓棚子",
+   "km": null
+  },
+  {
+   "name": "大八號",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "615",
+   "stops": [
+    {
+     "st": "楡樹",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "弓棚子",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "大八號",
+     "ev": "dep",
+     "printed": "11.40",
+     "bold": false,
+     "t": "11:40"
+    }
+   ],
+   "dest": "大八號",
+   "col": "1"
+  }
+ ],
+ "notes": [
+  "表は左右2組で、左が楡樹發（本表）、右が大八號發（p113r）。"
+ ],
+ "source": "IMG_1885",
+ "page": "113",
+ "kind": "bus",
+ "office": "哈爾濱局管內",
+ "line": "三楡北線",
+ "title": "楡樹・大八號間",
+ "dir": "楡樹→大八號",
+ "season": "昭和16.11.1改正",
+ "service": "每日運行",
+ "fares": "楡樹 | 弓棚子 1.45 | 大八號 2.05"
+}

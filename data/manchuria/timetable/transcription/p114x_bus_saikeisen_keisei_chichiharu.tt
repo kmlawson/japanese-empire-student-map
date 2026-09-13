@@ -1,0 +1,22 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 齊齊哈爾局管內
+line: 齊景線
+title: 齊齊哈爾・景星間
+dir: 景星→齊齊哈爾
+season: 昭和16.12.1改正
+service: 每日運行
+note: 22は富拉爾基始發。逆方向は p114w。
+stations: 景星 | 富拉爾基 | 齊齊哈爾
+fares: 齊齊哈爾 | 富拉爾基 2.35 | 景星 5.60
+
+train: 22 | origin 富拉爾基 | dest 齊齊哈爾 | col 5
+景星 -
+富拉爾基 15.00
+齊齊哈爾 16.30
+
+train: 26 | dest 齊齊哈爾 | col 6
+景星 13.00
+富拉爾基 -
+齊齊哈爾 17.00

@@ -1,0 +1,23 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 民彰線
+title: 新民驛・彰武驛間
+dir: 彰武驛→新民驛
+season: 昭和16.12.1改正
+service: 每日運行
+stations: 彰武驛 | 新民驛
+fares: 彰武驛 | 新民驛 2.75
+
+train: 222 | dest 新民驛 | col 1
+彰武驛 7.00
+新民驛 9.30
+
+train: 224 | dest 新民驛 | col 2
+彰武驛 9.30
+新民驛 12.00
+
+train: 226 | dest 新民驛 | col 3
+彰武驛 11.00
+新民驛 13.30

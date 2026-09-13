@@ -1,0 +1,96 @@
+{
+ "stations": [
+  {
+   "name": "新惠",
+   "km": null
+  },
+  {
+   "name": "四家子",
+   "km": null
+  },
+  {
+   "name": "朝陽驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "544",
+   "stops": [
+    {
+     "st": "新惠",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "朝陽驛",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    }
+   ],
+   "dest": "朝陽驛",
+   "col": "1"
+  },
+  {
+   "no": "532",
+   "stops": [
+    {
+     "st": "四家子",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "朝陽驛",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    }
+   ],
+   "dest": "朝陽驛",
+   "col": "2",
+   "origin": "四家子"
+  },
+  {
+   "no": "542",
+   "stops": [
+    {
+     "st": "新惠",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "朝陽驛",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "朝陽驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "the year of the 改正 date is printed smaller than on the other blocks; read as 昭和15",
+  "an unnumbered empty column (…) stands to the right of bus 542"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "朝惠線",
+ "title": "朝陽驛・新惠間",
+ "dir": "新惠→朝陽驛",
+ "season": "昭和15.12.1改正",
+ "service": "每日運行",
+ "fares": "新惠 5.45 | 四家子 2.60 | 朝陽驛"
+}

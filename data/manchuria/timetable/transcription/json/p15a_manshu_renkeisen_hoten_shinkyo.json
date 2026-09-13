@@ -1,0 +1,1988 @@
+{
+ "stations": [
+  {
+   "name": "大連",
+   "km": null
+  },
+  {
+   "name": "熊岳城",
+   "km": null
+  },
+  {
+   "name": "大石橋",
+   "km": null
+  },
+  {
+   "name": "湯崗子",
+   "km": null
+  },
+  {
+   "name": "鞍山",
+   "km": null
+  },
+  {
+   "name": "蘇家屯",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "文官屯",
+   "km": null
+  },
+  {
+   "name": "虎石臺",
+   "km": null
+  },
+  {
+   "name": "唐三家子",
+   "km": null
+  },
+  {
+   "name": "新城子",
+   "km": null
+  },
+  {
+   "name": "新臺子",
+   "km": null
+  },
+  {
+   "name": "亂石山",
+   "km": null
+  },
+  {
+   "name": "得勝臺",
+   "km": null
+  },
+  {
+   "name": "鐵嶺",
+   "km": null
+  },
+  {
+   "name": "平頂堡",
+   "km": null
+  },
+  {
+   "name": "山頭堡",
+   "km": null
+  },
+  {
+   "name": "中固",
+   "km": null
+  },
+  {
+   "name": "開原",
+   "km": null
+  },
+  {
+   "name": "金溝子",
+   "km": null
+  },
+  {
+   "name": "馬仲河",
+   "km": null
+  },
+  {
+   "name": "昌圖",
+   "km": null
+  },
+  {
+   "name": "滿井",
+   "km": null
+  },
+  {
+   "name": "泉頭",
+   "km": null
+  },
+  {
+   "name": "雙廟子",
+   "km": null
+  },
+  {
+   "name": "桿勾子",
+   "km": null
+  },
+  {
+   "name": "牤牛哨",
+   "km": null
+  },
+  {
+   "name": "四平",
+   "km": null
+  },
+  {
+   "name": "楊木林",
+   "km": null
+  },
+  {
+   "name": "十家堡",
+   "km": null
+  },
+  {
+   "name": "郭家店",
+   "km": null
+  },
+  {
+   "name": "蔡家",
+   "km": null
+  },
+  {
+   "name": "大榆樹",
+   "km": null
+  },
+  {
+   "name": "公主嶺",
+   "km": null
+  },
+  {
+   "name": "劉房子",
+   "km": null
+  },
+  {
+   "name": "陶家屯",
+   "km": null
+  },
+  {
+   "name": "范家屯",
+   "km": null
+  },
+  {
+   "name": "大屯",
+   "km": null
+  },
+  {
+   "name": "孟家屯",
+   "km": null
+  },
+  {
+   "name": "南新京",
+   "km": null
+  },
+  {
+   "name": "新京",
+   "km": null
+  },
+  {
+   "name": "德惠",
+   "km": null
+  },
+  {
+   "name": "雙城堡",
+   "km": null
+  },
+  {
+   "name": "哈爾濱",
+   "km": null
+  },
+  {
+   "name": "濱江",
+   "km": null
+  },
+  {
+   "name": "三棵樹",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "37",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "文官屯",
+     "ev": "dep",
+     "printed": "16.27",
+     "bold": false,
+     "t": "16:27"
+    },
+    {
+     "st": "虎石臺",
+     "ev": "dep",
+     "printed": "16.36",
+     "bold": false,
+     "t": "16:36"
+    },
+    {
+     "st": "唐三家子",
+     "ev": "pass"
+    },
+    {
+     "st": "新城子",
+     "ev": "dep",
+     "printed": "16.49",
+     "bold": false,
+     "t": "16:49"
+    },
+    {
+     "st": "新臺子",
+     "ev": "dep",
+     "printed": "17.02",
+     "bold": false,
+     "t": "17:02"
+    },
+    {
+     "st": "亂石山",
+     "ev": "dep",
+     "printed": "17.11",
+     "bold": false,
+     "t": "17:11"
+    },
+    {
+     "st": "得勝臺",
+     "ev": "dep",
+     "printed": "17.24",
+     "bold": false,
+     "t": "17:24"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "arr",
+     "printed": "17.34",
+     "bold": false,
+     "t": "17:34"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    },
+    {
+     "st": "平頂堡",
+     "ev": "dep",
+     "printed": "17.53",
+     "bold": false,
+     "t": "17:53"
+    },
+    {
+     "st": "山頭堡",
+     "ev": "dep",
+     "printed": "17.59",
+     "bold": false,
+     "t": "17:59"
+    },
+    {
+     "st": "中固",
+     "ev": "dep",
+     "printed": "18.11",
+     "bold": false,
+     "t": "18:11"
+    },
+    {
+     "st": "開原",
+     "ev": "arr",
+     "printed": "18.25",
+     "bold": false,
+     "t": "18:25"
+    },
+    {
+     "st": "開原",
+     "ev": "dep",
+     "printed": "18.26",
+     "bold": false,
+     "t": "18:26"
+    },
+    {
+     "st": "金溝子",
+     "ev": "dep",
+     "printed": "18.38",
+     "bold": false,
+     "t": "18:38"
+    },
+    {
+     "st": "馬仲河",
+     "ev": "dep",
+     "printed": "18.52",
+     "bold": false,
+     "t": "18:52"
+    },
+    {
+     "st": "昌圖",
+     "ev": "dep",
+     "printed": "19.08",
+     "bold": false,
+     "t": "19:08"
+    },
+    {
+     "st": "滿井",
+     "ev": "dep",
+     "printed": "19.19",
+     "bold": false,
+     "t": "19:19"
+    },
+    {
+     "st": "泉頭",
+     "ev": "dep",
+     "printed": "19.29",
+     "bold": false,
+     "t": "19:29"
+    },
+    {
+     "st": "雙廟子",
+     "ev": "dep",
+     "printed": "19.43",
+     "bold": false,
+     "t": "19:43"
+    },
+    {
+     "st": "桿勾子",
+     "ev": "dep",
+     "printed": "19.56",
+     "bold": false,
+     "t": "19:56"
+    },
+    {
+     "st": "牤牛哨",
+     "ev": "dep",
+     "printed": "20.05",
+     "bold": false,
+     "t": "20:05"
+    },
+    {
+     "st": "四平",
+     "ev": "arr",
+     "printed": "20.19",
+     "bold": false,
+     "t": "20:19"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "20.26",
+     "bold": false,
+     "t": "20:26"
+    },
+    {
+     "st": "楊木林",
+     "ev": "dep",
+     "printed": "20.37",
+     "bold": false,
+     "t": "20:37"
+    },
+    {
+     "st": "十家堡",
+     "ev": "dep",
+     "printed": "20.50",
+     "bold": false,
+     "t": "20:50"
+    },
+    {
+     "st": "郭家店",
+     "ev": "dep",
+     "printed": "21.04",
+     "bold": false,
+     "t": "21:04"
+    },
+    {
+     "st": "蔡家",
+     "ev": "dep",
+     "printed": "21.19",
+     "bold": false,
+     "t": "21:19"
+    },
+    {
+     "st": "大榆樹",
+     "ev": "dep",
+     "printed": "21.29",
+     "bold": false,
+     "t": "21:29"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "arr",
+     "printed": "21.39",
+     "bold": false,
+     "t": "21:39"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "dep",
+     "printed": "21.42",
+     "bold": false,
+     "t": "21:42"
+    },
+    {
+     "st": "劉房子",
+     "ev": "dep",
+     "printed": "21.58",
+     "bold": false,
+     "t": "21:58"
+    },
+    {
+     "st": "陶家屯",
+     "ev": "dep",
+     "printed": "22.13",
+     "bold": false,
+     "t": "22:13"
+    },
+    {
+     "st": "范家屯",
+     "ev": "dep",
+     "printed": "22.27",
+     "bold": false,
+     "t": "22:27"
+    },
+    {
+     "st": "大屯",
+     "ev": "dep",
+     "printed": "22.55",
+     "bold": false,
+     "t": "22:55"
+    },
+    {
+     "st": "孟家屯",
+     "ev": "dep",
+     "printed": "23.10",
+     "bold": false,
+     "t": "23:10"
+    },
+    {
+     "st": "南新京",
+     "ev": "dep",
+     "printed": "23.17",
+     "bold": false,
+     "t": "23:17"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "23.24",
+     "bold": false,
+     "t": "23:24"
+    }
+   ],
+   "dest": "新京",
+   "cls": "2.3",
+   "origin": "營口 13.00發",
+   "col": "15"
+  },
+  {
+   "no": "31",
+   "stops": [
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "13.48",
+     "bold": false,
+     "t": "13:48"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "14.56",
+     "bold": false,
+     "t": "14:56"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "15.18",
+     "bold": false,
+     "t": "15:18"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "16.52",
+     "bold": false,
+     "t": "16:52"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "17.16",
+     "bold": false,
+     "t": "17:16"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "17.26",
+     "bold": false,
+     "t": "17:26"
+    },
+    {
+     "st": "文官屯",
+     "ev": "dep",
+     "printed": "17.44",
+     "bold": false,
+     "t": "17:44"
+    },
+    {
+     "st": "虎石臺",
+     "ev": "dep",
+     "printed": "17.54",
+     "bold": false,
+     "t": "17:54"
+    },
+    {
+     "st": "唐三家子",
+     "ev": "dep",
+     "printed": "18.01",
+     "bold": false,
+     "t": "18:01"
+    },
+    {
+     "st": "新城子",
+     "ev": "dep",
+     "printed": "18.10",
+     "bold": false,
+     "t": "18:10"
+    },
+    {
+     "st": "新臺子",
+     "ev": "dep",
+     "printed": "18.24",
+     "bold": false,
+     "t": "18:24"
+    },
+    {
+     "st": "亂石山",
+     "ev": "dep",
+     "printed": "18.34",
+     "bold": false,
+     "t": "18:34"
+    },
+    {
+     "st": "得勝臺",
+     "ev": "dep",
+     "printed": "18.46",
+     "bold": false,
+     "uncertain": true,
+     "note": "原表は「81.46」と誤植（18.34と18.57の間）",
+     "t": "18:46"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "arr",
+     "printed": "18.57",
+     "bold": false,
+     "t": "18:57"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "dep",
+     "printed": "19.03",
+     "bold": false,
+     "t": "19:03"
+    },
+    {
+     "st": "平頂堡",
+     "ev": "dep",
+     "printed": "19.17",
+     "bold": false,
+     "t": "19:17"
+    },
+    {
+     "st": "山頭堡",
+     "ev": "pass"
+    },
+    {
+     "st": "中固",
+     "ev": "dep",
+     "printed": "19.31",
+     "bold": false,
+     "t": "19:31"
+    },
+    {
+     "st": "開原",
+     "ev": "arr",
+     "printed": "19.46",
+     "bold": false,
+     "t": "19:46"
+    },
+    {
+     "st": "開原",
+     "ev": "dep",
+     "printed": "19.47",
+     "bold": false,
+     "t": "19:47"
+    },
+    {
+     "st": "金溝子",
+     "ev": "dep",
+     "printed": "19.59",
+     "bold": false,
+     "t": "19:59"
+    },
+    {
+     "st": "馬仲河",
+     "ev": "dep",
+     "printed": "20.30",
+     "bold": false,
+     "t": "20:30"
+    },
+    {
+     "st": "昌圖",
+     "ev": "dep",
+     "printed": "20.47",
+     "bold": false,
+     "t": "20:47"
+    },
+    {
+     "st": "滿井",
+     "ev": "dep",
+     "printed": "20.59",
+     "bold": false,
+     "t": "20:59"
+    },
+    {
+     "st": "泉頭",
+     "ev": "dep",
+     "printed": "21.09",
+     "bold": false,
+     "t": "21:09"
+    },
+    {
+     "st": "雙廟子",
+     "ev": "dep",
+     "printed": "21.24",
+     "bold": false,
+     "t": "21:24"
+    },
+    {
+     "st": "桿勾子",
+     "ev": "dep",
+     "printed": "21.37",
+     "bold": false,
+     "t": "21:37"
+    },
+    {
+     "st": "牤牛哨",
+     "ev": "dep",
+     "printed": "21.46",
+     "bold": false,
+     "t": "21:46"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "22.02",
+     "bold": false,
+     "t": "22:02"
+    }
+   ],
+   "dest": "四平",
+   "cls": "2.3",
+   "col": "16"
+  },
+  {
+   "no": "1",
+   "stops": [
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "18.07",
+     "bold": false,
+     "t": "18:07"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "18.25",
+     "bold": false,
+     "t": "18:25"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "t": "18:35"
+    },
+    {
+     "st": "文官屯",
+     "ev": "pass"
+    },
+    {
+     "st": "虎石臺",
+     "ev": "pass"
+    },
+    {
+     "st": "唐三家子",
+     "ev": "pass",
+     "note": "原表はこの桝に「急行」の黑地標記"
+    },
+    {
+     "st": "新城子",
+     "ev": "pass",
+     "note": "原表はここに「ひかり」の白拔き標記"
+    },
+    {
+     "st": "新臺子",
+     "ev": "pass",
+     "note": "原表はここに「ひかり」の白拔き標記"
+    },
+    {
+     "st": "亂石山",
+     "ev": "pass"
+    },
+    {
+     "st": "得勝臺",
+     "ev": "pass"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "arr",
+     "printed": "19.31",
+     "bold": false,
+     "t": "19:31"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "dep",
+     "printed": "19.34",
+     "bold": false,
+     "t": "19:34"
+    },
+    {
+     "st": "平頂堡",
+     "ev": "pass"
+    },
+    {
+     "st": "山頭堡",
+     "ev": "pass"
+    },
+    {
+     "st": "中固",
+     "ev": "pass"
+    },
+    {
+     "st": "開原",
+     "ev": "arr",
+     "printed": "20.04",
+     "bold": false,
+     "t": "20:04"
+    },
+    {
+     "st": "開原",
+     "ev": "dep",
+     "printed": "20.05",
+     "bold": false,
+     "t": "20:05"
+    },
+    {
+     "st": "金溝子",
+     "ev": "pass"
+    },
+    {
+     "st": "馬仲河",
+     "ev": "pass"
+    },
+    {
+     "st": "昌圖",
+     "ev": "pass"
+    },
+    {
+     "st": "滿井",
+     "ev": "pass"
+    },
+    {
+     "st": "泉頭",
+     "ev": "pass"
+    },
+    {
+     "st": "雙廟子",
+     "ev": "pass"
+    },
+    {
+     "st": "桿勾子",
+     "ev": "pass"
+    },
+    {
+     "st": "牤牛哨",
+     "ev": "pass"
+    },
+    {
+     "st": "四平",
+     "ev": "arr",
+     "printed": "21.18",
+     "bold": false,
+     "t": "21:18"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "21.22",
+     "bold": false,
+     "t": "21:22"
+    },
+    {
+     "st": "楊木林",
+     "ev": "pass"
+    },
+    {
+     "st": "十家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "郭家店",
+     "ev": "pass"
+    },
+    {
+     "st": "蔡家",
+     "ev": "pass"
+    },
+    {
+     "st": "大榆樹",
+     "ev": "pass"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "arr",
+     "printed": "22.09",
+     "bold": false,
+     "t": "22:09"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "dep",
+     "printed": "22.10",
+     "bold": false,
+     "t": "22:10"
+    },
+    {
+     "st": "劉房子",
+     "ev": "pass"
+    },
+    {
+     "st": "陶家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "范家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "大屯",
+     "ev": "pass"
+    },
+    {
+     "st": "孟家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "南新京",
+     "ev": "pass"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "23.06",
+     "bold": false,
+     "t": "23:06"
+    }
+   ],
+   "dest": "新京",
+   "name": "ひかり",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "origin": "釜山 19.45發",
+   "col": "17"
+  },
+  {
+   "no": "801",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "19.15",
+     "bold": false,
+     "t": "19:15"
+    },
+    {
+     "st": "文官屯",
+     "ev": "dep",
+     "printed": "19.32",
+     "bold": false,
+     "t": "19:32"
+    },
+    {
+     "st": "虎石臺",
+     "ev": "dep",
+     "printed": "19.41",
+     "bold": false,
+     "t": "19:41"
+    },
+    {
+     "st": "唐三家子",
+     "ev": "pass"
+    },
+    {
+     "st": "新城子",
+     "ev": "dep",
+     "printed": "19.45",
+     "bold": false,
+     "note": "原表のまま（虎石臺19.41の4分後、19.55の誤植とみられる）",
+     "t": "19:45"
+    },
+    {
+     "st": "新臺子",
+     "ev": "dep",
+     "printed": "20.07",
+     "bold": false,
+     "t": "20:07"
+    },
+    {
+     "st": "亂石山",
+     "ev": "dep",
+     "printed": "20.17",
+     "bold": false,
+     "t": "20:17"
+    },
+    {
+     "st": "得勝臺",
+     "ev": "dep",
+     "printed": "20.29",
+     "bold": false,
+     "t": "20:29"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "arr",
+     "printed": "20.39",
+     "bold": false,
+     "t": "20:39"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "dep",
+     "printed": "20.46",
+     "bold": false,
+     "t": "20:46"
+    },
+    {
+     "st": "平頂堡",
+     "ev": "dep",
+     "printed": "20.59",
+     "bold": false,
+     "t": "20:59"
+    },
+    {
+     "st": "山頭堡",
+     "ev": "pass"
+    },
+    {
+     "st": "中固",
+     "ev": "dep",
+     "printed": "21.13",
+     "bold": false,
+     "t": "21:13"
+    },
+    {
+     "st": "開原",
+     "ev": "arr",
+     "printed": "21.27",
+     "bold": false,
+     "t": "21:27"
+    },
+    {
+     "st": "開原",
+     "ev": "dep",
+     "printed": "21.29",
+     "bold": false,
+     "t": "21:29"
+    },
+    {
+     "st": "金溝子",
+     "ev": "dep",
+     "printed": "21.41",
+     "bold": false,
+     "t": "21:41"
+    },
+    {
+     "st": "馬仲河",
+     "ev": "dep",
+     "printed": "21.55",
+     "bold": false,
+     "t": "21:55"
+    },
+    {
+     "st": "昌圖",
+     "ev": "dep",
+     "printed": "22.12",
+     "bold": false,
+     "t": "22:12"
+    },
+    {
+     "st": "滿井",
+     "ev": "dep",
+     "printed": "22.24",
+     "bold": false,
+     "t": "22:24"
+    },
+    {
+     "st": "泉頭",
+     "ev": "dep",
+     "printed": "22.34",
+     "bold": false,
+     "t": "22:34"
+    },
+    {
+     "st": "雙廟子",
+     "ev": "dep",
+     "printed": "22.49",
+     "bold": false,
+     "t": "22:49"
+    },
+    {
+     "st": "桿勾子",
+     "ev": "dep",
+     "printed": "23.02",
+     "bold": false,
+     "t": "23:02"
+    },
+    {
+     "st": "牤牛哨",
+     "ev": "dep",
+     "printed": "23.11",
+     "bold": false,
+     "t": "23:11"
+    },
+    {
+     "st": "四平",
+     "ev": "arr",
+     "printed": "23.27",
+     "bold": false,
+     "note": "四平から先は平齊線經由、北安著16.15（翌日）と註記",
+     "t": "23:27"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "23.50",
+     "bold": false,
+     "note": "四平から先は平齊線經由、北安著16.15（翌日）と註記",
+     "t": "23:50"
+    }
+   ],
+   "dest": "北安",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "col": "18"
+  },
+  {
+   "no": "21",
+   "stops": [
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    },
+    {
+     "st": "熊岳城",
+     "ev": "dep",
+     "printed": "17.26",
+     "bold": false,
+     "t": "17:26"
+    },
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "18.56",
+     "bold": false,
+     "t": "18:56"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "20.19",
+     "bold": false,
+     "t": "20:19"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "20.44",
+     "bold": false,
+     "t": "20:44"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "22.26",
+     "bold": false,
+     "t": "22:26"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "22.47",
+     "bold": false,
+     "t": "22:47"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "23.00",
+     "bold": false,
+     "t": "23:00"
+    },
+    {
+     "st": "文官屯",
+     "ev": "dep",
+     "printed": "23.18",
+     "bold": false,
+     "t": "23:18"
+    },
+    {
+     "st": "虎石臺",
+     "ev": "dep",
+     "printed": "23.49",
+     "bold": false,
+     "t": "23:49"
+    },
+    {
+     "st": "唐三家子",
+     "ev": "pass"
+    },
+    {
+     "st": "新城子",
+     "ev": "dep",
+     "printed": "0.02",
+     "bold": false,
+     "t": "24:02"
+    },
+    {
+     "st": "新臺子",
+     "ev": "dep",
+     "printed": "0.16",
+     "bold": false,
+     "t": "24:16"
+    },
+    {
+     "st": "亂石山",
+     "ev": "dep",
+     "printed": "0.26",
+     "bold": false,
+     "t": "24:26"
+    },
+    {
+     "st": "得勝臺",
+     "ev": "dep",
+     "printed": "0.38",
+     "bold": false,
+     "t": "24:38"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "arr",
+     "printed": "0.49",
+     "bold": false,
+     "t": "24:49"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "dep",
+     "printed": "0.56",
+     "bold": false,
+     "t": "24:56"
+    },
+    {
+     "st": "平頂堡",
+     "ev": "pass"
+    },
+    {
+     "st": "山頭堡",
+     "ev": "pass"
+    },
+    {
+     "st": "中固",
+     "ev": "pass"
+    },
+    {
+     "st": "開原",
+     "ev": "arr",
+     "printed": "1.34",
+     "bold": false,
+     "t": "25:34"
+    },
+    {
+     "st": "開原",
+     "ev": "dep",
+     "printed": "1.35",
+     "bold": false,
+     "t": "25:35"
+    },
+    {
+     "st": "金溝子",
+     "ev": "dep",
+     "printed": "1.51",
+     "bold": false,
+     "t": "25:51"
+    },
+    {
+     "st": "馬仲河",
+     "ev": "dep",
+     "printed": "2.08",
+     "bold": false,
+     "t": "26:08"
+    },
+    {
+     "st": "昌圖",
+     "ev": "dep",
+     "printed": "2.29",
+     "bold": false,
+     "t": "26:29"
+    },
+    {
+     "st": "滿井",
+     "ev": "dep",
+     "printed": "2.43",
+     "bold": false,
+     "t": "26:43"
+    },
+    {
+     "st": "泉頭",
+     "ev": "dep",
+     "printed": "2.54",
+     "bold": false,
+     "t": "26:54"
+    },
+    {
+     "st": "雙廟子",
+     "ev": "dep",
+     "printed": "3.12",
+     "bold": false,
+     "t": "27:12"
+    },
+    {
+     "st": "桿勾子",
+     "ev": "dep",
+     "printed": "3.27",
+     "bold": false,
+     "t": "27:27"
+    },
+    {
+     "st": "牤牛哨",
+     "ev": "dep",
+     "printed": "3.38",
+     "bold": false,
+     "t": "27:38"
+    },
+    {
+     "st": "四平",
+     "ev": "arr",
+     "printed": "3.59",
+     "bold": false,
+     "t": "27:59"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "4.07",
+     "bold": false,
+     "t": "28:07"
+    },
+    {
+     "st": "楊木林",
+     "ev": "dep",
+     "printed": "4.20",
+     "bold": false,
+     "t": "28:20"
+    },
+    {
+     "st": "十家堡",
+     "ev": "dep",
+     "printed": "4.36",
+     "bold": false,
+     "t": "28:36"
+    },
+    {
+     "st": "郭家店",
+     "ev": "dep",
+     "printed": "4.56",
+     "bold": false,
+     "t": "28:56"
+    },
+    {
+     "st": "蔡家",
+     "ev": "dep",
+     "printed": "5.17",
+     "bold": false,
+     "t": "29:17"
+    },
+    {
+     "st": "大榆樹",
+     "ev": "dep",
+     "printed": "5.30",
+     "bold": false,
+     "t": "29:30"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "arr",
+     "printed": "5.44",
+     "bold": false,
+     "t": "29:44"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "dep",
+     "printed": "5.58",
+     "bold": false,
+     "t": "29:58"
+    },
+    {
+     "st": "劉房子",
+     "ev": "dep",
+     "printed": "6.16",
+     "bold": false,
+     "t": "30:16"
+    },
+    {
+     "st": "陶家屯",
+     "ev": "dep",
+     "printed": "6.33",
+     "bold": false,
+     "t": "30:33"
+    },
+    {
+     "st": "范家屯",
+     "ev": "dep",
+     "printed": "6.49",
+     "bold": false,
+     "t": "30:49"
+    },
+    {
+     "st": "大屯",
+     "ev": "dep",
+     "printed": "7.05",
+     "bold": false,
+     "t": "31:05"
+    },
+    {
+     "st": "孟家屯",
+     "ev": "dep",
+     "printed": "7.23",
+     "bold": false,
+     "t": "31:23"
+    },
+    {
+     "st": "南新京",
+     "ev": "dep",
+     "printed": "7.31",
+     "bold": false,
+     "t": "31:31"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": false,
+     "t": "31:38"
+    }
+   ],
+   "dest": "新京",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "col": "19"
+  },
+  {
+   "no": "17",
+   "stops": [
+    {
+     "st": "大連",
+     "ev": "dep",
+     "printed": "16.50",
+     "bold": false,
+     "t": "16:50"
+    },
+    {
+     "st": "熊岳城",
+     "ev": "dep",
+     "printed": "19.41",
+     "bold": false,
+     "t": "19:41"
+    },
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "20.38",
+     "bold": false,
+     "t": "20:38"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "21.29",
+     "bold": false,
+     "t": "21:29"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "21.44",
+     "bold": false,
+     "t": "21:44"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "22.54",
+     "bold": false,
+     "t": "22:54"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "23.14",
+     "bold": false,
+     "t": "23:14"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "23.23",
+     "bold": false,
+     "t": "23:23"
+    },
+    {
+     "st": "文官屯",
+     "ev": "pass"
+    },
+    {
+     "st": "虎石臺",
+     "ev": "pass"
+    },
+    {
+     "st": "唐三家子",
+     "ev": "pass",
+     "note": "原表はこの桝に「急行」の黑地標記"
+    },
+    {
+     "st": "新城子",
+     "ev": "pass"
+    },
+    {
+     "st": "新臺子",
+     "ev": "pass"
+    },
+    {
+     "st": "亂石山",
+     "ev": "pass"
+    },
+    {
+     "st": "得勝臺",
+     "ev": "pass"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "arr",
+     "printed": "0.22",
+     "bold": false,
+     "t": "24:22"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "dep",
+     "printed": "0.27",
+     "bold": false,
+     "t": "24:27"
+    },
+    {
+     "st": "平頂堡",
+     "ev": "pass"
+    },
+    {
+     "st": "山頭堡",
+     "ev": "pass"
+    },
+    {
+     "st": "中固",
+     "ev": "pass"
+    },
+    {
+     "st": "開原",
+     "ev": "arr",
+     "printed": "0.56",
+     "bold": false,
+     "t": "24:56"
+    },
+    {
+     "st": "開原",
+     "ev": "dep",
+     "printed": "0.57",
+     "bold": false,
+     "t": "24:57"
+    },
+    {
+     "st": "金溝子",
+     "ev": "pass"
+    },
+    {
+     "st": "馬仲河",
+     "ev": "pass"
+    },
+    {
+     "st": "昌圖",
+     "ev": "pass"
+    },
+    {
+     "st": "滿井",
+     "ev": "pass"
+    },
+    {
+     "st": "泉頭",
+     "ev": "pass"
+    },
+    {
+     "st": "雙廟子",
+     "ev": "pass"
+    },
+    {
+     "st": "桿勾子",
+     "ev": "pass"
+    },
+    {
+     "st": "牤牛哨",
+     "ev": "pass"
+    },
+    {
+     "st": "四平",
+     "ev": "arr",
+     "printed": "2.09",
+     "bold": false,
+     "t": "26:09"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "2.14",
+     "bold": false,
+     "t": "26:14"
+    },
+    {
+     "st": "楊木林",
+     "ev": "pass"
+    },
+    {
+     "st": "十家堡",
+     "ev": "pass"
+    },
+    {
+     "st": "郭家店",
+     "ev": "pass"
+    },
+    {
+     "st": "蔡家",
+     "ev": "pass"
+    },
+    {
+     "st": "大榆樹",
+     "ev": "pass"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "arr",
+     "printed": "3.02",
+     "bold": false,
+     "t": "27:02"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "dep",
+     "printed": "3.03",
+     "bold": false,
+     "t": "27:03"
+    },
+    {
+     "st": "劉房子",
+     "ev": "pass"
+    },
+    {
+     "st": "陶家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "范家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "大屯",
+     "ev": "pass"
+    },
+    {
+     "st": "孟家屯",
+     "ev": "pass"
+    },
+    {
+     "st": "南新京",
+     "ev": "pass"
+    },
+    {
+     "st": "新京",
+     "ev": "arr",
+     "printed": "3.58",
+     "bold": false,
+     "t": "27:58"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "4.20",
+     "bold": false,
+     "t": "28:20"
+    },
+    {
+     "st": "德惠",
+     "ev": "dep",
+     "printed": "5.53",
+     "bold": false,
+     "t": "29:53"
+    },
+    {
+     "st": "雙城堡",
+     "ev": "dep",
+     "printed": "8.19",
+     "bold": false,
+     "t": "32:19"
+    },
+    {
+     "st": "哈爾濱",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "33:30"
+    },
+    {
+     "st": "濱江",
+     "ev": "dep",
+     "printed": "9.58",
+     "bold": false,
+     "t": "33:58"
+    },
+    {
+     "st": "三棵樹",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "34:10"
+    }
+   ],
+   "dest": "三棵樹",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "col": "20"
+  },
+  {
+   "no": "33",
+   "stops": [
+    {
+     "st": "大石橋",
+     "ev": "dep",
+     "printed": "19.30",
+     "bold": false,
+     "t": "19:30"
+    },
+    {
+     "st": "湯崗子",
+     "ev": "dep",
+     "printed": "20.58",
+     "bold": false,
+     "t": "20:58"
+    },
+    {
+     "st": "鞍山",
+     "ev": "dep",
+     "printed": "21.25",
+     "bold": false,
+     "t": "21:25"
+    },
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "23.17",
+     "bold": false,
+     "t": "23:17"
+    },
+    {
+     "st": "奉天",
+     "ev": "arr",
+     "printed": "23.40",
+     "bold": false,
+     "t": "23:40"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "23.55",
+     "bold": false,
+     "t": "23:55"
+    },
+    {
+     "st": "文官屯",
+     "ev": "pass"
+    },
+    {
+     "st": "虎石臺",
+     "ev": "pass"
+    },
+    {
+     "st": "唐三家子",
+     "ev": "pass"
+    },
+    {
+     "st": "新城子",
+     "ev": "pass"
+    },
+    {
+     "st": "新臺子",
+     "ev": "dep",
+     "printed": "0.57",
+     "bold": false,
+     "t": "24:57"
+    },
+    {
+     "st": "亂石山",
+     "ev": "pass"
+    },
+    {
+     "st": "得勝臺",
+     "ev": "pass"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "arr",
+     "printed": "1.33",
+     "bold": false,
+     "t": "25:33"
+    },
+    {
+     "st": "鐵嶺",
+     "ev": "dep",
+     "printed": "1.40",
+     "bold": false,
+     "t": "25:40"
+    },
+    {
+     "st": "平頂堡",
+     "ev": "dep",
+     "printed": "1.55",
+     "bold": false,
+     "t": "25:55"
+    },
+    {
+     "st": "山頭堡",
+     "ev": "pass"
+    },
+    {
+     "st": "中固",
+     "ev": "dep",
+     "printed": "2.12",
+     "bold": false,
+     "t": "26:12"
+    },
+    {
+     "st": "開原",
+     "ev": "arr",
+     "printed": "2.30",
+     "bold": false,
+     "t": "26:30"
+    },
+    {
+     "st": "開原",
+     "ev": "dep",
+     "printed": "2.32",
+     "bold": false,
+     "t": "26:32"
+    },
+    {
+     "st": "金溝子",
+     "ev": "dep",
+     "printed": "2.48",
+     "bold": false,
+     "t": "26:48"
+    },
+    {
+     "st": "馬仲河",
+     "ev": "dep",
+     "printed": "3.05",
+     "bold": false,
+     "t": "27:05"
+    },
+    {
+     "st": "昌圖",
+     "ev": "dep",
+     "printed": "3.28",
+     "bold": false,
+     "t": "27:28"
+    },
+    {
+     "st": "滿井",
+     "ev": "dep",
+     "printed": "3.42",
+     "bold": false,
+     "t": "27:42"
+    },
+    {
+     "st": "泉頭",
+     "ev": "dep",
+     "printed": "3.54",
+     "bold": false,
+     "t": "27:54"
+    },
+    {
+     "st": "雙廟子",
+     "ev": "dep",
+     "printed": "4.13",
+     "bold": false,
+     "t": "28:13"
+    },
+    {
+     "st": "桿勾子",
+     "ev": "dep",
+     "printed": "4.30",
+     "bold": false,
+     "t": "28:30"
+    },
+    {
+     "st": "牤牛哨",
+     "ev": "dep",
+     "printed": "4.42",
+     "bold": false,
+     "t": "28:42"
+    },
+    {
+     "st": "四平",
+     "ev": "arr",
+     "printed": "5.05",
+     "bold": false,
+     "t": "29:05"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "5.15",
+     "bold": false,
+     "t": "29:15"
+    },
+    {
+     "st": "楊木林",
+     "ev": "dep",
+     "printed": "5.28",
+     "bold": false,
+     "t": "29:28"
+    },
+    {
+     "st": "十家堡",
+     "ev": "dep",
+     "printed": "5.44",
+     "bold": false,
+     "t": "29:44"
+    },
+    {
+     "st": "郭家店",
+     "ev": "dep",
+     "printed": "6.04",
+     "bold": false,
+     "t": "30:04"
+    },
+    {
+     "st": "蔡家",
+     "ev": "dep",
+     "printed": "6.41",
+     "bold": false,
+     "t": "30:41"
+    },
+    {
+     "st": "大榆樹",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": false,
+     "t": "30:54"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "arr",
+     "printed": "7.08",
+     "bold": false,
+     "t": "31:08"
+    },
+    {
+     "st": "公主嶺",
+     "ev": "dep",
+     "printed": "7.13",
+     "bold": false,
+     "t": "31:13"
+    },
+    {
+     "st": "劉房子",
+     "ev": "dep",
+     "printed": "7.29",
+     "bold": false,
+     "t": "31:29"
+    },
+    {
+     "st": "陶家屯",
+     "ev": "dep",
+     "printed": "7.44",
+     "bold": false,
+     "t": "31:44"
+    },
+    {
+     "st": "范家屯",
+     "ev": "dep",
+     "printed": "7.58",
+     "bold": false,
+     "t": "31:58"
+    },
+    {
+     "st": "大屯",
+     "ev": "dep",
+     "printed": "8.12",
+     "bold": false,
+     "t": "32:12"
+    },
+    {
+     "st": "孟家屯",
+     "ev": "dep",
+     "printed": "8.27",
+     "bold": false,
+     "t": "32:27"
+    },
+    {
+     "st": "南新京",
+     "ev": "dep",
+     "printed": "8.34",
+     "bold": false,
+     "t": "32:34"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "8.40",
+     "bold": false,
+     "t": "32:40"
+    }
+   ],
+   "dest": "新京",
+   "cls": "2.3",
+   "col": "21"
+  }
+ ],
+ "notes": [
+  "頁14から續く同一表の後半。驛名欄はこの頁の右端にあり、停車行は頁14と共通。この頁の列車欄は7欄（37・31・1・801・21・17・33）で、その右に空欄が6欄ある。頁頭に「（滿鐵・連京線）」。",
+  "粁程欄は無く、運賃欄は頁14側にあるため本頁には無い。改訂日（昭和17.6.15）・讀みにくい驛名・記念スタンプの註記はいづれも頁14側にある。",
+  "表頭の「大連〜奉天」6行は頁12・13の抄錄、表末尾の「新京〜三棵樹」5行は接續の抄錄（原表註記「43頁」）。",
+  "「v」は原表のレ（通過）、「-」は原表の「…」。急行列車（1・17）の唐三家子の桝には「急行」の黑地標記、1列車の新城子〜新臺子には列車名「ひかり」の白拔き標記が入り、その桝には時刻が無い。",
+  "17列車の濱江は本頁では9.58と印刷されている（頁13の同一列車の抄錄欄には9.55とあり不一致）。",
+  "蔡家は2字分の間隔をあけて印刷された2字驛名。1字目は艹冠の字で「蔡」と讀んだが確實ではない。"
+ ],
+ "source": "IMG_1836",
+ "page": "15",
+ "title": "滿洲 連京線（奉天—新京間）",
+ "line": "滿鐵社線 連京線",
+ "dir": "下り (奉天→新京)"
+}

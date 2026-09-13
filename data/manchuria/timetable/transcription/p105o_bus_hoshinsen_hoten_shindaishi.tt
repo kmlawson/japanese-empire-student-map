@@ -1,0 +1,31 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 奉新線
+title: 奉天驛・蒲河・新臺子驛
+dir: 奉天驛→新臺子驛
+season: 昭和17.1.28改正
+service: 每日運行
+stations: 奉天驛 | 蒲河 | 新臺子
+fares: 奉天驛 0 | 蒲河 1.35 | 新臺子 2.60
+
+train: 81 | dest 蒲河 | col 1
+奉天驛 8.30
+蒲河 10.00
+新臺子 -
+
+train: 83 | dest 新臺子 | col 2
+奉天驛 11.00
+蒲河 12.30
+新臺子 13.50
+
+train: 85 | dest 蒲河 | col 3
+奉天驛 13.00
+蒲河 14.30
+新臺子 -
+
+train: 87 | dest 蒲河 | col 4
+奉天驛 15.30
+蒲河 17.00
+新臺子 -

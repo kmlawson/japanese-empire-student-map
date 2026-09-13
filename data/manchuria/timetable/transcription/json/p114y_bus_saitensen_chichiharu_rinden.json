@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "齊齊哈爾",
+   "km": null
+  },
+  {
+   "name": "林甸",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "75",
+   "stops": [
+    {
+     "st": "齊齊哈爾",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "林甸",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "林甸",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "左端は運賃（圓.分）欄。逆方向は p114z。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "齊甸線",
+ "title": "齊齊哈爾・林甸間",
+ "dir": "齊齊哈爾→林甸",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "齊齊哈爾 | 林甸 4.80"
+}

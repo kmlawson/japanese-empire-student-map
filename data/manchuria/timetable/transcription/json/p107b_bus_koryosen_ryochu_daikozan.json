@@ -1,0 +1,141 @@
+{
+ "stations": [
+  {
+   "name": "遼中",
+   "km": null
+  },
+  {
+   "name": "臺安",
+   "km": null
+  },
+  {
+   "name": "大虎山",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "258",
+   "stops": [
+    {
+     "st": "臺安",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    }
+   ],
+   "dest": "大虎山",
+   "col": "1",
+   "origin": "臺安"
+  },
+  {
+   "no": "252",
+   "stops": [
+    {
+     "st": "臺安",
+     "ev": "dep",
+     "printed": "10.50",
+     "bold": false,
+     "t": "10:50"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    }
+   ],
+   "dest": "大虎山",
+   "col": "2",
+   "origin": "臺安"
+  },
+  {
+   "no": "260",
+   "stops": [
+    {
+     "st": "臺安",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    }
+   ],
+   "dest": "大虎山",
+   "col": "3",
+   "origin": "臺安"
+  },
+  {
+   "no": "256",
+   "stops": [
+    {
+     "st": "臺安",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "大虎山",
+   "col": "4",
+   "origin": "臺安"
+  },
+  {
+   "no": "262",
+   "stops": [
+    {
+     "st": "臺安",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "大虎山",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    }
+   ],
+   "dest": "大虎山",
+   "col": "5",
+   "origin": "臺安"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 262; no bus in this direction shows a time at 遼中 (…), all start from 臺安"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "虎遼線",
+ "title": "大虎山驛・遼中間",
+ "dir": "遼中→大虎山",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "遼中 | 臺安 1.65 | 大虎山 3.55"
+}

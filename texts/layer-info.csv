@@ -11,9 +11,11 @@ mengjiang,Mengjiang,mengjiang,,,
 tw-rail,Taiwan Railways,twRail,,"[日治時期鐵路分布圖](https://data.depositar.io/dataset/rd15-07030) (Academia Sinica), reprojected to TWD97, with several stretches traced from the 1944 American 1:25,000 sheet.",https://data.depositar.io/dataset/rd15-07030
 kr-rail,Korea Railways,krRail,,"[근대 철도 DB](https://www.hisgeo.info/wiki/%EA%B7%BC%EB%8C%80_%EC%B2%A0%EB%8F%84_DB) by 김종혁, filtered by the year each line opened.",https://www.hisgeo.info/wiki/%EA%B7%BC%EB%8C%80_%EC%B2%A0%EB%8F%84_DB
 kf-rail,Karafuto Railways,kfRail,,"Traced for this map from 最新樺太地圖 and the 樺太路線図 at [時刻表倉庫](https://jikokusouko.pages.dev/index.htm), checked against the 1947 U.S. Army sheets.",https://jikokusouko.pages.dev/index.htm
+mn-rail,Manchuria Railways,mnRail,,"Traced for this map: the lines of the [滿洲・支那汽車時間表 (July 1942)](https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7) drawn so far, on the 1942 map only.",https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7
 tw-stations,Taiwan Railway Stations,twStations,,,
 kr-stations,Korea Railway Stations,krStations,,,
 kf-stations,Karafuto Railway Stations,kfStations,,,
+mn-stations,Manchuria Railway Stations,mnStations,,,
 jp-rail,Japan Railways,jpRail,,"The Japanese lines for 1930 and 1942 are filtered from the dataset provided by the [国土交通省国土数値情報ダウンロードサイト](https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html). The source’s survey begins in 1950, so railways that closed before 1950 are likely to be missing from the data.",https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html
 jp-stations,Japan Stations,jpStations,,"The Japanese lines for 1930 and 1942 are filtered from the dataset provided by the [国土交通省国土数値情報ダウンロードサイト](https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html). The source’s survey begins in 1950, so railways that closed before 1950 are likely to be missing from the data.",https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N05-v1_3.html
 tw-sugar,Taiwan Sugar Railways,twSugar,,"[〈日治時期糖鐵分布圖〉](https://data.depositar.io/dataset/rd15-09143), Center for GIS, RCHSS, Academia Sinica.",https://data.depositar.io/dataset/rd15-09143

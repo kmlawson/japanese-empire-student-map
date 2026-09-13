@@ -1,0 +1,17 @@
+source: IMG_1882
+page: 107
+kind: bus
+office: 錦州局管內
+line: 朝建線
+title: 朝陽驛・建平間
+dir: 建平→朝陽驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: three unnumbered empty columns (…) stand to the right of bus 532
+stations: 建平 | 老虎山 | 朝陽驛
+fares: 建平 4.10 | 老虎山 2.35 | 朝陽驛
+
+train: 532 | dest 朝陽驛 | col 1
+建平 12.00
+老虎山 14.40
+朝陽驛 17.00

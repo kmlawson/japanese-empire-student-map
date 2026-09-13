@@ -1,0 +1,16 @@
+source: IMG_1884
+page: 110
+kind: bus
+office: 牡丹江局管內
+line: 梨密線
+title: 平陽・橫泥河間
+dir: 橫泥河→平陽
+season: 昭和16.12.1改正
+service: 每日運行
+note: 運賃欄は表の左端に1組のみ（平陽起點）。車號は左列と同じ「292」。
+stations: 橫泥河 | 平陽
+fares: 橫泥河 1.50 | 平陽
+
+train: 292 | dest 平陽 | col 1
+橫泥河 12.30
+平陽 14.00

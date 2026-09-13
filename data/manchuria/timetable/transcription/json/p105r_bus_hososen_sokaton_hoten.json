@@ -1,0 +1,199 @@
+{
+ "stations": [
+  {
+   "name": "蘇家屯",
+   "km": null
+  },
+  {
+   "name": "城內",
+   "km": null
+  },
+  {
+   "name": "奉天驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "192",
+   "stops": [
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "城內",
+     "ev": "dep",
+     "printed": "11.45",
+     "bold": false,
+     "t": "11:45"
+    },
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "奉天驛",
+   "col": "1"
+  },
+  {
+   "no": "194",
+   "stops": [
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "城內",
+     "ev": "dep",
+     "printed": "12.45",
+     "bold": false,
+     "t": "12:45"
+    },
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    }
+   ],
+   "dest": "奉天驛",
+   "col": "2"
+  },
+  {
+   "no": "196",
+   "stops": [
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "城內",
+     "ev": "dep",
+     "printed": "14.45",
+     "bold": false,
+     "t": "14:45"
+    },
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    }
+   ],
+   "dest": "奉天驛",
+   "col": "3"
+  },
+  {
+   "no": "198",
+   "stops": [
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "15:00"
+    },
+    {
+     "st": "城內",
+     "ev": "dep",
+     "printed": "16.15",
+     "bold": false,
+     "t": "16:15"
+    },
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "dest": "奉天驛",
+   "col": "4"
+  },
+  {
+   "no": "200",
+   "stops": [
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "城內",
+     "ev": "dep",
+     "printed": "17.15",
+     "bold": false,
+     "t": "17:15"
+    },
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    }
+   ],
+   "dest": "奉天驛",
+   "col": "5"
+  },
+  {
+   "no": "202",
+   "stops": [
+    {
+     "st": "蘇家屯",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "城內",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    },
+    {
+     "st": "奉天驛",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    }
+   ],
+   "dest": "奉天驛",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "the 運賃 column is headed 円分 but carries no figures for this line"
+ ],
+ "source": "IMG_1881",
+ "page": "105",
+ "kind": "bus",
+ "office": "奉天局管內",
+ "line": "奉蘇線",
+ "title": "奉天驛・蘇家屯間",
+ "dir": "蘇家屯→奉天驛",
+ "season": "昭和17.2.1開始",
+ "service": "每日運行",
+ "fares": "蘇家屯 | 城內 | 奉天驛"
+}

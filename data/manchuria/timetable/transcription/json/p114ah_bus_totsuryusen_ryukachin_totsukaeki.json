@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "龍河鎭",
+   "km": null
+  },
+  {
+   "name": "訥河驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "58",
+   "stops": [
+    {
+     "st": "龍河鎭",
+     "ev": "dep",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "訥河驛",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "訥河驛",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "表の右半（龍河鎭發）。逆方向は p114ag。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "訥龍線",
+ "title": "訥河驛・龍河鎭間",
+ "dir": "龍河鎭→訥河驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "訥河驛 | 龍河鎭 3.15"
+}

@@ -1,0 +1,715 @@
+{
+ "stations": [
+  {
+   "name": "杭州",
+   "km": 0.0
+  },
+  {
+   "name": "艮山門",
+   "km": 4.4
+  },
+  {
+   "name": "筧橋",
+   "km": 10.8
+  },
+  {
+   "name": "臨平",
+   "km": 24.2
+  },
+  {
+   "name": "許村",
+   "km": 30.7
+  },
+  {
+   "name": "長安",
+   "km": 39.2
+  },
+  {
+   "name": "周王廟",
+   "km": 45.3
+  },
+  {
+   "name": "斜橋",
+   "km": 51.5
+  },
+  {
+   "name": "硤石",
+   "km": 64.4
+  },
+  {
+   "name": "王店",
+   "km": 74.6
+  },
+  {
+   "name": "嘉興",
+   "km": 91.2
+  },
+  {
+   "name": "七星橋",
+   "km": 98.5
+  },
+  {
+   "name": "嘉善",
+   "km": 109.7
+  },
+  {
+   "name": "楓涇",
+   "km": 119.0
+  },
+  {
+   "name": "石湖蕩",
+   "km": 134.3
+  },
+  {
+   "name": "松江",
+   "km": 145.1
+  },
+  {
+   "name": "新橋",
+   "km": 156.8
+  },
+  {
+   "name": "莘莊",
+   "km": 164.3
+  },
+  {
+   "name": "新龍華",
+   "km": 173.1
+  },
+  {
+   "name": "上海",
+   "km": 189.7
+  }
+ ],
+ "trains": [
+  {
+   "no": "212",
+   "stops": [
+    {
+     "st": "杭州",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "艮山門",
+     "ev": "dep",
+     "printed": "8.39",
+     "bold": false,
+     "t": "08:39"
+    },
+    {
+     "st": "筧橋",
+     "ev": "dep",
+     "printed": "8.49",
+     "bold": false,
+     "t": "08:49"
+    },
+    {
+     "st": "臨平",
+     "ev": "dep",
+     "printed": "9.07",
+     "bold": false,
+     "t": "09:07"
+    },
+    {
+     "st": "許村",
+     "ev": "dep",
+     "printed": "9.19",
+     "bold": false,
+     "t": "09:19"
+    },
+    {
+     "st": "長安",
+     "ev": "arr",
+     "printed": "9.32",
+     "bold": false,
+     "t": "09:32"
+    },
+    {
+     "st": "長安",
+     "ev": "dep",
+     "printed": "9.33",
+     "bold": false,
+     "t": "09:33"
+    },
+    {
+     "st": "周王廟",
+     "ev": "dep",
+     "printed": "9.43",
+     "bold": false,
+     "t": "09:43"
+    },
+    {
+     "st": "斜橋",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "硤石",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    },
+    {
+     "st": "王店",
+     "ev": "dep",
+     "printed": "10.26",
+     "bold": false,
+     "t": "10:26"
+    },
+    {
+     "st": "嘉興",
+     "ev": "arr",
+     "printed": "10.47",
+     "bold": false,
+     "t": "10:47"
+    },
+    {
+     "st": "嘉興",
+     "ev": "dep",
+     "printed": "10.56",
+     "bold": false,
+     "t": "10:56"
+    },
+    {
+     "st": "七星橋",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "嘉善",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "楓涇",
+     "ev": "dep",
+     "printed": "11.46",
+     "bold": false,
+     "t": "11:46"
+    },
+    {
+     "st": "石湖蕩",
+     "ev": "dep",
+     "printed": "12.06",
+     "bold": false,
+     "t": "12:06"
+    },
+    {
+     "st": "松江",
+     "ev": "dep",
+     "printed": "12.24",
+     "bold": false,
+     "t": "12:24"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    },
+    {
+     "st": "莘莊",
+     "ev": "dep",
+     "printed": "12.52",
+     "bold": false,
+     "t": "12:52"
+    },
+    {
+     "st": "新龍華",
+     "ev": "dep",
+     "printed": "13.06",
+     "bold": false,
+     "t": "13:06"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "13.35",
+     "bold": false,
+     "t": "13:35"
+    }
+   ],
+   "dest": "上海",
+   "cls": "2.3",
+   "col": "1"
+  },
+  {
+   "no": "202",
+   "stops": [
+    {
+     "st": "杭州",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "臨平",
+     "ev": "dep",
+     "printed": "15.49",
+     "bold": false,
+     "t": "15:49"
+    },
+    {
+     "st": "許村",
+     "ev": "pass"
+    },
+    {
+     "st": "長安",
+     "ev": "arr",
+     "printed": "16.11",
+     "bold": false,
+     "t": "16:11"
+    },
+    {
+     "st": "長安",
+     "ev": "dep",
+     "printed": "16.12",
+     "bold": false,
+     "t": "16:12"
+    },
+    {
+     "st": "周王廟",
+     "ev": "pass"
+    },
+    {
+     "st": "斜橋",
+     "ev": "pass"
+    },
+    {
+     "st": "硤石",
+     "ev": "dep",
+     "printed": "16.42",
+     "bold": false,
+     "t": "16:42"
+    },
+    {
+     "st": "王店",
+     "ev": "pass"
+    },
+    {
+     "st": "嘉興",
+     "ev": "arr",
+     "printed": "17.12",
+     "bold": false,
+     "t": "17:12"
+    },
+    {
+     "st": "嘉興",
+     "ev": "dep",
+     "printed": "17.18",
+     "bold": false,
+     "t": "17:18"
+    },
+    {
+     "st": "七星橋",
+     "ev": "pass"
+    },
+    {
+     "st": "嘉善",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    },
+    {
+     "st": "楓涇",
+     "ev": "pass"
+    },
+    {
+     "st": "石湖蕩",
+     "ev": "pass"
+    },
+    {
+     "st": "松江",
+     "ev": "dep",
+     "printed": "18.18",
+     "bold": false,
+     "t": "18:18"
+    },
+    {
+     "st": "新橋",
+     "ev": "pass"
+    },
+    {
+     "st": "莘莊",
+     "ev": "pass"
+    },
+    {
+     "st": "新龍華",
+     "ev": "pass"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "19.10",
+     "bold": false,
+     "t": "19:10"
+    }
+   ],
+   "dest": "上海",
+   "cls": "1.2.3",
+   "marks": "急 食",
+   "col": "2"
+  },
+  {
+   "no": "214",
+   "stops": [
+    {
+     "st": "杭州",
+     "ev": "dep",
+     "printed": "16.05",
+     "bold": false,
+     "t": "16:05"
+    },
+    {
+     "st": "艮山門",
+     "ev": "dep",
+     "printed": "16.15",
+     "bold": false,
+     "t": "16:15"
+    },
+    {
+     "st": "筧橋",
+     "ev": "dep",
+     "printed": "16.26",
+     "bold": false,
+     "t": "16:26"
+    },
+    {
+     "st": "臨平",
+     "ev": "dep",
+     "printed": "16.44",
+     "bold": false,
+     "t": "16:44"
+    },
+    {
+     "st": "許村",
+     "ev": "dep",
+     "printed": "16.56",
+     "bold": false,
+     "t": "16:56"
+    },
+    {
+     "st": "長安",
+     "ev": "arr",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "長安",
+     "ev": "dep",
+     "printed": "17.11",
+     "bold": false,
+     "t": "17:11"
+    },
+    {
+     "st": "周王廟",
+     "ev": "dep",
+     "printed": "17.21",
+     "bold": false,
+     "t": "17:21"
+    },
+    {
+     "st": "斜橋",
+     "ev": "dep",
+     "printed": "17.32",
+     "bold": false,
+     "t": "17:32"
+    },
+    {
+     "st": "硤石",
+     "ev": "dep",
+     "printed": "17.50",
+     "bold": false,
+     "t": "17:50"
+    },
+    {
+     "st": "王店",
+     "ev": "dep",
+     "printed": "18.08",
+     "bold": false,
+     "t": "18:08"
+    },
+    {
+     "st": "嘉興",
+     "ev": "arr",
+     "printed": "18.29",
+     "bold": false,
+     "t": "18:29"
+    },
+    {
+     "st": "嘉興",
+     "ev": "dep",
+     "printed": "18.36",
+     "bold": false,
+     "t": "18:36"
+    },
+    {
+     "st": "七星橋",
+     "ev": "dep",
+     "printed": "18.48",
+     "bold": false,
+     "t": "18:48"
+    },
+    {
+     "st": "嘉善",
+     "ev": "dep",
+     "printed": "19.04",
+     "bold": false,
+     "t": "19:04"
+    },
+    {
+     "st": "楓涇",
+     "ev": "dep",
+     "printed": "19.18",
+     "bold": false,
+     "t": "19:18"
+    },
+    {
+     "st": "石湖蕩",
+     "ev": "dep",
+     "printed": "19.39",
+     "bold": false,
+     "t": "19:39"
+    },
+    {
+     "st": "松江",
+     "ev": "dep",
+     "printed": "19.57",
+     "bold": false,
+     "t": "19:57"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "20.14",
+     "bold": false,
+     "t": "20:14"
+    },
+    {
+     "st": "莘莊",
+     "ev": "dep",
+     "printed": "20.27",
+     "bold": false,
+     "t": "20:27"
+    },
+    {
+     "st": "新龍華",
+     "ev": "dep",
+     "printed": "30.41",
+     "bold": false,
+     "note": "原表のまま。20.41の誤植と思はれる",
+     "t": "30:41"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "21.10",
+     "bold": false,
+     "t": "45:10"
+    }
+   ],
+   "dest": "上海",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "226",
+   "stops": [
+    {
+     "st": "杭州",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    },
+    {
+     "st": "艮山門",
+     "ev": "dep",
+     "printed": "17.44",
+     "bold": false,
+     "t": "17:44"
+    },
+    {
+     "st": "筧橋",
+     "ev": "dep",
+     "printed": "18.03",
+     "bold": false,
+     "t": "18:03"
+    },
+    {
+     "st": "臨平",
+     "ev": "dep",
+     "printed": "18.25",
+     "bold": false,
+     "t": "18:25"
+    },
+    {
+     "st": "許村",
+     "ev": "dep",
+     "printed": "18.41",
+     "bold": false,
+     "t": "18:41"
+    },
+    {
+     "st": "長安",
+     "ev": "arr",
+     "printed": "18.55",
+     "bold": false,
+     "t": "18:55"
+    },
+    {
+     "st": "長安",
+     "ev": "dep",
+     "printed": "19.08",
+     "bold": false,
+     "t": "19:08"
+    },
+    {
+     "st": "周王廟",
+     "ev": "dep",
+     "printed": "19.20",
+     "bold": false,
+     "t": "19:20"
+    },
+    {
+     "st": "斜橋",
+     "ev": "dep",
+     "printed": "19.36",
+     "bold": false,
+     "t": "19:36"
+    },
+    {
+     "st": "硤石",
+     "ev": "dep",
+     "printed": "20.03",
+     "bold": false,
+     "t": "20:03"
+    },
+    {
+     "st": "王店",
+     "ev": "dep",
+     "printed": "20.25",
+     "bold": false,
+     "t": "20:25"
+    },
+    {
+     "st": "嘉興",
+     "ev": "dep",
+     "printed": "20.50",
+     "bold": false,
+     "t": "20:50"
+    }
+   ],
+   "dest": "嘉興",
+   "cls": "3.4",
+   "marks": "混",
+   "col": "4"
+  },
+  {
+   "no": "222",
+   "stops": [
+    {
+     "st": "嘉興",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "七星橋",
+     "ev": "dep",
+     "printed": "7.49",
+     "bold": false,
+     "t": "07:49"
+    },
+    {
+     "st": "嘉善",
+     "ev": "dep",
+     "printed": "8.12",
+     "bold": false,
+     "t": "08:12"
+    },
+    {
+     "st": "楓涇",
+     "ev": "dep",
+     "printed": "8.36",
+     "bold": false,
+     "t": "08:36"
+    },
+    {
+     "st": "石湖蕩",
+     "ev": "dep",
+     "printed": "9.06",
+     "bold": false,
+     "t": "09:06"
+    },
+    {
+     "st": "松江",
+     "ev": "dep",
+     "printed": "9.47",
+     "bold": false,
+     "t": "09:47"
+    },
+    {
+     "st": "新橋",
+     "ev": "dep",
+     "printed": "10.11",
+     "bold": false,
+     "t": "10:11"
+    },
+    {
+     "st": "莘莊",
+     "ev": "dep",
+     "printed": "10.34",
+     "bold": false,
+     "t": "10:34"
+    },
+    {
+     "st": "新龍華",
+     "ev": "dep",
+     "printed": "11.02",
+     "bold": false,
+     "t": "11:02"
+    },
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "12.06",
+     "bold": false,
+     "t": "12:06"
+    }
+   ],
+   "dest": "上海",
+   "cls": "3.4",
+   "marks": "混",
+   "origin": "嘉興",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "昭和16.12.1改正。頁71右上の表の下半（上海行）。反對方向は同表の上半 p71a。",
+  "左に「自杭州 粁程／運賃 3等」欄があるが運賃は轉記せず。粁程（自杭州）は stations に入れた。",
+  "支那の表につき24時制。「v」は原表の「レ」（通過）、「-」は原表の「…」。",
+  "202列車は反轉枠「急行」と✕印（食堂車）付き。列車名の印刷はない。",
+  "214列車の新龍華の時刻は原表に「30.41」と印刷されてゐる（20.41の誤植と思はれる）。印刷どほり轉記した。"
+ ],
+ "source": "IMG_1864",
+ "page": "71",
+ "title": "上海・杭州間（華中・海杭線）",
+ "line": "華中鐵道 海杭線",
+ "dir": "上海方面（杭州→上海）"
+}

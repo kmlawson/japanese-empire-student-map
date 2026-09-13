@@ -1,0 +1,16 @@
+source: IMG_1884
+page: 111
+kind: bus
+office: 牡丹江局管內
+line: 綏寧線
+title: 綏芬河驛・東寧間
+dir: 綏芬河驛→東寧
+season: 昭和16.12.1改正
+service: 每日運行
+note: 中央の驛名欄をはさみ左が綏芬河驛發（本表）、右が東寧發（p111f）。左端は運賃（圓.分）欄。
+stations: 綏芬河驛 | 東寧
+fares: 綏芬河驛 | 東寧 2.00
+
+train: 112 | dest 東寧 | col 1
+綏芬河驛 14.00
+東寧 16.40

@@ -1,0 +1,85 @@
+{
+ "stations": [
+  {
+   "name": "候沁蘇族",
+   "km": null
+  },
+  {
+   "name": "瓦房",
+   "km": null
+  },
+  {
+   "name": "餘粮營",
+   "km": null
+  },
+  {
+   "name": "通遼驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "312",
+   "stops": [
+    {
+     "st": "瓦房",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "餘粮營",
+     "ev": "pass"
+    },
+    {
+     "st": "通遼驛",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    }
+   ],
+   "dest": "通遼驛",
+   "col": "1",
+   "origin": "瓦房"
+  },
+  {
+   "no": "314",
+   "stops": [
+    {
+     "st": "餘粮營",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "通遼驛",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    }
+   ],
+   "dest": "通遼驛",
+   "col": "2",
+   "origin": "餘粮營"
+  }
+ ],
+ "notes": [
+  "two unnumbered empty columns (…) stand to the right of bus 314",
+  "the third stop is printed too small to be certain; read as 餘粮營",
+  "no bus in this direction shows a time at 候沁蘇族"
+ ],
+ "source": "IMG_1882",
+ "page": "107",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "通候線",
+ "title": "通遼驛・候沁蘇族間",
+ "dir": "候沁蘇族→通遼驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "候沁蘇族 4.90 | 瓦房 2.80 | 餘粮營 1.75 | 通遼驛"
+}

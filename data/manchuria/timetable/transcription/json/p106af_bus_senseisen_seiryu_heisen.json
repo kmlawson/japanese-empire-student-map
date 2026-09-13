@@ -1,0 +1,83 @@
+{
+ "stations": [
+  {
+   "name": "靑龍",
+   "km": null
+  },
+  {
+   "name": "寬城",
+   "km": null
+  },
+  {
+   "name": "平泉",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "632",
+   "stops": [
+    {
+     "st": "靑龍",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "寬城",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "平泉",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    }
+   ],
+   "dest": "平泉",
+   "col": "1"
+  },
+  {
+   "no": "624",
+   "stops": [
+    {
+     "st": "寬城",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "平泉",
+     "ev": "dep",
+     "printed": "18.00",
+     "bold": false,
+     "t": "18:00"
+    }
+   ],
+   "dest": "平泉",
+   "col": "2",
+   "origin": "寬城",
+   "days": "偶數日"
+  }
+ ],
+ "notes": [
+  "a narrow label column reading 偶數日 stands immediately right of bus 624, apparently qualifying that column as an even-day service",
+  "an unnumbered empty column (…) stands to the right of the 偶數日 label"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "泉靑線",
+ "title": "平泉・靑龍間",
+ "dir": "靑龍→平泉",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "靑龍 6.25 | 寬城 3.15 | 平泉"
+}

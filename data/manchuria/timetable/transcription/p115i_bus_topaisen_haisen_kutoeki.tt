@@ -1,0 +1,33 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 東拜線
+title: 拜泉・克東驛間
+dir: 拜泉→克東驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: この表は上下2段。上段＝拜泉發（本表）、下段＝克東驛發（p115j）。運賃は各段の起點から。
+note: 171・173・175は克東始發。181は克東の欄が「…」。
+stations: 拜泉 | 克東 | 克東驛
+fares: 拜泉 | 克東 3.15 | 克東驛 4.00
+
+train: 181 | dest 克東驛 | col 2
+拜泉 9.00
+克東 -
+克東驛 12.00
+
+train: 171 | origin 克東 | dest 克東驛 | col 3
+拜泉 -
+克東 10.00
+克東驛 10.50
+
+train: 173 | origin 克東 | dest 克東驛 | col 4
+拜泉 -
+克東 12.00
+克東驛 12.50
+
+train: 175 | origin 克東 | dest 克東驛 | col 5
+拜泉 -
+克東 15.30
+克東驛 16.20

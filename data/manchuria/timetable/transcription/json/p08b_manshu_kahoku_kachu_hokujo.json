@@ -1,0 +1,1488 @@
+{
+ "stations": [
+  {
+   "name": "上海",
+   "km": null
+  },
+  {
+   "name": "蘇州",
+   "km": null
+  },
+  {
+   "name": "無錫",
+   "km": null
+  },
+  {
+   "name": "常州",
+   "km": null
+  },
+  {
+   "name": "丹陽",
+   "km": null
+  },
+  {
+   "name": "鎭江",
+   "km": null
+  },
+  {
+   "name": "南京",
+   "km": null
+  },
+  {
+   "name": "南京",
+   "km": null
+  },
+  {
+   "name": "浦口",
+   "km": null
+  },
+  {
+   "name": "浦口",
+   "km": null
+  },
+  {
+   "name": "明光",
+   "km": null
+  },
+  {
+   "name": "蚌埠",
+   "km": null
+  },
+  {
+   "name": "蚌埠",
+   "km": null
+  },
+  {
+   "name": "徐州",
+   "km": null
+  },
+  {
+   "name": "臨城",
+   "km": null
+  },
+  {
+   "name": "兗州",
+   "km": null
+  },
+  {
+   "name": "濟南",
+   "km": null
+  },
+  {
+   "name": "德縣",
+   "km": null
+  },
+  {
+   "name": "天津北站",
+   "km": null
+  },
+  {
+   "name": "天津",
+   "km": null
+  },
+  {
+   "name": "張家口",
+   "km": null
+  },
+  {
+   "name": "北京",
+   "km": null
+  },
+  {
+   "name": "北京",
+   "km": null
+  },
+  {
+   "name": "天津北站",
+   "km": null
+  },
+  {
+   "name": "天津",
+   "km": null
+  },
+  {
+   "name": "山海關",
+   "km": null
+  },
+  {
+   "name": "赤峰",
+   "km": null
+  },
+  {
+   "name": "承德",
+   "km": null
+  },
+  {
+   "name": "錦縣",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "山海關",
+   "km": null
+  },
+  {
+   "name": "錦縣",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "四平",
+   "km": null
+  },
+  {
+   "name": "新京",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "1",
+   "stops": [
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "蘇州",
+     "ev": "dep",
+     "printed": "9.29",
+     "bold": false,
+     "t": "09:29"
+    },
+    {
+     "st": "無錫",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "10:10"
+    },
+    {
+     "st": "常州",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "丹陽",
+     "ev": "pass"
+    },
+    {
+     "st": "鎭江",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "南京",
+     "ev": "dep",
+     "printed": "13.15",
+     "bold": false,
+     "t": "13:15"
+    }
+   ],
+   "seg": "滿鐵社線",
+   "name": "天馬",
+   "cls": "1.2.3",
+   "col": "1"
+  },
+  {
+   "no": "5便",
+   "stops": [
+    {
+     "st": "南京",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "浦口",
+     "ev": "dep",
+     "printed": "8.10",
+     "bold": false,
+     "t": "08:10"
+    }
+   ],
+   "seg": "連絡船"
+  },
+  {
+   "no": "146",
+   "stops": [
+    {
+     "st": "浦口",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "明光",
+     "ev": "dep",
+     "printed": "13.07",
+     "bold": false,
+     "t": "13:07"
+    },
+    {
+     "st": "蚌埠",
+     "ev": "dep",
+     "printed": "15.15",
+     "bold": false,
+     "t": "15:15"
+    }
+   ],
+   "seg": "華中線",
+   "cls": "3.4",
+   "marks": "混"
+  },
+  {
+   "no": "104",
+   "stops": [
+    {
+     "st": "蚌埠",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "徐州",
+     "ev": "dep",
+     "printed": "13.05",
+     "bold": false,
+     "t": "13:05"
+    },
+    {
+     "st": "臨城",
+     "ev": "dep",
+     "printed": "14.49",
+     "bold": false,
+     "t": "14:49"
+    },
+    {
+     "st": "兗州",
+     "ev": "dep",
+     "printed": "17.25",
+     "bold": false,
+     "t": "17:25"
+    },
+    {
+     "st": "濟南",
+     "ev": "dep",
+     "printed": "21.55",
+     "bold": false,
+     "t": "21:55"
+    },
+    {
+     "st": "德縣",
+     "ev": "dep",
+     "printed": "0.51",
+     "bold": false,
+     "t": "24:51"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "6.26",
+     "bold": false,
+     "t": "30:26"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "6.35",
+     "bold": false,
+     "t": "30:35"
+    }
+   ],
+   "seg": "華北線",
+   "cls": "2.3"
+  },
+  {
+   "no": "302",
+   "stops": [
+    {
+     "st": "張家口",
+     "ev": "dep",
+     "printed": "0.10",
+     "bold": false,
+     "t": "00:10"
+    },
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "6.29",
+     "bold": false,
+     "t": "06:29"
+    }
+   ],
+   "seg": "華北線",
+   "cls": "1.2.3"
+  },
+  {
+   "no": "10",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "6.45",
+     "bold": false,
+     "t": "06:45"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "9.02",
+     "bold": false,
+     "t": "09:02"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "9.18",
+     "bold": false,
+     "t": "09:18"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "14.14",
+     "bold": false,
+     "t": "14:14"
+    }
+   ],
+   "seg": "華北線",
+   "name": "大陸",
+   "cls": "1.2.3"
+  },
+  {
+   "no": "414",
+   "stops": [
+    {
+     "st": "承德",
+     "ev": "dep",
+     "printed": "11.10",
+     "bold": false,
+     "t": "11:10"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "23.18",
+     "bold": false,
+     "t": "23:18"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "6.30",
+     "bold": false,
+     "t": "30:30"
+    }
+   ],
+   "seg": "滿洲國線",
+   "cls": "2.3"
+  },
+  {
+   "no": "?",
+   "stops": [
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "4.44",
+     "bold": false,
+     "note": "列車番號印刷なし",
+     "t": "04:44"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "17.56",
+     "bold": false,
+     "t": "17:56"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "22.58",
+     "bold": false,
+     "t": "22:58"
+    }
+   ],
+   "seg": "滿洲國線",
+   "name": "山海關經由"
+  },
+  {
+   "no": "15",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "2.50",
+     "bold": false,
+     "t": "02:50"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "5.54",
+     "bold": false,
+     "t": "05:54"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "7.55",
+     "bold": false,
+     "t": "07:55"
+    }
+   ],
+   "seg": "滿鐵社線",
+   "cls": "1.2.3",
+   "marks": "急"
+  },
+  {
+   "no": "3",
+   "stops": [
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "蘇州",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": false,
+     "t": "11:03"
+    },
+    {
+     "st": "無錫",
+     "ev": "dep",
+     "printed": "11.58",
+     "bold": false,
+     "t": "11:58"
+    },
+    {
+     "st": "常州",
+     "ev": "dep",
+     "printed": "12.42",
+     "bold": false,
+     "t": "12:42"
+    },
+    {
+     "st": "丹陽",
+     "ev": "dep",
+     "printed": "13.26",
+     "bold": false,
+     "t": "13:26"
+    },
+    {
+     "st": "鎭江",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "南京",
+     "ev": "dep",
+     "printed": "15.10",
+     "bold": false,
+     "t": "15:10"
+    }
+   ],
+   "seg": "滿鐵社線",
+   "name": "飛龍",
+   "cls": "1.2.3",
+   "col": "2"
+  },
+  {
+   "no": "27便",
+   "stops": [
+    {
+     "st": "南京",
+     "ev": "dep",
+     "printed": "13.35",
+     "bold": false,
+     "t": "13:35"
+    },
+    {
+     "st": "浦口",
+     "ev": "dep",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    }
+   ],
+   "seg": "連絡船"
+  },
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "浦口",
+     "ev": "dep",
+     "printed": "15.45",
+     "bold": false,
+     "t": "15:45"
+    },
+    {
+     "st": "明光",
+     "ev": "dep",
+     "printed": "18.06",
+     "bold": false,
+     "t": "18:06"
+    },
+    {
+     "st": "蚌埠",
+     "ev": "dep",
+     "printed": "19.20",
+     "bold": false,
+     "t": "19:20"
+    }
+   ],
+   "seg": "華中線",
+   "cls": "1.2.3"
+  },
+  {
+   "no": "146",
+   "stops": [
+    {
+     "st": "蚌埠",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "徐州",
+     "ev": "dep",
+     "printed": "20.25",
+     "bold": false,
+     "note": "徐州止（以下太線）",
+     "t": "20:25"
+    }
+   ],
+   "seg": "華北線",
+   "cls": "3",
+   "marks": "混"
+  },
+  {
+   "no": "410",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "13.04",
+     "bold": false,
+     "t": "13:04"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "13.24",
+     "bold": false,
+     "t": "13:24"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "20.35",
+     "bold": false,
+     "t": "20:35"
+    }
+   ],
+   "seg": "華北線",
+   "cls": "2.3"
+  },
+  {
+   "no": "56",
+   "stops": [
+    {
+     "st": "赤峰",
+     "ev": "dep",
+     "printed": "8.45",
+     "bold": false,
+     "t": "08:45"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "18.45",
+     "bold": false,
+     "t": "18:45"
+    }
+   ],
+   "seg": "滿洲國線",
+   "cls": "2.3"
+  },
+  {
+   "no": "?",
+   "stops": [
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "21.32",
+     "bold": false,
+     "note": "列車番號印刷なし",
+     "t": "21:32"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "3.49",
+     "bold": false,
+     "t": "27:49"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "10.17",
+     "bold": false,
+     "t": "34:17"
+    }
+   ],
+   "seg": "滿洲國線",
+   "name": "山海關經由"
+  },
+  {
+   "no": "402",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "7.15",
+     "bold": false,
+     "t": "07:15"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": false,
+     "t": "10:01"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "11.50",
+     "bold": false,
+     "t": "11:50"
+    }
+   ],
+   "seg": "滿鐵社線",
+   "cls": "1.2.3",
+   "marks": "急"
+  },
+  {
+   "no": "13",
+   "stops": [
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "蘇州",
+     "ev": "dep",
+     "printed": "14.35",
+     "bold": false,
+     "t": "14:35"
+    },
+    {
+     "st": "無錫",
+     "ev": "dep",
+     "printed": "15.32",
+     "bold": false,
+     "t": "15:32"
+    },
+    {
+     "st": "常州",
+     "ev": "dep",
+     "printed": "16.34",
+     "bold": false,
+     "t": "16:34"
+    },
+    {
+     "st": "丹陽",
+     "ev": "dep",
+     "printed": "17.43",
+     "bold": false,
+     "t": "17:43"
+    },
+    {
+     "st": "鎭江",
+     "ev": "dep",
+     "printed": "18.43",
+     "bold": false,
+     "t": "18:43"
+    },
+    {
+     "st": "南京",
+     "ev": "dep",
+     "printed": "20.17",
+     "bold": false,
+     "t": "20:17"
+    }
+   ],
+   "seg": "滿鐵社線",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "33便",
+   "stops": [
+    {
+     "st": "南京",
+     "ev": "dep",
+     "printed": "15.05",
+     "bold": false,
+     "t": "15:05"
+    },
+    {
+     "st": "浦口",
+     "ev": "dep",
+     "printed": "15.15",
+     "bold": false,
+     "t": "15:15"
+    }
+   ],
+   "seg": "連絡船"
+  },
+  {
+   "no": "102",
+   "stops": [
+    {
+     "st": "蚌埠",
+     "ev": "dep",
+     "printed": "19.35",
+     "bold": false,
+     "t": "19:35"
+    },
+    {
+     "st": "徐州",
+     "ev": "dep",
+     "printed": "23.35",
+     "bold": false,
+     "t": "23:35"
+    },
+    {
+     "st": "臨城",
+     "ev": "dep",
+     "printed": "1.11",
+     "bold": false,
+     "t": "25:11"
+    },
+    {
+     "st": "兗州",
+     "ev": "dep",
+     "printed": "3.37",
+     "bold": false,
+     "t": "27:37"
+    },
+    {
+     "st": "濟南",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": false,
+     "t": "31:50"
+    },
+    {
+     "st": "德縣",
+     "ev": "dep",
+     "printed": "10.10",
+     "bold": false,
+     "t": "34:10"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "14.52",
+     "bold": false,
+     "t": "38:52"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "15.00",
+     "bold": false,
+     "t": "39:00"
+    }
+   ],
+   "seg": "華北線",
+   "cls": "1.2.3",
+   "marks": "急"
+  },
+  {
+   "no": "402",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "13.05",
+     "bold": false,
+     "t": "13:05"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "15.48",
+     "bold": false,
+     "t": "15:48"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "16.06",
+     "bold": false,
+     "t": "16:06"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "22.10",
+     "bold": false,
+     "t": "22:10"
+    }
+   ],
+   "seg": "華北線",
+   "cls": "1.2.3",
+   "marks": "急"
+  },
+  {
+   "no": "?",
+   "stops": [
+    {
+     "st": "赤峰",
+     "ev": "pass",
+     "note": "赤峰・承德經由は通らず"
+    },
+    {
+     "st": "承德",
+     "ev": "pass"
+    },
+    {
+     "st": "錦縣",
+     "ev": "pass"
+    },
+    {
+     "st": "奉天",
+     "ev": "pass"
+    }
+   ],
+   "seg": "滿洲國線"
+  },
+  {
+   "no": "?",
+   "stops": [
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "22.40",
+     "bold": false,
+     "note": "列車番號印刷なし",
+     "t": "22:40"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "2.41",
+     "bold": false,
+     "t": "26:41"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "7.07",
+     "bold": false,
+     "t": "31:07"
+    }
+   ],
+   "seg": "滿洲國線",
+   "name": "山海關經由"
+  },
+  {
+   "no": "7",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "12.07",
+     "bold": false,
+     "t": "12:07"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    }
+   ],
+   "seg": "滿鐵社線",
+   "name": "のぞみ",
+   "cls": "1.2.3"
+  },
+  {
+   "no": "5",
+   "stops": [
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "蘇州",
+     "ev": "dep",
+     "printed": "16.52",
+     "bold": false,
+     "t": "16:52"
+    },
+    {
+     "st": "無錫",
+     "ev": "dep",
+     "printed": "17.34",
+     "bold": false,
+     "t": "17:34"
+    },
+    {
+     "st": "常州",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "丹陽",
+     "ev": "dep",
+     "printed": "19.15",
+     "bold": false,
+     "t": "19:15"
+    },
+    {
+     "st": "鎭江",
+     "ev": "dep",
+     "printed": "19.52",
+     "bold": false,
+     "t": "19:52"
+    },
+    {
+     "st": "南京",
+     "ev": "dep",
+     "printed": "21.00",
+     "bold": false,
+     "t": "21:00"
+    }
+   ],
+   "seg": "滿鐵社線",
+   "cls": "1.2.3",
+   "marks": "急",
+   "col": "4"
+  },
+  {
+   "no": "37便",
+   "stops": [
+    {
+     "st": "南京",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "浦口",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    }
+   ],
+   "seg": "連絡船"
+  },
+  {
+   "no": "112",
+   "stops": [
+    {
+     "st": "浦口",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    },
+    {
+     "st": "明光",
+     "ev": "dep",
+     "printed": "19.52",
+     "bold": false,
+     "t": "19:52"
+    },
+    {
+     "st": "蚌埠",
+     "ev": "dep",
+     "printed": "21.25",
+     "bold": false,
+     "t": "21:25"
+    }
+   ],
+   "seg": "華中線",
+   "cls": "3.4",
+   "marks": "混"
+  },
+  {
+   "no": "801",
+   "stops": [
+    {
+     "st": "濟南",
+     "ev": "dep",
+     "printed": "9.23",
+     "bold": false,
+     "t": "09:23"
+    },
+    {
+     "st": "德縣",
+     "ev": "dep",
+     "printed": "11.53",
+     "bold": false,
+     "t": "11:53"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "16.52",
+     "bold": false,
+     "t": "16:52"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "seg": "華北線",
+   "name": "、青島發 22.30",
+   "cls": "1.2.3",
+   "marks": "急"
+  },
+  {
+   "no": "308",
+   "stops": [
+    {
+     "st": "張家口",
+     "ev": "dep",
+     "printed": "8.35",
+     "bold": false,
+     "t": "08:35"
+    },
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "14.47",
+     "bold": false,
+     "t": "14:47"
+    }
+   ],
+   "seg": "華北線",
+   "cls": "2.3"
+  },
+  {
+   "no": "406",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "13.35",
+     "bold": false,
+     "t": "13:35"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "17.03",
+     "bold": false,
+     "t": "17:03"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "17.22",
+     "bold": false,
+     "t": "17:22"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "1.15",
+     "bold": false,
+     "t": "25:15"
+    }
+   ],
+   "seg": "華北線",
+   "cls": "2.3"
+  },
+  {
+   "no": "?",
+   "stops": [
+    {
+     "st": "赤峰",
+     "ev": "pass",
+     "note": "赤峰・承德經由は通らず"
+    },
+    {
+     "st": "承德",
+     "ev": "pass"
+    },
+    {
+     "st": "錦縣",
+     "ev": "pass"
+    },
+    {
+     "st": "奉天",
+     "ev": "pass"
+    }
+   ],
+   "seg": "滿洲國線"
+  },
+  {
+   "no": "?",
+   "stops": [
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "1.55",
+     "bold": false,
+     "note": "列車番號印刷なし",
+     "t": "01:55"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "8.04",
+     "bold": false,
+     "t": "08:04"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "14.06",
+     "bold": false,
+     "t": "14:06"
+    }
+   ],
+   "seg": "滿洲國線",
+   "name": "山海關經由"
+  },
+  {
+   "no": "11",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "14.23",
+     "bold": false,
+     "t": "14:23"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "16.35",
+     "bold": false,
+     "t": "16:35"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "17.55",
+     "bold": false,
+     "t": "17:55"
+    }
+   ],
+   "seg": "滿鐵社線",
+   "name": "あじあ",
+   "cls": "1.2.3"
+  },
+  {
+   "no": "7",
+   "stops": [
+    {
+     "st": "上海",
+     "ev": "dep",
+     "printed": "16.45",
+     "bold": false,
+     "t": "16:45"
+    },
+    {
+     "st": "蘇州",
+     "ev": "dep",
+     "printed": "18.15",
+     "bold": false,
+     "t": "18:15"
+    },
+    {
+     "st": "無錫",
+     "ev": "dep",
+     "printed": "18.57",
+     "bold": false,
+     "t": "18:57"
+    },
+    {
+     "st": "常州",
+     "ev": "dep",
+     "printed": "19.40",
+     "bold": false,
+     "t": "19:40"
+    },
+    {
+     "st": "丹陽",
+     "ev": "pass"
+    },
+    {
+     "st": "鎭江",
+     "ev": "dep",
+     "printed": "20.55",
+     "bold": false,
+     "t": "20:55"
+    },
+    {
+     "st": "南京",
+     "ev": "dep",
+     "printed": "22.00",
+     "bold": false,
+     "t": "22:00"
+    }
+   ],
+   "seg": "滿鐵社線",
+   "cls": "1.2.3",
+   "marks": "急",
+   "col": "5"
+  },
+  {
+   "no": "39便",
+   "stops": [
+    {
+     "st": "南京",
+     "ev": "dep",
+     "printed": "16.20",
+     "bold": false,
+     "t": "16:20"
+    },
+    {
+     "st": "浦口",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    }
+   ],
+   "seg": "連絡船"
+  },
+  {
+   "no": "106",
+   "stops": [
+    {
+     "st": "兗州",
+     "ev": "dep",
+     "printed": "7.30",
+     "bold": false,
+     "t": "07:30"
+    },
+    {
+     "st": "濟南",
+     "ev": "dep",
+     "printed": "11.45",
+     "bold": false,
+     "t": "11:45"
+    },
+    {
+     "st": "德縣",
+     "ev": "dep",
+     "printed": "14.28",
+     "bold": false,
+     "t": "14:28"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "20.06",
+     "bold": false,
+     "t": "20:06"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "20.15",
+     "bold": false,
+     "t": "20:15"
+    }
+   ],
+   "seg": "華北線",
+   "cls": "2.3"
+  },
+  {
+   "no": "4",
+   "stops": [
+    {
+     "st": "北京",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "天津北站",
+     "ev": "dep",
+     "printed": "18.27",
+     "bold": false,
+     "t": "18:27"
+    },
+    {
+     "st": "天津",
+     "ev": "dep",
+     "printed": "18.45",
+     "bold": false,
+     "t": "18:45"
+    },
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "0.37",
+     "bold": false,
+     "t": "24:37"
+    }
+   ],
+   "seg": "華北線",
+   "name": "興亞",
+   "cls": "1.2.3"
+  },
+  {
+   "no": "?",
+   "stops": [
+    {
+     "st": "赤峰",
+     "ev": "pass",
+     "note": "赤峰・承德經由は通らず"
+    },
+    {
+     "st": "承德",
+     "ev": "pass"
+    },
+    {
+     "st": "錦縣",
+     "ev": "pass"
+    },
+    {
+     "st": "奉天",
+     "ev": "pass"
+    }
+   ],
+   "seg": "滿洲國線"
+  },
+  {
+   "no": "?",
+   "stops": [
+    {
+     "st": "山海關",
+     "ev": "dep",
+     "printed": "1.07",
+     "bold": false,
+     "note": "列車番號印刷なし",
+     "t": "01:07"
+    },
+    {
+     "st": "錦縣",
+     "ev": "dep",
+     "printed": "4.52",
+     "bold": false,
+     "t": "04:52"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "9.33",
+     "bold": false,
+     "t": "09:33"
+    }
+   ],
+   "seg": "滿洲國線",
+   "name": "山海關經由"
+  },
+  {
+   "no": "13",
+   "stops": [
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "16.02",
+     "bold": false,
+     "t": "16:02"
+    },
+    {
+     "st": "四平",
+     "ev": "dep",
+     "printed": "18.39",
+     "bold": false,
+     "t": "18:39"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "20.15",
+     "bold": false,
+     "t": "20:15"
+    }
+   ],
+   "seg": "滿鐵社線",
+   "name": "はと",
+   "cls": "1.2.3"
+  }
+ ],
+ "notes": [
+  "昭和17.2.20改正。下部に「上海・新京間 所要時間 61時間50分」「2等121.40 3等59.45」。運賃欄（2等・3等）は轉記せず。",
+  "8頁左半（華北・華中行）と同じく線區ごとの小表を縱に積んだ表で、縱の一欄は必ずしも一つの行程ではない。各線區の列車番號・愛稱・等級はその線區最初の停車行の「;」註記に記した。parse_tt の「時刻が戾る」警告は表の構造による。",
+  "滿洲國線（33頁參照）は二段構へ。上段が赤峰・承德・錦縣經由、下段が山海關・錦縣經由の別ルート。下段には列車番號が印刷されてゐない。",
+  "第6欄（華中線 上海發の最終欄、滿鐵社線ではひかり1）は綴じ目に隱れ、時の位（22 / 1 / 2 / 3 / 5 / 7 …、滿鐵社線は18・21.2・23）しか寫つてをらず分の位が讀めない。よつて全て「-」とした。判讀できた欄見出し: 連絡船 49便、華北線 51?、華北線 30?、華北線 40?、滿鐵社線 ひかり 1。",
+  "「v」は原表の縱線／↓、「-」は原表の「…」または空欄。"
+ ],
+ "source": "IMG_1833",
+ "page": "8",
+ "title": "滿洲・華北・華中間連絡（蚌埠經由）滿洲行",
+ "line": "日滿華連絡 (through) 華中線／連絡船／華北線／滿洲國線／滿鐵社線",
+ "dir": "滿洲行 (上海→新京, northbound)"
+}

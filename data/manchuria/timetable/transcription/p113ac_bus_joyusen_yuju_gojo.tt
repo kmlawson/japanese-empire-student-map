@@ -1,0 +1,20 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 常楡線
+title: 楡樹・五常間
+dir: 楡樹→五常
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、左が楡樹發（本表）、右が五常發（p113ad）。
+stations: 楡樹 | 五常
+fares: 楡樹 | 五常 3.00
+
+train: 531 | dest 五常 | col 1
+楡樹 9.00
+五常 12.00
+
+train: 535 | dest 五常 | col 2
+楡樹 12.30
+五常 15.30

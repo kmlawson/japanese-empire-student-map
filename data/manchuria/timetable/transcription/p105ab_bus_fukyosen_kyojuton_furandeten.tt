@@ -1,0 +1,22 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 普杏線
+title: 普蘭店驛・杏樹屯驛間
+dir: 杏樹屯驛→普蘭店驛
+season: 昭和16.10.1改正
+service: 每日運行
+note: fare column printed once, for the 普蘭店驛→杏樹屯驛 direction
+stations: 杏樹屯驛 | 粉皮墻 | 普蘭店驛
+fares: 杏樹屯驛 0.85 | 粉皮墻 0.50 | 普蘭店驛 0
+
+train: 62 | dest 普蘭店驛 | col 1
+杏樹屯驛 10.30
+粉皮墻 11.07
+普蘭店驛 12.00
+
+train: 64 | dest 普蘭店驛 | col 2
+杏樹屯驛 16.40
+粉皮墻 17.17
+普蘭店驛 18.10

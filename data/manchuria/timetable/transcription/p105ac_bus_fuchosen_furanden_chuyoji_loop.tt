@@ -1,0 +1,28 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 普朝線
+title: 普蘭店(朝陽寺)普蘭店驛間
+dir: 普蘭店驛→快馬厰→朝陽寺→農區前→普蘭店驛
+season: 昭和16.10.改正
+service: 每日運行
+note: a circular service; 普蘭店驛 is both first and last stop
+note: the fourth station is printed 農區前 — the middle character is blurred (區 or 園)
+note: an unnumbered empty column (…) stands to the left of bus 52
+stations: 普蘭店驛 | 快馬厰 | 朝陽寺 | 農區前 | 普蘭店驛著
+fares: 普蘭店驛 0 | 快馬厰 0.20 | 朝陽寺 0.45 | 農區前 0.60 | 普蘭店驛著 0.85
+
+train: 52 | dest 普蘭店驛 | col 2
+普蘭店驛 11.00
+快馬厰 11.24
+朝陽寺 11.55
+農區前 12.05
+普蘭店驛著 12.40
+
+train: 54 | dest 普蘭店驛 | col 3
+普蘭店驛 16.30
+快馬厰 16.54
+朝陽寺 17.25
+農區前 17.35
+普蘭店驛著 18.10

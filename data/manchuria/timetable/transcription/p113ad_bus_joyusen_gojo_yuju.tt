@@ -1,0 +1,20 @@
+source: IMG_1885
+page: 113
+kind: bus
+office: 哈爾濱局管內
+line: 常楡線
+title: 楡樹・五常間
+dir: 五常→楡樹
+season: 昭和16.11.1改正
+service: 每日運行
+note: 表は左右2組で、右が五常發（本表）。番號は印刷のまま534・532の順。運賃欄は楡樹起點のものを反轉して掲げた。
+stations: 五常 | 楡樹
+fares: 五常 3.00 | 楡樹
+
+train: 534 | dest 楡樹 | col 1
+五常 9.00
+楡樹 12.00
+
+train: 532 | dest 楡樹 | col 2
+五常 13.30
+楡樹 16.30

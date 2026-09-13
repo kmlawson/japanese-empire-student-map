@@ -1,0 +1,16 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 歪撫線
+title: 歪頭山・撫順間
+dir: 撫順驛→歪頭山驛
+season: 昭和16.10.1改正
+service: 每日運行
+note: fare column printed once, for the 歪頭山驛→撫順驛 direction
+stations: 撫順驛 | 歪頭山驛
+fares: 撫順驛 3.00 | 歪頭山驛 0
+
+train: 112 | dest 歪頭山驛 | col 1
+撫順驛 11.00
+歪頭山驛 14.00

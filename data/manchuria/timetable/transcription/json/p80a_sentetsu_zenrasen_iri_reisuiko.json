@@ -1,0 +1,1387 @@
+{
+ "stations": [
+  {
+   "name": "裡里",
+   "km": 0.0
+  },
+  {
+   "name": "東裡里",
+   "km": 1.9
+  },
+  {
+   "name": "大場",
+   "km": 7.4
+  },
+  {
+   "name": "參禮",
+   "km": 13.7
+  },
+  {
+   "name": "東山",
+   "km": 17.0
+  },
+  {
+   "name": "德津",
+   "km": 22.2
+  },
+  {
+   "name": "全洲",
+   "km": 25.3
+  },
+  {
+   "name": "館村",
+   "km": 48.6
+  },
+  {
+   "name": "任實",
+   "km": 52.7
+  },
+  {
+   "name": "南原",
+   "km": 85.8
+  },
+  {
+   "name": "鴨綠",
+   "km": 118.6
+  },
+  {
+   "name": "求禮口",
+   "km": 127.5
+  },
+  {
+   "name": "槐木",
+   "km": 137.7
+  },
+  {
+   "name": "東順天",
+   "km": 156.8
+  },
+  {
+   "name": "順天",
+   "km": 158.5
+  },
+  {
+   "name": "麗水",
+   "km": 198.3
+  },
+  {
+   "name": "麗水港",
+   "km": 198.8
+  },
+  {
+   "name": "下關",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "625",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "5.05",
+     "bold": false,
+     "t": "05:05"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "5.13",
+     "bold": false,
+     "t": "05:13"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "5.25",
+     "bold": false,
+     "t": "05:25"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "5.35",
+     "bold": false,
+     "t": "05:35"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "5.43",
+     "bold": false,
+     "t": "05:43"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "5.53",
+     "bold": false,
+     "t": "05:53"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "6.00",
+     "bold": false,
+     "t": "06:00"
+    }
+   ],
+   "dest": "全洲",
+   "cls": "3",
+   "col": "1",
+   "note": "等級枠は印刷が潰れ「3」の左右に汚れがある。3等と讀んだ"
+  },
+  {
+   "no": "649",
+   "stops": [
+    {
+     "st": "南原",
+     "ev": "dep",
+     "printed": "5.15",
+     "bold": false,
+     "t": "05:15"
+    },
+    {
+     "st": "鴨綠",
+     "ev": "dep",
+     "printed": "6.18",
+     "bold": false,
+     "t": "06:18"
+    },
+    {
+     "st": "求禮口",
+     "ev": "dep",
+     "printed": "6.36",
+     "bold": false,
+     "t": "06:36"
+    },
+    {
+     "st": "槐木",
+     "ev": "dep",
+     "printed": "6.54",
+     "bold": false,
+     "t": "06:54"
+    },
+    {
+     "st": "東順天",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": false,
+     "t": "07:33"
+    },
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "7.38",
+     "bold": false,
+     "t": "07:38"
+    }
+   ],
+   "dest": "順天",
+   "cls": "2.3",
+   "origin": "南原",
+   "col": "1",
+   "note": "625 欄の下半。任實・南原著の桝に「2.3／649」の欄頭が印刷されてゐる"
+  },
+  {
+   "no": "641",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "6.35",
+     "bold": false,
+     "t": "06:35"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "6.41",
+     "bold": false,
+     "t": "06:41"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "6.50",
+     "bold": false,
+     "t": "06:50"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "6.59",
+     "bold": false,
+     "t": "06:59"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "7.06",
+     "bold": false,
+     "t": "07:06"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "7.15",
+     "bold": false,
+     "t": "07:15"
+    },
+    {
+     "st": "全洲",
+     "ev": "arr",
+     "printed": "7.21",
+     "bold": false,
+     "t": "07:21"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "7.28",
+     "bold": false,
+     "t": "07:28"
+    },
+    {
+     "st": "館村",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "任實",
+     "ev": "dep",
+     "printed": "8.34",
+     "bold": false,
+     "t": "08:34"
+    },
+    {
+     "st": "南原",
+     "ev": "arr",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "南原",
+     "ev": "dep",
+     "printed": "9.46",
+     "bold": false,
+     "t": "09:46"
+    },
+    {
+     "st": "鴨綠",
+     "ev": "dep",
+     "printed": "10.46",
+     "bold": false,
+     "t": "10:46"
+    },
+    {
+     "st": "求禮口",
+     "ev": "dep",
+     "printed": "11.01",
+     "bold": false,
+     "t": "11:01"
+    },
+    {
+     "st": "槐木",
+     "ev": "dep",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "東順天",
+     "ev": "dep",
+     "printed": "12.01",
+     "bold": false,
+     "t": "12:01"
+    },
+    {
+     "st": "順天",
+     "ev": "arr",
+     "printed": "12.06",
+     "bold": false,
+     "t": "12:06"
+    },
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "12.28",
+     "bold": false,
+     "t": "12:28"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "13.41",
+     "bold": false,
+     "t": "13:41"
+    },
+    {
+     "st": "麗水港",
+     "ev": "dep",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    }
+   ],
+   "dest": "麗水港",
+   "cls": "2.3",
+   "marks": "寢",
+   "origin": "大田",
+   "from_page": "77",
+   "col": "2"
+  },
+  {
+   "no": "627",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "7.37",
+     "bold": false,
+     "t": "07:37"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "7.43",
+     "bold": false,
+     "t": "07:43"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "7.53",
+     "bold": false,
+     "t": "07:53"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": false,
+     "t": "08:05"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "8.15",
+     "bold": false,
+     "t": "08:15"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "8.32",
+     "bold": false,
+     "t": "08:32"
+    }
+   ],
+   "dest": "全洲",
+   "cls": "2.3",
+   "col": "3"
+  },
+  {
+   "no": "1631",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "9.49",
+     "bold": false,
+     "t": "09:49"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "10.03",
+     "bold": false,
+     "t": "10:03"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "10.18",
+     "bold": false,
+     "t": "10:18"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "10.30",
+     "bold": false,
+     "t": "10:30"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "10.41",
+     "bold": false,
+     "t": "10:41"
+    },
+    {
+     "st": "全洲",
+     "ev": "arr",
+     "printed": "10.48",
+     "bold": false,
+     "t": "10:48"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "11.08",
+     "bold": false,
+     "t": "11:08"
+    },
+    {
+     "st": "館村",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "任實",
+     "ev": "dep",
+     "printed": "12.25",
+     "bold": false,
+     "t": "12:25"
+    },
+    {
+     "st": "南原",
+     "ev": "arr",
+     "printed": "13.36",
+     "bold": false,
+     "t": "13:36"
+    },
+    {
+     "st": "南原",
+     "ev": "dep",
+     "printed": "13.56",
+     "bold": false,
+     "t": "13:56"
+    },
+    {
+     "st": "鴨綠",
+     "ev": "dep",
+     "printed": "15.07",
+     "bold": false,
+     "t": "15:07"
+    },
+    {
+     "st": "求禮口",
+     "ev": "dep",
+     "printed": "15.28",
+     "bold": false,
+     "t": "15:28"
+    },
+    {
+     "st": "槐木",
+     "ev": "dep",
+     "printed": "15.50",
+     "bold": false,
+     "t": "15:50"
+    },
+    {
+     "st": "東順天",
+     "ev": "dep",
+     "printed": "16.32",
+     "bold": false,
+     "t": "16:32"
+    },
+    {
+     "st": "順天",
+     "ev": "arr",
+     "printed": "16.37",
+     "bold": false,
+     "t": "16:37"
+    },
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    }
+   ],
+   "dest": "麗水",
+   "cls": "3",
+   "col": "4"
+  },
+  {
+   "no": "629",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "11.38",
+     "bold": false,
+     "t": "11:38"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "11.45",
+     "bold": false,
+     "t": "11:45"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "11.58",
+     "bold": false,
+     "t": "11:58"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "12.09",
+     "bold": false,
+     "t": "12:09"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "12.18",
+     "bold": false,
+     "t": "12:18"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "12.29",
+     "bold": false,
+     "t": "12:29"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "12.36",
+     "bold": false,
+     "t": "12:36"
+    }
+   ],
+   "dest": "全洲",
+   "cls": "2.3",
+   "col": "5"
+  },
+  {
+   "no": "1633",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "12.40",
+     "bold": false,
+     "t": "12:40"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "12.48",
+     "bold": false,
+     "t": "12:48"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "13.02",
+     "bold": false,
+     "t": "13:02"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "13.17",
+     "bold": false,
+     "t": "13:17"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "13.28",
+     "bold": false,
+     "t": "13:28"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "13.39",
+     "bold": false,
+     "t": "13:39"
+    },
+    {
+     "st": "全洲",
+     "ev": "arr",
+     "printed": "13.46",
+     "bold": false,
+     "t": "13:46"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "14.06",
+     "bold": false,
+     "t": "14:06"
+    },
+    {
+     "st": "館村",
+     "ev": "dep",
+     "printed": "15.12",
+     "bold": false,
+     "t": "15:12"
+    },
+    {
+     "st": "任實",
+     "ev": "dep",
+     "printed": "15.28",
+     "bold": false,
+     "t": "15:28"
+    },
+    {
+     "st": "南原",
+     "ev": "arr",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "南原",
+     "ev": "dep",
+     "printed": "17.15",
+     "bold": false,
+     "t": "17:15"
+    },
+    {
+     "st": "鴨綠",
+     "ev": "dep",
+     "printed": "18.39",
+     "bold": false,
+     "t": "18:39"
+    },
+    {
+     "st": "求禮口",
+     "ev": "dep",
+     "printed": "19.13",
+     "bold": false,
+     "t": "19:13"
+    },
+    {
+     "st": "槐木",
+     "ev": "dep",
+     "printed": "19.34",
+     "bold": false,
+     "t": "19:34"
+    },
+    {
+     "st": "東順天",
+     "ev": "dep",
+     "printed": "20.15",
+     "bold": false,
+     "t": "20:15"
+    },
+    {
+     "st": "順天",
+     "ev": "arr",
+     "printed": "20.20",
+     "bold": false,
+     "t": "20:20"
+    },
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "20.40",
+     "bold": false,
+     "t": "20:40"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "22.08",
+     "bold": false,
+     "t": "22:08"
+    }
+   ],
+   "dest": "麗水",
+   "cls": "3",
+   "col": "6"
+  },
+  {
+   "no": "631",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "14.40",
+     "bold": false,
+     "t": "14:40"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "14.46",
+     "bold": false,
+     "t": "14:46"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "14.57",
+     "bold": false,
+     "t": "14:57"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "15.08",
+     "bold": false,
+     "t": "15:08"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "15.17",
+     "bold": false,
+     "t": "15:17"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "15.28",
+     "bold": false,
+     "t": "15:28"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "15.35",
+     "bold": false,
+     "t": "15:35"
+    }
+   ],
+   "dest": "全洲",
+   "cls": "2.3",
+   "col": "7"
+  },
+  {
+   "no": "651",
+   "stops": [
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "6.15",
+     "bold": false,
+     "t": "06:15"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "7.36",
+     "bold": false,
+     "t": "07:36"
+    }
+   ],
+   "dest": "麗水",
+   "cls": "3",
+   "origin": "順天",
+   "col": "7",
+   "note": "631 欄の下半。東順天・順天著の桝に「3／651」の欄頭"
+  },
+  {
+   "no": "633",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "15.35",
+     "bold": false,
+     "t": "15:35"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "15.41",
+     "bold": false,
+     "t": "15:41"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "15.56",
+     "bold": false,
+     "t": "15:56"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "16.08",
+     "bold": false,
+     "t": "16:08"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "16.27",
+     "bold": false,
+     "uncertain": true,
+     "note": "16.22 とも讀める（前後の所要時分からは 16.1x が自然）",
+     "t": "16:27"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "16.34",
+     "bold": false,
+     "t": "16:34"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "16.42",
+     "bold": false,
+     "t": "16:42"
+    }
+   ],
+   "dest": "全洲",
+   "cls": "2.3",
+   "col": "8"
+  },
+  {
+   "no": "1637",
+   "stops": [
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "08:25"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "9.47",
+     "bold": false,
+     "t": "09:47"
+    }
+   ],
+   "dest": "麗水",
+   "cls": "2.3",
+   "origin": "順天",
+   "col": "8",
+   "note": "633 欄の下半。東順天・順天著の桝に「2.3／1637」の欄頭"
+  },
+  {
+   "no": "643",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "17.15",
+     "bold": false,
+     "t": "17:15"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "17.21",
+     "bold": false,
+     "t": "17:21"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "17.31",
+     "bold": false,
+     "t": "17:31"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "17.41",
+     "bold": false,
+     "t": "17:41"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "17.49",
+     "bold": false,
+     "t": "17:49"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "17.58",
+     "bold": false,
+     "t": "17:58"
+    },
+    {
+     "st": "全洲",
+     "ev": "arr",
+     "printed": "18.04",
+     "bold": false,
+     "t": "18:04"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "18.14",
+     "bold": false,
+     "t": "18:14"
+    },
+    {
+     "st": "館村",
+     "ev": "dep",
+     "printed": "18.58",
+     "bold": false,
+     "t": "18:58"
+    },
+    {
+     "st": "任實",
+     "ev": "dep",
+     "printed": "19.05",
+     "bold": false,
+     "t": "19:05"
+    },
+    {
+     "st": "南原",
+     "ev": "dep",
+     "printed": "19.55",
+     "bold": false,
+     "t": "19:55"
+    }
+   ],
+   "dest": "南原",
+   "cls": "2.3",
+   "col": "9"
+  },
+  {
+   "no": "635",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "18.35",
+     "bold": false,
+     "t": "18:35"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "18.41",
+     "bold": false,
+     "t": "18:41"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "18.51",
+     "bold": false,
+     "t": "18:51"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "19.01",
+     "bold": false,
+     "t": "19:01"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "19.11",
+     "bold": false,
+     "t": "19:11"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "19.21",
+     "bold": false,
+     "t": "19:21"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "19.28",
+     "bold": false,
+     "t": "19:28"
+    }
+   ],
+   "dest": "全洲",
+   "cls": "3",
+   "col": "10"
+  },
+  {
+   "no": "1642",
+   "stops": [
+    {
+     "st": "順天",
+     "ev": "arr",
+     "printed": "9.17",
+     "bold": false,
+     "t": "09:17"
+    },
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "9.40",
+     "bold": false,
+     "t": "09:40"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "11.17",
+     "bold": false,
+     "t": "11:17"
+    }
+   ],
+   "dest": "麗水",
+   "cls": "3",
+   "origin": "松汀里方面",
+   "from_page": "81",
+   "col": "10",
+   "note": "635 欄の下半。槐木・東順天の桝に「3／1642」の欄頭があり、順天著から時刻が始まる（慶全西部線からの直通）"
+  },
+  {
+   "no": "663",
+   "stops": [
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "10.20",
+     "bold": false,
+     "t": "10:20"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "11.51",
+     "bold": false,
+     "t": "11:51"
+    }
+   ],
+   "dest": "麗水",
+   "cls": "3",
+   "origin": "順天",
+   "col": "11",
+   "note": "欄頭は表頭にあるが順天發まで全て「…」"
+  },
+  {
+   "no": "647",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "21.05",
+     "bold": false,
+     "t": "21:05"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "21.11",
+     "bold": false,
+     "t": "21:11"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "21.21",
+     "bold": false,
+     "t": "21:21"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "21.31",
+     "bold": false,
+     "t": "21:31"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "21.39",
+     "bold": false,
+     "t": "21:39"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "21.49",
+     "bold": false,
+     "t": "21:49"
+    },
+    {
+     "st": "全洲",
+     "ev": "arr",
+     "printed": "21.56",
+     "bold": false,
+     "t": "21:56"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "22.00",
+     "bold": false,
+     "t": "22:00"
+    },
+    {
+     "st": "館村",
+     "ev": "dep",
+     "printed": "22.57",
+     "bold": false,
+     "t": "22:57"
+    },
+    {
+     "st": "任實",
+     "ev": "dep",
+     "printed": "23.06",
+     "bold": false,
+     "t": "23:06"
+    },
+    {
+     "st": "南原",
+     "ev": "dep",
+     "printed": "0.12",
+     "bold": false,
+     "t": "24:12"
+    }
+   ],
+   "dest": "南原",
+   "cls": "3",
+   "col": "12"
+  },
+  {
+   "no": "608",
+   "stops": [
+    {
+     "st": "順天",
+     "ev": "arr",
+     "printed": "13.28",
+     "bold": false,
+     "t": "13:28"
+    },
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "13.36",
+     "bold": false,
+     "t": "13:36"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "14.46",
+     "bold": false,
+     "t": "14:46"
+    },
+    {
+     "st": "麗水港",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    }
+   ],
+   "dest": "麗水港",
+   "cls": "3",
+   "origin": "松汀里方面",
+   "from_page": "81",
+   "col": "12",
+   "note": "647 欄の下半。槐木・東順天の桝に「3／608」の欄頭があり、順天著から時刻が始まる。頁77b では 608 の等級を 2.3 としてゐる"
+  },
+  {
+   "no": "1635",
+   "stops": [
+    {
+     "st": "裡里",
+     "ev": "dep",
+     "printed": "23.45",
+     "bold": false,
+     "t": "23:45"
+    },
+    {
+     "st": "東裡里",
+     "ev": "dep",
+     "printed": "23.51",
+     "bold": false,
+     "t": "23:51"
+    },
+    {
+     "st": "大場",
+     "ev": "dep",
+     "printed": "0.03",
+     "bold": false,
+     "t": "24:03"
+    },
+    {
+     "st": "參禮",
+     "ev": "dep",
+     "printed": "0.16",
+     "bold": false,
+     "t": "24:16"
+    },
+    {
+     "st": "東山",
+     "ev": "dep",
+     "printed": "0.25",
+     "bold": false,
+     "t": "24:25"
+    },
+    {
+     "st": "德津",
+     "ev": "dep",
+     "printed": "0.37",
+     "bold": false,
+     "t": "24:37"
+    },
+    {
+     "st": "全洲",
+     "ev": "dep",
+     "printed": "0.45",
+     "bold": false,
+     "t": "24:45"
+    }
+   ],
+   "dest": "全洲",
+   "cls": "3",
+   "col": "13"
+  },
+  {
+   "no": "665",
+   "stops": [
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "14.50",
+     "bold": false,
+     "t": "14:50"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "16.25",
+     "bold": false,
+     "t": "16:25"
+    }
+   ],
+   "dest": "麗水",
+   "cls": "3",
+   "origin": "順天",
+   "col": "13",
+   "note": "1635 欄の下半。東順天・順天著の桝に「3／665」の欄頭"
+  },
+  {
+   "no": "667",
+   "stops": [
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "19.00",
+     "bold": false,
+     "t": "19:00"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "20.30",
+     "bold": false,
+     "t": "20:30"
+    }
+   ],
+   "dest": "麗水",
+   "cls": "3",
+   "origin": "順天",
+   "col": "14"
+  },
+  {
+   "no": "669",
+   "stops": [
+    {
+     "st": "順天",
+     "ev": "dep",
+     "printed": "23.00",
+     "bold": false,
+     "t": "23:00"
+    },
+    {
+     "st": "麗水",
+     "ev": "dep",
+     "printed": "0.19",
+     "bold": false,
+     "t": "24:19"
+    }
+   ],
+   "dest": "麗水",
+   "cls": "3",
+   "origin": "順天",
+   "col": "15"
+  },
+  {
+   "no": "連絡船",
+   "stops": [
+    {
+     "st": "麗水港",
+     "ev": "dep",
+     "printed": "16.00",
+     "bold": false,
+     "t": "16:00"
+    },
+    {
+     "st": "下關",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "note": "翌日著。麗水港發 16.00 から 20 時間（印刷のまま）",
+     "t": "36:00"
+    }
+   ],
+   "dest": "下關",
+   "origin": "麗水港",
+   "col": "2",
+   "note": "表尾の連絡船抄錄（麗水港發／下關著）。641 の欄に印刷されてゐる。便名の記載なし"
+  }
+ ],
+ "notes": [
+  "麗水港へ通しで走るのは 641（大田發）と 608（松汀里方面より）の2列車のみ。他は全洲・南原・順天・麗水止り。",
+  "昭和17.2.20改正。頁80最上段の表。反對方向（麗水港→裡里）は同頁第2段の p80b。",
+  "左端に「自裡里 運賃 2等・3等」欄があるが運賃は轉記せず。粁程（自裡里）は stations に入れた。驛名の左の⊓・〒・◎等の設備記號も轉記せず。",
+  "朝鮮の表につき24時制。主要驛のみを載せた抄錄表（谷城・獒樹などは載つてゐない）。",
+  "驛名は横書き左→右、3桝幅に均等割りして組まれてゐる。",
+  "「大場」は3桝の左右端に「大」「場」とあり中央は空白（大場村の村が印刷されてゐない）。「全洲」の第2字は氵付きの「洲」と印刷されてゐる（全州）。",
+  "「-」は原表の「…」（その驛に時刻が印刷されてゐない）。",
+  "表の最下段に麗水・下關間の連絡船抄錄2行（麗水港發／下關著）がある。abstract の train ブロックとして收めた。"
+ ],
+ "source": "IMG_1869",
+ "page": "80",
+ "title": "裡里・麗水港間",
+ "line": "鮮鐵 全羅線",
+ "dir": "麗水港行（裡里→麗水港）"
+}

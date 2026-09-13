@@ -1,0 +1,57 @@
+{
+ "stations": [
+  {
+   "name": "阜新城",
+   "km": null
+  },
+  {
+   "name": "白土廠",
+   "km": null
+  },
+  {
+   "name": "北鎭",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "209",
+   "stops": [
+    {
+     "st": "阜新城",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "白土廠",
+     "ev": "pass"
+    },
+    {
+     "st": "北鎭",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "北鎭",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "the 運賃 column is headed 円分 but carries only … for both stops below 阜新城",
+  "two unnumbered empty columns (…) stand to the left of bus 209"
+ ],
+ "source": "IMG_1882",
+ "page": "106",
+ "kind": "bus",
+ "office": "錦州局管內",
+ "line": "阜北線",
+ "title": "阜新城・北鎭間",
+ "dir": "阜新城→北鎭",
+ "season": "昭和16.10.1改正",
+ "service": "每日運行",
+ "fares": "阜新城 | 白土廠 | 北鎭"
+}

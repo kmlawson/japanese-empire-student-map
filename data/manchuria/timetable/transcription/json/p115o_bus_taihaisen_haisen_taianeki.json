@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "拜泉",
+   "km": null
+  },
+  {
+   "name": "泰安驛",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "111",
+   "stops": [
+    {
+     "st": "拜泉",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "泰安驛",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    }
+   ],
+   "dest": "泰安驛",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "左端は運賃（圓.分）欄。逆方向は p115p。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "泰拜線",
+ "title": "拜泉・泰安驛間",
+ "dir": "拜泉→泰安驛",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "拜泉 | 泰安驛 5.10"
+}

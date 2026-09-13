@@ -1,0 +1,93 @@
+{
+ "stations": [
+  {
+   "name": "八家子",
+   "km": null
+  },
+  {
+   "name": "小城子",
+   "km": null
+  },
+  {
+   "name": "八面城驛",
+   "km": null
+  },
+  {
+   "name": "八面城",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "282",
+   "stops": [
+    {
+     "st": "小城子",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "八面城驛",
+     "ev": "dep",
+     "printed": "15.20",
+     "bold": false,
+     "t": "15:20"
+    },
+    {
+     "st": "八面城",
+     "ev": "dep",
+     "printed": "15.30",
+     "bold": false,
+     "t": "15:30"
+    }
+   ],
+   "origin": "小城子",
+   "dest": "八面城",
+   "col": "5"
+  },
+  {
+   "no": "284",
+   "stops": [
+    {
+     "st": "小城子",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "八面城驛",
+     "ev": "dep",
+     "printed": "16.50",
+     "bold": false,
+     "t": "16:50"
+    },
+    {
+     "st": "八面城",
+     "ev": "dep",
+     "printed": "17.00",
+     "bold": false,
+     "t": "17:00"
+    }
+   ],
+   "origin": "小城子",
+   "dest": "八面城",
+   "col": "6"
+  }
+ ],
+ "notes": [
+  "282・284とも小城子始發。八家子欄は全便「…」。逆方向は p115am。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "面家線",
+ "title": "八面城・八家子間",
+ "dir": "八家子→八面城",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "八面城 | 八面城驛 0.10 | 小城子 3.45 | 八家子 5.00"
+}

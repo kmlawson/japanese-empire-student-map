@@ -1,0 +1,48 @@
+{
+ "stations": [
+  {
+   "name": "扎蘭屯",
+   "km": null
+  },
+  {
+   "name": "甘南",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "15",
+   "stops": [
+    {
+     "st": "扎蘭屯",
+     "ev": "dep",
+     "printed": "8.30",
+     "bold": false,
+     "t": "08:30"
+    },
+    {
+     "st": "甘南",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    }
+   ],
+   "dest": "甘南",
+   "col": "5"
+  }
+ ],
+ "notes": [
+  "表の右半（扎蘭屯發）。逆方向は p115aa。"
+ ],
+ "source": "IMG_1886",
+ "page": "115",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "甘扎線",
+ "title": "甘南・扎蘭屯間",
+ "dir": "扎蘭屯→甘南",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "甘南 | 扎蘭屯 5.00"
+}

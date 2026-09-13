@@ -1,0 +1,27 @@
+source: IMG_1881
+page: 104
+kind: bus
+office: 奉天局管內
+line: 撫城線
+title: 撫順・救兵臺間
+dir: 救兵臺→撫順驛
+season: 昭和16.12.1改正
+service: 每日運行
+stations: 救兵臺 | 撫順驛
+fares: 救兵臺 0 | 撫順驛 1.75
+
+train: 102 | dest 撫順驛 | col 1
+救兵臺 9.00
+撫順驛 10.40
+
+train: 104 | dest 撫順驛 | col 2
+救兵臺 10.50
+撫順驛 12.30
+
+train: 106 | dest 撫順驛 | col 3
+救兵臺 13.00
+撫順驛 14.40
+
+train: 108 | dest 撫順驛 | col 4
+救兵臺 15.50
+撫順驛 17.30

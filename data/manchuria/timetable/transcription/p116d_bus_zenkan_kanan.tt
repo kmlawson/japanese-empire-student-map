@@ -1,0 +1,20 @@
+source: IMG_1887
+page: 116
+kind: bus
+office: 齊々哈爾局管內
+line: 前乾線
+title: 乾安・前郭旗間
+dir: 前郭旗→乾安
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表右側「著↑…發」の欄。運賃は乾安起算（前郭旗 3.25）。
+stations: 前郭旗 | 乾安
+fares: 前郭旗 3.25 | 乾安
+
+train: 246 | dest 乾安 | col 1
+前郭旗 8.00
+乾安 11.00
+
+train: 244 | dest 乾安 | col 2
+前郭旗 14.00
+乾安 17.00

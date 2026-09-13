@@ -1,0 +1,73 @@
+{
+ "stations": [
+  {
+   "name": "訥河",
+   "km": null
+  },
+  {
+   "name": "二克淺屯",
+   "km": null
+  },
+  {
+   "name": "布西",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "51",
+   "stops": [
+    {
+     "st": "訥河",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "t": "09:30"
+    },
+    {
+     "st": "布西",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    }
+   ],
+   "dest": "布西",
+   "col": "2"
+  },
+  {
+   "no": "53",
+   "stops": [
+    {
+     "st": "訥河",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "布西",
+     "ev": "dep",
+     "printed": "14.30",
+     "bold": false,
+     "t": "14:30"
+    }
+   ],
+   "dest": "布西",
+   "col": "3"
+  }
+ ],
+ "notes": [
+  "中間の二克淺屯は全便「…」。左端は運賃（圓.分）欄。逆方向は p114af。"
+ ],
+ "source": "IMG_1886",
+ "page": "114",
+ "kind": "bus",
+ "office": "齊齊哈爾局管內",
+ "line": "訥布線",
+ "title": "訥河・布西間",
+ "dir": "訥河→布西",
+ "season": "昭和16.12.1改正",
+ "service": "每日運行",
+ "fares": "訥河 | 二克淺屯 1.50 | 布西 1.80"
+}

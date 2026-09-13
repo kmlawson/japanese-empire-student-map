@@ -1,0 +1,22 @@
+source: IMG_1886
+page: 114
+kind: bus
+office: 齊齊哈爾局管內
+line: 訥布線
+title: 訥河・布西間
+dir: 布西→訥河
+season: 昭和16.12.1改正
+service: 每日運行
+note: 中間の二克淺屯は全便「…」。逆方向は p114ae。
+stations: 布西 | 二克淺屯 | 訥河
+fares: 訥河 | 二克淺屯 1.50 | 布西 1.80
+
+train: 52 | dest 訥河 | col 5
+布西 11.20
+二克淺屯 -
+訥河 12.30
+
+train: 54 | dest 訥河 | col 6
+布西 14.30
+二克淺屯 -
+訥河 16.00

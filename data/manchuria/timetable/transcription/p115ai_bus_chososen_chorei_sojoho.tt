@@ -1,0 +1,17 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 長雙線
+title: 長嶺・雙城堡間
+dir: 長嶺→雙城堡
+season: 昭和16.12.1改正
+service: 每日運行
+note: バス番號277・278は直前の長楊線（p115ag/ah）と重複して印刷されている。
+note: 左端は運賃（圓.分）欄。逆方向は p115aj。
+stations: 長嶺 | 雙城堡
+fares: 長嶺 | 雙城堡 3.35
+
+train: 277 | dest 雙城堡 | col 3
+長嶺 9.00
+雙城堡 12.30

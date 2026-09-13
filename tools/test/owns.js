@@ -69,6 +69,7 @@ const SYSTEMS = [
   ['Taiwan',   'tw-trains.js', 'TW_TRAINS', 'tw-times.js', 'TW_TIMES'],
   ['Korea',    'kr-trains.js', 'KR_TRAINS', 'kr-times.js', 'KR_TIMES'],
   ['Karafuto', 'kf-trains.js', 'KF_TRAINS', 'kf-times.js', 'KF_TIMES'],
+  ['Manchuria', 'mn-trains.js', 'MN_TRAINS', 'mn-times.js', 'MN_TIMES'],
 ];
 
 const api = loadModule();

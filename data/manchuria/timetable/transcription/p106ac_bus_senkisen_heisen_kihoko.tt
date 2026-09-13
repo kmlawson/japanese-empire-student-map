@@ -1,0 +1,16 @@
+source: IMG_1882
+page: 106
+kind: bus
+office: 錦州局管內
+line: 泉喜線
+title: 平泉・喜峰口間
+dir: 平泉→喜峰口
+season: 昭和16.12.1改正
+service: 隔日運行
+note: a narrow label column reading 奇數日 stands immediately left of bus 621 (and right of bus 622), i.e. the service runs on odd-numbered days
+stations: 平泉 | 喜峰口
+fares: 平泉 | 喜峰口 4.95
+
+train: 621 | dest 喜峰口 | col 3 | days 奇數日
+平泉 7.00
+喜峰口 12.00

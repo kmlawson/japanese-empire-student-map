@@ -1,0 +1,26 @@
+source: IMG_1881
+page: 105
+kind: bus
+office: 奉天局管內
+line: 普朝線
+title: 普蘭店(朝陽寺)普蘭店驛間
+dir: 普蘭店驛→農區前→朝陽寺→快馬厰→普蘭店驛
+season: 昭和16.10.改正
+service: 每日運行
+note: the reverse working of the same circular service; fare column printed once, for the other direction
+stations: 普蘭店驛 | 農區前 | 朝陽寺 | 快馬厰 | 普蘭店驛著
+fares: 普蘭店驛 0 | 農區前 0.60 | 朝陽寺 0.45 | 快馬厰 0.20 | 普蘭店驛著 0.85
+
+train: 51 | dest 普蘭店驛 | col 1
+普蘭店驛 9.00
+農區前 9.35
+朝陽寺 9.50
+快馬厰 10.13
+普蘭店驛著 10.40
+
+train: 53 | dest 普蘭店驛 | col 2
+普蘭店驛 14.30
+農區前 15.05
+朝陽寺 15.20
+快馬厰 15.49
+普蘭店驛著 16.10

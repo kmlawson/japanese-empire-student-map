@@ -1,0 +1,16 @@
+source: IMG_1886
+page: 115
+kind: bus
+office: 齊齊哈爾局管內
+line: 泰依線
+title: 泰安驛・依安間
+dir: 依安→泰安驛
+season: 昭和16.12.1改正
+service: 每日運行
+note: 表の右半（依安發）。逆方向は p115q。
+stations: 依安 | 泰安驛
+fares: 泰安驛 | 依安 2.85
+
+train: 192 | dest 泰安驛 | col 5
+依安 12.30
+泰安驛 15.00

@@ -1,0 +1,4897 @@
+{
+ "stations": [
+  {
+   "name": "京城",
+   "km": 0.0
+  },
+  {
+   "name": "西小門",
+   "km": 0.7
+  },
+  {
+   "name": "阿峴里",
+   "km": 1.8
+  },
+  {
+   "name": "新村",
+   "km": 3.1
+  },
+  {
+   "name": "水色",
+   "km": 8.5
+  },
+  {
+   "name": "陵谷",
+   "km": 16.5
+  },
+  {
+   "name": "一山",
+   "km": 24.9
+  },
+  {
+   "name": "金村",
+   "km": 35.1
+  },
+  {
+   "name": "汶山",
+   "km": 46.0
+  },
+  {
+   "name": "長湍",
+   "km": 57.8
+  },
+  {
+   "name": "鳳東",
+   "km": 65.6
+  },
+  {
+   "name": "開城",
+   "km": 73.4
+  },
+  {
+   "name": "土城",
+   "km": 82.5
+  },
+  {
+   "name": "礪峴",
+   "km": 90.3
+  },
+  {
+   "name": "鷄井",
+   "km": 97.5
+  },
+  {
+   "name": "金郊",
+   "km": 109.4
+  },
+  {
+   "name": "汗浦",
+   "km": 119.7
+  },
+  {
+   "name": "平山",
+   "km": 125.4
+  },
+  {
+   "name": "南川",
+   "km": 134.5
+  },
+  {
+   "name": "物開",
+   "km": 142.8
+  },
+  {
+   "name": "新幕",
+   "km": 152.3
+  },
+  {
+   "name": "瑞興",
+   "km": 160.1
+  },
+  {
+   "name": "文武里",
+   "km": 170.5
+  },
+  {
+   "name": "興水",
+   "km": 175.6
+  },
+  {
+   "name": "淸溪",
+   "km": 183.2
+  },
+  {
+   "name": "馬洞",
+   "km": 190.2
+  },
+  {
+   "name": "新山",
+   "km": 195.6
+  },
+  {
+   "name": "沙里院",
+   "km": 200.2
+  },
+  {
+   "name": "桂東",
+   "km": 206.9
+  },
+  {
+   "name": "沈村",
+   "km": 214.0
+  },
+  {
+   "name": "黃州",
+   "km": 224.2
+  },
+  {
+   "name": "黑橋",
+   "km": 236.3
+  },
+  {
+   "name": "中和",
+   "km": 242.9
+  },
+  {
+   "name": "力浦",
+   "km": 250.2
+  },
+  {
+   "name": "大同江",
+   "km": 256.1
+  },
+  {
+   "name": "平壤",
+   "km": 260.7
+  },
+  {
+   "name": "西平壤",
+   "km": 265.4
+  },
+  {
+   "name": "西浦",
+   "km": 271.8
+  },
+  {
+   "name": "間里",
+   "km": 279.9
+  },
+  {
+   "name": "順安",
+   "km": 285.9
+  },
+  {
+   "name": "石巖",
+   "km": 294.2
+  },
+  {
+   "name": "漁波",
+   "km": 301.8
+  },
+  {
+   "name": "肅川",
+   "km": 312.6
+  },
+  {
+   "name": "萬城",
+   "km": 322.9
+  },
+  {
+   "name": "大橋",
+   "km": 331.2
+  },
+  {
+   "name": "新安州",
+   "km": 336.4
+  },
+  {
+   "name": "孟中里",
+   "km": 342.4
+  },
+  {
+   "name": "嶺美",
+   "km": 349.8
+  },
+  {
+   "name": "雲田",
+   "km": 362.8
+  },
+  {
+   "name": "古邑",
+   "km": 371.3
+  },
+  {
+   "name": "定州",
+   "km": 384.1
+  },
+  {
+   "name": "下塲",
+   "km": 388.8
+  },
+  {
+   "name": "郭山",
+   "km": 396.7
+  },
+  {
+   "name": "路下",
+   "km": 408.3
+  },
+  {
+   "name": "宣川",
+   "km": 417.6
+  },
+  {
+   "name": "東林",
+   "km": 427.7
+  },
+  {
+   "name": "車輦館",
+   "km": 438.5
+  },
+  {
+   "name": "南市",
+   "km": 451.9
+  },
+  {
+   "name": "良策",
+   "km": 460.6
+  },
+  {
+   "name": "枇峴",
+   "km": 468.4
+  },
+  {
+   "name": "白馬",
+   "km": 477.7
+  },
+  {
+   "name": "石下",
+   "km": 488.6
+  },
+  {
+   "name": "新義州",
+   "km": 496.7
+  },
+  {
+   "name": "安東",
+   "km": 499.3
+  },
+  {
+   "name": "奉天",
+   "km": null
+  },
+  {
+   "name": "新京",
+   "km": null
+  }
+ ],
+ "trains": [
+  {
+   "no": "1",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "4.05",
+     "bold": false,
+     "t": "04:05"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "pass"
+    },
+    {
+     "st": "一山",
+     "ev": "pass"
+    },
+    {
+     "st": "金村",
+     "ev": "pass"
+    },
+    {
+     "st": "汶山",
+     "ev": "pass"
+    },
+    {
+     "st": "長湍",
+     "ev": "pass"
+    },
+    {
+     "st": "鳳東",
+     "ev": "pass"
+    },
+    {
+     "st": "開城",
+     "ev": "pass"
+    },
+    {
+     "st": "土城",
+     "ev": "pass"
+    },
+    {
+     "st": "礪峴",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄井",
+     "ev": "pass"
+    },
+    {
+     "st": "金郊",
+     "ev": "pass"
+    },
+    {
+     "st": "汗浦",
+     "ev": "pass"
+    },
+    {
+     "st": "物開",
+     "ev": "pass"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "6.43",
+     "bold": false,
+     "t": "06:43"
+    },
+    {
+     "st": "瑞興",
+     "ev": "pass"
+    },
+    {
+     "st": "文武里",
+     "ev": "pass"
+    },
+    {
+     "st": "興水",
+     "ev": "pass"
+    },
+    {
+     "st": "淸溪",
+     "ev": "pass"
+    },
+    {
+     "st": "馬洞",
+     "ev": "pass"
+    },
+    {
+     "st": "新山",
+     "ev": "pass"
+    },
+    {
+     "st": "沙里院",
+     "ev": "pass"
+    },
+    {
+     "st": "桂東",
+     "ev": "pass"
+    },
+    {
+     "st": "沈村",
+     "ev": "pass"
+    },
+    {
+     "st": "黃州",
+     "ev": "pass"
+    },
+    {
+     "st": "黑橋",
+     "ev": "pass"
+    },
+    {
+     "st": "中和",
+     "ev": "pass"
+    },
+    {
+     "st": "力浦",
+     "ev": "pass"
+    },
+    {
+     "st": "大同江",
+     "ev": "pass"
+    },
+    {
+     "st": "平壤",
+     "ev": "arr",
+     "printed": "8.32",
+     "bold": false,
+     "t": "08:32"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "8.37",
+     "bold": false,
+     "t": "08:37"
+    },
+    {
+     "st": "西平壤",
+     "ev": "pass"
+    },
+    {
+     "st": "西浦",
+     "ev": "pass"
+    },
+    {
+     "st": "間里",
+     "ev": "pass"
+    },
+    {
+     "st": "順安",
+     "ev": "pass"
+    },
+    {
+     "st": "石巖",
+     "ev": "pass"
+    },
+    {
+     "st": "漁波",
+     "ev": "pass"
+    },
+    {
+     "st": "肅川",
+     "ev": "pass"
+    },
+    {
+     "st": "萬城",
+     "ev": "pass"
+    },
+    {
+     "st": "大橋",
+     "ev": "pass"
+    },
+    {
+     "st": "新安州",
+     "ev": "pass"
+    },
+    {
+     "st": "孟中里",
+     "ev": "pass"
+    },
+    {
+     "st": "嶺美",
+     "ev": "pass"
+    },
+    {
+     "st": "雲田",
+     "ev": "pass"
+    },
+    {
+     "st": "古邑",
+     "ev": "pass"
+    },
+    {
+     "st": "定州",
+     "ev": "arr",
+     "printed": "10.35",
+     "bold": false,
+     "t": "10:35"
+    },
+    {
+     "st": "定州",
+     "ev": "dep",
+     "printed": "10.40",
+     "bold": false,
+     "t": "10:40"
+    },
+    {
+     "st": "下塲",
+     "ev": "pass"
+    },
+    {
+     "st": "郭山",
+     "ev": "pass"
+    },
+    {
+     "st": "路下",
+     "ev": "pass"
+    },
+    {
+     "st": "宣川",
+     "ev": "pass"
+    },
+    {
+     "st": "東林",
+     "ev": "pass"
+    },
+    {
+     "st": "車輦館",
+     "ev": "pass"
+    },
+    {
+     "st": "南市",
+     "ev": "pass"
+    },
+    {
+     "st": "良策",
+     "ev": "pass"
+    },
+    {
+     "st": "枇峴",
+     "ev": "pass"
+    },
+    {
+     "st": "白馬",
+     "ev": "pass"
+    },
+    {
+     "st": "石下",
+     "ev": "pass"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "12.38",
+     "bold": false,
+     "t": "12:38"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "12.43",
+     "bold": false,
+     "t": "12:43"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "13.13",
+     "bold": false,
+     "t": "13:13"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "18.25",
+     "bold": false,
+     "note": "表尾の抄錄（安東發13.13→奉天著18.25）",
+     "t": "18:25"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "23.05",
+     "bold": false,
+     "note": "表尾の抄錄",
+     "t": "23:05"
+    }
+   ],
+   "dest": "新京",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "name": "ひかり",
+   "from_page": "74",
+   "col": "1"
+  },
+  {
+   "no": "3",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "4.36",
+     "bold": false,
+     "t": "04:36"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "pass"
+    },
+    {
+     "st": "一山",
+     "ev": "pass"
+    },
+    {
+     "st": "金村",
+     "ev": "pass"
+    },
+    {
+     "st": "汶山",
+     "ev": "pass"
+    },
+    {
+     "st": "長湍",
+     "ev": "pass"
+    },
+    {
+     "st": "鳳東",
+     "ev": "pass"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "5.49",
+     "bold": false,
+     "t": "05:49"
+    },
+    {
+     "st": "土城",
+     "ev": "dep",
+     "printed": "6.01",
+     "bold": false,
+     "t": "06:01"
+    },
+    {
+     "st": "礪峴",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄井",
+     "ev": "pass"
+    },
+    {
+     "st": "金郊",
+     "ev": "pass"
+    },
+    {
+     "st": "汗浦",
+     "ev": "pass"
+    },
+    {
+     "st": "物開",
+     "ev": "pass"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "7.19",
+     "bold": false,
+     "t": "07:19"
+    },
+    {
+     "st": "瑞興",
+     "ev": "pass"
+    },
+    {
+     "st": "文武里",
+     "ev": "pass"
+    },
+    {
+     "st": "興水",
+     "ev": "pass"
+    },
+    {
+     "st": "淸溪",
+     "ev": "pass"
+    },
+    {
+     "st": "馬洞",
+     "ev": "pass"
+    },
+    {
+     "st": "新山",
+     "ev": "pass"
+    },
+    {
+     "st": "沙里院",
+     "ev": "dep",
+     "printed": "8.05",
+     "bold": false,
+     "t": "08:05"
+    },
+    {
+     "st": "桂東",
+     "ev": "pass"
+    },
+    {
+     "st": "沈村",
+     "ev": "pass"
+    },
+    {
+     "st": "黃州",
+     "ev": "dep",
+     "printed": "8.31",
+     "bold": false,
+     "t": "08:31"
+    },
+    {
+     "st": "黑橋",
+     "ev": "pass"
+    },
+    {
+     "st": "中和",
+     "ev": "pass"
+    },
+    {
+     "st": "力浦",
+     "ev": "pass"
+    },
+    {
+     "st": "大同江",
+     "ev": "pass"
+    },
+    {
+     "st": "平壤",
+     "ev": "arr",
+     "printed": "9.14",
+     "bold": false,
+     "t": "09:14"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "9.19",
+     "bold": false,
+     "t": "09:19"
+    },
+    {
+     "st": "西平壤",
+     "ev": "pass"
+    },
+    {
+     "st": "西浦",
+     "ev": "pass"
+    },
+    {
+     "st": "間里",
+     "ev": "pass"
+    },
+    {
+     "st": "順安",
+     "ev": "pass"
+    },
+    {
+     "st": "石巖",
+     "ev": "pass"
+    },
+    {
+     "st": "漁波",
+     "ev": "pass"
+    },
+    {
+     "st": "肅川",
+     "ev": "pass"
+    },
+    {
+     "st": "萬城",
+     "ev": "pass"
+    },
+    {
+     "st": "大橋",
+     "ev": "pass"
+    },
+    {
+     "st": "新安州",
+     "ev": "dep",
+     "printed": "10.35",
+     "bold": false,
+     "t": "10:35"
+    },
+    {
+     "st": "孟中里",
+     "ev": "pass"
+    },
+    {
+     "st": "嶺美",
+     "ev": "pass"
+    },
+    {
+     "st": "雲田",
+     "ev": "pass"
+    },
+    {
+     "st": "古邑",
+     "ev": "pass"
+    },
+    {
+     "st": "定州",
+     "ev": "arr",
+     "printed": "11.20",
+     "bold": false,
+     "t": "11:20"
+    },
+    {
+     "st": "定州",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "下塲",
+     "ev": "pass"
+    },
+    {
+     "st": "郭山",
+     "ev": "pass"
+    },
+    {
+     "st": "路下",
+     "ev": "pass"
+    },
+    {
+     "st": "宣川",
+     "ev": "dep",
+     "printed": "12.00",
+     "bold": false,
+     "t": "12:00"
+    },
+    {
+     "st": "東林",
+     "ev": "pass"
+    },
+    {
+     "st": "車輦館",
+     "ev": "pass"
+    },
+    {
+     "st": "南市",
+     "ev": "pass"
+    },
+    {
+     "st": "良策",
+     "ev": "pass"
+    },
+    {
+     "st": "枇峴",
+     "ev": "pass"
+    },
+    {
+     "st": "白馬",
+     "ev": "pass"
+    },
+    {
+     "st": "石下",
+     "ev": "pass"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "13.25",
+     "bold": false,
+     "t": "13:25"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "13.30",
+     "bold": false,
+     "t": "13:30"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "14.00",
+     "bold": false,
+     "t": "14:00"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "20.28",
+     "bold": false,
+     "note": "表尾の抄錄（安東發14.00→奉天著20.28）。北京著13.55は欄内の空桝に縦書き",
+     "t": "20:28"
+    }
+   ],
+   "dest": "北京",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "name": "興亞",
+   "from_page": "74",
+   "col": "2"
+  },
+  {
+   "no": "53",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "6.10",
+     "bold": false,
+     "t": "06:10"
+    },
+    {
+     "st": "新村",
+     "ev": "pass"
+    },
+    {
+     "st": "水色",
+     "ev": "dep",
+     "printed": "6.27",
+     "bold": false,
+     "t": "06:27"
+    },
+    {
+     "st": "陵谷",
+     "ev": "dep",
+     "printed": "6.38",
+     "bold": false,
+     "t": "06:38"
+    },
+    {
+     "st": "一山",
+     "ev": "dep",
+     "printed": "6.48",
+     "bold": false,
+     "t": "06:48"
+    },
+    {
+     "st": "金村",
+     "ev": "dep",
+     "printed": "7.01",
+     "bold": false,
+     "t": "07:01"
+    },
+    {
+     "st": "汶山",
+     "ev": "dep",
+     "printed": "7.15",
+     "bold": false,
+     "t": "07:15"
+    },
+    {
+     "st": "長湍",
+     "ev": "dep",
+     "printed": "7.31",
+     "bold": false,
+     "t": "07:31"
+    },
+    {
+     "st": "鳳東",
+     "ev": "dep",
+     "printed": "7.42",
+     "bold": false,
+     "t": "07:42"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "7.58",
+     "bold": false,
+     "t": "07:58"
+    },
+    {
+     "st": "土城",
+     "ev": "dep",
+     "printed": "8.14",
+     "bold": false,
+     "t": "08:14"
+    },
+    {
+     "st": "礪峴",
+     "ev": "dep",
+     "printed": "8.27",
+     "bold": false,
+     "t": "08:27"
+    },
+    {
+     "st": "鷄井",
+     "ev": "dep",
+     "printed": "8.39",
+     "bold": false,
+     "t": "08:39"
+    },
+    {
+     "st": "金郊",
+     "ev": "dep",
+     "printed": "8.55",
+     "bold": false,
+     "t": "08:55"
+    },
+    {
+     "st": "汗浦",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "09:10"
+    },
+    {
+     "st": "平山",
+     "ev": "pass"
+    },
+    {
+     "st": "南川",
+     "ev": "dep",
+     "printed": "9.28",
+     "bold": false,
+     "t": "09:28"
+    },
+    {
+     "st": "物開",
+     "ev": "dep",
+     "printed": "9.41",
+     "bold": false,
+     "t": "09:41"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "10.00",
+     "bold": false,
+     "t": "10:00"
+    },
+    {
+     "st": "瑞興",
+     "ev": "dep",
+     "printed": "10.11",
+     "bold": false,
+     "t": "10:11"
+    },
+    {
+     "st": "文武里",
+     "ev": "pass"
+    },
+    {
+     "st": "興水",
+     "ev": "dep",
+     "printed": "10.31",
+     "bold": false,
+     "t": "10:31"
+    },
+    {
+     "st": "淸溪",
+     "ev": "dep",
+     "printed": "10.43",
+     "bold": false,
+     "t": "10:43"
+    },
+    {
+     "st": "馬洞",
+     "ev": "dep",
+     "printed": "10.53",
+     "bold": false,
+     "t": "10:53"
+    },
+    {
+     "st": "新山",
+     "ev": "dep",
+     "printed": "11.03",
+     "bold": false,
+     "t": "11:03"
+    },
+    {
+     "st": "沙里院",
+     "ev": "dep",
+     "printed": "11.14",
+     "bold": false,
+     "t": "11:14"
+    },
+    {
+     "st": "桂東",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "沈村",
+     "ev": "dep",
+     "printed": "11.35",
+     "bold": false,
+     "t": "11:35"
+    },
+    {
+     "st": "黃州",
+     "ev": "dep",
+     "printed": "11.52",
+     "bold": false,
+     "t": "11:52"
+    },
+    {
+     "st": "黑橋",
+     "ev": "dep",
+     "printed": "12.08",
+     "bold": false,
+     "t": "12:08"
+    },
+    {
+     "st": "中和",
+     "ev": "dep",
+     "printed": "12.20",
+     "bold": false,
+     "t": "12:20"
+    },
+    {
+     "st": "力浦",
+     "ev": "dep",
+     "printed": "12.31",
+     "bold": false,
+     "t": "12:31"
+    },
+    {
+     "st": "大同江",
+     "ev": "dep",
+     "printed": "12.45",
+     "bold": false,
+     "t": "12:45"
+    },
+    {
+     "st": "平壤",
+     "ev": "arr",
+     "printed": "12.50",
+     "bold": false,
+     "t": "12:50"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "13.10",
+     "bold": false,
+     "t": "13:10"
+    },
+    {
+     "st": "西平壤",
+     "ev": "dep",
+     "printed": "13.18",
+     "bold": false,
+     "t": "13:18"
+    },
+    {
+     "st": "西浦",
+     "ev": "dep",
+     "printed": "13.27",
+     "bold": false,
+     "t": "13:27"
+    },
+    {
+     "st": "間里",
+     "ev": "dep",
+     "printed": "13.38",
+     "bold": false,
+     "t": "13:38"
+    },
+    {
+     "st": "順安",
+     "ev": "dep",
+     "printed": "13.46",
+     "bold": false,
+     "t": "13:46"
+    },
+    {
+     "st": "石巖",
+     "ev": "dep",
+     "printed": "13.57",
+     "bold": false,
+     "t": "13:57"
+    },
+    {
+     "st": "漁波",
+     "ev": "dep",
+     "printed": "14.07",
+     "bold": false,
+     "t": "14:07"
+    },
+    {
+     "st": "肅川",
+     "ev": "dep",
+     "printed": "14.19",
+     "bold": false,
+     "t": "14:19"
+    },
+    {
+     "st": "萬城",
+     "ev": "dep",
+     "printed": "14.32",
+     "bold": false,
+     "t": "14:32"
+    },
+    {
+     "st": "大橋",
+     "ev": "dep",
+     "printed": "14.42",
+     "bold": false,
+     "t": "14:42"
+    },
+    {
+     "st": "新安州",
+     "ev": "dep",
+     "printed": "14.52",
+     "bold": false,
+     "t": "14:52"
+    },
+    {
+     "st": "孟中里",
+     "ev": "dep",
+     "printed": "15.02",
+     "bold": false,
+     "t": "15:02"
+    },
+    {
+     "st": "嶺美",
+     "ev": "dep",
+     "printed": "15.12",
+     "bold": false,
+     "t": "15:12"
+    },
+    {
+     "st": "雲田",
+     "ev": "dep",
+     "printed": "15.27",
+     "bold": false,
+     "t": "15:27"
+    },
+    {
+     "st": "古邑",
+     "ev": "dep",
+     "printed": "15.39",
+     "bold": false,
+     "t": "15:39"
+    },
+    {
+     "st": "定州",
+     "ev": "arr",
+     "printed": "15.54",
+     "bold": false,
+     "t": "15:54"
+    },
+    {
+     "st": "定州",
+     "ev": "dep",
+     "printed": "16.01",
+     "bold": false,
+     "t": "16:01"
+    },
+    {
+     "st": "下塲",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "郭山",
+     "ev": "dep",
+     "printed": "16.21",
+     "bold": false,
+     "t": "16:21"
+    },
+    {
+     "st": "路下",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "宣川",
+     "ev": "dep",
+     "printed": "16.56",
+     "bold": false,
+     "t": "16:56"
+    },
+    {
+     "st": "東林",
+     "ev": "dep",
+     "printed": "17.14",
+     "bold": false,
+     "t": "17:14"
+    },
+    {
+     "st": "車輦館",
+     "ev": "dep",
+     "printed": "17.30",
+     "bold": false,
+     "t": "17:30"
+    },
+    {
+     "st": "南市",
+     "ev": "dep",
+     "printed": "17.46",
+     "bold": false,
+     "t": "17:46"
+    },
+    {
+     "st": "良策",
+     "ev": "dep",
+     "printed": "18.03",
+     "bold": false,
+     "t": "18:03"
+    },
+    {
+     "st": "枇峴",
+     "ev": "dep",
+     "printed": "18.13",
+     "bold": false,
+     "t": "18:13"
+    },
+    {
+     "st": "白馬",
+     "ev": "dep",
+     "printed": "18.26",
+     "bold": false,
+     "t": "18:26"
+    },
+    {
+     "st": "石下",
+     "ev": "dep",
+     "printed": "18.41",
+     "bold": false,
+     "t": "18:41"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "19.01",
+     "bold": false,
+     "t": "19:01"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "19.06",
+     "bold": false,
+     "t": "19:06"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "21.30",
+     "bold": false,
+     "t": "21:30"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "6.27",
+     "bold": false,
+     "note": "表尾の抄錄（安東發21.30→奉天著6.27 翌日）",
+     "t": "30:27"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "col": "3"
+  },
+  {
+   "no": "11",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "08:00"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "pass"
+    },
+    {
+     "st": "水色",
+     "ev": "pass"
+    },
+    {
+     "st": "陵谷",
+     "ev": "pass"
+    },
+    {
+     "st": "一山",
+     "ev": "pass"
+    },
+    {
+     "st": "金村",
+     "ev": "pass"
+    },
+    {
+     "st": "汶山",
+     "ev": "pass"
+    },
+    {
+     "st": "長湍",
+     "ev": "pass"
+    },
+    {
+     "st": "鳳東",
+     "ev": "pass"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "9.27",
+     "bold": false,
+     "uncertain": true,
+     "t": "09:27"
+    },
+    {
+     "st": "土城",
+     "ev": "dep",
+     "printed": "9.30",
+     "bold": false,
+     "uncertain": true,
+     "t": "09:30"
+    },
+    {
+     "st": "礪峴",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄井",
+     "ev": "pass"
+    },
+    {
+     "st": "金郊",
+     "ev": "pass"
+    },
+    {
+     "st": "汗浦",
+     "ev": "pass"
+    },
+    {
+     "st": "物開",
+     "ev": "pass"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "瑞興",
+     "ev": "pass"
+    },
+    {
+     "st": "文武里",
+     "ev": "pass"
+    },
+    {
+     "st": "興水",
+     "ev": "pass"
+    },
+    {
+     "st": "淸溪",
+     "ev": "pass"
+    },
+    {
+     "st": "馬洞",
+     "ev": "pass"
+    },
+    {
+     "st": "新山",
+     "ev": "pass"
+    },
+    {
+     "st": "沙里院",
+     "ev": "dep",
+     "printed": "11.57",
+     "bold": false,
+     "t": "11:57"
+    },
+    {
+     "st": "桂東",
+     "ev": "pass"
+    },
+    {
+     "st": "沈村",
+     "ev": "pass"
+    },
+    {
+     "st": "黃州",
+     "ev": "dep",
+     "printed": "12.30",
+     "bold": false,
+     "t": "12:30"
+    },
+    {
+     "st": "黑橋",
+     "ev": "pass"
+    },
+    {
+     "st": "中和",
+     "ev": "pass"
+    },
+    {
+     "st": "力浦",
+     "ev": "pass"
+    },
+    {
+     "st": "大同江",
+     "ev": "pass"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "13.20",
+     "bold": false,
+     "t": "13:20"
+    }
+   ],
+   "dest": "平壤",
+   "cls": "2.3",
+   "marks": "急 食 寢2.3",
+   "from_page": "74",
+   "col": "4"
+  },
+  {
+   "no": "43",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "9.20",
+     "bold": false,
+     "t": "09:20"
+    },
+    {
+     "st": "新村",
+     "ev": "dep",
+     "printed": "9.31",
+     "bold": false,
+     "t": "09:31"
+    },
+    {
+     "st": "水色",
+     "ev": "dep",
+     "printed": "9.39",
+     "bold": false,
+     "t": "09:39"
+    },
+    {
+     "st": "陵谷",
+     "ev": "dep",
+     "printed": "9.50",
+     "bold": false,
+     "t": "09:50"
+    },
+    {
+     "st": "一山",
+     "ev": "dep",
+     "printed": "10.01",
+     "bold": false,
+     "t": "10:01"
+    },
+    {
+     "st": "金村",
+     "ev": "dep",
+     "printed": "10.14",
+     "bold": false,
+     "t": "10:14"
+    },
+    {
+     "st": "汶山",
+     "ev": "dep",
+     "printed": "10.28",
+     "bold": false,
+     "t": "10:28"
+    },
+    {
+     "st": "長湍",
+     "ev": "dep",
+     "printed": "10.44",
+     "bold": false,
+     "t": "10:44"
+    },
+    {
+     "st": "鳳東",
+     "ev": "dep",
+     "printed": "10.55",
+     "bold": false,
+     "t": "10:55"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "11.09",
+     "bold": false,
+     "t": "11:09"
+    },
+    {
+     "st": "土城",
+     "ev": "dep",
+     "printed": "11.27",
+     "bold": false,
+     "t": "11:27"
+    },
+    {
+     "st": "礪峴",
+     "ev": "dep",
+     "printed": "11.41",
+     "bold": false,
+     "t": "11:41"
+    },
+    {
+     "st": "鷄井",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": false,
+     "t": "11:55"
+    },
+    {
+     "st": "金郊",
+     "ev": "dep",
+     "printed": "12.11",
+     "bold": false,
+     "t": "12:11"
+    },
+    {
+     "st": "汗浦",
+     "ev": "dep",
+     "printed": "12.25",
+     "bold": false,
+     "t": "12:25"
+    },
+    {
+     "st": "平山",
+     "ev": "dep",
+     "printed": "12.35",
+     "bold": false,
+     "t": "12:35"
+    },
+    {
+     "st": "南川",
+     "ev": "dep",
+     "printed": "12.47",
+     "bold": false,
+     "t": "12:47"
+    },
+    {
+     "st": "物開",
+     "ev": "dep",
+     "printed": "13.03",
+     "bold": false,
+     "t": "13:03"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "13.23",
+     "bold": false,
+     "t": "13:23"
+    },
+    {
+     "st": "瑞興",
+     "ev": "dep",
+     "printed": "13.32",
+     "bold": false,
+     "t": "13:32"
+    },
+    {
+     "st": "文武里",
+     "ev": "dep",
+     "printed": "13.45",
+     "bold": false,
+     "t": "13:45"
+    },
+    {
+     "st": "興水",
+     "ev": "dep",
+     "printed": "13.52",
+     "bold": false,
+     "t": "13:52"
+    },
+    {
+     "st": "淸溪",
+     "ev": "dep",
+     "printed": "14.04",
+     "bold": false,
+     "t": "14:04"
+    },
+    {
+     "st": "馬洞",
+     "ev": "dep",
+     "printed": "14.14",
+     "bold": false,
+     "t": "14:14"
+    },
+    {
+     "st": "新山",
+     "ev": "dep",
+     "printed": "14.23",
+     "bold": false,
+     "t": "14:23"
+    },
+    {
+     "st": "沙里院",
+     "ev": "dep",
+     "printed": "14.32",
+     "bold": false,
+     "t": "14:32"
+    },
+    {
+     "st": "桂東",
+     "ev": "dep",
+     "printed": "14.43",
+     "bold": false,
+     "t": "14:43"
+    },
+    {
+     "st": "沈村",
+     "ev": "dep",
+     "printed": "14.52",
+     "bold": false,
+     "t": "14:52"
+    },
+    {
+     "st": "黃州",
+     "ev": "dep",
+     "printed": "15.07",
+     "bold": false,
+     "t": "15:07"
+    },
+    {
+     "st": "黑橋",
+     "ev": "dep",
+     "printed": "15.23",
+     "bold": false,
+     "t": "15:23"
+    },
+    {
+     "st": "中和",
+     "ev": "dep",
+     "printed": "15.36",
+     "bold": false,
+     "t": "15:36"
+    },
+    {
+     "st": "力浦",
+     "ev": "dep",
+     "printed": "15.47",
+     "bold": false,
+     "t": "15:47"
+    },
+    {
+     "st": "大同江",
+     "ev": "dep",
+     "printed": "15.59",
+     "bold": false,
+     "t": "15:59"
+    },
+    {
+     "st": "平壤",
+     "ev": "arr",
+     "printed": "16.05",
+     "bold": false,
+     "t": "16:05"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "16.15",
+     "bold": false,
+     "t": "16:15"
+    },
+    {
+     "st": "西平壤",
+     "ev": "dep",
+     "printed": "16.25",
+     "bold": false,
+     "t": "16:25"
+    },
+    {
+     "st": "西浦",
+     "ev": "dep",
+     "printed": "16.36",
+     "bold": false,
+     "t": "16:36"
+    },
+    {
+     "st": "間里",
+     "ev": "dep",
+     "printed": "16.48",
+     "bold": false,
+     "t": "16:48"
+    },
+    {
+     "st": "順安",
+     "ev": "dep",
+     "printed": "16.57",
+     "bold": false,
+     "t": "16:57"
+    },
+    {
+     "st": "石巖",
+     "ev": "dep",
+     "printed": "17.09",
+     "bold": false,
+     "t": "17:09"
+    },
+    {
+     "st": "漁波",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "肅川",
+     "ev": "dep",
+     "printed": "17.33",
+     "bold": false,
+     "t": "17:33"
+    },
+    {
+     "st": "萬城",
+     "ev": "dep",
+     "printed": "17.47",
+     "bold": false,
+     "t": "17:47"
+    },
+    {
+     "st": "大橋",
+     "ev": "dep",
+     "printed": "18.03",
+     "bold": false,
+     "t": "18:03"
+    },
+    {
+     "st": "新安州",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "孟中里",
+     "ev": "dep",
+     "printed": "18.42",
+     "bold": false,
+     "t": "18:42"
+    },
+    {
+     "st": "嶺美",
+     "ev": "dep",
+     "printed": "18.53",
+     "bold": false,
+     "t": "18:53"
+    },
+    {
+     "st": "雲田",
+     "ev": "dep",
+     "printed": "19.09",
+     "bold": false,
+     "t": "19:09"
+    },
+    {
+     "st": "古邑",
+     "ev": "dep",
+     "printed": "19.22",
+     "bold": false,
+     "t": "19:22"
+    },
+    {
+     "st": "定州",
+     "ev": "arr",
+     "printed": "19.41",
+     "bold": false,
+     "t": "19:41"
+    },
+    {
+     "st": "定州",
+     "ev": "dep",
+     "printed": "19.52",
+     "bold": false,
+     "t": "19:52"
+    },
+    {
+     "st": "下塲",
+     "ev": "dep",
+     "printed": "20.07",
+     "bold": false,
+     "uncertain": true,
+     "t": "20:07"
+    },
+    {
+     "st": "郭山",
+     "ev": "dep",
+     "printed": "20.14",
+     "bold": false,
+     "t": "20:14"
+    },
+    {
+     "st": "路下",
+     "ev": "dep",
+     "printed": "20.28",
+     "bold": false,
+     "t": "20:28"
+    },
+    {
+     "st": "宣川",
+     "ev": "dep",
+     "printed": "20.42",
+     "bold": false,
+     "t": "20:42"
+    },
+    {
+     "st": "東林",
+     "ev": "dep",
+     "printed": "20.55",
+     "bold": false,
+     "t": "20:55"
+    },
+    {
+     "st": "車輦館",
+     "ev": "dep",
+     "printed": "21.12",
+     "bold": false,
+     "t": "21:12"
+    },
+    {
+     "st": "南市",
+     "ev": "dep",
+     "printed": "21.29",
+     "bold": false,
+     "t": "21:29"
+    },
+    {
+     "st": "良策",
+     "ev": "dep",
+     "printed": "21.45",
+     "bold": false,
+     "t": "21:45"
+    },
+    {
+     "st": "枇峴",
+     "ev": "dep",
+     "printed": "21.56",
+     "bold": false,
+     "t": "21:56"
+    },
+    {
+     "st": "白馬",
+     "ev": "dep",
+     "printed": "22.10",
+     "bold": false,
+     "t": "22:10"
+    },
+    {
+     "st": "石下",
+     "ev": "dep",
+     "printed": "22.28",
+     "bold": false,
+     "t": "22:28"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "22.45",
+     "bold": false,
+     "t": "22:45"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "22.50",
+     "bold": false,
+     "t": "22:50"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "23.30",
+     "bold": false,
+     "t": "23:30"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "8.02",
+     "bold": false,
+     "note": "表尾の抄錄（安東發23.30→奉天著8.02 翌日）",
+     "t": "32:02"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "2.3",
+   "marks": "寢2.3",
+   "from_page": "74",
+   "col": "5"
+  },
+  {
+   "no": "9",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "15.37",
+     "bold": false,
+     "t": "15:37"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "pass"
+    },
+    {
+     "st": "一山",
+     "ev": "pass"
+    },
+    {
+     "st": "金村",
+     "ev": "pass"
+    },
+    {
+     "st": "汶山",
+     "ev": "pass"
+    },
+    {
+     "st": "長湍",
+     "ev": "pass"
+    },
+    {
+     "st": "鳳東",
+     "ev": "pass"
+    },
+    {
+     "st": "開城",
+     "ev": "pass"
+    },
+    {
+     "st": "土城",
+     "ev": "pass"
+    },
+    {
+     "st": "礪峴",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄井",
+     "ev": "pass"
+    },
+    {
+     "st": "金郊",
+     "ev": "pass"
+    },
+    {
+     "st": "汗浦",
+     "ev": "pass"
+    },
+    {
+     "st": "物開",
+     "ev": "pass"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "18.17",
+     "bold": false,
+     "t": "18:17"
+    },
+    {
+     "st": "瑞興",
+     "ev": "pass"
+    },
+    {
+     "st": "文武里",
+     "ev": "pass"
+    },
+    {
+     "st": "興水",
+     "ev": "pass"
+    },
+    {
+     "st": "淸溪",
+     "ev": "pass"
+    },
+    {
+     "st": "馬洞",
+     "ev": "pass"
+    },
+    {
+     "st": "新山",
+     "ev": "pass"
+    },
+    {
+     "st": "沙里院",
+     "ev": "pass"
+    },
+    {
+     "st": "桂東",
+     "ev": "pass"
+    },
+    {
+     "st": "沈村",
+     "ev": "pass"
+    },
+    {
+     "st": "黃州",
+     "ev": "pass"
+    },
+    {
+     "st": "黑橋",
+     "ev": "pass"
+    },
+    {
+     "st": "中和",
+     "ev": "pass"
+    },
+    {
+     "st": "力浦",
+     "ev": "pass"
+    },
+    {
+     "st": "大同江",
+     "ev": "pass"
+    },
+    {
+     "st": "平壤",
+     "ev": "arr",
+     "printed": "20.17",
+     "bold": false,
+     "t": "20:17"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "20.24",
+     "bold": false,
+     "t": "20:24"
+    },
+    {
+     "st": "西平壤",
+     "ev": "pass"
+    },
+    {
+     "st": "西浦",
+     "ev": "pass"
+    },
+    {
+     "st": "間里",
+     "ev": "pass"
+    },
+    {
+     "st": "順安",
+     "ev": "pass"
+    },
+    {
+     "st": "石巖",
+     "ev": "pass"
+    },
+    {
+     "st": "漁波",
+     "ev": "pass"
+    },
+    {
+     "st": "肅川",
+     "ev": "pass"
+    },
+    {
+     "st": "萬城",
+     "ev": "pass"
+    },
+    {
+     "st": "大橋",
+     "ev": "pass"
+    },
+    {
+     "st": "新安州",
+     "ev": "pass"
+    },
+    {
+     "st": "孟中里",
+     "ev": "pass"
+    },
+    {
+     "st": "嶺美",
+     "ev": "pass"
+    },
+    {
+     "st": "雲田",
+     "ev": "pass"
+    },
+    {
+     "st": "古邑",
+     "ev": "pass"
+    },
+    {
+     "st": "定州",
+     "ev": "arr",
+     "printed": "22.33",
+     "bold": false,
+     "t": "22:33"
+    },
+    {
+     "st": "定州",
+     "ev": "dep",
+     "printed": "22.40",
+     "bold": false,
+     "t": "22:40"
+    },
+    {
+     "st": "下塲",
+     "ev": "pass"
+    },
+    {
+     "st": "郭山",
+     "ev": "pass"
+    },
+    {
+     "st": "路下",
+     "ev": "pass"
+    },
+    {
+     "st": "宣川",
+     "ev": "pass"
+    },
+    {
+     "st": "東林",
+     "ev": "pass"
+    },
+    {
+     "st": "車輦館",
+     "ev": "pass"
+    },
+    {
+     "st": "南市",
+     "ev": "pass"
+    },
+    {
+     "st": "良策",
+     "ev": "pass"
+    },
+    {
+     "st": "枇峴",
+     "ev": "pass"
+    },
+    {
+     "st": "白馬",
+     "ev": "pass"
+    },
+    {
+     "st": "石下",
+     "ev": "pass"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "0.47",
+     "bold": false,
+     "t": "24:47"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "0.52",
+     "bold": false,
+     "t": "24:52"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "1.22",
+     "bold": false,
+     "t": "25:22"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "7.16",
+     "bold": false,
+     "note": "表尾の抄錄（安東發1.22→奉天著7.16）。北京著22.45は欄内の空桝に縦書き",
+     "t": "31:16"
+    }
+   ],
+   "dest": "北京",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "name": "大陸",
+   "from_page": "74",
+   "col": "6"
+  },
+  {
+   "no": "7",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "16.56",
+     "bold": false,
+     "t": "16:56"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "pass"
+    },
+    {
+     "st": "一山",
+     "ev": "pass"
+    },
+    {
+     "st": "金村",
+     "ev": "pass"
+    },
+    {
+     "st": "汶山",
+     "ev": "pass"
+    },
+    {
+     "st": "長湍",
+     "ev": "pass"
+    },
+    {
+     "st": "鳳東",
+     "ev": "pass"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "18.17",
+     "bold": false,
+     "t": "18:17"
+    },
+    {
+     "st": "土城",
+     "ev": "pass"
+    },
+    {
+     "st": "礪峴",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄井",
+     "ev": "pass"
+    },
+    {
+     "st": "金郊",
+     "ev": "pass"
+    },
+    {
+     "st": "汗浦",
+     "ev": "pass"
+    },
+    {
+     "st": "物開",
+     "ev": "pass"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "19.52",
+     "bold": false,
+     "t": "19:52"
+    },
+    {
+     "st": "瑞興",
+     "ev": "pass"
+    },
+    {
+     "st": "文武里",
+     "ev": "pass"
+    },
+    {
+     "st": "興水",
+     "ev": "pass"
+    },
+    {
+     "st": "淸溪",
+     "ev": "pass"
+    },
+    {
+     "st": "馬洞",
+     "ev": "pass"
+    },
+    {
+     "st": "新山",
+     "ev": "pass"
+    },
+    {
+     "st": "沙里院",
+     "ev": "dep",
+     "printed": "20.44",
+     "bold": false,
+     "t": "20:44"
+    },
+    {
+     "st": "桂東",
+     "ev": "pass"
+    },
+    {
+     "st": "沈村",
+     "ev": "pass"
+    },
+    {
+     "st": "黃州",
+     "ev": "pass"
+    },
+    {
+     "st": "黑橋",
+     "ev": "pass"
+    },
+    {
+     "st": "中和",
+     "ev": "pass"
+    },
+    {
+     "st": "力浦",
+     "ev": "pass"
+    },
+    {
+     "st": "大同江",
+     "ev": "pass"
+    },
+    {
+     "st": "平壤",
+     "ev": "arr",
+     "printed": "21.58",
+     "bold": false,
+     "t": "21:58"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "22.05",
+     "bold": false,
+     "t": "22:05"
+    },
+    {
+     "st": "西平壤",
+     "ev": "pass"
+    },
+    {
+     "st": "西浦",
+     "ev": "pass"
+    },
+    {
+     "st": "間里",
+     "ev": "pass"
+    },
+    {
+     "st": "順安",
+     "ev": "pass"
+    },
+    {
+     "st": "石巖",
+     "ev": "pass"
+    },
+    {
+     "st": "漁波",
+     "ev": "pass"
+    },
+    {
+     "st": "肅川",
+     "ev": "pass"
+    },
+    {
+     "st": "萬城",
+     "ev": "pass"
+    },
+    {
+     "st": "大橋",
+     "ev": "pass"
+    },
+    {
+     "st": "新安州",
+     "ev": "dep",
+     "printed": "23.24",
+     "bold": false,
+     "t": "23:24"
+    },
+    {
+     "st": "孟中里",
+     "ev": "pass"
+    },
+    {
+     "st": "嶺美",
+     "ev": "pass"
+    },
+    {
+     "st": "雲田",
+     "ev": "pass"
+    },
+    {
+     "st": "古邑",
+     "ev": "pass"
+    },
+    {
+     "st": "定州",
+     "ev": "arr",
+     "printed": "0.14",
+     "bold": false,
+     "t": "24:14"
+    },
+    {
+     "st": "定州",
+     "ev": "dep",
+     "printed": "0.20",
+     "bold": false,
+     "t": "24:20"
+    },
+    {
+     "st": "下塲",
+     "ev": "pass"
+    },
+    {
+     "st": "郭山",
+     "ev": "pass"
+    },
+    {
+     "st": "路下",
+     "ev": "pass"
+    },
+    {
+     "st": "宣川",
+     "ev": "dep",
+     "printed": "1.00",
+     "bold": false,
+     "t": "25:00"
+    },
+    {
+     "st": "東林",
+     "ev": "pass"
+    },
+    {
+     "st": "車輦館",
+     "ev": "pass"
+    },
+    {
+     "st": "南市",
+     "ev": "pass"
+    },
+    {
+     "st": "良策",
+     "ev": "pass"
+    },
+    {
+     "st": "枇峴",
+     "ev": "pass"
+    },
+    {
+     "st": "白馬",
+     "ev": "pass"
+    },
+    {
+     "st": "石下",
+     "ev": "pass"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "2.25",
+     "bold": false,
+     "t": "26:25"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "2.30",
+     "bold": false,
+     "t": "26:30"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "3.03",
+     "bold": false,
+     "t": "27:03"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "note": "表尾の抄錄（安東發3.03→奉天著9.10）",
+     "t": "33:10"
+    },
+    {
+     "st": "新京",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "note": "表尾の抄錄",
+     "t": "37:50"
+    }
+   ],
+   "dest": "新京",
+   "cls": "1.2.3",
+   "marks": "急 食 寢1.2.3",
+   "name": "のぞみ",
+   "from_page": "74",
+   "col": "7"
+  },
+  {
+   "no": "5",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "17.40",
+     "bold": false,
+     "t": "17:40"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "pass"
+    },
+    {
+     "st": "水色",
+     "ev": "pass"
+    },
+    {
+     "st": "陵谷",
+     "ev": "pass"
+    },
+    {
+     "st": "一山",
+     "ev": "pass"
+    },
+    {
+     "st": "金村",
+     "ev": "pass"
+    },
+    {
+     "st": "汶山",
+     "ev": "pass"
+    },
+    {
+     "st": "長湍",
+     "ev": "pass"
+    },
+    {
+     "st": "鳳東",
+     "ev": "pass"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "18.55",
+     "bold": false,
+     "t": "18:55"
+    },
+    {
+     "st": "土城",
+     "ev": "dep",
+     "printed": "19.07",
+     "bold": false,
+     "t": "19:07"
+    },
+    {
+     "st": "礪峴",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄井",
+     "ev": "pass"
+    },
+    {
+     "st": "金郊",
+     "ev": "pass"
+    },
+    {
+     "st": "汗浦",
+     "ev": "pass"
+    },
+    {
+     "st": "物開",
+     "ev": "pass"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "20.26",
+     "bold": false,
+     "t": "20:26"
+    },
+    {
+     "st": "瑞興",
+     "ev": "pass"
+    },
+    {
+     "st": "文武里",
+     "ev": "pass"
+    },
+    {
+     "st": "興水",
+     "ev": "pass"
+    },
+    {
+     "st": "淸溪",
+     "ev": "pass"
+    },
+    {
+     "st": "馬洞",
+     "ev": "pass"
+    },
+    {
+     "st": "新山",
+     "ev": "pass"
+    },
+    {
+     "st": "沙里院",
+     "ev": "dep",
+     "printed": "21.20",
+     "bold": false,
+     "t": "21:20"
+    },
+    {
+     "st": "桂東",
+     "ev": "pass"
+    },
+    {
+     "st": "沈村",
+     "ev": "pass"
+    },
+    {
+     "st": "黃州",
+     "ev": "dep",
+     "printed": "21.49",
+     "bold": false,
+     "t": "21:49"
+    },
+    {
+     "st": "黑橋",
+     "ev": "pass"
+    },
+    {
+     "st": "中和",
+     "ev": "pass"
+    },
+    {
+     "st": "力浦",
+     "ev": "pass"
+    },
+    {
+     "st": "大同江",
+     "ev": "pass"
+    },
+    {
+     "st": "平壤",
+     "ev": "arr",
+     "printed": "22.36",
+     "bold": false,
+     "t": "22:36"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "22.43",
+     "bold": false,
+     "t": "22:43"
+    },
+    {
+     "st": "西平壤",
+     "ev": "pass"
+    },
+    {
+     "st": "西浦",
+     "ev": "pass"
+    },
+    {
+     "st": "間里",
+     "ev": "pass"
+    },
+    {
+     "st": "順安",
+     "ev": "pass"
+    },
+    {
+     "st": "石巖",
+     "ev": "pass"
+    },
+    {
+     "st": "漁波",
+     "ev": "pass"
+    },
+    {
+     "st": "肅川",
+     "ev": "pass"
+    },
+    {
+     "st": "萬城",
+     "ev": "pass"
+    },
+    {
+     "st": "大橋",
+     "ev": "pass"
+    },
+    {
+     "st": "新安州",
+     "ev": "dep",
+     "printed": "0.04",
+     "bold": false,
+     "t": "24:04"
+    },
+    {
+     "st": "孟中里",
+     "ev": "pass"
+    },
+    {
+     "st": "嶺美",
+     "ev": "pass"
+    },
+    {
+     "st": "雲田",
+     "ev": "pass"
+    },
+    {
+     "st": "古邑",
+     "ev": "pass"
+    },
+    {
+     "st": "定州",
+     "ev": "arr",
+     "printed": "0.57",
+     "bold": false,
+     "t": "24:57"
+    },
+    {
+     "st": "定州",
+     "ev": "dep",
+     "printed": "1.05",
+     "bold": false,
+     "t": "25:05"
+    },
+    {
+     "st": "下塲",
+     "ev": "pass"
+    },
+    {
+     "st": "郭山",
+     "ev": "pass"
+    },
+    {
+     "st": "路下",
+     "ev": "pass"
+    },
+    {
+     "st": "宣川",
+     "ev": "pass"
+    },
+    {
+     "st": "東林",
+     "ev": "pass"
+    },
+    {
+     "st": "車輦館",
+     "ev": "pass"
+    },
+    {
+     "st": "南市",
+     "ev": "pass"
+    },
+    {
+     "st": "良策",
+     "ev": "pass"
+    },
+    {
+     "st": "枇峴",
+     "ev": "pass"
+    },
+    {
+     "st": "白馬",
+     "ev": "pass"
+    },
+    {
+     "st": "石下",
+     "ev": "pass"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "3.45",
+     "bold": false,
+     "t": "27:45"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "3.50",
+     "bold": false,
+     "t": "27:50"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "4.30",
+     "bold": false,
+     "t": "28:30"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "10.53",
+     "bold": false,
+     "note": "表尾の抄錄（安東發4.30→奉天著10.53）",
+     "t": "34:53"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "2.3",
+   "marks": "急 食 寢2.3",
+   "from_page": "74",
+   "col": "8"
+  },
+  {
+   "no": "47",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "22.30",
+     "bold": false,
+     "t": "22:30"
+    },
+    {
+     "st": "新村",
+     "ev": "dep",
+     "printed": "22.39",
+     "bold": false,
+     "t": "22:39"
+    },
+    {
+     "st": "水色",
+     "ev": "dep",
+     "printed": "22.47",
+     "bold": false,
+     "t": "22:47"
+    },
+    {
+     "st": "陵谷",
+     "ev": "dep",
+     "printed": "22.58",
+     "bold": false,
+     "t": "22:58"
+    },
+    {
+     "st": "一山",
+     "ev": "dep",
+     "printed": "23.09",
+     "bold": false,
+     "t": "23:09"
+    },
+    {
+     "st": "金村",
+     "ev": "dep",
+     "printed": "23.22",
+     "bold": false,
+     "t": "23:22"
+    },
+    {
+     "st": "汶山",
+     "ev": "dep",
+     "printed": "23.36",
+     "bold": false,
+     "t": "23:36"
+    },
+    {
+     "st": "長湍",
+     "ev": "dep",
+     "printed": "23.51",
+     "bold": false,
+     "t": "23:51"
+    },
+    {
+     "st": "鳳東",
+     "ev": "pass"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "0.14",
+     "bold": false,
+     "t": "24:14"
+    },
+    {
+     "st": "土城",
+     "ev": "dep",
+     "printed": "0.28",
+     "bold": false,
+     "t": "24:28"
+    },
+    {
+     "st": "礪峴",
+     "ev": "pass"
+    },
+    {
+     "st": "鷄井",
+     "ev": "dep",
+     "printed": "0.50",
+     "bold": false,
+     "t": "24:50"
+    },
+    {
+     "st": "金郊",
+     "ev": "dep",
+     "printed": "1.05",
+     "bold": false,
+     "t": "25:05"
+    },
+    {
+     "st": "汗浦",
+     "ev": "dep",
+     "printed": "1.19",
+     "bold": false,
+     "t": "25:19"
+    },
+    {
+     "st": "平山",
+     "ev": "pass"
+    },
+    {
+     "st": "南川",
+     "ev": "dep",
+     "printed": "1.38",
+     "bold": false,
+     "t": "25:38"
+    },
+    {
+     "st": "物開",
+     "ev": "dep",
+     "printed": "1.51",
+     "bold": false,
+     "t": "25:51"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "2.20",
+     "bold": false,
+     "t": "26:20"
+    },
+    {
+     "st": "瑞興",
+     "ev": "dep",
+     "printed": "2.35",
+     "bold": false,
+     "t": "26:35"
+    },
+    {
+     "st": "文武里",
+     "ev": "pass"
+    },
+    {
+     "st": "興水",
+     "ev": "dep",
+     "printed": "2.55",
+     "bold": false,
+     "t": "26:55"
+    },
+    {
+     "st": "淸溪",
+     "ev": "dep",
+     "printed": "3.07",
+     "bold": false,
+     "t": "27:07"
+    },
+    {
+     "st": "馬洞",
+     "ev": "dep",
+     "printed": "3.17",
+     "bold": false,
+     "t": "27:17"
+    },
+    {
+     "st": "新山",
+     "ev": "dep",
+     "printed": "3.27",
+     "bold": false,
+     "t": "27:27"
+    },
+    {
+     "st": "沙里院",
+     "ev": "dep",
+     "printed": "3.37",
+     "bold": false,
+     "t": "27:37"
+    },
+    {
+     "st": "桂東",
+     "ev": "dep",
+     "printed": "3.48",
+     "bold": false,
+     "t": "27:48"
+    },
+    {
+     "st": "沈村",
+     "ev": "dep",
+     "printed": "3.58",
+     "bold": false,
+     "t": "27:58"
+    },
+    {
+     "st": "黃州",
+     "ev": "dep",
+     "printed": "4.14",
+     "bold": false,
+     "t": "28:14"
+    },
+    {
+     "st": "黑橋",
+     "ev": "dep",
+     "printed": "4.31",
+     "bold": false,
+     "t": "28:31"
+    },
+    {
+     "st": "中和",
+     "ev": "dep",
+     "printed": "4.43",
+     "bold": false,
+     "t": "28:43"
+    },
+    {
+     "st": "力浦",
+     "ev": "dep",
+     "printed": "4.54",
+     "bold": false,
+     "t": "28:54"
+    },
+    {
+     "st": "大同江",
+     "ev": "dep",
+     "printed": "5.06",
+     "bold": false,
+     "t": "29:06"
+    },
+    {
+     "st": "平壤",
+     "ev": "arr",
+     "printed": "5.12",
+     "bold": false,
+     "t": "29:12"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "5.30",
+     "bold": false,
+     "t": "29:30"
+    },
+    {
+     "st": "西平壤",
+     "ev": "dep",
+     "printed": "5.44",
+     "bold": false,
+     "t": "29:44"
+    },
+    {
+     "st": "西浦",
+     "ev": "dep",
+     "printed": "5.57",
+     "bold": false,
+     "t": "29:57"
+    },
+    {
+     "st": "間里",
+     "ev": "dep",
+     "printed": "6.10",
+     "bold": false,
+     "t": "30:10"
+    },
+    {
+     "st": "順安",
+     "ev": "dep",
+     "printed": "6.26",
+     "bold": false,
+     "t": "30:26"
+    },
+    {
+     "st": "石巖",
+     "ev": "dep",
+     "printed": "6.39",
+     "bold": false,
+     "t": "30:39"
+    },
+    {
+     "st": "漁波",
+     "ev": "dep",
+     "printed": "6.56",
+     "bold": false,
+     "t": "30:56"
+    },
+    {
+     "st": "肅川",
+     "ev": "dep",
+     "printed": "7.16",
+     "bold": false,
+     "t": "31:16"
+    },
+    {
+     "st": "萬城",
+     "ev": "dep",
+     "printed": "7.29",
+     "bold": false,
+     "t": "31:29"
+    },
+    {
+     "st": "大橋",
+     "ev": "dep",
+     "printed": "7.40",
+     "bold": false,
+     "t": "31:40"
+    },
+    {
+     "st": "新安州",
+     "ev": "dep",
+     "printed": "7.50",
+     "bold": false,
+     "t": "31:50"
+    },
+    {
+     "st": "孟中里",
+     "ev": "dep",
+     "printed": "8.00",
+     "bold": false,
+     "t": "32:00"
+    },
+    {
+     "st": "嶺美",
+     "ev": "dep",
+     "printed": "8.10",
+     "bold": false,
+     "t": "32:10"
+    },
+    {
+     "st": "雲田",
+     "ev": "dep",
+     "printed": "8.25",
+     "bold": false,
+     "t": "32:25"
+    },
+    {
+     "st": "古邑",
+     "ev": "dep",
+     "printed": "8.37",
+     "bold": false,
+     "t": "32:37"
+    },
+    {
+     "st": "定州",
+     "ev": "arr",
+     "printed": "8.51",
+     "bold": false,
+     "t": "32:51"
+    },
+    {
+     "st": "定州",
+     "ev": "dep",
+     "printed": "9.00",
+     "bold": false,
+     "t": "33:00"
+    },
+    {
+     "st": "下塲",
+     "ev": "dep",
+     "printed": "9.10",
+     "bold": false,
+     "t": "33:10"
+    },
+    {
+     "st": "郭山",
+     "ev": "dep",
+     "printed": "9.22",
+     "bold": false,
+     "t": "33:22"
+    },
+    {
+     "st": "路下",
+     "ev": "dep",
+     "printed": "9.36",
+     "bold": false,
+     "t": "33:36"
+    },
+    {
+     "st": "宣川",
+     "ev": "dep",
+     "printed": "9.52",
+     "bold": false,
+     "t": "33:52"
+    },
+    {
+     "st": "東林",
+     "ev": "dep",
+     "printed": "10.05",
+     "bold": false,
+     "t": "34:05"
+    },
+    {
+     "st": "車輦館",
+     "ev": "dep",
+     "printed": "10.21",
+     "bold": false,
+     "t": "34:21"
+    },
+    {
+     "st": "南市",
+     "ev": "dep",
+     "printed": "10.37",
+     "bold": false,
+     "t": "34:37"
+    },
+    {
+     "st": "良策",
+     "ev": "dep",
+     "printed": "10.53",
+     "bold": false,
+     "t": "34:53"
+    },
+    {
+     "st": "枇峴",
+     "ev": "dep",
+     "printed": "11.04",
+     "bold": false,
+     "t": "35:04"
+    },
+    {
+     "st": "白馬",
+     "ev": "dep",
+     "printed": "11.17",
+     "bold": false,
+     "t": "35:17"
+    },
+    {
+     "st": "石下",
+     "ev": "dep",
+     "printed": "11.33",
+     "bold": false,
+     "t": "35:33"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "11.49",
+     "bold": false,
+     "t": "35:49"
+    },
+    {
+     "st": "安東",
+     "ev": "arr",
+     "printed": "11.55",
+     "bold": false,
+     "t": "35:55"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "12.35",
+     "bold": false,
+     "t": "36:35"
+    },
+    {
+     "st": "奉天",
+     "ev": "dep",
+     "printed": "22.13",
+     "bold": false,
+     "note": "表尾の抄錄（安東發12.35→奉天著22.13）",
+     "t": "46:13"
+    }
+   ],
+   "dest": "奉天",
+   "cls": "2.3",
+   "marks": "食 寢2.3",
+   "from_page": "74",
+   "col": "9"
+  },
+  {
+   "no": "133",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "11.00",
+     "bold": false,
+     "t": "11:00"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "阿峴里",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "dep",
+     "printed": "11.11",
+     "bold": false,
+     "t": "11:11"
+    },
+    {
+     "st": "水色",
+     "ev": "dep",
+     "printed": "11.19",
+     "bold": false,
+     "t": "11:19"
+    },
+    {
+     "st": "陵谷",
+     "ev": "dep",
+     "printed": "11.30",
+     "bold": false,
+     "t": "11:30"
+    },
+    {
+     "st": "一山",
+     "ev": "dep",
+     "printed": "11.41",
+     "bold": false,
+     "t": "11:41"
+    },
+    {
+     "st": "金村",
+     "ev": "dep",
+     "printed": "11.55",
+     "bold": false,
+     "t": "11:55"
+    },
+    {
+     "st": "汶山",
+     "ev": "dep",
+     "printed": "12.10",
+     "bold": false,
+     "t": "12:10"
+    },
+    {
+     "st": "長湍",
+     "ev": "dep",
+     "printed": "12.27",
+     "bold": false,
+     "t": "12:27"
+    },
+    {
+     "st": "鳳東",
+     "ev": "dep",
+     "printed": "12.39",
+     "bold": false,
+     "t": "12:39"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "13.26",
+     "bold": false,
+     "t": "13:26"
+    },
+    {
+     "st": "土城",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    },
+    {
+     "st": "礪峴",
+     "ev": "dep",
+     "printed": "13.57",
+     "bold": false,
+     "t": "13:57"
+    },
+    {
+     "st": "鷄井",
+     "ev": "dep",
+     "printed": "14.08",
+     "bold": false,
+     "t": "14:08"
+    },
+    {
+     "st": "金郊",
+     "ev": "dep",
+     "printed": "14.25",
+     "bold": false,
+     "t": "14:25"
+    },
+    {
+     "st": "汗浦",
+     "ev": "dep",
+     "printed": "14.41",
+     "bold": false,
+     "t": "14:41"
+    },
+    {
+     "st": "平山",
+     "ev": "dep",
+     "printed": "14.51",
+     "bold": false,
+     "t": "14:51"
+    },
+    {
+     "st": "南川",
+     "ev": "dep",
+     "printed": "15.03",
+     "bold": false,
+     "t": "15:03"
+    },
+    {
+     "st": "物開",
+     "ev": "dep",
+     "printed": "15.16",
+     "bold": false,
+     "t": "15:16"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "15.45",
+     "bold": false,
+     "t": "15:45"
+    },
+    {
+     "st": "瑞興",
+     "ev": "dep",
+     "printed": "15.55",
+     "bold": false,
+     "t": "15:55"
+    },
+    {
+     "st": "文武里",
+     "ev": "dep",
+     "printed": "16.10",
+     "bold": false,
+     "t": "16:10"
+    },
+    {
+     "st": "興水",
+     "ev": "dep",
+     "printed": "16.18",
+     "bold": false,
+     "t": "16:18"
+    },
+    {
+     "st": "淸溪",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "馬洞",
+     "ev": "dep",
+     "printed": "16.40",
+     "bold": false,
+     "t": "16:40"
+    },
+    {
+     "st": "新山",
+     "ev": "dep",
+     "printed": "16.50",
+     "bold": false,
+     "t": "16:50"
+    },
+    {
+     "st": "沙里院",
+     "ev": "dep",
+     "printed": "16.59",
+     "bold": false,
+     "t": "16:59"
+    },
+    {
+     "st": "桂東",
+     "ev": "dep",
+     "printed": "17.10",
+     "bold": false,
+     "t": "17:10"
+    },
+    {
+     "st": "沈村",
+     "ev": "dep",
+     "printed": "17.20",
+     "bold": false,
+     "t": "17:20"
+    },
+    {
+     "st": "黃州",
+     "ev": "dep",
+     "printed": "17.37",
+     "bold": false,
+     "t": "17:37"
+    },
+    {
+     "st": "黑橋",
+     "ev": "dep",
+     "printed": "17.53",
+     "bold": false,
+     "t": "17:53"
+    },
+    {
+     "st": "中和",
+     "ev": "dep",
+     "printed": "18.05",
+     "bold": false,
+     "t": "18:05"
+    },
+    {
+     "st": "力浦",
+     "ev": "dep",
+     "printed": "18.16",
+     "bold": false,
+     "t": "18:16"
+    },
+    {
+     "st": "大同江",
+     "ev": "dep",
+     "printed": "18.29",
+     "bold": false,
+     "t": "18:29"
+    },
+    {
+     "st": "平壤",
+     "ev": "arr",
+     "printed": "18.35",
+     "bold": false,
+     "t": "18:35"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "18.50",
+     "bold": false,
+     "t": "18:50"
+    },
+    {
+     "st": "西平壤",
+     "ev": "dep",
+     "printed": "19.06",
+     "bold": false,
+     "t": "19:06"
+    },
+    {
+     "st": "西浦",
+     "ev": "dep",
+     "printed": "19.18",
+     "bold": false,
+     "t": "19:18"
+    },
+    {
+     "st": "間里",
+     "ev": "dep",
+     "printed": "19.41",
+     "bold": false,
+     "t": "19:41"
+    },
+    {
+     "st": "順安",
+     "ev": "dep",
+     "printed": "19.51",
+     "bold": false,
+     "t": "19:51"
+    },
+    {
+     "st": "石巖",
+     "ev": "dep",
+     "printed": "20.03",
+     "bold": false,
+     "t": "20:03"
+    },
+    {
+     "st": "漁波",
+     "ev": "dep",
+     "printed": "20.16",
+     "bold": false,
+     "t": "20:16"
+    },
+    {
+     "st": "肅川",
+     "ev": "dep",
+     "printed": "20.29",
+     "bold": false,
+     "t": "20:29"
+    },
+    {
+     "st": "萬城",
+     "ev": "dep",
+     "printed": "20.43",
+     "bold": false,
+     "t": "20:43"
+    },
+    {
+     "st": "大橋",
+     "ev": "dep",
+     "printed": "20.54",
+     "bold": false,
+     "t": "20:54"
+    },
+    {
+     "st": "新安州",
+     "ev": "dep",
+     "printed": "21.07",
+     "bold": false,
+     "t": "21:07"
+    },
+    {
+     "st": "孟中里",
+     "ev": "dep",
+     "printed": "21.17",
+     "bold": false,
+     "t": "21:17"
+    },
+    {
+     "st": "嶺美",
+     "ev": "dep",
+     "printed": "21.28",
+     "bold": false,
+     "t": "21:28"
+    },
+    {
+     "st": "雲田",
+     "ev": "dep",
+     "printed": "21.44",
+     "bold": false,
+     "t": "21:44"
+    },
+    {
+     "st": "古邑",
+     "ev": "dep",
+     "printed": "21.56",
+     "bold": false,
+     "t": "21:56"
+    },
+    {
+     "st": "定州",
+     "ev": "dep",
+     "printed": "22.11",
+     "bold": false,
+     "t": "22:11"
+    }
+   ],
+   "dest": "定州",
+   "cls": "3",
+   "from_page": "74",
+   "col": "10",
+   "note": "鳳東12.39→開城13.26は47分を要する（原表の通り）"
+  },
+  {
+   "no": "135",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "13.40",
+     "bold": false,
+     "t": "13:40"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "阿峴里",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "dep",
+     "printed": "13.50",
+     "bold": false,
+     "t": "13:50"
+    },
+    {
+     "st": "水色",
+     "ev": "dep",
+     "printed": "13.58",
+     "bold": false,
+     "t": "13:58"
+    },
+    {
+     "st": "陵谷",
+     "ev": "dep",
+     "printed": "14.11",
+     "bold": false,
+     "t": "14:11"
+    },
+    {
+     "st": "一山",
+     "ev": "dep",
+     "printed": "14.23",
+     "bold": false,
+     "t": "14:23"
+    },
+    {
+     "st": "金村",
+     "ev": "dep",
+     "printed": "14.37",
+     "bold": false,
+     "t": "14:37"
+    },
+    {
+     "st": "汶山",
+     "ev": "dep",
+     "printed": "14.54",
+     "bold": false,
+     "t": "14:54"
+    },
+    {
+     "st": "長湍",
+     "ev": "dep",
+     "printed": "15.11",
+     "bold": false,
+     "t": "15:11"
+    },
+    {
+     "st": "鳳東",
+     "ev": "dep",
+     "printed": "15.23",
+     "bold": false,
+     "t": "15:23"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "15.40",
+     "bold": false,
+     "t": "15:40"
+    },
+    {
+     "st": "土城",
+     "ev": "dep",
+     "printed": "15.54",
+     "bold": false,
+     "t": "15:54"
+    },
+    {
+     "st": "礪峴",
+     "ev": "dep",
+     "printed": "16.08",
+     "bold": false,
+     "t": "16:08"
+    },
+    {
+     "st": "鷄井",
+     "ev": "dep",
+     "printed": "16.23",
+     "bold": false,
+     "t": "16:23"
+    },
+    {
+     "st": "金郊",
+     "ev": "dep",
+     "printed": "16.39",
+     "bold": false,
+     "t": "16:39"
+    },
+    {
+     "st": "汗浦",
+     "ev": "dep",
+     "printed": "16.55",
+     "bold": false,
+     "t": "16:55"
+    },
+    {
+     "st": "平山",
+     "ev": "dep",
+     "printed": "17.06",
+     "bold": false,
+     "t": "17:06"
+    },
+    {
+     "st": "南川",
+     "ev": "dep",
+     "printed": "17.19",
+     "bold": false,
+     "t": "17:19"
+    },
+    {
+     "st": "物開",
+     "ev": "dep",
+     "printed": "17.33",
+     "bold": false,
+     "t": "17:33"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    },
+    {
+     "st": "瑞興",
+     "ev": "dep",
+     "printed": "18.40",
+     "bold": false,
+     "t": "18:40"
+    },
+    {
+     "st": "文武里",
+     "ev": "dep",
+     "printed": "18.55",
+     "bold": false,
+     "t": "18:55"
+    },
+    {
+     "st": "興水",
+     "ev": "dep",
+     "printed": "19.03",
+     "bold": false,
+     "t": "19:03"
+    },
+    {
+     "st": "淸溪",
+     "ev": "dep",
+     "printed": "19.16",
+     "bold": false,
+     "t": "19:16"
+    },
+    {
+     "st": "馬洞",
+     "ev": "dep",
+     "printed": "19.27",
+     "bold": false,
+     "t": "19:27"
+    },
+    {
+     "st": "新山",
+     "ev": "dep",
+     "printed": "19.38",
+     "bold": false,
+     "t": "19:38"
+    },
+    {
+     "st": "沙里院",
+     "ev": "dep",
+     "printed": "19.48",
+     "bold": false,
+     "t": "19:48"
+    },
+    {
+     "st": "桂東",
+     "ev": "dep",
+     "printed": "20.00",
+     "bold": false,
+     "t": "20:00"
+    },
+    {
+     "st": "沈村",
+     "ev": "dep",
+     "printed": "20.10",
+     "bold": false,
+     "t": "20:10"
+    },
+    {
+     "st": "黃州",
+     "ev": "dep",
+     "printed": "20.29",
+     "bold": false,
+     "t": "20:29"
+    },
+    {
+     "st": "黑橋",
+     "ev": "dep",
+     "printed": "20.46",
+     "bold": false,
+     "t": "20:46"
+    },
+    {
+     "st": "中和",
+     "ev": "dep",
+     "printed": "20.59",
+     "bold": false,
+     "t": "20:59"
+    },
+    {
+     "st": "力浦",
+     "ev": "dep",
+     "printed": "21.11",
+     "bold": false,
+     "t": "21:11"
+    },
+    {
+     "st": "大同江",
+     "ev": "dep",
+     "printed": "21.24",
+     "bold": false,
+     "t": "21:24"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "21.30",
+     "bold": false,
+     "t": "21:30"
+    }
+   ],
+   "dest": "平壤",
+   "cls": "2.3",
+   "from_page": "74",
+   "col": "11",
+   "note": "物開17.33→新幕18.30は57分を要する（原表の通り）"
+  },
+  {
+   "no": "209",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "16.30",
+     "bold": false,
+     "t": "16:30"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "阿峴里",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "dep",
+     "printed": "16.39",
+     "bold": false,
+     "t": "16:39"
+    },
+    {
+     "st": "水色",
+     "ev": "dep",
+     "printed": "16.47",
+     "bold": false,
+     "t": "16:47"
+    },
+    {
+     "st": "陵谷",
+     "ev": "dep",
+     "printed": "16.58",
+     "bold": false,
+     "t": "16:58"
+    },
+    {
+     "st": "一山",
+     "ev": "dep",
+     "printed": "17.08",
+     "bold": false,
+     "t": "17:08"
+    },
+    {
+     "st": "金村",
+     "ev": "dep",
+     "printed": "17.47",
+     "bold": false,
+     "t": "17:47"
+    },
+    {
+     "st": "汶山",
+     "ev": "dep",
+     "printed": "18.02",
+     "bold": false,
+     "t": "18:02"
+    },
+    {
+     "st": "長湍",
+     "ev": "dep",
+     "printed": "18.18",
+     "bold": false,
+     "t": "18:18"
+    },
+    {
+     "st": "鳳東",
+     "ev": "dep",
+     "printed": "18.29",
+     "bold": false,
+     "t": "18:29"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "19.10",
+     "bold": false,
+     "t": "19:10"
+    },
+    {
+     "st": "土城",
+     "ev": "dep",
+     "printed": "19.23",
+     "bold": false,
+     "t": "19:23"
+    }
+   ],
+   "dest": "土城",
+   "cls": "3",
+   "col": "12",
+   "note": "この物理欄は上から209（土城行）・222（平壤行）・1201（安東行）の3列車が組まれてゐる"
+  },
+  {
+   "no": "215",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "18.20",
+     "bold": false,
+     "t": "18:20"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "阿峴里",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "dep",
+     "printed": "18.30",
+     "bold": false,
+     "t": "18:30"
+    },
+    {
+     "st": "水色",
+     "ev": "dep",
+     "printed": "18.39",
+     "bold": false,
+     "t": "18:39"
+    },
+    {
+     "st": "陵谷",
+     "ev": "dep",
+     "printed": "18.51",
+     "bold": false,
+     "t": "18:51"
+    },
+    {
+     "st": "一山",
+     "ev": "dep",
+     "printed": "19.03",
+     "bold": false,
+     "t": "19:03"
+    },
+    {
+     "st": "金村",
+     "ev": "dep",
+     "printed": "19.17",
+     "bold": false,
+     "t": "19:17"
+    },
+    {
+     "st": "汶山",
+     "ev": "dep",
+     "printed": "19.33",
+     "bold": false,
+     "t": "19:33"
+    },
+    {
+     "st": "長湍",
+     "ev": "dep",
+     "printed": "19.50",
+     "bold": false,
+     "t": "19:50"
+    },
+    {
+     "st": "鳳東",
+     "ev": "dep",
+     "printed": "20.02",
+     "bold": false,
+     "t": "20:02"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "20.20",
+     "bold": false,
+     "t": "20:20"
+    },
+    {
+     "st": "土城",
+     "ev": "dep",
+     "printed": "20.34",
+     "bold": false,
+     "t": "20:34"
+    },
+    {
+     "st": "礪峴",
+     "ev": "dep",
+     "printed": "20.48",
+     "bold": false,
+     "t": "20:48"
+    },
+    {
+     "st": "鷄井",
+     "ev": "dep",
+     "printed": "21.02",
+     "bold": false,
+     "t": "21:02"
+    },
+    {
+     "st": "金郊",
+     "ev": "dep",
+     "printed": "21.19",
+     "bold": false,
+     "t": "21:19"
+    },
+    {
+     "st": "汗浦",
+     "ev": "dep",
+     "printed": "21.35",
+     "bold": false,
+     "t": "21:35"
+    },
+    {
+     "st": "平山",
+     "ev": "dep",
+     "printed": "21.46",
+     "bold": false,
+     "t": "21:46"
+    },
+    {
+     "st": "南川",
+     "ev": "dep",
+     "printed": "21.59",
+     "bold": false,
+     "t": "21:59"
+    },
+    {
+     "st": "物開",
+     "ev": "dep",
+     "printed": "22.14",
+     "bold": false,
+     "t": "22:14"
+    },
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "22.30",
+     "bold": false,
+     "t": "22:30"
+    }
+   ],
+   "dest": "新幕",
+   "cls": "3",
+   "col": "13",
+   "note": "この物理欄は上から215（新幕行）・1201（新安州行）の2列車が組まれてゐる"
+  },
+  {
+   "no": "213",
+   "stops": [
+    {
+     "st": "京城",
+     "ev": "dep",
+     "printed": "21.05",
+     "bold": false,
+     "t": "21:05"
+    },
+    {
+     "st": "西小門",
+     "ev": "pass"
+    },
+    {
+     "st": "阿峴里",
+     "ev": "pass"
+    },
+    {
+     "st": "新村",
+     "ev": "dep",
+     "printed": "21.15",
+     "bold": false,
+     "t": "21:15"
+    },
+    {
+     "st": "水色",
+     "ev": "dep",
+     "printed": "21.27",
+     "bold": false,
+     "t": "21:27"
+    },
+    {
+     "st": "陵谷",
+     "ev": "dep",
+     "printed": "21.38",
+     "bold": false,
+     "t": "21:38"
+    },
+    {
+     "st": "一山",
+     "ev": "dep",
+     "printed": "21.52",
+     "bold": false,
+     "t": "21:52"
+    },
+    {
+     "st": "金村",
+     "ev": "dep",
+     "printed": "22.08",
+     "bold": false,
+     "t": "22:08"
+    },
+    {
+     "st": "汶山",
+     "ev": "dep",
+     "printed": "22.25",
+     "bold": false,
+     "t": "22:25"
+    },
+    {
+     "st": "長湍",
+     "ev": "dep",
+     "printed": "22.42",
+     "bold": false,
+     "t": "22:42"
+    },
+    {
+     "st": "鳳東",
+     "ev": "dep",
+     "printed": "22.55",
+     "bold": false,
+     "t": "22:55"
+    },
+    {
+     "st": "開城",
+     "ev": "dep",
+     "printed": "23.08",
+     "bold": false,
+     "t": "23:08"
+    }
+   ],
+   "dest": "開城",
+   "cls": "2.3",
+   "col": "14",
+   "note": "この物理欄は上から213（開城行）・219（安東行）の2列車が組まれてゐる"
+  },
+  {
+   "no": "222",
+   "stops": [
+    {
+     "st": "黃州",
+     "ev": "dep",
+     "printed": "6.10",
+     "bold": false,
+     "t": "06:10"
+    },
+    {
+     "st": "黑橋",
+     "ev": "dep",
+     "printed": "6.26",
+     "bold": false,
+     "t": "06:26"
+    },
+    {
+     "st": "中和",
+     "ev": "dep",
+     "printed": "6.37",
+     "bold": false,
+     "t": "06:37"
+    },
+    {
+     "st": "力浦",
+     "ev": "dep",
+     "printed": "6.47",
+     "bold": false,
+     "t": "06:47"
+    },
+    {
+     "st": "大同江",
+     "ev": "dep",
+     "printed": "7.04",
+     "bold": false,
+     "t": "07:04"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "7.10",
+     "bold": false,
+     "t": "07:10"
+    }
+   ],
+   "dest": "平壤",
+   "cls": "3",
+   "origin": "黃州",
+   "col": "12",
+   "note": "209欄の下半分。新山〜沈村の空桝に縦書きで「（海州發 5.30）」の連絡註記が入る（黃海線からの連絡か。判讀不確か）"
+  },
+  {
+   "no": "1201",
+   "stops": [
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "20.45",
+     "bold": false,
+     "t": "20:45"
+    },
+    {
+     "st": "西平壤",
+     "ev": "dep",
+     "printed": "20.56",
+     "bold": false,
+     "t": "20:56"
+    },
+    {
+     "st": "西浦",
+     "ev": "dep",
+     "printed": "21.08",
+     "bold": false,
+     "t": "21:08"
+    },
+    {
+     "st": "間里",
+     "ev": "dep",
+     "printed": "21.24",
+     "bold": false,
+     "t": "21:24"
+    },
+    {
+     "st": "順安",
+     "ev": "dep",
+     "printed": "21.36",
+     "bold": false,
+     "t": "21:36"
+    },
+    {
+     "st": "石巖",
+     "ev": "dep",
+     "printed": "21.50",
+     "bold": false,
+     "t": "21:50"
+    },
+    {
+     "st": "漁波",
+     "ev": "dep",
+     "printed": "22.10",
+     "bold": false,
+     "t": "22:10"
+    },
+    {
+     "st": "肅川",
+     "ev": "dep",
+     "printed": "22.27",
+     "bold": false,
+     "t": "22:27"
+    },
+    {
+     "st": "萬城",
+     "ev": "dep",
+     "printed": "22.45",
+     "bold": false,
+     "t": "22:45"
+    },
+    {
+     "st": "大橋",
+     "ev": "dep",
+     "printed": "22.59",
+     "bold": false,
+     "t": "22:59"
+    },
+    {
+     "st": "新安州",
+     "ev": "dep",
+     "printed": "23.09",
+     "bold": false,
+     "t": "23:09"
+    }
+   ],
+   "dest": "新安州",
+   "cls": "3",
+   "origin": "平壤",
+   "col": "13",
+   "note": "215欄の下半分。列車番號1201は12欄の安東行とも重複して印刷されてゐる（原表の通り）"
+  },
+  {
+   "no": "219",
+   "stops": [
+    {
+     "st": "新幕",
+     "ev": "dep",
+     "printed": "6.10",
+     "bold": false,
+     "t": "06:10"
+    },
+    {
+     "st": "瑞興",
+     "ev": "dep",
+     "printed": "6.20",
+     "bold": false,
+     "t": "06:20"
+    },
+    {
+     "st": "文武里",
+     "ev": "dep",
+     "printed": "6.34",
+     "bold": false,
+     "t": "06:34"
+    },
+    {
+     "st": "興水",
+     "ev": "dep",
+     "printed": "6.42",
+     "bold": false,
+     "t": "06:42"
+    },
+    {
+     "st": "淸溪",
+     "ev": "dep",
+     "printed": "6.55",
+     "bold": false,
+     "t": "06:55"
+    },
+    {
+     "st": "馬洞",
+     "ev": "dep",
+     "printed": "7.24",
+     "bold": false,
+     "t": "07:24"
+    },
+    {
+     "st": "新山",
+     "ev": "dep",
+     "printed": "7.33",
+     "bold": false,
+     "t": "07:33"
+    },
+    {
+     "st": "沙里院",
+     "ev": "dep",
+     "printed": "7.41",
+     "bold": false,
+     "t": "07:41"
+    },
+    {
+     "st": "桂東",
+     "ev": "dep",
+     "printed": "7.52",
+     "bold": false,
+     "t": "07:52"
+    },
+    {
+     "st": "沈村",
+     "ev": "dep",
+     "printed": "8.01",
+     "bold": false,
+     "t": "08:01"
+    },
+    {
+     "st": "黃州",
+     "ev": "dep",
+     "printed": "8.47",
+     "bold": false,
+     "t": "08:47"
+    },
+    {
+     "st": "黑橋",
+     "ev": "dep",
+     "printed": "9.03",
+     "bold": false,
+     "t": "09:03"
+    },
+    {
+     "st": "中和",
+     "ev": "dep",
+     "printed": "9.15",
+     "bold": false,
+     "t": "09:15"
+    },
+    {
+     "st": "力浦",
+     "ev": "dep",
+     "printed": "9.26",
+     "bold": false,
+     "t": "09:26"
+    },
+    {
+     "st": "大同江",
+     "ev": "dep",
+     "printed": "9.39",
+     "bold": false,
+     "t": "09:39"
+    },
+    {
+     "st": "平壤",
+     "ev": "arr",
+     "printed": "9.44",
+     "bold": false,
+     "t": "09:44"
+    },
+    {
+     "st": "平壤",
+     "ev": "dep",
+     "printed": "9.55",
+     "bold": false,
+     "t": "09:55"
+    },
+    {
+     "st": "西平壤",
+     "ev": "dep",
+     "printed": "10.03",
+     "bold": false,
+     "t": "10:03"
+    },
+    {
+     "st": "西浦",
+     "ev": "dep",
+     "printed": "10.12",
+     "bold": false,
+     "t": "10:12"
+    },
+    {
+     "st": "間里",
+     "ev": "dep",
+     "printed": "10.24",
+     "bold": false,
+     "t": "10:24"
+    },
+    {
+     "st": "順安",
+     "ev": "dep",
+     "printed": "10.33",
+     "bold": false,
+     "t": "10:33"
+    },
+    {
+     "st": "石巖",
+     "ev": "dep",
+     "printed": "10.44",
+     "bold": false,
+     "t": "10:44"
+    },
+    {
+     "st": "漁波",
+     "ev": "dep",
+     "printed": "10.58",
+     "bold": false,
+     "t": "10:58"
+    },
+    {
+     "st": "肅川",
+     "ev": "dep",
+     "printed": "11.12",
+     "bold": false,
+     "t": "11:12"
+    },
+    {
+     "st": "萬城",
+     "ev": "dep",
+     "printed": "11.25",
+     "bold": false,
+     "t": "11:25"
+    },
+    {
+     "st": "大橋",
+     "ev": "dep",
+     "printed": "11.35",
+     "bold": false,
+     "t": "11:35"
+    },
+    {
+     "st": "新安州",
+     "ev": "dep",
+     "printed": "11.43",
+     "bold": false,
+     "t": "11:43"
+    },
+    {
+     "st": "孟中里",
+     "ev": "dep",
+     "printed": "11.53",
+     "bold": false,
+     "t": "11:53"
+    },
+    {
+     "st": "嶺美",
+     "ev": "dep",
+     "printed": "12.09",
+     "bold": false,
+     "t": "12:09"
+    },
+    {
+     "st": "雲田",
+     "ev": "dep",
+     "printed": "12.18",
+     "bold": false,
+     "t": "12:18"
+    },
+    {
+     "st": "古邑",
+     "ev": "dep",
+     "printed": "12.29",
+     "bold": false,
+     "t": "12:29"
+    },
+    {
+     "st": "定州",
+     "ev": "arr",
+     "printed": "12.49",
+     "bold": false,
+     "t": "12:49"
+    },
+    {
+     "st": "定州",
+     "ev": "dep",
+     "printed": "13.00",
+     "bold": false,
+     "t": "13:00"
+    },
+    {
+     "st": "下塲",
+     "ev": "dep",
+     "printed": "13.09",
+     "bold": false,
+     "t": "13:09"
+    },
+    {
+     "st": "郭山",
+     "ev": "dep",
+     "printed": "13.29",
+     "bold": false,
+     "t": "13:29"
+    },
+    {
+     "st": "路下",
+     "ev": "dep",
+     "printed": "13.38",
+     "bold": false,
+     "t": "13:38"
+    },
+    {
+     "st": "宣川",
+     "ev": "dep",
+     "printed": "13.58",
+     "bold": false,
+     "t": "13:58"
+    },
+    {
+     "st": "東林",
+     "ev": "dep",
+     "printed": "14.12",
+     "bold": false,
+     "t": "14:12"
+    },
+    {
+     "st": "車輦館",
+     "ev": "dep",
+     "printed": "14.31",
+     "bold": false,
+     "t": "14:31"
+    },
+    {
+     "st": "南市",
+     "ev": "dep",
+     "printed": "14.47",
+     "bold": false,
+     "t": "14:47"
+    },
+    {
+     "st": "良策",
+     "ev": "dep",
+     "printed": "15.02",
+     "bold": false,
+     "t": "15:02"
+    },
+    {
+     "st": "枇峴",
+     "ev": "dep",
+     "printed": "15.19",
+     "bold": false,
+     "t": "15:19"
+    },
+    {
+     "st": "白馬",
+     "ev": "dep",
+     "printed": "15.29",
+     "bold": false,
+     "t": "15:29"
+    },
+    {
+     "st": "石下",
+     "ev": "dep",
+     "printed": "15.44",
+     "bold": false,
+     "t": "15:44"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "16.07",
+     "bold": false,
+     "t": "16:07"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "16.12",
+     "bold": false,
+     "uncertain": true,
+     "t": "16:12"
+    }
+   ],
+   "dest": "安東",
+   "cls": "2.3",
+   "origin": "新幕",
+   "col": "14",
+   "note": "213欄の下半分"
+  },
+  {
+   "no": "1201",
+   "stops": [
+    {
+     "st": "宣川",
+     "ev": "dep",
+     "printed": "4.55",
+     "bold": false,
+     "t": "04:55"
+    },
+    {
+     "st": "東林",
+     "ev": "dep",
+     "printed": "5.20",
+     "bold": false,
+     "t": "05:20"
+    },
+    {
+     "st": "車輦館",
+     "ev": "dep",
+     "printed": "5.43",
+     "bold": false,
+     "t": "05:43"
+    },
+    {
+     "st": "南市",
+     "ev": "dep",
+     "printed": "6.07",
+     "bold": false,
+     "t": "06:07"
+    },
+    {
+     "st": "良策",
+     "ev": "dep",
+     "printed": "6.34",
+     "bold": false,
+     "t": "06:34"
+    },
+    {
+     "st": "枇峴",
+     "ev": "dep",
+     "printed": "6.52",
+     "bold": false,
+     "t": "06:52"
+    },
+    {
+     "st": "白馬",
+     "ev": "dep",
+     "printed": "7.11",
+     "bold": false,
+     "t": "07:11"
+    },
+    {
+     "st": "石下",
+     "ev": "dep",
+     "printed": "7.32",
+     "bold": false,
+     "t": "07:32"
+    },
+    {
+     "st": "新義州",
+     "ev": "dep",
+     "printed": "8.13",
+     "bold": false,
+     "t": "08:13"
+    },
+    {
+     "st": "安東",
+     "ev": "dep",
+     "printed": "8.20",
+     "bold": false,
+     "t": "08:20"
+    }
+   ],
+   "dest": "安東",
+   "cls": "3",
+   "origin": "宣川",
+   "col": "12",
+   "note": "209・222欄の下（同一物理欄の3列車目）。13欄の新安州行と同じ番號1201が印刷されてゐる"
+  }
+ ],
+ "notes": [
+  "昭和17.2.20改正。頁75の全幅の表（1表のみ）。反對方向（安東→京城）は頁72の p72a。",
+  "左端に「自京城 運賃 1等・2等・3等」欄があるが運賃は轉記せず。粁程（自京城）は stations に入れた。驛名の左の⊓・〒・◎・♨等の設備記號も轉記せず。",
+  "朝鮮の表につき24時制。列車欄は14欄（1・3・53・11・43・9・7・5・47・133・135・209・215・213）。",
+  "驛名は横書き左→右で、4桝幅に均等割りして組まれてゐる。著／發の2行に分かれる驛は平壤と定州のみ。",
+  "表尾に接續の抄錄3行（安東發／奉天著／新京著）があり、stations の末尾に 奉天・新京 を加へた。北京行（3・9列車）の北京著は欄内の空桝に縦書きで示される。",
+  "表頭の反轉枠（2字）＝急行、✕＝食堂車、寢臺の繪記號と反轉枠の等級＝寢臺車の等級。急行欄では阿峴里の桝に反轉枠「急行」、平山・南川の桝に寢臺等級の反轉枠と寢臺の繪記號、水色・陵谷の桝に列車名の縦書きが入り、時刻は無い（本ファイルでは「-」）。",
+  "「-」は原表の「…」または上記の標記の桝。「v」は原表の「レ」（通過）。",
+  "開城は著／發に分かれない1行の驛だが、急行の3・5・11の各欄は開城の次の土城にも時刻が入る（3＝5.49/6.01、5＝18.55/19.07、11＝9.27/9.30）。11欄の開城9.27→土城9.30は3分で9.1粁となり不合理、いづれかが刷り違ひと思はれるが印刷の通りとし ? を付した。",
+  "一つの物理欄に複數の列車が上下に組まれてゐる欄がある。第12欄＝209（土城行）＋222（平壤行）＋1201（安東行）、第13欄＝215（新幕行）＋1201（新安州行）、第14欄＝213（開城行）＋219（安東行）。全18列車。列車番號1201は第12欄と第13欄の兩方に印刷されてゐる（原表の通り）。",
+  "驛名・粁程は同一線の反對方向 p72a（安東→京城、自安東粁程）と照合した。粁程は自京城で 安東 499.3。",
+  "極端に長い驛間時分がいくつかある（原表の通り）：133の鳳東12.39→開城13.26、135の物開17.33→新幕18.30、209の一山17.08→金村17.47および鳳東18.29→開城19.10、219の淸溪6.55→馬洞7.24および沈村8.01→黃州8.47、1201（安東行）の石下7.32→新義州8.13。",
+  "219列車の安東著は綴込みに掛かり「16.12」と讀んだが確度が低い（? 付）。43列車の下塲 20.07 も同樣。"
+ ],
+ "source": "IMG_1866",
+ "page": "75",
+ "title": "京城・安東間",
+ "line": "鮮鐵 京義線",
+ "dir": "京城→安東"
+}
