@@ -864,15 +864,17 @@ button.plain:hover { background: var(--hover-fill); }
 #thematic {
   pointer-events: none;
 }
+/* **SOLID, NOT A WASH.** It was 0.55 so the districts underneath stayed
+   readable — and the country's own amber then tinted every category, so the
+   reader was matching a mixture against a key of pure colours. The fill is
+   the category's own now and the boundaries come up over it in `#subs-lift`
+   instead, which is the arrangement the princely states already use. */
 #thematic path {
-  fill-opacity: .55;
+  fill-opacity: 1;
   stroke: rgba(20, 16, 10, .55);
   stroke-width: .6;
   vector-effect: non-scaling-stroke;
 }
-/* Black ground needs less of itself to read as black, and the boundaries
-   under it need more help to survive. */
-#thematic path[data-cat="Unadministered"] { fill-opacity: .62; }
 
 /* Burma's divisions, the Shan federation and the Karenni states.
  *
@@ -1763,8 +1765,10 @@ button.plain:hover { background: var(--hover-fill); }
   max-height: calc(100% - 20px);
   overflow-y: auto;
   /* a panel floating over the map must not eat the gestures meant for it:
-     only the rows themselves take the pointer */
+     only the rows themselves take the pointer. **Unless it has more in it
+     than fits** — see `.scrolls` below, and `legendScroll` in map.js. */
   pointer-events: none;
+  overscroll-behavior: contain;
   padding: 8px 10px;
   background: color-mix(in srgb, var(--panel) 94%, transparent);
   border: 1px solid var(--line);
@@ -2735,14 +2739,18 @@ dialog h3 {
   #layer-seg button .narrow { display: none; }
   #layer-seg button .mid { display: inline; }
   #layer-seg button { padding: 7px 6px; min-width: 0; }
+  /* **TWO ROWS RATHER THAN ONE THAT RUNS OFF THE EDGE.**
+     This was one row that scrolled sideways, and on a 390px screen Layers
+     and the ? sat past the right-hand edge — a control a reader cannot see
+     is a control they will not look for, and nothing said the row could be
+     dragged. It wraps now, which costs a second line of the map and hands
+     back every button. The line is bought back by the collapse tab below. */
   #bar {
     gap: 5px;
     padding: 5px 6px;
-    flex-wrap: nowrap;          /* one row, and it must stay one row */
-    overflow-x: auto;
-    scrollbar-width: none;
+    flex-wrap: wrap;
+    overflow-x: visible;
   }
-  #bar::-webkit-scrollbar { display: none; }
   #bar > * { flex: 0 0 auto; }
   .seg button { padding: 7px 6px; font-size: 12.5px; }
   button.plain { padding: 7px 8px; font-size: 12.5px; }
@@ -3442,6 +3450,18 @@ dialog h3 {
     transform: none;
     max-width: none;
   }
+  /* **AND THE SECOND COLUMN OF BUTTONS GETS OUT OF ITS WAY.**
+     The bar reserves 60px on the right, which is the zoom column — but
+     `#map-extras` sits *46px further left again*, so the book and the sugar
+     switch were under the bar on a narrow screen, unreachable for as long as
+     the train tools were up. Reported as the tools blocking the sugar
+     button.
+     Reserving for both columns instead would take another 46px off a bar
+     that already struggles to fit its row on a 414px screen, so the column
+     moves down rather than the bar getting narrower: below the bar, where
+     there is nothing else. Only while the tools are up — with them away the
+     column belongs at the top beside the zoom buttons. */
+  body.trains-up #map-extras { top: 92px; }
   .train-legend { display: none; }
   /* THE ROW MUST FIT, and on a 414 px screen it did not: play, clock, slider,
      speed, "38 running" and the close button came to more than the strip is
@@ -4369,6 +4389,30 @@ dialog h3 {
 }
 #legend .legend-reset:hover { background: var(--hover-fill); }
 
+/* **THE KEY TAKES THE POINTER ONLY WHEN IT HAS SOMETHING TO SCROLL.**
+   `pointer-events: none` is what lets a drag across the key pan the map, and
+   it is also what stopped a finger ever scrolling it — so on a short screen
+   with the thematic categories under the country rows, the foot of the key
+   could not be reached. `legendScroll` measures after every rebuild and on
+   every resize and puts this class on when, and only when, there is more in
+   the box than fits. */
+#legend.scrolls {
+  pointer-events: auto;
+  scrollbar-width: thin;
+}
+/* and a hint that there is more, so the reader knows to try */
+#legend.scrolls::after {
+  content: "";
+  position: sticky;
+  bottom: -8px;
+  display: block;
+  height: 14px;
+  margin: 0 -10px -8px;
+  background: linear-gradient(to bottom, transparent,
+              color-mix(in srgb, var(--panel) 94%, transparent));
+  pointer-events: none;
+}
+
 /* ------------------------------------- the bar chart over each table ---
 
    The outline of a set of places before the figures for them: one bar to a
@@ -4839,3 +4883,37 @@ dialog h3 {
 .air-legs li.done { opacity: 0.5; }
 .air-legs li.now::before { background: var(--accent); }
 .air-legs li.now .air-place { font-weight: 600; }
+
+
+/* ---------------------------------------- the header, folded out of the way --
+ *
+ * **A map on a phone is mostly not map.** Two rows of buttons, the browser's
+ * own furniture top and bottom, and what is left for the thing the reader
+ * came for is a strip. So the whole bar folds: the tab stays, everything else
+ * goes, and the map gets the height back.
+ *
+ * The tab is the fold control itself rather than a separate button — pressing
+ * it either way — so there is never a moment when the bar is away and nothing
+ * says how to bring it back. It is in the flow at the bar's right, so on a
+ * wide screen where the bar was never a problem it is a small chevron beside
+ * the ? and costs one button's width.
+ */
+#btn-bar-fold {
+  margin-left: auto;
+  min-width: 0;
+  padding: 6px 9px;
+  line-height: 1;
+}
+#btn-bar-fold .fold-mark { display: inline-block; transition: transform .15s ease; }
+body.bar-folded #btn-bar-fold .fold-mark { transform: rotate(180deg); }
+
+/* Folded: every child but the tab goes, and the bar shrinks to the tab's own
+   height. `visibility` is not enough — a hidden row still takes its line. */
+body.bar-folded #bar > *:not(#btn-bar-fold) { display: none; }
+body.bar-folded #bar {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  gap: 0;
+  justify-content: flex-end;
+  min-height: 0;
+}

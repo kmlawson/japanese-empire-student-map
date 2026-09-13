@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '367';
+  var JEM_VERSION = '368';
 
 
 
@@ -248,6 +248,9 @@
 
 
     railZoom: false,
+
+
+    barFolded: false,
 
 
 
@@ -8431,12 +8434,38 @@
 
 
 
+  function liftThemeSubs() {
+    if (!themeShown || !themeLayer) return;
+    liftSubs(subsAtom);
+  }
+
+
+
+
+
 
   function liftSubs(el) {
     if (!svg || !subsLiftLayer) return;
+
+
+
+
+
+
+
+
+    if (themeShown && themeLayer) {
+      var trec = themeRec(themeShown);
+      var tatom = trec && (atomEls[trec.atom] || $('#a-' + trec.atom, svg));
+      if (tatom) el = tatom;
+    }
     subsLiftLayer.innerHTML = '';
     $$('.atom.lifted', svg).forEach(function (a) { a.classList.remove('lifted'); });
-    if (!el || !SUBS_LIFT[el.id.replace(/^a-/, '')]) return;
+    if (!el) return;
+    var key = el.id.replace(/^a-/, '');
+    var themeOwns = !!(themeShown && themeRec(themeShown)
+                       && themeRec(themeShown).atom === key);
+    if (!SUBS_LIFT[key] && !themeOwns) return;
     if (!svg.classList.contains('admin-on')) return;
     var n = 0;
     $$(':scope > path[data-prov]', el).forEach(function (p) {
@@ -8667,6 +8696,15 @@
     if (projMode !== 'mercator') reprojectGraft([g]);
     themeLayer = g;
     applyThemeClip();
+
+
+
+
+
+
+
+
+    liftThemeSubs();
     return g;
   }
 
@@ -8708,6 +8746,8 @@
 
 
       if (wasAtom && subsAtoms.indexOf(wasAtom) < 0) wasAtom.classList.remove('subs');
+
+      if (wasAtom) liftSubs(subsAtom);
       themeShown = '';
       state.themeId = '';
 
@@ -11236,8 +11276,17 @@
     if (at < 0) return out;
 
 
+
+
+
+
+
+
+
+
+
     pairs.forEach(function (pr, i) {
-      if (Math.min(pr[0], pr[1]) >= at) out[i] = true;
+      if (Math.max(pr[0], pr[1]) >= at) out[i] = true;
     });
     return out;
   }
@@ -17949,6 +17998,8 @@
       state.legend = !state.legend;
       root.classList.toggle('folded', !state.legend);
       head.setAttribute('aria-expanded', state.legend ? 'true' : 'false');
+
+      legendScroll();
       saveState();
       placeLabels();
     });
@@ -18201,6 +18252,35 @@
     }
 
     appendTo.hidden = false;
+
+
+
+
+    legendScroll();
+    requestAnimationFrame(legendScroll);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function legendScroll() {
+    var el = $('#legend');
+    if (!el) return;
+    var over = el.scrollHeight > el.clientHeight + 1;
+    if (el.classList.contains('scrolls') !== over) {
+      el.classList.toggle('scrolls', over);
+    }
   }
 
 
@@ -19172,9 +19252,12 @@
 
       subNodesChanged();
 
+
       applyThemeClip();
       setAdminBusy();
       applyState();
+
+      liftThemeSubs();
       if (selected) select(selected);
     };
     if (window.JMAP_INLINE_ADMIN) { graft(window.JMAP_INLINE_ADMIN); return; }
@@ -19694,6 +19777,7 @@
       if (themeMenuOn && e.key === 'Escape') closeThemeMenu();
     });
     window.addEventListener('resize', function () {
+      legendScroll();
       if (labelMenuOn) placeLabelMenu();
       if (railMenuOn) placeRailMenu();
       if (trainMenuOn) placeTrainMenu();
@@ -20274,6 +20358,31 @@
 
 
 
+
+
+
+
+
+
+    var btnFold = $('#btn-bar-fold');
+    if (btnFold) {
+      var syncFold = function () {
+        document.body.classList.toggle('bar-folded', !!state.barFolded);
+        btnFold.setAttribute('aria-expanded', state.barFolded ? 'false' : 'true');
+        var lab = state.barFolded ? 'Show the buttons'
+                                  : 'Hide the buttons and give the map the room';
+        btnFold.setAttribute('aria-label', lab);
+        btnFold.title = lab;
+      };
+      syncFold();
+      btnFold.addEventListener('click', function () {
+        state.barFolded = !state.barFolded;
+        syncFold();
+
+        bumpLayout();
+        saveState();
+      });
+    }
 
     var optRailZoom = $('#opt-rail-zoom');
     if (optRailZoom) {

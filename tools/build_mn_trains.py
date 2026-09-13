@@ -577,6 +577,139 @@ def main():
                 rec['mk'] = mk
             trains.append(rec)
 
+    # ------------------------------------------------------------------
+    # **ONE TRAIN PER SERVICE, NOT ONE PER PRINTED TABLE.**
+    #
+    # A through train is printed in every line table it runs over, and read
+    # table by table it became that many trains. 341 was four: 濱北線
+    # 哈爾濱→綏化, 綏佳線 哈爾濱→神樹, 綏佳線 綏化→佳木斯, and 綏佳線・鶴岡線
+    # 蓮江口→佳木斯 — one service, Harbin 23.50 to Chiamussu 22.50 the next
+    # day, drawn four times over. Reported as "why are there two train 341s".
+    #
+    # Worse than the doubling: the copies disagreed about the *day*. The
+    # transcription's clock runs on from the top of each column, so a piece
+    # that begins in the middle of the journey starts a day early — 綏化 is
+    # 06.10 tomorrow in the pieces that start at Harbin and 06.10 today in the
+    # one that starts at 綏化. At 08.03 both were on the map, a day apart in
+    # the data and a hundred kilometres apart on the ground.
+    #
+    # So pieces are joined where the timetable itself proves they are one
+    # train: the same number, and at a station they share, times that agree
+    # **to the minute once whole days are taken out**. That is a strong test —
+    # two different trains of the same number would have to call at the same
+    # place at the same minute — and it is the same evidence a reader would
+    # use with the booklet open. Anything that does not meet it is left alone.
+    joined = 0
+    by_no = {}
+    for t in trains:
+        if t.get('no'):
+            by_no.setdefault(t['no'], []).append(t)
+
+    def row_time(r):
+        return r[1] if r[1] is not None else r[2]
+
+    def shift_of(seed, other):
+        """How many whole days `other` is behind `seed`, or None if the two
+        share no station at which both are timed and agree."""
+        a = {}
+        for r in seed['st']:
+            if row_time(r) is not None:
+                a.setdefault(r[0], r)
+        for r in other['st']:
+            if r[0] not in a or row_time(r) is None:
+                continue
+            d = row_time(a[r[0]]) - row_time(r)
+            if d % 1440 == 0:
+                return d
+        return None
+
+    out = []
+    for no, pieces in by_no.items():
+        if len(pieces) < 2:
+            continue
+        # the longest piece leads; the rest are offered to it in turn, and a
+        # piece that joins can itself bring in a third, so this repeats until
+        # nothing more attaches
+        pieces.sort(key=lambda t: -len([r for r in t['st'] if row_time(r) is not None]))
+        used = set()
+        for i, seed in enumerate(pieces):
+            if i in used:
+                continue
+            group = [(seed, 0)]
+            used.add(i)
+            moved = True
+            while moved:
+                moved = False
+                for j, other in enumerate(pieces):
+                    if j in used:
+                        continue
+                    for member, base in group:
+                        d = shift_of(member, other)
+                        if d is None:
+                            continue
+                        group.append((other, base + d))
+                        used.add(j)
+                        moved = True
+                        break
+            if len(group) < 2:
+                continue
+            # **Merged on one clock.** Every row is shifted onto the seed's
+            # day, then rows are put in time order and a station seen twice
+            # keeps whichever of the arrival and the departure each copy had.
+            rows = []
+            for piece, d in group:
+                last_t = None
+                for k, r in enumerate(piece['st']):
+                    rr = list(r)
+                    if rr[1] is not None:
+                        rr[1] += d
+                    if rr[2] is not None:
+                        rr[2] += d
+                    t_here = row_time(rr)
+                    if t_here is not None:
+                        last_t = t_here
+                    # an untimed stop sorts just after the last timed one in
+                    # its own column, which is where the page puts it
+                    rows.append(((last_t if last_t is not None else -1), k, rr))
+            rows.sort(key=lambda x: (x[0], x[1]))
+            merged = []
+            for _, _, rr in rows:
+                if merged and merged[-1][0] == rr[0]:
+                    prev = merged[-1]
+                    if prev[1] is None:
+                        prev[1] = rr[1]
+                    if prev[2] is None:
+                        prev[2] = rr[2]
+                    fl = (rr[3] if len(rr) > 3 else 0)
+                    if fl:
+                        if len(prev) > 3:
+                            prev[3] |= fl
+                        else:
+                            prev.append(fl)
+                    continue
+                merged.append(rr)
+            keep = dict(group[0][0])
+            keep['st'] = merged
+            # the line and the direction of the piece that carries most of the
+            # journey, which is the one the card should name
+            out.append(keep)
+            for piece, _ in group:
+                piece['_merged'] = True
+            joined += len(group) - 1
+
+    # **The columns as the booklet prints them, kept for one purpose.** Which
+    # line owns a stretch of track is a fact about the tables — the 濱北線
+    # prints the trains between Harbin and Suihua, so that stretch is the
+    # 濱北線's — and a merged train has one line where its columns had
+    # several. Voting over the merged list handed 341's Harbin end to the
+    # 綏佳線 and took two colours off the map. The vote is taken with these.
+    columns = [dict(t) for t in trains]
+    if out:
+        trains = [t for t in trains if not t.get('_merged')] + out
+        trains.sort(key=lambda t: (t['li'], t.get('no', '')))
+    for t in trains:
+        t.pop('_merged', None)
+
     # --- the line records: colour, readings, anchor, description
     romaji = {s['n']: s.get('ro') for s in stations if s.get('ro')}
     no_ja = []
@@ -594,6 +727,8 @@ def main():
         l['a'] = first_table[n]
         l['d'] = ('%s: %s to %s.' % (co, who(a), who(b))) if co else ('%s to %s.' % (who(a), who(b)))
 
+    print("  %d table column(s) joined to the through train they belong to"
+          % joined)
     bundle = {'year': 1942, 'issued': 'July 1942', 'local': 'Pinyin',
               'lines': lines, 'stations': stations, 'trains': trains, 'paths': {}}
     # every stretch between placed stops is routed along the traced 1942 lines. The station
@@ -623,7 +758,8 @@ def main():
             " * indices, low first, and the coordinates run that way. */\n"
             % (len(trains), len(lines), len(stations)))
     trains_split.write(OUT_JS, OUT_TIMES, 'MN_TRAINS', bundle, head,
-                       'Built by tools/build_mn_trains.py -- do not edit.')
+                       'Built by tools/build_mn_trains.py -- do not edit.',
+                       owns_from=columns)
 
     # --- the printed page
     reads = {}

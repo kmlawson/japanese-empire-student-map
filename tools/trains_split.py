@@ -35,7 +35,7 @@ import json
 import os
 
 
-def line_owns(doc):
+def line_owns(doc, vote_from=None):
     """Which line owns each stretch of track, as `buildLines` works it out.
 
     Keyed "lo|hi" on the pair of station indices, low first. Returns
@@ -57,26 +57,43 @@ def line_owns(doc):
     `sorted()` with a strict `>` is the same rule.
     """
     stations = doc['stations']
+
+    def walk(trains, into):
+        for t in trains:
+            prev = -1
+            for s in t['st']:
+                fl = s[3] if len(s) > 3 and s[3] else 0
+                if fl & 1:
+                    prev = -1
+                    continue
+                idx = s[0]
+                st = stations[idx] if 0 <= idx < len(stations) else None
+                if not st or st.get('lon') is None:
+                    continue
+                if prev >= 0 and prev != idx:
+                    k = '%d|%d' % (min(prev, idx), max(prev, idx))
+                    counts = into.setdefault(k, {})
+                    counts[t['li']] = counts.get(t['li'], 0) + 1
+                prev = idx
+
+    # **The stretches are the shipped trains'; the votes may be somebody
+    # else's.** The runtime walks the timetable it is given and asks `owns`
+    # about each stretch it finds, so the keys here have to be exactly that
+    # set or a stretch comes back ownerless. What `vote_from` changes is only
+    # *who the owner is*: Manchuria votes with the printed table columns,
+    # because which line owns a stretch is a fact about the tables and a
+    # merged through train has one line where its columns had several. A
+    # stretch the voters do not cover — one the merge created by joining
+    # across a column's end — falls back to the shipped trains' own answer.
     use = {}
-    for t in doc['trains']:
-        prev = -1
-        for s in t['st']:
-            fl = s[3] if len(s) > 3 and s[3] else 0
-            if fl & 1:
-                prev = -1
-                continue
-            idx = s[0]
-            st = stations[idx] if 0 <= idx < len(stations) else None
-            if not st or st.get('lon') is None:
-                continue
-            if prev >= 0 and prev != idx:
-                k = '%d|%d' % (min(prev, idx), max(prev, idx))
-                counts = use.setdefault(k, {})
-                counts[t['li']] = counts.get(t['li'], 0) + 1
-            prev = idx
+    walk(doc['trains'], use)
+    votes = use
+    if vote_from is not None:
+        votes = {}
+        walk(vote_from, votes)
     owns, shared = {}, 0
     for k in use:
-        counts = use[k]
+        counts = votes.get(k) or use[k]
         if len(counts) > 1:
             shared += 1
         best, best_n = -1, -1
@@ -87,7 +104,7 @@ def line_owns(doc):
     return owns, shared
 
 
-def write(out_js, out_times, var_name, doc, head, note):
+def write(out_js, out_times, var_name, doc, head, note, owns_from=None):
     """Write the pair, and say what each cost.
 
     `var_name` is the geometry's — `TW_TRAINS` — and the timetable's is the
@@ -103,7 +120,15 @@ def write(out_js, out_times, var_name, doc, head, note):
     read a stop row, because a 455 KB file of bare arrays is otherwise
     unreadable to anyone who opens it.
     """
-    owns, shared = line_owns(doc)
+    # **Which line owns a stretch is the *printed tables'* answer, not the
+    # merged trains'.** Manchuria joins the columns of a through train into
+    # one run — see data/manchuria/reference/through-trains.md — and a merged
+    # train has one line where the columns had several, so voting over the
+    # merged list gave 341's Harbin–Suihua stretches to the 綏佳線 when the
+    # 濱北線 prints them. `owns_from` lets the caller vote with the columns as
+    # the booklet has them and hand the result in. Nobody else passes it, and
+    # for everybody else this is what it always was.
+    owns, shared = line_owns(doc, vote_from=owns_from)
     times = doc['trains']
     geom = dict(doc)
     geom.pop('trains')

@@ -22443,3 +22443,89 @@ over Hōten with two rows and one press choosing, the box rule over Hōten,
 Kirin and P'yŏngyang, and the station menu's radio rows switching one
 network's squares for another's. `keys` and `sugar` count six rail-menu rows
 now.
+
+## 193. Two train 341s, and why there were four
+
+Reported from a phone: two trains numbered 341 running over Manchuria at once.
+There were four, and they are one service — Harbin 23.50 to Chiamussu 22.50 the
+next day, printed in the 濱北線 table, twice in the 綏佳線, and again in the
+綏佳線・鶴岡線. The booklet is arranged by line and a through train appears in
+every table it runs over; read table by table, that is four trains.
+
+**And the copies disagreed about the day.** The transcription's clock runs on
+from the top of its own column, so a column beginning mid-journey begins on the
+wrong day: 綏化 is 06.10 *tomorrow* in the pieces that start at Harbin and
+06.10 *today* in the piece that starts at 綏化. At 08.03 two of them were on
+the map a hundred kilometres apart.
+
+Columns are joined where the timetable proves they are one train: the same
+number, and at a shared station times that agree to the minute once whole days
+are taken out. The same difference says how far to shift the piece, so the
+evidence that joins them also fixes the day. Transitive, so a service is
+gathered however many tables it spans. **111 columns join, 707 trains become
+596**, and 341 is one run of 44 stops.
+
+The reasoning is written up beside the data, in
+`data/manchuria/reference/through-trains.md`, because the next person to
+wonder why the builder does this will be reading the transcription and not
+this log.
+
+**One thing the join broke and how it is put back.** Which line owns a stretch
+of track is a fact about the *tables* — the 濱北線 prints the trains between
+Harbin and Suihua, so that stretch is the 濱北線's — and a merged train has one
+line where its columns had several. Voting over the merged list handed 341's
+Harbin end to the 綏佳線 and took two colours off the map (`mntrains` caught
+it at 38 where it wanted 40). `line_owns` now takes its *keys* from the shipped
+trains, so every stretch the runtime finds has an owner, and its *votes* from
+whatever the caller passes — the printed columns, here. `owns.js` gains a
+Manchuria branch: the keys must still match exactly, and the owners are
+allowed to differ from a naive re-derivation, because that is the point.
+
+## 194. An Allied aeroplane landing in occupied Burma
+
+`airGroundedLegs` asked whether the *earlier* of a leg's two stops was at or
+past the one the route is grounded from, so the flight that lands there was
+still flown: an Imperial Airways machine crossed the Bay of Bengal and put
+down at Akyab, a KLM one at Rangoon, on a December 1942 map whose own shading
+says the Japanese held both. Either end past the mark is enough now, chords
+included. The Layers switch that flies the pre-war timetables anyway still
+overrides it. `air` passes, 150 checks.
+
+## 195. The thematic wash is solid
+
+It was drawn at 0.55 so the districts underneath stayed readable — and the
+country's own amber then tinted every category, so a reader was matching a
+mixture against a key of pure colours. The fill is the category's own now and
+the boundaries come up over it in `#subs-lift`, which is the arrangement the
+princely states already use.
+
+The lift is asked for inside `liftSubs` rather than from `buildTheme`, and
+that is the whole of what makes it hold: every pointer move comes through
+`setSubsAtom` to `liftSubs`, and so does the administrative graft's
+`applyState`, either of which wiped a lift made anywhere else a moment after
+it was made. Measured: fill-opacity 1, 85 boundaries lifted, still 85 after
+moving the pointer about.
+
+## 196. Three things that do not fit on a small screen
+
+* **The header runs off the edge.** It was one row with `overflow-x: auto`,
+  and on a 390px screen Layers and the ? sat past the right-hand edge with
+  nothing to say the row could be dragged. It wraps to two rows now: measured
+  at 390px, nine buttons, none off the edge, where before two were.
+* **And folds away entirely.** Two rows of buttons on a phone leaves the map a
+  strip, so `#btn-bar-fold` takes the bar down to its own tab — 98px to 45px,
+  **53px back to the map**. The tab is the way out and the way back in one
+  control, so the bar can never be away with nothing on screen to return it.
+  Remembered in `state.barFolded`.
+* **The train tools covered the sugar switch.** The narrow-screen bar reserves
+  60px on the right, which is the zoom column — but `#map-extras` sits 46px
+  further left again, so the book and the sugar switch were underneath it and
+  unreachable for as long as the tools were up. The column drops below the bar
+  while they are, rather than the bar losing another 46px it does not have.
+* **The key could not be scrolled.** It has had `overflow-y: auto` all along
+  and it never scrolled: the panel is `pointer-events: none` so a drag across
+  it pans the map, and a box the pointer cannot reach is a box a finger cannot
+  scroll. It takes the pointer now when, and only when, it has something to
+  scroll — measured after every rebuild, after the fold opens it, and on
+  resize. On a 390×430 screen with the thematic categories added: 246px of key
+  in a 168px box, and it scrolls.

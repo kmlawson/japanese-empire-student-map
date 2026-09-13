@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '367';
+  var JEM_VERSION = '368';
 
   /* Every file this one fetches, with the version on it.
 
@@ -248,6 +248,9 @@
     /* Whether the railways fade out at a wide view. Off by default: a reader
        who has switched a railway on expects to see it. See #opt-rail-zoom. */
     railZoom: false,
+    /* The header, folded away to give the map the height. A reader's choice
+       like any other, so it is remembered. */
+    barFolded: false,
     /* **The thematic layer that is up, by id, or '' for none.**
      *
      * `themeId` and **not `theme`**, which is taken: `state.theme` is the
@@ -8427,6 +8430,15 @@
      read as though nothing bordered them at all. */
   var SUBS_LIFT = { india: true, siam: true };
 
+  /* Ask for the lift the theme wants. `liftSubs` decides *what* to lift —
+     the theme's atom wins while a theme is up — so this only has to be called
+     at the two moments nothing else would: when the theme is built, and when
+     the administrative sheet finally arrives with the districts in it. */
+  function liftThemeSubs() {
+    if (!themeShown || !themeLayer) return;
+    liftSubs(subsAtom);
+  }
+
   /* Stroke-only copies of the subs atom's province paths, in a layer above all
      of #land. Nothing is moved and nothing is recoloured: the fills stay where
      they are, so the princely states still read as a layer over the Raj, and
@@ -8434,9 +8446,26 @@
      pointer movement within one country. */
   function liftSubs(el) {
     if (!svg || !subsLiftLayer) return;
+    /* **A THEME OWNS THE LIFT FOR AS LONG AS IT IS UP.**
+       Its wash is opaque, so the district boundaries have to be drawn over it
+       or they are not drawn at all — and this is the one function that puts
+       boundaries in `#subs-lift`. Asking the theme here rather than calling a
+       second lifter from `buildTheme` is what makes it survive: every pointer
+       move comes through `setSubsAtom` to here, and the graft's `applyState`
+       does too, either of which would otherwise wipe the lift a moment after
+       the theme made it. */
+    if (themeShown && themeLayer) {
+      var trec = themeRec(themeShown);
+      var tatom = trec && (atomEls[trec.atom] || $('#a-' + trec.atom, svg));
+      if (tatom) el = tatom;
+    }
     subsLiftLayer.innerHTML = '';
     $$('.atom.lifted', svg).forEach(function (a) { a.classList.remove('lifted'); });
-    if (!el || !SUBS_LIFT[el.id.replace(/^a-/, '')]) return;
+    if (!el) return;
+    var key = el.id.replace(/^a-/, '');
+    var themeOwns = !!(themeShown && themeRec(themeShown)
+                       && themeRec(themeShown).atom === key);
+    if (!SUBS_LIFT[key] && !themeOwns) return;
     if (!svg.classList.contains('admin-on')) return;
     var n = 0;
     $$(':scope > path[data-prov]', el).forEach(function (p) {
@@ -8667,6 +8696,15 @@
     if (projMode !== 'mercator') reprojectGraft([g]);
     themeLayer = g;
     applyThemeClip();
+    /* **THE WASH IS OPAQUE, SO THE BOUNDARIES COME UP THROUGH IT.**
+       It was drawn at 0.55 so the districts underneath stayed readable, which
+       also let the country's own amber tint every category — the reader was
+       matching a mixture against a key of pure colours. The fill is solid
+       now, and the district boundaries are lifted into `#subs-lift`, which is
+       appended after this group and so draws over it. Same lines, same
+       stroke, one layer higher: `liftSubs` is what Siam and India already use
+       for the princely states. */
+    liftThemeSubs();
     return g;
   }
 
@@ -8708,6 +8746,8 @@
          atom the reader is hovering would blank the boundaries under their
          own cursor. */
       if (wasAtom && subsAtoms.indexOf(wasAtom) < 0) wasAtom.classList.remove('subs');
+      // the lifted boundaries go with the wash they were lifted over
+      if (wasAtom) liftSubs(subsAtom);
       themeShown = '';
       state.themeId = '';
       /* Put back what the theme borrowed, and only what it borrowed: a reader
@@ -11234,10 +11274,19 @@
       if ((stops[j].id || stops[j].name) === from) { at = j; break; }
     }
     if (at < 0) return out;
-    // a leg is grounded if the earlier of the two stops it joins is at or past
-    // the one the route is grounded from — chords included
+    /* **THE FLIGHT INTO THE OCCUPIED FIELD IS GROUNDED TOO.**
+       This asked whether the *earlier* of the two stops was at or past the
+       one the route is grounded from, so the leg that lands there was still
+       flown: an Imperial Airways aeroplane crossed the Bay of Bengal and put
+       down at Akyab, and a KLM one at Rangoon, on a map whose date is
+       December 1942 and whose own shading says the Japanese held both. The
+       author reported it as allied aircraft landing in occupied Burma.
+       Either end past the mark is enough now — chords included, so a service
+       that overflies the intermediate stops is caught by the same test. The
+       Layers switch that flies the pre-war timetables anyway still overrides
+       all of it. */
     pairs.forEach(function (pr, i) {
-      if (Math.min(pr[0], pr[1]) >= at) out[i] = true;
+      if (Math.max(pr[0], pr[1]) >= at) out[i] = true;
     });
     return out;
   }
@@ -17949,6 +17998,8 @@
       state.legend = !state.legend;
       root.classList.toggle('folded', !state.legend);
       head.setAttribute('aria-expanded', state.legend ? 'true' : 'false');
+      // unfolding is what makes it too tall, so ask again now it is open
+      legendScroll();
       saveState();
       placeLabels();
     });
@@ -18201,6 +18252,35 @@
     }
 
     appendTo.hidden = false;
+    /* Twice: once now, and once after the browser has laid the rows out. The
+       first is right whenever the key is rebuilt into a shape it already
+       had; the second catches the build that changes the height, which is
+       every build that adds a layer's rows. */
+    legendScroll();
+    requestAnimationFrame(legendScroll);
+  }
+
+  /* **A KEY TALLER THAN THE MAP HAS TO BE SCROLLABLE, AND IT WAS NOT.**
+     `#legend` has had `overflow-y: auto` all along, and it never scrolled on
+     a phone: the panel is `pointer-events: none` so that a drag over it pans
+     the map rather than being eaten by a box of swatches, and a box the
+     pointer cannot reach is a box the finger cannot scroll either. On a short
+     screen with several layers on — the four thematic categories under
+     fourteen country rows — the foot of the key was simply unreachable.
+
+     So the panel takes the pointer *only when it has something to scroll*.
+     Measured rather than guessed at, because it depends on the height of the
+     screen and on how many rows this state happens to draw, and re-measured
+     whenever the key is rebuilt or the window changes. `overscroll-behavior:
+     contain` keeps the scroll from running on into the page underneath once
+     it reaches the end. */
+  function legendScroll() {
+    var el = $('#legend');
+    if (!el) return;
+    var over = el.scrollHeight > el.clientHeight + 1;
+    if (el.classList.contains('scrolls') !== over) {
+      el.classList.toggle('scrolls', over);
+    }
   }
 
   /* One way in and out of a date, so the header control and the shortcut in
@@ -19171,10 +19251,13 @@
       subEpochGated = null;
       // the division list and the group names go with it
       subNodesChanged();
-      // and the clip a thematic layer wanted before this arrived
+      // and the clip a thematic layer wanted before this arrived, and the
+      // boundaries it wants lifted over its wash
       applyThemeClip();
       setAdminBusy();
       applyState();
+      // after applyState, which lifts for whatever the pointer has
+      liftThemeSubs();
       if (selected) select(selected);
     };
     if (window.JMAP_INLINE_ADMIN) { graft(window.JMAP_INLINE_ADMIN); return; }
@@ -19694,6 +19777,7 @@
       if (themeMenuOn && e.key === 'Escape') closeThemeMenu();
     });
     window.addEventListener('resize', function () {
+      legendScroll();
       if (labelMenuOn) placeLabelMenu();
       if (railMenuOn) placeRailMenu();
       if (trainMenuOn) placeTrainMenu();
@@ -20275,6 +20359,31 @@
     /* Whether the railways fade out at a wide view. The drawing reads
        `railAlpha`, which reads this, so the switch has only to set it and ask
        for a redraw. */
+    /* **THE HEADER FOLDS AWAY.** Two rows of buttons on a phone, and what is
+       left for the map is a strip. The tab is both the way out and the way
+       back — one control, so the bar can never be away with nothing on screen
+       to say how to return it. Kept in `state` so it survives a reload and
+       goes into a saved link like every other choice. */
+    var btnFold = $('#btn-bar-fold');
+    if (btnFold) {
+      var syncFold = function () {
+        document.body.classList.toggle('bar-folded', !!state.barFolded);
+        btnFold.setAttribute('aria-expanded', state.barFolded ? 'false' : 'true');
+        var lab = state.barFolded ? 'Show the buttons'
+                                  : 'Hide the buttons and give the map the room';
+        btnFold.setAttribute('aria-label', lab);
+        btnFold.title = lab;
+      };
+      syncFold();
+      btnFold.addEventListener('click', function () {
+        state.barFolded = !state.barFolded;
+        syncFold();
+        // the map is a different size now, and the labels are placed in it
+        bumpLayout();
+        saveState();
+      });
+    }
+
     var optRailZoom = $('#opt-rail-zoom');
     if (optRailZoom) {
       optRailZoom.checked = !!state.railZoom;

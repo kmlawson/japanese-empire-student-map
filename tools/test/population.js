@@ -826,8 +826,28 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     check(what + ': the type is smaller than it was', bar.font <= 13, bar.font + 'px');
     check(what + ': the padding is tighter', bar.padX <= 9, bar.padX + 'px');
     check(what + ': and so is the space between', bar.gap <= 7, bar.gap + 'px');
-    check(what + ': the bar is shorter than the 57/59 it was',
-      bar.barH <= (touch ? 55 : 52), bar.barH + 'px');
+    /* **THE BAR IS TWO ROWS NOW, AND THE FOLD IS WHAT BUYS THE HEIGHT BACK.**
+       This guarded a bar squeezed into one row, which is what it was until
+       the row started running off the side of a 390px screen — Layers and the
+       ? past the right-hand edge with nothing to say the row could be
+       dragged. It wraps instead, so on a phone it is two rows and taller, and
+       the tab folds the whole thing away when the reader wants the map. What
+       is still worth holding is that the *row* is tight — the type, the
+       padding and the gap above — and that folded it costs almost nothing. */
+    const folded = await q.evaluate(async () => {
+      const btn = document.getElementById('btn-bar-fold');
+      if (!btn) return null;
+      btn.click();
+      await new Promise(r => setTimeout(r, 350));
+      const h = Math.round(document.getElementById('bar').getBoundingClientRect().height);
+      btn.click();
+      await new Promise(r => setTimeout(r, 350));
+      return h;
+    });
+    check(what + ': one row of buttons is as tight as it was',
+      bar.btnH <= (touch ? 40 : 34), bar.btnH + 'px');
+    check(what + ': and folded away the bar is a tab',
+      folded !== null && folded <= (touch ? 52 : 48), folded + 'px');
     check(what + ': but a button is still big enough to hit',
       bar.btnH >= floor, bar.btnH + 'px');
     await q.close();

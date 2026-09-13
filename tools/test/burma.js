@@ -263,10 +263,20 @@ const GROUPS = {
         });
         check('    the four categories are drawn',
               on.cats.length === 4, on.cats.join(', '));
+        /* **SOLID, WITH THE BOUNDARIES OVER IT.** The wash was 0.55 so the
+           districts underneath stayed readable, and the country's own amber
+           then tinted every category — the reader matching a mixture against
+           a key of pure colours. It is opaque now and the district boundaries
+           are lifted into `#subs-lift`, which draws after it. Both halves are
+           checked here, because either alone is a map that has lost
+           something: the fill without the lift loses the districts, the lift
+           without the fill is where this started. */
+        const lifted = await p.evaluate(() =>
+          document.querySelectorAll('#subs-lift path').length);
         check('    over the districts, not instead of them',
-              on.pointer === 'none' && parseFloat(on.opacity) > 0.3
-              && parseFloat(on.opacity) < 0.8,
-              'pointer-events ' + on.pointer + ', fill-opacity ' + on.opacity);
+              on.pointer === 'none' && parseFloat(on.opacity) === 1 && lifted > 40,
+              'pointer-events ' + on.pointer + ', fill-opacity ' + on.opacity
+              + ', ' + lifted + ' boundaries lifted over it');
         check('    and it brings the districts and their names with it',
               on.admin && on.labels, JSON.stringify({ admin: on.admin, labels: on.labels }));
         check('    with their boundaries actually stroked', on.subs,
