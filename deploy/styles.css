@@ -837,7 +837,15 @@ button.plain:hover { background: var(--hover-fill); }
 /* The theme's answer in the hover, set apart from the place's own names by
    the same weight the `rule` line uses: it is a statement about the ground
    rather than another word for it. */
+/* The caveat a reader has to have before the figures mean anything. Weighted
+   so it is not skimmed past: it is the difference between "Burma's
+   population" and "the population of the part of Burma that was counted". */
+.pop-note-top { font-weight: 600; }
+
 #tooltip .theme-cat { font-style: italic; }
+/* The same weight for the frontier nobody agreed: both are statements about
+   the ground rather than another word for it. */
+#tooltip .contested-note { font-style: italic; }
 
 /* **A THEMATIC LAYER: A QUESTION ASKED OF A PLACE, DRAWN OVER IT.**
  *
@@ -1699,12 +1707,24 @@ button.plain:hover { background: var(--hover-fill); }
    appearing silently is a button nobody finds. It pulses twice and stops —
    an animation that keeps going is a thing to be got rid of rather than
    read. */
+/* **BIGGER, AND LONGER.** The old flash was two beats of a 12% swell and a
+   6px ring, which the author kept missing altogether — and a notice nobody
+   sees is a notice that did not happen. The swell is 32% at its peak, the
+   ring reaches 16px and fills in twice as strongly, the colour of the button
+   itself turns over to the accent at the crest so the movement is not the
+   only signal, and it runs four beats rather than two. It is still a flash
+   rather than a permanent mark: the button stays where it was and says the
+   same thing afterwards. */
 @keyframes layer-info-flash {
-  0%, 100% { box-shadow: var(--shadow); transform: scale(1); }
-  50%      { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent, #9a1813) 45%, transparent);
-             transform: scale(1.12); }
+  0%, 100% { box-shadow: var(--shadow); transform: scale(1);
+             border-color: var(--line); color: var(--ink); }
+  50%      { box-shadow: 0 0 0 16px color-mix(in srgb, var(--accent, #9a1813) 0%, transparent),
+                         0 0 0 8px color-mix(in srgb, var(--accent, #9a1813) 75%, transparent);
+             transform: scale(1.32);
+             border-color: var(--accent, #9a1813);
+             color: var(--accent, #9a1813); }
 }
-#btn-layer-info.flash { animation: layer-info-flash 620ms ease-in-out 2; }
+#btn-layer-info.flash { animation: layer-info-flash 700ms ease-in-out 4; }
 @media (prefers-reduced-motion: reduce) {
   #btn-layer-info.flash { animation: none; outline: 3px solid var(--accent, #9a1813); }
 }

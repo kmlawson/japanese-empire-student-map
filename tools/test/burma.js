@@ -205,7 +205,32 @@ const GROUPS = {
       check('  the book is offered over Burma', th.exists && !th.hidden,
             JSON.stringify(th));
       if (th.exists && !th.hidden) {
+        /* **THE PRESS OPENS THE MENU, IT DOES NOT SWITCH THE LAYER ON.**
+           Even with one theme in it: the menu is what says what the layer is,
+           its date and where it came from, and a reader pressing an
+           unfamiliar book wants that before the map changes under them. It
+           also makes the press mean the same thing over every country. The
+           map must be untouched at this point — that is the half of it a
+           straight toggle would pass anyway. */
         await p.click('#btn-theme');
+        await sleep(900);
+        const opened = await p.evaluate(() => {
+          const m = document.getElementById('theme-menu');
+          return { shown: !!m && !m.hidden,
+                   rows: m ? [...m.querySelectorAll('label.row')].length : 0,
+                   drawn: !!document.getElementById('thematic') };
+        });
+        check('    the press opens the menu, with one theme in it',
+              opened.shown && opened.rows === 1, JSON.stringify(opened));
+        check('    and draws nothing until something is chosen',
+              !opened.drawn, String(opened.drawn));
+        await p.evaluate(() => {
+          const m = document.getElementById('theme-menu');
+          const lab = [...m.querySelectorAll('label.row')]
+            .find(e => /1931 Administration/.test(e.textContent || ''));
+          const inp = lab && lab.querySelector('input');
+          if (inp) inp.click();
+        });
         await sleep(2800);
         const on = await p.evaluate(() => {
           const g = document.getElementById('thematic');
@@ -272,7 +297,16 @@ const GROUPS = {
       await z.goto(BASE + '?where=93.5,15,98.5,19.5',
                    { waitUntil: 'domcontentloaded' });
       await ready(z); await sleep(2200);
-      await z.click('#btn-theme'); await sleep(2800);
+      // the book opens the menu; the theme is chosen from it
+      await z.click('#btn-theme'); await sleep(900);
+      await z.evaluate(() => {
+        const m = document.getElementById('theme-menu');
+        const lab = m && [...m.querySelectorAll('label.row')]
+          .find(e => /1931 Administration/.test(e.textContent || ''));
+        const inp = lab && lab.querySelector('input');
+        if (inp) inp.click();
+      });
+      await sleep(2800);
 
       const labs = await z.evaluate(() => {
         const D = ['Bassein', 'Myaungmya', 'Henzada', 'Hanthawaddy', 'Thaton',
@@ -317,6 +351,57 @@ const GROUPS = {
               /Bassein/.test(tip.all) && /Irrawaddy Division/.test(tip.all),
               tip.all);
       }
+      /* **THE CATEGORY IS THE POLYGON'S, NOT THE DISTRICT'S.**
+         `themeCatOf` places a district by its own centroid — one answer for
+         the whole of it — which is right for "what kind of place was
+         Myitkyina" and wrong for "what am I pointing at". Myitkyina is the
+         case the author reported: its centroid is in the loosely administered
+         red and the pointer was in the specially administered green, and the
+         hover said red. Checked against the drawn shapes rather than against
+         a list, so this cannot drift with the source. */
+      const agree = await (async () => {
+        const pts = await z.evaluate(() => {
+          const svg = document.getElementById('jmap');
+          const g = document.getElementById('thematic');
+          const cr = document.getElementById('map-container').getBoundingClientRect();
+          const m = svg.getScreenCTM();
+          const out = [], seen = new Set();
+          document.querySelectorAll('#a-burma [data-prov]').forEach(el => {
+            const bb = el.getBBox();
+            if (!bb.width) return;
+            for (let i = 1; i < 6; i++) for (let j = 1; j < 6; j++) {
+              const q = svg.createSVGPoint();
+              q.x = bb.x + bb.width * i / 6; q.y = bb.y + bb.height * j / 6;
+              if (!el.isPointInFill(q)) continue;
+              const hit = [...g.childNodes].find(k => k.isPointInFill && k.isPointInFill(q));
+              if (!hit) continue;
+              const cat = hit.getAttribute('data-cat-en');
+              const key = el.getAttribute('data-prov') + '|' + cat;
+              if (seen.has(key)) continue;
+              const pt = svg.createSVGPoint(); pt.x = q.x; pt.y = q.y;
+              const s2 = pt.matrixTransform(m);
+              if (s2.x < cr.x + 14 || s2.x > cr.right - 14
+                  || s2.y < cr.y + 14 || s2.y > cr.bottom - 14) continue;
+              seen.add(key);
+              out.push({ cat: cat, x: Math.round(s2.x), y: Math.round(s2.y) });
+            }
+          });
+          return out.slice(0, 8);
+        });
+        let same = 0;
+        for (const q of pts) {
+          await z.mouse.move(q.x - 8, q.y - 8); await sleep(180);
+          await z.mouse.move(q.x, q.y); await sleep(520);
+          const got = await z.evaluate(() =>
+            (document.querySelector('#tooltip .theme-cat') || {}).textContent || '');
+          if (got === q.cat) same++;
+        }
+        return { n: pts.length, same: same };
+      })();
+      check('  the hover names the category of the ground, not of the district',
+            agree.n >= 4 && agree.same === agree.n,
+            agree.same + ' of ' + agree.n + ' points agree with the polygon');
+
       check('  no page errors under the theme', e3.length === 0, e3.join(' | '));
       await z.close();
     }

@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '363';
+  var JEM_VERSION = '364';
 
 
 
@@ -6245,6 +6245,13 @@
       subNamed[gk] = 1;
       var text = svgEl('text', { 'class': 'tlabel sublabel grouplabel',
                                  'font-size': GROUP_PX });
+
+
+
+
+
+
+      text.style.fontSize = GROUP_PX + 'px';
       labelLayer.appendChild(text);
       var entry = { rec: subRec(els[0], pkey), el: text,
                     x: (x0 + x1) / 2, y: (y0 + y1) / 2, dy: 0,
@@ -7819,6 +7826,7 @@
                 ? got.el.closest('.atom') : null);
     var prov = hit && hit.rec.kind === 'territory' ? provinceAt(got, cx, cy) : null;
     lastProv = prov;
+    lastProvAt = prov ? toUser(cx, cy) : null;
     if (state.mode === 'quiz') {
       if (hit) { quizAnswer(hit); return; }
       if (quiz && quiz.current) {
@@ -8184,6 +8192,11 @@
 
 
   var lastProv = null;
+
+
+
+
+  var lastProvAt = null;
 
 
 
@@ -8619,6 +8632,55 @@
 
 
 
+  function themeCatAt(cx, cy) {
+    var u = toUser(cx, cy);
+    return u ? themeCatAtUser(u.x, u.y) : '';
+  }
+
+
+
+
+
+
+  function toUser(cx, cy) {
+    if (!svg) return null;
+    var m = svg.getScreenCTM();
+    if (!m) return null;
+    var pt = svg.createSVGPoint();
+    pt.x = cx; pt.y = cy;
+    var u = pt.matrixTransform(m.inverse());
+    return { x: u.x, y: u.y };
+  }
+
+  function themeCatAtUser(ux, uy) {
+    if (!themeShown || !themeLayer || !svg) return '';
+    var q = svg.createSVGPoint();
+    q.x = ux; q.y = uy;
+    var paths = themeLayer.childNodes;
+    for (var i = 0; i < paths.length; i++) {
+      var el = paths[i];
+      if (!el.isPointInFill) continue;
+      try {
+        if (el.isPointInFill(q)) return el.getAttribute('data-cat-en') || '';
+      } catch (err) { /* no geometry yet */ }
+    }
+    return '';
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -8919,6 +8981,7 @@
     setHot(hit.rec.kind === 'territory' ? hit.rec.id : null,
            prov && clusterOf(prov.el));
     lastProv = prov;
+    lastProvAt = prov ? toUser(e.clientX, e.clientY) : null;
     setHotProv(prov ? prov.el : null);
     showTooltip(hit.rec, e.clientX, e.clientY, prov);
   }
@@ -8955,6 +9018,40 @@
     tooltip.style.top = y + 'px';
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+  var contestedEls = null;
+  function contestedAt(cx, cy) {
+    if (!svg) return false;
+    if (!contestedEls) {
+      contestedEls = ['a-contested', 'a-contested_burma']
+        .map(function (id) { return $('#' + id, svg); })
+        .filter(Boolean);
+    }
+    if (!contestedEls.length) return false;
+    var u = toUser(cx, cy);
+    if (!u) return false;
+    var q = svg.createSVGPoint();
+    q.x = u.x; q.y = u.y;
+    for (var i = 0; i < contestedEls.length; i++) {
+      var el = contestedEls[i];
+
+      if (el.style.display === 'none') continue;
+      try { if (el.isPointInFill(q)) return true; } catch (err) { /* no geometry yet */ }
+    }
+    return false;
+  }
+
   function showTooltip(base, cx, cy, prov) {
     var rec = shown(base);
     var head = prov && prov.rec ? shown(prov.rec) : rec;
@@ -8976,7 +9073,15 @@
 
 
 
-              + '|' + (state.themeId || '');
+              + '|' + (state.themeId || '')
+
+
+
+              + '|' + themeCatAt(cx, cy)
+
+
+
+              + '|' + (contestedAt(cx, cy) ? 'ct' : '');
     if (key === tipKey && !tooltip.hidden) {
       if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
       return;
@@ -9061,7 +9166,25 @@
 
 
 
-      var tcat = themeCatOf(prov && prov.el);
+
+
+
+
+
+
+
+      if (contestedAt(cx, cy) && (!rec || rec.id !== 'contested')) {
+        var ctRec = territoryOf('contested');
+        var ct = document.createElement('span');
+        ct.className = 'sub contested-note';
+        ct.textContent = ctRec ? splitGloss(nameOf(ctRec)).name
+                               : 'Border is contested or not fixed';
+        tooltip.appendChild(ct);
+      }
+
+
+
+      var tcat = themeCatAt(cx, cy) || themeCatOf(prov && prov.el);
       if (tcat) {
         var tc = document.createElement('span');
         tc.className = 'sub theme-cat';
@@ -9974,7 +10097,14 @@
 
 
 
-    var themeCat = sub ? themeCatOf(lastProv && lastProv.el) : '';
+
+
+
+
+    var themeCat = sub
+      ? ((lastProvAt ? themeCatAtUser(lastProvAt.x, lastProvAt.y) : '')
+         || themeCatOf(lastProv && lastProv.el))
+      : '';
     var provEl = lastProv && lastProv.el;
     var mil = (sub && provEl && provEl.getAttribute)
       ? (provEl.getAttribute('data-mil') || '') : '';
@@ -12679,10 +12809,24 @@
           a.href = row.source_url;
           a.target = '_blank';
           a.rel = 'noopener';
-          a.textContent = row.source;
+
+
+
+
+
+
+
+          setProse(a, row.source);
           src.appendChild(a);
         } else {
-          src.appendChild(document.createTextNode(row.source));
+
+
+
+
+
+          var plain = document.createElement('span');
+          setProse(plain, row.source);
+          src.appendChild(plain);
         }
         wrap.appendChild(src);
       }
@@ -14038,6 +14182,18 @@
     h.className = 'pop-head';
     h.textContent = d.label;
     wrap.appendChild(h);
+
+
+
+
+
+
+    if (d.noteTop) {
+      var top = document.createElement('p');
+      top.className = 'pop-note pop-note-top';
+      top.textContent = d.noteTop;
+      wrap.appendChild(top);
+    }
     if (d.note) {
       var note = document.createElement('p');
       note.className = 'pop-note';
@@ -14103,11 +14259,15 @@
     wrap.appendChild(tableEl);
 
     var notes = [];
+    if (d.noteTop) notes.push(d.noteTop);
     if (d.note) notes.push(d.note);
     order.forEach(function (k) {
       if (d.rows[k].note) notes.push(named[k] + ' — ' + d.rows[k].note);
     });
-    notes.slice(d.note ? 1 : 0).forEach(function (n) {
+
+
+
+    notes.slice((d.noteTop ? 1 : 0) + (d.note ? 1 : 0)).forEach(function (n) {
       var p = document.createElement('p');
       p.className = 'pop-note';
       p.textContent = '* ' + n;
@@ -16187,10 +16347,15 @@
     if (themeOn()) { setTheme(''); return; }
     var ids = themesHere();
     if (!ids.length) return;
-    loadThemes(function () {
-      if (ids.length === 1) setTheme(ids[0]);
-      else openThemeMenu(ids);
-    });
+
+
+
+
+
+
+
+
+    loadThemes(function () { openThemeMenu(ids); });
   }
 
   function openRailMenu() {

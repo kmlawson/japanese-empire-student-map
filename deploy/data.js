@@ -10067,6 +10067,9 @@ JMAP.PROVINCE_EPOCH = {
     Ehime: {
       short: 'Matsuyama and its castle, with the Dōgo hot spring beside it. 1930 Census Population: 1,142,122 · Males per 100 Females: 97.80 · % of Total Japan: 1.77 · Per km²: 202'
     },
+    'Federated Shan States': {
+      short: 'The plateau east of the Sittang. 1931 Census Population: 1,486,688 The census returns the Shan States in two divisions, Northern (616,458) and Southern (870,230), and the map draws the states severally, so the two are added here. As printed, the Southern division\'s ethnic groups sum to 869,930 against its total of 870,230, so the groups here sum to 1,486,388 against 1,486,688.'
+    },
     Fukui: {
       short: 'Habutae, a plain smooth silk. 1930 Census Population: 618,144 · Males per 100 Females: 97.10 · % of Total Japan: 0.96 · Per km²: 148'
     },
@@ -10095,6 +10098,21 @@ JMAP.PROVINCE_EPOCH = {
     },
     Hokkaido: {
       short: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government. 1930 Census Population: 2,812,335 · Males per 100 Females: 109.28 · % of Total Japan: 4.36 · Per km²: 36 Chishima (the Kuriles) is counted in the census figure and is drawn on this map as a territory of its own, so the area here is Hokkaidō without it.'
+    },
+    Hopong: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    'Hsa Mong': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Hsahtung: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Hsikip: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Hsipaw: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
     },
     Hyogo: {
       short: 'Reaches from the Inland Sea to the Japan Sea. 1930 Census Population: 2,646,301 · Males per 100 Females: 101.49 · % of Total Japan: 4.11 · Per km²: 315'
@@ -10139,11 +10157,23 @@ JMAP.PROVINCE_EPOCH = {
     Keishonan: {
       short: 'The end of the peninsula facing Japan, and the province the colony was entered through. 1930 Census Population: 2,135,716 · Males per 100 Females: 101.57 · % of Total Korea: 10.1 · Per km²: 174'
     },
+    'Keng Hkam': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Kenglon: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Kengtung: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Kochi: {
       short: 'Tosa, shut off from the rest of Shikoku by the mountains and facing the open Pacific. 1930 Census Population: 718,152 · Males per 100 Females: 98.94 · % of Total Japan: 1.11 · Per km²: 101'
     },
     Kogen: {
       short: 'The Taebaek range down its spine, and very little flat ground. 1930 Census Population: 1,487,715 · Males per 100 Females: 109.82 · % of Total Korea: 7.1 · Per km²: 57'
+    },
+    Koi: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
     },
     Kokai: {
       short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea. 1930 Census Population: 1,523,523 · Males per 100 Females: 102.11 · % of Total Korea: 7.2 · Per km²: 92'
@@ -10156,13 +10186,43 @@ JMAP.PROVINCE_EPOCH = {
     Kyebogyi: {
       short: '1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states\' joint figures.'
     },
+    Kyong: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Kyoto: {
       short: 'Kyoto-fu, made of the old capital and the country running north to the Japan Sea. 1930 Census Population: 1,552,832 · Males per 100 Females: 104.21 · % of Total Japan: 2.41 · Per km²: 338'
+    },
+    'Lai Hsak': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Laihka: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    'Lawk Sawk': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Loilong: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Lonpo: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
     },
     'Lower Chindwin': { short: '1931 Census Population: 383,434' },
     Magwe: { short: '1931 Census Population: 499,573' },
     Mandalay: { short: '1931 Census Population: 371,636' },
+    Manglon: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Maubin: { short: '1931 Census Population: 371,509' },
+    Maw: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    'Mawk Mai': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Mawnang: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Meiktila: { short: '1931 Census Population: 309,999' },
     Mergui: { short: '1931 Census Population: 161,987' },
     Mie: {
@@ -10177,8 +10237,38 @@ JMAP.PROVINCE_EPOCH = {
     Miyazaki: {
       short: 'Hyūga, the coast facing the Pacific, poor. 1930 Census Population: 760,467 · Males per 100 Females: 101.53 · % of Total Japan: 1.18 · Per km²: 98'
     },
+    'Mong Hsu': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    'Mong Nai': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    'Mong Pan': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    'Mong Pawn': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    'Mong-Kung': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    'Mong-Nawng': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    'Mong-Pai': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    'Mong-Sit': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Mongmit: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Myaungmya: { short: '1931 Census Population: 444,784' },
     Myingyan: { short: '1931 Census Population: 472,557' },
+    Myinkyado: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Myitkyina: { short: '1931 Census Population: 171,524' },
     Nagano: {
       short: 'The silk prefecture. 1930 Census Population: 1,717,118 · Males per 100 Females: 94.07 · % of Total Japan: 2.66 · Per km²: 127'
@@ -10186,11 +10276,26 @@ JMAP.PROVINCE_EPOCH = {
     Nagasaki: {
       short: 'For two centuries the only place in Japan where Europeans could trade at all. 1930 Census Population: 1,233,362 · Males per 100 Females: 104.59 · % of Total Japan: 1.91 · Per km²: 303'
     },
+    'Nam Hkok': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Namhkai: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Namtok: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Nara: {
       short: 'The capital in the eighth century, and what is left of it is the reason people come. 1930 Census Population: 596,225 · Males per 100 Females: 98.23 · % of Total Japan: 0.93 · Per km²: 161'
     },
+    'Nawn Wawn': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Niigata: {
       short: 'The country\'s rice prefecture, the long Echigo plain behind sand dunes. 1930 Census Population: 1,933,326 · Males per 100 Females: 97.74 · % of Total Japan: 3.00 · Per km²: 154'
+    },
+    'North Hseweni': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
     },
     Oita: {
       short: 'Beppu, and more hot spring water than anywhere else in Japan. 1930 Census Population: 945,771 · Males per 100 Females: 97.13 · % of Total Japan: 1.47 · Per km²: 149'
@@ -10205,6 +10310,12 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The merchant city — "the kitchen of the realm" under the Tokugawa. 1930 Census Population: 3,540,017 · Males per 100 Females: 108.95 · % of Total Japan: 5.49 · Per km²: 1851'
     },
     Pakokku: { short: '1931 Census Population: 499,181' },
+    Pangni: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
+    Pangtara: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Pegu: { short: '1931 Census Population: 489,969' },
     Prome: { short: '1931 Census Population: 410,651' },
     Pyapon: { short: '1931 Census Population: 334,158' },
@@ -10219,6 +10330,9 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo. 1930 Census Population: 1,459,172 · Males per 100 Females: 97.08 · % of Total Japan: 2.26 · Per km²: 384'
     },
     Salween: { short: '1931 Census Population: 53,186' },
+    Samka: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Sandoway: { short: '1931 Census Population: 129,245' },
     Shiga: {
       short: 'Lake Biwa, the largest lake in Japan. 1930 Census Population: 691,631 · Males per 100 Females: 95.04 · % of Total Japan: 1.07 · Per km²: 172'
@@ -10230,10 +10344,19 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Tea and mandarins above the Tōkaidō, and the largest tea crop in the country. 1930 Census Population: 1,797,805 · Males per 100 Females: 100.39 · % of Total Japan: 2.79 · Per km²: 231'
     },
     Shwebo: { short: '1931 Census Population: 446,790' },
+    'South Hseweni': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Tavoy: { short: '1931 Census Population: 179,964' },
+    'Tawng Peng': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Tharawaddy: { short: '1931 Census Population: 508,319' },
     Thaton: { short: '1931 Census Population: 532,628' },
     Thayetmo: { short: '1931 Census Population: 274,177' },
+    'To Nai': {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Tochigi: {
       short: 'Nikkō is here — the mausoleum of Ieyasu. 1930 Census Population: 1,141,737 · Males per 100 Females: 97.23 · % of Total Japan: 1.77 · Per km²: 178'
     },
@@ -10254,6 +10377,9 @@ JMAP.PROVINCE_EPOCH = {
     Wakayama: {
       short: 'Kii: the Kii peninsula\'s steep forested spine. 1930 Census Population: 830,748 · Males per 100 Females: 99.84 · % of Total Japan: 1.29 · Per km²: 176'
     },
+    Wanyin: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Yamagata: {
       short: 'The Mogami valley behind the Dewa mountains, opening on the Japan Sea at Sakata. 1930 Census Population: 1,080,034 · Males per 100 Females: 97.21 · % of Total Japan: 1.68 · Per km²: 116'
     },
@@ -10264,6 +10390,9 @@ JMAP.PROVINCE_EPOCH = {
       short: 'A basin ringed by mountains with Kōfu in the middle, the old Kai of Takeda Shingen. 1930 Census Population: 631,042 · Males per 100 Females: 99.88 · % of Total Japan: 0.98 · Per km²: 141'
     },
     Yamethin: { short: '1931 Census Population: 390,820' },
+    Yanghwe: {
+      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
+    },
     Zenrahoku: {
       short: 'The Honam plain, the largest stretch of paddy in Korea. 1930 Census Population: 1,503,695 · Males per 100 Females: 106.99 · % of Total Korea: 7.1 · Per km²: 178'
     },
@@ -10576,6 +10705,7 @@ JMAP.POPULATION = [
     "group": "korea-density",
     "country": "Korea",
     "caption": "estimated population at 1 October 1942",
+    "noteTop": "",
     "note": "These are Government-General estimates of population which build on data collected since the 1940 census.",
     "inShort": true,
     "tableSkip": [],
@@ -10758,6 +10888,7 @@ JMAP.POPULATION = [
     "group": "korea-density",
     "country": "Korea",
     "caption": "census of 1 October 1930",
+    "noteTop": "",
     "note": "",
     "inShort": true,
     "tableSkip": [],
@@ -11628,6 +11759,7 @@ JMAP.POPULATION = [
     "group": "korea-cities-1930",
     "country": "",
     "caption": "census of 1 October 1930",
+    "noteTop": "",
     "note": "",
     "inShort": true,
     "tableSkip": [
@@ -12399,6 +12531,7 @@ JMAP.POPULATION = [
     "group": "taiwan-density",
     "country": "Taiwan",
     "caption": "resident population at the end of 1941",
+    "noteTop": "",
     "note": "The census counted residents (常住) from the household and alien registers. The map draws the districts as they stood before 1933, so where a city was later cut out of one the row says so. The demarcated 「蕃地」 is drawn as a shape of its own, and a district’s people include those counted in the part of it that lies inside that shape — so a density here is over the ground the map gives the district, not over every square kilometre its people were counted on.",
     "inShort": false,
     "tableSkip": [],
@@ -13552,6 +13685,7 @@ JMAP.POPULATION = [
     "group": "japan-density",
     "country": "Japan",
     "caption": "census of 1 October 1930",
+    "noteTop": "",
     "note": "The source prints the age groups as 人口千中 — each group per thousand of that prefecture’s people — and they are shown here as the same figure in percent. They are shares, not counts. The sex ratio is given for all forty-eight rows at each of the three censuses the table prints — 1930, 1925 and 1920.",
     "inShort": true,
     "tableSkip": [],
@@ -14598,6 +14732,7 @@ JMAP.POPULATION = [
     "group": "japan-cities-1930",
     "country": "",
     "caption": "census of 1 October 1930",
+    "noteTop": "",
     "note": "",
     "inShort": true,
     "tableSkip": [],
@@ -14826,6 +14961,7 @@ JMAP.POPULATION = [
     "group": "taiwan-density",
     "country": "Taiwan",
     "caption": "resident population at the end of 1930",
+    "noteTop": "",
     "note": "The household registers at the end of 1930, not a census. The demarcated 「蕃地」 is a shape of its own on this map, and in this year the figures agree with it: the source counts the Indigenous Peoples 「蕃人」 of that ground in a column apart, so the 市 and 郡 here are the people of exactly the ground the map gives them. A prefecture, being the whole jurisdiction, is larger than its own districts added up by just that column. The 1941 return does it the other way and is noted there.",
     "inShort": false,
     "tableSkip": [],
@@ -15870,6 +16006,7 @@ JMAP.POPULATION = [
     "group": "taiwan-cities",
     "country": "",
     "caption": "resident population at the end of 1930",
+    "noteTop": "",
     "note": "",
     "inShort": true,
     "tableSkip": [],
@@ -15999,6 +16136,7 @@ JMAP.POPULATION = [
     "group": "taiwan-cities",
     "country": "",
     "caption": "resident population at the end of 1941",
+    "noteTop": "",
     "note": "Four of the eleven — 宜蘭, 彰化, 屏東 and 花蓮港 — were raised to 市 after the boundaries this map draws, so the shape under those dots is still the district with the city inside it. The figure on the dot is the city alone, which is why it is smaller than the district it stands in.",
     "inShort": true,
     "tableSkip": [],
@@ -16216,6 +16354,7 @@ JMAP.POPULATION = [
     "group": "manchukuo-density",
     "country": "Manchukuo",
     "caption": "population at the count of May 1943",
+    "noteTop": "",
     "note": "The report’s own figures, and its own ladder: the plate at the front of it shades the provinces at 5, 20, 40 and 100 to the square kilometre, and the map shades them at the same four rather than fitting a ladder of its own. Its sixth class is 新京特別市 alone at 1,268.2, which this map draws as a point. The provinces here are the nineteen of 1943 and the map’s are georeferenced from a 1935 sheet, so five of them — 通化, 北安, 東安, 四平 and 牡丹江 — have no shape and are in this table without one. Every density is the report’s own, over the report’s own area rather than over the polygon.",
     "inShort": true,
     "tableSkip": [],
@@ -16542,6 +16681,7 @@ JMAP.POPULATION = [
     "group": "japan-density",
     "country": "Japan",
     "caption": "census of 1 October 1940",
+    "noteTop": "",
     "note": "Okinawa included: the report prints the country both ways — 72,539,729 without it and 73,114,308 with — and this map draws Okinawa. The service personnel are counted inside each total rather than beside it, which is why the three registers add to the whole and the military column does not.",
     "inShort": true,
     "tableSkip": [
@@ -17563,6 +17703,7 @@ JMAP.POPULATION = [
     "group": "burma-1931",
     "country": "",
     "caption": "population by ethnic group at the 1931 census",
+    "noteTop": "Important: The 1931 census excluded a number of areas entirely from its count: unadministered and loosely administered territories in Upper Chindwin district (including Hukawng Valley and Naga Hills), Sumpra Bum and parts of Putao in Myitkyina, The Triangle, parts of Arakan Hill Tracks only brought under administration in 1930, and the Wa States (28,118 square miles today). See p1 of the Census of India, 1931 Volume XI Burma Part I. Report.",
     "note": "Note: The terms for ethnic groups are those of the original census. Where an ethnic group was too small to be shown on the source's map its figures were included in Others, so an empty cell here is not a zero.",
     "inShort": true,
     "tableSkip": [],
@@ -18177,39 +18318,23 @@ JMAP.POPULATION = [
         },
         "line": "1931 Census Population: 204,982"
       },
-      "Northern Shan States": {
-        "scope": "unmapped",
-        "en": "Northern Shan States",
-        "pop": 616458,
-        "note": "The census returns the Northern Shan States whole and the map draws the states severally, so these figures appear in this table only.",
+      "Federated Shan States": {
+        "scope": "sub-unit",
+        "en": "Shan States",
+        "pop": 1486688,
+        "note": "The census returns the Shan States in two divisions, Northern (616,458) and Southern (870,230), and the map draws the states severally, so the two are added here. As printed, the Southern division's ethnic groups sum to 869,930 against its total of 870,230, so the groups here sum to 1,486,388 against 1,486,688.",
         "x": {
-          "race_burma": 47249,
-          "race_lolo_muhso": 9562,
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
           "race_kachin": 63229,
-          "race_tai": 288659,
-          "race_chinese": 60550,
-          "race_palaung_wa": 123277,
-          "race_indian": 21253,
-          "race_others": 2679
-        },
-        "line": "1931 Census Population: 616,458 The census returns the Northern Shan States whole and the map draws the states severally, so these figures appear in this table only."
-      },
-      "Southern Shan States": {
-        "scope": "unmapped",
-        "en": "Southern Shan States",
-        "pop": 870230,
-        "note": "The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the ethnic groups sum to 869,930 against the total of 870,230.",
-        "x": {
-          "race_burma": 143274,
-          "race_lolo_muhso": 74859,
-          "race_tai": 408758,
-          "race_chinese": 3899,
-          "race_palaung_wa": 47524,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
           "race_karen": 177831,
-          "race_indian": 11351,
-          "race_others": 2434
+          "race_indian": 32604,
+          "race_others": 5113
         },
-        "line": "1931 Census Population: 870,230 The census returns the Southern Shan States whole and the map draws the states severally, so these figures appear in this table only. As printed, the ethnic groups sum to 869,930 against the total of 870,230."
+        "line": "1931 Census Population: 1,486,688 The census returns the Shan States in two divisions, Northern (616,458) and Southern (870,230), and the map draws the states severally, so the two are added here. As printed, the Southern division's ethnic groups sum to 869,930 against its total of 870,230, so the groups here sum to 1,486,388 against 1,486,688."
       },
       "Karenni States": {
         "scope": "sub-unit",
@@ -18264,6 +18389,804 @@ JMAP.POPULATION = [
           "race_others": 2077
         },
         "line": "1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states' joint figures."
+      },
+      "Hopong": {
+        "scope": "sub-unit",
+        "en": "Hopong",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Hsa Mong": {
+        "scope": "sub-unit",
+        "en": "Hsa Mong",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Hsahtung": {
+        "scope": "sub-unit",
+        "en": "Hsahtung",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Hsikip": {
+        "scope": "sub-unit",
+        "en": "Hsikip",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Hsipaw": {
+        "scope": "sub-unit",
+        "en": "Hsipaw",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Keng Hkam": {
+        "scope": "sub-unit",
+        "en": "Keng Hkam",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Kenglon": {
+        "scope": "sub-unit",
+        "en": "Kenglon",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Kengtung": {
+        "scope": "sub-unit",
+        "en": "Kengtung",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Koi": {
+        "scope": "sub-unit",
+        "en": "Koi",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Kyong": {
+        "scope": "sub-unit",
+        "en": "Kyong",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Lai Hsak": {
+        "scope": "sub-unit",
+        "en": "Lai Hsak",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Laihka": {
+        "scope": "sub-unit",
+        "en": "Laihka",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Lawk Sawk": {
+        "scope": "sub-unit",
+        "en": "Lawk Sawk",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Loilong": {
+        "scope": "sub-unit",
+        "en": "Loilong",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Lonpo": {
+        "scope": "sub-unit",
+        "en": "Lonpo",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Manglon": {
+        "scope": "sub-unit",
+        "en": "Manglon",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Maw": {
+        "scope": "sub-unit",
+        "en": "Maw",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mawk Mai": {
+        "scope": "sub-unit",
+        "en": "Mawk Mai",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mawnang": {
+        "scope": "sub-unit",
+        "en": "Mawnang",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mong Hsu": {
+        "scope": "sub-unit",
+        "en": "Mong Hsu",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mong Nai": {
+        "scope": "sub-unit",
+        "en": "Mong Nai",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mong Pan": {
+        "scope": "sub-unit",
+        "en": "Mong Pan",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mong Pawn": {
+        "scope": "sub-unit",
+        "en": "Mong Pawn",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mong-Kung": {
+        "scope": "sub-unit",
+        "en": "Mong-Kung",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mong-Nawng": {
+        "scope": "sub-unit",
+        "en": "Mong-Nawng",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mong-Pai": {
+        "scope": "sub-unit",
+        "en": "Mong-Pai",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mong-Sit": {
+        "scope": "sub-unit",
+        "en": "Mong-Sit",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Mongmit": {
+        "scope": "sub-unit",
+        "en": "Mongmit",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Myinkyado": {
+        "scope": "sub-unit",
+        "en": "Myinkyado",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Nam Hkok": {
+        "scope": "sub-unit",
+        "en": "Nam Hkok",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Namhkai": {
+        "scope": "sub-unit",
+        "en": "Namhkai",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Namtok": {
+        "scope": "sub-unit",
+        "en": "Namtok",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Nawn Wawn": {
+        "scope": "sub-unit",
+        "en": "Nawn Wawn",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "North Hseweni": {
+        "scope": "sub-unit",
+        "en": "North Hseweni",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Pangni": {
+        "scope": "sub-unit",
+        "en": "Pangni",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Pangtara": {
+        "scope": "sub-unit",
+        "en": "Pangtara",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Samka": {
+        "scope": "sub-unit",
+        "en": "Samka",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "South Hseweni": {
+        "scope": "sub-unit",
+        "en": "South Hseweni",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Tawng Peng": {
+        "scope": "sub-unit",
+        "en": "Tawng Peng",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "To Nai": {
+        "scope": "sub-unit",
+        "en": "To Nai",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Wanyin": {
+        "scope": "sub-unit",
+        "en": "Wanyin",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+      },
+      "Yanghwe": {
+        "scope": "sub-unit",
+        "en": "Yanghwe",
+        "pop": 1486688,
+        "note": "The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.",
+        "sameAs": "Federated Shan States",
+        "x": {
+          "race_burma": 190523,
+          "race_lolo_muhso": 84421,
+          "race_kachin": 63229,
+          "race_tai": 697417,
+          "race_chinese": 64449,
+          "race_palaung_wa": 170801,
+          "race_karen": 177831,
+          "race_indian": 32604,
+          "race_others": 5113
+        },
+        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
       }
     },
     "breaks": [],

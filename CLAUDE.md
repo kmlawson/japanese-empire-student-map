@@ -312,3 +312,20 @@ So: `const` and `let`, arrow functions and spread are fine in new code, and
 `let`/`const` are preferred because a redeclaration is then an error at parse
 time. Nothing old needs converting — it works — but no new `var`. Written
 after the 9 September 2026 review (`reports/2026.09.09-js-and-tests-review.md`).
+
+## Reader-facing description text is the author's, not yours
+
+**When the author asks for text for the About page, the documentation, a
+layer note or `sources.html`, write what they gave you and nothing else.** Not
+a sentence of context, not a clause explaining why the source matters, not a
+parenthesis you thought would help. If you believe something should be added,
+**propose it and wait for a yes**.
+
+`sources.html` is the case that provoked this: it is a *list of sources*. A
+citation, and where it came from. Commentary on what each one shows, how it
+was used, or what makes it interesting is not a source list and was not asked
+for.
+
+This is narrower than the "one or two sentences, not a paragraph" rule above
+and stricter: there, the job is to compress the prose you are writing. Here the
+prose is not yours to write. Length is not the test — authorship is.

@@ -592,6 +592,16 @@ def population_data():
                      # place, because the radios under it are the maps
                      "country": d.get("country") or "",
                      "caption": caption,
+                     # A second note, printed *above* the first and above
+                     # the table. `note` is a remark about how the figures
+                     # were made; this is for the thing a reader has to know
+                     # before reading them at all — for Burma, that the 1931
+                     # census left whole districts uncounted, so the totals
+                     # are of the administered country and not of the
+                     # country. Its own field rather than a longer `note`,
+                     # because the two are read at different moments and the
+                     # CSV writes one `Note` row for each.
+                     "noteTop": d.get("note_top") or "",
                      "note": d.get("note") or "",
                      "inShort": (d.get("in_short") or "").strip().lower()
                                 not in ("no", "false", "0"),

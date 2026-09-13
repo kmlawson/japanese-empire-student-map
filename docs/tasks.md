@@ -22051,3 +22051,78 @@ swapped. A cached list whose writers do not all say so is a division that never
 gets named — which is why they are named here rather than assumed.
 
 `subnames`, `labels`, `provsource` and `islands` pass.
+
+## 181. Six things the thematic layer and the Burma table needed
+
+**The hover names the category of the ground, not of the district.** Reported
+with a picture: the pointer in the specially administered green of Myitkyina,
+the tooltip saying *Loosely Administered*. `themeCatOf` answers from the table
+`build_themes.py` writes, which places a district by its own centroid — one
+answer for the whole district — and Myitkyina's centroid is in the red strip.
+That is the right answer to *what kind of place was Myitkyina* and the wrong
+one to *what am I pointing at*.
+
+`themeCatAt` asks the drawn shapes instead. They are `pointer-events: none`,
+which is what keeps the districts clickable underneath, so `elementsFromPoint`
+cannot see them and the test is geometric — four `isPointInFill` calls, one per
+category. **Measured at nine (district, category) points the geometry actually
+has: nine agree with the polygon, none with the district.** The card takes the
+same answer from the point the reader clicked, kept in **map units** rather
+than screen pixels so a card opened after a pan is not asking about wherever
+that patch of screen now is.
+
+**A contested frontier says so in the hover.** With the Administrative layer
+off the hatching answers for itself; with it on a district answers — which is
+right, it is what they pointed at — and the fact that two states claimed the
+ground went missing at exactly the zoom where somebody is looking closely.
+Same geometric test, for the same reason: the hatching stands down from the
+pointer wherever a division has to be clickable through it.
+
+**One bar for the Shan States.** The census returns them in two divisions,
+Northern (616,458) and Southern (870,230), and the map draws the states
+severally. They are one row now — 1,486,688 — and the 42 states of the group
+carry it by `same_as`, which is the arrangement Karenni already had. The Wa
+States get no row: the census did not count them. The row's note keeps the
+source's own division and its arithmetic, the Southern groups summing to
+869,930 against its printed 870,230, so the combined groups sum to 1,486,388
+against 1,486,688.
+
+**The exclusions, above the table.** A new `note_top` beside `note`: the two
+are read at different moments and the CSV writes a `Note` row for each. This
+one is what a reader has to know before the figures mean anything — the 1931
+census left whole districts uncounted, which makes its totals figures for the
+administered country rather than for the country. Set in 600 weight so it is
+not skimmed past.
+
+**The book opens its menu even with one theme in it.** It used to switch a
+single theme straight on. But the menu is what says what the layer is, its date
+and where it came from, and a reader pressing an unfamiliar book wants that
+before the map changes under them. It also makes the press mean the same thing
+over every country, which is worth more than a saved click.
+
+**A source with no link was the one place markup was printed rather than read.**
+`*Census of India, 1931 Vol XI Burma Part I Report*` came out with its
+asterisks. The note above it and the multi-citation branch both went through
+`setProse`; the plain branch was a text node. All three do now.
+
+**And the "i" flashes larger.** Two beats of a 12% swell and a 6px ring, which
+the author kept missing — a notice nobody sees is a notice that did not happen.
+Four beats of a 32% swell, a ring to 16px at 75%, and the button's own border
+and glyph turning over to the accent at the crest, so movement is not the only
+signal.
+
+## 182. The group labels were never the size they were set
+
+Found while giving Annam, Tonkin, Cochinchina, Laos and Cambodia their own
+voice: `GROUP_PX` was written as a `font-size` **attribute**, and
+`.tlabel.sublabel`'s 10.5px in the stylesheet beats a presentation attribute.
+So 177c's twelve points had been doing nothing — the divisions were upright and
+letter-spaced and exactly as large as their districts.
+
+Worse quietly: `placeLabels` boxes a label from `entry.size`, which was 12,
+while the browser drew 10.5 — a label reserving room it does not use. Set as an
+inline style now, one number in one place, winning.
+
+Measured over Indochina with **Other** on: the five protectorates at 12px
+upright against Kratié's 10.5px italic, all five drawn at the wide and country
+views and four at the close one, Tonkin being off the screen there.

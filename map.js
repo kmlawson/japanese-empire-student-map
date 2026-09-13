@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '363';
+  var JEM_VERSION = '364';
 
   /* Every file this one fetches, with the version on it.
 
@@ -6245,6 +6245,13 @@
       subNamed[gk] = 1;
       var text = svgEl('text', { 'class': 'tlabel sublabel grouplabel',
                                  'font-size': GROUP_PX });
+      /* **INLINE, BECAUSE THE STYLESHEET BEATS A PRESENTATION ATTRIBUTE.**
+         `font-size` written as an attribute loses to `.tlabel.sublabel`'s own
+         10.5px, so the group came out the same size as its districts however
+         large `GROUP_PX` was — and worse, `placeLabels` went on boxing it at
+         12 while the browser drew it at 10.5, which is a label reserving room
+         it does not use. One number, in one place, winning. */
+      text.style.fontSize = GROUP_PX + 'px';
       labelLayer.appendChild(text);
       var entry = { rec: subRec(els[0], pkey), el: text,
                     x: (x0 + x1) / 2, y: (y0 + y1) / 2, dy: 0,
@@ -7819,6 +7826,7 @@
                 ? got.el.closest('.atom') : null);
     var prov = hit && hit.rec.kind === 'territory' ? provinceAt(got, cx, cy) : null;
     lastProv = prov;
+    lastProvAt = prov ? toUser(cx, cy) : null;
     if (state.mode === 'quiz') {
       if (hit) { quizAnswer(hit); return; }
       if (quiz && quiz.current) {
@@ -8184,6 +8192,11 @@
   /* The province the pointer is over *now*. Hover sets it, and so does a tap,
      because a touch screen has no hover to have set it already. */
   var lastProv = null;
+  /* Where the reader pointed when they chose it, in **map units** — see
+     `toUser`. The card asks the thematic layer what is under that point
+     rather than what the district's table says, because a district can
+     straddle two categories and Myitkyina does. */
+  var lastProvAt = null;
   /* And the province the *selection* is of, which is a different thing and has
      to be kept apart from it.
      
@@ -8605,6 +8618,55 @@
     return cats.length ? cats[0].en : '';
   }
 
+  /* **THE CATEGORY OF THE GROUND, NOT OF THE DISTRICT IT IS IN.**
+     `themeCatOf` answers from the table the build worked out, which places a
+     district by its own centroid — one answer for the whole district. That is
+     the right answer to "what kind of place was Myitkyina", and the wrong one
+     to "what am I pointing at", because a district can straddle two
+     categories and several do. Myitkyina is the case the author reported: its
+     centroid is in the loosely administered red, the pointer was in the
+     specially administered green, and the hover said red.
+
+     So the hover asks the drawn shapes where the pointer is. They are
+     `pointer-events: none` — that is what lets the districts underneath stay
+     clickable — so `elementsFromPoint` cannot see them and the test is
+     geometric, exactly as `contestedAt` does it. Four paths at most, one per
+     category, which is nothing on a mouse move. */
+  function themeCatAt(cx, cy) {
+    var u = toUser(cx, cy);
+    return u ? themeCatAtUser(u.x, u.y) : '';
+  }
+
+  /* A screen point in map units, or null. **The two are not interchangeable
+     and this file's most-repeated bug is treating them as though they were**
+     — which is why anything that keeps a point for later keeps it in map
+     units: a card opened after a pan would otherwise be asking about wherever
+     that patch of screen now is. */
+  function toUser(cx, cy) {
+    if (!svg) return null;
+    var m = svg.getScreenCTM();
+    if (!m) return null;
+    var pt = svg.createSVGPoint();
+    pt.x = cx; pt.y = cy;
+    var u = pt.matrixTransform(m.inverse());
+    return { x: u.x, y: u.y };
+  }
+
+  function themeCatAtUser(ux, uy) {
+    if (!themeShown || !themeLayer || !svg) return '';
+    var q = svg.createSVGPoint();
+    q.x = ux; q.y = uy;
+    var paths = themeLayer.childNodes;
+    for (var i = 0; i < paths.length; i++) {
+      var el = paths[i];
+      if (!el.isPointInFill) continue;
+      try {
+        if (el.isPointInFill(q)) return el.getAttribute('data-cat-en') || '';
+      } catch (err) { /* no geometry yet */ }
+    }
+    return '';
+  }
+
   /* **CTRL, HELD: EVERY BOUNDARY THE MAP HAS AT ONCE.**
    *
    * The Administrative layer draws divisions for the country under the
@@ -8919,6 +8981,7 @@
     setHot(hit.rec.kind === 'territory' ? hit.rec.id : null,
            prov && clusterOf(prov.el));
     lastProv = prov;
+    lastProvAt = prov ? toUser(e.clientX, e.clientY) : null;
     setHotProv(prov ? prov.el : null);
     showTooltip(hit.rec, e.clientX, e.clientY, prov);
   }
@@ -8955,6 +9018,40 @@
     tooltip.style.top = y + 'px';
   }
 
+  /* **IS THIS GROUND UNDER A FRONTIER NOBODY AGREED?**
+     Asked geometrically rather than off the pointer, because the hatching is
+     `pointer-events: none` wherever a division has to be clickable through it
+     — that was the fix that let a reader open Myitkyina and The Triangle
+     under the Kachin block — and something with no pointer events is not in
+     `elementsFromPoint`. So the two contested shapes are tested by their own
+     geometry at the pointer's place. Two `isPointInFill` calls on a hover is
+     nothing; it is the same question the reader would get by switching the
+     Administrative layer off, asked without making them.
+
+     The elements are held rather than queried each time: this runs on every
+     mouse move. */
+  var contestedEls = null;
+  function contestedAt(cx, cy) {
+    if (!svg) return false;
+    if (!contestedEls) {
+      contestedEls = ['a-contested', 'a-contested_burma']
+        .map(function (id) { return $('#' + id, svg); })
+        .filter(Boolean);
+    }
+    if (!contestedEls.length) return false;
+    var u = toUser(cx, cy);
+    if (!u) return false;
+    var q = svg.createSVGPoint();
+    q.x = u.x; q.y = u.y;
+    for (var i = 0; i < contestedEls.length; i++) {
+      var el = contestedEls[i];
+      // a frontier hidden by the epoch or by the extent says nothing
+      if (el.style.display === 'none') continue;
+      try { if (el.isPointInFill(q)) return true; } catch (err) { /* no geometry yet */ }
+    }
+    return false;
+  }
+
   function showTooltip(base, cx, cy, prov) {
     var rec = shown(base);
     var head = prov && prov.rec ? shown(prov.rec) : rec;
@@ -8976,7 +9073,15 @@
               // and which theme is up: the same province says one more thing
               // under a thematic layer, and a stale key would keep the old
               // tooltip until the pointer left and came back
-              + '|' + (state.themeId || '');
+              + '|' + (state.themeId || '')
+              // and which category the *point* is in: one district can be
+              // half green and half red, and the key would be the same on
+              // both sides of the line
+              + '|' + themeCatAt(cx, cy)
+              // and whether the point is under a contested frontier: one
+              // district can be half in and half out of the hatching, and the
+              // key would otherwise be the same on both sides of it
+              + '|' + (contestedAt(cx, cy) ? 'ct' : '');
     if (key === tipKey && !tooltip.hidden) {
       if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
       return;
@@ -9061,7 +9166,25 @@
          to the card or match a wash against the key. It goes under the
          country, where the other "what kind of place is this" lines go, and
          only while a theme is showing. */
-      var tcat = themeCatOf(prov && prov.el);
+      /* **AND WHETHER ANYBODY AGREED THE FRONTIER HERE.**
+         With the Administrative layer off the hatching answers for itself and
+         the reader is told. With it on, a division answers instead — which is
+         right, it is what they pointed at — and the fact that the ground is
+         claimed by two states went missing at exactly the zoom where somebody
+         is looking closely at it. It is a fact about the ground, so it goes
+         with the other one. */
+      if (contestedAt(cx, cy) && (!rec || rec.id !== 'contested')) {
+        var ctRec = territoryOf('contested');
+        var ct = document.createElement('span');
+        ct.className = 'sub contested-note';
+        ct.textContent = ctRec ? splitGloss(nameOf(ctRec)).name
+                               : 'Border is contested or not fixed';
+        tooltip.appendChild(ct);
+      }
+      /* From the ground under the pointer, falling back to the district's own
+         answer only where the wash does not reach — which inside Burma it now
+         always does, the coastal islands having been added to Regular. */
+      var tcat = themeCatAt(cx, cy) || themeCatOf(prov && prov.el);
       if (tcat) {
         var tc = document.createElement('span');
         tc.className = 'sub theme-cat';
@@ -9974,7 +10097,14 @@
      * colour to be matched against the key by eye. Only while a theme is on,
      * and only when the ground under the pointer is in one of its categories.
      */
-    var themeCat = sub ? themeCatOf(lastProv && lastProv.el) : '';
+    /* The ground the reader pointed at first, the district's own answer only
+       where the wash does not reach. The two differ wherever a district
+       straddles a category, and the card and the hover disagreeing about the
+       same square inch is worse than either being coarse. */
+    var themeCat = sub
+      ? ((lastProvAt ? themeCatAtUser(lastProvAt.x, lastProvAt.y) : '')
+         || themeCatOf(lastProv && lastProv.el))
+      : '';
     var provEl = lastProv && lastProv.el;
     var mil = (sub && provEl && provEl.getAttribute)
       ? (provEl.getAttribute('data-mil') || '') : '';
@@ -12679,10 +12809,24 @@
           a.href = row.source_url;
           a.target = '_blank';
           a.rel = 'noopener';
-          a.textContent = row.source;
+          /* **A title is set in italics here as it is everywhere else.** This
+             was `textContent`, so a source written `the map at p. xi of the
+             *Census of India, 1931*` came out with the asterisks in it — the
+             one place in the layer note where the author's markup was printed
+             rather than read. `setProse` is the same renderer the note above
+             uses, and it builds elements rather than markup, so nothing in a
+             data file can inject into the page. */
+          setProse(a, row.source);
           src.appendChild(a);
         } else {
-          src.appendChild(document.createTextNode(row.source));
+          /* And a source with no link of its own is still prose. This was a
+             text node, so the one layer whose citation carries a title and no
+             URL — the 1931 administration map of Burma — printed its
+             asterisks. Every other path through this function already
+             rendered them; this was the one that did not. */
+          var plain = document.createElement('span');
+          setProse(plain, row.source);
+          src.appendChild(plain);
         }
         wrap.appendChild(src);
       }
@@ -14038,6 +14182,18 @@
     h.className = 'pop-head';
     h.textContent = d.label;
     wrap.appendChild(h);
+    /* The thing to know before reading the figures at all, above the remark
+       about how they were made. Burma's is that the 1931 census left whole
+       districts uncounted, which makes its totals figures for the
+       administered country rather than for the country — a reader who takes
+       the total for Burma's population has been misled by a table that was
+       accurate. */
+    if (d.noteTop) {
+      var top = document.createElement('p');
+      top.className = 'pop-note pop-note-top';
+      top.textContent = d.noteTop;
+      wrap.appendChild(top);
+    }
     if (d.note) {
       var note = document.createElement('p');
       note.className = 'pop-note';
@@ -14103,11 +14259,15 @@
     wrap.appendChild(tableEl);
 
     var notes = [];
+    if (d.noteTop) notes.push(d.noteTop);
     if (d.note) notes.push(d.note);
     order.forEach(function (k) {
       if (d.rows[k].note) notes.push(named[k] + ' — ' + d.rows[k].note);
     });
-    notes.slice(d.note ? 1 : 0).forEach(function (n) {
+    /* The ones already printed above the table are not printed again under
+       it: `noteTop` and `note` are both on the screen already, and the rest
+       are the per-row ones this loop is for. */
+    notes.slice((d.noteTop ? 1 : 0) + (d.note ? 1 : 0)).forEach(function (n) {
       var p = document.createElement('p');
       p.className = 'pop-note';
       p.textContent = '* ' + n;
@@ -16180,17 +16340,22 @@
     themeMenuOn = false;
   }
 
-  /* The press. One theme here: toggle it. More than one: offer them. The
-     geometry is fetched on the first press, so the first one is a beat slower
-     and every one after is not. */
+  /* The press. On with a theme up: off. Otherwise the menu, whatever is in
+     it — see below. The geometry is fetched on the first press, so the first
+     one is a beat slower and every one after is not. */
   function pressTheme() {
     if (themeOn()) { setTheme(''); return; }
     var ids = themesHere();
     if (!ids.length) return;
-    loadThemes(function () {
-      if (ids.length === 1) setTheme(ids[0]);
-      else openThemeMenu(ids);
-    });
+    /* **THE MENU OPENS EVEN WHEN THERE IS ONE THEME IN IT.**
+       It used to switch a single theme straight on, on the reasoning that a
+       menu of one is a dialog for nothing. But the menu is what says *what
+       the layer is* — its name, its date and where it came from — and a
+       reader who presses an unfamiliar book wants that before the map
+       changes under them, not after. It also means the press behaves the same
+       way over every country, whatever happens to be there, which is worth
+       more than a saved click. */
+    loadThemes(function () { openThemeMenu(ids); });
   }
 
   function openRailMenu() {
