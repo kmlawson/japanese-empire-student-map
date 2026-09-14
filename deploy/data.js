@@ -691,7 +691,7 @@ JMAP.TERRITORIES = {
       id: 'japan', en: 'Japan', ja: '日本（内地）', orig: '日本 (Nihon)', zh: '日本內地',
       when: 'The metropole', cat: 'metropole', lvl: 1, atoms: ['japan'],
       wiki: 'https://en.wikipedia.org/wiki/Empire_of_Japan',
-      short: '1940 Census Population: 73,114,308 · Males per 100 Females: 100.05 · Per km²: 196 The census of 1 October 1940, Okinawa included — the report prints the country both ways and the map draws Okinawa, so this is its 73,114,308 rather than the 72,539,729 without it. 1,265,049 of these people were registered in the 外地, chiefly Koreans, and 1,694,428 were service personnel, who are inside the total rather than beside it.',
+      short: '1940 Census Population: 73,114,308 · Males per 100 Females: 100.05 · Per km²: 196',
       note: 'Untouched by the war so far, apart from the Doolittle raid of April 1942. Systematic bombing would begin once the Marianas fell in 1944.'
     },
     {
@@ -753,7 +753,7 @@ JMAP.TERRITORIES = {
       zh: '滿洲國', ko: '만주국', when: 'Japanese-occupied; nominally independent from March 1932',
       cat: 'puppet', lvl: 1, atoms: ['manchukuo'], under: '滿洲國',
       wiki: 'https://en.wikipedia.org/wiki/Manchukuo',
-      short: '1943 Census Population: 43,202,880 · Males per 100 Females: 123.9 · Per km²: 33 The whole state at the count of May 1943: 新京特別市 and nineteen provinces. The map draws fourteen of those provinces, being traced from a 1935 sheet, and those fourteen shapes hold 35,695,802 of these people with the capital among them; the other 7,507,078 were in the five provinces it has no shape for.',
+      short: '1943 Census Population: 43,202,880 · Males per 100 Females: 123.9 · Per km²: 33',
       note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor Puyi. Rehe was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.'
     },
     {
@@ -10058,9 +10058,7 @@ JMAP.PROVINCE_EPOCH = {
     },
     'Arakan Hill Distric': { short: '1931 Census Population: 21,418' },
     Bassein: { short: '1931 Census Population: 571,043' },
-    Bawlake: {
-      short: '1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states\' joint figures.'
-    },
+    Bawlake: { short: '1931 Census Population: 58,761' },
     Bhamo: { short: '1931 Census Population: 121,193' },
     Chiba: {
       short: 'The Bōsō peninsula, farming and fishing, and the soy-sauce towns: Noda and Chōshi. 1930 Census Population: 1,470,121 · Males per 100 Females: 98.48 · % of Total Japan: 2.28 · Per km²: 285'
@@ -10075,9 +10073,7 @@ JMAP.PROVINCE_EPOCH = {
     Ehime: {
       short: 'Matsuyama and its castle, with the Dōgo hot spring beside it. 1930 Census Population: 1,142,122 · Males per 100 Females: 97.80 · % of Total Japan: 1.77 · Per km²: 202'
     },
-    'Federated Shan States': {
-      short: 'The plateau east of the Sittang. 1931 Census Population: 1,486,688 The census returns the Shan States in two divisions, Northern (616,458) and Southern (870,230), and the map draws the states severally, so the two are added here. As printed, the Southern division\'s ethnic groups sum to 869,930 against its total of 870,230, so the groups here sum to 1,486,388 against 1,486,688.'
-    },
+    'Federated Shan States': { short: 'The plateau east of the Sittang. 1931 Census Population: 1,486,688' },
     Fukui: {
       short: 'Habutae, a plain smooth silk. 1930 Census Population: 618,144 · Males per 100 Females: 97.10 · % of Total Japan: 0.96 · Per km²: 148'
     },
@@ -10105,23 +10101,13 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The army\'s western capital: the 5th Division was raised here. 1930 Census Population: 1,692,136 · Males per 100 Females: 102.55 · % of Total Japan: 2.63 · Per km²: 200'
     },
     Hokkaido: {
-      short: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government. 1930 Census Population: 2,812,335 · Males per 100 Females: 109.28 · % of Total Japan: 4.36 · Per km²: 36 Chishima (the Kuriles) is counted in the census figure and is drawn on this map as a territory of its own, so the area here is Hokkaidō without it.'
+      short: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government. 1930 Census Population: 2,812,335 · Males per 100 Females: 109.28 · % of Total Japan: 4.36 · Per km²: 36'
     },
-    Hopong: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    'Hsa Mong': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Hsahtung: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Hsikip: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Hsipaw: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    Hopong: { short: '1931 Census Population: 1,486,688' },
+    'Hsa Mong': { short: '1931 Census Population: 1,486,688' },
+    Hsahtung: { short: '1931 Census Population: 1,486,688' },
+    Hsikip: { short: '1931 Census Population: 1,486,688' },
+    Hsipaw: { short: '1931 Census Population: 1,486,688' },
     Hyogo: {
       short: 'Reaches from the Inland Sea to the Japan Sea. 1930 Census Population: 2,646,301 · Males per 100 Females: 101.49 · % of Total Japan: 4.11 · Per km²: 315'
     },
@@ -10149,9 +10135,7 @@ JMAP.PROVINCE_EPOCH = {
     Kankyonan: {
       short: 'A narrow coastal shelf under high mountains. 1930 Census Population: 1,578,491 · Males per 100 Females: 107.62 · % of Total Korea: 7.5 · Per km²: 49'
     },
-    Kantarawadi: {
-      short: '1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states\' joint figures.'
-    },
+    Kantarawadi: { short: '1931 Census Population: 58,761' },
     'Karenni States': {
       short: 'Four states in treaty relations with the Crown, never annexed and never part of Burma proper. 1931 Census Population: 58,761'
     },
@@ -10165,24 +10149,16 @@ JMAP.PROVINCE_EPOCH = {
     Keishonan: {
       short: 'The end of the peninsula facing Japan, and the province the colony was entered through. 1930 Census Population: 2,135,716 · Males per 100 Females: 101.57 · % of Total Korea: 10.1 · Per km²: 174'
     },
-    'Keng Hkam': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Kenglon: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Kengtung: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    'Keng Hkam': { short: '1931 Census Population: 1,486,688' },
+    Kenglon: { short: '1931 Census Population: 1,486,688' },
+    Kengtung: { short: '1931 Census Population: 1,486,688' },
     Kochi: {
       short: 'Tosa, shut off from the rest of Shikoku by the mountains and facing the open Pacific. 1930 Census Population: 718,152 · Males per 100 Females: 98.94 · % of Total Japan: 1.11 · Per km²: 101'
     },
     Kogen: {
       short: 'The Taebaek range down its spine, and very little flat ground. 1930 Census Population: 1,487,715 · Males per 100 Females: 109.82 · % of Total Korea: 7.1 · Per km²: 57'
     },
-    Koi: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    Koi: { short: '1931 Census Population: 1,486,688' },
     Kokai: {
       short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea. 1930 Census Population: 1,523,523 · Males per 100 Females: 102.11 · % of Total Korea: 7.2 · Per km²: 92'
     },
@@ -10191,92 +10167,48 @@ JMAP.PROVINCE_EPOCH = {
     },
     Kyaukpyu: { short: '1931 Census Population: 220,292' },
     Kyaukse: { short: '1931 Census Population: 151,320' },
-    Kyebogyi: {
-      short: '1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states\' joint figures.'
-    },
-    Kyong: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    Kyebogyi: { short: '1931 Census Population: 58,761' },
+    Kyong: { short: '1931 Census Population: 1,486,688' },
     Kyoto: {
       short: 'Kyoto-fu, made of the old capital and the country running north to the Japan Sea. 1930 Census Population: 1,552,832 · Males per 100 Females: 104.21 · % of Total Japan: 2.41 · Per km²: 338'
     },
-    'Lai Hsak': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Laihka: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    'Lawk Sawk': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Loilong: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Lonpo: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    'Lai Hsak': { short: '1931 Census Population: 1,486,688' },
+    Laihka: { short: '1931 Census Population: 1,486,688' },
+    'Lawk Sawk': { short: '1931 Census Population: 1,486,688' },
+    Loilong: { short: '1931 Census Population: 1,486,688' },
+    Lonpo: { short: '1931 Census Population: 1,486,688' },
     'Lower Chindwin': { short: '1931 Census Population: 383,434' },
     Magwe: { short: '1931 Census Population: 499,573' },
     Mandalay: { short: '1931 Census Population: 371,636' },
-    Manglon: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    Manglon: { short: '1931 Census Population: 1,486,688' },
     Maubin: { short: '1931 Census Population: 371,509' },
-    Maw: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    'Mawk Mai': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Mawnang: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    Maw: { short: '1931 Census Population: 1,486,688' },
+    'Mawk Mai': { short: '1931 Census Population: 1,486,688' },
+    Mawnang: { short: '1931 Census Population: 1,486,688' },
     Meiktila: { short: '1931 Census Population: 309,999' },
     Mergui: { short: '1931 Census Population: 161,987' },
     Mie: {
       short: 'The Ise Shrine is here. 1930 Census Population: 1,157,407 · Males per 100 Females: 97.37 · % of Total Japan: 1.80 · Per km²: 201'
     },
-    Minbu: {
-      short: '1931 Census Population: 277,878 As printed: the ethnic groups sum to 277,876 against the printed total of 277,878.'
-    },
+    Minbu: { short: '1931 Census Population: 277,878' },
     Miyagi: {
       short: 'The old Date domain. 1930 Census Population: 1,142,784 · Males per 100 Females: 101.39 · % of Total Japan: 1.77 · Per km²: 157'
     },
     Miyazaki: {
       short: 'Hyūga, the coast facing the Pacific, poor. 1930 Census Population: 760,467 · Males per 100 Females: 101.53 · % of Total Japan: 1.18 · Per km²: 98'
     },
-    'Mong Hsu': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    'Mong Nai': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    'Mong Pan': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    'Mong Pawn': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    'Mong-Kung': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    'Mong-Nawng': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    'Mong-Pai': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    'Mong-Sit': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Mongmit: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    'Mong Hsu': { short: '1931 Census Population: 1,486,688' },
+    'Mong Nai': { short: '1931 Census Population: 1,486,688' },
+    'Mong Pan': { short: '1931 Census Population: 1,486,688' },
+    'Mong Pawn': { short: '1931 Census Population: 1,486,688' },
+    'Mong-Kung': { short: '1931 Census Population: 1,486,688' },
+    'Mong-Nawng': { short: '1931 Census Population: 1,486,688' },
+    'Mong-Pai': { short: '1931 Census Population: 1,486,688' },
+    'Mong-Sit': { short: '1931 Census Population: 1,486,688' },
+    Mongmit: { short: '1931 Census Population: 1,486,688' },
     Myaungmya: { short: '1931 Census Population: 444,784' },
     Myingyan: { short: '1931 Census Population: 472,557' },
-    Myinkyado: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    Myinkyado: { short: '1931 Census Population: 1,486,688' },
     Myitkyina: { short: '1931 Census Population: 171,524' },
     Nagano: {
       short: 'The silk prefecture. 1930 Census Population: 1,717,118 · Males per 100 Females: 94.07 · % of Total Japan: 2.66 · Per km²: 127'
@@ -10284,27 +10216,17 @@ JMAP.PROVINCE_EPOCH = {
     Nagasaki: {
       short: 'For two centuries the only place in Japan where Europeans could trade at all. 1930 Census Population: 1,233,362 · Males per 100 Females: 104.59 · % of Total Japan: 1.91 · Per km²: 303'
     },
-    'Nam Hkok': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Namhkai: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Namtok: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    'Nam Hkok': { short: '1931 Census Population: 1,486,688' },
+    Namhkai: { short: '1931 Census Population: 1,486,688' },
+    Namtok: { short: '1931 Census Population: 1,486,688' },
     Nara: {
       short: 'The capital in the eighth century, and what is left of it is the reason people come. 1930 Census Population: 596,225 · Males per 100 Females: 98.23 · % of Total Japan: 0.93 · Per km²: 161'
     },
-    'Nawn Wawn': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    'Nawn Wawn': { short: '1931 Census Population: 1,486,688' },
     Niigata: {
       short: 'The country\'s rice prefecture, the long Echigo plain behind sand dunes. 1930 Census Population: 1,933,326 · Males per 100 Females: 97.74 · % of Total Japan: 3.00 · Per km²: 154'
     },
-    'North Hseweni': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    'North Hseweni': { short: '1931 Census Population: 1,486,688' },
     Oita: {
       short: 'Beppu, and more hot spring water than anywhere else in Japan. 1930 Census Population: 945,771 · Males per 100 Females: 97.13 · % of Total Japan: 1.47 · Per km²: 149'
     },
@@ -10318,12 +10240,8 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The merchant city — "the kitchen of the realm" under the Tokugawa. 1930 Census Population: 3,540,017 · Males per 100 Females: 108.95 · % of Total Japan: 5.49 · Per km²: 1851'
     },
     Pakokku: { short: '1931 Census Population: 499,181' },
-    Pangni: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
-    Pangtara: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    Pangni: { short: '1931 Census Population: 1,486,688' },
+    Pangtara: { short: '1931 Census Population: 1,486,688' },
     Pegu: { short: '1931 Census Population: 489,969' },
     Prome: { short: '1931 Census Population: 410,651' },
     Pyapon: { short: '1931 Census Population: 334,158' },
@@ -10332,15 +10250,13 @@ JMAP.PROVINCE_EPOCH = {
     },
     Sagaing: { short: '1931 Census Population: 335,965' },
     Saishu: {
-      short: 'A volcanic island a hundred kilometres off the south coast. 1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168 The 1930 census counts Cheju inside Chŏllanam-do and does not break the island out, so these are that province’s figures.'
+      short: 'A volcanic island a hundred kilometres off the south coast. 1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168'
     },
     Saitama: {
       short: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo. 1930 Census Population: 1,459,172 · Males per 100 Females: 97.08 · % of Total Japan: 2.26 · Per km²: 384'
     },
     Salween: { short: '1931 Census Population: 53,186' },
-    Samka: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    Samka: { short: '1931 Census Population: 1,486,688' },
     Sandoway: { short: '1931 Census Population: 129,245' },
     Shiga: {
       short: 'Lake Biwa, the largest lake in Japan. 1930 Census Population: 691,631 · Males per 100 Females: 95.04 · % of Total Japan: 1.07 · Per km²: 172'
@@ -10352,19 +10268,13 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Tea and mandarins above the Tōkaidō, and the largest tea crop in the country. 1930 Census Population: 1,797,805 · Males per 100 Females: 100.39 · % of Total Japan: 2.79 · Per km²: 231'
     },
     Shwebo: { short: '1931 Census Population: 446,790' },
-    'South Hseweni': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    'South Hseweni': { short: '1931 Census Population: 1,486,688' },
     Tavoy: { short: '1931 Census Population: 179,964' },
-    'Tawng Peng': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    'Tawng Peng': { short: '1931 Census Population: 1,486,688' },
     Tharawaddy: { short: '1931 Census Population: 508,319' },
     Thaton: { short: '1931 Census Population: 532,628' },
     Thayetmo: { short: '1931 Census Population: 274,177' },
-    'To Nai': {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    'To Nai': { short: '1931 Census Population: 1,486,688' },
     Tochigi: {
       short: 'Nikkō is here — the mausoleum of Ieyasu. 1930 Census Population: 1,141,737 · Males per 100 Females: 97.23 · % of Total Japan: 1.77 · Per km²: 178'
     },
@@ -10385,9 +10295,7 @@ JMAP.PROVINCE_EPOCH = {
     Wakayama: {
       short: 'Kii: the Kii peninsula\'s steep forested spine. 1930 Census Population: 830,748 · Males per 100 Females: 99.84 · % of Total Japan: 1.29 · Per km²: 176'
     },
-    Wanyin: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    Wanyin: { short: '1931 Census Population: 1,486,688' },
     Yamagata: {
       short: 'The Mogami valley behind the Dewa mountains, opening on the Japan Sea at Sakata. 1930 Census Population: 1,080,034 · Males per 100 Females: 97.21 · % of Total Japan: 1.68 · Per km²: 116'
     },
@@ -10398,9 +10306,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'A basin ringed by mountains with Kōfu in the middle, the old Kai of Takeda Shingen. 1930 Census Population: 631,042 · Males per 100 Females: 99.88 · % of Total Japan: 0.98 · Per km²: 141'
     },
     Yamethin: { short: '1931 Census Population: 390,820' },
-    Yanghwe: {
-      short: '1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them.'
-    },
+    Yanghwe: { short: '1931 Census Population: 1,486,688' },
     Zenrahoku: {
       short: 'The Honam plain, the largest stretch of paddy in Korea. 1930 Census Population: 1,503,695 · Males per 100 Females: 106.99 · % of Total Korea: 7.1 · Per km²: 178'
     },
@@ -10485,7 +10391,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Rice on the Yokote basin and the Ōdate country. 1940 Census Population: 1,052,275 · Males per 100 Females: 99.20 · Per km²: 90'
     },
     'An Tung': {
-      short: 'The Yalu frontier, timber floated down from the interior and milled at Antung, and the bridge across to Sinuiju that carried the traffic between Manchuria and Korea. 1943 Census Population: 2,231,507 · Males per 100 Females: 110.4 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own.'
+      short: 'The Yalu frontier, timber floated down from the interior and milled at Antung, and the bridge across to Sinuiju that carried the traffic between Manchuria and Korea. 1943 Census Population: 2,231,507 · Males per 100 Females: 110.4'
     },
     Aomori: {
       short: 'The northern end of Honshū, made out of the Tsugaru and Nanbu country. 1940 Census Population: 1,000,509 · Males per 100 Females: 98.56 · Per km²: 104'
@@ -10494,10 +10400,10 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The Bōsō peninsula, farming and fishing, and the soy-sauce towns: Noda and Chōshi. 1940 Census Population: 1,588,425 · Males per 100 Females: 95.65 · Per km²: 308'
     },
     'Chien Tao': {
-      short: 'The Tumen frontier with Korea, mountainous and mostly Korean-settled; the ground on which the anti-Japanese partisan bands of the 1930s formed, and were hunted through. 1943 Census Population: 848,197 · Males per 100 Females: 122.6 · Per km²: 28 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.'
+      short: 'The Tumen frontier with Korea, mountainous and mostly Korean-settled; the ground on which the anti-Japanese partisan bands of the 1930s formed, and were hunted through. 1943 Census Population: 848,197 · Males per 100 Females: 122.6 · Per km²: 28'
     },
     Chinchow: {
-      short: 'The corridor between the Gulf of Chihli and the mountains — the road and railway into China proper, taken in January 1932, which is how the fighting passed south of the Wall. 1943 Census Population: 4,317,822 · Males per 100 Females: 107.8 · Per km²: 108 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.'
+      short: 'The corridor between the Gulf of Chihli and the mountains — the road and railway into China proper, taken in January 1932, which is how the fighting passed south of the Wall. 1943 Census Population: 4,317,822 · Males per 100 Females: 107.8 · Per km²: 108'
     },
     Chuseihoku: {
       short: 'The only province in Korea with no coastline. 1942 Estimated Population: 928,817 · Males per 100 Females: 102.5 · % of Total Korea: 3.9 · Per km²: 125'
@@ -10509,7 +10415,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Matsuyama and its castle, with the Dōgo hot spring beside it. 1940 Census Population: 1,178,705 · Males per 100 Females: 97.15 · Per km²: 208'
     },
     'Feng Tien': {
-      short: 'The Liao plain and Mukden — headquarters of the South Manchuria Railway, the region’s arsenal and heavy industry, and the place where the line was blown up on 18 September 1931. 1943 Census Population: 7,565,599 · Males per 100 Females: 118.9 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own.'
+      short: 'The Liao plain and Mukden — headquarters of the South Manchuria Railway, the region’s arsenal and heavy industry, and the place where the line was blown up on 18 September 1931. 1943 Census Population: 7,565,599 · Males per 100 Females: 118.9'
     },
     Fukui: {
       short: 'Habutae, a plain smooth silk. 1940 Census Population: 643,904 · Males per 100 Females: 94.05 · Per km²: 154'
@@ -10533,7 +10439,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community. 1942 Estimated Population: 1,684,444 · Males per 100 Females: 99.7 · % of Total Korea: 7.0 · Per km²: 114'
     },
     Heiho: {
-      short: 'Taiga and the Amur, facing Blagoveshchensk across the water — gold along the tributaries, and after 1932 a garrison frontier watched from both banks. 1943 Census Population: 149,887 · Males per 100 Females: 327.0 · Per km²: 1.3 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.'
+      short: 'Taiga and the Amur, facing Blagoveshchensk across the water — gold along the tributaries, and after 1932 a garrison frontier watched from both banks. 1943 Census Population: 149,887 · Males per 100 Females: 327.0 · Per km²: 1.3'
     },
     Hiroshima: {
       short: 'The army\'s western capital: the 5th Division was raised here. 1940 Census Population: 1,869,504 · Males per 100 Females: 100.47 · Per km²: 221'
@@ -10542,16 +10448,16 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government. 1940 Census Population: 3,272,718 · Males per 100 Females: 107.51 · Per km²: 42'
     },
     'Hsing An Nan': {
-      short: 'The southern tail of the Khingan where the steppe meets the farmed land — Mongol banners losing ground to Chinese settlement, a frontier of tillage that had been moving north for a century. 1943 Census Population: 1,026,635 · Males per 100 Females: 130.3 · Per km²: 13 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.'
+      short: 'The southern tail of the Khingan where the steppe meets the farmed land — Mongol banners losing ground to Chinese settlement, a frontier of tillage that had been moving north for a century. 1943 Census Population: 1,026,635 · Males per 100 Females: 130.3 · Per km²: 13'
     },
     'Hsing An Peh': {
-      short: 'The Hulun Buir grasslands west of the Greater Khingan — Mongol banners, horses and sheep, and the Trans-Manchurian line running out to the Soviet frontier at Manchouli. 1943 Census Population: 132,426 · Males per 100 Females: 223.2 · Per km²: 0.8 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.'
+      short: 'The Hulun Buir grasslands west of the Greater Khingan — Mongol banners, horses and sheep, and the Trans-Manchurian line running out to the Soviet frontier at Manchouli. 1943 Census Population: 132,426 · Males per 100 Females: 223.2 · Per km²: 0.8'
     },
     'Hsing An Si': {
-      short: 'Dry steppe between the Khingan and the Mongolian plateau, too thin to plough: pasture, and the caravan roads that carried wool south before the railways took the traffic. 1943 Census Population: 763,701 · Males per 100 Females: 127.6 · Per km²: 10 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.'
+      short: 'Dry steppe between the Khingan and the Mongolian plateau, too thin to plough: pasture, and the caravan roads that carried wool south before the railways took the traffic. 1943 Census Population: 763,701 · Males per 100 Females: 127.6 · Per km²: 10'
     },
     'Hsing An Tung': {
-      short: 'The eastern slope of the Greater Khingan falling to the Nen — larch and birch forest above, Daur and Mongol grazing below, and logging camps worked for the railway. 1943 Census Population: 199,530 · Males per 100 Females: 151.9 · Per km²: 1.8 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.'
+      short: 'The eastern slope of the Greater Khingan falling to the Nen — larch and birch forest above, Daur and Mongol grazing below, and logging camps worked for the railway. 1943 Census Population: 199,530 · Males per 100 Females: 151.9 · Per km²: 1.8'
     },
     Hyogo: {
       short: 'Reaches from the Inland Sea to the Japan Sea. 1940 Census Population: 3,221,232 · Males per 100 Females: 101.52 · Per km²: 384'
@@ -10566,7 +10472,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The largest prefecture on Honshū and the poorest. 1940 Census Population: 1,095,793 · Males per 100 Females: 98.69 · Per km²: 72'
     },
     'Je Hol': {
-      short: 'Mountain country north of the Great Wall, thin farming and opium; invaded in the spring of 1933 and attached to Manchukuo, which carried the frontier down to the Wall itself. 1943 Census Population: 4,553,228 · Males per 100 Females: 116.4 · Per km²: 44 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.'
+      short: 'Mountain country north of the Great Wall, thin farming and opium; invaded in the spring of 1933 and attached to Manchukuo, which carried the frontier down to the Wall itself. 1943 Census Population: 4,553,228 · Males per 100 Females: 116.4 · Per km²: 44'
     },
     Kagawa: {
       short: 'The smallest prefecture in Japan, on the sheltered Inland Sea side of Shikoku. 1940 Census Population: 730,394 · Males per 100 Females: 96.74 · Per km²: 392'
@@ -10593,7 +10499,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The end of the peninsula facing Japan, and the province the colony was entered through. 1942 Estimated Population: 2,145,070 · Males per 100 Females: 96.1 · % of Total Korea: 8.9 · Per km²: 175'
     },
     Kirin: {
-      short: 'The upper Sungari in forested hills — lumber, and the Fengman dam begun in 1937, one of the largest hydroelectric works in Asia, built with conscripted labour. 1943 Census Population: 6,163,931 · Males per 100 Females: 124.3 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own. 新京特別市 is counted in here: the report gives the capital apart, and the ground it stands on is inside this shape.'
+      short: 'The upper Sungari in forested hills — lumber, and the Fengman dam begun in 1937, one of the largest hydroelectric works in Asia, built with conscripted labour. 1943 Census Population: 6,163,931 · Males per 100 Females: 124.3'
     },
     Kochi: {
       short: 'Tosa, shut off from the rest of Shikoku by the mountains and facing the open Pacific. 1940 Census Population: 709,286 · Males per 100 Females: 96.82 · Per km²: 100'
@@ -10611,7 +10517,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Kyoto-fu, made of the old capital and the country running north to the Japan Sea. 1940 Census Population: 1,729,993 · Males per 100 Females: 99.65 · Per km²: 376'
     },
     Lungkiang: {
-      short: 'The Nonni plain, black earth and the great soya and wheat country of the north; Tsitsihar its capital, and the first serious fighting of the Manchurian Incident fought at the Nonni bridges in November 1931. 1943 Census Population: 2,093,500 · Males per 100 Females: 125.0 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own.'
+      short: 'The Nonni plain, black earth and the great soya and wheat country of the north; Tsitsihar its capital, and the first serious fighting of the Manchurian Incident fought at the Nonni bridges in November 1931. 1943 Census Population: 2,093,500 · Males per 100 Females: 125.0'
     },
     Mie: {
       short: 'The Ise Shrine is here. 1940 Census Population: 1,198,783 · Males per 100 Females: 95.45 · Per km²: 208'
@@ -10647,19 +10553,19 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The merchant city — "the kitchen of the realm" under the Tokugawa. 1940 Census Population: 4,792,966 · Males per 100 Females: 105.50 · Per km²: 2507'
     },
     'Pin Kiang': {
-      short: 'Harbin and the Sungari: the junction of the Chinese Eastern Railway, a city of Russian émigrés, grain and distilling — and, at Pingfang on its southern edge, the Kwantung Army’s biological warfare establishment, Unit 731. 1943 Census Population: 4,234,206 · Males per 100 Females: 127.1 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own.'
+      short: 'Harbin and the Sungari: the junction of the Chinese Eastern Railway, a city of Russian émigrés, grain and distilling — and, at Pingfang on its southern edge, the Kwantung Army’s biological warfare establishment, Unit 731. 1943 Census Population: 4,234,206 · Males per 100 Females: 127.1'
     },
     Saga: {
       short: 'The Nabeshima domain. 1940 Census Population: 701,517 · Males per 100 Females: 95.70 · Per km²: 287'
     },
     Saishu: {
-      short: 'A volcanic island a hundred kilometres off the south coast. 1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191 The 1942 returns count Cheju inside Zenranan-dō and do not break the island out, so these are that province’s figures.'
+      short: 'A volcanic island a hundred kilometres off the south coast. 1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191'
     },
     Saitama: {
       short: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo. 1940 Census Population: 1,608,039 · Males per 100 Females: 98.59 · Per km²: 424'
     },
     Sankiang: {
-      short: 'The marshy confluence of the Sungari and the Amur — the Sanjiang plain, drained and broken in the 1930s for the Japanese agricultural colonies, the largest settlement scheme of the empire. 1943 Census Population: 1,415,633 · Males per 100 Females: 151.1 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own.'
+      short: 'The marshy confluence of the Sungari and the Amur — the Sanjiang plain, drained and broken in the 1930s for the Japanese agricultural colonies, the largest settlement scheme of the empire. 1943 Census Population: 1,415,633 · Males per 100 Females: 151.1'
     },
     Shiga: {
       short: 'Lake Biwa, the largest lake in Japan. 1940 Census Population: 703,679 · Males per 100 Females: 94.36 · Per km²: 175'
@@ -10874,7 +10780,7 @@ JMAP.POPULATION = [
         "dens": 191,
         "note": "The 1942 returns count Cheju inside Zenranan-dō and do not break the island out, so these are that province’s figures.",
         "sameAs": "Zenranan",
-        "line": "1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191 The 1942 returns count Cheju inside Zenranan-dō and do not break the island out, so these are that province’s figures."
+        "line": "1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191"
       }
     },
     "breaks": [
@@ -11745,7 +11651,7 @@ JMAP.POPULATION = [
           "occ_other": 50479,
           "occ_none": 1067010
         },
-        "line": "1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168 The 1930 census counts Cheju inside Chŏllanam-do and does not break the island out, so these are that province’s figures."
+        "line": "1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168"
       }
     },
     "breaks": [
@@ -12727,7 +12633,7 @@ JMAP.POPULATION = [
           "for_cn": 495,
           "for_other": 0
         },
-        "line": "1941 Resident Population: 109,364 · Males per 100 Females: 107.55 · Per km²: 308 Includes 宜蘭市, which the source counts apart: the city was cut out of the district in 1940, after the boundaries this map draws."
+        "line": "1941 Resident Population: 109,364 · Males per 100 Females: 107.55 · Per km²: 308"
       },
       "TwShichisei": {
         "scope": "sub-unit",
@@ -13070,7 +12976,7 @@ JMAP.POPULATION = [
           "for_cn": 710,
           "for_other": 0
         },
-        "line": "1941 Resident Population: 230,766 · Males per 100 Females: 100.90 · Per km²: 701 Includes 彰化市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
+        "line": "1941 Resident Population: 230,766 · Males per 100 Females: 100.90 · Per km²: 701"
       },
       "TwDaiton": {
         "scope": "sub-unit",
@@ -13503,7 +13409,7 @@ JMAP.POPULATION = [
           "for_cn": 1275,
           "for_other": 0
         },
-        "line": "1941 Resident Population: 133,226 · Males per 100 Females: 104.82 · Per km²: 235 Includes 屏東市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
+        "line": "1941 Resident Population: 133,226 · Males per 100 Females: 104.82 · Per km²: 235"
       },
       "TwOkayama": {
         "scope": "sub-unit",
@@ -13628,7 +13534,7 @@ JMAP.POPULATION = [
           "for_cn": 956,
           "for_other": 1
         },
-        "line": "1941 Resident Population: 93,138 · Males per 100 Females: 109.96 · Per km²: 64 The three districts of the prefecture together, the map drawing it whole."
+        "line": "1941 Resident Population: 93,138 · Males per 100 Females: 109.96 · Per km²: 64"
       },
       "TwKarenko": {
         "scope": "sub-unit",
@@ -13645,7 +13551,7 @@ JMAP.POPULATION = [
           "for_cn": 2032,
           "for_other": 0
         },
-        "line": "1941 Resident Population: 153,785 · Males per 100 Females: 110.60 · Per km²: 118 The city and three districts of the prefecture together, the map drawing it whole."
+        "line": "1941 Resident Population: 153,785 · Males per 100 Females: 110.60 · Per km²: 118"
       },
       "TwHoko": {
         "scope": "sub-unit",
@@ -13662,7 +13568,7 @@ JMAP.POPULATION = [
           "for_cn": 74,
           "for_other": 0
         },
-        "line": "1941 Resident Population: 69,387 · Males per 100 Females: 90.66 · Per km²: 551 Both sub-prefectures together, the map drawing the islands whole."
+        "line": "1941 Resident Population: 69,387 · Males per 100 Females: 90.66 · Per km²: 551"
       },
       "TwBanchi": {
         "scope": "sub-unit",
@@ -13671,7 +13577,7 @@ JMAP.POPULATION = [
         "mf": "100.39",
         "note": "Note: Does not include Japanese and others living in the Taiwan Government-General’s demarcated \"Aborigine Territory\". The count is of 高砂族 people; those living here are also counted in the district their ground lies in.",
         "apart": true,
-        "line": "1941 Resident Population: 159,594 · Males per 100 Females: 100.39 Note: Does not include Japanese and others living in the Taiwan Government-General’s demarcated \"Aborigine Territory\". The count is of 高砂族 people; those living here are also counted in the district their ground lies in."
+        "line": "1941 Resident Population: 159,594 · Males per 100 Females: 100.39"
       }
     },
     "breaks": [
@@ -13849,7 +13755,7 @@ JMAP.POPULATION = [
           "mf_1925": 109.41,
           "mf_1920": 111.61
         },
-        "line": "1930 Census Population: 2,812,335 · Males per 100 Females: 109.28 · % of Total Japan: 4.36 · Per km²: 36 Chishima (the Kuriles) is counted in the census figure and is drawn on this map as a territory of its own, so the area here is Hokkaidō without it."
+        "line": "1930 Census Population: 2,812,335 · Males per 100 Females: 109.28 · % of Total Japan: 4.36 · Per km²: 36"
       },
       "Aomori": {
         "scope": "sub-unit",
@@ -14760,7 +14666,7 @@ JMAP.POPULATION = [
         "pop": 11030724,
         "pct": "17.12",
         "note": "The 市 the report lists down to Kawasaki at 104,351. There were more 市 than these; the page stops where it stops.",
-        "line": "1930 Census Population: 11,030,724 · % of Total Japan: 17.12 The 市 the report lists down to Kawasaki at 104,351. There were more 市 than these; the page stops where it stops."
+        "line": "1930 Census Population: 11,030,724 · % of Total Japan: 17.12"
       },
       "osaka": {
         "scope": "city",
@@ -14775,7 +14681,7 @@ JMAP.POPULATION = [
         "pop": 2070913,
         "pct": "3.21",
         "note": "東京市 is the fifteen wards, not 東京府 — the amalgamation that took in the surrounding twenty came in 1932, which is why Ōsaka is the larger city here.",
-        "line": "1930 Census Population: 2,070,913 · % of Total Japan: 3.21 東京市 is the fifteen wards, not 東京府 — the amalgamation that took in the surrounding twenty came in 1932, which is why Ōsaka is the larger city here."
+        "line": "1930 Census Population: 2,070,913 · % of Total Japan: 3.21"
       },
       "nagoya": {
         "scope": "city",
@@ -15026,7 +14932,7 @@ JMAP.POPULATION = [
           "reg_indig": 86154,
           "for_total": 46691
         },
-        "line": "1930 Resident Population: 4,679,066 · Males per 100 Females: 105.01 · Per km²: 129 The colony whole: the ordinary districts and the Government-General’s demarcated 「蕃地」 together. The seven 市 and forty-five 郡 below are the first of those; the second is a shape of its own on this map."
+        "line": "1930 Resident Population: 4,679,066 · Males per 100 Females: 105.01 · Per km²: 129"
       },
       "TwShuTaihoku": {
         "scope": "sub-unit",
@@ -15040,7 +14946,7 @@ JMAP.POPULATION = [
           "reg_indig": 5538,
           "for_total": 22457
         },
-        "line": "1930 Resident Population: 939,021 · Males per 100 Females: 108.87 The whole prefecture. Its 市 and 郡 below come to 933,483 between them; the other 5,538 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart."
+        "line": "1930 Resident Population: 939,021 · Males per 100 Females: 108.87"
       },
       "TwShuShinchiku": {
         "scope": "sub-unit",
@@ -15054,7 +14960,7 @@ JMAP.POPULATION = [
           "reg_indig": 12170,
           "for_total": 1972
         },
-        "line": "1930 Resident Population: 681,552 · Males per 100 Females: 103.23 The whole prefecture. Its 市 and 郡 below come to 669,382 between them; the other 12,170 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart."
+        "line": "1930 Resident Population: 681,552 · Males per 100 Females: 103.23"
       },
       "TwShuTaichu": {
         "scope": "sub-unit",
@@ -15068,7 +14974,7 @@ JMAP.POPULATION = [
           "reg_indig": 15494,
           "for_total": 4846
         },
-        "line": "1930 Resident Population: 1,031,508 · Males per 100 Females: 103.96 The whole prefecture. Its 市 and 郡 below come to 1,016,014 between them; the other 15,494 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart."
+        "line": "1930 Resident Population: 1,031,508 · Males per 100 Females: 103.96"
       },
       "TwShuTainan": {
         "scope": "sub-unit",
@@ -15082,7 +14988,7 @@ JMAP.POPULATION = [
           "reg_indig": 1564,
           "for_total": 7904
         },
-        "line": "1930 Resident Population: 1,181,569 · Males per 100 Females: 104.10 The whole prefecture. Its 市 and 郡 below come to 1,180,005 between them; the other 1,564 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart."
+        "line": "1930 Resident Population: 1,181,569 · Males per 100 Females: 104.10"
       },
       "TwShuTakao": {
         "scope": "sub-unit",
@@ -15096,7 +15002,7 @@ JMAP.POPULATION = [
           "reg_indig": 29437,
           "for_total": 6698
         },
-        "line": "1930 Resident Population: 637,902 · Males per 100 Females: 104.51 The whole prefecture. Its 市 and 郡 below come to 608,465 between them; the other 29,437 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart."
+        "line": "1930 Resident Population: 637,902 · Males per 100 Females: 104.51"
       },
       "TwTaito": {
         "scope": "sub-unit",
@@ -15114,7 +15020,7 @@ JMAP.POPULATION = [
           "reg_tw": 42398,
           "for_total": 738
         },
-        "line": "1930 Resident Population: 47,542 · Males per 100 Females: 107.82 · Per km²: 33 The prefecture outside the demarcated 「蕃地」, which the map draws as a shape of its own. With the 11,793 Indigenous Peoples 「蕃人」 counted there the whole prefecture came to 59,335."
+        "line": "1930 Resident Population: 47,542 · Males per 100 Females: 107.82 · Per km²: 33"
       },
       "TwKarenko": {
         "scope": "sub-unit",
@@ -15132,7 +15038,7 @@ JMAP.POPULATION = [
           "reg_tw": 60588,
           "for_total": 2026
         },
-        "line": "1930 Resident Population: 75,300 · Males per 100 Females: 116.01 · Per km²: 58 The prefecture outside the demarcated 「蕃地」, which the map draws as a shape of its own. With the 10,158 Indigenous Peoples 「蕃人」 counted there the whole prefecture came to 85,458."
+        "line": "1930 Resident Population: 75,300 · Males per 100 Females: 116.01 · Per km²: 58"
       },
       "TwHoko": {
         "scope": "sub-unit",
@@ -15147,7 +15053,7 @@ JMAP.POPULATION = [
           "reg_tw": 59536,
           "for_total": 50
         },
-        "line": "1930 Resident Population: 62,721 · Males per 100 Females: 94.47 · Per km²: 498 The islands whole. The source counts no 「蕃人」 here."
+        "line": "1930 Resident Population: 62,721 · Males per 100 Females: 94.47 · Per km²: 498"
       },
       "TwTaihoku": {
         "scope": "sub-unit",
@@ -15992,7 +15898,7 @@ JMAP.POPULATION = [
         "x": {
           "reg_indig": 86154
         },
-        "line": "1930 Resident Population: 86,154 · Males per 100 Females: 102.10 · Per km²: 5.2 The Indigenous Peoples — 「蕃人」 in the source’s own word — living outside the ordinary districts. The 1930 return counts them here and nowhere else, which the 1941 one does not: the 市 and 郡 figures below exclude them, and the colony’s four categories add up with them once. The source gives this ground no area of its own, but the return's own arithmetic does: the fifty-five 市 and 郡 measure 19,762 km² of the colony's 36,206, leaving 16,444 km² — 45 per cent of Taiwan — and the same fifty-five count 4,592,912 people of the colony's 4,679,066, leaving exactly the 86,154 counted here. The districts and this ground partition the island once, in both columns, so the area is the remainder and the density is 5 people to the square kilometre."
+        "line": "1930 Resident Population: 86,154 · Males per 100 Females: 102.10 · Per km²: 5.2"
       }
     },
     "breaks": [
@@ -16305,7 +16211,7 @@ JMAP.POPULATION = [
           "for_cn": 508,
           "for_other": 0
         },
-        "line": "1941 Resident Population: 61,632 · Males per 100 Females: 101.70 The city was cut out of Shōka-gun in 1933, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+        "line": "1941 Resident Population: 61,632 · Males per 100 Females: 101.70"
       },
       "pingtung": {
         "scope": "city",
@@ -16320,7 +16226,7 @@ JMAP.POPULATION = [
           "for_cn": 1026,
           "for_other": 0
         },
-        "line": "1941 Resident Population: 59,917 · Males per 100 Females: 109.12 The city was cut out of Heitō-gun in 1933, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+        "line": "1941 Resident Population: 59,917 · Males per 100 Females: 109.12"
       },
       "yilan": {
         "scope": "city",
@@ -16335,7 +16241,7 @@ JMAP.POPULATION = [
           "for_cn": 349,
           "for_other": 0
         },
-        "line": "1941 Resident Population: 38,922 · Males per 100 Females: 102.66 The city was cut out of Giran-gun in 1940, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+        "line": "1941 Resident Population: 38,922 · Males per 100 Females: 102.66"
       },
       "hualien": {
         "scope": "city",
@@ -16350,7 +16256,7 @@ JMAP.POPULATION = [
           "for_cn": 850,
           "for_other": 0
         },
-        "line": "1941 Resident Population: 36,984 · Males per 100 Females: 113.78 The city was cut out of Karenkō-chō in 1940, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+        "line": "1941 Resident Population: 36,984 · Males per 100 Females: 113.78"
       }
     },
     "breaks": [],
@@ -16483,7 +16389,7 @@ JMAP.POPULATION = [
           "nat_third": 3732,
           "nat_stateless": 69180
         },
-        "line": "1943 Census Population: 43,202,880 · Males per 100 Females: 123.9 · Per km²: 33 The whole state at the count of May 1943: 新京特別市 and nineteen provinces. The map draws fourteen of those provinces, being traced from a 1935 sheet, and those fourteen shapes hold 35,695,802 of these people with the capital among them; the other 7,507,078 were in the five provinces it has no shape for."
+        "line": "1943 Census Population: 43,202,880 · Males per 100 Females: 123.9 · Per km²: 33"
       },
       "changchun": {
         "scope": "city",
@@ -16494,7 +16400,7 @@ JMAP.POPULATION = [
         "dens": 1268,
         "note": "The capital, a special municipality outside any province by 1943. The report shades it as a class of its own on its density plate — 1,268.2 to the square kilometre against 33.2 for the country — and this map draws it as a point, so the choropleth has the five classes below it. These people are counted again in 吉林省 above, the ground the capital stands on being inside the 吉林 this map draws, so nothing adds this row to the provinces.",
         "apart": true,
-        "line": "1943 Census Population: 555,009 · Males per 100 Females: 166.9 · Per km²: 1268 The capital, a special municipality outside any province by 1943. The report shades it as a class of its own on its density plate — 1,268.2 to the square kilometre against 33.2 for the country — and this map draws it as a point, so the choropleth has the five classes below it. These people are counted again in 吉林省 above, the ground the capital stands on being inside the 吉林 this map draws, so nothing adds this row to the provinces."
+        "line": "1943 Census Population: 555,009 · Males per 100 Females: 166.9 · Per km²: 1268"
       },
       "Kirin": {
         "scope": "sub-unit",
@@ -16502,7 +16408,7 @@ JMAP.POPULATION = [
         "pop": 6163931,
         "mf": "124.3",
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own. 新京特別市 is counted in here: the report gives the capital apart, and the ground it stands on is inside this shape.",
-        "line": "1943 Census Population: 6,163,931 · Males per 100 Females: 124.3 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own. 新京特別市 is counted in here: the report gives the capital apart, and the ground it stands on is inside this shape."
+        "line": "1943 Census Population: 6,163,931 · Males per 100 Females: 124.3"
       },
       "Lungkiang": {
         "scope": "sub-unit",
@@ -16510,7 +16416,7 @@ JMAP.POPULATION = [
         "pop": 2093500,
         "mf": "125.0",
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own.",
-        "line": "1943 Census Population: 2,093,500 · Males per 100 Females: 125.0 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own."
+        "line": "1943 Census Population: 2,093,500 · Males per 100 Females: 125.0"
       },
       "Peian": {
         "scope": "unmapped",
@@ -16520,7 +16426,7 @@ JMAP.POPULATION = [
         "km2": 76183,
         "dens": 30,
         "note": "北安省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card.",
-        "line": "1943 Census Population: 2,318,957 · Males per 100 Females: 131.7 · Per km²: 30 北安省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card."
+        "line": "1943 Census Population: 2,318,957 · Males per 100 Females: 131.7 · Per km²: 30"
       },
       "Heiho": {
         "scope": "sub-unit",
@@ -16530,7 +16436,7 @@ JMAP.POPULATION = [
         "km2": 118899,
         "dens": 1.3,
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.",
-        "line": "1943 Census Population: 149,887 · Males per 100 Females: 327.0 · Per km²: 1.3 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing."
+        "line": "1943 Census Population: 149,887 · Males per 100 Females: 327.0 · Per km²: 1.3"
       },
       "Sankiang": {
         "scope": "sub-unit",
@@ -16538,7 +16444,7 @@ JMAP.POPULATION = [
         "pop": 1415633,
         "mf": "151.1",
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own.",
-        "line": "1943 Census Population: 1,415,633 · Males per 100 Females: 151.1 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own."
+        "line": "1943 Census Population: 1,415,633 · Males per 100 Females: 151.1"
       },
       "Tungan": {
         "scope": "unmapped",
@@ -16548,7 +16454,7 @@ JMAP.POPULATION = [
         "km2": 41397,
         "dens": 12,
         "note": "東安省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card.",
-        "line": "1943 Census Population: 512,240 · Males per 100 Females: 190.7 · Per km²: 12 東安省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card."
+        "line": "1943 Census Population: 512,240 · Males per 100 Females: 190.7 · Per km²: 12"
       },
       "Mutankiang": {
         "scope": "unmapped",
@@ -16558,7 +16464,7 @@ JMAP.POPULATION = [
         "km2": 32975,
         "dens": 21,
         "note": "牡丹江省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card.",
-        "line": "1943 Census Population: 688,424 · Males per 100 Females: 185.0 · Per km²: 21 牡丹江省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card."
+        "line": "1943 Census Population: 688,424 · Males per 100 Females: 185.0 · Per km²: 21"
       },
       "Pin Kiang": {
         "scope": "sub-unit",
@@ -16566,7 +16472,7 @@ JMAP.POPULATION = [
         "pop": 4234206,
         "mf": "127.1",
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own.",
-        "line": "1943 Census Population: 4,234,206 · Males per 100 Females: 127.1 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own."
+        "line": "1943 Census Population: 4,234,206 · Males per 100 Females: 127.1"
       },
       "Chien Tao": {
         "scope": "sub-unit",
@@ -16576,7 +16482,7 @@ JMAP.POPULATION = [
         "km2": 30134,
         "dens": 28,
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.",
-        "line": "1943 Census Population: 848,197 · Males per 100 Females: 122.6 · Per km²: 28 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing."
+        "line": "1943 Census Population: 848,197 · Males per 100 Females: 122.6 · Per km²: 28"
       },
       "Tunghua": {
         "scope": "unmapped",
@@ -16586,7 +16492,7 @@ JMAP.POPULATION = [
         "km2": 31705,
         "dens": 31,
         "note": "通化省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card.",
-        "line": "1943 Census Population: 982,387 · Males per 100 Females: 159.2 · Per km²: 31 通化省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card."
+        "line": "1943 Census Population: 982,387 · Males per 100 Females: 159.2 · Per km²: 31"
       },
       "An Tung": {
         "scope": "sub-unit",
@@ -16594,7 +16500,7 @@ JMAP.POPULATION = [
         "pop": 2231507,
         "mf": "110.4",
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own.",
-        "line": "1943 Census Population: 2,231,507 · Males per 100 Females: 110.4 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own."
+        "line": "1943 Census Population: 2,231,507 · Males per 100 Females: 110.4"
       },
       "Szeping": {
         "scope": "unmapped",
@@ -16604,7 +16510,7 @@ JMAP.POPULATION = [
         "km2": 30401,
         "dens": 99,
         "note": "四平省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card.",
-        "line": "1943 Census Population: 3,005,070 · Males per 100 Females: 118.8 · Per km²: 99 四平省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card."
+        "line": "1943 Census Population: 3,005,070 · Males per 100 Females: 118.8 · Per km²: 99"
       },
       "Feng Tien": {
         "scope": "sub-unit",
@@ -16612,7 +16518,7 @@ JMAP.POPULATION = [
         "pop": 7565599,
         "mf": "118.9",
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own.",
-        "line": "1943 Census Population: 7,565,599 · Males per 100 Females: 118.9 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing. This is one of the six they were taken from, so it is left blank rather than shaded: its 1943 people would be spread over ground that was no longer its own."
+        "line": "1943 Census Population: 7,565,599 · Males per 100 Females: 118.9"
       },
       "Chinchow": {
         "scope": "sub-unit",
@@ -16622,7 +16528,7 @@ JMAP.POPULATION = [
         "km2": 40162,
         "dens": 108,
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.",
-        "line": "1943 Census Population: 4,317,822 · Males per 100 Females: 107.8 · Per km²: 108 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing."
+        "line": "1943 Census Population: 4,317,822 · Males per 100 Females: 107.8 · Per km²: 108"
       },
       "Je Hol": {
         "scope": "sub-unit",
@@ -16632,7 +16538,7 @@ JMAP.POPULATION = [
         "km2": 103062,
         "dens": 44,
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.",
-        "line": "1943 Census Population: 4,553,228 · Males per 100 Females: 116.4 · Per km²: 44 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing."
+        "line": "1943 Census Population: 4,553,228 · Males per 100 Females: 116.4 · Per km²: 44"
       },
       "Hsing An Si": {
         "scope": "sub-unit",
@@ -16642,7 +16548,7 @@ JMAP.POPULATION = [
         "km2": 73934,
         "dens": 10,
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.",
-        "line": "1943 Census Population: 763,701 · Males per 100 Females: 127.6 · Per km²: 10 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing."
+        "line": "1943 Census Population: 763,701 · Males per 100 Females: 127.6 · Per km²: 10"
       },
       "Hsing An Nan": {
         "scope": "sub-unit",
@@ -16652,7 +16558,7 @@ JMAP.POPULATION = [
         "km2": 76866,
         "dens": 13,
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.",
-        "line": "1943 Census Population: 1,026,635 · Males per 100 Females: 130.3 · Per km²: 13 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing."
+        "line": "1943 Census Population: 1,026,635 · Males per 100 Females: 130.3 · Per km²: 13"
       },
       "Hsing An Tung": {
         "scope": "sub-unit",
@@ -16662,7 +16568,7 @@ JMAP.POPULATION = [
         "km2": 109107,
         "dens": 1.8,
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.",
-        "line": "1943 Census Population: 199,530 · Males per 100 Females: 151.9 · Per km²: 1.8 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing."
+        "line": "1943 Census Population: 199,530 · Males per 100 Females: 151.9 · Per km²: 1.8"
       },
       "Hsing An Peh": {
         "scope": "sub-unit",
@@ -16672,7 +16578,7 @@ JMAP.POPULATION = [
         "km2": 156230,
         "dens": 0.8,
         "note": "These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing.",
-        "line": "1943 Census Population: 132,426 · Males per 100 Females: 223.2 · Per km²: 0.8 These province boundaries are georeferenced from a 1935 map rather than a 1942 one, so the few provinces formed after it are missing."
+        "line": "1943 Census Population: 132,426 · Males per 100 Females: 223.2 · Per km²: 0.8"
       }
     },
     "breaks": [
@@ -16989,7 +16895,7 @@ JMAP.POPULATION = [
           "n40_small": 1006,
           "mil_total": 1694428
         },
-        "line": "1940 Census Population: 73,114,308 · Males per 100 Females: 100.05 · Per km²: 196 The census of 1 October 1940, Okinawa included — the report prints the country both ways and the map draws Okinawa, so this is its 73,114,308 rather than the 72,539,729 without it. 1,265,049 of these people were registered in the 外地, chiefly Koreans, and 1,694,428 were service personnel, who are inside the total rather than beside it."
+        "line": "1940 Census Population: 73,114,308 · Males per 100 Females: 100.05 · Per km²: 196"
       },
       "Hokkaido": {
         "scope": "sub-unit",
@@ -17880,7 +17786,7 @@ JMAP.POPULATION = [
           "race_indian": 212929,
           "race_others": 18113
         },
-        "line": "1931 Census Population: 400,415 The census returns Rangoon town as a district of its own, and this map draws it as a city."
+        "line": "1931 Census Population: 400,415"
       },
       "Pegu": {
         "scope": "sub-unit",
@@ -17940,7 +17846,7 @@ JMAP.POPULATION = [
           "race_indian": 44032,
           "race_others": 5165
         },
-        "line": "1931 Census Population: 331,452 The map draws no separate shape for Insein district, so its figures appear in this table only."
+        "line": "1931 Census Population: 331,452"
       },
       "Prome": {
         "scope": "sub-unit",
@@ -18134,7 +18040,7 @@ JMAP.POPULATION = [
           "race_indian": 3968,
           "race_others": 964
         },
-        "line": "1931 Census Population: 277,878 As printed: the ethnic groups sum to 277,876 against the printed total of 277,878."
+        "line": "1931 Census Population: 277,878"
       },
       "Magwe": {
         "scope": "sub-unit",
@@ -18342,7 +18248,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census returns the Shan States in two divisions, Northern (616,458) and Southern (870,230), and the map draws the states severally, so the two are added here. As printed, the Southern division's ethnic groups sum to 869,930 against its total of 870,230, so the groups here sum to 1,486,388 against 1,486,688."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Karenni States": {
         "scope": "sub-unit",
@@ -18368,7 +18274,7 @@ JMAP.POPULATION = [
           "race_karen": 43081,
           "race_others": 2077
         },
-        "line": "1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states' joint figures."
+        "line": "1931 Census Population: 58,761"
       },
       "Kyebogyi": {
         "scope": "sub-unit",
@@ -18382,7 +18288,7 @@ JMAP.POPULATION = [
           "race_karen": 43081,
           "race_others": 2077
         },
-        "line": "1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states' joint figures."
+        "line": "1931 Census Population: 58,761"
       },
       "Bawlake": {
         "scope": "sub-unit",
@@ -18396,7 +18302,7 @@ JMAP.POPULATION = [
           "race_karen": 43081,
           "race_others": 2077
         },
-        "line": "1931 Census Population: 58,761 The census counts Karenni whole, so these are the three states' joint figures."
+        "line": "1931 Census Population: 58,761"
       },
       "Hopong": {
         "scope": "sub-unit",
@@ -18415,7 +18321,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Hsa Mong": {
         "scope": "sub-unit",
@@ -18434,7 +18340,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Hsahtung": {
         "scope": "sub-unit",
@@ -18453,7 +18359,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Hsikip": {
         "scope": "sub-unit",
@@ -18472,7 +18378,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Hsipaw": {
         "scope": "sub-unit",
@@ -18491,7 +18397,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Keng Hkam": {
         "scope": "sub-unit",
@@ -18510,7 +18416,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Kenglon": {
         "scope": "sub-unit",
@@ -18529,7 +18435,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Kengtung": {
         "scope": "sub-unit",
@@ -18548,7 +18454,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Koi": {
         "scope": "sub-unit",
@@ -18567,7 +18473,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Kyong": {
         "scope": "sub-unit",
@@ -18586,7 +18492,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Lai Hsak": {
         "scope": "sub-unit",
@@ -18605,7 +18511,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Laihka": {
         "scope": "sub-unit",
@@ -18624,7 +18530,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Lawk Sawk": {
         "scope": "sub-unit",
@@ -18643,7 +18549,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Loilong": {
         "scope": "sub-unit",
@@ -18662,7 +18568,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Lonpo": {
         "scope": "sub-unit",
@@ -18681,7 +18587,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Manglon": {
         "scope": "sub-unit",
@@ -18700,7 +18606,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Maw": {
         "scope": "sub-unit",
@@ -18719,7 +18625,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mawk Mai": {
         "scope": "sub-unit",
@@ -18738,7 +18644,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mawnang": {
         "scope": "sub-unit",
@@ -18757,7 +18663,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mong Hsu": {
         "scope": "sub-unit",
@@ -18776,7 +18682,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mong Nai": {
         "scope": "sub-unit",
@@ -18795,7 +18701,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mong Pan": {
         "scope": "sub-unit",
@@ -18814,7 +18720,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mong Pawn": {
         "scope": "sub-unit",
@@ -18833,7 +18739,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mong-Kung": {
         "scope": "sub-unit",
@@ -18852,7 +18758,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mong-Nawng": {
         "scope": "sub-unit",
@@ -18871,7 +18777,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mong-Pai": {
         "scope": "sub-unit",
@@ -18890,7 +18796,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mong-Sit": {
         "scope": "sub-unit",
@@ -18909,7 +18815,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Mongmit": {
         "scope": "sub-unit",
@@ -18928,7 +18834,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Myinkyado": {
         "scope": "sub-unit",
@@ -18947,7 +18853,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Nam Hkok": {
         "scope": "sub-unit",
@@ -18966,7 +18872,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Namhkai": {
         "scope": "sub-unit",
@@ -18985,7 +18891,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Namtok": {
         "scope": "sub-unit",
@@ -19004,7 +18910,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Nawn Wawn": {
         "scope": "sub-unit",
@@ -19023,7 +18929,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "North Hseweni": {
         "scope": "sub-unit",
@@ -19042,7 +18948,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Pangni": {
         "scope": "sub-unit",
@@ -19061,7 +18967,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Pangtara": {
         "scope": "sub-unit",
@@ -19080,7 +18986,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Samka": {
         "scope": "sub-unit",
@@ -19099,7 +19005,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "South Hseweni": {
         "scope": "sub-unit",
@@ -19118,7 +19024,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Tawng Peng": {
         "scope": "sub-unit",
@@ -19137,7 +19043,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "To Nai": {
         "scope": "sub-unit",
@@ -19156,7 +19062,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Wanyin": {
         "scope": "sub-unit",
@@ -19175,7 +19081,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       },
       "Yanghwe": {
         "scope": "sub-unit",
@@ -19194,7 +19100,7 @@ JMAP.POPULATION = [
           "race_indian": 32604,
           "race_others": 5113
         },
-        "line": "1931 Census Population: 1,486,688 The census counts the Shan States in two divisions and not state by state, so these are the joint figures for all of them."
+        "line": "1931 Census Population: 1,486,688"
       }
     },
     "breaks": [],

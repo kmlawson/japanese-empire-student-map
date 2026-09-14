@@ -1695,6 +1695,16 @@ button.plain:hover { background: var(--hover-fill); }
   place-items: center;
 }
 
+/* **AND `hidden` HAS TO WIN AGAINST THAT `display: grid`.**
+   The rule above sets a display, which beats the `hidden` attribute's own —
+   so the full-screen button, which ships hidden and is unhidden by map.js
+   only where it works, was on screen everywhere. On a phone that is a button
+   which either does nothing or hands back something the reader cannot leave,
+   which is exactly why the markup ships it hidden. The zoom column and the
+   extras column each carry this line already; the corner did not.
+   Reported: the full-screen button showing on mobile. */
+#corner-controls button[hidden] { display: none; }
+
 #corner-controls button:hover { background: var(--panel); }
 #corner-controls svg { width: 22px; height: 22px; }
 

@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '369';
+  var JEM_VERSION = '370';
 
   /* Every file this one fetches, with the version on it.
 
@@ -917,6 +917,52 @@
 
      English only, deliberately: the other scripts carry their own strings and
      none of them has this problem. */
+  /* **WHAT THE HOVER TAKES OF A DESCRIPTION, AND WHAT IT LEAVES THE CARD.**
+   *
+   * A hover is read at a glance and a card is read on purpose, and the
+   * descriptions had stopped respecting the difference: pointing at
+   * Manchukuo gave its name, its characters, its status, its census figures
+   * and then two hundred words on which fourteen of the nineteen provinces
+   * the map has shapes for — a black box down a third of the screen.
+   * Reported with a picture, and 139 of the 723 descriptions were over 130
+   * characters.
+   *
+   * So the hover takes the opening of the text and the card keeps all of it.
+   * Nothing is rewritten — that is the author's, and `CLAUDE.md` says so —
+   * only cut, at the first place the prose itself offers:
+   *
+   *   1. the end of the first sentence, if there is one within the budget;
+   *   2. failing that, the first clause break — a semicolon, a colon or a
+   *      spaced em dash — which is where these particular descriptions turn
+   *      from naming the place to enlarging on it;
+   *   3. and failing that, the last word boundary, with an ellipsis, so the
+   *      reader can see there is more and where to get it.
+   *
+   * `shortOf` itself is untouched: the card reads it too, and the card is
+   * exactly where the rest of the sentence belongs.
+   */
+  /* **NOT WIRED UP, AND THIS IS WHY.** Pointed at the tooltip's description
+     it cut the census figures off five kinds of record: a province's `short`
+     is its prose *and* its figures in one string — "The silk prefecture. 1930
+     Census Population: …" — so a cut at the first sentence throws the numbers
+     away, which `names` and `population` caught. Trimming the prose without
+     losing the figures means separating them at the build, where they are
+     still two things; until that is done the note-out-of-the-line fix in
+     `build_texts.py` is what shortens the hover, and it is the one the
+     reported case needed. Kept here rather than deleted because the rule
+     itself is right and the work it is waiting on is small. */
+  var BRIEF_MAX = 120;
+  function briefOf(text) {
+    var t = String(text || '').trim();
+    if (t.length <= BRIEF_MAX) return t;
+    var stop = t.slice(0, BRIEF_MAX + 1).search(/[.!?](\s|$)/);
+    if (stop > 30) return t.slice(0, stop + 1);
+    var cut = t.slice(0, BRIEF_MAX).search(/[;:]|\s\u2014\s/);
+    if (cut > 30) return t.slice(0, cut).trim();
+    var sp = t.lastIndexOf(' ', BRIEF_MAX);
+    return t.slice(0, sp > 30 ? sp : BRIEF_MAX).trim() + '\u2026';
+  }
+
   /* The few words a record says when the pointer is on it. */
   var SHORT_MAX = 88;
   function shortOf(rec) {
@@ -5860,17 +5906,14 @@
     // and it looked like a dead button; say so instead
     var rst = $('#zoom-reset');
     if (rst) {
-      /* **AT HOME MEANS THE WHOLE FRAME, NOT THE WIDTH.**
-         This asked only whether `view.w` matched, so a reader who had panned
-         to the other side of the map without zooming found the button dimmed
-         and inert — the view had plainly moved and the one control that would
-         put it back was saying it had nothing to do. Reported as the button
-         not doing anything. The corner has to match as well, within a tenth
-         of the frame, which is close enough that nobody would call it moved
-         and far enough that a nudge does not light it up. */
-      var atHome = Math.abs(view.w - home.w) < 0.5
-                && Math.abs(view.x - home.x) < home.w / 10
-                && Math.abs(view.y - home.y) < home.h / 10;
+      /* **LEFT EXACTLY AS IT WAS, ON THE AUTHOR'S WORD.** Two changes were
+         made here and both are withdrawn: comparing the corner as well as
+         the width, so a pan without a zoom lit it up, and hiding it outright
+         when there was nothing to reset. Neither was asked for — "the reset
+         button works great and I never wanted anything to be done with it" —
+         and a control somebody relies on is not the place to be clever
+         uninvited. It goes dim at the opening view and that is all. */
+      var atHome = Math.abs(view.w - home.w) < 0.5;
       rst.classList.toggle('idle', atHome);
       rst.setAttribute('aria-disabled', atHome ? 'true' : 'false');
     }
@@ -12938,6 +12981,9 @@
    * nothing to say is best said by saying nothing.
    */
   var layerInfoStack = [];        // ids, newest first
+  // how many blocks the box shows; the rest of the stack is remembered and
+  // not drawn. See `fillLayerInfo`.
+  var LAYER_INFO_MAX = 5;
   var layerInfoFlash = 0;
 
   /* A row is on because its layer is switched on — or, for the two that
@@ -12997,7 +13043,15 @@
     while (host.firstChild) host.removeChild(host.firstChild);
     var by = {};
     (JMAP.LAYER_INFO || []).forEach(function (r) { by[r.id] = r; });
-    layerInfoStack.forEach(function (id) {
+    /* **A LOG, AND A SHORT ONE.** Newest first, each new layer pushing the
+       rest down, and only the five most recent shown: a reader who has been
+       switching layers on and off for twenty minutes does not want the whole
+       history, and the sixth block down is already further than anyone
+       scrolls. Capped *here*, at the drawing, rather than by trimming the
+       stack — a layer trimmed off while it is still switched on would look
+       new the next time anything changed and jump back to the top, which is
+       the opposite of a log. The stack keeps them all; the box shows five. */
+    layerInfoStack.slice(0, LAYER_INFO_MAX).forEach(function (id) {
       var row = by[id];
       if (!row) return;
       var wrap = document.createElement('section');

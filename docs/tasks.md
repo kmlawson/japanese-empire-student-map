@@ -22559,3 +22559,63 @@ it had nothing to do. It compares the corner too now, within a tenth of the
 frame — close enough that nobody would call it moved, far enough that a nudge
 does not light it up. Driven: idle at the opening view, live after a pan with
 no zoom at all, idle again once pressed.
+
+## 199. The hover was carrying the card's paragraph
+
+Reported with a picture: pointing at Manchukuo gave its name, its characters,
+its status, its census figures and then two hundred words on which fourteen of
+the nineteen provinces the map has shapes for and how the other 7,507,078
+people are accounted — a black box a third of the screen deep.
+
+`build_texts.py` was gluing the population row's `note` onto the end of
+`line`, the sentence the hover carries. **Ninety-one rows across the six
+datasets have a note over eighty characters and every one of them was doing
+this.** The note has always travelled separately for the card and the table,
+so nothing is lost by leaving `line` as the figures it is named for.
+Manchukuo's hover sentence goes from 286 characters to 78.
+
+**What is not done.** The province descriptions are still long — 139 of the
+723 are over 130 characters — and the obvious fix broke five checks:
+`briefOf` cut them at the first sentence, and a province's `short` is its
+prose *and* its figures in one string, so "The silk prefecture. 1930 Census
+Population: …" lost the numbers. The helper is in `map.js`, commented, and not
+wired up; doing it properly means separating prose from figures at the build,
+where they are still two things.
+
+## 200. Two changes withdrawn, on the author's word
+
+The reset-view button: "works great and I never wanted anything to be done
+with it." Both changes are out — comparing the corner as well as the width,
+and hiding it when there was nothing to reset. It goes dim at the opening view
+and that is all. A control somebody relies on is not the place to be clever
+uninvited, and the panning blind spot stays a note rather than an edit.
+
+## 201. `hidden` lost to a `display`, twice in one stylesheet
+
+**The full-screen button was on screen on phones.** The markup ships it
+`hidden` and `initCornerControls` unhides it only where fullscreen works and
+the pointer is not coarse — which is right, and was doing nothing, because
+`#corner-controls button { display: grid }` beats the `hidden` attribute's own
+display. The zoom column and the extras column each carry a
+`button[hidden] { display: none }` line; the corner did not. It does now:
+measured hidden on a 390px touch viewport and present on a desktop one.
+
+The same shape as the menu comma in 185 — a rule that sets `display` silently
+disabling `hidden` — which is worth naming as a pattern rather than a
+coincidence: **anything that sets `display` on a container's children owes
+that container a `[hidden]` rule.**
+
+## 202. The layer note reads as a log
+
+Newest at the top pushing the rest down, which `syncLayerInfo` already did,
+and **five blocks at most**: a reader who has been switching layers for twenty
+minutes does not want the whole history. Capped at the drawing rather than by
+trimming the stack — a layer trimmed off while it is still switched on would
+look new the next time anything changed and jump back to the top, which is the
+opposite of a log.
+
+Driven: switching the air routes on puts *Airline Routes* above *1930 Map*,
+which is the ordering asked for. **The cap itself is not demonstrated** — I
+could not get six info-bearing layers on at once through the Layers pane in a
+driven run — so it is verified by construction and wants a test when the next
+person is in here.

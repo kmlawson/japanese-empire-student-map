@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '369';
+  var JEM_VERSION = '370';
 
 
 
@@ -916,6 +916,52 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var BRIEF_MAX = 120;
+  function briefOf(text) {
+    var t = String(text || '').trim();
+    if (t.length <= BRIEF_MAX) return t;
+    var stop = t.slice(0, BRIEF_MAX + 1).search(/[.!?](\s|$)/);
+    if (stop > 30) return t.slice(0, stop + 1);
+    var cut = t.slice(0, BRIEF_MAX).search(/[;:]|\s\u2014\s/);
+    if (cut > 30) return t.slice(0, cut).trim();
+    var sp = t.lastIndexOf(' ', BRIEF_MAX);
+    return t.slice(0, sp > 30 ? sp : BRIEF_MAX).trim() + '\u2026';
+  }
 
 
   var SHORT_MAX = 88;
@@ -5867,10 +5913,7 @@
 
 
 
-
-      var atHome = Math.abs(view.w - home.w) < 0.5
-                && Math.abs(view.x - home.x) < home.w / 10
-                && Math.abs(view.y - home.y) < home.h / 10;
+      var atHome = Math.abs(view.w - home.w) < 0.5;
       rst.classList.toggle('idle', atHome);
       rst.setAttribute('aria-disabled', atHome ? 'true' : 'false');
     }
@@ -12938,6 +12981,9 @@
 
 
   var layerInfoStack = [];        // ids, newest first
+
+
+  var LAYER_INFO_MAX = 5;
   var layerInfoFlash = 0;
 
 
@@ -12997,7 +13043,15 @@
     while (host.firstChild) host.removeChild(host.firstChild);
     var by = {};
     (JMAP.LAYER_INFO || []).forEach(function (r) { by[r.id] = r; });
-    layerInfoStack.forEach(function (id) {
+
+
+
+
+
+
+
+
+    layerInfoStack.slice(0, LAYER_INFO_MAX).forEach(function (id) {
       var row = by[id];
       if (!row) return;
       var wrap = document.createElement('section');

@@ -513,8 +513,22 @@ def population_data():
                 bits.append("Per km²: %s" % rec["dens"])
             line = " · ".join(bits)
             if r.get("note"):
+                # **THE NOTE IS THE CARD'S, NOT THE HOVER'S.**
+                #
+                # `line` is the sentence the tooltip carries, and the note was
+                # being glued onto the end of it — so pointing at Manchukuo
+                # gave the figures and then two hundred words on which
+                # fourteen of the nineteen provinces the map has shapes for
+                # and how the other 7,507,078 people are accounted. Ninety-one
+                # rows across the six datasets carry a note over eighty
+                # characters and every one of them was doing this.
+                #
+                # A hover is read at a glance and a card is read on purpose;
+                # the note is for the second. It has always travelled
+                # separately as `note` — the card and the table both read it
+                # from there — so nothing is lost by leaving `line` as the
+                # figures it was named for.
                 rec["note"] = r["note"]
-                line = (line + " " + r["note"]).strip()
             if r.get("same_as"):
                 rec["sameAs"] = r["same_as"]
             # The figure to set against another date where this row's own is
