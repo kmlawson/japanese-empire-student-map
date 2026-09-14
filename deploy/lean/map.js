@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '368';
+  var JEM_VERSION = '369';
 
 
 
@@ -5860,7 +5860,17 @@
 
     var rst = $('#zoom-reset');
     if (rst) {
-      var atHome = Math.abs(view.w - home.w) < 0.5;
+
+
+
+
+
+
+
+
+      var atHome = Math.abs(view.w - home.w) < 0.5
+                && Math.abs(view.x - home.x) < home.w / 10
+                && Math.abs(view.y - home.y) < home.h / 10;
       rst.classList.toggle('idle', atHome);
       rst.setAttribute('aria-disabled', atHome ? 'true' : 'false');
     }
@@ -13687,6 +13697,15 @@
       years: { e1930: '', e1942: 'July 1942' },
       srcShort: 'traced for this map, after 滿洲・支那汽車時間表',
       srcTitle: 'traced for this map',
+
+
+
+
+
+
+
+
+      menuNote: 'currently available for 1942 map only',
       source: 'traced for this map: the lines of the 滿洲・支那汽車時間表 '
         + '(July 1942) that have been drawn so far, on the 1942 map only',
       url: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
@@ -16518,9 +16537,12 @@
       txt.className = 'menu-text';
       txt.appendChild(document.createTextNode(
         inf.label || RAIL_LABEL[row.sys] || row.sys));
+
+
+
       var yr = (inf.years && inf.years[state.epoch]) || '';
       var title = inf.srcTitle || inf.srcShort || '';
-      var paren = [title, yr].filter(Boolean).join(', ');
+      var paren = inf.menuNote || [title, yr].filter(Boolean).join(', ');
       if (paren) {
         var src = document.createElement('span');
         src.className = 'src';

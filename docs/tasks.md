@@ -22529,3 +22529,33 @@ moving the pointer about.
   scroll — measured after every rebuild, after the fold opens it, and on
   resize. On a 390×430 screen with the thematic categories added: 246px of key
   in a 168px box, and it scrolls.
+
+## 197. The railway menu says where Manchuria's lines are drawn
+
+The row read *Manchuria Railways (traced for this map, July 1942)*. How the
+lines were made is not what a reader needs at the moment of switching them on;
+what they need is that there is nothing to draw on the 1930 sheet — most of
+the Manchukuo state lines were built after 1931, so the same drawing there
+would put a railway where none was. A reader on the 1930 map who switched it
+on and saw nothing had to go looking for the reason.
+
+`menuNote` on a `RAIL_INFO` record replaces the source and the year in the
+menu row; Manchuria's says **currently available for 1942 map only**, on both
+dates. The citation is still on the row's `title` and in sources.html, which
+is where it belongs.
+
+## 198. The reset-view button was dim when the view had plainly moved
+
+The author asked whether it could go, on the understanding that the key's
+**Reset map** does the same thing. It does not: `legendReset` clears hidden
+territories and puts the rivers and the line of control back, and touches the
+view not at all. `#zoom-reset` is the only control that returns the opening
+view, so it stays — the condition for removing it was never met.
+
+What was wrong is what made it look broken. It went inert by comparing
+`view.w` alone, so panning to the other side of the map without zooming left
+it dimmed: the view had moved and the one control that would put it back said
+it had nothing to do. It compares the corner too now, within a tenth of the
+frame — close enough that nobody would call it moved, far enough that a nudge
+does not light it up. Driven: idle at the opening view, live after a pan with
+no zoom at all, idle again once pressed.

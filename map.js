@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '368';
+  var JEM_VERSION = '369';
 
   /* Every file this one fetches, with the version on it.
 
@@ -5860,7 +5860,17 @@
     // and it looked like a dead button; say so instead
     var rst = $('#zoom-reset');
     if (rst) {
-      var atHome = Math.abs(view.w - home.w) < 0.5;
+      /* **AT HOME MEANS THE WHOLE FRAME, NOT THE WIDTH.**
+         This asked only whether `view.w` matched, so a reader who had panned
+         to the other side of the map without zooming found the button dimmed
+         and inert — the view had plainly moved and the one control that would
+         put it back was saying it had nothing to do. Reported as the button
+         not doing anything. The corner has to match as well, within a tenth
+         of the frame, which is close enough that nobody would call it moved
+         and far enough that a nudge does not light it up. */
+      var atHome = Math.abs(view.w - home.w) < 0.5
+                && Math.abs(view.x - home.x) < home.w / 10
+                && Math.abs(view.y - home.y) < home.h / 10;
       rst.classList.toggle('idle', atHome);
       rst.setAttribute('aria-disabled', atHome ? 'true' : 'false');
     }
@@ -13687,6 +13697,15 @@
       years: { e1930: '', e1942: 'July 1942' },
       srcShort: 'traced for this map, after 滿洲・支那汽車時間表',
       srcTitle: 'traced for this map',
+      /* **What the menu row says instead of the source and the year.** This
+         network is drawn on the December 1942 sheet and nowhere else — most
+         of the Manchukuo state lines were built after 1931, so the same
+         drawing on the 1930 map would put a railway there that was not — and
+         a reader on the 1930 map who switches it on and sees nothing is owed
+         that fact at the moment of switching, not after hunting for it. How
+         the lines were made is not what they need there; it is in the
+         citation on the row and in sources.html. */
+      menuNote: 'currently available for 1942 map only',
       source: 'traced for this map: the lines of the 滿洲・支那汽車時間表 '
         + '(July 1942) that have been drawn so far, on the 1942 map only',
       url: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
@@ -16518,9 +16537,12 @@
       txt.className = 'menu-text';
       txt.appendChild(document.createTextNode(
         inf.label || RAIL_LABEL[row.sys] || row.sys));
+      /* The source and the year of this network on this sheet — unless the
+         record has something the reader needs more, which for Manchuria is
+         that there is nothing to draw on the 1930 map at all. */
       var yr = (inf.years && inf.years[state.epoch]) || '';
       var title = inf.srcTitle || inf.srcShort || '';
-      var paren = [title, yr].filter(Boolean).join(', ');
+      var paren = inf.menuNote || [title, yr].filter(Boolean).join(', ');
       if (paren) {
         var src = document.createElement('span');
         src.className = 'src';
