@@ -858,6 +858,19 @@ window.JMAP_TRAINS = function (host) {
     return !!(l && l.x);
   }
 
+  /* **Which printed page a line's table is on.**
+   *
+   * `cfg.page` is one page per system, which was right while a system was one
+   * booklet's one section. Manchuria's booklet also prints Korea's railway and
+   * Japan's, and those lines are carried here as connections — their tables
+   * are in `korea-1942.html` and `japan-1942.html`, so a line that names its
+   * own page is sent there and everything else still goes to the system's.
+   * Without this the anchor is real and the file is wrong, and the reader
+   * lands on a page that does not contain the table the link promised. */
+  function pageOf(line) {
+    return (line && line.pg) || (cfg && cfg.page);
+  }
+
   /* Fold the connection names away, or let them out. One function so that the
      class, the words on the button and what it tells a screen reader are set
      in the same breath; they were set in three places and had already
@@ -1185,7 +1198,7 @@ window.JMAP_TRAINS = function (host) {
       cols: ['Station', data.local || 'Pinyin', 'Romaji', 'Arr', 'Dep'],
       rows: rows,
       links: line && line.a
-        ? [{ page: cfg.page, anchor: line.a,
+        ? [{ page: pageOf(line), anchor: line.a,
              text: 'The printed table for this line' }]
         : [],
     };
@@ -1386,7 +1399,7 @@ window.JMAP_TRAINS = function (host) {
                    text: 'Read more on ' + ({ ja: 'Japanese', zh: 'Chinese',
                                                 ko: 'Korean', en: 'English' }[line.wl] || '')
                          + ' Wikipedia' } : null,
-        line.a ? { page: cfg.page, anchor: line.a,
+        line.a ? { page: pageOf(line), anchor: line.a,
                    text: 'The printed tables for this line' } : null,
       ].filter(Boolean),
     };
@@ -1658,7 +1671,7 @@ window.JMAP_TRAINS = function (host) {
       cols: ['Arr', 'Dep', 'Train', 'Line', 'To'],
       rows: rows,
       links: lines[0] && lines[0].a
-        ? [{ page: cfg.page, anchor: lines[0].a,
+        ? [{ page: pageOf(lines[0]), anchor: lines[0].a,
              text: 'The printed table for this line' }]
         : [],
     };

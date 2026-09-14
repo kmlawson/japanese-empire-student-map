@@ -862,6 +862,19 @@ window.JMAP_TRAINS = function (host) {
 
 
 
+
+
+
+
+
+  function pageOf(line) {
+    return (line && line.pg) || (cfg && cfg.page);
+  }
+
+
+
+
+
   function foldConn(shut) {
     if (!els.legend || !els.more || !moreWords) return;
     els.legend.classList.toggle('conn-folded', !!shut);
@@ -1185,7 +1198,7 @@ window.JMAP_TRAINS = function (host) {
       cols: ['Station', data.local || 'Pinyin', 'Romaji', 'Arr', 'Dep'],
       rows: rows,
       links: line && line.a
-        ? [{ page: cfg.page, anchor: line.a,
+        ? [{ page: pageOf(line), anchor: line.a,
              text: 'The printed table for this line' }]
         : [],
     };
@@ -1386,7 +1399,7 @@ window.JMAP_TRAINS = function (host) {
                    text: 'Read more on ' + ({ ja: 'Japanese', zh: 'Chinese',
                                                 ko: 'Korean', en: 'English' }[line.wl] || '')
                          + ' Wikipedia' } : null,
-        line.a ? { page: cfg.page, anchor: line.a,
+        line.a ? { page: pageOf(line), anchor: line.a,
                    text: 'The printed tables for this line' } : null,
       ].filter(Boolean),
     };
@@ -1658,7 +1671,7 @@ window.JMAP_TRAINS = function (host) {
       cols: ['Arr', 'Dep', 'Train', 'Line', 'To'],
       rows: rows,
       links: lines[0] && lines[0].a
-        ? [{ page: cfg.page, anchor: lines[0].a,
+        ? [{ page: pageOf(lines[0]), anchor: lines[0].a,
              text: 'The printed table for this line' }]
         : [],
     };

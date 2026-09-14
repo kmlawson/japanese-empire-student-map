@@ -39,6 +39,10 @@ const look=p=>p.evaluate(()=>{
     note: bar?(bar.querySelector('.train-note')||{}).textContent||'':'',
     chips: bar?bar.querySelectorAll('.train-chip').length:0,
     conn: !!document.querySelector('#train-conn'),
+    connOn: !!(document.querySelector('#train-conn')||{}).checked,
+    connChips: document.querySelectorAll('.train-chip-conn').length,
+    connLines: (()=>{const g=document.getElementById('train-layer');
+      return g?g.classList.contains('conn-off'):null;})(),
     mn: typeof JMAP!=='undefined' && !!JMAP.MN_TRAINS,
     kr: typeof JMAP!=='undefined' && !!JMAP.KR_TRAINS,
     stations: document.querySelectorAll('#mn-stations .sta-mark').length,
@@ -93,9 +97,100 @@ const shutDialogs=p=>p.evaluate(()=>{
       fetched.filter(f=>f==='mn-trains.js').length===1
       && !fetched.includes('kr-trains.js') && !fetched.includes('tw-trains.js'), fetched.join());
     check('the bar says which timetable it is', /1942/.test(v.note), v.note);
-    /* 55 lines in the tables less the 北票線, kept off the map until it is traced */
-    check('a chip per line in the bar', v.chips===53, 'chips='+v.chips);
-    check('no connections switch: every line is the network’s own', !v.conn, '');
+    /* 55 lines in the tables less the 北票線, kept off the map until it is
+       traced, and then the 50 beyond Manchuria: the same booklet prints
+       Korea's railway from page 54 and Japan's from page 84, and those are
+       read as connections. 53 + 50. */
+    check('a chip per line in the bar', v.chips===103, 'chips='+v.chips);
+    check('  of which 50 are beyond the network', v.connChips===50,
+      'conn chips='+v.connChips);
+    check('the connections switch is offered', v.conn, '');
+    check('  and it is off to begin with', !v.connOn, '');
+    check('  so the layer is drawn without them', v.connLines===true, '');
+
+    /* **AND SWITCHING THEM ON PUTS TRACK OVER KOREA AND JAPAN.**
+       The booklet is 滿洲・支那汽車時間表 and the Manchurian section is only
+       its first forty pages: Korea's railway is printed from page 54 and
+       Japan's from 84, over stations this map already has. The test that
+       matters is not that the chips appear but that the *track* does, a long
+       way from Manchuria — so the layer's own box is measured with the switch
+       off and again with it on. Kyūshū is some 1,500 km south of Shinkyō, so
+       the box has to grow by a great deal rather than by a margin. */
+    /* **Count what is drawn, not what is built.** `trains.js` builds every
+       stretch and hides the connections with a class on the layer, so
+       `.train-line` is 1,429 either way and an element count proves nothing.
+       `getBBox` does respect `display:none`, so the layer's own box is the
+       honest measure — and it is in map units, so it does not move with the
+       zoom the test happens to be at. */
+    const box = pg => pg.evaluate(() => {
+      const g = document.getElementById('train-layer');
+      if (!g) return null;
+      const b = g.getBBox();
+      return { w: b.width, h: b.height, area: b.width * b.height,
+               n: [...g.querySelectorAll('.train-line')]
+                    .filter(e => getComputedStyle(e).display !== 'none').length };
+    });
+    const shut = await box(p);
+    await setSwitch(p, '#train-conn', true);
+    await sleep(1200);
+    const open = await box(p);
+    const vc = await look(p);
+    check('switching the connections on draws them',
+      vc.connOn && vc.connLines === false, JSON.stringify({on:vc.connOn, off:vc.connLines}));
+    check('  many more stretches of track drawn', open.n > shut.n * 1.4,
+      shut.n + ' \u2192 ' + open.n + ' drawn');
+    /* Japan lies east and south of Manchuria, and on this projection it is the
+       width that shows it most: the box goes 333 to 524 across and 415 to 499
+       down. Area rather than either alone, so the check does not depend on
+       which way the projection happens to spread them. */
+    check('  reaching well beyond Manchuria', open.area > shut.area * 1.4,
+      'layer box ' + shut.w.toFixed(0) + '\u00d7' + shut.h.toFixed(0)
+      + ' \u2192 ' + open.w.toFixed(0) + '\u00d7' + open.h.toFixed(0));
+    await setSwitch(p, '#train-conn', false);
+    await sleep(1200);
+    const again = await box(p);
+    /* **The link under a connection line has to land on its own table.**
+       `cfg.page` in trains.js is one page per system — Manchuria's — and the
+       booklet's Korean and Japanese sections are dressed as pages of their
+       own. A line carrying an anchor into a file that does not contain it
+       gives the reader a promise and a wrong page, which is worse than no
+       link, so every anchor is fetched and looked for. */
+    const links = await p.evaluate(async () => {
+      const d = JMAP.MN_TRAINS, want = {}, out = { lines: 0, noPage: [], missing: [] };
+      d.lines.forEach(l => {
+        if (!l.x) return;
+        out.lines++;
+        if (!l.pg || !l.a) { out.noPage.push(l.n); return; }
+        (want[l.pg] = want[l.pg] || []).push(l.a);
+      });
+      for (const pg of Object.keys(want)) {
+        let txt = '';
+        // the page doing the fetching is deploy/index.html, so the path is
+        // already relative to deploy/ — and a 404 does not throw, so the
+        // status is checked rather than the body being trusted
+        try {
+          const r = await fetch(pg);
+          txt = r.ok ? await r.text() : '';
+        } catch (e) { txt = ''; }
+        if (!txt) { out.missing.push(pg + ' (not fetched)'); continue; }
+        want[pg].forEach(a => {
+          if (txt.indexOf('id="' + a + '"') < 0) out.missing.push(pg + '#' + a);
+        });
+      }
+      out.pages = Object.keys(want);
+      return out;
+    });
+    check('every connection line names a printed table',
+      links.lines === 50 && links.noPage.length === 0,
+      links.lines + ' lines, without a page: ' + (links.noPage.join(', ') || 'none'));
+    check('  on the two pages the other sections were dressed onto',
+      links.pages.length === 2, links.pages.join(', '));
+    check('  and every anchor is really in the page it names',
+      links.missing.length === 0, links.missing.slice(0, 5).join(', ') || 'all found');
+
+    check('  and back to Manchuria alone when it is switched off',
+      Math.abs(again.area - shut.area) < 1 && again.n === shut.n,
+      again.n + ' drawn, box ' + again.w.toFixed(0) + '\u00d7' + again.h.toFixed(0));
     /* 692 stretches between placed stops, 663 of them routed along the line file; the rest
        are on lines not yet traced and are drawn straight where the stops are close. */
     check('the track is drawn, hundreds of stretches', v.lines>600, 'lines='+v.lines);

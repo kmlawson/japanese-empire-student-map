@@ -166,8 +166,18 @@ window.JMAP_AIRPLAY = function (host) {
            * what is wanted.
            *
            * `groundedFrom` names the stop it starts at, in the route's own
-           * order; a leg is grounded if the earlier of its two stops is at or
-           * past that one, whichever way round the aeroplane is going. */
+           * order, and a leg is grounded if *either* of its two stops is at or
+           * past that one, whichever way round the aeroplane is going — so the
+           * flight that crosses into the occupied field is grounded along with
+           * everything beyond it.
+           *
+           * This asked about the earlier stop alone, which kept the crossing
+           * leg flyable: `map.js` drew Calcutta–Akyab faint and this put an
+           * Imperial Airways aeroplane on it anyway, landing in occupied Burma
+           * every morning of the film. The same off-by-one was fixed in
+           * `airGroundedLegs` and not here, because the drawing and the
+           * aeroplanes each carry their own copy of the test. **Change one and
+           * change the other**, or the map says two things at once. */
           /* Asked of the host rather than read off the record: the reader can
              switch the grounding off in the Layers panel to fly the pre-war
              timetables, and the aeroplanes have to hear about that as well as
@@ -183,7 +193,7 @@ window.JMAP_AIRPLAY = function (host) {
           for (var i = 0; i + 1 < calls.length; i++) {
             var from = calls[i], to = calls[i + 1];
             if (from.depart === null || to.arrive === null) continue;
-            if (gi >= 0 && Math.min(from.at, to.at) >= gi) continue;
+            if (gi >= 0 && Math.max(from.at, to.at) >= gi) continue;
             legs.push({ off: from.depart, on: to.arrive,
                         seg: gcPoints(from.st, to.st),
                         from: from.st, to: to.st });

@@ -11,7 +11,8 @@ themselves, so it does the work export_map.py did for Korea as well as the work 
 does after it. Three things come out of it:
 
   mn-trains.js                  the lines, the stations, and the track between consecutive stops,
-                                in the compact form trains.js reads
+                                in the compact form trains.js reads -- Manchuria's own network and
+                                the Korean and Japanese lines the same booklet prints
   mn-times.js                   the trains, fetched when the reader asks the timetable a question
   timetable/manchuria-1942.html the printed tables of pages 12 to 53, dressed with a link to the
                                 scan for every table, a reading under every station name, and a
@@ -20,9 +21,19 @@ does after it. Three things come out of it:
 WHICH TABLES. The Manchurian section of the booklet, pages 12 to 53: the South Manchuria Railway's
 own lines (滿鐵社線), the Manchukuo National Railways (國線) and the three private companies
 (其他). The through tables of pages 8 to 11 are not taken -- their trains are the same trains,
-printed again with their connections -- and neither are the Korean pages, which the Korea bundle
-already carries, nor the bus pages. The 河北・營口 ferry is a table on the page and not a line
-here, for the reason Karafuto's crossings are not: nothing sails along a railway.
+printed again with their connections -- nor are the bus pages. The 河北・營口 ferry is a table on
+the page and not a line here, for the reason Karafuto's crossings are not: nothing sails along a
+railway.
+
+AND THE CONNECTIONS BEYOND IT. The booklet is not only Manchuria's: it prints North and Central
+China from page 56, Korea's railway from 54 and again from 72, and Japan's from 84. China has no
+station geometry in this map and cannot be drawn; Korea's and Japan's are already here, put there
+by their own bundles, so those tables are read as well and their 50 lines are flagged `x` -- the
+**connections beyond the network**, which trains.js draws at half weight behind a switch in the
+strip, off by default. See CONN_SECTIONS. Two things make that harder than it sounds and both are
+argued out where they are solved: half of Japan's printed stop names are more than one place in
+N05, settled by `resolve_beyond` from the company a name keeps in its own printed column; and a
+name Manchuria also uses may or may not be the same place, settled by distance in `station_for`.
 
 THE TRACK IS ROUTED, NOT TRACED PER STOP. The transcription gives no geometry. Every pair of
 consecutive placed stops is put to tools/rail_route.py, which walks the traced 1942 line file the
@@ -51,12 +62,61 @@ SRC = os.path.join(ROOT, 'data', 'manchuria')
 TT = os.path.join(SRC, 'timetable')
 JSON_DIR = os.path.join(TT, 'transcription', 'json')
 PAGE_SRC = os.path.join(TT, 'html', 'manchuria.html')
+# **The other two sections of the booklet have pages of their own.** The
+# transcription project wrote one per section and their markup is the same, so
+# Korea's and Japan's are dressed by the same hand and land beside Manchuria's.
+# Without this a connection line's card has no printed table to point at, while
+# every line of Manchuria's own network has one — and a table nobody can read
+# is a figure with no provenance, which is the one thing this map must not
+# produce. (`korea-1942` is not `korea-1938`: that is the Korean bundle's own
+# booklet, four years earlier and a different set of trains.)
+PAGE_SECTIONS = [('', 'manchuria.html', 'manchuria-1942.html'),
+                 ('Korea', 'korea.html', 'korea-1942.html'),
+                 ('Japan', 'japan.html', 'japan-1942.html')]
 LINES_GEOJSON = os.path.join(SRC, 'manchuria-1942-lines.geojson')
+# **The networks beyond Manchuria that this same booklet prints.** The stations
+# and the traced rails are already in the map, put there by the Korea and Japan
+# work; what was missing was the timetable over them, and it has been sitting
+# in this transcription all along. See CONN_SECTIONS.
+KR_STATIONS_JS = os.path.join(SITE, 'kr-stations.js')
+JP_STATIONS_JS = os.path.join(SITE, 'jp-stations.js')
+KR_LINES_GEOJSON = [os.path.join(ROOT, 'tools', 'cache', f)
+                    for f in ('korea_1942_lines_dedup.geojson',
+                              'korea_1930_lines_dedup.geojson')]
+JP_LINES_GEOJSON = os.path.join(ROOT, 'data', 'jp-rails',
+                                'japan-railway-lines-1942.geojson')
 OUT_JS = os.path.join(SITE, 'mn-trains.js')
 OUT_TIMES = os.path.join(SITE, 'mn-times.js')   # the timetable, fetched on demand
 OUT_HTML = os.path.join(SITE, 'timetable', 'manchuria-1942.html')
 
 PAGE_LO, PAGE_HI = 12, 53        # the Manchurian section of the booklet
+
+# **THE BOOKLET IS NOT ONLY MANCHURIA'S.**
+#
+# 滿洲・支那汽車時間表 prints the whole through network a traveller out of
+# Dairen or Shinkyō could reach: North and Central China from page 56, Korea
+# from 54 and again from 72, Japan from 82, then Taiwan, Karafuto and four
+# hundred pages of buses. Only the Manchurian section is this system's *own*
+# network, and PAGE_LO..PAGE_HI is that.
+#
+# The rest is not all equally usable. China has no station geometry in this map
+# and cannot be drawn at all. Taiwan and Karafuto have their own bundles and
+# their own dates, and no train runs to either. **Korea and Japan are the two
+# that both connect and can be placed**: the expresses out of Fuzan run over
+# the Yalu at Antung into these very tables, and the map already carries 844
+# Korean stations and 12,800 Japanese ones with the rails between them traced.
+#
+# So those tables are read as well, and their lines are flagged `x` — the
+# **connections beyond the network**, which trains.js already draws at half
+# weight behind a switch in the strip. The same arrangement the Korean bundle
+# has for its Manchurian and Japanese connections, made in the other direction.
+#
+# Keyed on the section word in the transcription's own file names: 鮮鐵, 北鮮,
+# 會寧炭礦 and 鐵道省. `kahoku`/`kachu` (China), `taiwan`, `taitetsu`,
+# `karafuto`, `renrakusen` (the Hōkō–Nanking boat) and `bus` are not here and
+# are not read.
+CONN_SECTIONS = {'sentetsu': 'Korea', 'hokusen': 'Korea', 'kainei': 'Korea',
+                 'tetsudosho': 'Japan'}
 
 # The scan the transcription was made from, and the leaf each printed page is on. Measured by
 # eye against three spreads: printed pages 12 and 13 are on leaf 14, 20 and 21 on leaf 18, 52 and
@@ -76,10 +136,75 @@ PREFIX = (('滿鐵社線 ', 'South Manchuria Railway'),
           ('滿洲國線 ', 'Manchukuo National Railways'),
           ('國線 ', 'Manchukuo National Railways'),
           ('滿鐵 ', 'South Manchuria Railway'),
-          ('其他 ', ''))
+          ('其他 ', ''),
+          # and the two beyond Manchuria, for the connection tables
+          ('鮮鐵 ', 'Chōsen Government Railway'),
+          ('朝鮮總督府鐵道局 ', 'Chōsen Government Railway'),
+          ('鐵道省航路 ', 'Japanese Government Railways'),
+          ('鐵道省 ', 'Japanese Government Railways'))
 
 # One table prints two lines end to end and names both; it is one line here.
-MERGE = {'綏佳線（佳木斯・蓮江口間）・鶴岡線（蓮江口・鶴岡間）': '綏佳線・鶴岡線'}
+MERGE = {'綏佳線（佳木斯・蓮江口間）・鶴岡線（蓮江口・鶴岡間）': '綏佳線・鶴岡線',
+         # the Seishin–Rashin table, worked by two companies over one run
+         '北鮮線（上三峰・羅津間）／朝鮮總督府鐵道局 咸鏡線（淸津・上三峰間）':
+             '北鮮線・咸鏡線',
+         # **The up table of a composite route names its parts backwards.**
+         # 名古屋→龜山→鳥羽 is printed 關西本線・參宮線 and the same run the
+         # other way is 參宮線・關西本線. Read as they stand that is two lines
+         # with one direction each: the same rails drawn twice, in two colours,
+         # and neither of them with an up train. The 下り name is the canonical
+         # one, because that is the direction the booklet prints first.
+         '咸鏡・京元本線': '京元・咸鏡本線',
+         '宇高連絡船・宇野線': '宇野線・宇高連絡船',
+         '參宮線・關西本線': '關西本線・參宮線',
+         '櫻井線・奈良線': '奈良線・櫻井線',
+         '奧羽本線・羽越本線': '羽越本線・奧羽本線',
+         '篠ノ井線・中央本線': '中央本線・篠ノ井線',
+         '信越本線・高崎線・上越線': '高崎線・信越本線・上越線'}
+
+# **The names of the lines beyond Manchuria.** `pinyin_name` reads characters
+# as Chinese, which is right for this network and wrong for 東海道本線, so the
+# connection lines are named here instead. Korea's own bundle already names
+# most of its lines and those are taken from it rather than written again —
+# the two bundles must not call the same railway two different things. What is
+# added is what the 1938 tables had no need of: the sections this 1942 booklet
+# prints separately (東海 in three parts, 慶全 in two), and Japan's.
+CONN_EN = {
+    '京義線': 'Kyŏngŭi Line', '京釜線': 'Kyŏngbu Line',
+    '京慶北部線': 'Kyŏnggyŏng Northern Line',
+    '慶全南部線': 'Kyŏngjŏn Southern Line', '慶全西部線': 'Kyŏngjŏn Western Line',
+    '東海中部線': 'Tonghae Central Line', '東海北部線': 'Tonghae Northern Line',
+    '東海南部線': 'Tonghae Southern Line',
+    '北鮮線・咸鏡線': 'Pukson / Hamgyŏng Line',
+    '三角線': 'Misumi Line', '上越線': 'Jōetsu Line',
+    '中央本線': 'Chūō Main Line', '中央本線・篠ノ井線': 'Chūō Main / Shinonoi Line',
+    '佐世保線': 'Sasebo Line', '函館本線': 'Hakodate Main Line',
+    '北陸本線・信越本線': 'Hokuriku / Shin’etsu Main Line',
+    '宇野線・宇高連絡船': 'Uno Line and the Ukō ferry',
+    '宮島連絡船': 'Miyajima ferry', '宮津線': 'Miyazu Line',
+    '山陰本線': 'San’in Main Line',
+    '山陽線・東海道本線': 'San’yō / Tōkaidō Main Line',
+    '常磐線': 'Jōban Line', '日豐本線': 'Nippō Main Line',
+    '東北本線': 'Tōhoku Main Line', '東海道本線': 'Tōkaidō Main Line',
+    '奧羽本線': 'Ōu Main Line', '羽越本線・奧羽本線': 'Uetsu / Ōu Main Line',
+    '奈良線・櫻井線': 'Nara / Sakurai Line',
+    '肥薩線（吉松以南 日豐本線・吉都線を含む）': 'Hisatsu Line',
+    '豐肥本線': 'Hōhi Main Line', '豫讃本線': 'Yosan Main Line',
+    '長崎本線': 'Nagasaki Main Line', '關西本線': 'Kansai Main Line',
+    '關西本線・參宮線': 'Kansai Main / Sangū Line',
+    '關門連絡船': 'Kanmon ferry',
+    '高崎線・信越本線・上越線': 'Takasaki / Shin’etsu / Jōetsu Line',
+    '高德本線': 'Kōtoku Main Line', '鹿兒島本線': 'Kagoshima Main Line',
+}
+
+CONN_JA = {
+    '京義線': 'Keigi-sen', '京釜線': 'Keifu-sen',
+    '京慶北部線': 'Keikei hokubu-sen',
+    '慶全南部線': 'Keizen nanbu-sen', '慶全西部線': 'Keizen seibu-sen',
+    '東海中部線': 'Tōkai chūbu-sen', '東海北部線': 'Tōkai hokubu-sen',
+    '東海南部線': 'Tōkai nanbu-sen',
+    '北鮮線・咸鏡線': 'Hokusen-sen / Kankyō-sen',
+}
 
 # Tables that are not railways: the ferry across the Liao mouth.
 SKIP_LINES = {'連絡船 河北・營口間'}
@@ -160,28 +285,193 @@ def minutes(t):
 
 
 def read_tables():
-    """The Manchurian rail tables in page order: (table id, json)."""
+    """The rail tables in page order, Manchuria's own and the connections.
+
+    `_conn` is '' for Manchuria's own network and 'Korea' or 'Japan' for a
+    table from one of the sections beyond it; everything downstream keys on
+    that rather than on the page number, so a table's country survives a
+    change of pagination."""
     out = []
     for path in sorted(glob.glob(os.path.join(JSON_DIR, 'p*.json'))):
         tid = os.path.basename(path)[:-5]
-        m = re.match(r'p(\d+)', tid)
+        m = re.match(r'p(\d+)[a-z]*_([a-z]+)_', tid)
         if not m:
             continue
         page = int(m.group(1))
-        if page < PAGE_LO or page > PAGE_HI:
+        conn = CONN_SECTIONS.get(m.group(2), '')
+        if not conn and (page < PAGE_LO or page > PAGE_HI):
             continue
         with io.open(path, encoding='utf-8') as fh:
             x = json.load(fh)
-        if x.get('kind') == 'bus' or x.get('clock') == '12':
+        # **`clock` says how the page prints, not what the data holds.** The
+        # Japanese tables are printed 12-hour with the afternoon in bold, and
+        # the transcription has already read that: a bold 1.39 comes through as
+        # 13:39, and 1,617 of the 7,803 timed stops run past midnight in the
+        # same 25:12-for-1.12 form the Manchurian tables use. So the flag is no
+        # reason to refuse them. It still refuses a *bus* table, which is what
+        # it was put here for.
+        if x.get('kind') == 'bus':
+            continue
+        if x.get('clock') == '12' and not conn:
             continue
         if x.get('line') in SKIP_LINES or x.get('line') in HIDDEN_LINES:
             continue
         x['_id'] = tid
         x['_page'] = page
+        x['_conn'] = conn
         out.append(x)
     # the booklet's own order: by page, then by the letter the table has on it
     out.sort(key=lambda x: (x['_page'], x['_id']))
     return out
+
+
+# **The fold that lets two sources agree about a name.** The booklet prints
+# 下關, 仙臺 and 鹿兒島; the Japanese station file has 下関, 仙台 and 鹿児島, and
+# the Korean one is inconsistent with itself. Neither side is wrong and neither
+# is going to be rewritten, so both are folded to the same shape before they
+# are compared. This is `build_kr_trains.VARIANTS`, imported rather than
+# copied: one table, argued about in one place.
+try:
+    from build_kr_trains import VARIANTS as _VARIANTS
+    from build_kr_trains import LINE_EN as _KR_EN, LINE_JA as _KR_JA
+except Exception:                       # pragma: no cover - the table is data
+    _VARIANTS, _KR_EN, _KR_JA = {}, {}, {}
+
+
+def fold(name):
+    """A station name reduced to what two sources can be asked to share."""
+    n = re.sub(r'[（(].*?[)）]', '', name or '').strip()
+    n = re.sub(r'(著|發|着|発)$', '', n)
+    return ''.join(_VARIANTS.get(c, c) for c in n)
+
+
+def conn_stations():
+    """Korea's stations and Japan's, folded, **kept in separate pools**.
+
+    One pool for both was wrong and wrong in a way that looked right: 仁川 is
+    not in Korea's 1938 station file, and there is a 仁川 in Hyōgo, so every
+    Inch'ŏn local ran 838 km down the Keijin line in four minutes and came back.
+    A Korean table is answered from Korea's file and a Japanese one from
+    Japan's; a name neither has stays unplaced, which is the honest answer and
+    the one that shows.
+
+    Korea's bundle carries the Japanese reading of every name and Japan's
+    carries none at all, so a Japanese connection stop is characters only. That
+    is the source's doing and not a gap worth filling by guessing: how many
+    have a reading is printed at the end of the build."""
+    out = {'Korea': {}, 'Japan': {}}
+
+    for line in io.open(KR_STATIONS_JS, encoding='utf-8'):
+        line = line.strip().rstrip(',')
+        if not (line.startswith('{') and line.endswith('}')):
+            continue
+        o = json.loads(line)
+        k = fold(o.get('han') or '')
+        if k and o.get('lon') is not None:
+            out['Korea'].setdefault(k, []).append(
+                {'lon': o['lon'], 'lat': o['lat'], 'ro': o.get('ro', ''),
+                 'where': 'Korea'})
+    src = io.open(JP_STATIONS_JS, encoding='utf-8').read()
+    i, j = src.find('['), src.rfind(']')
+    for o in json.loads(src[i:j + 1]) if i >= 0 else []:
+        k = fold(o.get('n') or '')
+        if k and o.get('lon') is not None:
+            out['Japan'].setdefault(k, []).append(
+                {'lon': o['lon'], 'lat': o['lat'], 'ro': '', 'where': 'Japan'})
+    return out
+
+
+# **HALF OF JAPAN'S NAMES ARE MORE THAN ONE PLACE.**
+#
+# N05 has 10,866 distinct station names over 12,800 places: 1,383 of those
+# names are two places or more and 小倉 is five, 清水 six, 福島 seven. Of the
+# 668 stops the Japanese tables print, **324 are ambiguous** — very nearly
+# half. Taking the first row of that name is a coin flip, and it came up
+# wrong often enough to be obvious: 門司港 to 小倉 measured 781 km in twenty
+# minutes, and 靜岡 to 清水, which is twelve minutes along the Tōkaidō, came
+# out at 973.
+#
+# The booklet itself says which one is meant, not in words but in order. A
+# table is a line, and a line is a sequence of places near each other, so a
+# name is resolved by **where its neighbours in the printed column are**. The
+# unambiguous names — the other 344 — seed it, and the rest fall out in a few
+# rounds. Korea needs almost none of this: 7 of its 843 names repeat and only
+# 10 printed stops are touched.
+#
+# A candidate is only accepted if it is within MAX_ANCHOR_KM of the nearest
+# anchor. A name whose neighbours are all still unplaced, or whose best
+# candidate is a long way from them, is left for the next round and finally
+# left unplaced — which is the answer that shows, rather than a point in the
+# wrong prefecture that does not.
+MAX_ANCHOR_KM = 120
+
+
+def resolve_beyond(tables, pools):
+    """One place per name per country, chosen by the company it keeps."""
+    chosen = {'Korea': {}, 'Japan': {}}
+    seqs = {'Korea': [], 'Japan': []}
+    for x in tables:
+        if not x['_conn']:
+            continue
+        run = []
+        for st in x['stations']:
+            n = fold(st.get('name') or '')
+            if n and (not run or run[-1] != n):
+                run.append(n)
+        if len(run) > 1:
+            seqs[x['_conn']].append(run)
+
+    report = {}
+    for cn in ('Korea', 'Japan'):
+        pool = pools[cn]
+        pick = chosen[cn]
+        printed = set()
+        for run in seqs[cn]:
+            printed.update(run)
+        # the names that need no choosing, which are the anchors
+        unique = 0
+        for n in printed:
+            c = pool.get(n)
+            if c and len(c) == 1:
+                pick[n] = c[0]
+                unique += 1
+        ambiguous = sorted(n for n in printed
+                           if n not in pick and len(pool.get(n) or ()) > 1)
+        settled = 0
+        moved = True
+        while moved:
+            moved = False
+            for n in list(ambiguous):
+                if n in pick:
+                    continue
+                anchors = []
+                for run in seqs[cn]:
+                    for k, m in enumerate(run):
+                        if m != n:
+                            continue
+                        for step in (-1, 1):           # outward either way
+                            j = k + step
+                            while 0 <= j < len(run):
+                                if run[j] in pick:
+                                    anchors.append(pick[run[j]])
+                                    break
+                                j += step
+                if not anchors:
+                    continue
+                best, best_d = None, None
+                for c in pool[n]:
+                    d = min(rail_route._km((c['lon'], c['lat']),
+                                           (a['lon'], a['lat'])) for a in anchors)
+                    if best_d is None or d < best_d:
+                        best, best_d = c, d
+                if best is None or best_d > MAX_ANCHOR_KM:
+                    continue
+                pick[n] = best
+                settled += 1
+                moved = True
+        report[cn] = (unique, settled,
+                      len([n for n in ambiguous if n not in pick]))
+    return chosen, report
 
 
 def our_stations():
@@ -311,7 +601,7 @@ readings(); pages();
 """
 
 
-def dress_html(tables, anchors_by_line, reads):
+def dress_html(tables, anchors_by_line, reads, src=None, out=None):
     """The transcription project's page, with the map's furniture on it.
 
     Patched here rather than in data/manchuria/timetable/html/manchuria.html because that file is
@@ -319,13 +609,16 @@ def dress_html(tables, anchors_by_line, reads):
     map's furniture. Every substitution is asserted, so a source that has moved on fails the
     build instead of quietly shipping a page missing half of what was asked for.
     """
-    html = io.open(PAGE_SRC, encoding='utf-8').read()
+    src = src or PAGE_SRC
+    out = out or OUT_HTML
+    who = os.path.basename(src)
+    html = io.open(src, encoding='utf-8').read()
 
     def sub(old, new, what, count=1):
         n = html.count(old)
         if count is not None and n != count:
-            raise SystemExit('manchuria.html: %s -- expected %s of %r, found %d'
-                             % (what, count, old[:60], n))
+            raise SystemExit('%s: %s -- expected %s of %r, found %d'
+                             % (who, what, count, old[:60], n))
         return html.replace(old, new)
 
     # the header: the map instead of the transcription project's index, the scan, the readings
@@ -353,8 +646,13 @@ def dress_html(tables, anchors_by_line, reads):
         return '<p class="pg" data-pages="%s" data-src="%s">原本 p.%s</p>' % (
             m.group(1), m.group(2), m.group(1))
     html, n = re.subn(r'<p class="pg">原本 <b>p\.(\d+)</b>（([^）]*)）</p>', pg, html)
-    if n != len(tables) and n < 100:
-        raise SystemExit('manchuria.html: %d page references, expected about %d' % (n, len(tables)))
+    # **The page may hold more than the build takes, but never fewer.** The
+    # 連絡船 河北・營口 and the untraced 北票線 are printed and skipped, so
+    # manchuria.html has 132 references for 128 tables. A page with *fewer*
+    # than the build asked for is a source that has moved on, and fails.
+    if n < len(tables):
+        raise SystemExit('%s: %d page references, fewer than the %d tables read'
+                         % (who, n, len(tables)))
 
     # every table heading says which line and which way, for the map and for the reader
     by_id = {x['_id']: x for x in tables}
@@ -378,8 +676,8 @@ def dress_html(tables, anchors_by_line, reads):
                PAGE_JS % {'archive': json.dumps(ARCHIVE), 'leaf': LEAF_BASE,
                           'readings': json.dumps(reads, ensure_ascii=False)}
                + '</script></body></html>', 'the script')
-    os.makedirs(os.path.dirname(OUT_HTML), exist_ok=True)
-    with io.open(OUT_HTML, 'w', encoding='utf-8', newline='\n') as fh:
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with io.open(out, 'w', encoding='utf-8', newline='\n') as fh:
         fh.write(html)
     return n_pg[0], n_h2, n_dl
 
@@ -398,7 +696,7 @@ def main():
             line_ix[name] = len(lines)
             first_table[name] = x['_id']
             ends[name] = dir_of(x)
-            lines.append({'n': name, 'co': co})
+            lines.append({'n': name, 'co': co, 'cn': x['_conn']})
     # which way each table runs: the first table of a line is down, a table running the
     # other way is up; the booklet prints 下り/上り on the trunk and only the ends elsewhere
     for x in tables:
@@ -416,10 +714,33 @@ def main():
     by_name = {}
     for o in ours:
         by_name.setdefault(o['han'], []).append(o)
+    beyond, beyond_report = resolve_beyond(tables, conn_stations())
+    SAME_PLACE_KM = 100                 # see `station_for`
     stations, ix = [], {}
     unmatched = set()
+    conn_placed = {'Korea': 0, 'Japan': 0}
+    conn_missed = {'Korea': set(), 'Japan': set()}
 
-    def station_for(name, line_full):
+    # **Manchuria's own file is asked first, whatever the table.** A Korean
+    # table heads its expresses at 新京 and 奉天 and a Japanese one ends at
+    # 下關: those are the same places the Manchurian tables call at, and they
+    # have to come out as the *same station record* or the through train is
+    # two trains with a hole between them. Only a name Manchuria has never
+    # heard of goes to the country pool.
+    def beyond_for(name, conn):
+        return beyond.get(conn, {}).get(fold(name)) if conn else None
+
+
+    # **A name two countries both use is two stations, unless it is one.**
+    #
+    # 安東, 新京 and 奉天 stand at the head of the Korean columns and are the
+    # same places the Manchurian tables call at: they have to come out as one
+    # record or the Fuzan express is two trains with a hole over the Yalu. But
+    # 鶴岡 is a stop on Manchuria's 鶴岡線 *and* a town in Yamagata on the
+    # 羽越本線, and those are 1,259 km apart. The name cannot tell them apart
+    # and neither can the line; the distance can, and does it before anything
+    # is drawn rather than afterwards from a train's impossible speed.
+    def station_for(name, line_full, conn=''):
         cands = by_name.get(name, [])
         o = None
         if len(cands) == 1:
@@ -427,7 +748,14 @@ def main():
         elif len(cands) > 1:
             here = [c for c in cands if line_full in c['line']]
             o = here[0] if len(here) == 1 else None
+        b = beyond_for(name, conn)
+        # the country's own file wins when the two are plainly not one place
+        if o and b and rail_route._km((o['lon'], o['lat']),
+                                      (b['lon'], b['lat'])) > SAME_PLACE_KM:
+            o = None
         key = name if len(cands) < 2 else name + '|' + line_full
+        if o is None and b:
+            key = name + '|' + conn          # its own record, not Manchuria's
         if key in ix:
             return ix[key]
         rec = {'n': name}
@@ -438,6 +766,14 @@ def main():
                 rec['py'] = o['py']
             if o.get('ro'):
                 rec['ro'] = o['ro']
+        elif b:
+            rec['lon'], rec['lat'] = b['lon'], b['lat']
+            if b.get('ro'):
+                rec['ro'] = b['ro']
+            rec['_beyond'] = 1
+            conn_placed[b['where']] += 1
+        elif conn:
+            conn_missed[conn].add(name)
         else:
             unmatched.add(name)
         rec['li'] = []
@@ -453,12 +789,34 @@ def main():
     # that is the same 新京. The clock can: a stop the file does not put on the table's line is
     # another place when the train would have to run faster than 150 km/h to reach it from the
     # timed stop before or after, and then it is an unplaced station of that line. Reported.
-    def placed_point(n, line_full):
+    # **It must answer exactly what `station_for` will use.** This feeds the
+    # clock test, and a clock told about a point the build never drew reports
+    # faults nobody has and misses the ones they do have. So the same order of
+    # preference, including the distance rule that gives a connection table its
+    # own country's station.
+    def placed_point(n, line_full, conn=''):
         cands = by_name.get(n, [])
+        b = beyond_for(n, conn)
+        o = None
         if len(cands) == 1:
-            return cands[0]
-        here = [c for c in cands if line_full in c['line']]
-        return here[0] if len(here) == 1 else None
+            o = cands[0]
+        else:
+            here = [c for c in cands if line_full in c['line']]
+            if here and len(here) == 1:
+                o = here[0]
+            elif cands:
+                return None
+        if o and b and rail_route._km((o['lon'], o['lat']),
+                                      (b['lon'], b['lat'])) > SAME_PLACE_KM:
+            o = None
+        if o:
+            return o
+        # Korea's and Japan's files carry no line for a station, so the "is it
+        # on this line?" half of the test below has nothing to weigh — but the
+        # other half, the speed, needs no line at all, and a stop that would
+        # have to be flown to is the wrong stop whatever file it came from.
+        # Handed back with an empty `line` so the test can still convict.
+        return dict(b, line='') if b else None
 
     strangers = []
     strange_by_line = {}          # a name that is another place on a line is so in all its tables
@@ -471,14 +829,37 @@ def main():
             for s in t['stops']:
                 if not s.get('t'):
                     continue
-                o = placed_point(s['st'], x['line'])
+                o = placed_point(s['st'], x['line'], x['_conn'])
                 if o and not (run and run[-1][0] == s['st']):
                     run.append((s['st'], minutes(s['t']), o))
             for (a, ta, pa), (b, tb, pb) in zip(run, run[1:]):
                 km = rail_route._km((pa['lon'], pa['lat']), (pb['lon'], pb['lat']))
+                # **A short leg cannot convict, however fast it reads.** The
+                # booklet prints whole minutes, so three kilometres between two
+                # halts of the 會寧炭礦線 in "1 min" is 180 km/h by arithmetic
+                # and a rounded figure in fact. The test is for a stop placed in
+                # the wrong province, and that shows as tens of kilometres or
+                # hundreds — never as three. Ten such legs were being thrown out
+                # on this evidence once Korea's and Japan's tables came in.
+                if km < 25:
+                    continue
                 if km / (max(1, abs(tb - ta)) / 60.0) <= 150:
                     continue
                 for n, o in ((a, pa), (b, pb)):
+                    # **The clock is no longer the best witness for these.**
+                    # A connection stop is placed by `resolve_beyond`, which
+                    # picks among the candidates of that name by where the
+                    # table's own neighbours are and refuses anything more
+                    # than MAX_ANCHOR_KM from them; and a name Manchuria also
+                    # has is separated by SAME_PLACE_KM before it is ever
+                    # drawn. Both are evidence about *position*, which is what
+                    # is in question, where the clock is evidence about a
+                    # printed minute. It convicted four stops of the 關西本線
+                    # on 名古屋 to 龜山 "in 3 min" — 53 km, which is the right
+                    # distance between the right two places and a misprinted
+                    # time. So a stop the country's file placed is left alone.
+                    if o.get('where'):
+                        continue
                     if x['line'] not in o['line'] and n not in x['_strange']:
                         x['_strange'].add(n)
                         strangers.append('%s (%s: %s to %s, %.0f km in %d min)'
@@ -496,10 +877,25 @@ def main():
                 key = n + '|' + x['line']
                 if key not in ix:
                     ix[key] = len(stations)
-                    stations.append({'n': n, 'li': []})
+                    # **The other place of that name may be findable.** The
+                    # clock has just said this is not the 鶴岡 the Manchurian
+                    # file has — 1,259 km from 村上 in 119 minutes — and on a
+                    # Japanese table it is the 鶴岡 in Yamagata, which the
+                    # Japanese station file has and which nothing had thought
+                    # to ask. Seven stops came out unplaced for want of this
+                    # question: 大橋, 平山, 淸道, 龍門, 鶴山, 永安, 鶴岡.
+                    rec = {'n': n, 'li': []}
+                    b = beyond_for(n, x['_conn'])
+                    if b:
+                        rec['lon'], rec['lat'] = b['lon'], b['lat']
+                        if b.get('ro'):
+                            rec['ro'] = b['ro']
+                        rec['_beyond'] = 1
+                        conn_placed[b['where']] += 1
+                    stations.append(rec)
                 i = ix[key]
             else:
-                i = station_for(n, x['line'])
+                i = station_for(n, x['line'], x['_conn'])
             x['_ix'][n] = i
             if li not in stations[i]['li']:
                 stations[i]['li'].append(li)
@@ -718,13 +1114,31 @@ def main():
         a, b = ends[n]
         who = lambda p: ('%s (%s)' % (romaji[p], p)) if romaji.get(p) else p
         co = l.pop('co')
-        l['en'] = pinyin_name(n)
-        if n in LINE_JA:
-            l['ja'] = LINE_JA[n]
+        cn = l.pop('cn')
+        # **A Korean or Japanese line is not named in pinyin.** `pinyin_name`
+        # reads the characters as Chinese, which is right for Manchuria and
+        # wrong for 東海道本線. The connection lines take the Japanese reading
+        # the booklet itself implies, and where none is named here they keep
+        # their characters rather than being given a reading nobody checked.
+        if cn:
+            l['en'] = CONN_EN.get(n) or _KR_EN.get(n) or n
+            ja = CONN_JA.get(n) or _KR_JA.get(n) or CONN_EN.get(n) or ''
+        else:
+            l['en'] = pinyin_name(n)
+            ja = LINE_JA.get(n, '')
+        if ja:
+            l['ja'] = ja
         else:
             no_ja.append(n)
         l['c'] = PALETTE[i % len(PALETTE)]
         l['a'] = first_table[n]
+        # and which of the three dressed pages that anchor is on: `cfg.page`
+        # in trains.js is the system's, which is Manchuria's, so a line from
+        # one of the other two sections names its own. See `pageOf` there.
+        if cn:
+            l['pg'] = 'timetable/%s-1942.html' % cn.lower()
+        if cn:
+            l['x'] = 1
         l['d'] = ('%s: %s to %s.' % (co, who(a), who(b))) if co else ('%s to %s.' % (who(a), who(b)))
 
     print("  %d table column(s) joined to the through train they belong to"
@@ -743,9 +1157,67 @@ def main():
     # mountain network -- 灤平 to 古北口 on the 錦古線 is 59 km of railway for a 29.5 km chord,
     # which is the line following the valleys and not the route going round. 2.6 takes that
     # and the 承德 hills; what it still refuses is listed in the build's output.
+    # **AND THE TWO NETWORKS BEYOND, WITH THEIR OWN TRACED RAILS.**
+    #
+    # The connection stretches run over ground the Manchurian trace knows
+    # nothing about, so with that file alone `fill` has no rails to walk
+    # between two Korean stops and leaves the chord as a straight line. The
+    # same Korean and Japanese line files the map itself draws go into the
+    # graph — and into the *same* graph, not three separate ones, because the
+    # expresses out of Fuzan cross the Yalu at Antung and a train that changes
+    # country in the middle of a run has to find a route the whole way.
+    #
+    # `node_crossings` is Manchuria's alone. It makes a junction wherever two
+    # features cross between their vertices, which is right for a trace drawn
+    # one line per feature and wrong for a file already traced to share its
+    # junctions — see `rail_route.fill`. And the weld is Korea's 80 m, for
+    # Japan's N05: 1,977 features that come to 241 separate components, so
+    # without it neighbouring stations eight kilometres apart have no path at
+    # all between them. Both numbers are argued out in `build_kr_trains.py`.
+    ferry_li = {i for n, i in line_ix.items() if '連絡船' in n}
     rail_route.SNAP_KM = 3.0
-    routed = rail_route.fill(bundle, [LINES_GEOJSON], 'Manchuria 1942',
-                             bridge_km=800, stretch=2.6, node_crossings=True)
+    routed = rail_route.fill(bundle,
+                             [LINES_GEOJSON] + KR_LINES_GEOJSON + [JP_LINES_GEOJSON],
+                             'Manchuria 1942',
+                             bridge_km=800, stretch=2.6,
+                             node_crossings=[LINES_GEOJSON],
+                             weld_m=80,
+                             # nothing sails along a railway: the Kanmon, Ukō
+                             # and Miyajima crossings are left as they are
+                             skip_li=ferry_li)
+
+    # **THINNED WHERE IT IS NEW, AND NOWHERE ELSE.**
+    #
+    # N05 is a modern national dataset and its rails are drawn at a density no
+    # map at this scale can show: 長萬部 to 岩見澤 came back as 2,587 points for
+    # 214 km of railway, and the bundle went from 460 KB to 7.5 MB — sixteen
+    # times, for track the reader cannot tell from a thinner line. The Korean
+    # bundle already stores its Japanese connections at 40 m for exactly this
+    # reason, which is the tolerance the Japanese layer is *drawn* at, so
+    # nothing is lost that was ever going to be seen.
+    #
+    # **But `fill`'s own `simplify_m` would thin everything**, including
+    # Manchuria's hand-traced 1942 lines, which are not a national dataset and
+    # are not anybody's to thin. So the thinning is done here, after the fact,
+    # and only on a stretch with an end beyond Manchuria. What fraction of the
+    # vertices survives is printed, because a tolerance quietly undoing the
+    # tracing is the thing this project has been bitten by before.
+    BEYOND_TOL_M = 40
+    beyond_ix = {i for i, st in enumerate(stations) if st.get('_beyond')}
+    before = after = touched = 0
+    for k in list(bundle['paths'].keys()):
+        lo, hi = (int(v) for v in k.split('|'))
+        if lo not in beyond_ix and hi not in beyond_ix:
+            continue
+        flat = bundle['paths'][k]
+        pts = [(flat[j], flat[j + 1]) for j in range(0, len(flat), 2)]
+        thin = rail_route._thin(pts, BEYOND_TOL_M)
+        before += len(pts)
+        after += len(thin)
+        touched += 1
+        bundle['paths'][k] = [c for q in thin for c in q]
+    for st in stations:
+        st.pop('_beyond', None)
     head = ("/* Built by tools/build_mn_trains.py -- do not edit.\n"
             " * The July 1942 Manchurian railway timetable: %d trains over %d lines,\n"
             " * calling at %d stations, with the track between consecutive stops\n"
@@ -766,14 +1238,25 @@ def main():
     for o in ours:
         if o.get('kana') or o.get('ro'):
             reads[o['han']] = [o.get('kana', ''), o.get('ro', '')]
-    n_pg, n_h2, n_dl = dress_html(tables, first_table, reads)
+    pages = []
+    for cn, srcname, outname in PAGE_SECTIONS:
+        mine = [x for x in tables if x['_conn'] == cn]
+        if not mine:
+            continue
+        n_pg, n_h2, n_dl = dress_html(
+            mine, first_table, reads,
+            src=os.path.join(TT, 'html', srcname),
+            out=os.path.join(SITE, 'timetable', outname))
+        pages.append((outname, n_h2, n_pg, n_dl))
 
     # --- what was done
     placed = sum(1 for s in stations if s.get('lon') is not None)
     with open(LINES_GEOJSON) as fh:
         drawn = {split_line(f['properties'].get('name-zh', ''))[0]
                  for f in json.load(fh)['features']}
-    undrawn = [l['n'] for l in lines if l['n'] not in drawn]
+    # the file this compares against is Manchuria's own trace, so a connection
+    # line is not missing from it — it was never looked for there
+    undrawn = [l['n'] for l in lines if l['n'] not in drawn and not l.get('x')]
     pairs = set()
     for t in trains:
         prev = -1
@@ -786,6 +1269,24 @@ def main():
             if prev >= 0 and prev != r[0]:
                 pairs.add((min(prev, r[0]), max(prev, r[0])))
             prev = r[0]
+    conn_lines = sum(1 for l in lines if l.get('x'))
+    sys.stderr.write('  connections beyond the network: %d lines, %d stops placed from '
+                     "Korea's station file and %d from Japan's\n"
+                     % (conn_lines, conn_placed['Korea'], conn_placed['Japan']))
+    for where in ('Korea', 'Japan'):
+        uni, settled, stuck = beyond_report[where]
+        sys.stderr.write('    %s: %d name(s) the station file has once, %d of the repeated '
+                         'ones settled by their printed neighbours, %d left undecided\n'
+                         % (where, uni, settled, stuck))
+    for where in ('Korea', 'Japan'):
+        if conn_missed[where]:
+            sys.stderr.write('  %d %s stop(s) the station file does not have, left unplaced: '
+                             '%s\n' % (len(conn_missed[where]), where,
+                                        ', '.join(sorted(conn_missed[where]))))
+    if touched:
+        sys.stderr.write('  %d connection stretch(es) thinned at %d m: %d of %d vertices '
+                         'kept (%.0f%%); Manchuria\'s own track untouched\n'
+                         % (touched, BEYOND_TOL_M, after, before, 100.0 * after / before))
     sys.stderr.write('mn-trains.js: %d trains, %d lines, %d stations (%d placed, %d not), '
                      '%d stretches between placed stops, %d routed along the drawn railway\n'
                      % (len(trains), len(lines), len(stations), placed, len(stations) - placed,
@@ -805,9 +1306,12 @@ def main():
                          'between placed stops: %s\n' % (len(undrawn), ', '.join(undrawn)))
     if HIDDEN_LINES:
         sys.stderr.write('  kept off the map until traced: %s\n' % ', '.join(sorted(HIDDEN_LINES)))
-    sys.stderr.write('timetable/manchuria-1942.html: %d tables, %d page references linked to '
-                     'the scan, %d CSV links, %d station readings, %d KB\n'
-                     % (n_h2, n_pg, n_dl, len(reads), os.path.getsize(OUT_HTML) // 1024))
+    for outname, n_h2, n_pg, n_dl in pages:
+        sys.stderr.write('timetable/%s: %d tables, %d page references linked to the scan, '
+                         '%d CSV links, %d KB\n'
+                         % (outname, n_h2, n_pg, n_dl,
+                            os.path.getsize(os.path.join(SITE, 'timetable', outname)) // 1024))
+    sys.stderr.write('  %d station readings on all three\n' % len(reads))
 
 
 if __name__ == '__main__':

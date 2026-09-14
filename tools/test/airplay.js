@@ -754,6 +754,82 @@ const toEpoch=async(p,y)=>{
       flew.hits === 0, flew.hits + ' of ' + flew.mine + ' marks');
   }
 
+  /* ========= every grounded route, not the three we thought of =========
+   *
+   * The check above names three routes, and the fault it was written for got
+   * past it on a fourth. `map.js` and `air-play.js` each carry their own copy
+   * of "which legs are grounded" — `airGroundedLegs` and `buildPlans` — and
+   * they disagreed: the map grounded a leg if *either* of its stops was at or
+   * past the named one, the player only if the *earlier* was. So the leg that
+   * crossed into occupied ground was drawn faint and flown anyway, and the
+   * reader saw allied aeroplanes landing in occupied Burma.
+   *
+   * This sweeps the whole week and asks of *every* route with a
+   * `grounded_from`: does any of its marks stand on its own faint stretch? The
+   * junction is exempt and has to be — the faint stretch begins at the last
+   * stop still flown, so an aeroplane that has just landed there is on the
+   * start of the path by a metre. Anything past the first 1% is flight.
+   *
+   * Before the fix: 425 marks down the faint stretch across three routes. */
+  console.log('\n— no aeroplane on any grounded stretch, on any route —');
+  {
+    const hp = await browser.newPage();
+    await hp.setViewport({ width: 1400, height: 900 });
+    await hp.evaluateOnNewDocument(SHIM);
+    await hp.goto(URL, { waitUntil: 'domcontentloaded' });
+    await ready(hp);
+    await hp.evaluate(() => { const x = [...document.querySelectorAll('#epoch-seg button')]
+      .find(y => /1942/.test(y.textContent)); if (x) x.click(); });
+    await sleep(2500);
+    await hp.evaluate(() => document.getElementById('btn-air').click());
+    await sleep(1800);
+    await hp.evaluate(() => document.getElementById('btn-planes').click());
+    await sleep(2400);
+    const seen = await hp.evaluate(() => {
+      const sl = document.querySelector('.air-slider'), max = +sl.max;
+      const by = {};
+      for (let t = 0; t <= max; t += 4) {
+        sl.value = String(t); sl.dispatchEvent(new Event('input', { bubbles: true }));
+        [...document.querySelectorAll('#planes > g')]
+          .filter(g => g.style.display !== 'none')
+          .forEach(g => {
+            const id = g.getAttribute('data-route');
+            const m = /translate\(([-\d.]+),\s*([-\d.]+)\)/
+              .exec(g.getAttribute('transform') || '');
+            if (id && m) (by[id] = by[id] || []).push([+m[1], +m[2]]);
+          });
+      }
+      return by;
+    });
+    const out = await hp.evaluate((by) => {
+      const rows = [];
+      let routes = 0;
+      (window.JMAP.AIR || []).forEach(r => {
+        if (!r.groundedFrom) return;
+        routes++;
+        const g = document.querySelector('.air-route[data-air="' + r.id + '"]');
+        const dim = g && g.querySelector('.air-line-idle');
+        if (!dim || !dim.getAttribute('d')) return;
+        const L = dim.getTotalLength();
+        if (!L) return;
+        const pts = [];
+        // from 1% in: the junction airport is the start of the faint path
+        for (let k = 9; k <= 900; k++) pts.push(dim.getPointAtLength(L * k / 900));
+        let hit = 0;
+        (by[r.id] || []).forEach(q => {
+          if (pts.some(p => Math.hypot(p.x - q[0], p.y - q[1]) < 1.5)) hit++;
+        });
+        if (hit) rows.push(r.id + ' ' + hit + '/' + (by[r.id] || []).length);
+      });
+      return { routes, rows };
+    }, seen);
+    await hp.close();
+    check('the sheet has grounded routes to check', out.routes >= 14,
+      out.routes + ' with a grounded_from');
+    check('  and not one aeroplane flies a faint stretch',
+      out.rows.length === 0, out.rows.join(', ') || 'none on any of them');
+  }
+
   /* ------------------------------- the card gives way to the tools --
    *
    * `styles.css` hides `#train-bar` under `(max-height: 520px)` and `.air-bar`

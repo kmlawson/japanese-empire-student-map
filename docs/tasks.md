@@ -22639,3 +22639,136 @@ and is untouched.
 Measured over the 224: the longest card description is 286 characters and its
 hover is 184; **none is over 200**, against a worst case before of 286 plus a
 301-character note glued on behind it.
+
+## 204. Allied aeroplanes were still landing in occupied Burma
+
+Reported by the author: the 1942 sheet dims the stretches that run onto
+Japanese-held ground, and aeroplanes were flying down them anyway.
+
+The cause was two copies of one test. Which legs a route is grounded on is
+decided twice — `airGroundedLegs` in `map.js`, which decides what is **drawn**
+faint, and `buildPlans` in `air-play.js`, which decides what **flies** — and
+entry 190 fixed only the first. The map grounds a leg if *either* of its stops
+is at or past the named one; the player was still asking about the *earlier*
+stop alone, so the flight that crossed **into** the occupied field stayed
+flyable. `air-play.js` now asks the same question, and the comment at both
+sites says the other exists.
+
+Measured by sweeping the whole week and counting the marks that fall on a
+route's own faint path:
+
+| route | before | after |
+|---|---|---|
+| `klm-batavia` | 322 of 960 | 2 of 640 |
+| `cnac-chungking-rangoon` | 77 of 156 | 1 of 80 |
+| `airfrance-karachi-hongkong` | 26 of 132 | 1 of 107 |
+
+The four that remain are all at 0.0% along the faint path — an aeroplane
+standing at the junction airport, which is where the faint stretch begins, not
+flight along it. The mark totals fall because the crossing legs no longer fly.
+
+**And one crossing the data had never marked.** The author's rule is that no
+aeroplane crosses between Japanese-controlled ground — Thailand with it — and
+allied ground. Auditing every leg on the 1942 sheet against that gives eight
+crossings, and seven were grounded. The eighth was `knilm-kupang-darwin`:
+Kupang had been Japanese since February 1942 and Darwin is Australia, and the
+route is two stops, so there was no surviving half to make the omission
+visible. The identical pair on `iaw39-karachi-darwin` was already grounded.
+`grounded_from` is now `kupang`; **8 of 8**.
+
+Guarded by a new sweep in `tools/test/airplay.js` that asks it of *every* route
+with a `grounded_from` rather than the three named in the older check — the
+fault got past that one on a fourth route. The junction is exempt, the first 1%
+of the faint path; anything past it is flight. `airplay` is 82 checks, 0
+failing, 96s.
+
+Written up beside the data in `data/air/README.md`, under `grounded_from`.
+
+## 205. The Manchurian timetable's Korean and Japanese lines, as connections
+
+The author's reading of the source: 滿洲・支那汽車時間表 昭和17年7月號 is not a
+Manchurian timetable but an imperial one, and the map was using a quarter of
+it. The transcription under `data/manchuria/timetable/` is **861 tables** and
+`build_mn_trains.py` read 128 of them.
+
+| section | tables | now |
+|---|---:|---|
+| Manchuria, p12–53 | 128 | the network itself |
+| Korea — 鮮鐵, 北鮮, 會寧炭礦 | 42 | **a connection** |
+| Japan — 鐵道省 | 58 | **a connection** |
+| North and Central China | 95 | no station geometry in this map |
+| Taiwan, Karafuto | 11 | their own bundles, their own dates |
+| buses | 495 | no |
+| the 日滿 through tables, p8–11 | 12 | the same trains again |
+
+Korea and Japan are the two that both **connect** — the Fuzan expresses cross
+the Yalu at Antung into these very tables — and **can be placed**, because the
+map already carries 844 Korean stations, 12,800 Japanese ones, and the traced
+rails between them. Their 50 lines are flagged `x`, which is the arrangement
+`trains.js` already has for Korea's own connections: half weight, behind the
+**Connections beyond the network** switch, off by default. No new UI.
+
+**Three placement problems, each of which drew a wrong map first.**
+
+*One pool for two countries.* 仁川 is not in Korea's 1938 station file and
+there is a 仁川 in Hyōgo, so every Inch'ŏn local ran 838 km down the Keijin
+line in four minutes. A Korean table is now answered from Korea's file and a
+Japanese one from Japan's.
+
+*Half of Japan's names are more than one place.* N05 has 10,866 names over
+12,800 places — 小倉 is five, 清水 six, 福島 seven — and **324 of the 668
+Japanese stops printed are ambiguous**. First-wins is a coin flip and it
+showed: 門司港 to 小倉 measured 781 km in twenty minutes. `resolve_beyond`
+settles a repeated name by **where its neighbours in the printed column
+are**, seeded by the 344 unambiguous ones, refusing any candidate more than
+120 km from its nearest anchor. **All 104 repeated Japanese names and all 4
+Korean ones settle; none is left undecided.**
+
+*A name Manchuria also uses may not be the same place.* 安東, 新京 and 奉天
+head the Korean columns and must come out as one record with Manchuria's or
+the through express is two trains with a hole over the Yalu — but 鶴岡 is on
+Manchuria's 鶴岡線 and also in Yamagata, 1,259 km off. Settled by distance,
+before anything is drawn: beyond 100 km they are two records.
+
+**What it comes to.** 50 lines, **573 stops placed** (318 Korean, 255
+Japanese), 1,460 stretches with 1,425 routed along the traced rails —
+`korea_1942_lines_dedup`, `korea_1930_lines_dedup` and
+`japan-railway-lines-1942`, all in one graph with Manchuria's so a train that
+changes country mid-run finds a route the whole way. 63 Korean and 11 Japanese
+names are left unplaced and named in the build's output; most are halts opened
+after 1938 (東草, 館坪) or piers the files do not carry (釜山棧橋, 高松棧橋).
+
+**Thinned only where it is new.** N05 is drawn at a density this map cannot
+show — 長萬部 to 岩見澤 came back as 2,587 points for 214 km — and the bundle
+reached **7.5 MB**. The connection stretches are thinned at 40 m, the tolerance
+the Japanese layer is *drawn* at: **15% of vertices kept, 1,058 KB**, between
+`kr-trains.js` at 1,018 and `jp-rails.js` at 1,784. `fill`'s own `simplify_m`
+would have thinned Manchuria's hand-traced track too, so it is done afterwards
+and only on stretches with an end beyond Manchuria, with the surviving fraction
+printed at every build.
+
+**What it cost Manchuria: nothing in the data.** All 53 line records and all
+905 station records are identical character for character. Japan's network
+needs an 80 m weld (N05's 1,977 features are 241 components) and that reaches
+Manchuria's routing: 45 of 690 stretches changed, **−4.9 km in total**, the
+largest a 2.3 km *improvement* on 春陽→老松嶺 where the weld opened a path that
+had not existed. Four long chords went — 新義州→平壤, 輯安→滿浦, 南陽→羅津,
+龍井→上三峰 — because the Korean stops between them are now placed, so the
+through expresses run stop by stop instead of jumping.
+
+**And the printed tables came with them.** The transcription has `korea.html`
+and `japan.html` beside `manchuria.html` in the same markup, so `dress_html`
+was parameterised and writes all three: `timetable/korea-1942.html` (44 tables)
+and `timetable/japan-1942.html` (52) join `manchuria-1942.html` (132).
+`cfg.page` in `trains.js` is one page per system, so a connection line carries
+its own `pg` and `pageOf` prefers it — otherwise the anchor is real and the
+file is wrong, and the reader lands on a page without the table the link
+promised. A test fetches every page a line names and looks for its anchor;
+it failed first time, which is how the `pg` field came to exist.
+
+`mntrains` is 68 checks, 0 failing. The whole suite ran green at 2,468 checks
+across 70 scripts in 504s before the printed-page work; the changed set —
+46 scripts — was re-run after it.
+
+Written up beside the data in
+`data/manchuria/reference/connections-beyond-manchuria.md`.

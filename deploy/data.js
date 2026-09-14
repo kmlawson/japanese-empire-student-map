@@ -8322,7 +8322,7 @@ JMAP.AIR = [
   {
     id: 'knilm-kupang-darwin', name: 'Koepang – Darwin', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
     season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
-    ink: '#a9560d', days: [], groundedFrom: '',
+    ink: '#a9560d', days: [], groundedFrom: 'kupang',
     note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
     stops: [
       { id: 'kupang', name: 'Koepang (Kupang)', lon: 123.61, lat: -10.17 },

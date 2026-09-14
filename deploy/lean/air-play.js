@@ -172,6 +172,16 @@ window.JMAP_AIRPLAY = function (host) {
 
 
 
+
+
+
+
+
+
+
+
+
+
           var gfrom = host.grounded ? host.grounded(r) : r.groundedFrom;
           var gi = -1;
           if (gfrom) {
@@ -183,7 +193,7 @@ window.JMAP_AIRPLAY = function (host) {
           for (var i = 0; i + 1 < calls.length; i++) {
             var from = calls[i], to = calls[i + 1];
             if (from.depart === null || to.arrive === null) continue;
-            if (gi >= 0 && Math.min(from.at, to.at) >= gi) continue;
+            if (gi >= 0 && Math.max(from.at, to.at) >= gi) continue;
             legs.push({ off: from.depart, on: to.arrive,
                         seg: gcPoints(from.st, to.st),
                         from: from.st, to: to.st });

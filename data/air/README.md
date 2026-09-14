@@ -942,6 +942,24 @@ A route names the stop it is grounded at. From there on:
   not in the drawing, because those are two different files and the first cut
   dimmed the stretch while the aeroplanes went on flying down it.
 
+**A leg is grounded if *either* of its two stops is at or past the named one.**
+Not the earlier of the two: the flight that *crosses into* the occupied field
+is as impossible as the ones beyond it, and asking about the earlier stop alone
+left it flyable. `airGroundedLegs` in `map.js` and `buildPlans` in
+`air-play.js` each hold their own copy of that test, and for a while they held
+different ones — the map drew Calcutta–Akyab faint while an Imperial Airways
+aeroplane landed on it every morning of the film. **Change one and change the
+other.** `tools/test/airplay.js` now counts the marks that fall on a route's
+own faint stretch, so a third divergence fails rather than ships.
+
+**And name the stop even when the whole route is a crossing.** Kupang–Darwin
+ran from ground the Japanese had held since February 1942 to Australia, and
+with no stop named it flew: the two-stop routes are the ones where the omission
+does not look like an omission. The rule the sheet keeps is that no aeroplane
+crosses between Japanese-controlled ground — Thailand with it — and allied
+ground. Eight legs on the 1942 sheet cross that line and all eight are
+grounded.
+
 ## The clock
 
 Every timetable here keeps the local time of the place it was printed for. The

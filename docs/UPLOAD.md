@@ -38,8 +38,8 @@ below are what it holds, named relative to it.
 | `kr-times.js` | 455 KB | 97 KB | and its timetable, on the same terms |
 | `kf-trains.js` | 45 KB | 16 KB | with them, over Karafuto |
 | `kf-times.js` | 24 KB | 7 KB | and its timetable, on the same terms |
-| `mn-trains.js` | 435 KB | — | with them, over Manchuria |
-| `mn-times.js` | 208 KB | — | and its timetable, on the same terms |
+| `mn-trains.js` | 1058 KB | — | with them, over Manchuria — and, behind the connections switch, the Korean and Japanese lines the same booklet prints |
+| `mn-times.js` | 494 KB | — | and its timetable, on the same terms |
 | `tw-stations.js` | 50 KB | 11 KB | when Taiwan's stations are switched on (fetched then, not with the page) |
 | `kr-stations.js` | 229 KB | 38 KB | when Korea's are |
 | `kf-stations.js` | 41 KB | 8 KB | when Karafuto's are |
