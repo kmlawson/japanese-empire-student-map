@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '370';
+  var JEM_VERSION = '371';
 
 
 
@@ -941,16 +941,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
   var BRIEF_MAX = 120;
   function briefOf(text) {
     var t = String(text || '').trim();
@@ -961,6 +951,32 @@
     if (cut > 30) return t.slice(0, cut).trim();
     var sp = t.lastIndexOf(' ', BRIEF_MAX);
     return t.slice(0, sp > 30 ? sp : BRIEF_MAX).trim() + '\u2026';
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  function hoverShort(rec) {
+    var full = shortOf(rec);
+    if (!full) return '';
+    var r = shown(rec) || rec || {};
+    var pop = (r.pop || '').trim();
+    var prose = full;
+    if (pop && full.length > pop.length && full.slice(-pop.length) === pop) {
+      prose = full.slice(0, full.length - pop.length).trim();
+    } else {
+      pop = '';
+    }
+    var cut = briefOf(prose);
+    return pop ? (cut ? cut + ' ' + pop : pop) : cut;
   }
 
 
@@ -9515,7 +9531,7 @@
     if (pie) {
       tooltip.appendChild(pie);
     } else {
-      var brief = shortOf(head);
+      var brief = hoverShort(head);
       if (brief) {
         var pn = document.createElement('span');
         pn.className = 'sub prov-note';

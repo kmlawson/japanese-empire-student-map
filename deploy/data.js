@@ -268,6 +268,7 @@ JMAP.TERRITORIES = {
       id: 'japan', en: 'Japan', ja: '日本（内地）', orig: '日本 (Nihon)', zh: '日本內地',
       when: 'The metropole', cat: 'metropole', lvl: 1, atoms: ['japan'],
       wiki: 'https://en.wikipedia.org/wiki/Empire_of_Japan',
+      pop: '1930 Census Population: 64,450,005 · Males per 100 Females: 101.03 · Per km²: 173',
       short: '1930 Census Population: 64,450,005 · Males per 100 Females: 101.03 · Per km²: 173',
       note: 'Honshū, Kyūshū, Shikoku and Hokkaidō. Hokkaidō was itself a settler frontier, colonised from 1869 at the expense of the Ainu.'
     },
@@ -295,6 +296,7 @@ JMAP.TERRITORIES = {
       id: 'chosen', en: 'Chōsen (Korea)', ja: '朝鮮 (Chōsen)', orig: '조선 (Chosŏn)', zh: '朝鮮',
       ko: '조선 (Chosŏn)', when: 'Protectorate 1905, annexed 1910', cat: 'jpcolony', lvl: 1,
       atoms: ['korea'], wiki: 'https://en.wikipedia.org/wiki/Korea_under_Japanese_rule',
+      pop: '1930 Census Population: 21,058,305 · Males per 100 Females: 104.56 · % of Total Korea: 100.0',
       short: '1930 Census Population: 21,058,305 · Males per 100 Females: 104.56 · % of Total Korea: 100.0',
       note: 'Opened by the Kanghwa Treaty of 1876, made a protectorate after the Russo-Japanese War and annexed outright in August 1910. The March First Movement of 1919 was met with mass repression.'
     },
@@ -691,6 +693,7 @@ JMAP.TERRITORIES = {
       id: 'japan', en: 'Japan', ja: '日本（内地）', orig: '日本 (Nihon)', zh: '日本內地',
       when: 'The metropole', cat: 'metropole', lvl: 1, atoms: ['japan'],
       wiki: 'https://en.wikipedia.org/wiki/Empire_of_Japan',
+      pop: '1940 Census Population: 73,114,308 · Males per 100 Females: 100.05 · Per km²: 196',
       short: '1940 Census Population: 73,114,308 · Males per 100 Females: 100.05 · Per km²: 196',
       note: 'Untouched by the war so far, apart from the Doolittle raid of April 1942. Systematic bombing would begin once the Marianas fell in 1944.'
     },
@@ -718,6 +721,7 @@ JMAP.TERRITORIES = {
       id: 'chosen', en: 'Chōsen (Korea)', ja: '朝鮮 (Chōsen)', orig: '조선 (Chosŏn)', zh: '朝鮮',
       ko: '조선 (Chosŏn)', when: 'Annexed 1910–1945', cat: 'colony', lvl: 1, atoms: ['korea'],
       wiki: 'https://en.wikipedia.org/wiki/Korea_under_Japanese_rule',
+      pop: '1942 Estimated Population: 24,105,906 · Males per 100 Females: 100.4',
       short: '1942 Estimated Population: 24,105,906 · Males per 100 Females: 100.4',
       note: 'By 1942 under the assimilation drive: Korean-language teaching suppressed, Japanese names imposed from 1940, and mobilisation of labour and, from 1944, conscription.'
     },
@@ -753,6 +757,7 @@ JMAP.TERRITORIES = {
       zh: '滿洲國', ko: '만주국', when: 'Japanese-occupied; nominally independent from March 1932',
       cat: 'puppet', lvl: 1, atoms: ['manchukuo'], under: '滿洲國',
       wiki: 'https://en.wikipedia.org/wiki/Manchukuo',
+      pop: '1943 Census Population: 43,202,880 · Males per 100 Females: 123.9 · Per km²: 33',
       short: '1943 Census Population: 43,202,880 · Males per 100 Females: 123.9 · Per km²: 33',
       note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor Puyi. Rehe was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.'
     },
@@ -10046,271 +10051,336 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Straits Settlement: Lumut, Sitiawan and Pangkor'
     },
     Aichi: {
+      pop: '1930 Census Population: 2,567,413 · Males per 100 Females: 99.07 · % of Total Japan: 3.98 · Per km²: 497',
       short: 'Nagoya was the third city of Japan and its most important arms centre. 1930 Census Population: 2,567,413 · Males per 100 Females: 99.07 · % of Total Japan: 3.98 · Per km²: 497'
     },
     Akita: {
+      pop: '1930 Census Population: 987,706 · Males per 100 Females: 100.47 · % of Total Japan: 1.53 · Per km²: 85',
       short: 'Rice on the Yokote basin and the Ōdate country. 1930 Census Population: 987,706 · Males per 100 Females: 100.47 · % of Total Japan: 1.53 · Per km²: 85'
     },
-    Akyab: { short: '1931 Census Population: 637,580' },
-    Amherst: { short: '1931 Census Population: 516,233' },
+    Akyab: { pop: '1931 Census Population: 637,580', short: '1931 Census Population: 637,580' },
+    Amherst: { pop: '1931 Census Population: 516,233', short: '1931 Census Population: 516,233' },
     Aomori: {
+      pop: '1930 Census Population: 879,914 · Males per 100 Females: 100.68 · % of Total Japan: 1.37 · Per km²: 91',
       short: 'The northern end of Honshū, made out of the Tsugaru and Nanbu country. 1930 Census Population: 879,914 · Males per 100 Females: 100.68 · % of Total Japan: 1.37 · Per km²: 91'
     },
-    'Arakan Hill Distric': { short: '1931 Census Population: 21,418' },
-    Bassein: { short: '1931 Census Population: 571,043' },
-    Bawlake: { short: '1931 Census Population: 58,761' },
-    Bhamo: { short: '1931 Census Population: 121,193' },
+    'Arakan Hill Distric': { pop: '1931 Census Population: 21,418', short: '1931 Census Population: 21,418' },
+    Bassein: { pop: '1931 Census Population: 571,043', short: '1931 Census Population: 571,043' },
+    Bawlake: { pop: '1931 Census Population: 58,761', short: '1931 Census Population: 58,761' },
+    Bhamo: { pop: '1931 Census Population: 121,193', short: '1931 Census Population: 121,193' },
     Chiba: {
+      pop: '1930 Census Population: 1,470,121 · Males per 100 Females: 98.48 · % of Total Japan: 2.28 · Per km²: 285',
       short: 'The Bōsō peninsula, farming and fishing, and the soy-sauce towns: Noda and Chōshi. 1930 Census Population: 1,470,121 · Males per 100 Females: 98.48 · % of Total Japan: 2.28 · Per km²: 285'
     },
-    'Chin Hills': { short: '1931 Census Population: 171,237' },
+    'Chin Hills': { pop: '1931 Census Population: 171,237', short: '1931 Census Population: 171,237' },
     Chuseihoku: {
+      pop: '1930 Census Population: 900,226 · Males per 100 Females: 106.05 · % of Total Korea: 4.3 · Per km²: 121',
       short: 'The only province in Korea with no coastline. 1930 Census Population: 900,226 · Males per 100 Females: 106.05 · % of Total Korea: 4.3 · Per km²: 121'
     },
     Chuseinan: {
+      pop: '1930 Census Population: 1,382,888 · Males per 100 Females: 105.55 · % of Total Korea: 6.6 · Per km²: 172',
       short: 'The lower Kŭm river and the tidal flats of the west coast. 1930 Census Population: 1,382,888 · Males per 100 Females: 105.55 · % of Total Korea: 6.6 · Per km²: 172'
     },
     Ehime: {
+      pop: '1930 Census Population: 1,142,122 · Males per 100 Females: 97.80 · % of Total Japan: 1.77 · Per km²: 202',
       short: 'Matsuyama and its castle, with the Dōgo hot spring beside it. 1930 Census Population: 1,142,122 · Males per 100 Females: 97.80 · % of Total Japan: 1.77 · Per km²: 202'
     },
-    'Federated Shan States': { short: 'The plateau east of the Sittang. 1931 Census Population: 1,486,688' },
+    'Federated Shan States': {
+      pop: '1931 Census Population: 1,486,688',
+      short: 'The plateau east of the Sittang. 1931 Census Population: 1,486,688'
+    },
     Fukui: {
+      pop: '1930 Census Population: 618,144 · Males per 100 Females: 97.10 · % of Total Japan: 0.96 · Per km²: 148',
       short: 'Habutae, a plain smooth silk. 1930 Census Population: 618,144 · Males per 100 Females: 97.10 · % of Total Japan: 0.96 · Per km²: 148'
     },
     Fukuoka: {
+      pop: '1930 Census Population: 2,527,119 · Males per 100 Females: 102.74 · % of Total Japan: 3.92 · Per km²: 507',
       short: 'The industrial heart of Kyūshū and the point where Japan touches the continent. 1930 Census Population: 2,527,119 · Males per 100 Females: 102.74 · % of Total Japan: 3.92 · Per km²: 507'
     },
     Fukushima: {
+      pop: '1930 Census Population: 1,508,150 · Males per 100 Females: 96.94 · % of Total Japan: 2.34 · Per km²: 110',
       short: 'The largest prefecture in Tōhoku and three countries in one: the Hamadōri coast. 1930 Census Population: 1,508,150 · Males per 100 Females: 96.94 · % of Total Japan: 2.34 · Per km²: 110'
     },
     Gifu: {
+      pop: '1930 Census Population: 1,178,405 · Males per 100 Females: 100.63 · % of Total Japan: 1.83 · Per km²: 111',
       short: 'Two prefectures in one: the Nōbi plain in the south. 1930 Census Population: 1,178,405 · Males per 100 Females: 100.63 · % of Total Japan: 1.83 · Per km²: 111'
     },
     Gunma: {
+      pop: '1930 Census Population: 1,186,080 · Males per 100 Females: 96.02 · % of Total Japan: 1.84 · Per km²: 186',
       short: 'The centre of the raw silk that paid for Japan\'s industrialisation: Tomioka. 1930 Census Population: 1,186,080 · Males per 100 Females: 96.02 · % of Total Japan: 1.84 · Per km²: 186'
     },
-    Hanthawaddy: { short: '1931 Census Population: 408,831' },
+    Hanthawaddy: { pop: '1931 Census Population: 408,831', short: '1931 Census Population: 408,831' },
     Heianhoku: {
+      pop: '1930 Census Population: 1,562,791 · Males per 100 Females: 104.91 · % of Total Korea: 7.4 · Per km²: 55',
       short: 'The north-western march, with the Yalu as its border: the river carried the timber trade. 1930 Census Population: 1,562,791 · Males per 100 Females: 104.91 · % of Total Korea: 7.4 · Per km²: 55'
     },
     Heiannan: {
+      pop: '1930 Census Population: 1,331,705 · Males per 100 Females: 102.24 · % of Total Korea: 6.3 · Per km²: 90',
       short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community. 1930 Census Population: 1,331,705 · Males per 100 Females: 102.24 · % of Total Korea: 6.3 · Per km²: 90'
     },
-    Henzada: { short: '1931 Census Population: 613,280' },
+    Henzada: { pop: '1931 Census Population: 613,280', short: '1931 Census Population: 613,280' },
     Hiroshima: {
+      pop: '1930 Census Population: 1,692,136 · Males per 100 Females: 102.55 · % of Total Japan: 2.63 · Per km²: 200',
       short: 'The army\'s western capital: the 5th Division was raised here. 1930 Census Population: 1,692,136 · Males per 100 Females: 102.55 · % of Total Japan: 2.63 · Per km²: 200'
     },
     Hokkaido: {
+      pop: '1930 Census Population: 2,812,335 · Males per 100 Females: 109.28 · % of Total Japan: 4.36 · Per km²: 36',
       short: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government. 1930 Census Population: 2,812,335 · Males per 100 Females: 109.28 · % of Total Japan: 4.36 · Per km²: 36'
     },
-    Hopong: { short: '1931 Census Population: 1,486,688' },
-    'Hsa Mong': { short: '1931 Census Population: 1,486,688' },
-    Hsahtung: { short: '1931 Census Population: 1,486,688' },
-    Hsikip: { short: '1931 Census Population: 1,486,688' },
-    Hsipaw: { short: '1931 Census Population: 1,486,688' },
+    Hopong: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Hsa Mong': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Hsahtung: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Hsikip: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Hsipaw: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
     Hyogo: {
+      pop: '1930 Census Population: 2,646,301 · Males per 100 Females: 101.49 · % of Total Japan: 4.11 · Per km²: 315',
       short: 'Reaches from the Inland Sea to the Japan Sea. 1930 Census Population: 2,646,301 · Males per 100 Females: 101.49 · % of Total Japan: 4.11 · Per km²: 315'
     },
     Ibaraki: {
+      pop: '1930 Census Population: 1,487,097 · Males per 100 Females: 97.48 · % of Total Japan: 2.31 · Per km²: 244',
       short: 'Mito, the castle town, was the seat of a Tokugawa branch house and of the Mito school. 1930 Census Population: 1,487,097 · Males per 100 Females: 97.48 · % of Total Japan: 2.31 · Per km²: 244'
     },
     Ishikawa: {
+      pop: '1930 Census Population: 756,835 · Males per 100 Females: 94.84 · % of Total Japan: 1.17 · Per km²: 181',
       short: 'Kanazawa was the castle town of the Maeda. 1930 Census Population: 756,835 · Males per 100 Females: 94.84 · % of Total Japan: 1.17 · Per km²: 181'
     },
     Iwate: {
+      pop: '1930 Census Population: 975,771 · Males per 100 Females: 99.61 · % of Total Japan: 1.51 · Per km²: 64',
       short: 'The largest prefecture on Honshū and the poorest. 1930 Census Population: 975,771 · Males per 100 Females: 99.61 · % of Total Japan: 1.51 · Per km²: 64'
     },
     Kagawa: {
+      pop: '1930 Census Population: 732,816 · Males per 100 Females: 101.12 · % of Total Japan: 1.14 · Per km²: 394',
       short: 'The smallest prefecture in Japan, on the sheltered Inland Sea side of Shikoku. 1930 Census Population: 732,816 · Males per 100 Females: 101.12 · % of Total Japan: 1.14 · Per km²: 394'
     },
     Kagoshima: {
+      pop: '1930 Census Population: 1,556,690 · Males per 100 Females: 93.85 · % of Total Japan: 2.42 · Per km²: 169',
       short: 'Satsuma: the domain that fought the British at Kagoshima in 1863. 1930 Census Population: 1,556,690 · Males per 100 Females: 93.85 · % of Total Japan: 2.42 · Per km²: 169'
     },
     Kanagawa: {
+      pop: '1930 Census Population: 1,619,606 · Males per 100 Females: 107.56 · % of Total Japan: 2.51 · Per km²: 669',
       short: 'Yokohama was opened to foreign trade in 1859 and became the country\'s gate. 1930 Census Population: 1,619,606 · Males per 100 Females: 107.56 · % of Total Japan: 2.51 · Per km²: 669'
     },
     Kankyohoku: {
+      pop: '1930 Census Population: 745,124 · Males per 100 Females: 110.11 · % of Total Korea: 3.5 · Per km²: 37',
       short: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains. 1930 Census Population: 745,124 · Males per 100 Females: 110.11 · % of Total Korea: 3.5 · Per km²: 37'
     },
     Kankyonan: {
+      pop: '1930 Census Population: 1,578,491 · Males per 100 Females: 107.62 · % of Total Korea: 7.5 · Per km²: 49',
       short: 'A narrow coastal shelf under high mountains. 1930 Census Population: 1,578,491 · Males per 100 Females: 107.62 · % of Total Korea: 7.5 · Per km²: 49'
     },
-    Kantarawadi: { short: '1931 Census Population: 58,761' },
+    Kantarawadi: { pop: '1931 Census Population: 58,761', short: '1931 Census Population: 58,761' },
     'Karenni States': {
+      pop: '1931 Census Population: 58,761',
       short: 'Four states in treaty relations with the Crown, never annexed and never part of Burma proper. 1931 Census Population: 58,761'
     },
-    Katha: { short: '1931 Census Population: 254,170' },
+    Katha: { pop: '1931 Census Population: 254,170', short: '1931 Census Population: 254,170' },
     Keiki: {
+      pop: '1930 Census Population: 2,157,413 · Males per 100 Females: 106.64 · % of Total Korea: 10.2 · Per km²: 171',
       short: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital. 1930 Census Population: 2,157,413 · Males per 100 Females: 106.64 · % of Total Korea: 10.2 · Per km²: 171'
     },
     Keishohoku: {
+      pop: '1930 Census Population: 2,416,762 · Males per 100 Females: 102.15 · % of Total Korea: 11.5 · Per km²: 127',
       short: 'The Naktong river\'s upper basin, hills and small plains. 1930 Census Population: 2,416,762 · Males per 100 Females: 102.15 · % of Total Korea: 11.5 · Per km²: 127'
     },
     Keishonan: {
+      pop: '1930 Census Population: 2,135,716 · Males per 100 Females: 101.57 · % of Total Korea: 10.1 · Per km²: 174',
       short: 'The end of the peninsula facing Japan, and the province the colony was entered through. 1930 Census Population: 2,135,716 · Males per 100 Females: 101.57 · % of Total Korea: 10.1 · Per km²: 174'
     },
-    'Keng Hkam': { short: '1931 Census Population: 1,486,688' },
-    Kenglon: { short: '1931 Census Population: 1,486,688' },
-    Kengtung: { short: '1931 Census Population: 1,486,688' },
+    'Keng Hkam': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Kenglon: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Kengtung: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
     Kochi: {
+      pop: '1930 Census Population: 718,152 · Males per 100 Females: 98.94 · % of Total Japan: 1.11 · Per km²: 101',
       short: 'Tosa, shut off from the rest of Shikoku by the mountains and facing the open Pacific. 1930 Census Population: 718,152 · Males per 100 Females: 98.94 · % of Total Japan: 1.11 · Per km²: 101'
     },
     Kogen: {
+      pop: '1930 Census Population: 1,487,715 · Males per 100 Females: 109.82 · % of Total Korea: 7.1 · Per km²: 57',
       short: 'The Taebaek range down its spine, and very little flat ground. 1930 Census Population: 1,487,715 · Males per 100 Females: 109.82 · % of Total Korea: 7.1 · Per km²: 57'
     },
-    Koi: { short: '1931 Census Population: 1,486,688' },
+    Koi: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
     Kokai: {
+      pop: '1930 Census Population: 1,523,523 · Males per 100 Females: 102.11 · % of Total Korea: 7.2 · Per km²: 92',
       short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea. 1930 Census Population: 1,523,523 · Males per 100 Females: 102.11 · % of Total Korea: 7.2 · Per km²: 92'
     },
     Kumamoto: {
+      pop: '1930 Census Population: 1,353,993 · Males per 100 Females: 96.26 · % of Total Japan: 2.10 · Per km²: 183',
       short: 'Katō Kiyomasa\'s castle here is the most heavily fortified in Japan. 1930 Census Population: 1,353,993 · Males per 100 Females: 96.26 · % of Total Japan: 2.10 · Per km²: 183'
     },
-    Kyaukpyu: { short: '1931 Census Population: 220,292' },
-    Kyaukse: { short: '1931 Census Population: 151,320' },
-    Kyebogyi: { short: '1931 Census Population: 58,761' },
-    Kyong: { short: '1931 Census Population: 1,486,688' },
+    Kyaukpyu: { pop: '1931 Census Population: 220,292', short: '1931 Census Population: 220,292' },
+    Kyaukse: { pop: '1931 Census Population: 151,320', short: '1931 Census Population: 151,320' },
+    Kyebogyi: { pop: '1931 Census Population: 58,761', short: '1931 Census Population: 58,761' },
+    Kyong: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
     Kyoto: {
+      pop: '1930 Census Population: 1,552,832 · Males per 100 Females: 104.21 · % of Total Japan: 2.41 · Per km²: 338',
       short: 'Kyoto-fu, made of the old capital and the country running north to the Japan Sea. 1930 Census Population: 1,552,832 · Males per 100 Females: 104.21 · % of Total Japan: 2.41 · Per km²: 338'
     },
-    'Lai Hsak': { short: '1931 Census Population: 1,486,688' },
-    Laihka: { short: '1931 Census Population: 1,486,688' },
-    'Lawk Sawk': { short: '1931 Census Population: 1,486,688' },
-    Loilong: { short: '1931 Census Population: 1,486,688' },
-    Lonpo: { short: '1931 Census Population: 1,486,688' },
-    'Lower Chindwin': { short: '1931 Census Population: 383,434' },
-    Magwe: { short: '1931 Census Population: 499,573' },
-    Mandalay: { short: '1931 Census Population: 371,636' },
-    Manglon: { short: '1931 Census Population: 1,486,688' },
-    Maubin: { short: '1931 Census Population: 371,509' },
-    Maw: { short: '1931 Census Population: 1,486,688' },
-    'Mawk Mai': { short: '1931 Census Population: 1,486,688' },
-    Mawnang: { short: '1931 Census Population: 1,486,688' },
-    Meiktila: { short: '1931 Census Population: 309,999' },
-    Mergui: { short: '1931 Census Population: 161,987' },
+    'Lai Hsak': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Laihka: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Lawk Sawk': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Loilong: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Lonpo: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Lower Chindwin': { pop: '1931 Census Population: 383,434', short: '1931 Census Population: 383,434' },
+    Magwe: { pop: '1931 Census Population: 499,573', short: '1931 Census Population: 499,573' },
+    Mandalay: { pop: '1931 Census Population: 371,636', short: '1931 Census Population: 371,636' },
+    Manglon: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Maubin: { pop: '1931 Census Population: 371,509', short: '1931 Census Population: 371,509' },
+    Maw: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Mawk Mai': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Mawnang: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Meiktila: { pop: '1931 Census Population: 309,999', short: '1931 Census Population: 309,999' },
+    Mergui: { pop: '1931 Census Population: 161,987', short: '1931 Census Population: 161,987' },
     Mie: {
+      pop: '1930 Census Population: 1,157,407 · Males per 100 Females: 97.37 · % of Total Japan: 1.80 · Per km²: 201',
       short: 'The Ise Shrine is here. 1930 Census Population: 1,157,407 · Males per 100 Females: 97.37 · % of Total Japan: 1.80 · Per km²: 201'
     },
-    Minbu: { short: '1931 Census Population: 277,878' },
+    Minbu: { pop: '1931 Census Population: 277,878', short: '1931 Census Population: 277,878' },
     Miyagi: {
+      pop: '1930 Census Population: 1,142,784 · Males per 100 Females: 101.39 · % of Total Japan: 1.77 · Per km²: 157',
       short: 'The old Date domain. 1930 Census Population: 1,142,784 · Males per 100 Females: 101.39 · % of Total Japan: 1.77 · Per km²: 157'
     },
     Miyazaki: {
+      pop: '1930 Census Population: 760,467 · Males per 100 Females: 101.53 · % of Total Japan: 1.18 · Per km²: 98',
       short: 'Hyūga, the coast facing the Pacific, poor. 1930 Census Population: 760,467 · Males per 100 Females: 101.53 · % of Total Japan: 1.18 · Per km²: 98'
     },
-    'Mong Hsu': { short: '1931 Census Population: 1,486,688' },
-    'Mong Nai': { short: '1931 Census Population: 1,486,688' },
-    'Mong Pan': { short: '1931 Census Population: 1,486,688' },
-    'Mong Pawn': { short: '1931 Census Population: 1,486,688' },
-    'Mong-Kung': { short: '1931 Census Population: 1,486,688' },
-    'Mong-Nawng': { short: '1931 Census Population: 1,486,688' },
-    'Mong-Pai': { short: '1931 Census Population: 1,486,688' },
-    'Mong-Sit': { short: '1931 Census Population: 1,486,688' },
-    Mongmit: { short: '1931 Census Population: 1,486,688' },
-    Myaungmya: { short: '1931 Census Population: 444,784' },
-    Myingyan: { short: '1931 Census Population: 472,557' },
-    Myinkyado: { short: '1931 Census Population: 1,486,688' },
-    Myitkyina: { short: '1931 Census Population: 171,524' },
+    'Mong Hsu': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Mong Nai': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Mong Pan': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Mong Pawn': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Mong-Kung': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Mong-Nawng': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Mong-Pai': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    'Mong-Sit': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Mongmit: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Myaungmya: { pop: '1931 Census Population: 444,784', short: '1931 Census Population: 444,784' },
+    Myingyan: { pop: '1931 Census Population: 472,557', short: '1931 Census Population: 472,557' },
+    Myinkyado: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Myitkyina: { pop: '1931 Census Population: 171,524', short: '1931 Census Population: 171,524' },
     Nagano: {
+      pop: '1930 Census Population: 1,717,118 · Males per 100 Females: 94.07 · % of Total Japan: 2.66 · Per km²: 127',
       short: 'The silk prefecture. 1930 Census Population: 1,717,118 · Males per 100 Females: 94.07 · % of Total Japan: 2.66 · Per km²: 127'
     },
     Nagasaki: {
+      pop: '1930 Census Population: 1,233,362 · Males per 100 Females: 104.59 · % of Total Japan: 1.91 · Per km²: 303',
       short: 'For two centuries the only place in Japan where Europeans could trade at all. 1930 Census Population: 1,233,362 · Males per 100 Females: 104.59 · % of Total Japan: 1.91 · Per km²: 303'
     },
-    'Nam Hkok': { short: '1931 Census Population: 1,486,688' },
-    Namhkai: { short: '1931 Census Population: 1,486,688' },
-    Namtok: { short: '1931 Census Population: 1,486,688' },
+    'Nam Hkok': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Namhkai: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Namtok: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
     Nara: {
+      pop: '1930 Census Population: 596,225 · Males per 100 Females: 98.23 · % of Total Japan: 0.93 · Per km²: 161',
       short: 'The capital in the eighth century, and what is left of it is the reason people come. 1930 Census Population: 596,225 · Males per 100 Females: 98.23 · % of Total Japan: 0.93 · Per km²: 161'
     },
-    'Nawn Wawn': { short: '1931 Census Population: 1,486,688' },
+    'Nawn Wawn': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
     Niigata: {
+      pop: '1930 Census Population: 1,933,326 · Males per 100 Females: 97.74 · % of Total Japan: 3.00 · Per km²: 154',
       short: 'The country\'s rice prefecture, the long Echigo plain behind sand dunes. 1930 Census Population: 1,933,326 · Males per 100 Females: 97.74 · % of Total Japan: 3.00 · Per km²: 154'
     },
-    'North Hseweni': { short: '1931 Census Population: 1,486,688' },
+    'North Hseweni': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
     Oita: {
+      pop: '1930 Census Population: 945,771 · Males per 100 Females: 97.13 · % of Total Japan: 1.47 · Per km²: 149',
       short: 'Beppu, and more hot spring water than anywhere else in Japan. 1930 Census Population: 945,771 · Males per 100 Females: 97.13 · % of Total Japan: 1.47 · Per km²: 149'
     },
     Okayama: {
+      pop: '1930 Census Population: 1,283,962 · Males per 100 Females: 98.76 · % of Total Japan: 1.99 · Per km²: 181',
       short: 'Inland Sea country: mild, dry and fertile. 1930 Census Population: 1,283,962 · Males per 100 Females: 98.76 · % of Total Japan: 1.99 · Per km²: 181'
     },
     Okinawa: {
+      pop: '1930 Census Population: 577,509 · Males per 100 Females: 89.53 · % of Total Japan: 0.90 · Per km²: 255',
       short: 'The Ryūkyū Kingdom, until Japan abolished it in 1879. 1930 Census Population: 577,509 · Males per 100 Females: 89.53 · % of Total Japan: 0.90 · Per km²: 255'
     },
     Osaka: {
+      pop: '1930 Census Population: 3,540,017 · Males per 100 Females: 108.95 · % of Total Japan: 5.49 · Per km²: 1851',
       short: 'The merchant city — "the kitchen of the realm" under the Tokugawa. 1930 Census Population: 3,540,017 · Males per 100 Females: 108.95 · % of Total Japan: 5.49 · Per km²: 1851'
     },
-    Pakokku: { short: '1931 Census Population: 499,181' },
-    Pangni: { short: '1931 Census Population: 1,486,688' },
-    Pangtara: { short: '1931 Census Population: 1,486,688' },
-    Pegu: { short: '1931 Census Population: 489,969' },
-    Prome: { short: '1931 Census Population: 410,651' },
-    Pyapon: { short: '1931 Census Population: 334,158' },
+    Pakokku: { pop: '1931 Census Population: 499,181', short: '1931 Census Population: 499,181' },
+    Pangni: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Pangtara: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Pegu: { pop: '1931 Census Population: 489,969', short: '1931 Census Population: 489,969' },
+    Prome: { pop: '1931 Census Population: 410,651', short: '1931 Census Population: 410,651' },
+    Pyapon: { pop: '1931 Census Population: 334,158', short: '1931 Census Population: 334,158' },
     Saga: {
+      pop: '1930 Census Population: 691,565 · Males per 100 Females: 95.60 · % of Total Japan: 1.07 · Per km²: 283',
       short: 'The Nabeshima domain. 1930 Census Population: 691,565 · Males per 100 Females: 95.60 · % of Total Japan: 1.07 · Per km²: 283'
     },
-    Sagaing: { short: '1931 Census Population: 335,965' },
+    Sagaing: { pop: '1931 Census Population: 335,965', short: '1931 Census Population: 335,965' },
     Saishu: {
+      pop: '1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168',
       short: 'A volcanic island a hundred kilometres off the south coast. 1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168'
     },
     Saitama: {
+      pop: '1930 Census Population: 1,459,172 · Males per 100 Females: 97.08 · % of Total Japan: 2.26 · Per km²: 384',
       short: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo. 1930 Census Population: 1,459,172 · Males per 100 Females: 97.08 · % of Total Japan: 2.26 · Per km²: 384'
     },
-    Salween: { short: '1931 Census Population: 53,186' },
-    Samka: { short: '1931 Census Population: 1,486,688' },
-    Sandoway: { short: '1931 Census Population: 129,245' },
+    Salween: { pop: '1931 Census Population: 53,186', short: '1931 Census Population: 53,186' },
+    Samka: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Sandoway: { pop: '1931 Census Population: 129,245', short: '1931 Census Population: 129,245' },
     Shiga: {
+      pop: '1930 Census Population: 691,631 · Males per 100 Females: 95.04 · % of Total Japan: 1.07 · Per km²: 172',
       short: 'Lake Biwa, the largest lake in Japan. 1930 Census Population: 691,631 · Males per 100 Females: 95.04 · % of Total Japan: 1.07 · Per km²: 172'
     },
     Shimane: {
+      pop: '1930 Census Population: 739,507 · Males per 100 Females: 99.53 · % of Total Japan: 1.15 · Per km²: 110',
       short: 'The old Izumo, which is where the myths that were not about the sun goddess came from. 1930 Census Population: 739,507 · Males per 100 Females: 99.53 · % of Total Japan: 1.15 · Per km²: 110'
     },
     Shizuoka: {
+      pop: '1930 Census Population: 1,797,805 · Males per 100 Females: 100.39 · % of Total Japan: 2.79 · Per km²: 231',
       short: 'Tea and mandarins above the Tōkaidō, and the largest tea crop in the country. 1930 Census Population: 1,797,805 · Males per 100 Females: 100.39 · % of Total Japan: 2.79 · Per km²: 231'
     },
-    Shwebo: { short: '1931 Census Population: 446,790' },
-    'South Hseweni': { short: '1931 Census Population: 1,486,688' },
-    Tavoy: { short: '1931 Census Population: 179,964' },
-    'Tawng Peng': { short: '1931 Census Population: 1,486,688' },
-    Tharawaddy: { short: '1931 Census Population: 508,319' },
-    Thaton: { short: '1931 Census Population: 532,628' },
-    Thayetmo: { short: '1931 Census Population: 274,177' },
-    'To Nai': { short: '1931 Census Population: 1,486,688' },
+    Shwebo: { pop: '1931 Census Population: 446,790', short: '1931 Census Population: 446,790' },
+    'South Hseweni': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Tavoy: { pop: '1931 Census Population: 179,964', short: '1931 Census Population: 179,964' },
+    'Tawng Peng': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
+    Tharawaddy: { pop: '1931 Census Population: 508,319', short: '1931 Census Population: 508,319' },
+    Thaton: { pop: '1931 Census Population: 532,628', short: '1931 Census Population: 532,628' },
+    Thayetmo: { pop: '1931 Census Population: 274,177', short: '1931 Census Population: 274,177' },
+    'To Nai': { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
     Tochigi: {
+      pop: '1930 Census Population: 1,141,737 · Males per 100 Females: 97.23 · % of Total Japan: 1.77 · Per km²: 178',
       short: 'Nikkō is here — the mausoleum of Ieyasu. 1930 Census Population: 1,141,737 · Males per 100 Females: 97.23 · % of Total Japan: 1.77 · Per km²: 178'
     },
     Tokushima: {
+      pop: '1930 Census Population: 716,544 · Males per 100 Females: 99.27 · % of Total Japan: 1.11 · Per km²: 173',
       short: 'Awa, the eastern corner of Shikoku, whose crop was indigo. 1930 Census Population: 716,544 · Males per 100 Females: 99.27 · % of Total Japan: 1.11 · Per km²: 173'
     },
     Tokyo: {
+      pop: '1930 Census Population: 5,408,678 · Males per 100 Females: 111.83 · % of Total Japan: 8.39 · Per km²: 2471',
       short: 'Tokyo-fu: the prefecture. 1930 Census Population: 5,408,678 · Males per 100 Females: 111.83 · % of Total Japan: 8.39 · Per km²: 2471'
     },
     Tottori: {
+      pop: '1930 Census Population: 489,266 · Males per 100 Females: 95.56 · % of Total Japan: 0.76 · Per km²: 140',
       short: 'The least populous prefecture in Japan, on the Japan Sea behind the Chūgoku mountains. 1930 Census Population: 489,266 · Males per 100 Females: 95.56 · % of Total Japan: 0.76 · Per km²: 140'
     },
-    Toungoo: { short: '1931 Census Population: 428,670' },
+    Toungoo: { pop: '1931 Census Population: 428,670', short: '1931 Census Population: 428,670' },
     Toyama: {
+      pop: '1930 Census Population: 778,953 · Males per 100 Females: 96.14 · % of Total Japan: 1.21 · Per km²: 183',
       short: 'Water is what this prefecture sold. 1930 Census Population: 778,953 · Males per 100 Females: 96.14 · % of Total Japan: 1.21 · Per km²: 183'
     },
-    'Upper Chindwin': { short: '1931 Census Population: 204,982' },
+    'Upper Chindwin': { pop: '1931 Census Population: 204,982', short: '1931 Census Population: 204,982' },
     Wakayama: {
+      pop: '1930 Census Population: 830,748 · Males per 100 Females: 99.84 · % of Total Japan: 1.29 · Per km²: 176',
       short: 'Kii: the Kii peninsula\'s steep forested spine. 1930 Census Population: 830,748 · Males per 100 Females: 99.84 · % of Total Japan: 1.29 · Per km²: 176'
     },
-    Wanyin: { short: '1931 Census Population: 1,486,688' },
+    Wanyin: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
     Yamagata: {
+      pop: '1930 Census Population: 1,080,034 · Males per 100 Females: 97.21 · % of Total Japan: 1.68 · Per km²: 116',
       short: 'The Mogami valley behind the Dewa mountains, opening on the Japan Sea at Sakata. 1930 Census Population: 1,080,034 · Males per 100 Females: 97.21 · % of Total Japan: 1.68 · Per km²: 116'
     },
     Yamaguchi: {
+      pop: '1930 Census Population: 1,135,637 · Males per 100 Females: 101.36 · % of Total Japan: 1.76 · Per km²: 186',
       short: 'Chōshū, the domain that with Satsuma overthrew the shogunate. 1930 Census Population: 1,135,637 · Males per 100 Females: 101.36 · % of Total Japan: 1.76 · Per km²: 186'
     },
     Yamanashi: {
+      pop: '1930 Census Population: 631,042 · Males per 100 Females: 99.88 · % of Total Japan: 0.98 · Per km²: 141',
       short: 'A basin ringed by mountains with Kōfu in the middle, the old Kai of Takeda Shingen. 1930 Census Population: 631,042 · Males per 100 Females: 99.88 · % of Total Japan: 0.98 · Per km²: 141'
     },
-    Yamethin: { short: '1931 Census Population: 390,820' },
-    Yanghwe: { short: '1931 Census Population: 1,486,688' },
+    Yamethin: { pop: '1931 Census Population: 390,820', short: '1931 Census Population: 390,820' },
+    Yanghwe: { pop: '1931 Census Population: 1,486,688', short: '1931 Census Population: 1,486,688' },
     Zenrahoku: {
+      pop: '1930 Census Population: 1,503,695 · Males per 100 Females: 106.99 · % of Total Korea: 7.1 · Per km²: 178',
       short: 'The Honam plain, the largest stretch of paddy in Korea. 1930 Census Population: 1,503,695 · Males per 100 Females: 106.99 · % of Total Korea: 7.1 · Per km²: 178'
     },
     Zenranan: {
+      pop: '1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168',
       short: 'The south-western corner and its archipelago — several thousand islands. 1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168'
     },
   },
@@ -10385,228 +10455,303 @@ JMAP.PROVINCE_EPOCH = {
       wiki: 'https://en.wikipedia.org/wiki/United_Provinces_(1937%E2%80%931950)'
     },
     Aichi: {
+      pop: '1940 Census Population: 3,166,592 · Males per 100 Females: 99.91 · Per km²: 612',
       short: 'Nagoya was the third city of Japan and its most important arms centre. 1940 Census Population: 3,166,592 · Males per 100 Females: 99.91 · Per km²: 612'
     },
     Akita: {
+      pop: '1940 Census Population: 1,052,275 · Males per 100 Females: 99.20 · Per km²: 90',
       short: 'Rice on the Yokote basin and the Ōdate country. 1940 Census Population: 1,052,275 · Males per 100 Females: 99.20 · Per km²: 90'
     },
     'An Tung': {
+      pop: '1943 Census Population: 2,231,507 · Males per 100 Females: 110.4',
       short: 'The Yalu frontier, timber floated down from the interior and milled at Antung, and the bridge across to Sinuiju that carried the traffic between Manchuria and Korea. 1943 Census Population: 2,231,507 · Males per 100 Females: 110.4'
     },
     Aomori: {
+      pop: '1940 Census Population: 1,000,509 · Males per 100 Females: 98.56 · Per km²: 104',
       short: 'The northern end of Honshū, made out of the Tsugaru and Nanbu country. 1940 Census Population: 1,000,509 · Males per 100 Females: 98.56 · Per km²: 104'
     },
     Chiba: {
+      pop: '1940 Census Population: 1,588,425 · Males per 100 Females: 95.65 · Per km²: 308',
       short: 'The Bōsō peninsula, farming and fishing, and the soy-sauce towns: Noda and Chōshi. 1940 Census Population: 1,588,425 · Males per 100 Females: 95.65 · Per km²: 308'
     },
     'Chien Tao': {
+      pop: '1943 Census Population: 848,197 · Males per 100 Females: 122.6 · Per km²: 28',
       short: 'The Tumen frontier with Korea, mountainous and mostly Korean-settled; the ground on which the anti-Japanese partisan bands of the 1930s formed, and were hunted through. 1943 Census Population: 848,197 · Males per 100 Females: 122.6 · Per km²: 28'
     },
     Chinchow: {
+      pop: '1943 Census Population: 4,317,822 · Males per 100 Females: 107.8 · Per km²: 108',
       short: 'The corridor between the Gulf of Chihli and the mountains — the road and railway into China proper, taken in January 1932, which is how the fighting passed south of the Wall. 1943 Census Population: 4,317,822 · Males per 100 Females: 107.8 · Per km²: 108'
     },
     Chuseihoku: {
+      pop: '1942 Estimated Population: 928,817 · Males per 100 Females: 102.5 · % of Total Korea: 3.9 · Per km²: 125',
       short: 'The only province in Korea with no coastline. 1942 Estimated Population: 928,817 · Males per 100 Females: 102.5 · % of Total Korea: 3.9 · Per km²: 125'
     },
     Chuseinan: {
+      pop: '1942 Estimated Population: 1,568,708 · Males per 100 Females: 100.3 · % of Total Korea: 6.5 · Per km²: 195',
       short: 'The lower Kŭm river and the tidal flats of the west coast. 1942 Estimated Population: 1,568,708 · Males per 100 Females: 100.3 · % of Total Korea: 6.5 · Per km²: 195'
     },
     Ehime: {
+      pop: '1940 Census Population: 1,178,705 · Males per 100 Females: 97.15 · Per km²: 208',
       short: 'Matsuyama and its castle, with the Dōgo hot spring beside it. 1940 Census Population: 1,178,705 · Males per 100 Females: 97.15 · Per km²: 208'
     },
     'Feng Tien': {
+      pop: '1943 Census Population: 7,565,599 · Males per 100 Females: 118.9',
       short: 'The Liao plain and Mukden — headquarters of the South Manchuria Railway, the region’s arsenal and heavy industry, and the place where the line was blown up on 18 September 1931. 1943 Census Population: 7,565,599 · Males per 100 Females: 118.9'
     },
     Fukui: {
+      pop: '1940 Census Population: 643,904 · Males per 100 Females: 94.05 · Per km²: 154',
       short: 'Habutae, a plain smooth silk. 1940 Census Population: 643,904 · Males per 100 Females: 94.05 · Per km²: 154'
     },
     Fukuoka: {
+      pop: '1940 Census Population: 3,094,132 · Males per 100 Females: 103.95 · Per km²: 621',
       short: 'The industrial heart of Kyūshū and the point where Japan touches the continent. 1940 Census Population: 3,094,132 · Males per 100 Females: 103.95 · Per km²: 621'
     },
     Fukushima: {
+      pop: '1940 Census Population: 1,625,521 · Males per 100 Females: 96.86 · Per km²: 118',
       short: 'The largest prefecture in Tōhoku and three countries in one: the Hamadōri coast. 1940 Census Population: 1,625,521 · Males per 100 Females: 96.86 · Per km²: 118'
     },
     Gifu: {
+      pop: '1940 Census Population: 1,265,024 · Males per 100 Females: 100.10 · Per km²: 119',
       short: 'Two prefectures in one: the Nōbi plain in the south. 1940 Census Population: 1,265,024 · Males per 100 Females: 100.10 · Per km²: 119'
     },
     Gunma: {
+      pop: '1940 Census Population: 1,299,027 · Males per 100 Females: 96.43 · Per km²: 204',
       short: 'The centre of the raw silk that paid for Japan\'s industrialisation: Tomioka. 1940 Census Population: 1,299,027 · Males per 100 Females: 96.43 · Per km²: 204'
     },
     Heianhoku: {
+      pop: '1942 Estimated Population: 1,728,627 · Males per 100 Females: 99.8 · % of Total Korea: 7.2 · Per km²: 61',
       short: 'The north-western march, with the Yalu as its border: the river carried the timber trade. 1942 Estimated Population: 1,728,627 · Males per 100 Females: 99.8 · % of Total Korea: 7.2 · Per km²: 61'
     },
     Heiannan: {
+      pop: '1942 Estimated Population: 1,684,444 · Males per 100 Females: 99.7 · % of Total Korea: 7.0 · Per km²: 114',
       short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community. 1942 Estimated Population: 1,684,444 · Males per 100 Females: 99.7 · % of Total Korea: 7.0 · Per km²: 114'
     },
     Heiho: {
+      pop: '1943 Census Population: 149,887 · Males per 100 Females: 327.0 · Per km²: 1.3',
       short: 'Taiga and the Amur, facing Blagoveshchensk across the water — gold along the tributaries, and after 1932 a garrison frontier watched from both banks. 1943 Census Population: 149,887 · Males per 100 Females: 327.0 · Per km²: 1.3'
     },
     Hiroshima: {
+      pop: '1940 Census Population: 1,869,504 · Males per 100 Females: 100.47 · Per km²: 221',
       short: 'The army\'s western capital: the 5th Division was raised here. 1940 Census Population: 1,869,504 · Males per 100 Females: 100.47 · Per km²: 221'
     },
     Hokkaido: {
+      pop: '1940 Census Population: 3,272,718 · Males per 100 Females: 107.51 · Per km²: 42',
       short: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government. 1940 Census Population: 3,272,718 · Males per 100 Females: 107.51 · Per km²: 42'
     },
     'Hsing An Nan': {
+      pop: '1943 Census Population: 1,026,635 · Males per 100 Females: 130.3 · Per km²: 13',
       short: 'The southern tail of the Khingan where the steppe meets the farmed land — Mongol banners losing ground to Chinese settlement, a frontier of tillage that had been moving north for a century. 1943 Census Population: 1,026,635 · Males per 100 Females: 130.3 · Per km²: 13'
     },
     'Hsing An Peh': {
+      pop: '1943 Census Population: 132,426 · Males per 100 Females: 223.2 · Per km²: 0.8',
       short: 'The Hulun Buir grasslands west of the Greater Khingan — Mongol banners, horses and sheep, and the Trans-Manchurian line running out to the Soviet frontier at Manchouli. 1943 Census Population: 132,426 · Males per 100 Females: 223.2 · Per km²: 0.8'
     },
     'Hsing An Si': {
+      pop: '1943 Census Population: 763,701 · Males per 100 Females: 127.6 · Per km²: 10',
       short: 'Dry steppe between the Khingan and the Mongolian plateau, too thin to plough: pasture, and the caravan roads that carried wool south before the railways took the traffic. 1943 Census Population: 763,701 · Males per 100 Females: 127.6 · Per km²: 10'
     },
     'Hsing An Tung': {
+      pop: '1943 Census Population: 199,530 · Males per 100 Females: 151.9 · Per km²: 1.8',
       short: 'The eastern slope of the Greater Khingan falling to the Nen — larch and birch forest above, Daur and Mongol grazing below, and logging camps worked for the railway. 1943 Census Population: 199,530 · Males per 100 Females: 151.9 · Per km²: 1.8'
     },
     Hyogo: {
+      pop: '1940 Census Population: 3,221,232 · Males per 100 Females: 101.52 · Per km²: 384',
       short: 'Reaches from the Inland Sea to the Japan Sea. 1940 Census Population: 3,221,232 · Males per 100 Females: 101.52 · Per km²: 384'
     },
     Ibaraki: {
+      pop: '1940 Census Population: 1,620,000 · Males per 100 Females: 98.02 · Per km²: 266',
       short: 'Mito, the castle town, was the seat of a Tokugawa branch house and of the Mito school. 1940 Census Population: 1,620,000 · Males per 100 Females: 98.02 · Per km²: 266'
     },
     Ishikawa: {
+      pop: '1940 Census Population: 757,676 · Males per 100 Females: 92.42 · Per km²: 181',
       short: 'Kanazawa was the castle town of the Maeda. 1940 Census Population: 757,676 · Males per 100 Females: 92.42 · Per km²: 181'
     },
     Iwate: {
+      pop: '1940 Census Population: 1,095,793 · Males per 100 Females: 98.69 · Per km²: 72',
       short: 'The largest prefecture on Honshū and the poorest. 1940 Census Population: 1,095,793 · Males per 100 Females: 98.69 · Per km²: 72'
     },
     'Je Hol': {
+      pop: '1943 Census Population: 4,553,228 · Males per 100 Females: 116.4 · Per km²: 44',
       short: 'Mountain country north of the Great Wall, thin farming and opium; invaded in the spring of 1933 and attached to Manchukuo, which carried the frontier down to the Wall itself. 1943 Census Population: 4,553,228 · Males per 100 Females: 116.4 · Per km²: 44'
     },
     Kagawa: {
+      pop: '1940 Census Population: 730,394 · Males per 100 Females: 96.74 · Per km²: 392',
       short: 'The smallest prefecture in Japan, on the sheltered Inland Sea side of Shikoku. 1940 Census Population: 730,394 · Males per 100 Females: 96.74 · Per km²: 392'
     },
     Kagoshima: {
+      pop: '1940 Census Population: 1,589,467 · Males per 100 Females: 92.93 · Per km²: 173',
       short: 'Satsuma: the domain that fought the British at Kagoshima in 1863. 1940 Census Population: 1,589,467 · Males per 100 Females: 92.93 · Per km²: 173'
     },
     Kanagawa: {
+      pop: '1940 Census Population: 2,188,974 · Males per 100 Females: 108.27 · Per km²: 905',
       short: 'Yokohama was opened to foreign trade in 1859 and became the country\'s gate. 1940 Census Population: 2,188,974 · Males per 100 Females: 108.27 · Per km²: 905'
     },
     Kankyohoku: {
+      pop: '1942 Estimated Population: 1,110,305 · Males per 100 Females: 109.3 · % of Total Korea: 4.6 · Per km²: 55',
       short: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains. 1942 Estimated Population: 1,110,305 · Males per 100 Females: 109.3 · % of Total Korea: 4.6 · Per km²: 55'
     },
     Kankyonan: {
+      pop: '1942 Estimated Population: 1,860,606 · Males per 100 Females: 104.3 · % of Total Korea: 7.7 · Per km²: 58',
       short: 'A narrow coastal shelf under high mountains. 1942 Estimated Population: 1,860,606 · Males per 100 Females: 104.3 · % of Total Korea: 7.7 · Per km²: 58'
     },
     Keiki: {
+      pop: '1942 Estimated Population: 2,830,778 · Males per 100 Females: 101.0 · % of Total Korea: 11.7 · Per km²: 224',
       short: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital. 1942 Estimated Population: 2,830,778 · Males per 100 Females: 101.0 · % of Total Korea: 11.7 · Per km²: 224'
     },
     Keishohoku: {
+      pop: '1942 Estimated Population: 2,391,043 · Males per 100 Females: 97.8 · % of Total Korea: 9.9 · Per km²: 126',
       short: 'The Naktong river\'s upper basin, hills and small plains. 1942 Estimated Population: 2,391,043 · Males per 100 Females: 97.8 · % of Total Korea: 9.9 · Per km²: 126'
     },
     Keishonan: {
+      pop: '1942 Estimated Population: 2,145,070 · Males per 100 Females: 96.1 · % of Total Korea: 8.9 · Per km²: 175',
       short: 'The end of the peninsula facing Japan, and the province the colony was entered through. 1942 Estimated Population: 2,145,070 · Males per 100 Females: 96.1 · % of Total Korea: 8.9 · Per km²: 175'
     },
     Kirin: {
+      pop: '1943 Census Population: 6,163,931 · Males per 100 Females: 124.3',
       short: 'The upper Sungari in forested hills — lumber, and the Fengman dam begun in 1937, one of the largest hydroelectric works in Asia, built with conscripted labour. 1943 Census Population: 6,163,931 · Males per 100 Females: 124.3'
     },
     Kochi: {
+      pop: '1940 Census Population: 709,286 · Males per 100 Females: 96.82 · Per km²: 100',
       short: 'Tosa, shut off from the rest of Shikoku by the mountains and facing the open Pacific. 1940 Census Population: 709,286 · Males per 100 Females: 96.82 · Per km²: 100'
     },
     Kogen: {
+      pop: '1942 Estimated Population: 1,806,504 · Males per 100 Females: 105.7 · % of Total Korea: 7.5 · Per km²: 69',
       short: 'The Taebaek range down its spine, and very little flat ground. 1942 Estimated Population: 1,806,504 · Males per 100 Females: 105.7 · % of Total Korea: 7.5 · Per km²: 69'
     },
     Kokai: {
+      pop: '1942 Estimated Population: 1,841,851 · Males per 100 Females: 99.5 · % of Total Korea: 7.6 · Per km²: 111',
       short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea. 1942 Estimated Population: 1,841,851 · Males per 100 Females: 99.5 · % of Total Korea: 7.6 · Per km²: 111'
     },
     Kumamoto: {
+      pop: '1940 Census Population: 1,368,179 · Males per 100 Females: 95.09 · Per km²: 185',
       short: 'Katō Kiyomasa\'s castle here is the most heavily fortified in Japan. 1940 Census Population: 1,368,179 · Males per 100 Females: 95.09 · Per km²: 185'
     },
     Kyoto: {
+      pop: '1940 Census Population: 1,729,993 · Males per 100 Females: 99.65 · Per km²: 376',
       short: 'Kyoto-fu, made of the old capital and the country running north to the Japan Sea. 1940 Census Population: 1,729,993 · Males per 100 Females: 99.65 · Per km²: 376'
     },
     Lungkiang: {
+      pop: '1943 Census Population: 2,093,500 · Males per 100 Females: 125.0',
       short: 'The Nonni plain, black earth and the great soya and wheat country of the north; Tsitsihar its capital, and the first serious fighting of the Manchurian Incident fought at the Nonni bridges in November 1931. 1943 Census Population: 2,093,500 · Males per 100 Females: 125.0'
     },
     Mie: {
+      pop: '1940 Census Population: 1,198,783 · Males per 100 Females: 95.45 · Per km²: 208',
       short: 'The Ise Shrine is here. 1940 Census Population: 1,198,783 · Males per 100 Females: 95.45 · Per km²: 208'
     },
     Miyagi: {
+      pop: '1940 Census Population: 1,271,238 · Males per 100 Females: 100.72 · Per km²: 175',
       short: 'The old Date domain. 1940 Census Population: 1,271,238 · Males per 100 Females: 100.72 · Per km²: 175'
     },
     Miyazaki: {
+      pop: '1940 Census Population: 840,357 · Males per 100 Females: 98.58 · Per km²: 109',
       short: 'Hyūga, the coast facing the Pacific, poor. 1940 Census Population: 840,357 · Males per 100 Females: 98.58 · Per km²: 109'
     },
     Nagano: {
+      pop: '1940 Census Population: 1,710,729 · Males per 100 Females: 95.12 · Per km²: 126',
       short: 'The silk prefecture. 1940 Census Population: 1,710,729 · Males per 100 Females: 95.12 · Per km²: 126'
     },
     Nagasaki: {
+      pop: '1940 Census Population: 1,370,063 · Males per 100 Females: 104.05 · Per km²: 337',
       short: 'For two centuries the only place in Japan where Europeans could trade at all. 1940 Census Population: 1,370,063 · Males per 100 Females: 104.05 · Per km²: 337'
     },
     Nara: {
+      pop: '1940 Census Population: 620,509 · Males per 100 Females: 97.09 · Per km²: 168',
       short: 'The capital in the eighth century, and what is left of it is the reason people come. 1940 Census Population: 620,509 · Males per 100 Females: 97.09 · Per km²: 168'
     },
     Niigata: {
+      pop: '1940 Census Population: 2,064,402 · Males per 100 Females: 97.11 · Per km²: 164',
       short: 'The country\'s rice prefecture, the long Echigo plain behind sand dunes. 1940 Census Population: 2,064,402 · Males per 100 Females: 97.11 · Per km²: 164'
     },
     Oita: {
+      pop: '1940 Census Population: 972,975 · Males per 100 Females: 94.81 · Per km²: 153',
       short: 'Beppu, and more hot spring water than anywhere else in Japan. 1940 Census Population: 972,975 · Males per 100 Females: 94.81 · Per km²: 153'
     },
     Okayama: {
+      pop: '1940 Census Population: 1,329,358 · Males per 100 Females: 96.02 · Per km²: 187',
       short: 'Inland Sea country: mild, dry and fertile. 1940 Census Population: 1,329,358 · Males per 100 Females: 96.02 · Per km²: 187'
     },
     Okinawa: {
+      pop: '1940 Census Population: 574,579 · Males per 100 Females: 89.07 · Per km²: 254',
       short: 'The Ryūkyū Kingdom, until Japan abolished it in 1879. 1940 Census Population: 574,579 · Males per 100 Females: 89.07 · Per km²: 254'
     },
     Osaka: {
+      pop: '1940 Census Population: 4,792,966 · Males per 100 Females: 105.50 · Per km²: 2507',
       short: 'The merchant city — "the kitchen of the realm" under the Tokugawa. 1940 Census Population: 4,792,966 · Males per 100 Females: 105.50 · Per km²: 2507'
     },
     'Pin Kiang': {
+      pop: '1943 Census Population: 4,234,206 · Males per 100 Females: 127.1',
       short: 'Harbin and the Sungari: the junction of the Chinese Eastern Railway, a city of Russian émigrés, grain and distilling — and, at Pingfang on its southern edge, the Kwantung Army’s biological warfare establishment, Unit 731. 1943 Census Population: 4,234,206 · Males per 100 Females: 127.1'
     },
     Saga: {
+      pop: '1940 Census Population: 701,517 · Males per 100 Females: 95.70 · Per km²: 287',
       short: 'The Nabeshima domain. 1940 Census Population: 701,517 · Males per 100 Females: 95.70 · Per km²: 287'
     },
     Saishu: {
+      pop: '1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191',
       short: 'A volcanic island a hundred kilometres off the south coast. 1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191'
     },
     Saitama: {
+      pop: '1940 Census Population: 1,608,039 · Males per 100 Females: 98.59 · Per km²: 424',
       short: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo. 1940 Census Population: 1,608,039 · Males per 100 Females: 98.59 · Per km²: 424'
     },
     Sankiang: {
+      pop: '1943 Census Population: 1,415,633 · Males per 100 Females: 151.1',
       short: 'The marshy confluence of the Sungari and the Amur — the Sanjiang plain, drained and broken in the 1930s for the Japanese agricultural colonies, the largest settlement scheme of the empire. 1943 Census Population: 1,415,633 · Males per 100 Females: 151.1'
     },
     Shiga: {
+      pop: '1940 Census Population: 703,679 · Males per 100 Females: 94.36 · Per km²: 175',
       short: 'Lake Biwa, the largest lake in Japan. 1940 Census Population: 703,679 · Males per 100 Females: 94.36 · Per km²: 175'
     },
     Shimane: {
+      pop: '1940 Census Population: 740,940 · Males per 100 Females: 98.60 · Per km²: 111',
       short: 'The old Izumo, which is where the myths that were not about the sun goddess came from. 1940 Census Population: 740,940 · Males per 100 Females: 98.60 · Per km²: 111'
     },
     Shizuoka: {
+      pop: '1940 Census Population: 2,017,860 · Males per 100 Females: 97.63 · Per km²: 259',
       short: 'Tea and mandarins above the Tōkaidō, and the largest tea crop in the country. 1940 Census Population: 2,017,860 · Males per 100 Females: 97.63 · Per km²: 259'
     },
     Tochigi: {
+      pop: '1940 Census Population: 1,206,657 · Males per 100 Females: 96.19 · Per km²: 188',
       short: 'Nikkō is here — the mausoleum of Ieyasu. 1940 Census Population: 1,206,657 · Males per 100 Females: 96.19 · Per km²: 188'
     },
     Tokushima: {
+      pop: '1940 Census Population: 718,717 · Males per 100 Females: 97.29 · Per km²: 173',
       short: 'Awa, the eastern corner of Shikoku, whose crop was indigo. 1940 Census Population: 718,717 · Males per 100 Females: 97.29 · Per km²: 173'
     },
     Tokyo: {
+      pop: '1940 Census Population: 7,354,971 · Males per 100 Females: 106.65 · Per km²: 3360',
       short: 'Tokyo-fu: the prefecture. 1940 Census Population: 7,354,971 · Males per 100 Females: 106.65 · Per km²: 3360'
     },
     Tottori: {
+      pop: '1940 Census Population: 484,390 · Males per 100 Females: 93.43 · Per km²: 138',
       short: 'The least populous prefecture in Japan, on the Japan Sea behind the Chūgoku mountains. 1940 Census Population: 484,390 · Males per 100 Females: 93.43 · Per km²: 138'
     },
     Toyama: {
+      pop: '1940 Census Population: 822,569 · Males per 100 Females: 95.24 · Per km²: 193',
       short: 'Water is what this prefecture sold. 1940 Census Population: 822,569 · Males per 100 Females: 95.24 · Per km²: 193'
     },
     Wakayama: {
+      pop: '1940 Census Population: 865,074 · Males per 100 Females: 97.57 · Per km²: 183',
       short: 'Kii: the Kii peninsula\'s steep forested spine. 1940 Census Population: 865,074 · Males per 100 Females: 97.57 · Per km²: 183'
     },
     Yamagata: {
+      pop: '1940 Census Population: 1,119,338 · Males per 100 Females: 96.05 · Per km²: 120',
       short: 'The Mogami valley behind the Dewa mountains, opening on the Japan Sea at Sakata. 1940 Census Population: 1,119,338 · Males per 100 Females: 96.05 · Per km²: 120'
     },
     Yamaguchi: {
+      pop: '1940 Census Population: 1,294,242 · Males per 100 Females: 103.50 · Per km²: 212',
       short: 'Chōshū, the domain that with Satsuma overthrew the shogunate. 1940 Census Population: 1,294,242 · Males per 100 Females: 103.50 · Per km²: 212'
     },
     Yamanashi: {
+      pop: '1940 Census Population: 663,026 · Males per 100 Females: 97.94 · Per km²: 148',
       short: 'A basin ringed by mountains with Kōfu in the middle, the old Kai of Takeda Shingen. 1940 Census Population: 663,026 · Males per 100 Females: 97.94 · Per km²: 148'
     },
     Zenrahoku: {
+      pop: '1942 Estimated Population: 1,561,479 · Males per 100 Females: 99.6 · % of Total Korea: 6.5 · Per km²: 185',
       short: 'The Honam plain, the largest stretch of paddy in Korea. 1942 Estimated Population: 1,561,479 · Males per 100 Females: 99.6 · % of Total Korea: 6.5 · Per km²: 185'
     },
     Zenranan: {
+      pop: '1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191',
       short: 'The south-western corner and its archipelago — several thousand islands. 1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191'
     },
   },

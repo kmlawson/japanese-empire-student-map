@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '370';
+  var JEM_VERSION = '371';
 
   /* Every file this one fetches, with the version on it.
 
@@ -941,16 +941,6 @@
    * `shortOf` itself is untouched: the card reads it too, and the card is
    * exactly where the rest of the sentence belongs.
    */
-  /* **NOT WIRED UP, AND THIS IS WHY.** Pointed at the tooltip's description
-     it cut the census figures off five kinds of record: a province's `short`
-     is its prose *and* its figures in one string — "The silk prefecture. 1930
-     Census Population: …" — so a cut at the first sentence throws the numbers
-     away, which `names` and `population` caught. Trimming the prose without
-     losing the figures means separating them at the build, where they are
-     still two things; until that is done the note-out-of-the-line fix in
-     `build_texts.py` is what shortens the hover, and it is the one the
-     reported case needed. Kept here rather than deleted because the rule
-     itself is right and the work it is waiting on is small. */
   var BRIEF_MAX = 120;
   function briefOf(text) {
     var t = String(text || '').trim();
@@ -961,6 +951,32 @@
     if (cut > 30) return t.slice(0, cut).trim();
     var sp = t.lastIndexOf(' ', BRIEF_MAX);
     return t.slice(0, sp > 30 ? sp : BRIEF_MAX).trim() + '\u2026';
+  }
+
+  /* **WHAT THE HOVER TAKES OF A DESCRIPTION.**
+     The long prose belongs on the card — the author's words in full, read on
+     purpose — and the hover gets its opening and the figures.
+
+     The two have to be separated before either can be trimmed, and for a
+     while they could not be: a place with a count carries `short` as its
+     prose *and* its count in one string, "The silk prefecture. 1930 Census
+     Population: …", so cutting the prose at the first sentence threw the
+     numbers away with it. The build ships the count on its own as `pop` now,
+     so the prose can be shortened and the figures kept whole — they are
+     always brief and always what the reader wanted. */
+  function hoverShort(rec) {
+    var full = shortOf(rec);
+    if (!full) return '';
+    var r = shown(rec) || rec || {};
+    var pop = (r.pop || '').trim();
+    var prose = full;
+    if (pop && full.length > pop.length && full.slice(-pop.length) === pop) {
+      prose = full.slice(0, full.length - pop.length).trim();
+    } else {
+      pop = '';
+    }
+    var cut = briefOf(prose);
+    return pop ? (cut ? cut + ' ' + pop : pop) : cut;
   }
 
   /* The few words a record says when the pointer is on it. */
@@ -9515,7 +9531,7 @@
     if (pie) {
       tooltip.appendChild(pie);
     } else {
-      var brief = shortOf(head);
+      var brief = hoverShort(head);
       if (brief) {
         var pn = document.createElement('span');
         pn.className = 'sub prov-note';

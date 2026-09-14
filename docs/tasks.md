@@ -22619,3 +22619,23 @@ which is the ordering asked for. **The cap itself is not demonstrated** — I
 could not get six info-bearing layers on at once through the Layers pane in a
 driven run — so it is verified by construction and wants a test when the next
 person is in here.
+
+## 203. And the prose is trimmed for the hover, the card keeping all of it
+
+Finishing what 199 left: long descriptions are right on the card and wrong in
+the hover, and the reason it could not be done was that a place with a count
+carries its prose and its count in one `short` — "The silk prefecture. 1930
+Census Population: …" — so cutting the prose at the first sentence threw the
+numbers away, which `names` and `population` caught.
+
+`with_population` ships the count on its own as `pop` as well, on **224
+records**, and `hoverShort` takes the short apart again: the figures whole,
+because they are brief and are what the reader asked for, and the prose cut
+at the first thing the writing itself offers — the end of a sentence, failing
+that a semicolon, colon or spaced em dash, failing that the last word
+boundary with an ellipsis. Nothing is rewritten. The card still reads `short`
+and is untouched.
+
+Measured over the 224: the longest card description is 286 characters and its
+hover is 184; **none is over 200**, against a worst case before of 286 plus a
+301-character note glued on behind it.

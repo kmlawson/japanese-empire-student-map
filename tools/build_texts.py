@@ -708,7 +708,17 @@ def population_lines():
 
 
 def with_population(row, line, base=""):
-    """The short the card shows: the sentence about the place, then the count."""
+    """The short the card shows: the sentence about the place, then the count.
+
+    **And `pop` beside it, holding the count alone.** The two are glued into
+    one string here because that is what the card wants to read out, and the
+    hover was then stuck with all of it: a province's short is "The silk
+    prefecture. 1930 Census Population: …", so trimming the prose for the
+    hover threw the figures away with it, which is what stopped this being
+    done the first time. Shipping the count separately lets the hover keep the
+    numbers — always short, always wanted — and take only the opening of the
+    prose. The card reads `short` and is unchanged.
+    """
     text = (row.get("short") or base or "").strip()
     if not text:
         return line
@@ -921,6 +931,7 @@ def build_data_js():
             line = pop.get((year, "territory", r["id"]))
             if line:
                 r["short"] = with_population(r, line)
+                r["pop"] = line
                 pop_used.add((year, "territory", r["id"]))
         inner.append("  e%s: [\n%s\n  ]," % (year, array(rows, ns, snippets)))
     parts.append("JMAP.TERRITORIES = {\n%s\n};" % "\n".join(inner))
@@ -1329,6 +1340,7 @@ def build_data_js():
             line = pop.get((year, "sub-unit", r["key"]))
             if line:
                 r["short"] = with_population(r, line, base_short[r["key"]])
+                r["pop"] = line
                 pop_used.add((year, "sub-unit", r["key"]))
         # A province with figures and no override of its own still needs an
         # entry, because the override is where an epoch's text lives. It gets
@@ -1339,7 +1351,7 @@ def build_data_js():
                 continue
             if key not in sub_keys:
                 continue
-            rows.append({"key": key,
+            rows.append({"key": key, "pop": line,
                          "short": with_population({}, line, base_short[key])})
             pop_used.add((ep, scope, key))
         inner.append("  e%s: {\n%s\n  }," % (m.group(1),
