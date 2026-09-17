@@ -97,7 +97,7 @@ Pondicherry a hundred kilometres up the coast.
 
 ## Yanaon (Yanam)
 
-A few square kilometres on a creek of the Godavari delta, held from the 1720s
+A few square kilometres on a creek of the Godavari delta, held from 1731
 and never more than a village with a residency, a customs house and a couple of
 thousand people. The delta round it is heavy irrigated rice country and the
 enclave grew the same, with a little coastal trade and, again, the advantage of

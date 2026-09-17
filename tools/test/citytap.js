@@ -13,7 +13,7 @@
  * fix has been made twice here before for want of checking the second.
  */
 'use strict';
-const { sleep, ready, check, report, SHIM, launch, HOST } = require('./suite.js');
+const { sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 const BASE = process.env.MAP_URL || HOST + '/index.html';
 const OVER_KOREA = '?epoch=1942&where=126.3,34.8,129.7,37.6';
 
@@ -98,7 +98,12 @@ async function stage(p, finger) {
   await flip(p, '#opt-kr-rail', true);
   await sleep(1800);
   await flip(p, '#opt-train-tools', true);
-  await sleep(7000);
+  /* Waited on, not slept through: the track is drawn within a frame or two,
+     and the seven-second sleep this was ran twice for eight checks. The short
+     sleep after it is for the address bar, which the map writes on a debounce
+     and the next line reads. */
+  await until(p, () => document.querySelectorAll('path.train-line').length > 0);
+  await sleep(600);
   /* Widening the detail level re-opens the whole empire and mounting the tools
      fits them to their own network, so the view has moved twice by now. It is
      put back by reloading with the code the map has just written for itself —

@@ -15,7 +15,7 @@
  *   * and Escape does the nearer thing first: it closes an open card, and
  *     resets the view only when there is nothing to close.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const { puppeteer, sleep, ready, until, calm, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const st = p => p.evaluate(() => ({
   epoch: [...document.querySelectorAll('#epoch-seg button')]
@@ -50,7 +50,7 @@ const open = async (b, url) => {
     [s.city, s.admin, s.events, s.topo, s.other, s.rail].join(' ')
       === 'false false false false false false',
     [s.city, s.admin, s.events, s.topo, s.other, s.rail].join(' '));
-  for (const k of ['c', 'a', 'e', 't', 'o']) { await p.keyboard.press(k); await sleep(650); }
+  for (const k of ['c', 'a', 'e', 't', 'o']) { await p.keyboard.press(k); await calm(p); }
   s = await st(p);
   check('c a e t o each press their own switch',
     [s.city, s.admin, s.events, s.topo, s.other].join(' ')
@@ -61,7 +61,7 @@ const open = async (b, url) => {
      control are the same thing — and the button stopped turning on all five
      networks at once, because that handed a reader who wanted Korea's railway
      Japan's 5,931 paths too. So what `r` does now is offer the list. */
-  await p.keyboard.press('r'); await sleep(700);
+  await p.keyboard.press('r'); await calm(p);
   const railMenu = await p.evaluate(() => {
     const m = document.getElementById('rail-menu');
     return { shown: !!m && !m.hidden && getComputedStyle(m).display !== 'none',
@@ -73,38 +73,38 @@ const open = async (b, url) => {
   check('r offers the railways rather than drawing them',
     railMenu.shown && railMenu.rows === 6 && railMenu.drawn.length === 0,
     JSON.stringify(railMenu));
-  await p.keyboard.press('Escape'); await sleep(400);
-  await p.keyboard.press('c'); await sleep(650);
+  await p.keyboard.press('Escape'); await calm(p);
+  await p.keyboard.press('c'); await calm(p);
   check('and again turns it off', (await st(p)).city === 'false');
 
   console.log('\n— the dates, the panels, the zoom —');
-  await p.keyboard.press('2'); await sleep(2000);
+  await p.keyboard.press('2'); await calm(p);
   check('2 is the December 1942 map', (await st(p)).epoch === 'Dec 1942');
-  await p.keyboard.press('0'); await sleep(2000);
+  await p.keyboard.press('0'); await calm(p);
   check('0 is 1930', (await st(p)).epoch === '1930');
-  await p.keyboard.press('Escape'); await sleep(600);       // the date's own card
-  await p.keyboard.press('l'); await sleep(700);
+  await p.keyboard.press('Escape'); await calm(p);       // the date's own card
+  await p.keyboard.press('l'); await calm(p);
   check('l opens the Layers panel',
     (await st(p)).dialogs.join() === 'dlg-options', (await st(p)).dialogs.join());
   /* And the letters do nothing inside it, or a reader would find the map
      rearranging itself as they typed in a field. */
-  await p.keyboard.press('c'); await sleep(500);
+  await p.keyboard.press('c'); await calm(p);
   s = await st(p);
   check('but they do nothing while it is open',
     s.dialogs.join() === 'dlg-options' && s.city === 'false',
     s.dialogs.join() + ' / cities ' + s.city);
-  await p.keyboard.press('Escape'); await sleep(600);
-  await p.keyboard.press('?'); await sleep(700);
+  await p.keyboard.press('Escape'); await calm(p);
+  await p.keyboard.press('?'); await calm(p);
   check('? opens the help', (await st(p)).dialogs.join() === 'dlg-help');
-  await p.keyboard.press('Escape'); await sleep(600);
+  await p.keyboard.press('Escape'); await calm(p);
 
   const w1 = (await st(p)).where;
-  await p.keyboard.press('+'); await sleep(900);
+  await p.keyboard.press('+'); await calm(p);
   const w2 = (await st(p)).where;
   check('+ zooms in', w1 !== w2, w1 + ' → ' + w2);
-  await p.keyboard.press('-'); await sleep(900);
+  await p.keyboard.press('-'); await calm(p);
   check('- zooms out again', (await st(p)).where !== w2);
-  await p.keyboard.press('Escape'); await sleep(900);
+  await p.keyboard.press('Escape'); await calm(p);
   check('and Escape with nothing open puts the view home',
     (await st(p)).where !== w2);
   await p.close();
@@ -126,7 +126,7 @@ const open = async (b, url) => {
   p = await open(b, HOST+'/index.html?layers=0');   // the whole map
   s = await st(p);
   check('the railway is offered at the whole map too', s.railShown === true);
-  await p.keyboard.press('r'); await sleep(700);
+  await p.keyboard.press('r'); await calm(p);
   const wide = await p.evaluate(() => {
     const m = document.getElementById('rail-menu');
     return { menu: !!m && !m.hidden && getComputedStyle(m).display !== 'none',
@@ -142,7 +142,7 @@ const open = async (b, url) => {
     const i = lab && lab.querySelector('input');
     if (i) i.click();
   });
-  await sleep(3200);
+  await calm(p);
   const drawn = await p.evaluate(() => {
     const g = document.getElementById('jp-rail');
     return g ? { display: getComputedStyle(g).display, opacity: +(g.style.opacity || 1) } : null;
@@ -178,7 +178,7 @@ const open = async (b, url) => {
     const was = await p.evaluate(() => location.search);
     await p.keyboard.down(' '); await sleep(160);
     for (let i = 1; i <= 8; i++) { await p.mouse.move(at.x - i * 13, at.y - i * 8); await sleep(40); }
-    await sleep(450); await p.keyboard.up(' '); await sleep(180);
+    await p.keyboard.up(' '); await calm(p);
     return (await p.evaluate(() => location.search)) !== was;
   };
   /* Moving with no button down and no space must do nothing, or the map would
@@ -186,11 +186,11 @@ const open = async (b, url) => {
   await p.mouse.move(at.x, at.y);
   // the address is rewritten 400 ms after the view settles; let the load's
   // own rewrite land before taking the baseline, or it lands mid-move and
-  // reads as a pan
-  await sleep(500);
+  // reads as a pan — `calm` waits for that write
+  await calm(p);
   const idle = await p.evaluate(() => location.search);
   for (let i = 1; i <= 8; i++) { await p.mouse.move(at.x - i * 13, at.y - i * 8); await sleep(40); }
-  await sleep(400);
+  await calm(p);
   check('a bare mouse move does not pan',
     (await p.evaluate(() => location.search)) === idle);
   check('holding space and moving does', await glide());
@@ -205,12 +205,12 @@ const open = async (b, url) => {
   await p.mouse.move(at.x, at.y); await sleep(120);
   const after = await p.evaluate(() => location.search);
   for (let i = 1; i <= 8; i++) { await p.mouse.move(at.x - i * 13, at.y - i * 8); await sleep(40); }
-  await sleep(400);
+  await calm(p);
   check('and it stops when the key is let go',
     (await p.evaluate(() => location.search)) === after);
   /* The exception: a space typed into a field is a space. */
   await p.evaluate(() => document.getElementById('btn-options').click());
-  await sleep(800);
+  await calm(p);
   await p.evaluate(() => document.getElementById('layers-find').focus());
   await p.keyboard.down(' '); await sleep(140); await p.keyboard.up(' '); await sleep(160);
   check('a space typed into a field is typed, not a pan',
@@ -238,13 +238,13 @@ const open = async (b, url) => {
   const airPressed = () => p.evaluate(() =>
     document.getElementById('btn-air').getAttribute('aria-pressed'));
   const airWas = await airPressed();
-  await p.keyboard.press('f'); await sleep(1800);
+  await p.keyboard.press('f'); await calm(p);
   const airNow = await airPressed();
   check('f turns the air routes on', airWas === 'false' && airNow === 'true',
     airWas + ' -> ' + airNow);
-  await p.keyboard.press('f'); await sleep(1200);
+  await p.keyboard.press('f'); await calm(p);
   check('and off again', (await airPressed()) === 'false');
-  await p.keyboard.press('?'); await sleep(700);
+  await p.keyboard.press('?'); await calm(p);
   const help = await p.evaluate(() => {
     const d = document.getElementById('dlg-help');
     if (!d || !d.open) return null;
@@ -292,22 +292,22 @@ const open = async (b, url) => {
     }));
     await q.goto(HOST + '/index.html?layers=8', { waitUntil: 'domcontentloaded' });
     await ready(q);
-    await sleep(2500);
+    await calm(q);
     const rest = await counts();
     check('at rest only the pointer draws divisions', rest.subs === 0,
       JSON.stringify(rest));
-    await q.keyboard.down('Control'); await sleep(400);
+    await q.keyboard.down('Control'); await calm(q);
     const held = await counts();
     check('Ctrl held shows every boundary the map has',
       held.subs > 20 && held.stroked > 200, JSON.stringify(held));
-    await q.keyboard.up('Control'); await sleep(400);
+    await q.keyboard.up('Control'); await calm(q);
     check('and letting go puts them away',
       (await counts()).subs === 0, JSON.stringify(await counts()));
     /* A reader who alt-tabs away with it down is not still holding it on
        return — the same caution the space bar has. */
-    await q.keyboard.down('Control'); await sleep(300);
+    await q.keyboard.down('Control'); await calm(q);
     await q.evaluate(() => window.dispatchEvent(new Event('blur')));
-    await sleep(300);
+    await calm(q);
     check('and losing the window releases it', (await counts()).subs === 0,
       JSON.stringify(await counts()));
     await q.keyboard.up('Control');
@@ -324,8 +324,8 @@ const open = async (b, url) => {
     await q.setViewport({ width: 1200, height: 900 });
     await q.goto(HOST + '/index.html?layers=0', { waitUntil: 'domcontentloaded' });
     await ready(q);
-    await sleep(1200);
-    await q.keyboard.down('Control'); await sleep(400);
+    await calm(q);
+    await q.keyboard.down('Control'); await calm(q);
     const off = await q.evaluate(() => document.querySelectorAll('.atom.subs').length);
     await q.keyboard.up('Control');
     check('with the layer off, Ctrl does nothing', off === 0, String(off));

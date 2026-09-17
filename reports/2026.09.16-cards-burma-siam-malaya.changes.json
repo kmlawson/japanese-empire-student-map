@@ -1,0 +1,33 @@
+{
+  "texts/city-names.csv": {
+    "taiping": {
+      "wiki": "https://en.wikipedia.org/wiki/Taiping,_Perak"
+    },
+    "johore": {
+      "wiki": "https://en.wikipedia.org/wiki/Johor_Bahru"
+    },
+    "ayutthaya": {
+      "wiki": "https://en.wikipedia.org/wiki/Phra_Nakhon_Si_Ayutthaya_(city)"
+    },
+    "phuket": {
+      "wiki": "https://en.wikipedia.org/wiki/Phuket_(city)"
+    },
+    "pattani": {
+      "wiki": "https://en.wikipedia.org/wiki/Pattani,_Thailand"
+    },
+    "penang": {
+      "wiki": "https://en.wikipedia.org/wiki/George_Town,_Penang"
+    },
+    "malacca": {
+      "wiki": "https://en.wikipedia.org/wiki/Malacca_City"
+    },
+    "insein": {
+      "wiki": "https://en.wikipedia.org/wiki/Insein_Township"
+    }
+  },
+  "texts/city-names.md": {
+    "ipoh": "The tin town of the Kinta valley, taken in the advance down the west coast in December 1941.",
+    "amarapura": "Royal capital from 1783 and again from 1842, until the court moved to Mandalay.",
+    "kualalipis": "The seat of Pahang from 1898 to 1955, a gold-mining centre before the British came, which grew when the railway reached it in 1924."
+  }
+}

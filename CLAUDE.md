@@ -134,11 +134,22 @@ time is a way of *not deciding* rather than a way of being careful. The scripts
 are grouped by what they guard, and the runner picks from what git says moved:
 
 ```
+node tools/test/all.js smoke           # the sixty-second tripwire, before any push
 node tools/test/all.js changed --dry   # what it would run, and why
 node tools/test/all.js changed         # run that
 node tools/test/all.js core            # one group by name
 node tools/test/all.js                 # everything: before a release
 ```
+
+The runner starts the static server itself if nothing answers on 8123 — on a
+free port, so two sessions in one checkout do not fight over it — and runs
+eight scripts at a time on this machine (measured 15 September 2026: the
+scripts are 88–94 per cent asleep, and eight browsers idle together as well
+as four; the whole suite went from 494 s to 264 s with no change of verdict).
+`smoke` is 26 scripts chosen by checks per second with every group
+represented: 657 checks in 36 s. It is a tripwire, not a gate — it leaves out
+the relief, the station layers, the air player, the annotation pane and three
+of the four train networks — and the whole suite still runs before a release.
 
 `changed` prints its reasoning — one line per file, naming the groups it
 implicates — because a decision nobody can see is a decision nobody will trust.
@@ -156,6 +167,19 @@ That is the whole saving, and it is why the groups are drawn where they are.
 
 **Still run the whole suite before a release**, and whenever the tree's answer
 surprises you.
+
+### Wait for the map, not for a number of seconds
+
+A test that sleeps after a press is guessing twice: too long on a quiet
+machine, too short on a busy one, and the second is what made six scripts
+flaky for a fortnight. `calm(page)` from `tools/test/settle.js` waits for the
+map's own word — `window.JMAP_IDLE` in `map.js` says whether a frame, a
+settle timer or an address write is still pending — and for the network to
+go quiet. Use it after anything that changes state. Keep a `sleep` only for
+time itself (a hover delay, the 320 ms double-tap window, a fade) and say
+so in a comment beside it. `report()` also fails a script on any uncaught
+page error, so a thrown exception in `map.js` cannot pass by being unasked
+about.
 
 ### Say how long it will take, from what it took
 
@@ -178,8 +202,9 @@ for it.
 
 Quote the *measured* figure, and say when there is none — a first run of a new
 set has nothing behind it, and a guess offered as a measurement is worse than
-an admission. This exists because the guesses had rotted: `SECS` had `stations`
-at 65 seconds when it took 147.
+an admission. This exists because the guesses had rotted: the hand-kept
+`SECS` table had `stations` at 65 seconds when it took 147, and it is gone —
+`runs.jsonl` is the only source now.
 
 ## Prose the reader sees is one or two sentences, not a paragraph
 
@@ -344,4 +369,9 @@ went dark for a whole batch of work. The suite caught it; nothing shipped.
 So before adding a function, `grep -n "function <name>"` — and a `var` of
 that name too, for the same reason `const` and `let` are preferred in new
 code: a redeclaration of those is an error at parse time, and this was not.
+
+It happened a second time the same week (`openMenu`, which took the
+right-click menu down), so `tools/build_texts.py` now refuses to build when
+a hand-written script declares the same top-level function twice. The grep
+is still worth doing first; the build is what catches the one you forgot.
 

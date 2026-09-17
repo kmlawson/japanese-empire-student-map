@@ -156,7 +156,7 @@
 
 
     function changed(quiet) {
-      linkDirty = true;
+      linkDirty = true; linkEdits++;
       setDirty(true);
       syncFields();
       drawList();
@@ -2896,7 +2896,7 @@
       var nl = $('#ann-nolabel');
       if (nl && nl.checked) f.properties['jem-nolabel'] = true;
       else delete f.properties['jem-nolabel'];
-      linkDirty = true;
+      linkDirty = true; linkEdits++;
 
 
 
@@ -3232,7 +3232,7 @@
         p['jem-scales'] = st.scales ? 1 : 0;
         if (st.scales !== wasScaled) reseatText(f);
       }
-      linkDirty = true;
+      linkDirty = true; linkEdits++;
       setDirty(true);              // see fieldChanged: this does its own drawing
 
 
@@ -3614,7 +3614,6 @@
 
 
 
-    var LINK_DP = 4;
 
     function slimCoords(c) {
       if (typeof c[0] === 'number') {
@@ -3704,20 +3703,39 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    var linkEdits = 0, packWait = null;
     function prepLink() {
       var warn = $('#ann-warn');
       if (!feats.length) {
         if (warn) warn.hidden = true;
-        return;
+        return Promise.resolve();
       }
-      if (!linkDirty) return;
-      var mine = feats;
-      pack(slim(collection())).then(function (code) {
-        if (feats !== mine) return;              // it changed again while we packed
+      if (!linkDirty) return Promise.resolve();
+      if (packWait) return packWait;
+      var at = linkEdits;
+      packWait = pack(slim(collection())).then(function (code) {
+        packWait = null;
+        if (linkEdits !== at) return prepLink();   // it changed while we packed: again
         linkCode = code;
         linkDirty = false;
         tellLinkSize();
-      }, function () { linkCode = null; });
+      }, function () { packWait = null; linkCode = null; });
+      return packWait;
     }
 
 
@@ -3785,8 +3803,9 @@
       if (linkDirty || !linkCode) {
 
 
-        prepLink();
-        window.setTimeout(function () { showLink(true); }, 350);
+
+
+        prepLink().then(function () { showLink(true); });
         return;
       }
       if (linkCode.length > ANN_URL_MAX) {

@@ -7,13 +7,21 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-Three entries. The seven that stood here were cleared on 12 September 2026,
+Three entries, and a fourth for what the card audits left to the author. The
+seven that stood here were cleared on 12 September 2026,
 each against what the work since had already settled or measured; *The seven
 that were open, and what each came to* below keeps their figures, so nothing
 has to be measured twice.
 
-- **Hiding the off-screen railways — worth about 5% of a pan, and the recorded
-  diagnosis of the failed attempt is wrong.** The cost is measured in 176: over
+- **Hiding the off-screen railways — overtaken by measurement; kept for its
+  diagnosis.** Entry 183 measured what hiding is worth, which is nothing: the
+  cost is in the nodes being in the document, and only *detaching* a network
+  recovers it. Entry 184 made the railway button offer the networks one at a
+  time instead, so a reader no longer switches on all of them at once. What
+  remains open is detaching a network whose ground is off screen, and the
+  `non-scaling-stroke` suspicion in 183, which is untested. The three rules
+  below still apply to any such attempt. As written on 12 September: worth
+  about 5% of a pan, and the recorded diagnosis of the failed attempt is wrong. The cost is measured in 176: over
   Borneo, with the networks off screen, the railways add **32 ms to a
   forty-step pan, 4.9%**, about 0.8 ms a frame at four times throttling, for
   5,949 paths nobody can see. What is written into `railFadeOne` is that
@@ -72,6 +80,14 @@ has to be measured twice.
   Japan's squares draw on Korea's extended network and go when it does. The
   coupling in `syncMapButtons` and the set-press in the click handler are read
   and not driven.
+
+- **Left to the author by the card audits of 16 September** (entries 207 and
+  209, detail in `reports/2026.09.16-cards-*.md`): four Taiwanese city dots
+  that link to their prefecture where eight siblings link to the city; 野口遵
+  read "Jun" in one file and "Shitagau" in another; Nanjing dated 1928 in
+  Jiangsu's note against 1927 in `sites.csv`; 25 Indies links that point at
+  modern regencies; the Indochina shorts that read "Also Pouthisat"; Bandung's
+  surrender date; and the princely-state claims no article could confirm.
 
 ---
 
@@ -22772,3 +22788,291 @@ across 70 scripts in 504s before the printed-page work; the changed set —
 
 Written up beside the data in
 `data/manchuria/reference/connections-beyond-manchuria.md`.
+
+## 205a. The review of 15 September: four investigations, and the first pass of fixes
+
+Four Opus agents read the code while the two central scripts were read by
+hand; their reports are `reports/2026.09.15-structure-review.md`,
+`-duplication-review.md`, `-tests-review.md`, `-pan-zoom-performance.md` and
+`-core-scripts-review.md`, and the running log of what was done against them
+is `-review-actions.md`. Every figure below is measured, not estimated.
+
+* **The map moves for less.** `railFadeOne` writes the rail ties once per
+  zoom width instead of on every frame (187 → 41 ms of busy time for a
+  40-step drag with Korea's and Japan's railways on, CPU/4); the train tools'
+  `bounds()` is memoised (62 → 34 ms a drag with the tools up); `railFade`
+  has a frame mode that skips the full air sync and the layer-info sync on
+  pan and zoom frames; `viewLonLat` is memoised against the view, `railInk`/
+  `railGround` per ground within a state pass (3,954 `getComputedStyle` calls
+  → one per ground), and `syncMapButtons` and `applyView` hold the handles
+  they queried every frame.
+* **Less code, one machine for six menus.** The pick menus share a table
+  and five functions; the dead rail flash, `syncRailMenu` and four write-only
+  variables are gone; every railway group carries `rail-net`, which is also
+  what made Burma's railway pressable; the four Python train builders share
+  `tools/trains_lib.py` with byte-identical output. map.js is 21,035 lines
+  against 21,182 before, with fifteen new section banners in it.
+* **Two silent function-name collisions in one day**, `viewLonLat` and
+  `openMenu` — the trap CLAUDE.md already described — each hid a whole class
+  of controls until the suite caught it. `build_texts.py` now refuses to
+  build on a duplicate top-level declaration; proved on a planted one.
+* **The tests: 494–504 s → 255 s for the same 2,471 checks.** The job cap is
+  eight (the scripts are 88–94 per cent asleep; eight browsers idle together
+  as well as four), the runner starts its own static server on a free port,
+  `smoke` is a 26-script tripwire measured at 36 s, six builders and three
+  inert paths have trigger rules, the eighteen sections `MAP_SECTIONS` did not
+  know have rows, and seven sleeps became waits on the side effect the next
+  line reads (`citytap` 39 → 27 s; `mntrains` 75 → 57).
+
+Open, and recorded in the actions report with the reason for each: the
+two performance items that change what the reader sees mid-gesture or carry
+a sharp failure mode; the card-opening helper; the remaining sleeps, which
+cover side effects that are not one DOM condition; failing a script on any
+page error; the flaky six; the stale `SECS` table; and the two larger splits
+(`air.js`, `pop.js`) the structure report ranks.
+
+## 206. The review's second pass: the eight items left open, closed
+
+The eight items `reports/2026.09.15-review-actions.md` had left open after
+the first pass, done in one sitting; the actions report has the detail and
+what each was checked against. Measured, not estimated, and where a change
+measured as nothing it says so.
+
+* **A script fails on any uncaught page error.** `suite.js`'s `report()`
+  ends with one check per page `open()` made. Nothing in the suite was
+  throwing; the mechanism is what was missing.
+* **The flaky six are the same defect as the sleeps, and both are gone from
+  seven scripts.** `sugar`, `labels`, `mapstrip`, `keys`, `hanlabels`,
+  `population` and `burma` waited a fixed number of seconds after a press
+  — long enough on a quiet machine, not on a busy one. `calm(page)` in
+  `settle.js` waits for the map's own word instead: `window.JMAP_IDLE` in
+  map.js says whether a frame is booked, a view write is waiting, the
+  settle timer is pending or the address unwritten, and the harness watches
+  the network in between. A sleep that waits for time itself — a hover
+  delay, the double-tap window, a fade — stays a sleep, and is commented.
+  Run three times over, eight at a time, with the machine's load average
+  between 64 and 181: 351 checks a round, none failed. Quiet-machine times:
+  `sugar` 33 → 9 s, `labels` 40 → 13, `keys` 52 → 29, `mapstrip` 56 → 30,
+  `population` 97 → 35, `hanlabels` 108 → 47.
+* **`run5`'s one failure under load was a real race**, not the test's:
+  `annotate.js` cleared `linkDirty` when an *older* pack finished after a
+  newer edit, and the Copy-link button waited a fixed 350 ms for the pack.
+  The pack is numbered and only the latest may say the link is clean; the
+  button waits on the pack's own promise.
+* **The label widths are read at the settle, not on the zoom frame**
+  (`measureLabels`, drained by the 220 ms settle timer). **`rescale` skips
+  a scalable whose own `display` is `none`**, and `placeRevealed` — at the
+  end of `placeLabels`, `applyGazetteer` and `applyState` — writes the
+  transform when it is shown; a change of projection calls `rescale(true)`
+  because that moves positions, hidden ones included (`air` caught the
+  first draft on exactly that, the 302-unit drift its comment names).
+  **Pointer moves are coalesced onto a frame** (`applyViewSoon`, flushed on
+  the pointer up). A/B against the same page with the three reverted,
+  CPU/4, Korea at 6° with Names and Administrative on, median of three:
+  twelve wheel steps 2,014 → 1,751 ms of task time, style recalculation
+  368 → 156 ms, layout 459 → 427; a forty-frame drag fed five pointer
+  reports a frame 875 → 877 ms — **the coalescing measures as nothing** on
+  this path and is kept for the reason the core-scripts report gave, that
+  the per-event work is now small enough not to show.
+* **One way to open the card** (`openCard({ relabel, clear })`), one head
+  filler (`fillCardHead`) and one `showBlockCard` in place of the two
+  forty-line twins `showRailCard` and `showTrainCard`; `trainToolsButton`
+  in place of the same twelve lines in `renderRailBlock` and
+  `appendRailButtons`. Seven `panel-open` sites are one.
+* **`air.js` and `population.js` are each two scripts.** `airlines.js`
+  (the chooser, the grounded lines, the names, the notes, the sheet menu)
+  and `poptables.js` (the box, its sorting, the CSV, Cheju's heading), with
+  the air helpers in `airlib.js`. Run together: `air` 39 s and `airlines`
+  92 s where the one script took 100–159; `population` 20 s and `poptables`
+  14 where it took 97.
+* **The hand-kept `SECS` table is gone.** `runs.jsonl` was already
+  overriding it; a table nobody measures is a guess that reads as a fact.
+
+Full suite after all of it: 2,472 checks across 72 scripts, all passing, in
+629 s — but under a load average of 124–142 from other work on the machine,
+so that is a verdict and not a timing; the quiet-machine figure is the 255 s
+of entry 205a until it is run again.
+
+## 207. The card descriptions audited: Japan, Korea, Taiwan, Karafuto, China, Manchuria, Mongolia
+
+Three agents read every province, sub-unit, territory and city record in
+those regions against four questions — is the hover a phrase and the long
+text kept for the card; is the Wikipedia link the right article; does the
+prose read as machine-written; is every fact verifiable — and fixed what
+failed. Their reports are `reports/2026.09.16-cards-japan.md`,
+`-korea-taiwan-manchuria.md` and `-china.md`, each with a record-by-record
+table and the URL fetched for every link.
+
+* **Three layouts became one.** `china.csv` carried each province's whole
+  paragraph in the `en` column after an em dash (the card split it off at
+  run time); the 27 paragraphs are in a new `china.md` under their keys and
+  `en` is the name alone. Manchukuo's fourteen and Mengjiang's three
+  `short` cells were paragraphs with, for eleven of them, no note at all;
+  the paragraphs are notes now and the shorts are phrases. Thirteen of
+  Taiwan's shorts were over the 120-character cut and are under it. Japan
+  and Korea already had the phrase-plus-note shape; seven Japanese shorts
+  that were the note's opening cut mid-list were rewritten from the note.
+* **Links: 595 fetched, 20 changed, none dead, none blanked.** The wrong
+  ones were wrong subjects — Shimoda's ropeway, a Hangzhou district for
+  Pin Kiang, Andong in Korea for An Tung, a liquor museum for Yilan (whose
+  `zh` cell held the museum's name too), a military operation for Chinchow.
+* **Facts: 30 removed or corrected**, each logged with the source. The
+  largest: Cheju's note had the 1937 Nanjing raids flying from Cheju (they
+  flew from Taipei and Ōmura, and Saishūtō's first mission was against
+  Shanghai on 30 September); the 7th Division was not destroyed on Attu;
+  Ma Zhanshan commanded in Heilongjiang, not Jilin; Bhamo was never on the
+  Burma Road; Huayuankou's 800,000 comes from a discredited count.
+  `quzhou`'s characters were Qu County in Sichuan, six hundred miles off.
+* **Style: six rewrites.** Almost everything already read as plain fact.
+
+Shared files were edited through `tools/apply_card_changes.py` from a JSON
+each agent wrote, so three editors could not overwrite one another; 34
+changes applied that way, the rest directly to the region's own files.
+The agents flagged and did not change: four Taiwanese city dots that link
+to their prefecture where eight siblings link to the city; 野口遵 read
+"Jun" in one file and "Shitagau" in another; the Kwantung commentary that
+sits under `karafuto` in `1942.md`; and Nanjing dated 1928 in Jiangsu's
+note against 1927 in `sites.csv`. Tests: the full suite, 2472 checks across 72
+scripts in 261.4 s, all passing.
+
+## 208. The gaps in the cards filled, and Kwantung checked
+
+An inventory over the same regions as entry 207 — every sub-unit row for a
+`short` and a note, every territory and city for a note — found no city or
+territory without one and these gaps in the sub-units: 41 of Taiwan's 64
+rows had no note; 18 of the 19 Communist base areas had no short; Xinjiang
+and Xizang in `china.csv` had neither; and eleven island rows (Etorofu, the
+Keramas, Hateruma, Yonaguni, Dōgo, Shimoshima, the Senkakus, Ulleung and the
+Liancourt islets) had their phrase parked in `en` after an em dash, which a
+note makes dead, and four of them had no note. Three agents filled them
+(`reports/2026.09.16-cards-taiwan-fill.md`, `-china-fill.md`,
+`-islands-kwantung.md`, a source URL per note). Every sub-unit in scope now
+has both. The Taiwan district notes are one to three sentences from the
+Japanese Wikipedia articles on the 郡 and 市 of the period; where the source
+gave only characters no reading was invented. One existing short was wrong:
+`TwChikunan` claimed the 出磺坑 gas wells, which lie in 苗栗郡.
+
+**Kwantung.** The 1942 note called the Leased Territory "the seat of the
+Kwantung Army"; the headquarters moved from Port Arthur to Hsinking in 1932
+and stayed there. Rewritten. Dairen was the capital outright, not the
+"commercial capital". Two evaluative sentences went from the Port Arthur
+records. The 1898 lease, its term, the 1905 transfer, the 1932 re-grant and
+the separate administration to 1945 all checked out; the misplaced
+commentary in `1942.md` sits under `kwantung` now.
+
+Tests: the full suite, 2472 checks across 72 scripts in 238.9 s, all passing.
+
+Korean Wikipedia, where English has no article: asked for the same day.
+Gwaneumdo and the Wonsan general strike link to `ko.wikipedia.org`, and the
+card's link says which Wikipedia it opens — `Read more on Wikipedia
+(Korean)`, as the railway lines already said `(Japanese)` — through one
+`wikiLinkText` in map.js in place of the two hand-written labels.
+
+## 209. The card audit extended to South and Southeast Asia, and the gaps filled
+
+The four questions of entry 207 and the fill of entry 208, over British
+India, the princely states and enclaves, Ceylon, Nepal, Sikkim and Bhutan,
+Burma, Siam, Malaya, the Straits Settlements, British Borneo, French
+Indochina, the Netherlands Indies, the Philippines and Portuguese Timor.
+Three agents took the sub-unit tables and the cities; the territory records
+and the Philippine tables were read by hand. Reports:
+`reports/2026.09.16-cards-south-asia.md`, `-burma-siam-malaya.md`,
+`-indochina-archipelago.md`, `-philippines-territories.md`, and the running
+`-sea-progress.md` that says what was applied.
+
+* **The gaps were large and are closed.** Before: burma-admin 93 rows with
+  no note and 84 no short; indochina 94 with no note and 64 no short; dei
+  76 with no note and 52 no short; siam 69 no short; british-india 13
+  with neither; princely-states 8 shorts; malaya-borneo 14. After: every
+  row in every sub-unit table of the region has both. 391 notes written,
+  one source URL each in the reports. For the Indies the author's rule of
+  the day applies: the 1930s residencies do not match today's units, so a
+  note rests on a period source (the Dutch `gewest`/`residentie` articles,
+  the 1938 division of Java) or, where none exists, on general facts about
+  the region only; 28 rows are marked as the latter, and no Indies link was
+  added or changed.
+* **Nine Burma division notes were on the wrong keys**: `burma.md` headed
+  them `Arakan`, `Pegu` where the rows are `Arakan Division`, `Pegu
+  Division`, so the *districts* Pegu, Magwe and Sagaing showed their
+  division's paragraph and six division notes reached nobody. Moved under
+  the right keys in the new `burma-admin.md`.
+* **Links: 53 of Siam's 70 pointed at the town, not the changwat**; all
+  repointed and fetched. `taiping` linked to Taiping Island in the
+  Spratlys; `Dadra` to a rhythmic cycle in Hindustani music; `Mahé` to the
+  Seychelles; `legazpi` to a cathedral, `dalat` to a hotel, `Mysore_State`
+  to the 1950s state. In all 84 changed, 151 filled, 2 blanked, and 102
+  left blank with the reason recorded (no English article for most of
+  Cochinchina's provinces, the Burma hill tracts, the composite princely
+  entries).
+* **Facts: 19 corrected or removed.** Cam Ranh did not stage the Malaya
+  convoy (Samah did); Jambi is north of Palembang; Denpasar's 1906 did not
+  end the Dutch conquest of Bali; Vizag was bombed by carrier aircraft, not
+  shelled; Benares city was British, not a princely state; the Sakdalista
+  rising of 1935 was not in Nueva Ecija; the Shinnan Guntō was the Spratlys
+  alone; the Cocos airfield's "1944" and the Coto mine's "1935" could not
+  be sourced and are gone; Ipoh's "28 December", Amarapura's 1841, Kuala
+  Lipis's railway. The Andamans are "the only Indian territory Japan held
+  for any length of time", Manipur in 1944 having been the exception.
+* **Style: 18 rewrites**, fifteen of them in `philippines.md` — the
+  superlatives no source would settle and the asides.
+* **A note hides the short on the card**, and 28 Indochina and Indies rows
+  carried the author's alternate spelling there — "Also Krâchéh", "Also
+  Gresik" — so the first full run failed `indochina` on Kratié's card. Those
+  shorts now open their notes, so nothing the author wrote left the card.
+* **And the Copy-link race, once more.** Entry 206's numbered packs let a
+  superseded pack fall silent while the button waited on it, so under load
+  `run2` woke to "still being made". `prepLink` now runs one pack at a time,
+  a second request joins it, and a pack that finishes after an edit packs
+  again before it answers (`linkEdits`).
+
+Left for the author, listed in the reports: 25 existing Indies links that
+point at modern regencies; the Indochina shorts that read "Also Pouthisat";
+Bandung's surrender date (8 March at Kalijati against 12 March in the
+current Battle of Java article); the princely-state claims the agent could
+not find in any article and left standing.
+
+Tests: the full suite, 2,472 checks across 72 scripts, all passing — in 456 s
+at four jobs, the machine being under a load average above 100 from other
+work (an eight-job run was killed for memory), so the time is not a
+measurement.
+
+## 210. The developer documents brought up to the map
+
+`README.md` had not moved since 9 September and update 341, and described a
+map with two timetables and no `deploy/lean/`. Rewritten against what is
+there at update 372, every figure read from the built files:
+
+* **Using it** now covers the top-row buttons, `Ctrl` and the pinned outline,
+  the key as switches, the six railways and the track button, the four
+  timetables with their train counts (346, 1,668, 86, 1,793 — from the heads of
+  the `-times.js` files), the 110 air routes and the plane tools, the
+  population maps and the CSV download, the thematic layer, the projections
+  and the single-key shortcuts. The reader-facing pages in `texts/` were not
+  touched.
+* **Changing the words** gives both forms of the build and what the build
+  refuses; a **Testing** section gives the runner's four commands and what
+  they cost. **Files** is four tables — the site, its sources, the tools, the
+  record — in place of one that still put `index.html` at the root.
+* **`docs/UPLOAD.md`**: every size re-measured (gzip level 6, 17 September).
+  A first view is **5.7 MB raw, 1.57 MB gzipped**, where the page said 3.7 and
+  1.08; `data.js` had doubled and the base SVG grown by a third since the
+  figures were written. Four rows named root copies of scripts that left
+  `deploy/` on 9 September; they are folded into the `lean/` rows, which still
+  name them, because the build's check looks for those names. Added:
+  `japan-empire-map-tw-sugar.svg`, `japan-empire-map-ne.svg` (fetched only by
+  `admin.js`), `timetable/` and `relief/`. "Checking it worked" leads with
+  `tools/check_deploy.py`; the old walk-through claimed to reach every file
+  and reached ten.
+* **`docs/DEPLOY.md`**: its own copy of the size table was a third set of
+  figures, older again (`map.js` at 355 KB). It is a pointer to UPLOAD.md and
+  a paragraph of round numbers now. The rsync recipe named files by paths that
+  no longer exist; it copies `deploy/` in two passes, the pages last.
+* **This file**: the review entry that shared the number 193 with the two
+  train 341s is 205a, and the one reference to it follows. The first open item
+  says what entries 183 and 184 did to it. What the card audits left to the
+  author is listed under Open.
+
+`build_texts.py` was run without `--bump`, which is the proof that the new
+UPLOAD.md still names every file the build looks for. Nothing the site serves
+changed but the build's date stamp; `smoke` run before and after. Released with
+entries 205a to 209 as update 373.

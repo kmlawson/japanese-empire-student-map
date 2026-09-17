@@ -522,7 +522,10 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
     await ready(w);
     await sleep(1500);
     await setBox(w, '#opt-jp-rail', true);
-    await sleep(6000);
+    // 1,977 lines fetched and built: waited for, not slept through
+    await until(w, () => document.querySelectorAll('#jp-rail path.rail').length > 1000,
+                null, { timeout: 20000 }).catch(() => {});
+    await sleep(500);
     /* **DRAWN OUT HERE UNLESS THE READER ASKS OTHERWISE.** The fade used to be
        unconditional: a network read at the whole-empire view is a smear, and
        several of them in the document cost real time on every pan and hover.

@@ -1,0 +1,25 @@
+{
+  "texts/sites/sites.csv": {
+    "shimoda": {
+      "wiki": "https://en.wikipedia.org/wiki/Shimoda,_Shizuoka"
+    }
+  },
+  "texts/city-names.csv": {
+    "otomari": {
+      "wiki": "https://en.wikipedia.org/wiki/Korsakov_(town)"
+    },
+    "urawa": {
+      "wiki": "https://en.wikipedia.org/wiki/Urawa,_Saitama"
+    }
+  },
+  "texts/city-names.md": {
+    "asahikawa": "The garrison town of northern Hokkaidō and home of the 7th Division, a detachment of which held Attu in 1943.",
+    "kushiro": "The coal port of eastern Hokkaidō, and a fishing base for the northern grounds. Burnt out by carrier aircraft on 14–15 July 1945.",
+    "jilincity": "A timber and river city on the Songhua, taken in September 1931 when the commander of the provincial army went over to the Japanese.",
+    "shikuka": "The northernmost town of Japanese Sakhalin, below the 50th-parallel border with the Soviet half.",
+    "mudanjiang": "A garrison town and railway junction on the eastern line to Vladivostok, and the scene of one of the few set-piece battles of the Soviet offensive in August 1945."
+  },
+  "texts/territories/sub-units/overrides-1942.md": {
+    "Chichijima": "A fortified naval base, bombed from 1944 but never invaded, and the garrison held out to the surrender. George H. W. Bush was shot down off it in September 1944. Officers on the island killed several captured American airmen and ate part of them, and were tried after the war and hanged."
+  }
+}

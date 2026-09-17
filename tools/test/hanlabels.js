@@ -20,7 +20,7 @@
  *     they displaced has to join it, or the reader who came in knowing
  *     "Hòulǐ" cannot find it anywhere on the card.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const { puppeteer, sleep, ready, until, calm, check, report, SHIM, launch, HOST } = require('./suite.js');
 const URL=HOST+'/index.html';
 const CJK=/[㐀-鿿]/;
 
@@ -30,7 +30,9 @@ const card=p=>p.evaluate(()=>{const b=document.getElementById('info');
   const g=s=>{const e=b&&b.querySelector(s);return e&&!e.hidden?(e.textContent||'').trim():'';};
   return {chip:g('.chip'),prim:g('.primary'),alt:g('.alt')};});
 const han=async(p,on)=>{ await p.evaluate(v=>{const x=document.getElementById('opt-han-labels');
-  if(x && x.checked!==v) x.click();}, on); await sleep(1600); };
+  if(x && x.checked!==v) x.click();}, on);
+  await until(p, v=>document.getElementById('opt-han-labels').checked===v, on);
+  await calm(p); };
 
 (async()=>{
 const browser=await launch();
@@ -73,9 +75,8 @@ console.log('\n— characters on the map, and nothing emptied —');
     document.querySelector('#layer-seg button[data-opt="labels"]').click();
     const c=document.querySelector('#layer-seg button[data-cat="city"]');
     if(c.getAttribute('aria-pressed')!=='true') c.click();});
-  await sleep(1500);
-  for(let i=0;i<3;i++){await p.evaluate(()=>document.getElementById('zoom-in').click());await sleep(400);}
-  await sleep(1400);
+  await calm(p);
+  for(let i=0;i<3;i++){await p.evaluate(()=>document.getElementById('zoom-in').click());await calm(p);}
   const off=await labels(p);
   await han(p,true);
   const on=await labels(p);
@@ -119,13 +120,13 @@ for (const [ep,want,wrong] of [['1930','北平','北京'],['1942','北京','北�
   await p.evaluateOnNewDocument(SHIM);
   await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   if(ep==='1942'){ await p.evaluate(()=>{const x=[...document.querySelectorAll('#epoch-seg button')]
-    .find(y=>/1942/.test(y.textContent)); if(x)x.click();}); await sleep(3000); }
+    .find(y=>/1942/.test(y.textContent)); if(x)x.click();}); await calm(p); }
   await p.evaluate(()=>{
     document.querySelector('#layer-seg button[data-opt="labels"]').click();
     const c=document.querySelector('#layer-seg button[data-cat="city"]');
     if(c.getAttribute('aria-pressed')!=='true') c.click();});
-  await sleep(1400);
-  for(let i=0;i<3;i++){await p.evaluate(()=>document.getElementById('zoom-in').click());await sleep(400);}
+  await calm(p);
+  for(let i=0;i<3;i++){await p.evaluate(()=>document.getElementById('zoom-in').click());await calm(p);}
   await han(p,true);
   const on=await labels(p);
   check('on the '+ep+' map Peking is '+want, on.indexOf(want)>=0,
@@ -142,14 +143,16 @@ console.log('\n— the card leads with them, and loses nothing —');
   await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   await p.evaluate(()=>{const c=document.querySelector('#layer-seg button[data-cat="city"]');
     if(c.getAttribute('aria-pressed')!=='true') c.click();});
-  await sleep(1400);
+  await calm(p);
   const hit=async id=>{
     const at=await p.evaluate(k=>{const g=document.querySelector('.gaz[data-id$="_'+k+'"]');
       if(!g) return null; const r=g.getBoundingClientRect();
       const x=r.x+r.width/2,y=r.y+r.height/2;
       return (r.width>0&&x>0&&y>0&&x<innerWidth&&y<innerHeight)?{x,y}:null;},id);
     if(!at) return null;
-    await p.mouse.click(at.x,at.y); await sleep(650); return card(p);
+    // the same spot is pressed twice in this block: past the double-tap
+    // window (320 ms), or the second press is a zoom
+    await p.mouse.click(at.x,at.y); await calm(p); await sleep(400); return card(p);
   };
   const before=await hit('shanghai');
   check('a city card opens', !!(before&&before.prim), JSON.stringify(before));
@@ -173,19 +176,19 @@ console.log('\n— a station too —');
   await p.evaluateOnNewDocument(SHIM);
   await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   await p.evaluate(()=>{const x=document.getElementById('opt-tw-rail'); if(x&&!x.checked)x.click();});
-  await sleep(1500);
+  await calm(p);
   await p.evaluate(()=>{const x=document.getElementById('opt-tw-stations'); if(x&&!x.checked)x.click();});
-  await sleep(2500);
+  await calm(p);
   const at=await p.evaluate(()=>{const n=[...document.querySelectorAll('.sta-mark')]
       .map(e=>({r:e.getBoundingClientRect()}))
       .filter(o=>o.r.width>0&&o.r.x>0&&o.r.y>0&&o.r.x<innerWidth&&o.r.y<innerHeight);
     return n.length?{x:n[0].r.x+n[0].r.width/2,y:n[0].r.y+n[0].r.height/2}:null;});
   if(!at) check('a station was on screen to press', false, 'none');
   else {
-    await p.mouse.click(at.x,at.y); await sleep(700);
+    await p.mouse.click(at.x,at.y); await calm(p);
     const off=await card(p);
-    await han(p,true);
-    await p.mouse.click(at.x,at.y); await sleep(700);
+    await han(p,true); await sleep(400);        // past the double-tap window
+    await p.mouse.click(at.x,at.y); await calm(p);
     const on=await card(p);
     check('a station card opens', off.chip==='Railway station', off.chip);
     check('its headline becomes the characters', CJK.test(on.prim), on.prim);
@@ -204,7 +207,7 @@ console.log('\n— and it travels in a shared link —');
   await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   await han(p,true);
   const url=await p.evaluate(()=>location.search);
-  await p.goto(URL+url,{waitUntil:'domcontentloaded'}); await ready(p); await sleep(900);
+  await p.goto(URL+url,{waitUntil:'domcontentloaded'}); await ready(p); await calm(p);
   check('a link carrying the switch opens with it on',
     await p.evaluate(()=>document.getElementById('opt-han-labels').checked), url);
   await p.close();
@@ -218,7 +221,7 @@ console.log('\n— the hover says it the same way the card does —');
   await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   await p.evaluate(()=>{const c=document.querySelector('#layer-seg button[data-cat="city"]');
     if(c.getAttribute('aria-pressed')!=='true') c.click();});
-  await sleep(1500);
+  await calm(p);
   const tipOf=async id=>{
     const at=await p.evaluate(k=>{const g=document.querySelector('.gaz[data-id$="_'+k+'"]');
       if(!g) return null; const r=g.getBoundingClientRect();
@@ -262,9 +265,9 @@ console.log('\n— one label to a place —');
     document.querySelector('#layer-seg button[data-opt="labels"]').click();
     const c=document.querySelector('#layer-seg button[data-cat="city"]');
     if(c.getAttribute('aria-pressed')!=='true') c.click();});
-  await sleep(1500);
-  for(let i=0;i<5;i++){await p.evaluate(()=>document.getElementById('zoom-in').click());await sleep(400);}
-  await han(p,true); await sleep(600);
+  await calm(p);
+  for(let i=0;i<5;i++){await p.evaluate(()=>document.getElementById('zoom-in').click());await calm(p);}
+  await han(p,true);
   /* Fifty-one gazetteer cities carry a curated site record too and the site's
      marker is drawn over the dot. Both used to write a name a few pixels
      apart, which at Hankou read as 漢口 over 漢口. The dot yields to the marker
@@ -355,7 +358,7 @@ console.log('\n— a province and its capital may share a name, but not a spot �
       if(c.getAttribute('aria-pressed')!=='true') c.click();
       const a=document.querySelector('#layer-seg button[data-cat="territory"]');
       if(a.getAttribute('aria-pressed')!=='true') a.click();});
-    await sleep(2200);
+    await calm(p);
     await han(p,true);
     return p;
   };
@@ -413,7 +416,7 @@ console.log('\n— Japan in pre-war characters, where they are known —');
     document.querySelector('#layer-seg button[data-opt="labels"]').click();
     const c=document.querySelector('#layer-seg button[data-cat="city"]');
     if(c.getAttribute('aria-pressed')!=='true') c.click();});
-  await sleep(2200);
+  await calm(p);
   await han(p,true);
   const on=await labels(p);
   const KYU=['金澤','靜岡','橫須賀','吳'];

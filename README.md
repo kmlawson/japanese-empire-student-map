@@ -7,8 +7,9 @@ the geography that recurs in the history of modern Japan from Perry's arrival in
 occupied territories and puppet states, the neighbouring countries, and the
 cities, ports and battlefields tied to the events in the module timelines.
 
-Plain HTML, CSS and JavaScript. No build step to use it, no dependencies, no
-framework. Serve the folder over HTTP, or hand out the single-file build.
+Plain HTML, CSS and JavaScript. No dependencies, no framework, and nothing to
+build in order to use it: the site is the `deploy/` folder, served over HTTP.
+The rest of the repository is how that folder is made.
 
 ## Using it
 
@@ -22,9 +23,12 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
 * **Explore** — hover over, or tap, anything to get its name in all four
   languages, the date it changed hands, and a note on why it matters. Hovering
   also names the sub-unit under the pointer: the provinces of China, Manchukuo
-  and colonial Korea, the prefectures of Japan, the parts of French Indochina,
-  the Malay states with their federated status, the islands of the Indies and
-  the Philippines, and the island groups of the mandate.
+  and colonial Korea, the prefectures of Japan, the districts of Taiwan and of
+  Burma, the provinces of French Indochina, the changwat of Siam, the Malay
+  states with their federated status, the residencies of the Indies, the
+  provinces of the Philippines, and the island groups of the mandate. The
+  hover carries a phrase; the card carries the whole note, and a Wikipedia link
+  where there is a right article to link to.
 * **Quiz** — you are asked to find a place and you click it on the map. Wrong
   answers tell you what you actually clicked; the places you missed are listed
   at the end.
@@ -42,11 +46,21 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
   Singapore), Chinese in traditional characters, Korean in hangul. Notes are in
   English throughout. There is no language switch — every script a place answers
   to is shown at once, which is what a reader of a bilingual source needs.
-* **Layers** — turn cities, battles or territories out of the quiz, put names on
-  the map, switch on a browse layer of further cities for orientation, show the
-  Yangzi and Yellow rivers, show or hide the 1942 line of control, and choose
-  between the two sets of Chinese provincial boundaries (the ENP sheet, or the
-  finer 1936 AMS tracing).
+* **Cities, Events, Administrative, Other** — the buttons along the top put
+  cities, events, administrative boundaries and the other names on the map.
+  Hold **Other** for the five kinds of name separately. With Administrative on,
+  holding `Ctrl` shows every boundary the map has at once, and `Cmd`-click
+  (`Ctrl`-click on Windows) pins an outline so it survives panning and zooming.
+* **Layers** — everything else: the projection (Mercator, or an equal-area
+  Albers or Lambert azimuthal), shaded relief, the graticule, the rivers, the
+  1942 line of control and the occupation layers, the resistance base areas,
+  the two sets of Chinese provincial boundaries (the ENP sheet, or the finer
+  1936 AMS tracing), the railways and their stations, the air routes, and the
+  population maps. Each layer has a note saying what it is and where it came
+  from.
+* **The key is a set of switches.** Hold the year at the top of the key and
+  every row grows a tick box, so the colonies, or Kwantung alone, can be taken
+  off the map.
 * **Sharing a view.** The address bar rewrites itself as you pan, zoom and
   switch things on — `?bbox=120.9,24.5,122.3,25.68&layers=3j` — so copying it
   hands someone else the same ground and the same layers. The box is the ground
@@ -72,27 +86,52 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
   floating west of the shading that says the same thing. Out at sea it marks
   how far the navy reached rather than territory held.
 
-* **Train Tools** — a timetable, on the map it ran on. Tick it under **Layers →
-  Transport** and zoom in to a railway that has one — Taiwan, from the
-  February 1936 working timetable, or Korea, from a pocket timetable of early
-  1938 — and the network is drawn in the colours the timetable gives its lines, with a strip at the foot of the map that
-  runs the day: press play and 346 trains move at two to twenty minutes a
-  second. Tap a station for the trains that called there, with their numbers,
-  their lines and where they were going; tap a moving train for what it is and
-  where it is going, or the track for the line and a day's working on it. Each
-  links to its own printed table. Two buttons beside the zoom controls mark the
-  stations on any railway that is drawn, and put the train tools away — the
-  railway stays, in one plain colour. It appears when you are close enough for it to mean anything and
-  is put away when you leave, and neither the interface nor its data is fetched
-  until the first time that happens.
+* **Railways** — Taiwan, Korea, Karafuto, Manchuria, Japan and Burma, each
+  from its own source, with the sugar company lines of Taiwan in 1929 under
+  the government railway. Zoom in to ground a railway crossed and a track
+  button appears beside the map, offering the networks by name, with a station
+  button beside it. Japan's 12,800 stations are a switch of their own. None of
+  it is fetched until it is asked for, and the Sources page links to the GIS files
+  behind what is drawn, thinned and unthinned.
+* **Train Tools** — a timetable, on the map it ran on. Four are in: Taiwan from
+  the February 1936 working timetable (346 trains), Korea from a pocket
+  timetable of early 1938 (1,668), Karafuto from the timetable of 15 April 1935
+  (86), and Manchuria from the 滿洲・支那汽車時間表 of July 1942 (1,793), with
+  the Korean and Japanese lines the same booklet prints behind a connections
+  switch. The network is drawn in the colours the timetable gives its lines,
+  and a strip at the foot of the map runs the day: press play and the trains
+  move at two to twenty minutes a second. Tap a station for the trains that
+  called there, a moving train for what it is and where it is going, or the
+  track for the line and a day's working on it. Each links to its own printed
+  table. One system runs at a time, and neither the interface nor its data is
+  fetched until the first time it is wanted.
+* **Air routes** — 110 routes, most of them read from the operators' own
+  timetables, the sources named in the layer's note: Japan Airways, Manchuria Aviation, China Airways, CNAC, KNILM, Imperial Airways,
+  Air France and others, fifteen on the 1930 map and the rest on 1942. The
+  plane tools fly the timetable on a forty-eight-hour clock, so that a
+  lay-over reads as a lay-over. `data/air/README.md` records every place the
+  drawn timetable says something the printed one does not.
+* **Demography** — population density for Korea, Taiwan, Japan and Manchukuo,
+  shaded in five classes with the figure written on each unit; citizenship and
+  occupation for Korea; and the 1931 census of Burma by ethnic group on each
+  district's card. Every table offers **Download CSV**, and the file carries
+  the table's notes and its source.
+* **Thematic layers** — a book button beside the map opens a theme drawn over
+  the districts. There is one so far: the administration map of Burma from the
+  1931 census report.
 
-Pan by dragging, zoom with the wheel, a pinch, the buttons, or `+` / `-`; `0`
-returns to the opening view and `Esc` closes the detail card.
+Pan by dragging, zoom with the wheel, a pinch, the buttons, or `+` / `-`.
+`Esc` closes the detail card, and returns to the opening view if none is open.
+Single keys switch the common layers — `c` cities, `a` administrative, `e`
+events, `o` other names, `t` topography, `r` railways, `f` air routes, `g` the
+graticule, `0` and `2` the two dates — and `?` opens the help, which lists the
+rest.
 
 ### Your own marks on the map
 
-**Layers → Annotations** gives a reader points, events, lines and areas of
-their own, each with a name, a description and a colour. **Save file** writes
+**Create**, at the top of the screen or under **Layers**, gives a reader five
+tools of their own — point, arrow, line, area and text box — each mark with a
+name, a short note for the hover, a description and a style. **Save file** writes
 them to a GeoJSON file, styled with
 [simplestyle-spec](https://github.com/mapbox/simplestyle-spec) so that QGIS,
 geojson.io and GitHub's own preview all draw them as intended. **Load
@@ -104,8 +143,14 @@ the old name with a timestamp.
 **Copy link** puts the whole set into the address itself, deflated and
 base64'd, for anything small enough to fit: a dozen annotations come to a few
 hundred characters, and the reader is told the number and asked to send the
-file instead when it will not. A link opens with the panel folded — the marks
-are the point, the tools are one tap away.
+file instead when it will not. A link opens with the marks locked, so a stray
+press cannot move them, and a pencil button unlocks the tools. **Set default
+view** saves the frame a set should be looked at from, and **Add file…** merges
+another set into this one.
+
+Marks can carry a start and an end date. Once two dates are in play a small
+clock appears beside the zoom buttons and steps, or plays, through the dates
+at which something changes, over a map that stays where the reader put it.
 
 Lines are measured in kilometres and areas in square kilometres, on the sphere
 rather than on the flat, so an area in Hokkaido and the same area on the
@@ -114,8 +159,10 @@ and `Ctrl`/`⌘ Z` undoes. A point dropped on a country takes that country's nam
 without your typing it. Work is kept in the browser between visits and offered
 back when you return.
 
-The tools live in `annotate.js`, fetched only when one of the two buttons is
-pressed: a reader who never draws never downloads it.
+The tools live in `annotate.js`, shipped as `deploy/lean/annotate.js` and
+fetched only when one of the two buttons is pressed: a reader who never draws
+never downloads it. The help dialog on the map (`?`) describes the tools in
+full.
 
 None of it goes anywhere. The file is written by the browser and read back by
 it, which is the point for a class: a student can annotate a map, hand the file
@@ -146,51 +193,112 @@ stick. Rebuild it after any change to the site.
 
 ### Changing the words
 
-Every word the map shows — names, dates, notes, legend labels, the About and
-Sources pages — lives in `texts/` as CSV and Markdown. Edit there and run:
+Every word the map shows — names, dates, notes, legend labels, layer notes, the
+About, Help and Sources pages — lives in `texts/` as CSV and Markdown. Edit
+there and run:
 
 ```sh
-python3 tools/build_texts.py   # writes data.js, index.html's About, sources.html, docs/SOURCES.md
+python3 tools/build_texts.py          # every ordinary build: stamp the date only
+python3 tools/build_texts.py --bump   # the release step: one update number, once, before a push
 ```
 
-`texts/README.md` says how that folder is arranged and what each column holds.
-The generated half of `data.js` is overwritten by that script, so nothing should
-be edited in it directly. Changing the *shapes* is a separate job and a separate
-script — `tools/build_map.py` — and neither needs the other to run.
+It writes `deploy/data.js`, the dialogs in `deploy/index.html`,
+`deploy/sources.html`, `docs/SOURCES.md` and the comment-stripped copies of the
+hand-written scripts in `deploy/lean/`. It also refuses to build on the faults
+that have cost time before: a duplicated key in any table, a file the site can
+fetch that `docs/UPLOAD.md` does not name, an air timetable that runs
+backwards, a top-level function declared twice in one script.
+
+`texts/README.md` says how that folder is arranged and what each column holds,
+and `texts/admin/serve.py` is a local editor for it. The figures on the
+population cards are not in `texts/`: they are in `data/population/` and
+composed into the card at build. Changing the *shapes* is a separate job and a
+separate script — `tools/build_map.py` — and neither needs the other to run.
+
+The map is **version 1** and stays so; `texts/version.csv` holds the update
+number, shown to the reader as *Version 1 update 373*. `CLAUDE.md` has the
+rule, and the other working notes a contributor needs before touching
+`map.js`.
+
+### Testing
+
+The tests drive the built site in headless Chrome. The runner starts its own
+static server, runs eight scripts at a time, and picks what to run from what
+git says has changed:
+
+```sh
+node tools/test/all.js smoke           # 26 scripts, about half a minute: before any push
+node tools/test/all.js changed --dry   # what it would run for the current diff, and why
+node tools/test/all.js changed
+node tools/test/all.js                 # all 72 scripts, about four minutes: before a release
+```
+
+Each run is appended to `tools/test/runs.jsonl`, and each run prints what the
+last run of the same set cost before it starts. A script fails on any uncaught
+page error, and waits on the map's own idle signal (`calm(page)` in
+`tools/test/settle.js`) rather than on a number of seconds.
 
 ## Files
 
+**The site.** `deploy/` is everything a web server needs. `docs/UPLOAD.md`
+lists every file in it with its size and what makes a browser ask for it.
+
 | | |
 |---|---|
-| `index.html`, `styles.css`, `map.js` | the application |
-| `texts/` | **every word the map shows**, as CSV and Markdown: territories per epoch, sub-units, sites, names, dates, notes, levels, and the About and Sources pages |
-| `data.js` | the map's settings, and the teaching content folded in from `texts/` — the part below the banner is generated |
-| `cities-gaz.js` | the gazetteer behind the browse layer |
-| `japan-empire-map.svg` | generated base map — atoms only, no names or colours |
-| `japan-empire-map-admin.svg` | the administrative divisions, fetched only when that layer is switched on |
-| `japan-empire-map-fine.svg` | fine coastlines, fetched only on a deep zoom into the window that needs them |
-| `japan-empire-map-roc.svg` | the alternative Chinese provinces, fetched only if chosen in Layers |
+| `deploy/index.html`, `deploy/styles.css` | the page; its About, Help and layer notes are spliced in from `texts/` |
+| `deploy/lean/` | the comment-stripped copies of the five hand-written scripts, which is what the page loads |
+| `deploy/data.js` | the map's settings, and the teaching content folded in from `texts/` — the part below the banner is generated |
+| `deploy/cities-gaz.js` | the gazetteer behind the browse layer, from `data/cities-1930.csv` and `data/cities-1942.csv` |
+| `deploy/japan-empire-map.svg` | generated base map — atoms only, no names or colours |
+| `deploy/japan-empire-map-admin.svg`, `-fine.svg`, `-roc.svg`, `-korea.svg`, `-tw-sugar.svg` | the administrative divisions, the fine coastlines, the alternative Chinese provinces, Korea's provinces at survey resolution and Taiwan's sugar railways, each fetched only when asked for |
+| `deploy/tw-`, `kr-`, `kf-`, `mn-trains.js`, `-times.js`, `-stations.js` | one railway each: the network the train tools draw, its timetable as a second file, and its stations |
+| `deploy/jp-rails.js`, `deploy/jp-stations.js` | Japan's railways and their 12,800 stations |
+| `deploy/themes.js` | the thematic layers |
+| `deploy/relief.js`, `deploy/relief/` | shaded relief: nine WebP sheets, three zoom bands in each of three projections |
+| `deploy/timetable/` | the printed tables as published, one page per timetable, linked from the cards |
+| `deploy/gis/`, `deploy/gis/source/` | the downloads linked from Sources: what the map draws, and the unthinned files the build reads |
+| `deploy/sources.html` | the Sources page, generated from `texts/pages/sources.md` |
+
+**The sources of the site.**
+
+| | |
+|---|---|
+| `map.js` | the application: one file, banner-sectioned |
+| `annotate.js` | the drawing tools |
+| `trains.js` | the train tools: the timetable interface |
+| `air-play.js` | the plane tools: the air timetable, flown |
 | `admin.js` | a panel of tools for working on the map, fetched only when Layers is option-clicked; no reader ever loads it |
-| `sources.html` | the Sources page, linked from About — generated from `texts/pages/sources.md` |
-| `docs/SOURCES.md` | the same page as a plain file: every data source, licence, and what was done to it — also generated |
-| `docs/tasks.md` | what has been fixed and how, and what is still open |
-| `tools/build_map.py` | regenerates the base map from the source data |
-| `tools/build_texts.py` | folds `texts/` into `data.js`, `index.html`, `sources.html` and `docs/SOURCES.md` |
-| `tools/texts_lib.py`, `tools/md.py` | the CSV/Markdown readers, and just enough Markdown for the two prose pages |
-| `tools/shapefile.py` | a small stdlib-only shapefile reader used by the build |
-| `tools/bundle.py` | builds the single-file version |
-| `annotate.js` | the drawing tools, fetched on demand and inlined into the single-file build |
-| `trains.js` | the Train Tools: the timetable interface, fetched only when a reader zooms in to a railway that has one |
-| `tw-trains.js` | Taiwan's February 1936 timetable — 346 trains, their stops and the track between them — fetched with it |
-| `timetable/taiwan-1936.html` | the eighteen printed tables, as published, linked from a station's card |
-| `data/tw-1936-timetable/` | the transcription those two are built from, vendored so the build needs no network |
-| `tools/build_tw_trains.py` | writes `tw-trains.js` and the timetable page from it |
-| `kr-trains.js` | Korea's timetable of early 1938 — 1,666 trains over 74 lines, the Manchurian and Japanese connections and the ferries among them, their stops and the track between them — fetched with the tools over Korea |
-| `timetable/korea-1938.html` | the 173 printed tables of the Korean, Manchurian and Japanese pages, linked from a station's card |
-| `data/kr-1938-timetable/` | the transcription those two are built from, vendored from the Korea 1938 project |
-| `tools/build_kr_trains.py` | writes `kr-trains.js` and the Korea timetable page from it |
+| `texts/` | **every word the map shows**, as CSV and Markdown: territories per epoch, sub-units, sites, city names, layer notes, levels, and the About, Help and Sources pages |
+| `data/` | what was counted and transcribed: `population/`, `air/`, the four timetable transcriptions, the traced sheets for Burma, Indochina, the Indies, Karafuto and Manchuria, and the city files. Several folders carry their own README |
+| `occupation-maps/` | the period maps the occupied zone and the client states were traced from |
+
+**The tools.**
+
+| | |
+|---|---|
+| `tools/build_map.py` | regenerates the base map and its sister sheets from the source data |
+| `tools/build_texts.py` | folds `texts/` and `data/population/` into the site, writes `deploy/lean/`, stamps the version, and runs the build's checks |
+| `tools/build_burma.py`, `build_indochina.py`, `build_dei.py`, `build_korea_provinces.py` | the traced administrative sheets, each dissolved exactly into the outline `build_map.py` reads |
+| `tools/build_tw_trains.py`, `build_kr_trains.py`, `build_kf_trains.py`, `build_mn_trains.py` | a timetable each, into its three files and its printed-table page; what they share is in `tools/trains_lib.py` |
+| `tools/build_*_stations.py`, `build_jp_rails.py`, `build_tw_sugar.py` | the station layers, Japan's railways, Taiwan's sugar lines |
+| `tools/build_themes.py`, `build_relief.py`, `build_cities.py`, `build_gis_sources.py` | the thematic layers, the relief sheets, the gazetteer, the downloads |
+| `tools/texts_lib.py`, `tools/md.py`, `tools/shapefile.py`, `tools/gpkg.py` | stdlib-only readers: the CSV and Markdown of `texts/`, shapefiles, GeoPackages |
+| `tools/apply_card_changes.py` | applies a JSON batch of card-text changes to the shared files in `texts/`, by key, so that several editors cannot overwrite one another |
+| `tools/test/` | the test scripts, their harness (`suite.js`, `settle.js`) and the runner (`all.js`) |
+| `tools/stats.js`, `tools/compare_perf.js` | what the map costs, measured the same way every time into `stats/`; and two builds timed side by side |
 | `tools/check_deploy.py` | fetches a deployed copy and checks every file against the key it was asked for |
-| `tools/compare_perf.js` | pan-and-zoom timings for two builds side by side, for checking a new version against the live one before updating it |
+| `tools/bundle.py` | builds the single-file version into `stale/` |
+
+**The record.**
+
+| | |
+|---|---|
+| `docs/tasks.md` | what has been changed and what was measured, entry by entry, and what is still open |
+| `docs/SOURCES.md` | the Sources page as a plain file — generated |
+| `docs/UPLOAD.md`, `docs/DEPLOY.md` | what to upload, and how |
+| `reports/` | dated reviews and audits, from August 2026 on: the latest are the code review of 15 September and the card audits of 16 September |
+| `CHECK.md` | what the author has checked against the originals, and what is still to check |
+| `CLAUDE.md` | working notes for anyone, or anything, editing the project |
 
 Adding a city or a battlefield needs nothing but a row in `texts/sites/sites.csv`
 with its longitude and latitude, a `## id` section in `sites.md` for the note,
@@ -209,7 +317,7 @@ no line at the Punjab, French Indochina none at the Mekong, Korea none at the
 
 ## The base map
 
-`japan-empire-map.svg` is generated by `tools/build_map.py` from
+`deploy/japan-empire-map.svg` is generated by `tools/build_map.py` from
 [Natural Earth](https://www.naturalearthdata.com/) 1:10m vector data (public
 domain) for the world, and the ENP-China project's Chinese provincial
 boundaries for 1928–45 (CC BY 4.0) for everything inside China. It projects to
@@ -217,6 +325,12 @@ Mercator on a frame running 66°E–206°E and 13°S–55°N — British India t
 Harbor — sorts units into historical regions, dissolves their internal
 boundaries, clips, simplifies, and writes one path per atom. Source data is
 cached in `tools/cache/`; pass `--download` to refresh the Natural Earth part.
+The two equal-area projections offered in Layers are made in the browser from
+the same sheet.
+
+Geometry is not simplified beyond what each source's band allows, and a
+hand-clipped or traced edge is kept at its own tolerance (`TRACED_TOL`); a new
+layer reports what fraction of its vertices survive the build.
 
 Inside China the boundaries are the **actual provinces of the Republican
 period**, not modern ones reassembled: Jehol, Chahar, Suiyuan, Liaoning, Jilin,
@@ -226,6 +340,16 @@ in for them — Manchukuo from 滿洲國地圖 1935, published by the South Manc
 Railway, as one outline and as its fourteen provinces; Mengchiang from a traced
 boundary of its own. What is left of Chahar and Suiyuan outside that line is
 Free China's, and the map draws it so.
+
+Several countries are drawn from a traced sheet of their own rather than from
+modern outlines, each built by its own script and dissolved exactly into the
+country's shape: French Indochina, 95 units in five protectorates, from the
+1945 OSS map held at Stanford; Burma, 91 districts and states as of 1931; the
+Netherlands Indies, 65 units with the residency boundaries of Robert Cribb's
+*Historical Atlas of Indonesia*; and colonial Korea's thirteen provinces from
+the National Institute of Korean History's historical districts. Siam and the
+Philippines are thinned as coverages, so neighbours keep one shared border.
+`docs/SOURCES.md` has each source in full.
 
 Island groups too small to see at the default zoom — the Ryukyus, the Kurils,
 Micronesia, the Aleutians, the Andamans, Ogasawara — get a minimum-size disc so

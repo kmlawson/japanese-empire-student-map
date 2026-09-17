@@ -15,6 +15,10 @@
  * .hostname` is the thing under test rather than something stubbed.
  */
 const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+/* The port the suite is serving on: 8123 by hand, or whatever the runner
+   started for this run. The two gotos below spell the host out because the
+   test is about what host the page believes it is on. */
+const PORT = new URL(require('./suite.js').HOST).port || '8123';
 
 const look=p=>p.evaluate(()=>{
   const b=document.getElementById('beta-badge');
@@ -40,7 +44,7 @@ const on=async(host,args,vp)=>{
   const p=await b.newPage();
   await p.setViewport(vp||{width:1400,height:900});
   const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-  await p.goto('http://'+host+':8123/deploy/index.html',{waitUntil:'networkidle2'});
+  await p.goto('http://'+host+':'+PORT+'/deploy/index.html',{waitUntil:'networkidle2'});
   await ready(p);
   const v=await look(p); v.errs=errs;
   await b.close();
@@ -52,7 +56,7 @@ const on=async(host,args,vp)=>{
   const rule=await (async()=>{
     const b=await launch();
     const p=await b.newPage();
-    await p.goto('http://localhost:8123/deploy/index.html',{waitUntil:'networkidle2'});
+    await p.goto('http://localhost:'+PORT+'/deploy/index.html',{waitUntil:'networkidle2'});
     await ready(p);
     const r=await p.evaluate(()=>({
       pages: JMAP.__betaHost('kmlawson.github.io'),
@@ -112,7 +116,7 @@ const on=async(host,args,vp)=>{
     const b=await launch({args:["--host-resolver-rules=MAP kmlawson.github.io 127.0.0.1"]});
     const p=await b.newPage();
     await p.setViewport(PHONE);
-    await p.goto('http://kmlawson.github.io:8123/deploy/index.html',{waitUntil:'networkidle2'});
+    await p.goto('http://kmlawson.github.io:'+PORT+'/deploy/index.html',{waitUntil:'networkidle2'});
     await ready(p);
     const boxes=()=>p.evaluate(()=>{
       const bd=document.getElementById('beta-badge').getBoundingClientRect();

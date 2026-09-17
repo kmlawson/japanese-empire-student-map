@@ -63,6 +63,14 @@ Uninhabited.
 
 Sea otter hunting ground, and Russian until the exchange of 1875.
 
+## Etorofu (Iturup)
+
+The largest island of the chain, with fisheries and a cannery and the
+administrative seat of the Kuriles at Shana. The carrier force for the attack on
+Pearl Harbor sailed from Hitokappu Bay on 26 November 1941. Soviet troops took
+the island in August 1945 and the Japanese inhabitants were expelled; Japan
+claims it still.
+
 ## Kunashiri (Kunashir)
 
 The southernmost large island, Japanese-settled and taken by Soviet troops on 1 September 1945. Japan claims it still.
@@ -73,4 +81,4 @@ Taken by Soviet troops on 1 September 1945; its Japanese inhabitants were deport
 
 ## the Habomai Islands
 
-A scatter of islets in sight of Hokkaidō, taken between 1 and 5 September 1945 — after the surrender — and claimed by Japan ever since.
+A scatter of islets in sight of Hokkaidō, taken on 4 September 1945 — after the surrender — and claimed by Japan ever since.

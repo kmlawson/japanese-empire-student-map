@@ -54,6 +54,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rail_route
 import trains_split
+from trains_lib import read_stations
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -475,14 +476,7 @@ def resolve_beyond(tables, pools):
 
 
 def our_stations():
-    """mn-stations.js is written one record to a line with a trailing comma, so it is read a
-    line at a time rather than as one array."""
-    out = []
-    for line in io.open(os.path.join(SITE, 'mn-stations.js'), encoding='utf-8'):
-        line = line.strip().rstrip(',')
-        if line.startswith('{') and line.endswith('}'):
-            out.append(json.loads(line))
-    return out
+    return read_stations('mn')
 
 
 def dir_of(x):

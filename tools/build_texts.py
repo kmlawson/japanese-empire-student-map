@@ -1726,8 +1726,40 @@ def build_pages():
     return written
 
 
+# **A second declaration of a function name is a silent replacement, not an
+# error.** Each hand-written script is one function body, and a `function`
+# declaration inside it is hoisted for the whole body: declare `viewLonLat` or
+# `openMenu` a thousand lines below the first and the first is gone
+# everywhere, with nothing said at parse time or run time. It happened twice
+# on 15 September 2026 -- once hiding every button beside the map, once the
+# right-click menu -- and both times the suite caught it minutes later. This
+# catches it at the build, where the fix costs seconds. Top-level means the
+# indentation the module body uses (two spaces); a nested helper of the same
+# name in a different function is legal and is not counted.
+def check_duplicate_functions():
+    import re
+    for name in ("map.js", "annotate.js", "admin.js", "trains.js", "air-play.js"):
+        path = os.path.join(ROOT, name)
+        if not os.path.exists(path):
+            continue
+        seen = {}
+        with open(path, encoding="utf-8") as fh:
+            for i, line in enumerate(fh, 1):
+                m = re.match(r"^  (?:async )?function (\w+)\s*\(", line)
+                if not m:
+                    continue
+                fn = m.group(1)
+                if fn in seen:
+                    raise Problem(
+                        "%s declares `function %s` twice, at lines %d and %d. The "
+                        "second replaces the first for the whole module without a "
+                        "word from the parser; rename one." % (name, fn, seen[fn], i))
+                seen[fn] = i
+
+
 def main():
     try:
+        check_duplicate_functions()
         splice_data_js()
         print("data.js       <- texts/*.csv, texts/**/*.md")
         for name in build_pages():

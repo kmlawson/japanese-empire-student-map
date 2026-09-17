@@ -1,0 +1,20 @@
+{
+  "texts/city-names.csv": {
+    "yilan": {
+      "wiki": "https://en.wikipedia.org/wiki/Yilan_City",
+      "zh": "宜蘭"
+    },
+    "choibalsan": {
+      "wiki": "https://en.wikipedia.org/wiki/Choibalsan_(city)"
+    },
+    "chita": {
+      "wiki": "https://en.wikipedia.org/wiki/Chita,_Zabaykalsky_Krai"
+    }
+  },
+  "texts/city-names.md": {
+    "taitung": "The seat of Taitō-chō, on the south-east coast between the mountains and the Pacific."
+  },
+  "texts/sites/sites.md": {
+    "tapani": "The Xilai'an rising of 1915, the last and largest armed revolt by Han Taiwanese against Japanese rule. Some 1,400 were arrested and sentenced, and 135 were executed before an imperial amnesty stopped the rest."
+  }
+}

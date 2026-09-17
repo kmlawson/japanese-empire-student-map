@@ -2,7 +2,7 @@ id,en,jpfrom,local,ja,orig,zh,ko,date,cat,size,subtype,always,lvl,both,lat,lon,y
 tokyo,Tokyo,,,東京 (Tōkyō),東京 (Tōkyō),東京,도쿄도,Capital from 1868,city,,,,1,,35.68,139.76,1868,https://en.wikipedia.org/wiki/Tokyo
 yokohama,Yokohama,,,横浜 (Yokohama),横浜 (Yokohama),橫濱,요코하마,Treaty port opened 1859,city,,,,2,,35.44,139.64,1859,https://en.wikipedia.org/wiki/Yokohama
 uraga,Uraga,,,浦賀 (Uraga),浦賀 (Uraga),浦賀,,July 1853,battle,,,,3,yes,35.25,139.72,1853,https://en.wikipedia.org/wiki/Perry_Expedition
-shimoda,Shimoda,,,下田 (Shimoda),下田 (Shimoda),下田,,Opened 1854,city,,,,3,,34.67,138.95,1854,https://en.wikipedia.org/wiki/Shimoda_Ropeway
+shimoda,Shimoda,,,下田 (Shimoda),下田 (Shimoda),下田,,Opened 1854,city,,,,3,,34.67,138.95,1854,"https://en.wikipedia.org/wiki/Shimoda,_Shizuoka"
 kyoto,Kyoto,,,京都 (Kyōto),京都 (Kyōto),京都,교토,Imperial seat until 1868,city,,,,2,,35.01,135.77,1868,https://en.wikipedia.org/wiki/Kyoto
 osaka,Osaka,,,大阪 (Ōsaka),大阪 (Ōsaka),大阪,오사카,Opened 1868,city,,,,2,,34.69,135.5,1868,https://en.wikipedia.org/wiki/Osaka
 kobe,Kobe,,,神戸 (Kōbe),神戸 (Kōbe),神戶,고베,Treaty port opened 1868,city,,,,3,,34.69,135.2,1868,https://en.wikipedia.org/wiki/Kobe
@@ -115,7 +115,7 @@ pongodong,Fengwudong (Pongodong),,,鳳梧洞の戦い (Hōgodō no tatakai),,鳳
 chongsanri,Qingshanli (Chŏngsan-ri),,,青山里の戦い (Seizanri no tatakai),,青山里,청산리 (Chŏngsan-ri),October 1920,battle,,,,3,,42.6,128.8,1920,https://en.wikipedia.org/wiki/Battle_of_Qingshanli
 kantoquake,The Great Kantō Earthquake,,,関東大震災 (Kantō daishinsai),,關東大地震,,1 September 1923,battle,,,,1,yes,35.4,139.5,1923,https://en.wikipedia.org/wiki/Great_Kant%C5%8D_Earthquake
 erlin,Èrlín (Erhlin),,,二林事件 (Nirin jiken),,二林,,October 1925,battle,,,,3,,23.9,120.38,1925,
-wonsanstrike,The Wonsan general strike,,,元山ゼネスト (Genzan zenesuto),,元山總罷工,원산 총파업 (Wŏnsan ch’ongp’aŏp),January – April 1929,battle,,,,3,,39.15,127.44,1929,
+wonsanstrike,The Wonsan general strike,,,元山ゼネスト (Genzan zenesuto),,元山總罷工,원산 총파업 (Wŏnsan ch’ongp’aŏp),January – April 1929,battle,,,,3,,39.15,127.44,1929,https://ko.wikipedia.org/wiki/원산_총파업
 liutiaohu,The Mukden Incident,,,柳条湖事件 (Ryūjōko jiken),,柳條湖事件,만주사변,18 September 1931,battle,,,,1,yes,41.85,123.47,1931,https://en.wikipedia.org/wiki/Mukden_incident
 shanghaibattle,Battle of Shànghǎi,,,第二次上海事変 (Dainiji Shanhai jihen),,淞滬會戰,,13 August – 26 November 1937,battle,,,,1,yes,31.23,121.47,1937,https://en.wikipedia.org/wiki/Battle_of_Shanghai
 nanjingmassacre,The Nanjing Massacre,,,南京事件 (Nankin jiken),,南京大屠殺,,December 1937 – February 1938,battle,,,,1,yes,32.06,118.8,1937,https://en.wikipedia.org/wiki/Nanjing_Massacre

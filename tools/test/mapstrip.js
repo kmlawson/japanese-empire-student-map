@@ -4,9 +4,9 @@
 
        node tools/test/mapstrip.js      # with python3 -m http.server 8123 up
 */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const { puppeteer, sleep, ready, until, calm, check, report, SHIM, launch, HOST } = require('./suite.js');
 const tick=async(p,sel,on)=>{await p.evaluate((s,v)=>{const e=document.querySelector(s);
-  e.checked=v; e.dispatchEvent(new Event('change',{bubbles:true}));},sel,on); await sleep(1500);};
+  e.checked=v; e.dispatchEvent(new Event('change',{bubbles:true}));},sel,on); await calm(p);};
 const cvar=(p,sel)=>p.evaluate(s=>{const e=document.querySelector(s);
   return e?e.style.getPropertyValue('--c'):'absent';},sel);
 const fillOf=(p,sel)=>p.evaluate(s=>{const e=document.querySelector(s); if(!e) return 'absent';
@@ -17,8 +17,8 @@ const p=await b.newPage(); await p.setViewport({width:1500,height:950});
 await p.evaluateOnNewDocument(SHIM);
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
 await p.goto(HOST+'/index.html',{waitUntil:'domcontentloaded'}); await ready(p);
-await p.evaluate(()=>{const t=[...document.querySelectorAll('#epoch-seg button')].find(x=>/1942/.test(x.textContent)); t.click();}); await sleep(2200);
-await p.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(500);
+await p.evaluate(()=>{const t=[...document.querySelectorAll('#epoch-seg button')].find(x=>/1942/.test(x.textContent)); t.click();}); await calm(p);
+await p.evaluate(()=>document.querySelector('#btn-options').click()); await calm(p);
 
 console.log('\n— the controls are there —');
 for (const s of ['#occ-none','#opt-manchukuo','#opt-mengjiang','#opt-mono']) {
@@ -35,15 +35,15 @@ const zoneOn=await p.evaluate(()=>{const z=document.querySelector('#a-occupiedzo
   return z?getComputedStyle(z).display!=='none':null;});
 check('the traced zone is drawn to begin with', zoneOn===true, String(zoneOn));
 await p.evaluate(()=>{const r=document.querySelector('#occ-none');
-  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1800);
+  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await calm(p);
 check('choosing "hide" takes it off',
   await p.evaluate(()=>getComputedStyle(document.querySelector('#a-occupiedzone')).display)==='none');
 check('and the perimeter is untouched by it',
   await p.evaluate(()=>getComputedStyle(document.querySelector('#extent-1942')).display)!=='none');
-await p.reload({waitUntil:'networkidle0'}); await sleep(3500);
+await p.reload({waitUntil:'domcontentloaded'}); await ready(p); await calm(p);
 check('the choice survives a reload',
   await p.evaluate(()=>document.querySelector('#occ-none').checked));
-await p.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(500);
+await p.evaluate(()=>document.querySelector('#btn-options').click()); await calm(p);
 
 console.log('\n— the two client states —');
 const before=await cvar(p,'#a-manchukuo');
@@ -101,16 +101,16 @@ check('and it all comes back', (await fillOf(p,'#a-japan'))===japanBefore,
 
 console.log('\n— hiding the occupation drops the base areas with it —');
 await p.evaluate(()=>{const c=document.querySelector('#opt-ccp');
-  c.checked=true; c.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1200);
+  c.checked=true; c.dispatchEvent(new Event('change',{bubbles:true}));}); await calm(p);
 await p.evaluate(()=>{const r=document.querySelector('#occ-traced');
-  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1500);
+  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await calm(p);
 check('the base areas start on', await p.evaluate(()=>document.querySelector('#opt-ccp').checked));
 await p.evaluate(()=>{const r=document.querySelector('#occ-none');
-  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1500);
+  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await calm(p);
 check('hiding the occupation switches them off',
   await p.evaluate(()=>!document.querySelector('#opt-ccp').checked));
 await p.evaluate(()=>{const c=document.querySelector('#opt-ccp');
-  c.checked=true; c.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1200);
+  c.checked=true; c.dispatchEvent(new Event('change',{bubbles:true}));}); await calm(p);
 check('and the reader can put them back',
   await p.evaluate(()=>document.querySelector('#opt-ccp').checked));
 
@@ -125,7 +125,7 @@ check('and the reader can put them back',
 console.log('\n— and choosing Max brings them back —');
 const setOcc = async id => { await p.evaluate(i => { const r = document.querySelector(i);
   r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }, id);
-  await sleep(1500); };
+  await calm(p); };
 const ccpOn = () => p.evaluate(() => document.querySelector('#opt-ccp').checked);
 /* The block above leaves the map on Hide with the base areas put back by
    hand, so Hide is pressed *from Max* here — pressing it while already on it
@@ -136,7 +136,7 @@ check('coming to Hide from Max switches them off', !(await ccpOn()));
 await setOcc('#occ-traced');
 check('and coming back to Max switches them on', await ccpOn());
 await p.evaluate(()=>{const c=document.querySelector('#opt-ccp');
-  c.checked=false; c.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1000);
+  c.checked=false; c.dispatchEvent(new Event('change',{bubbles:true}));}); await calm(p);
 await setOcc('#occ-traced');
 /* This used to pin the opposite — a pressed button must not argue — and the
    map's author overruled it on 27-08: pressing Max always asks for the
@@ -144,7 +144,7 @@ await setOcc('#occ-traced');
    them, already-on or not. */
 check('Max pressed again brings the base areas back', await ccpOn());
 await p.evaluate(()=>{const c=document.querySelector('#opt-ccp');
-  c.checked=false; c.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1000);
+  c.checked=false; c.dispatchEvent(new Event('change',{bubbles:true}));}); await calm(p);
 await setOcc('#occ-nca');
 check('the army reading does not switch them on by itself', !(await ccpOn()));
 await setOcc('#occ-traced');
@@ -185,12 +185,12 @@ await tick(p,'#opt-world',false);
 check('the Army report is not hidden with the rest — it is China',
   await (async()=>{
     await p.evaluate(()=>{const r=document.querySelector('#occ-nca');
-      r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1800);
+      r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await calm(p);
     return await p.evaluate(()=>['#a-nca_pacified','#a-nca_unpacified']
       .every(s=>{const e=document.querySelector(s);
         return e && getComputedStyle(e).display!=='none';}));})());
 await p.evaluate(()=>{const r=document.querySelector('#occ-traced');
-  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1600);
+  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await calm(p);
 check('no country outside the frame is still named',
   await p.evaluate(()=>[...document.querySelectorAll('#labels text')]
     .filter(t=>getComputedStyle(t).display!=='none')
@@ -226,7 +226,7 @@ const code=await p.evaluate(()=>{
     c.checked=false; c.dispatchEvent(new Event('change',{bubbles:true}));});
   const m=document.querySelector('#opt-mono'); m.checked=true; m.dispatchEvent(new Event('change',{bubbles:true}));
   return location.search;});
-await sleep(1200);
+await calm(p);
 /* The SEARCH, not the hash: the map's address is ?bbox=…&layers=…, and this
    used to copy `location.hash` — the empty string — and still pass, because
    the second page restored the four settings from localStorage instead. The
@@ -236,7 +236,7 @@ const search=await p.evaluate(()=>location.search);
 const p2=await b.newPage(); await p2.setViewport({width:1500,height:950});
 await p2.evaluateOnNewDocument(SHIM);
 await p2.goto(HOST+'/index.html'+search,{waitUntil:'domcontentloaded'}); await ready(p2);
-await p2.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(500);
+await p2.evaluate(()=>document.querySelector('#btn-options').click()); await calm(p2);
 const got=await p2.evaluate(()=>({occ:document.querySelector('#occ-none').checked,
   man:document.querySelector('#opt-manchukuo').checked,
   men:document.querySelector('#opt-mengjiang').checked,

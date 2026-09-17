@@ -1,0 +1,45 @@
+{
+  "texts/city-names.md": {
+    "camranh": "The anchorage the force for Borneo sailed from in December 1941, and the western invasion force for Java in February 1942.",
+    "jambi": "A river port on the Batang Hari north of Palembang, shipping the oil and rubber of its own field.",
+    "kupang": "Dutch Timor's capital, taken on 20 February 1942 with a parachute landing behind the Australian force, which surrendered three days later.",
+    "kendari": "The airfield taken on 24 January 1942 against almost no resistance, wanted for its position and the quality of its works. Darwin was bombed from it on 19 February.",
+    "denpasar": "The southern Balinese court town, where the Dutch broke the kingdom of Badung in 1906 and its royal house died in a mass suicide.",
+    "davao": "Taken on 20 December 1941, and before the war the largest Japanese community in Southeast Asia — some twenty thousand people growing abaca."
+  },
+  "texts/sites/sites.md": {
+    "leyte": "Four separate actions over four days in October 1944, and the largest naval battle of the war. It destroyed the Imperial Navy as a fighting force and saw the first organised kamikaze attacks."
+  },
+  "texts/city-names.csv": {
+    "cholon": {
+      "wiki": "https://en.wikipedia.org/wiki/Ch%E1%BB%A3_L%E1%BB%9Bn"
+    },
+    "dalat": {
+      "wiki": "https://en.wikipedia.org/wiki/Da_Lat"
+    },
+    "legazpi": {
+      "wiki": "https://en.wikipedia.org/wiki/Legazpi,_Albay"
+    },
+    "cebu": {
+      "wiki": "https://en.wikipedia.org/wiki/Cebu_City"
+    },
+    "zamboanga": {
+      "wiki": "https://en.wikipedia.org/wiki/Zamboanga_City"
+    },
+    "davao": {
+      "wiki": "https://en.wikipedia.org/wiki/Davao_City"
+    },
+    "sabang": {
+      "wiki": "https://en.wikipedia.org/wiki/Sabang,_Aceh"
+    },
+    "jambi": {
+      "wiki": "https://en.wikipedia.org/wiki/Jambi_City"
+    },
+    "jolo": {
+      "wiki": "https://en.wikipedia.org/wiki/Jolo,_Sulu"
+    },
+    "quezoncity": {
+      "wiki": "https://en.wikipedia.org/wiki/Quezon_City"
+    }
+  }
+}

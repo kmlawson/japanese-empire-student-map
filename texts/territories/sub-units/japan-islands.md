@@ -9,8 +9,8 @@
 
 The gold and silver of Sado were worked from 1601 and paid for a good deal of
 the Tokugawa state; before that it was where the court sent people it wanted
-out of the way, Emperor Juntoku and the priest Nichiren among them. Korean and
-Chinese conscripts were worked in the mines during the war.
+out of the way, Emperor Juntoku and the priest Nichiren among them. Koreans
+were conscripted to work the mines during the war.
 
 ## Tsushima Island
 
@@ -36,8 +36,9 @@ thought might suit them. Soy sauce and stone for Osaka Castle came from it too.
 
 ## Dōgo
 
-The largest of the Oki islands, and the court's furthest place of exile: the
-emperors Go-Toba and Go-Daigo were both sent here, and Go-Daigo got away again.
+The largest of the Oki islands, and the group was the court's furthest place of
+exile: the emperors Go-Toba and Go-Daigo were both sent to these islands, and
+Go-Daigo got away again.
 
 ## Shimoshima
 
@@ -84,9 +85,9 @@ bridge until 1974.
 
 ## Nishinoshima
 
-One of the three Dōzen islands of Oki, the rim of a drowned crater. The
-retired emperor Go-Toba was exiled here after the Jōkyū war of 1221 and died on
-the island in 1239.
+One of the three Dōzen islands of Oki, the rim of a drowned crater. Go-Toba was
+exiled to these islands after the Jōkyū war of 1221 and died on Nakanoshima, on
+the other side of the same crater rim, in 1239.
 
 ## Chiburi-jima
 
@@ -113,9 +114,9 @@ and one of the Izu exile islands.
 
 ## Kozushima
 
-Obsidian was carried from here to the mainland in the Jōmon period, across
-forty kilometres of open sea — the earliest evidence of sea crossing in Japan.
-Christians were exiled to the island after 1614.
+Obsidian was carried from here across open sea to the mainland, where tools made
+of it turn up on Jōmon sites in Shizuoka and Yamanashi. Christians were exiled
+to the island after 1614.
 
 ## Mikurajima
 
@@ -141,8 +142,8 @@ the rest fled to Hachijōjima and did not return for fifty years.
 ## Torishima
 
 Albatross were killed here for their feathers from 1887, millions of them,
-until the eruption of 1902 killed all 125 people on the island. It is
-uninhabited now, and the last breeding ground of the short-tailed albatross.
+until the eruption of 1902 killed everyone living on the island. It is
+uninhabited now, and the main breeding ground of the short-tailed albatross.
 
 ## Naoshima
 

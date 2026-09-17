@@ -156,7 +156,7 @@
        saving left the page willing to close without a word, and deleting the
        last mark *cleared* the warning because the count went to zero. */
     function changed(quiet) {
-      linkDirty = true;
+      linkDirty = true; linkEdits++;
       setDirty(true);
       syncFields();
       drawList();
@@ -2896,7 +2896,7 @@
       var nl = $('#ann-nolabel');
       if (nl && nl.checked) f.properties['jem-nolabel'] = true;
       else delete f.properties['jem-nolabel'];
-      linkDirty = true;
+      linkDirty = true; linkEdits++;
       // `changed()` is where this normally happens, and these two handlers do
       // their own drawing instead of calling it — so a title, a description or
       // a date edited after a save left the page willing to close without a
@@ -3232,7 +3232,7 @@
         p['jem-scales'] = st.scales ? 1 : 0;
         if (st.scales !== wasScaled) reseatText(f);
       }
-      linkDirty = true;
+      linkDirty = true; linkEdits++;
       setDirty(true);              // see fieldChanged: this does its own drawing
       /* Only the selected feature: a style belongs to one mark, and a slider
          emits several inputs per frame. Redrawing the layer per input meant a
@@ -3614,7 +3614,6 @@
        map is traced from, and below a pixel at every zoom it allows. A river
        imported from a GIS file carries fifteen; that is where the length of a
        link mostly goes. */
-    var LINK_DP = 4;
 
     function slimCoords(c) {
       if (typeof c[0] === 'number') {
@@ -3704,20 +3703,39 @@
        some browsers suppress altogether. So the press does nothing but read a
        string that is already there — synchronous, inside the gesture, allowed
        everywhere. */
+    /* Returns a promise that settles when the code in hand is current.
+       Numbered: a pack takes time, a mark can be edited while it runs, and
+       the *older* pack used to finish last and clear `linkDirty` over the
+       newer request — the newer `prepLink` then saw a clean flag and did
+       nothing, and the link carried the set as it was before the edit. Seen
+       in `run5` under load: an arrow's curve missing from the link. Only the
+       latest pack may say the link is clean. */
+    /* One pack in flight at a time, and a caller's promise settles only when
+       the code in hand is current. The first cut numbered the packs and let a
+       superseded one fall silent — but the Copy-link button was waiting on
+       *that* pack, so under load it woke to "still being made" and stopped
+       (`run2`, 16 September). Now a second request joins the pack already
+       running, and a pack that finishes after an edit packs again before it
+       answers. `linkEdits` counts the edits; `linkDirty` alone cannot tell a
+       stale pack from a fresh one. */
+    var linkEdits = 0, packWait = null;
     function prepLink() {
       var warn = $('#ann-warn');
       if (!feats.length) {
         if (warn) warn.hidden = true;
-        return;
+        return Promise.resolve();
       }
-      if (!linkDirty) return;
-      var mine = feats;
-      pack(slim(collection())).then(function (code) {
-        if (feats !== mine) return;              // it changed again while we packed
+      if (!linkDirty) return Promise.resolve();
+      if (packWait) return packWait;
+      var at = linkEdits;
+      packWait = pack(slim(collection())).then(function (code) {
+        packWait = null;
+        if (linkEdits !== at) return prepLink();   // it changed while we packed: again
         linkCode = code;
         linkDirty = false;
         tellLinkSize();
-      }, function () { linkCode = null; });
+      }, function () { packWait = null; linkCode = null; });
+      return packWait;
     }
 
     /* Whether these will go in a link, said before the reader presses the
@@ -3784,9 +3802,10 @@
       if (!feats.length) { say('There is nothing to put in a link yet.', 'bad'); return; }
       if (linkDirty || !linkCode) {
         // packing has not finished — do it, then show the field rather than
-        // trying a clipboard write outside the gesture that will be refused
-        prepLink();
-        window.setTimeout(function () { showLink(true); }, 350);
+        // trying a clipboard write outside the gesture that will be refused.
+        // On the pack's own promise, not a timer: 350 ms was enough on a
+        // quiet machine and not on a busy one.
+        prepLink().then(function () { showLink(true); });
         return;
       }
       if (linkCode.length > ANN_URL_MAX) {

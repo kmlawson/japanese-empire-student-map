@@ -57,9 +57,6 @@ A coaling and naval station on an island off the northern tip of Sumatra, comman
 A small island of oil derricks off north-east Borneo, taken on 11 January 1942 within weeks of the war beginning.
 
 ## kupang
-
-Dutch Timor's capital, taken on 20 February 1942 with a parachute landing behind the Australian force, which withdrew into the hills of Portuguese Timor.
-
 > The Yellow River after the dikes were cut at Huayuankou in June 1938 to slow
 > the Japanese advance. The river left its bed and ran south-east down the
 > Chia-lu into the Ying, down the Ying into the Huai, and through Hongze Lake
@@ -69,6 +66,8 @@ Dutch Timor's capital, taken on 20 February 1942 with a parachute landing behind
 > and it stayed there until the breach was closed in 1947. The Late 1942 map
 > uses this course; the 1930 map uses the old one. Traced from the channel map
 > at disasterhistory.org (Chris Courtney, after Saito et al. 2000).
+
+Dutch Timor's capital, taken on 20 February 1942 with a parachute landing behind the Australian force, which surrendered three days later.
 
 # China, Manchuria and the west
 
@@ -206,7 +205,7 @@ A treaty port from 1842 and the great tea shipping port of the nineteenth centur
 
 ## guiyang
 
-The hinge of the road system of the south-west, where the routes from Chongqing, Kunming and Guangxi met. Never occupied: the Japanese advance of December 1944 reached Dushan, a hundred miles short of it, and turned back — the furthest inland the war ever came.
+The hinge of the road system of the south-west, where the routes from Chongqing, Kunming and Guangxi met. Never occupied: the Japanese advance of December 1944 reached Dushan, a hundred miles short of it, and turned back.
 
 ## kunming
 
@@ -266,11 +265,11 @@ The seat of Heilongjiang and the junction of the Chinese Eastern Railway with th
 
 ## jilincity
 
-A timber and river city on the Songhua, taken in September 1931 when its provincial governor went over to the Japanese.
+A timber and river city on the Songhua, taken in September 1931 when the commander of the provincial army went over to the Japanese.
 
 ## mudanjiang
 
-A garrison town and railway junction on the eastern line to Vladivostok, and the first objective of the Soviet armies in August 1945.
+A garrison town and railway junction on the eastern line to Vladivostok, and the scene of one of the few set-piece battles of the Soviet offensive in August 1945.
 
 ## jiamusi
 
@@ -509,7 +508,7 @@ Bombed on 11 December 1941 and abandoned on the 19th; the European population wa
 
 ## ipoh
 
-The tin town of the Kinta valley, taken on 28 December 1941.
+The tin town of the Kinta valley, taken in the advance down the west coast in December 1941.
 
 ## johore
 
@@ -597,7 +596,7 @@ The second city of the islands, taken in April 1942 and a centre of the guerrill
 
 ## davao
 
-Taken on 20 December 1941, and before the war the largest Japanese settlement overseas — some twenty thousand people growing abaca.
+Taken on 20 December 1941, and before the war the largest Japanese community in Southeast Asia — some twenty thousand people growing abaca.
 
 ## iloilo
 
@@ -669,7 +668,7 @@ On the trunk road and railway of the Gangetic plain.
 
 ## benares
 
-The pilgrimage city on the Ganges, and one of the princely states drawn inside the United Provinces on this map.
+The pilgrimage city on the Ganges. The city itself was British territory; the maharaja's state around it, drawn inside the United Provinces here, was recognised as a princely state only in 1911.
 
 ## jaipur
 
@@ -705,7 +704,7 @@ The seat of Travancore, the princely state of the far south-west.
 
 ## vizag
 
-The east-coast port, shelled from the sea by a Japanese submarine in April 1942.
+The east-coast port, bombed on 7 April 1942 by aircraft from the carrier Ryūjō, which set off an exodus from the town.
 
 ## dacca
 
@@ -837,7 +836,7 @@ The Yangtze port below Chongqing where the Tuo river comes in, and a salt and su
 
 ## macaucity
 
-Neutral Portuguese territory throughout the war; its population several times over as refugees came in from Hong Kong and Canton.
+Neutral Portuguese territory throughout the war; its population several times what it had been as refugees came in from Hong Kong and Canton.
 
 ## maebashi
 
@@ -961,7 +960,7 @@ Clark Field, destroyed on the ground on 8 December 1941.
 
 ## aparri
 
-The first Japanese landing in the Philippines, 10 December 1941.
+One of the first Japanese landings on Luzon, 10 December 1941.
 
 ## apia
 
@@ -969,7 +968,7 @@ Optional, and off the present frame: a New Zealand mandate and an American garri
 
 ## asahikawa
 
-The garrison town of northern Hokkaidō and home of the 7th Division, which was destroyed on Attu in 1943.
+The garrison town of northern Hokkaidō and home of the 7th Division, a detachment of which held Attu in 1943.
 
 ## ayutthaya
 
@@ -997,7 +996,7 @@ Already a battle marker; the settlement and the colony’s administrative centre
 
 ## bhamo
 
-On the Burma Road and the Ledo Road’s junction with it.
+On the Ledo Road, where it met a spur of the old Burma Road.
 
 ## bhopal
 
@@ -1029,7 +1028,7 @@ Where MacArthur was flown out of the Philippines in March 1942.
 
 ## camranh
 
-The anchorage where the invasion convoys for Malaya and the Indies assembled in December 1941.
+The anchorage the force for Borneo sailed from in December 1941, and the western invasion force for Java in February 1942.
 
 ## canberra
 
@@ -1089,7 +1088,7 @@ The hill station the French built as a retreat from the delta heat, and where th
 
 ## denpasar
 
-The southern Balinese court town, and where the Dutch conquest ended in the mass suicide of the royal house in 1906.
+The southern Balinese court town, where the Dutch broke the kingdom of Badung in 1906 and its royal house died in a mass suicide.
 
 ## digboi
 
@@ -1189,7 +1188,7 @@ The administrative seat of the Marshalls under the Germans and then the Japanese
 
 ## jambi
 
-A river port and oilfield south of Palembang, on the same Sumatran field.
+A river port on the Batang Hari north of Palembang, shipping the oil and rubber of its own field.
 
 ## jolo
 
@@ -1213,7 +1212,7 @@ The New Ireland anchorage that with Rabaul made the northern hinge of the Bismar
 
 ## kendari
 
-The airfield taken in January 1942 — the best in the Indies, and the base from which Java and Darwin were bombed.
+The airfield taken on 24 January 1942 against almost no resistance, wanted for its position and the quality of its works. Darwin was bombed from it on 19 February.
 
 ## kengtung
 
@@ -1237,7 +1236,7 @@ Already a battle marker for the first landing of the Pacific War; also a state c
 
 ## kualalipis
 
-The seat of Pahang, chosen because it sat on the railway rather than because anyone lived there.
+The seat of Pahang from 1898 to 1955, a gold-mining centre before the British came, which grew when the railway reached it in 1924.
 
 ## kualaterengganu
 
@@ -1253,7 +1252,7 @@ The rice port: the outlet through which the Chŏlla harvest left for Japan, and 
 
 ## kushiro
 
-The coal port of eastern Hokkaidō, and a fishing base for the northern grounds. Shelled from the sea in July 1945.
+The coal port of eastern Hokkaidō, and a fishing base for the northern grounds. Burnt out by carrier aircraft on 14–15 July 1945.
 
 ## bandaaceh
 
@@ -1301,7 +1300,7 @@ On the Fen river in southern Shanxi, taken in 1938 and held as a garrison town o
 
 ## laohekou
 
-Fourteenth Air Force base and the object of the last Japanese offensive in China, 1945.
+Fourteenth Air Force base and the object of a Japanese offensive in the spring of 1945.
 
 ## manzhouli
 
@@ -1409,7 +1408,7 @@ Capital of French India, which declared for the Free French in September 1940.
 
 ## portblair
 
-The only Indian territory Japan occupied, from March 1942; nominally handed to the Provisional Government of Free India in 1943, and the site of the penal settlement.
+The only Indian territory Japan held for any length of time, from March 1942; nominally handed to the Provisional Government of Free India in 1943, and the site of the penal settlement.
 
 ## prachuap
 
@@ -1457,7 +1456,7 @@ The Brunei oilfield, struck in 1929, and the reason Japanese troops came ashore 
 
 ## shikuka
 
-The northernmost Japanese town on Sakhalin, on the frontier with the Soviet half.
+The northernmost town of Japanese Sakhalin, below the 50th-parallel border with the Soviet half.
 
 ## shillong
 
@@ -1493,7 +1492,7 @@ The Perak tin town where the Larut wars brought in British rule in 1874, and the
 
 ## taitung
 
-The last of the eight Taiwanese prefectural seats missing from the layer.
+The seat of Taitō-chō, on the south-east coast between the mountains and the Pacific.
 
 ## taunggyi
 
@@ -1645,8 +1644,7 @@ Laid out from 1939 as a new capital to replace Manila, and still mostly plans an
 
 ## beihai
 
-The Gulf of Tonkin treaty port opened in 1876, the outlet for Guangxi before the
-French built the railway from Haiphong, and occupied in 1940.
+The Gulf of Tonkin treaty port opened in 1876, the outlet for Guangxi before the French built the railway from Haiphong.
 
 ## daxi
 A camphor and tea town on the Dahan, at the head of the navigable water. It was called Dakekan until 1920, and the name a reader meets in accounts of the camphor frontier is that one.
@@ -1804,7 +1802,7 @@ Where Alaungpaya raised the Konbaung dynasty in 1752, and its first capital.
 
 ## amarapura
 
-Royal capital from 1783 and again from 1841, until the court moved to Mandalay.
+Royal capital from 1783 and again from 1842, until the court moved to Mandalay.
 
 ## insein
 

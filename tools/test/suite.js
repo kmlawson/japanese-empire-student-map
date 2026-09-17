@@ -37,7 +37,7 @@ const puppeteer = (function () {
   process.exit(1);
 })();
 
-const { ready, until, sleep } = require('./settle.js');
+const { ready, until, sleep, calm } = require('./settle.js');
 const { sandboxDownloads } = require('./downloads.js');
 
 /* ---------------------------------------------------------------- checks --
@@ -46,6 +46,7 @@ const { sandboxDownloads } = require('./downloads.js');
    `process.exit`. */
 let pass = 0, fail = 0;
 const failures = [];
+const pages = [];      // every page `open()` made, for the closing check
 function check(name, cond, detail) {
   if (cond) { pass++; console.log('  ok   ' + name); return true; }
   fail++;
@@ -54,7 +55,18 @@ function check(name, cond, detail) {
   console.log('  FAIL ' + line);
   return false;
 }
+/* Ends with one check per page: that nothing threw. An uncaught exception
+   in map.js used to be invisible to a script that did not ask — every check
+   it made could still pass around the hole — and the second duplicate
+   function name of 15 September 2026 was found by a *crash* in `trains`
+   rather than by the error it raised on every page. `open()` collects them on
+   `p.__errs`; this fails the script on any, and prints the first three. */
 function report() {
+  pages.forEach(p => {
+    const errs = p.__errs || [];
+    check('no page errors on ' + (p.__url || 'page'), errs.length === 0,
+          errs.length ? errs.slice(0, 3).join(' | ') : '');
+  });
   console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
   if (fail) failures.forEach(f => console.log('   × ' + f));
   return fail;
@@ -106,7 +118,8 @@ async function launch(opts) {
    `width`/`height`, `accept` (answer confirms yes rather than no), `then`
    (milliseconds to settle after the map is ready — for a transition, not a
    guess), `ready: false` (do not wait for the map: the page is not the map).
-   Page errors are collected on `p.__errs` for the closing check. */
+   Page errors are collected on `p.__errs`, and `report()` fails the script
+   on any. */
 async function open(browser, url, opts) {
   const o = opts || {};
   const p = await browser.newPage();
@@ -116,16 +129,18 @@ async function open(browser, url, opts) {
   if (!o.touch && o.shim !== false) await p.evaluateOnNewDocument(SHIM);
   p.__errs = [];
   p.on('pageerror', e => p.__errs.push(String(e)));
+  pages.push(p);
   p.on('dialog', async d => {
     if (d.type() === 'beforeunload') { await d.accept(); return; }
     await (o.accept ? d.accept() : d.dismiss());
   });
   let target = url || BASE;
   if (target.charAt(0) === '?' || target.charAt(0) === '#') target = BASE + target;
+  p.__url = target.replace(HOST, '');
   await p.goto(target, { waitUntil: 'domcontentloaded' });
   if (o.ready !== false) await ready(p, { then: o.then });
   return p;
 }
 
-module.exports = { puppeteer, sleep, ready, until, check, report, SHIM,
+module.exports = { puppeteer, sleep, ready, until, calm, check, report, SHIM,
                    launch, open, BASE, HOST, sandboxDownloads };

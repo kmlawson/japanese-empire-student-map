@@ -1378,7 +1378,9 @@ const shutDialogs=p=>p.evaluate(()=>{
       await shutDialogs(ta);
       await ta.evaluate(()=>{const r=document.querySelector('#opt-tw-rail');
         if(r&&!r.checked){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}});
-      await sleep(2000);
+      await until(ta, ()=>{const g=document.getElementById('tw-rail');
+        return !!g && getComputedStyle(g).display!=='none';});
+      await sleep(200);
       await ta.evaluate(()=>{const b=document.querySelector('#layer-seg button[data-cat="territory"]');
         if(b&&b.getAttribute('aria-pressed')!=='true') b.click();});
       await sleep(3000);
@@ -1448,7 +1450,12 @@ const shutDialogs=p=>p.evaluate(()=>{
     const href = await ta.evaluate(() => location.href);
     await ta.goto(href, {waitUntil:'domcontentloaded'});
     await ready(ta);
-    await sleep(5000);
+    /* the two things the check reads, waited for; a link that fails to bring
+       them runs the wait out and the check says so as before */
+    await until(ta, ()=>!!document.querySelector('#train-bar')
+      && (document.querySelector('#layer-seg button[data-cat="territory"]')||{getAttribute(){}}).getAttribute('aria-pressed')==='true',
+      null, {timeout:8000}).catch(()=>{});
+    await sleep(300);
     st = await adminIs();
     check('a shared link with both on opens with both on',
       st.on === true && st.tools === true, JSON.stringify(st) + '  ' + href.slice(-60));

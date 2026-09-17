@@ -35,6 +35,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rail_route
 import trains_split
+from trains_lib import grab, read_stations
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -192,13 +193,6 @@ def name_key(s):
     return ''.join(VARIANTS.get(c, c) for c in s).lower()
 
 
-def grab(text, name):
-    """One `const NAME = <json>;` line out of the source bundle."""
-    i = text.index('const %s = ' % name) + len('const %s = ' % name)
-    j = text.index('\n', i)
-    return json.loads(text[i:j].rstrip().rstrip(';'))
-
-
 def pinyin_table():
     """The Mandarin readings, shared with tools/build_tw_stations.py.
 
@@ -221,10 +215,7 @@ def pinyin_table():
 
 
 def our_stations():
-    """tw-stations.js, which is JSON with a JS wrapper and trailing commas."""
-    txt = open(os.path.join(SITE, 'tw-stations.js'), encoding='utf-8').read()
-    body = txt[txt.index('['):txt.rindex(']') + 1]
-    return json.loads(re.sub(r',\s*([\]}])', r'\1', body))
+    return read_stations('tw')
 
 
 def build_js(anchors=None):

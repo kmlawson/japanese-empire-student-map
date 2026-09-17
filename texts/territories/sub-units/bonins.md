@@ -33,7 +33,7 @@ is what decided its history.
 
 ## Kita-Iō-tō
 
-A cone with no harbour and no flat ground, farmed in terraces by a few hundred
+A cone with no harbour and no flat ground, farmed in terraces by about a hundred
 people until they were taken off in 1944. Uninhabited since.
 
 ## Minami-Iō-tō

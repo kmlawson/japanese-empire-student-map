@@ -13,45 +13,47 @@ below are what it holds, named relative to it.
 
 | file | size | gzipped | when it loads |
 | --- | ---: | ---: | --- |
-| `index.html` | 12 KB | 5 KB | first |
-| `styles.css` | 57 KB | 18 KB | first |
-| `lean/map.js` | 411 KB | 105 KB | first — the shipped copy of `map.js`, comments stripped |
-| `lean/annotate.js` | — | — | when **Create** or **Load annotations** is pressed |
-| `lean/admin.js` | — | — | if the author option-clicks Layers |
-| `lean/trains.js` | — | — | when the train tools are asked for |
-| `lean/air-play.js` | — | — | when the plane tools are asked for |
-| `map.js` | 844 KB | 272 KB | never fetched by a reader: the source, kept beside its lean copy |
-| `data.js` | 564 KB | 169 KB | first |
-| `cities-gaz.js` | 94 KB | 23 KB | first |
-| `japan-empire-map.svg` | 2,784 KB | 797 KB | first |
-| `japan-empire-map-admin.svg` | 1,159 KB | 327 KB | when **Administrative** is pressed |
-| `japan-empire-map-fine.svg` | 635 KB | 128 KB | on a deep zoom, for the fine coastlines |
-| `japan-empire-map-roc.svg` | 698 KB | 243 KB | if the reader switches China's province source |
+| `index.html` | 71 KB | 23 KB | first |
+| `styles.css` | 186 KB | 58 KB | first |
+| `lean/map.js` | 455 KB | 117 KB | first — the shipped copy of `map.js`, comments stripped; the source stays at the repository root |
+| `data.js` | 1,223 KB | 288 KB | first |
+| `cities-gaz.js` | 105 KB | 26 KB | first |
+| `japan-empire-map.svg` | 3,816 KB | 1,093 KB | first |
+| `lean/annotate.js` | 152 KB | 39 KB | when **Create** or **Load annotations** is pressed — the shipped copy of `annotate.js` |
+| `lean/trains.js` | 45 KB | 13 KB | when the train tools are asked for — the shipped copy of `trains.js` |
+| `lean/air-play.js` | 20 KB | 7 KB | when the plane tools are asked for — the shipped copy of `air-play.js` |
+| `lean/admin.js` | 59 KB | 16 KB | if the author option-clicks Layers — the shipped copy of `admin.js` |
+| `japan-empire-map-admin.svg` | 1,485 KB | 412 KB | when **Administrative** is pressed |
+| `japan-empire-map-fine.svg` | 976 KB | 186 KB | on a deep zoom, for the fine coastlines |
+| `japan-empire-map-roc.svg` | 698 KB | 244 KB | if the reader switches China's province source |
 | `japan-empire-map-korea.svg` | 1,376 KB | 349 KB | on a deep zoom over Korea, for its provinces |
-| `sources.html` | 48 KB | 18 KB | from the link in About |
-| `annotate.js` | 61 KB | 17 KB | when **Create** or **Load annotations** is pressed |
-| `relief.js` | 2 KB | 1 KB | when **Topo** is pressed |
-| `trains.js` | 46 KB | 15 KB | when the train tools are asked for |
-| `tw-trains.js` | 182 KB | 46 KB | with them, over Taiwan — the track, the stations and the line colours |
-| `tw-times.js` | 102 KB | 22 KB | and its timetable, when the reader runs the clock or opens a line or a station |
-| `kr-trains.js` | 1,026 KB | — | with them, over Korea, its connections now routed along Manchuria's track |
-| `kr-times.js` | 455 KB | 97 KB | and its timetable, on the same terms |
-| `kf-trains.js` | 45 KB | 16 KB | with them, over Karafuto |
-| `kf-times.js` | 24 KB | 7 KB | and its timetable, on the same terms |
-| `mn-trains.js` | 1058 KB | — | with them, over Manchuria — and, behind the connections switch, the Korean and Japanese lines the same booklet prints |
-| `mn-times.js` | 494 KB | — | and its timetable, on the same terms |
-| `tw-stations.js` | 50 KB | 11 KB | when Taiwan's stations are switched on (fetched then, not with the page) |
-| `kr-stations.js` | 229 KB | 38 KB | when Korea's are |
+| `japan-empire-map-tw-sugar.svg` | 182 KB | 38 KB | when Taiwan's sugar railways are switched on |
+| `japan-empire-map-ne.svg` | 1,729 KB | 590 KB | only by `admin.js`, as an unsimplified coastline to check against; no reader loads it |
+| `sources.html` | 44 KB | 17 KB | from the link in About |
+| `relief.js` | 2 KB | 1 KB | when **Topo** is pressed — the manifest for the sheets in `relief/` |
+| `tw-trains.js` | 181 KB | 46 KB | with the train tools, over Taiwan — the track, the stations and the line colours |
+| `tw-times.js` | 101 KB | 23 KB | and its timetable, when the reader runs the clock or opens a line or a station |
+| `kr-trains.js` | 1,018 KB | 305 KB | with them, over Korea, its connections routed along Manchuria's track |
+| `kr-times.js` | 455 KB | 100 KB | and its timetable, on the same terms |
+| `kf-trains.js` | 45 KB | 15 KB | with them, over Karafuto |
+| `kf-times.js` | 23 KB | 6 KB | and its timetable, on the same terms |
+| `mn-trains.js` | 1,061 KB | 280 KB | with them, over Manchuria — and, behind the connections switch, the Korean and Japanese lines the same booklet prints |
+| `mn-times.js` | 495 KB | 106 KB | and its timetable, on the same terms |
+| `tw-stations.js` | 52 KB | 11 KB | when Taiwan's stations are switched on (fetched then, not with the page) |
+| `kr-stations.js` | 230 KB | 38 KB | when Korea's are |
 | `kf-stations.js` | 41 KB | 8 KB | when Karafuto's are |
-| `mn-stations.js` | 117 KB | — | when Manchuria's are |
-| `jp-rails.js` | 1,706 KB | 328 KB | when **Japan Railways** is switched on — 1,977 lines, never with the page |
-| `themes.js` | 100 KB | 30 KB | when a **thematic layer** is opened from the book beside the map |
-| `jp-stations.js` | 1,059 KB | 210 KB | when **Show Japan Stations** is — 12,800 places |
-| `air-play.js` | 29 KB | 11 KB | when the plane tools are asked for |
-| **total** | **9.4 MB** | **2.65 MB** | |
+| `mn-stations.js` | 181 KB | 35 KB | when Manchuria's are |
+| `jp-rails.js` | 1,784 KB | 338 KB | when **Japan Railways** is switched on — 1,977 lines, never with the page |
+| `jp-stations.js` | 1,058 KB | 215 KB | when **Show Japan Stations** is — 12,800 places |
+| `themes.js` | 111 KB | 34 KB | when a **thematic layer** is opened from the book beside the map |
+| `timetable/` (6 pages) | 4,074 KB | 682 KB | one at a time, when a card's link to its printed table is followed |
+| `relief/` (9 `.webp` sheets) | 6,906 KB | — | when **Topo** is pressed; one sheet per projection and zoom band, fetched as asked for |
+| **total** | **29.7 MB** | **12.4 MB** | |
 
-Only the first six are fetched before the map is on screen: **3.7 MB raw,
-1.08 MB gzipped**. The rest wait until something asks for them, and a reader
+Sizes measured on 17 September 2026, at update 372, gzip level 6.
+
+Only the first six are fetched before the map is on screen: **5.7 MB raw,
+1.57 MB gzipped**. The rest wait until something asks for them, and a reader
 who never presses Administrative — or never draws on the map, or never runs a
 timetable — never downloads those.
 
@@ -79,8 +81,9 @@ map works without it; what it does is make the compression below actually
 happen. It is a dotfile, so an SFTP client will hide it until you turn on
 "show hidden files".
 
-`admin.js` (32 KB) is the text-editing tool, fetched only if you option-click
-Layers. A reader never loads it. Leave it out unless you want it.
+`lean/admin.js` (59 KB) is the text-editing tool, fetched only if you option-click
+Layers, and `japan-empire-map-ne.svg` (1.7 MB) is fetched only by it. A reader
+never loads either. Leave them out unless you want them.
 
 ## Send index.html last
 
@@ -95,7 +98,7 @@ is silent and it lasts a week, so it is worth the ordering.
 
 ## Serve them gzipped
 
-The map is 1.8 MB compressed against 6.1 MB raw, so this is the one server
+A first view is 1.57 MB compressed against 5.7 MB raw, so this is the one server
 setting worth checking. Most hosts do it for `.html` and `.css`
 already and forget `.svg`, which is where two thirds of the weight is. On
 Apache the `.htaccess` in this repository handles it.
@@ -103,23 +106,28 @@ Apache the `.htaccess` in this repository handles it.
 One trap, if you are writing the rules yourself: `.js` is served as
 `text/javascript` by a current Apache and `application/javascript` by an older
 one, so a compression rule naming only one of them silently misses `map.js`,
-`data.js` and `cities-gaz.js` — 877 KB where 261 KB would do. List both.
+`data.js` and `cities-gaz.js` — 1.7 MB where 431 KB would do. List both.
 
 GitHub Pages, Netlify, Cloudflare Pages and Vercel all do this without being
 asked.
 
 ## Checking it worked
 
-Open the page and press each of **Cities**, **Events**, **Administrative** and
-**Other**, then switch to **Dec 1942** and zoom in a long way. That exercises
-every file in the list: Administrative pulls the admin sheet, a deep zoom pulls
-the fine coastlines, and the province-source radio in Layers pulls the ROC one.
-If the console stays empty, everything it needs is there.
+```
+python3 tools/check_deploy.py https://your.host/path/to/the/map/
+```
 
-That is how the list above was arrived at rather than guessed: the ten files
-were copied to an empty directory, served on their own, and put through exactly
-that sequence — no failed requests, no console errors, 85 territories, 1,293
-divisions, 127 city markers.
+fetches the deployed page, reads the cache keys out of it, and fetches every
+file the site would fetch — checking that each is present, that it is served
+compressed, and that its contents match the key it was asked for. Exit code 0
+if everything matches.
+
+By hand: open the page and press each of **Cities**, **Events**,
+**Administrative**, **Other** and **Topo**, then switch to **Dec 1942**, zoom
+in a long way, and switch on a railway and its train tools. If the console
+stays empty, everything those asked for is there. It does not reach every file
+in the table — the station layers, the thematic layers and the plane tools
+each have a switch of their own — which is why the script exists.
 
 ## If you would rather upload one file
 

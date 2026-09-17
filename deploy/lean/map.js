@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '372';
+  var JEM_VERSION = '373';
 
 
 
@@ -2213,7 +2213,7 @@
 
   function buildJpRails() {
     if (jpRailGroup) return;
-    var g = svgEl('g', { id: 'jp-rail' });
+    var g = svgEl('g', { id: 'jp-rail', 'class': 'rail-net' });
     g.style.display = 'none';
     (JMAP.JP_RAILS || []).forEach(function (r) {
       var f = r.p, d = '';
@@ -2256,7 +2256,14 @@
     saveState();
   }
 
-  function railFade() {
+
+
+
+
+
+
+
+  function railFade(frame) {
 
 
 
@@ -2308,12 +2315,12 @@
 
 
 
-    applyAir();
+    if (frame) applyAirFrame(); else applyAir();
     syncMapButtons();
 
 
 
-    syncLayerInfo();
+    if (!frame) syncLayerInfo();
   }
 
 
@@ -2339,7 +2346,21 @@
 
 
 
+
+
+
+  var vllFor = null;
   function viewLonLat() {
+    if (vllFor && vllFor.x === view.x && vllFor.y === view.y
+        && vllFor.w === view.w && vllFor.h === view.h && vllFor.mode === projMode) {
+      return vllFor.v;
+    }
+    var v = viewLonLatNow();
+    vllFor = { x: view.x, y: view.y, w: view.w, h: view.h, mode: projMode, v: v };
+    return v;
+  }
+
+  function viewLonLatNow() {
     var pts = [[view.x, view.y], [view.x + view.w, view.y],
                [view.x, view.y + view.h], [view.x + view.w, view.y + view.h]];
     var w = Infinity, s2 = Infinity, e = -Infinity, n = -Infinity;
@@ -2577,11 +2598,11 @@
 
 
 
-  var btnStationsSyss = [];
 
 
   var btnStaEl = null, btnTrnEl = null, btnSugarEl = null, btnRailEl = null;
-  var btnAirEl = null, btnThemeEl = null;
+  var btnAirEl = null, btnThemeEl = null, rowTrnEl = null;
+  var rstEl = null;                 // the reset button, for `applyView`
   var btnElsFound = false;
 
 
@@ -2597,7 +2618,10 @@
       btnRailEl = $('#btn-rail');
       btnAirEl = $('#btn-air');
       btnThemeEl = $('#btn-theme');
+      rowTrnEl = $('#row-train-tools');
     }
+
+    var under = railUnderView();
 
 
 
@@ -2640,7 +2664,7 @@
 
 
 
-    var railSys = railZone() || railUnderView();
+    var railSys = railZone() || under;
     if (btnRailEl) {
       if (btnRailEl.hidden) btnRailEl.hidden = false;
 
@@ -2695,7 +2719,7 @@
 
 
     if (btnSugarEl) {
-      var sugarHere = (railUnderView() === 'tw' || trainDraws('tw'))
+      var sugarHere = (under === 'tw' || trainDraws('tw'))
         && (state.twRail || trainDraws('tw'));
       if (btnSugarEl.hidden !== !sugarHere) btnSugarEl.hidden = !sugarHere;
       var sp = state.twSugar ? 'true' : 'false';
@@ -2708,7 +2732,7 @@
       }
     }
     if (!btnStaEl && !btnTrnEl) return;
-    var sys = railUnderView();
+    var sys = under;
 
 
 
@@ -2729,7 +2753,6 @@
         && connReaches(sys)) {
       syss.push(mounted);
     }
-    btnStationsSyss = syss;
     var bs = btnStaEl;
     if (bs) {
 
@@ -2767,8 +2790,7 @@
 
 
     var noRail = railsAllOff() && !state.trainTools;
-    var trRow = $('#row-train-tools');
-    if (trRow && trRow.hidden !== noRail) trRow.hidden = noRail;
+    if (rowTrnEl && rowTrnEl.hidden !== noRail) rowTrnEl.hidden = noRail;
     if (bt) {
       var zone = trainZone();
       var hide = !zone || noRail;
@@ -2813,10 +2835,14 @@
 
   var RAIL_ONLY = ['burmaRail'];
 
+  var railSwitchKeys = null;      // the registries do not change after boot
   function railSwitches() {
-    return Object.keys(STATION_SYS).map(function (k) {
-      return STATION_SYS[k].rail;
-    }).concat(RAIL_ONLY);
+    if (!railSwitchKeys) {
+      railSwitchKeys = Object.keys(STATION_SYS).map(function (k) {
+        return STATION_SYS[k].rail;
+      }).concat(RAIL_ONLY);
+    }
+    return railSwitchKeys;
   }
 
   function railsAllOff() {
@@ -2825,30 +2851,6 @@
 
   function dropToolsWithRails() {
     if (state.trainTools && railsAllOff()) setTrainTools(false);
-  }
-
-
-
-
-
-
-
-
-
-
-
-  var RAIL_FLASH_HOLD = 900, RAIL_FLASH_FADE = 600;
-  var railFlashEnd = 0, railFlashTimer = 0;
-
-  function railFlash() {
-    railFlashEnd = Date.now() + RAIL_FLASH_HOLD + RAIL_FLASH_FADE;
-    if (railFlashTimer) return;
-    var step = function () {
-      railFlashTimer = 0;
-      railFade();
-      if (Date.now() < railFlashEnd) railFlashTimer = requestAnimationFrame(step);
-    };
-    railFlashTimer = requestAnimationFrame(step);
   }
 
 
@@ -2903,10 +2905,6 @@
 
 
     var a = railAlpha();
-    var left = railFlashEnd - Date.now();
-    if (left > 0) {
-      a = Math.max(a, left > RAIL_FLASH_FADE ? 1 : left / RAIL_FLASH_FADE);
-    }
     group.style.opacity = String(a);
     group.style.display = a > 0.02 ? '' : 'none';
     if (a <= 0.02) return;
@@ -2914,9 +2912,26 @@
     var t = view.w <= tieOn ? 1
           : view.w >= tieOff ? 0
           : (tieOff - view.w) / (tieOff - tieOn);
-    $$('path.rail-tie', group).forEach(function (el) {
-      el.style.opacity = String(t);
-    });
+
+
+
+
+
+
+
+
+
+
+    if (!group.__ties || group.__tieN !== group.childElementCount) {
+      group.__ties = $$('path.rail-tie', group);
+      group.__tieN = group.childElementCount;
+      group.__tieT = null;
+    }
+    if (group.__tieT !== t) {
+      group.__tieT = t;
+      var ts = String(t);
+      for (var i = 0; i < group.__ties.length; i++) group.__ties[i].style.opacity = ts;
+    }
   }
 
 
@@ -3433,6 +3448,8 @@
     };
   }
 
+
+
   function drawRelief() {
     if (!svg) return;
     var L = reliefLevel();
@@ -3510,6 +3527,8 @@
       }
     }
   }
+
+
 
   function drawGraticule() {
     if (!svg) return;
@@ -3654,6 +3673,8 @@
 
 
 
+
+
   function reframe() {
     var ocean = svg.querySelector('#ocean');
     var frame = svg.querySelector('#frame');
@@ -3721,7 +3742,7 @@
 
 
     if (annApi) annApi.reproject();
-    if (lastScaleW > 0) rescale();
+    if (lastScaleW > 0) rescale(true);   // every position moved, the hidden ones too
     applyView(true);
     placeLabels();
   }
@@ -3892,6 +3913,8 @@
 
   var jpRailGroup = null;
   var staRecs = [];                   // the station records, to re-register
+
+
   var buildStations = null;           // set in buildSiteLabels, called on demand
 
 
@@ -4404,6 +4427,8 @@
     });
   }
 
+
+
   function applyGazetteer() {
     if (!gazGroup) return;
     var on = state.cats.city && !!JMAP.GAZ;
@@ -4419,9 +4444,12 @@
       g.el.style.display =
         (g.epoch === state.epoch && (g.always || g.tier >= floor)) ? '' : 'none';
     });
+    placeRevealed();
   }
 
   var labelLayer = null;
+
+
 
   function buildSiteLabels() {
     labelLayer = svgEl('g', { id: 'labels' });
@@ -5920,7 +5948,8 @@
     svg.classList.toggle('zoomed-in', view.w < home.w / 3.2);
 
 
-    var rst = $('#zoom-reset');
+    if (!rstEl) rstEl = $('#zoom-reset');   // held: this runs on every frame
+    var rst = rstEl;
     if (rst) {
 
 
@@ -5936,7 +5965,7 @@
     if (state.graticule) drawGraticule();
 
     reliefFade();
-    railFade();
+    railFade(true);
     if (force || Math.abs(view.w - lastScaleW) > 0.01) {
       lastScaleW = view.w;
       rafZoomed = true;
@@ -5988,6 +6017,8 @@
     fineTimer = setTimeout(function () {
       fineTimer = 0;
 
+
+      measureLabels();
       lastPlaced = 0;
       placeLabels();
       syncFine();
@@ -6104,6 +6135,27 @@
     var t = 'translate(' + s.x + ' ' + s.y + ') scale(' + k + ')';
     if (ox || oy) t += ' translate(' + ox + ' ' + oy + ')';
     s.el.setAttribute('transform', t);
+    s.atK = k;                 // the zoom this transform was written for
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  function placeRevealed() {
+    if (lastScaleW <= 0) return;
+    var k = view.w / containerSize().w;
+    for (var i = 0; i < scalables.length; i++) {
+      var s = scalables[i];
+      if (s.atK !== k && s.el.style.display !== 'none') placeScalable(s, k);
+    }
   }
 
 
@@ -6130,7 +6182,11 @@
     if (annApi && annApi.rescaled) annApi.rescaled(k);
   }
 
-  function rescale() {
+
+
+
+
+  function rescale(all) {
     var c = containerSize();
     var k = view.w / c.w;                       // SVG units per screen pixel
     for (var i = 0; i < scalables.length; i++) {
@@ -6139,6 +6195,10 @@
         s.oy = isleOffset(s.label, k);
         s.label.dy = s.oy;
       }
+
+
+
+      if (!all && s.el.style.display === 'none') { s.atK = 0; continue; }
       placeScalable(s, k);
     }
 
@@ -6149,7 +6209,7 @@
 
     setPinBlur(k);
     reliefFade();
-    railFade();
+    railFade(true);
 
 
 
@@ -6552,7 +6612,7 @@
   function gateLabels() {
     ensureSubLabels();
     ensurePopValues();
-    var measure = [];
+    var measure = labelMeasure;
 
 
 
@@ -6634,6 +6694,29 @@
 
 
 
+
+
+
+
+
+
+    if (fineTimer) return;
+    measureLabels();
+  }
+
+
+
+
+
+  var labelMeasure = [];
+  function measureLabels() {
+    var measure = labelMeasure;
+    if (!measure.length) return;
+    labelMeasure = [];
+    for (var m = 0; m < measure.length; m++) {
+      var M = measure[m];
+      if (!M.shown && M.txt) { M.el.style.display = ''; M.shown = true; }
+    }
     for (var m = 0; m < measure.length; m++) {
       var M = measure[m], real = 0;
       try {
@@ -6956,6 +7039,7 @@
       if (isIsle) isles++;
       show(L, true);
     }
+    placeRevealed();
   }
 
   function clientToSvg(cx, cy) {
@@ -7416,7 +7500,7 @@
           view.x -= sdx * sscale;
           view.y -= sdy * sscale;
           dropForGesture();
-          applyView();
+          applyViewSoon();
         }
       }
       spaceFrom = { x: e.clientX, y: e.clientY };
@@ -7452,7 +7536,7 @@
       view.h = newW / (c.w / c.h);
       view.x = pinchStart.svgMid.x - (now.mid.x - r.left) * k;
       view.y = pinchStart.svgMid.y - (now.mid.y - r.top) * k;
-      applyView();
+      applyViewSoon();
       return;
     }
 
@@ -7486,6 +7570,29 @@
     var scale = view.w / cs.w;
     view.x = dragStart.vx - dx * scale;
     view.y = dragStart.vy - dy * scale;
+    applyViewSoon();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  var viewRaf = 0;
+  function applyViewSoon() {
+    if (viewRaf) return;
+    viewRaf = requestAnimationFrame(function () { viewRaf = 0; applyView(); });
+  }
+  function flushView() {
+    if (!viewRaf) return;
+    cancelAnimationFrame(viewRaf);
+    viewRaf = 0;
     applyView();
   }
 
@@ -7519,6 +7626,7 @@
   }
 
   function onPointerUp(e) {
+    flushView();               // whatever the last move asked for, now
     var had = pointers.size;
     if (!pointers.has(e.pointerId)) return;
     pointers.delete(e.pointerId);
@@ -7854,6 +7962,73 @@
 
 
 
+
+  function openCard(opts) {
+    var o = opts || {};
+    infoBox.hidden = false;
+    document.body.classList.add('panel-open');
+    if (o.relabel) {
+      hideTooltip();
+      gateLabels();
+      placeLabels();
+    }
+    if (o.clear) keepClear(o.clear);
+  }
+
+
+
+
+
+
+  function fillCardHead(block) {
+    var chip = $('.chip', infoBox);
+    chip.textContent = block.chip || '';
+    chip.style.setProperty('--chip', block.colour || 'var(--muted)');
+    $('.primary', infoBox).textContent = block.primary || '';
+    $('.alt', infoBox).textContent = block.alt || '';
+    var prov = $('.prov', infoBox);
+    prov.textContent = block.prov || '';
+    prov.hidden = !block.prov;
+    var when = $('.when', infoBox);
+    when.textContent = '';
+    when.hidden = true;
+    var own = $('.note-own', infoBox);
+    setProse(own, block.note || '');
+    own.hidden = !block.note;
+    var grp = $('.note-group', infoBox);
+    setProse(grp, '');
+    grp.hidden = true;
+    grp.setAttribute('data-group', '');
+    var flip = $('#info-flip', infoBox);
+    if (flip) flip.hidden = true;
+    var pop = $('#info-pop');
+    if (pop) { pop.innerHTML = ''; pop.hidden = true; }
+  }
+
+
+
+
+
+  function showBlockCard(block, render) {
+    markSelected(selected, false);
+    selected = null;
+    selCluster = null;
+    redrawHighlight();
+    fillCardHead(block);
+    render($('#info-trains'));
+    collapseInfo();
+    openCard({ relabel: true });
+  }
+
+
+
+
+
+
+
+
+
+
   function selectPlane(idx) {
     if (!airApi || !airApi.mounted() || airApi.playing()) return false;
     var d = airApi.planAt(idx);
@@ -7913,8 +8088,7 @@
     wrap.appendChild(ol);
     host.appendChild(wrap);
 
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
+    openCard();
     return true;
   }
 
@@ -8247,6 +8421,8 @@
 
 
   var CLUSTER_HOME = { 'Straits Settlements': 'malaya' };
+
+
 
 
 
@@ -8663,9 +8839,7 @@
 
 
 
-
   var themeLayer = null, themeState = 'none', themeShown = '';
-  var themeMenuEl = null;
 
 
   var themeRestore = null;
@@ -10457,12 +10631,7 @@
       buildLegend();
       saveState();
     }
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
-    hideTooltip();
-    gateLabels();
-    placeLabels();
-    keepClear(id);
+    openCard({ relabel: true, clear: id });
   }
 
 
@@ -10752,7 +10921,6 @@
 
 
 
-  var popTableAt = null;          // which dataset the box is showing
 
   function openPopTable(key, want) {
     var dlg = tableBox();
@@ -10766,7 +10934,6 @@
       || sets.filter(function (x) { return x.rows[key] && x.epoch === year; })[0]
       || sets.filter(function (x) { return x.rows[key]; })[0]
       || sets[0];
-    popTableAt = d;
     $('.table-title', dlg).textContent = 'Population';
     var open = $('.table-open', dlg);
     if (open) open.hidden = true;          // nothing to open: this is not a page
@@ -12108,8 +12275,7 @@
         r.source, r.srcUrl);
     }
 
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
+    openCard();
   }
 
 
@@ -12441,8 +12607,7 @@
         : []),
       srcs[0] || '', (mine[0] || {}).srcUrl || '');
 
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
+    openCard();
   }
 
 
@@ -13199,6 +13364,14 @@
     syncLayerInfo();
   }
 
+
+
+
+  function applyAirFrame() {
+    if (!airGroup || !state.air) return;
+    airGroup.classList.toggle('air-close', latSpan() <= AIR_NAME_CLOSE_LAT);
+  }
+
   function applyAir() {
     if (!airGroup) return;
     airGroup.style.display = state.air ? '' : 'none';
@@ -13451,6 +13624,8 @@
 
 
 
+
+
   function pathToRings(d) {
     var rings = [], cur = null, re = /([MLZ])([^MLZ]*)/g, m;
     while ((m = re.exec(String(d || '')))) {
@@ -13632,7 +13807,7 @@
 
   function railSysOf(target) {
     if (!target || !target.closest) return '';
-    var g = target.closest('#tw-rail, #kr-rail, #kf-rail, #mn-rail, #jp-rail');
+    var g = target.closest('.rail-net');
     if (!g) return '';
     return String(g.id || '').replace(/-rail$/, '');
   }
@@ -14374,6 +14549,8 @@
     if (e.key === 'Escape') closeMenu();
   });
 
+
+
   function addCsvButton(wrap, tableEl, title, notes, source) {
     if (!tableEl || !tableEl.tableSpec) return;
     var row = document.createElement('p');
@@ -14784,46 +14961,17 @@
 
 
 
+
+
   function showRailCard(sys) {
     var inf = RAIL_INFO[sys];
     if (!inf || !infoBox) return;
-    markSelected(selected, false);
-    selected = null;
     trainCardWaiting = -1;
-    selCluster = null;
-    redrawHighlight();
     setRailPicked(sys);
-
-    var chip = $('.chip', infoBox);
-    chip.textContent = 'Railway';
-    chip.style.setProperty('--chip', 'var(--muted)');
-    $('.primary', infoBox).textContent = inf.label;
     var yr = railYear(sys, state.epoch);
-    $('.alt', infoBox).textContent = yr ? 'the network of ' + yr : '';
-    var prov = $('.prov', infoBox);
-    prov.textContent = '';
-    prov.hidden = true;
-    var when = $('.when', infoBox);
-    when.textContent = '';
-    when.hidden = true;
-    var own = $('.note-own', infoBox);
-    setProse(own, inf.note || '');
-    own.hidden = !inf.note;
-    var grp = $('.note-group', infoBox);
-    setProse(grp, '');
-    grp.hidden = true;
-    grp.setAttribute('data-group', '');
-    var flip = $('#info-flip', infoBox);
-    if (flip) flip.hidden = true;
-    var pop = $('#info-pop');
-    if (pop) { pop.innerHTML = ''; pop.hidden = true; }
-    renderRailBlock($('#info-trains'), sys, inf);
-    collapseInfo();
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
-    hideTooltip();
-    gateLabels();
-    placeLabels();
+    showBlockCard({ chip: 'Railway', colour: 'var(--muted)', primary: inf.label,
+                    alt: yr ? 'the network of ' + yr : '', note: inf.note || '' },
+                  function (host) { renderRailBlock(host, sys, inf); });
   }
 
 
@@ -14849,24 +14997,8 @@
     row.className = 'tbar';
 
 
-
-    if (TRAIN_SYS[sys] && !state.trainTools) {
-      var t = document.createElement('button');
-      t.type = 'button';
-      t.className = 'plain';
-      t.textContent = 'Turn on Train Tools';
-      t.addEventListener('click', function () {
-        trainChoice = sys;
-        if (trainZone() !== sys) {
-          var b = TRAIN_SYS[sys].box;
-          view = viewForBox(b[0], b[1], b[2], b[3]);
-          applyView();
-        }
-        setTrainTools(true);
-        saveState();
-      });
-      row.appendChild(t);
-    }
+    var t = trainToolsButton(sys);
+    if (t) row.appendChild(t);
 
     var d = document.createElement('button');
     d.type = 'button';
@@ -14917,12 +15049,7 @@
     if (year) bits.push('opened ' + year);
 
     var links = [];
-    if (wiki) {
-      links.push({ href: wiki,
-                   text: /^https?:\/\/ja\./.test(wiki)
-                     ? 'Read more on Wikipedia (Japanese)'
-                     : 'Read more on Wikipedia' });
-    }
+    if (wiki) links.push({ href: wiki, text: wikiLinkText(wiki) });
 
     links.push({ href: N05_URL, text: 'The railway dataset this is drawn from' });
 
@@ -14977,10 +15104,8 @@
 
 
 
-  function appendRailButtons(host, sys) {
-    if (!host || !TRAIN_SYS[sys] || state.trainTools) return;
-    var row = document.createElement('p');
-    row.className = 'tbar';
+  function trainToolsButton(sys) {
+    if (!TRAIN_SYS[sys] || state.trainTools) return null;
     var t = document.createElement('button');
     t.type = 'button';
     t.className = 'plain';
@@ -14995,6 +15120,14 @@
       setTrainTools(true);
       saveState();
     });
+    return t;
+  }
+
+  function appendRailButtons(host, sys) {
+    var t = host && trainToolsButton(sys);
+    if (!t) return;
+    var row = document.createElement('p');
+    row.className = 'tbar';
     row.appendChild(t);
     host.appendChild(row);
     host.hidden = false;
@@ -15006,57 +15139,19 @@
 
   function setRailPicked(sys) {
     railPicked = sys || '';
-    Object.keys(STATION_SYS).forEach(function (k) {
-      var g = document.getElementById(k + '-rail');
-      if (g) g.classList.toggle('picked', k === railPicked);
+
+
+    $$('.rail-net', svg).forEach(function (g) {
+      g.classList.toggle('picked', g.id === railPicked + '-rail');
     });
   }
 
   function showTrainCard(block) {
     if (!block || !infoBox) return;
-    markSelected(selected, false);
-    selected = null;
 
 
     trainCardWaiting = (block.waiting && block.geoLi >= 0) ? block.geoLi : -1;
-    selCluster = null;
-    redrawHighlight();
-    var chip = $('.chip', infoBox);
-    chip.textContent = block.chip;
-    chip.style.setProperty('--chip', block.colour || 'var(--muted)');
-    $('.primary', infoBox).textContent = block.primary || '';
-    $('.alt', infoBox).textContent = block.alt || '';
-    var prov = $('.prov', infoBox);
-    prov.textContent = block.prov || '';
-    prov.hidden = !block.prov;
-    var when = $('.when', infoBox);
-    when.textContent = '';
-    when.hidden = true;
-    var own = $('.note-own', infoBox);
-    setProse(own, block.note || '');
-    own.hidden = !block.note;
-    var grp = $('.note-group', infoBox);
-    setProse(grp, '');
-    grp.hidden = true;
-    grp.setAttribute('data-group', '');
-    var flip = $('#info-flip', infoBox);
-    if (flip) flip.hidden = true;
-
-
-
-
-
-
-
-    var pop = $('#info-pop');
-    if (pop) { pop.innerHTML = ''; pop.hidden = true; }
-    renderTrainBlock($('#info-trains'), block);
-    collapseInfo();
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
-    hideTooltip();
-    gateLabels();
-    placeLabels();
+    showBlockCard(block, function (host) { renderTrainBlock(host, block); });
   }
 
 
@@ -15072,9 +15167,21 @@
     a.href = rec.wiki;
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
-    a.textContent = 'Read more on Wikipedia';
+    a.textContent = wikiLinkText(rec.wiki);
     el.appendChild(a);
     return true;
+  }
+
+
+
+
+
+
+  function wikiLinkText(url) {
+    var m = /^https?:\/\/([a-z]{2,3})\.wikipedia\.org\//.exec(url || '');
+    var lang = m ? m[1] : 'en';
+    var name = { ja: 'Japanese', ko: 'Korean', zh: 'Chinese' }[lang];
+    return name ? 'Read more on Wikipedia (' + name + ')' : 'Read more on Wikipedia';
   }
 
 
@@ -15465,6 +15572,21 @@
     railFade();
 
     gateSubEpochs();
+
+
+
+
+
+
+    var inkFor = {}, groundFor = {};
+    var inkOf = function (over) {
+      if (!(over in inkFor)) inkFor[over] = railInk(over);
+      return inkFor[over];
+    };
+    var groundOf = function (over) {
+      if (!(over in groundFor)) groundFor[over] = railGround(over);
+      return groundFor[over];
+    };
     [twRailGroup, krRailGroup, kfRailGroup, mnRailGroup, jpRailGroup,
      burmaRailGroup].forEach(function (g) {
       if (!g) return;
@@ -15500,14 +15622,14 @@
                      : el.getAttribute('data-epoch') === state.epoch;
         el.style.display = on ? '' : 'none';
         var over = el.getAttribute('data-over');
-        el.style.setProperty('--rail-ink', railInk(over));
+        el.style.setProperty('--rail-ink', inkOf(over));
         var tie = el.nextSibling;
         if (!tie || !tie.classList || !tie.classList.contains('rail-tie')) {
           tie = svgEl('path', { 'class': 'rail-tie', d: el.getAttribute('d') });
           el.parentNode.insertBefore(tie, el.nextSibling);
         }
         tie.style.display = on ? '' : 'none';
-        tie.style.setProperty('--rail-ground', railGround(over));
+        tie.style.setProperty('--rail-ground', groundOf(over));
 
 
 
@@ -15579,6 +15701,7 @@
 
 
     if (showLabels || popValues.length) placeLabels();
+    placeRevealed();
     saveState();
   }
 
@@ -16258,6 +16381,113 @@
 
 
 
+
+
+
+
+
+
+  var PICK_MENUS = {
+    rail:     { id: 'rail-menu',    btn: '#btn-rail',     aria: 'Which railway networks to draw' },
+    train:    { id: 'train-menu',   btn: '#btn-trains',   aria: 'Which timetable to run' },
+    stations: { id: 'station-menu', btn: '#btn-stations', aria: 'Which stations to draw' },
+    theme:    { id: 'theme-menu',   btn: '#btn-theme',    aria: 'Thematic layers for this place' },
+    air:      { id: 'air-menu',     btn: '#btn-air',      aria: 'Which airline sheets to draw' },
+    label:    { id: 'label-menu',   btn: '#layer-seg button[data-opt="labels"]', below: true },
+  };
+  var pickOpenKey = '';
+
+  function pickIsOpen(key) { return pickOpenKey === key; }
+
+  function pickNode(key) {
+    var spec = PICK_MENUS[key];
+    var m = document.getElementById(spec.id);
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = spec.id;
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', spec.aria || '');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+
+  function pickHead(key, text) {
+    var m = pickNode(key);
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = text;
+    m.appendChild(head);
+    return m;
+  }
+
+
+
+  function pickPlace(key) {
+    var spec = PICK_MENUS[key];
+    var m = document.getElementById(spec.id), btn = $(spec.btn);
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left, top;
+    if (spec.below) {
+      left = Math.max(6, Math.min(b.left, window.innerWidth - w - 6));
+      top = (b.bottom + h + 6 <= window.innerHeight) ? b.bottom + 4
+                                                     : Math.max(6, b.top - h - 4);
+    } else {
+      left = b.left - w - 8;
+      if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+      left = Math.max(6, left);
+      top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    }
+    m.style.left = left + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function pickOpen(key, build) {
+    closeOtherMenus(key);
+    if (build) build();
+    var m = pickNode(key);
+    m.hidden = false;
+    pickOpenKey = key;
+    pickPlace(key);
+  }
+
+  function pickClose(key) {
+    if (pickOpenKey !== key) return;
+    var m = document.getElementById(PICK_MENUS[key].id);
+    if (m) m.hidden = true;
+    pickOpenKey = '';
+  }
+
+  function closeOtherMenus(keep) {
+    if (pickOpenKey && pickOpenKey !== keep) pickClose(pickOpenKey);
+  }
+
+  function openLabelMenu() { pickOpen('label', syncLabelBoxes); }
+  function closeLabelMenu() { pickClose('label'); }
+  function openAirMenu() { pickOpen('air', buildAirMenu); }
+  function closeAirMenu() { pickClose('air'); }
+  function openRailMenu() { pickOpen('rail', buildRailMenu); }
+  function closeRailMenu() { pickClose('rail'); }
+  function openThemeMenu(ids) { pickOpen('theme', function () { buildThemeMenu(ids); }); }
+  function closeThemeMenu() { pickClose('theme'); }
+  function openStationMenu() { pickOpen('stations', buildStationMenu); }
+  function closeStationMenu() { pickClose('stations'); }
+  function openTrainMenu(cands) { pickOpen('train', function () { buildTrainMenu(cands); }); }
+  function closeTrainMenu() { pickClose('train'); }
+
+
+
+
+
+
+
+
+
   function labelRow(c, host, idPrefix) {
     var label = document.createElement('label');
     label.className = 'row';
@@ -16377,25 +16607,10 @@
 
 
   var LABEL_HOLD_MS = 500;
-  var labelMenuOn = false;
 
 
   var labelPressLong = false;
 
-  function placeLabelMenu() {
-    var menu = $('#label-menu');
-    var btn = $('#layer-seg button[data-opt="labels"]');
-    if (!menu || !btn) return;
-    var b = btn.getBoundingClientRect();
-
-    var w = menu.offsetWidth, h = menu.offsetHeight;
-    var left = Math.max(6, Math.min(b.left, window.innerWidth - w - 6));
-
-    var top = (b.bottom + h + 6 <= window.innerHeight) ? b.bottom + 4
-                                                       : Math.max(6, b.top - h - 4);
-    menu.style.left = left + 'px';
-    menu.style.top = top + 'px';
-  }
 
 
 
@@ -16403,29 +16618,11 @@
 
 
 
-  var airMenuOn = false;
   var airPressLong = false;
 
-  function airMenuEl() {
-    var m = $('#air-menu');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'air-menu';
-    m.className = 'pick-menu';
-    m.setAttribute('role', 'group');
-    m.setAttribute('aria-label', 'Which airline sheets to draw');
-    m.hidden = true;
-    (container || document.body).appendChild(m);
-    return m;
-  }
 
   function buildAirMenu() {
-    var m = airMenuEl();
-    m.innerHTML = '';
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = 'Which airlines to draw';
-    m.appendChild(head);
+    var m = pickHead('air', 'Which airlines to draw');
 
 
 
@@ -16514,17 +16711,6 @@
 
 
 
-  function placeAirMenu() {
-    var m = $('#air-menu'), btn = $('#btn-air');
-    if (!m || !btn) return;
-    var b = btn.getBoundingClientRect();
-    var w = m.offsetWidth, h = m.offsetHeight;
-    var left = b.left - w - 8;
-    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
-    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
-    m.style.left = Math.max(6, left) + 'px';
-    m.style.top = top + 'px';
-  }
 
 
 
@@ -16539,34 +16725,11 @@
 
 
 
-
-
-
-
-
-  var railMenuOn = false;
   var railPressLong = false;
 
-  function railMenuEl() {
-    var m = $('#rail-menu');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'rail-menu';
-    m.className = 'pick-menu';
-    m.setAttribute('role', 'group');
-    m.setAttribute('aria-label', 'Which railway networks to draw');
-    m.hidden = true;
-    (container || document.body).appendChild(m);
-    return m;
-  }
 
   function buildRailMenu() {
-    var m = railMenuEl();
-    m.innerHTML = '';
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = 'Which railways to draw';
-    m.appendChild(head);
+    var m = pickHead('rail', 'Which railways to draw');
 
 
 
@@ -16627,27 +16790,6 @@
     });
   }
 
-  function syncRailMenu() {
-    $$('#rail-menu input[data-rail-sys]').forEach(function (el) {
-      var row = null;
-      RAIL_SWITCH_ROWS.forEach(function (r) {
-        if (r.sys === el.getAttribute('data-rail-sys')) row = r;
-      });
-      if (row) el.checked = !!state[row.state];
-    });
-  }
-
-  function placeRailMenu() {
-    var m = $('#rail-menu'), btn = $('#btn-rail');
-    if (!m || !btn) return;
-    var b = btn.getBoundingClientRect();
-    var w = m.offsetWidth, h = m.offsetHeight;
-    var left = b.left - w - 8;
-    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
-    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
-    m.style.left = Math.max(6, left) + 'px';
-    m.style.top = top + 'px';
-  }
 
 
 
@@ -16658,28 +16800,12 @@
 
 
 
-  var themeMenuOn = false;
 
-  function themeMenuNode() {
-    var m = $('#theme-menu');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'theme-menu';
-    m.className = 'pick-menu';
-    m.setAttribute('role', 'group');
-    m.setAttribute('aria-label', 'Thematic layers for this place');
-    m.hidden = true;
-    (container || document.body).appendChild(m);
-    return m;
-  }
+
+
 
   function buildThemeMenu(ids) {
-    var m = themeMenuNode();
-    m.innerHTML = '';
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = 'Thematic layers';
-    m.appendChild(head);
+    var m = pickHead('theme', 'Thematic layers');
 
 
 
@@ -16729,33 +16855,8 @@
     row('');
   }
 
-  function placeThemeMenu() {
-    var m = $('#theme-menu'), btn = $('#btn-theme');
-    if (!m || !btn) return;
-    var b = btn.getBoundingClientRect();
-    var w = m.offsetWidth, h = m.offsetHeight;
-    var left = b.left - w - 8;
-    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
-    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
-    m.style.left = Math.max(6, left) + 'px';
-    m.style.top = top + 'px';
-  }
 
-  function openThemeMenu(ids) {
-    closeOtherMenus('theme');
-    buildThemeMenu(ids);
-    var m = themeMenuNode();
-    m.hidden = false;
-    themeMenuOn = true;
-    placeThemeMenu();
-  }
 
-  function closeThemeMenu() {
-    var m = $('#theme-menu');
-    if (!m || !themeMenuOn) return;
-    m.hidden = true;
-    themeMenuOn = false;
-  }
 
 
 
@@ -16781,34 +16882,7 @@
 
 
 
-  function closeOtherMenus(keep) {
-    if (keep !== 'air' && airMenuOn) closeAirMenu();
-    if (keep !== 'rail' && railMenuOn) closeRailMenu();
-    if (keep !== 'train' && trainMenuOn) closeTrainMenu();
-    if (keep !== 'stations' && stationMenuOn) closeStationMenu();
-    if (keep !== 'theme' && themeMenuOn) closeThemeMenu();
-    if (keep !== 'label' && labelMenuOn) closeLabelMenu();
-  }
 
-
-
-
-
-
-  var stationMenuOn = false;
-
-  function stationMenuEl() {
-    var m = $('#station-menu');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'station-menu';
-    m.className = 'pick-menu';
-    m.setAttribute('role', 'group');
-    m.setAttribute('aria-label', 'Which stations to draw');
-    m.hidden = true;
-    (container || document.body).appendChild(m);
-    return m;
-  }
 
 
 
@@ -16834,12 +16908,7 @@
   }
 
   function buildStationMenu() {
-    var m = stationMenuEl();
-    m.innerHTML = '';
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = 'Which stations to draw';
-    m.appendChild(head);
+    var m = pickHead('stations', 'Which stations to draw');
     var rows = Object.keys(STATION_SYS).map(function (k) { return [k, RAIL_LABEL[k] || k]; });
     rows.push(['', 'None']);
     rows.forEach(function (r) {
@@ -16874,61 +16943,18 @@
     });
   }
 
-  function placeStationMenu() {
-    var m = $('#station-menu'), btn = $('#btn-stations');
-    if (!m || !btn) return;
-    var b = btn.getBoundingClientRect();
-    var w = m.offsetWidth, h = m.offsetHeight;
-    var left = b.left - w - 8;
-    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
-    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
-    m.style.left = Math.max(6, left) + 'px';
-    m.style.top = top + 'px';
-  }
-
-  function openStationMenu() {
-    closeOtherMenus('stations');
-    buildStationMenu();
-    var m = stationMenuEl();
-    m.hidden = false;
-    stationMenuOn = true;
-    placeStationMenu();
-  }
-
-  function closeStationMenu() {
-    var m = $('#station-menu');
-    if (!m || !stationMenuOn) return;
-    m.hidden = true;
-    stationMenuOn = false;
-  }
 
 
 
 
 
 
-  var trainMenuOn = false;
 
-  function trainMenuEl() {
-    var m = $('#train-menu');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'train-menu';
-    m.className = 'pick-menu';
-    m.setAttribute('role', 'group');
-    m.setAttribute('aria-label', 'Which timetable to run');
-    m.hidden = true;
-    (container || document.body).appendChild(m);
-    return m;
-  }
+
+
 
   function buildTrainMenu(cands) {
-    var m = trainMenuEl();
-    m.innerHTML = '';
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = 'Which train tools to turn on';
-    m.appendChild(head);
+    var m = pickHead('train', 'Which train tools to turn on');
     cands.forEach(function (sys) {
       var cfg = TRAIN_SYS[sys];
       var label = document.createElement('label');
@@ -16957,82 +16983,16 @@
     });
   }
 
-  function placeTrainMenu() {
-    var m = $('#train-menu'), btn = $('#btn-trains');
-    if (!m || !btn) return;
-    var b = btn.getBoundingClientRect();
-    var w = m.offsetWidth, h = m.offsetHeight;
-    var left = b.left - w - 8;
-    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
-    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
-    m.style.left = Math.max(6, left) + 'px';
-    m.style.top = top + 'px';
-  }
 
-  function openTrainMenu(cands) {
-    closeOtherMenus('train');
-    buildTrainMenu(cands);
-    var m = trainMenuEl();
-    m.hidden = false;
-    trainMenuOn = true;
-    placeTrainMenu();
-  }
 
-  function closeTrainMenu() {
-    var m = $('#train-menu');
-    if (!m || !trainMenuOn) return;
-    m.hidden = true;
-    trainMenuOn = false;
-  }
 
-  function openRailMenu() {
-    closeOtherMenus('rail');
-    buildRailMenu();
-    var m = railMenuEl();
-    m.hidden = false;
-    railMenuOn = true;
-    placeRailMenu();
-  }
 
-  function closeRailMenu() {
-    var m = $('#rail-menu');
-    if (!m || !railMenuOn) return;
-    m.hidden = true;
-    railMenuOn = false;
-  }
 
-  function openAirMenu() {
-    closeOtherMenus('air');
-    buildAirMenu();
-    var m = airMenuEl();
-    m.hidden = false;
-    airMenuOn = true;
-    placeAirMenu();
-  }
 
-  function closeAirMenu() {
-    var m = $('#air-menu');
-    if (!m || !airMenuOn) return;
-    m.hidden = true;
-    airMenuOn = false;
-  }
 
-  function openLabelMenu() {
-    closeOtherMenus('label');
-    var menu = $('#label-menu');
-    if (!menu) return;
-    syncLabelBoxes();
-    menu.hidden = false;
-    labelMenuOn = true;
-    placeLabelMenu();
-  }
 
-  function closeLabelMenu() {
-    var menu = $('#label-menu');
-    if (!menu || !labelMenuOn) return;
-    menu.hidden = true;
-    labelMenuOn = false;
-  }
+
+
 
   function syncPopBoxes() {
     popGroups().forEach(function (g) {
@@ -18572,19 +18532,8 @@
   function showEpochBlurb() {
     var epoch = JMAP.EPOCHS.filter(function (e) { return e.id === state.epoch; })[0];
     if (!epoch) return;
-    var chip = $('.chip', infoBox);
-    chip.textContent = 'The map in ' + epoch.en;
-    chip.style.setProperty('--chip', 'var(--accent)');
-    $('.primary', infoBox).textContent = epoch.en;
-    $('.alt', infoBox).textContent = '';
-    $('.prov', infoBox).textContent = '';
-    $('.prov', infoBox).hidden = true;
-    $('.when', infoBox).textContent = '';
-    $('.when', infoBox).hidden = true;
-    setProse($('.note-own', infoBox), epoch.blurb);
-    $('.note-own', infoBox).hidden = false;
-    $('.note-group', infoBox).textContent = '';
-    $('.note-group', infoBox).hidden = true;
+    fillCardHead({ chip: 'The map in ' + epoch.en, colour: 'var(--accent)',
+                   primary: epoch.en, note: epoch.blurb });
 
 
 
@@ -18592,8 +18541,7 @@
     fillPopCard(null);
     fillTrainCard(null);
     collapseInfo();
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
+    openCard();
   }
 
 
@@ -19765,7 +19713,7 @@
           return;
         }
         if (opt === 'labels' && e.altKey) {
-          if (labelMenuOn) closeLabelMenu(); else openLabelMenu();
+          if (pickIsOpen('label')) closeLabelMenu(); else openLabelMenu();
           return;
         }
         closeLabelMenu();
@@ -19807,7 +19755,7 @@
         labelHold = setTimeout(function () {
           labelHold = 0;
           labelPressLong = true;      // swallowed by the click handler above
-          if (labelMenuOn) closeLabelMenu(); else openLabelMenu();
+          if (pickIsOpen('label')) closeLabelMenu(); else openLabelMenu();
         }, LABEL_HOLD_MS);
       });
       ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
@@ -19820,61 +19768,21 @@
 
 
     document.addEventListener('pointerdown', function (e) {
-      if (airMenuOn) {
-        var am = $('#air-menu');
-        var ab = $('#btn-air');
-        if (!(am && am.contains(e.target)) && !(ab && ab.contains(e.target))) {
-          closeAirMenu();
-        }
-      }
-      if (railMenuOn) {
-        var rm = $('#rail-menu');
-        var rb = $('#btn-rail');
-        if (!(rm && rm.contains(e.target)) && !(rb && rb.contains(e.target))) {
-          closeRailMenu();
-        }
-      }
-      if (trainMenuOn) {
-        var tnm = $('#train-menu');
-        var tnb = $('#btn-trains');
-        if (!(tnm && tnm.contains(e.target)) && !(tnb && tnb.contains(e.target))) {
-          closeTrainMenu();
-        }
-      }
-      if (stationMenuOn) {
-        var stm = $('#station-menu');
-        var stb = $('#btn-stations');
-        if (!(stm && stm.contains(e.target)) && !(stb && stb.contains(e.target))) {
-          closeStationMenu();
-        }
-      }
-      if (themeMenuOn) {
-        var tm = $('#theme-menu');
-        var tb = $('#btn-theme');
-        if (!(tm && tm.contains(e.target)) && !(tb && tb.contains(e.target))) {
-          closeThemeMenu();
-        }
-      }
-      if (!labelMenuOn) return;
-      var menu = $('#label-menu');
-      if (menu && menu.contains(e.target)) return;
-      if (otherBtn && otherBtn.contains(e.target)) return;
-      closeLabelMenu();
+      if (!pickOpenKey) return;
+      var spec = PICK_MENUS[pickOpenKey];
+      var m = document.getElementById(spec.id);
+      var b = $(spec.btn);
+      if (m && m.contains(e.target)) return;
+      if (b && b.contains(e.target)) return;
+      if (pickOpenKey === 'label' && otherBtn && otherBtn.contains(e.target)) return;
+      pickClose(pickOpenKey);
     }, true);
     document.addEventListener('keydown', function (e) {
-      if (labelMenuOn && e.key === 'Escape') closeLabelMenu();
-      if (railMenuOn && e.key === 'Escape') closeRailMenu();
-      if (trainMenuOn && e.key === 'Escape') closeTrainMenu();
-      if (stationMenuOn && e.key === 'Escape') closeStationMenu();
-      if (themeMenuOn && e.key === 'Escape') closeThemeMenu();
+      if (pickOpenKey && e.key === 'Escape') pickClose(pickOpenKey);
     });
     window.addEventListener('resize', function () {
       legendScroll();
-      if (labelMenuOn) placeLabelMenu();
-      if (railMenuOn) placeRailMenu();
-      if (trainMenuOn) placeTrainMenu();
-      if (stationMenuOn) placeStationMenu();
-      if (themeMenuOn) placeThemeMenu();
+      if (pickOpenKey) pickPlace(pickOpenKey);
     });
 
     $$('#level-seg button').forEach(function (b) {
@@ -20291,14 +20199,14 @@
 
 
       btnSta.addEventListener('click', function () {
-        if (stationMenuOn) closeStationMenu(); else openStationMenu();
+        if (pickIsOpen('stations')) closeStationMenu(); else openStationMenu();
       });
     }
 
     var btnTrn = $('#btn-trains');
     if (btnTrn) {
       btnTrn.addEventListener('click', function () {
-        if (trainMenuOn) { closeTrainMenu(); return; }
+        if (pickIsOpen('train')) { closeTrainMenu(); return; }
         if (!state.trainTools) {
 
 
@@ -20330,7 +20238,7 @@
         airHold = setTimeout(function () {
           airHold = 0;
           airPressLong = true;
-          if (airMenuOn) closeAirMenu(); else openAirMenu();
+          if (pickIsOpen('air')) closeAirMenu(); else openAirMenu();
         }, LABEL_HOLD_MS);
       });
       ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
@@ -20340,7 +20248,7 @@
       btnAir.addEventListener('click', function (e) {
         if (airPressLong) { airPressLong = false; return; }
         if (e.altKey) {
-          if (airMenuOn) closeAirMenu(); else openAirMenu();
+          if (pickIsOpen('air')) closeAirMenu(); else openAirMenu();
           return;
         }
         closeAirMenu();
@@ -20386,7 +20294,7 @@
     var btnTheme = $('#btn-theme');
     if (btnTheme) {
       btnTheme.addEventListener('click', function () {
-        if (themeMenuOn) { closeThemeMenu(); return; }
+        if (pickIsOpen('theme')) { closeThemeMenu(); return; }
         pressTheme();
       });
     }
@@ -20409,7 +20317,7 @@
         railHold = setTimeout(function () {
           railHold = 0;
           railPressLong = true;
-          if (railMenuOn) closeRailMenu(); else openRailMenu();
+          if (pickIsOpen('rail')) closeRailMenu(); else openRailMenu();
         }, LABEL_HOLD_MS);
       });
       ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
@@ -20429,7 +20337,7 @@
 
 
 
-        if (railMenuOn) closeRailMenu(); else openRailMenu();
+        if (pickIsOpen('rail')) closeRailMenu(); else openRailMenu();
       });
     }
 
@@ -21107,6 +21015,17 @@
     project: function (lon, lat) { return project(lon, lat); },
     unproject: function (x, y) { return unproject(x, y); },
     mode: function () { return projMode; },
+  };
+
+
+
+
+
+
+
+
+  window.JMAP_IDLE = function () {
+    return !rafPending && !viewRaf && !fineTimer && !urlTimer && !pendingTap;
   };
 
   function annWire() {

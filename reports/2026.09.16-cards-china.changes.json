@@ -1,0 +1,49 @@
+{
+ "texts/city-names.md": {
+  "macaucity": "Neutral Portuguese territory throughout the war; its population several times what it had been as refugees came in from Hong Kong and Canton.",
+  "bhamo": "On the Ledo Road, where it met a spur of the old Burma Road.",
+  "aparri": "One of the first Japanese landings on Luzon, 10 December 1941.",
+  "laohekou": "Fourteenth Air Force base and the object of a Japanese offensive in the spring of 1945.",
+  "guiyang": "The hinge of the road system of the south-west, where the routes from Chongqing, Kunming and Guangxi met. Never occupied: the Japanese advance of December 1944 reached Dushan, a hundred miles short of it, and turned back.",
+  "beihai": "The Gulf of Tonkin treaty port opened in 1876, the outlet for Guangxi before the French built the railway from Haiphong."
+ },
+ "texts/sites/sites.md": {
+  "changshafire": "The garrison burned the city on 13 November 1938 on a false report that the Japanese were at the gates. The front was still on the Xinqiang river, north of the city. More than thirty thousand people died and most of Changsha was lost, in what remains one of the worst self-inflicted disasters of the war.",
+  "huayuankou": "Nationalist troops, on Chiang Kai-shek's orders, blew the Yellow River dikes here on 9 June 1938 to stop the Japanese advance on Wuhan. The villages downstream were given no warning. The river left its bed for nine years, killed somewhere between 400,000 and 500,000 people, and left the country behind it open to the famine of 1942–43."
+ },
+ "texts/territories/1930.md": {
+  "xinjiang": "Oasis towns round the rim of the Taklamakan, watered off the Tian Shan and the Kunlun, growing cotton, wheat and melons, with pastoral country in the north; Uyghur, Kazakh and Hui more than Han, and Turkic and Muslim more than Chinese. A sixth of the Republic's area and about one per cent of its people. A province in name, and Nanjing recognised Jin Shuren as its chairman after Yang Zengxin was assassinated in 1928 — but the government ran its own army, currency, finances and foreign trade, its roads and its telegraph ran to Soviet Central Asia rather than to China, and Nanjing's writ reached almost nothing of it."
+ },
+ "texts/city-names.csv": {
+  "quzhou": {
+   "zh": "衢州",
+   "ja": "衢州",
+   "ko": "취저우"
+  },
+  "ledo": {
+   "wiki": "https://en.wikipedia.org/wiki/Ledo,_Assam"
+  },
+  "dali": {
+   "wiki": "https://en.wikipedia.org/wiki/Dali_City"
+  },
+  "delhi": {
+   "wiki": "https://en.wikipedia.org/wiki/Delhi"
+  },
+  "jamshedpur": {
+   "wiki": "https://en.wikipedia.org/wiki/Jamshedpur"
+  },
+  "jodhpur": {
+   "wiki": "https://en.wikipedia.org/wiki/Jodhpur"
+  }
+ },
+ "texts/territories/1930.csv": {
+  "xinjiang": {
+   "wiki": "https://en.wikipedia.org/wiki/Xinjiang_Province,_Republic_of_China"
+  }
+ },
+ "texts/territories/1942.csv": {
+  "xinjiang": {
+   "wiki": "https://en.wikipedia.org/wiki/Xinjiang_Province,_Republic_of_China"
+  }
+ }
+}

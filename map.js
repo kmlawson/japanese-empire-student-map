@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '372';
+  var JEM_VERSION = '373';
 
   /* Every file this one fetches, with the version on it.
 
@@ -1898,7 +1898,7 @@
   var gratLabelGroup = null;
   var gratLines = { mer: [], par: [] };   // {v, pts} per line, in map units
 
-  /* --------------------------------------------------------- shaded relief
+  /* --------------------------------------------------------- shaded relief --
      Natural Earth's hillshade, laid over the political colours.
 
      **Under the labels and over the land.** Under the land it would be
@@ -2213,7 +2213,7 @@
 
   function buildJpRails() {
     if (jpRailGroup) return;
-    var g = svgEl('g', { id: 'jp-rail' });
+    var g = svgEl('g', { id: 'jp-rail', 'class': 'rail-net' });
     g.style.display = 'none';
     (JMAP.JP_RAILS || []).forEach(function (r) {
       var f = r.p, d = '';
@@ -2256,7 +2256,14 @@
     saveState();
   }
 
-  function railFade() {
+  /* `frame` is true from `applyView` and `rescale`, which call this on every
+     frame of a gesture. Between frames only the view has moved: the air
+     layer's routes, stops and names are as they were, and the layer-info
+     buttons follow the switches, not the view. So a frame pass does the fade,
+     the buttons and the one air class that depends on the zoom, and leaves the
+     full air sync and the layer-info sync to state changes -- the other nine
+     callers, which pass nothing. */
+  function railFade(frame) {
     /* A link can arrive with the sugar lines switched on, and nothing will
        have fetched them: the button is the only other way in. Asked for here,
        and only once Taiwan is actually in view — 182 KB for a layer the reader
@@ -2308,12 +2315,12 @@
     /* Not faded by the zoom, unlike the railways. A railway is local ground
        and only means anything once the reader is over it; these five services
        cross the whole map and are most legible at the widest view. */
-    applyAir();
+    if (frame) applyAirFrame(); else applyAir();
     syncMapButtons();
     /* Which layers have something to say about themselves, and whether the
        reader has just switched one on. Here because this is the one place
        every layer change comes through. */
-    syncLayerInfo();
+    if (!frame) syncLayerInfo();
   }
 
   /* How much of the railway layer is drawn at this width, 0 to 1. Pulled out
@@ -2339,7 +2346,21 @@
      rectangle in longitude and latitude and its corners are not its extremes
      — but they are close enough to say which island is on screen, which is all
      this is asked for. */
+  /* Memoised against the view: `syncMapButtons` asks this through
+     `viewMeets` sixteen to twenty times on every frame of a pan, each four
+     unprojections, and the frame has not moved between them. */
+  var vllFor = null;
   function viewLonLat() {
+    if (vllFor && vllFor.x === view.x && vllFor.y === view.y
+        && vllFor.w === view.w && vllFor.h === view.h && vllFor.mode === projMode) {
+      return vllFor.v;
+    }
+    var v = viewLonLatNow();
+    vllFor = { x: view.x, y: view.y, w: view.w, h: view.h, mode: projMode, v: v };
+    return v;
+  }
+
+  function viewLonLatNow() {
     var pts = [[view.x, view.y], [view.x + view.w, view.y],
                [view.x, view.y + view.h], [view.x + view.w, view.y + view.h]];
     var w = Infinity, s2 = Infinity, e = -Infinity, n = -Infinity;
@@ -2577,11 +2598,11 @@
      view is over, and — while the extended network puts track over it — the
      network the tools are running as well. Both, because that is what a reader
      over Japan with Korea's timetable up is looking at. */
-  var btnStationsSyss = [];
   /* Held rather than looked up. This runs on every frame of every gesture and
      `querySelector` on a document of eight thousand nodes is not free. */
   var btnStaEl = null, btnTrnEl = null, btnSugarEl = null, btnRailEl = null;
-  var btnAirEl = null, btnThemeEl = null;
+  var btnAirEl = null, btnThemeEl = null, rowTrnEl = null;
+  var rstEl = null;                 // the reset button, for `applyView`
   var btnElsFound = false;
 
   /* Called from `railFade`, so on every frame of every gesture. Everything it
@@ -2597,7 +2618,10 @@
       btnRailEl = $('#btn-rail');
       btnAirEl = $('#btn-air');
       btnThemeEl = $('#btn-theme');
+      rowTrnEl = $('#row-train-tools');
     }
+    // asked once per pass: it is the same answer three times over
+    var under = railUnderView();
     /* **The book, where the ground under the view has a theme.** Like the
        sugar button it comes and goes with the country rather than standing
        there always: a thematic layer is a thing about *this* place, and a
@@ -2640,7 +2664,7 @@
        under the view when there is one and plainly otherwise, and pressing it
        out here flashes the lines so the press is seen to have done something.
        */
-    var railSys = railZone() || railUnderView();
+    var railSys = railZone() || under;
     if (btnRailEl) {
       if (btnRailEl.hidden) btnRailEl.hidden = false;
       /* **THE BUTTON FOLLOWS THE RAILWAY IT NAMES.**
@@ -2695,7 +2719,7 @@
        the 1936 working timetable is exactly the reader who wants to see what
        else was on the plain. The switch stays. */
     if (btnSugarEl) {
-      var sugarHere = (railUnderView() === 'tw' || trainDraws('tw'))
+      var sugarHere = (under === 'tw' || trainDraws('tw'))
         && (state.twRail || trainDraws('tw'));
       if (btnSugarEl.hidden !== !sugarHere) btnSugarEl.hidden = !sugarHere;
       var sp = state.twSugar ? 'true' : 'false';
@@ -2708,7 +2732,7 @@
       }
     }
     if (!btnStaEl && !btnTrnEl) return;
-    var sys = railUnderView();
+    var sys = under;
     /* **ONE PRESS, BOTH COUNTRIES' SQUARES.**
      *
      * With Korea's tools up and the connections on, the reader over Japan is
@@ -2729,7 +2753,6 @@
         && connReaches(sys)) {
       syss.push(mounted);
     }
-    btnStationsSyss = syss;
     var bs = btnStaEl;
     if (bs) {
       /* Lit when every system it governs is on, so that a press always has
@@ -2767,8 +2790,7 @@
        down first — but it can by ticking the tools with no railway on, and
        leaving the reader no way back would be worse than the row being there. */
     var noRail = railsAllOff() && !state.trainTools;
-    var trRow = $('#row-train-tools');
-    if (trRow && trRow.hidden !== noRail) trRow.hidden = noRail;
+    if (rowTrnEl && rowTrnEl.hidden !== noRail) rowTrnEl.hidden = noRail;
     if (bt) {
       var zone = trainZone();
       var hide = !zone || noRail;
@@ -2813,10 +2835,14 @@
    * than three. */
   var RAIL_ONLY = ['burmaRail'];
 
+  var railSwitchKeys = null;      // the registries do not change after boot
   function railSwitches() {
-    return Object.keys(STATION_SYS).map(function (k) {
-      return STATION_SYS[k].rail;
-    }).concat(RAIL_ONLY);
+    if (!railSwitchKeys) {
+      railSwitchKeys = Object.keys(STATION_SYS).map(function (k) {
+        return STATION_SYS[k].rail;
+      }).concat(RAIL_ONLY);
+    }
+    return railSwitchKeys;
   }
 
   function railsAllOff() {
@@ -2825,30 +2851,6 @@
 
   function dropToolsWithRails() {
     if (state.trainTools && railsAllOff()) setTrainTools(false);
-  }
-
-  /* **A railway switched on where it cannot be seen still has to answer.**
-   *
-   * The lines fade out above a certain width because at the whole-empire view
-   * Taiwan's network is a smear — but the button is offered at every zoom now,
-   * and a press that changes nothing on the screen reads as a press that did
-   * not work. So the line is shown at full strength for a moment and then let
-   * go, which says "this is on, and it is over there" without pretending the
-   * drawing is any use at this width.
-   *
-   * Held for `RAIL_FLASH_HOLD` and out over `RAIL_FLASH_FADE`. */
-  var RAIL_FLASH_HOLD = 900, RAIL_FLASH_FADE = 600;
-  var railFlashEnd = 0, railFlashTimer = 0;
-
-  function railFlash() {
-    railFlashEnd = Date.now() + RAIL_FLASH_HOLD + RAIL_FLASH_FADE;
-    if (railFlashTimer) return;
-    var step = function () {
-      railFlashTimer = 0;
-      railFade();
-      if (Date.now() < railFlashEnd) railFlashTimer = requestAnimationFrame(step);
-    };
-    railFlashTimer = requestAnimationFrame(step);
   }
 
   /* The ground each railway runs on. Four come out of `STATION_SYS`, which
@@ -2903,10 +2905,6 @@
     // one answer, from `railAlpha`, so the drawing and everything that asks
     // about the drawing cannot disagree
     var a = railAlpha();
-    var left = railFlashEnd - Date.now();
-    if (left > 0) {
-      a = Math.max(a, left > RAIL_FLASH_FADE ? 1 : left / RAIL_FLASH_FADE);
-    }
     group.style.opacity = String(a);
     group.style.display = a > 0.02 ? '' : 'none';
     if (a <= 0.02) return;
@@ -2914,9 +2912,26 @@
     var t = view.w <= tieOn ? 1
           : view.w >= tieOff ? 0
           : (tieOff - view.w) / (tieOff - tieOn);
-    $$('path.rail-tie', group).forEach(function (el) {
-      el.style.opacity = String(t);
-    });
+    /* **The ties are written once per zoom width, not once per frame.** This
+       was a `querySelectorAll` over the group and an inline style on every
+       tie, six groups, on every frame of a pan — 1,977 writes a frame with
+       Japan's railways on, for a value that depends only on `view.w` and so
+       cannot change while the map is only being dragged. Measured (CPU/4,
+       Korea at 6°, Korea's and Japan's railways on, 40-step drag): 187 → 41 ms
+       of busy time, 4.7 → 1.0 ms of script a frame. The node list is re-taken
+       when the group's child count changes, because `applyState` grafts a tie
+       and a hit band beside every rail path, and the ties it has just made
+       have had nothing written to them yet. */
+    if (!group.__ties || group.__tieN !== group.childElementCount) {
+      group.__ties = $$('path.rail-tie', group);
+      group.__tieN = group.childElementCount;
+      group.__tieT = null;
+    }
+    if (group.__tieT !== t) {
+      group.__tieT = t;
+      var ts = String(t);
+      for (var i = 0; i < group.__ties.length; i++) group.__ties[i].style.opacity = ts;
+    }
   }
 
   /* ------------------------------------------------------- train tools --
@@ -3433,6 +3448,8 @@
     };
   }
 
+  /* --------------------------------------------- the relief, drawn -- */
+
   function drawRelief() {
     if (!svg) return;
     var L = reliefLevel();
@@ -3510,6 +3527,8 @@
       }
     }
   }
+
+  /* ------------------------------------------------- the graticule -- */
 
   function drawGraticule() {
     if (!svg) return;
@@ -3651,6 +3670,8 @@
     });
   }
 
+  /* -------------------------------------------------- reprojection -- */
+
   /* The sea and the edge of the drawing. A rectangle in Mercator, where a box
      of longitude and latitude is a box; a curved quadrilateral in anything
      else, so it is traced along the frame rather than assumed. */
@@ -3721,7 +3742,7 @@
     // annotations are held in longitude and latitude, so they are simply
     // redrawn rather than moved
     if (annApi) annApi.reproject();
-    if (lastScaleW > 0) rescale();
+    if (lastScaleW > 0) rescale(true);   // every position moved, the hidden ones too
     applyView(true);
     placeLabels();
   }
@@ -3892,6 +3913,8 @@
      where the other four are drawn into japan-empire-map.svg. */
   var jpRailGroup = null;
   var staRecs = [];                   // the station records, to re-register
+  /* -------------------------------------------- the station layers -- */
+
   var buildStations = null;           // set in buildSiteLabels, called on demand
 
   /* The railway systems the map draws, and everything that differs between
@@ -4404,6 +4427,8 @@
     });
   }
 
+  /* ------------------------------------------------- the gazetteer -- */
+
   function applyGazetteer() {
     if (!gazGroup) return;
     var on = state.cats.city && !!JMAP.GAZ;
@@ -4419,9 +4444,12 @@
       g.el.style.display =
         (g.epoch === state.epoch && (g.always || g.tier >= floor)) ? '' : 'none';
     });
+    placeRevealed();
   }
 
   var labelLayer = null;
+
+  /* ----------------------------------------------- the site labels -- */
 
   function buildSiteLabels() {
     labelLayer = svgEl('g', { id: 'labels' });
@@ -5920,7 +5948,8 @@
     svg.classList.toggle('zoomed-in', view.w < home.w / 3.2);
     // it resets the view, so at the opening view there is nothing for it to do
     // and it looked like a dead button; say so instead
-    var rst = $('#zoom-reset');
+    if (!rstEl) rstEl = $('#zoom-reset');   // held: this runs on every frame
+    var rst = rstEl;
     if (rst) {
       /* **LEFT EXACTLY AS IT WAS, ON THE AUTHOR'S WORD.** Two changes were
          made here and both are withdrawn: comparing the corner as well as
@@ -5936,7 +5965,7 @@
     if (state.graticule) drawGraticule();
     // the picture is `applyState`'s business; this is only the zoom ramp
     reliefFade();
-    railFade();
+    railFade(true);
     if (force || Math.abs(view.w - lastScaleW) > 0.01) {
       lastScaleW = view.w;
       rafZoomed = true;
@@ -5987,7 +6016,9 @@
     if (fineTimer) clearTimeout(fineTimer);
     fineTimer = setTimeout(function () {
       fineTimer = 0;
-      // the placement the pan was allowed to skip, now that the hand is still
+      // the widths the zoom was allowed to guess at, then the placement the
+      // pan was allowed to skip, now that the hand is still
+      measureLabels();
       lastPlaced = 0;
       placeLabels();
       syncFine();
@@ -6104,6 +6135,27 @@
     var t = 'translate(' + s.x + ' ' + s.y + ') scale(' + k + ')';
     if (ox || oy) t += ' translate(' + ox + ' ' + oy + ')';
     s.el.setAttribute('transform', t);
+    s.atK = k;                 // the zoom this transform was written for
+  }
+
+  /* **Whatever was revealed since the zoom, put at the zoom's scale.**
+   *
+   * `rescale` skips a scalable whose own `display` is `none` — 847 of 2,445
+   * at a typical view, 720 of them names the placer has hidden — because a
+   * transform written to a hidden element still dirties its style for
+   * nothing (measured: 12.9 → 7.5 ms of style recalculation per wheel step
+   * at a quarter CPU). The price is that a thing shown later is still at the
+   * old zoom's scale until this runs. So it runs wherever something is
+   * shown: at the end of `placeLabels`, of `applyGazetteer` and of
+   * `applyState`. A path that reveals a scalable and reaches none of those
+   * leaves it wrong-sized, which is the failure to look for. */
+  function placeRevealed() {
+    if (lastScaleW <= 0) return;
+    var k = view.w / containerSize().w;
+    for (var i = 0; i < scalables.length; i++) {
+      var s = scalables[i];
+      if (s.atK !== k && s.el.style.display !== 'none') placeScalable(s, k);
+    }
   }
 
   /* Only the reader's own marks, put back at the current zoom.
@@ -6130,7 +6182,11 @@
     if (annApi && annApi.rescaled) annApi.rescaled(k);
   }
 
-  function rescale() {
+  /* `all` writes to the hidden scalables too. A zoom leaves those for
+     `placeRevealed`; a change of projection has moved their *positions*, and
+     a hidden ring that is read by its attribute — an export, a test — would
+     otherwise still say where it was in Mercator. */
+  function rescale(all) {
     var c = containerSize();
     var k = view.w / c.w;                       // SVG units per screen pixel
     for (var i = 0; i < scalables.length; i++) {
@@ -6139,6 +6195,10 @@
         s.oy = isleOffset(s.label, k);
         s.label.dy = s.oy;
       }
+      // the offset above is still worked out — the placer boxes a hidden
+      // name with it — but nothing is written to what nobody can see;
+      // `placeRevealed` writes it when it is shown
+      if (!all && s.el.style.display === 'none') { s.atK = 0; continue; }
       placeScalable(s, k);
     }
     /* `k` is SVG units per screen pixel, and anything a reader's own marks draw
@@ -6149,7 +6209,7 @@
     // the pin's blur is the same kind of quantity, and the same mistake
     setPinBlur(k);
     reliefFade();
-    railFade();
+    railFade(true);
     /* The train tools come and go with the zoom, and their dots are shapes
        rather than strokes: `k` is the only thing that keeps a train the same
        size on screen at every scale. Both belong here, and in this order —
@@ -6552,7 +6612,7 @@
   function gateLabels() {
     ensureSubLabels();
     ensurePopValues();
-    var measure = [];
+    var measure = labelMeasure;
     /* An island can be named twice: once by the base map, from the centroid
        written into its shape, and again by the fine coastline layer, off the
        ring it grafts in. The two used to land on top of each other and the
@@ -6630,10 +6690,33 @@
         L.shown = true;
       }
     });
-    /* All the writing above, then all the reading here. Interleaved, each
-       `getComputedTextLength` would force the browser to lay the document out
-       again — thirteen hundred times over on the first pass with the
-       administrative sheet in. Batched, it is one layout. */
+    /* All the writing above, then all the reading — but not while the wheel
+       is turning. The first `getComputedTextLength` flushes a layout of the
+       whole document, and on a zoom frame that is a layout of ten thousand
+       nodes `rescale` has just written transforms to: measured at a quarter
+       CPU over twelve wheel steps on Korea with Names on, 292–389 ms of the
+       852 ms the gesture cost. So while a gesture is live (`fineTimer` is
+       pending) the names keep the guess, and the settle timer that already
+       re-places them reads the real widths first. For those 220 ms a new
+       name is boxed by an estimate that runs short; two that genuinely fight
+       may both be drawn until the settle drops one. */
+    if (fineTimer) return;
+    measureLabels();
+  }
+
+  /* The names whose width is still a guess, read for real. Their own list:
+     `gateLabels` fills it and either drains it at once or leaves it for the
+     settle. A name the placer has hidden since is shown for the reading —
+     `placeLabels` follows this call on every path and decides again. */
+  var labelMeasure = [];
+  function measureLabels() {
+    var measure = labelMeasure;
+    if (!measure.length) return;
+    labelMeasure = [];
+    for (var m = 0; m < measure.length; m++) {
+      var M = measure[m];
+      if (!M.shown && M.txt) { M.el.style.display = ''; M.shown = true; }
+    }
     for (var m = 0; m < measure.length; m++) {
       var M = measure[m], real = 0;
       try {
@@ -6956,6 +7039,7 @@
       if (isIsle) isles++;
       show(L, true);
     }
+    placeRevealed();
   }
 
   function clientToSvg(cx, cy) {
@@ -7416,7 +7500,7 @@
           view.x -= sdx * sscale;
           view.y -= sdy * sscale;
           dropForGesture();
-          applyView();
+          applyViewSoon();
         }
       }
       spaceFrom = { x: e.clientX, y: e.clientY };
@@ -7452,7 +7536,7 @@
       view.h = newW / (c.w / c.h);
       view.x = pinchStart.svgMid.x - (now.mid.x - r.left) * k;
       view.y = pinchStart.svgMid.y - (now.mid.y - r.top) * k;
-      applyView();
+      applyViewSoon();
       return;
     }
 
@@ -7486,6 +7570,29 @@
     var scale = view.w / cs.w;
     view.x = dragStart.vx - dx * scale;
     view.y = dragStart.vy - dy * scale;
+    applyViewSoon();
+  }
+
+  /* **One view write per frame, however fast the pointer reports.**
+   *
+   * A gaming mouse reports at 500 or 1,000 Hz and a trackpad at 90 or 120;
+   * the screen draws at 60 or 120. Every pointer event between two frames
+   * used to write the viewBox, run the relief and railway ramps and the
+   * button sync, and only the last of them was ever painted. So the drag,
+   * the pinch and the space-pan record where the view should be and ask for
+   * one `applyView` at the next frame; `view` itself is always current, so
+   * anything that reads it between frames reads the truth. The gesture's
+   * end flushes rather than waits — the tap logic and the settle timer both
+   * expect the view to be on screen when the pointer lifts. */
+  var viewRaf = 0;
+  function applyViewSoon() {
+    if (viewRaf) return;
+    viewRaf = requestAnimationFrame(function () { viewRaf = 0; applyView(); });
+  }
+  function flushView() {
+    if (!viewRaf) return;
+    cancelAnimationFrame(viewRaf);
+    viewRaf = 0;
     applyView();
   }
 
@@ -7519,6 +7626,7 @@
   }
 
   function onPointerUp(e) {
+    flushView();               // whatever the last move asked for, now
     var had = pointers.size;
     if (!pointers.has(e.pointerId)) return;
     pointers.delete(e.pointerId);
@@ -7847,6 +7955,73 @@
              note: infoBox.querySelector('.note-own') };
   }
 
+  /* **One way to open the card.** Seven sites set `hidden` and `panel-open`
+     by hand; four of them also hid the tooltip and re-ran the label gate and
+     placer, and three did not, with nothing written down about which was
+     meant. Now it is a flag. `relabel` is for a card that changes what is
+     drawn on the map — a selection lights its own labels, a railway picks
+     its lines — and `clear` keeps the named record's label out from under
+     the card. The pop-out cards (an aeroplane, a route, an airport, the
+     date's blurb) change nothing on the map and open plainly. */
+  function openCard(opts) {
+    var o = opts || {};
+    infoBox.hidden = false;
+    document.body.classList.add('panel-open');
+    if (o.relabel) {
+      hideTooltip();
+      gateLabels();
+      placeLabels();
+    }
+    if (o.clear) keepClear(o.clear);
+  }
+
+  /* The card's head, written from a block: chip and its colour, the two
+     lines, the province line, the note — and everything a previous record
+     left behind emptied, the figures and the flip button with them. A train
+     is not a province and must not carry a province's figures; that was a
+     reported bug, and it is why this empties `#info-pop` every time. */
+  function fillCardHead(block) {
+    var chip = $('.chip', infoBox);
+    chip.textContent = block.chip || '';
+    chip.style.setProperty('--chip', block.colour || 'var(--muted)');
+    $('.primary', infoBox).textContent = block.primary || '';
+    $('.alt', infoBox).textContent = block.alt || '';
+    var prov = $('.prov', infoBox);
+    prov.textContent = block.prov || '';
+    prov.hidden = !block.prov;
+    var when = $('.when', infoBox);
+    when.textContent = '';
+    when.hidden = true;
+    var own = $('.note-own', infoBox);
+    setProse(own, block.note || '');
+    own.hidden = !block.note;
+    var grp = $('.note-group', infoBox);
+    setProse(grp, '');
+    grp.hidden = true;
+    grp.setAttribute('data-group', '');
+    var flip = $('#info-flip', infoBox);
+    if (flip) flip.hidden = true;
+    var pop = $('#info-pop');
+    if (pop) { pop.innerHTML = ''; pop.hidden = true; }
+  }
+
+  /* A card that is not a place's: the selection is let go, the head is
+     written from the block and `render` fills the trains host. The railway
+     card and the train card were this function twice over, forty lines
+     each, with two lines different between them. */
+  function showBlockCard(block, render) {
+    markSelected(selected, false);
+    selected = null;
+    selCluster = null;
+    redrawHighlight();
+    fillCardHead(block);
+    render($('#info-trains'));
+    collapseInfo();
+    openCard({ relabel: true });
+  }
+
+  /* ---------------------------------------------- the air tap path -- */
+
   /* **The card for one aeroplane in the air.**
    *
    * The route's card says what the service was; this says what *this* machine
@@ -7913,8 +8088,7 @@
     wrap.appendChild(ol);
     host.appendChild(wrap);
 
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
+    openCard();
     return true;
   }
 
@@ -8247,6 +8421,8 @@
      second, a country split across two atoms by the 1941 cession, and they
      have no home here because neither half is more Laos than the other. */
   var CLUSTER_HOME = { 'Straits Settlements': 'malaya' };
+
+  /* ----------------------------------------------- the lit cluster -- */
 
   /* A cluster is written into the SVG and the SVG serves both dates, so a
      sub-unit that left its cluster between them needs saying here. The
@@ -8644,8 +8820,7 @@
     liftSubs(subsAtom);
   }
 
-  /* ===================================================================
-     THEMATIC LAYERS
+  /* ============================== THEMATIC LAYERS ==================
 
      A theme is a question somebody asked of a place. The Administrative layer
      answers *what was this district called*; a theme answers something else
@@ -8665,7 +8840,6 @@
      `jp-rails.js` has.
      =================================================================== */
   var themeLayer = null, themeState = 'none', themeShown = '';
-  var themeMenuEl = null;
   /* What the reader had before the theme borrowed the map, so that turning it
      off is an undo and not a second opinion about how the map should look. */
   var themeRestore = null;
@@ -10457,12 +10631,7 @@
       buildLegend();
       saveState();
     }
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
-    hideTooltip();
-    gateLabels();
-    placeLabels();
-    keepClear(id);
+    openCard({ relabel: true, clear: id });
   }
 
   /* ------------------------------------------------- a station's trains --
@@ -10752,7 +10921,6 @@
      One dataset at a time — a census is a date, and two dates in one table
      would be two tables anyway — with the other dates of the same layer offered
      at the foot, and under them the two compared on the figures they share. */
-  var popTableAt = null;          // which dataset the box is showing
 
   function openPopTable(key, want) {
     var dlg = tableBox();
@@ -10766,7 +10934,6 @@
       || sets.filter(function (x) { return x.rows[key] && x.epoch === year; })[0]
       || sets.filter(function (x) { return x.rows[key]; })[0]
       || sets[0];
-    popTableAt = d;
     $('.table-title', dlg).textContent = 'Population';
     var open = $('.table-open', dlg);
     if (open) open.hidden = true;          // nothing to open: this is not a page
@@ -12108,8 +12275,7 @@
         r.source, r.srcUrl);
     }
 
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
+    openCard();
   }
 
   /* Where the route's tables go: a block of its own inside the card, made once
@@ -12441,8 +12607,7 @@
         : []),
       srcs[0] || '', (mine[0] || {}).srcUrl || '');
 
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
+    openCard();
   }
 
   /* **A route belongs to the dates it was flown**, and the 1930 sheet has only
@@ -13199,6 +13364,14 @@
     syncLayerInfo();
   }
 
+  /* The one thing in `applyAir` that a pan or zoom can change: whether the
+     view is close enough for the stop names. Everything else it does follows
+     a switch, the date or the player, and is done when those change. */
+  function applyAirFrame() {
+    if (!airGroup || !state.air) return;
+    airGroup.classList.toggle('air-close', latSpan() <= AIR_NAME_CLOSE_LAT);
+  }
+
   function applyAir() {
     if (!airGroup) return;
     airGroup.style.display = state.air ? '' : 'none';
@@ -13447,6 +13620,8 @@
     menuEl = null;
   }
 
+  /* -------------------------------- railways and cities as GeoJSON -- */
+
   /* A path's `d` back into rings of map units. The whole map is written with
      three commands — 3,562 `M`, 3,562 `L` and 3,552 `Z`, and nothing else — so
      this is the whole grammar rather than a subset that will meet a curve one
@@ -13632,7 +13807,7 @@
      the tools should still be able to take the track away. */
   function railSysOf(target) {
     if (!target || !target.closest) return '';
-    var g = target.closest('#tw-rail, #kr-rail, #kf-rail, #mn-rail, #jp-rail');
+    var g = target.closest('.rail-net');
     if (!g) return '';
     return String(g.id || '').replace(/-rail$/, '');
   }
@@ -14374,6 +14549,8 @@
     if (e.key === 'Escape') closeMenu();
   });
 
+  /* ---------------------- the CSV button and the population tables -- */
+
   function addCsvButton(wrap, tableEl, title, notes, source) {
     if (!tableEl || !tableEl.tableSpec) return;
     var row = document.createElement('p');
@@ -14774,6 +14951,8 @@
      `trains.js` hands back, and the selection is dropped rather than moved:
      nothing on the map is outlined, because what the reader pointed at is not
      a shape on the map. */
+  /* ----------------------------------------------------- the cards -- */
+
   /* **The white railway, as a thing a reader can press.**
    *
    * It was the one drawn layer on the map that answered nothing: a click went
@@ -14787,43 +14966,12 @@
   function showRailCard(sys) {
     var inf = RAIL_INFO[sys];
     if (!inf || !infoBox) return;
-    markSelected(selected, false);
-    selected = null;
     trainCardWaiting = -1;
-    selCluster = null;
-    redrawHighlight();
     setRailPicked(sys);
-
-    var chip = $('.chip', infoBox);
-    chip.textContent = 'Railway';
-    chip.style.setProperty('--chip', 'var(--muted)');
-    $('.primary', infoBox).textContent = inf.label;
     var yr = railYear(sys, state.epoch);
-    $('.alt', infoBox).textContent = yr ? 'the network of ' + yr : '';
-    var prov = $('.prov', infoBox);
-    prov.textContent = '';
-    prov.hidden = true;
-    var when = $('.when', infoBox);
-    when.textContent = '';
-    when.hidden = true;
-    var own = $('.note-own', infoBox);
-    setProse(own, inf.note || '');
-    own.hidden = !inf.note;
-    var grp = $('.note-group', infoBox);
-    setProse(grp, '');
-    grp.hidden = true;
-    grp.setAttribute('data-group', '');
-    var flip = $('#info-flip', infoBox);
-    if (flip) flip.hidden = true;
-    var pop = $('#info-pop');
-    if (pop) { pop.innerHTML = ''; pop.hidden = true; }
-    renderRailBlock($('#info-trains'), sys, inf);
-    collapseInfo();
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
-    hideTooltip();
-    gateLabels();
-    placeLabels();
+    showBlockCard({ chip: 'Railway', colour: 'var(--muted)', primary: inf.label,
+                    alt: yr ? 'the network of ' + yr : '', note: inf.note || '' },
+                  function (host) { renderRailBlock(host, sys, inf); });
   }
 
   /* The source, and the way in to the timetable. Two sentences and two
@@ -14848,25 +14996,9 @@
     var row = document.createElement('p');
     row.className = 'tbar';
 
-    /* The tools, where this ground has any: see `appendRailButtons`, which
-       flies to the network if the reader is too far out for them to draw. */
-    if (TRAIN_SYS[sys] && !state.trainTools) {
-      var t = document.createElement('button');
-      t.type = 'button';
-      t.className = 'plain';
-      t.textContent = 'Turn on Train Tools';
-      t.addEventListener('click', function () {
-        trainChoice = sys;
-        if (trainZone() !== sys) {
-          var b = TRAIN_SYS[sys].box;
-          view = viewForBox(b[0], b[1], b[2], b[3]);
-          applyView();
-        }
-        setTrainTools(true);
-        saveState();
-      });
-      row.appendChild(t);
-    }
+    // the tools, where this ground has any
+    var t = trainToolsButton(sys);
+    if (t) row.appendChild(t);
 
     var d = document.createElement('button');
     d.type = 'button';
@@ -14917,12 +15049,7 @@
     if (year) bits.push('opened ' + year);
 
     var links = [];
-    if (wiki) {
-      links.push({ href: wiki,
-                   text: /^https?:\/\/ja\./.test(wiki)
-                     ? 'Read more on Wikipedia (Japanese)'
-                     : 'Read more on Wikipedia' });
-    }
+    if (wiki) links.push({ href: wiki, text: wikiLinkText(wiki) });
     /* Asked for: the dataset itself, at the foot of every line's card. */
     links.push({ href: N05_URL, text: 'The railway dataset this is drawn from' });
 
@@ -14977,10 +15104,8 @@
      system has tools and they are off, and if the view is too wide for them
      it flies to the network first, so the press always ends with the tools on
      screen rather than a switch ticked and nothing happening. */
-  function appendRailButtons(host, sys) {
-    if (!host || !TRAIN_SYS[sys] || state.trainTools) return;
-    var row = document.createElement('p');
-    row.className = 'tbar';
+  function trainToolsButton(sys) {
+    if (!TRAIN_SYS[sys] || state.trainTools) return null;
     var t = document.createElement('button');
     t.type = 'button';
     t.className = 'plain';
@@ -14995,6 +15120,14 @@
       setTrainTools(true);
       saveState();
     });
+    return t;
+  }
+
+  function appendRailButtons(host, sys) {
+    var t = host && trainToolsButton(sys);
+    if (!t) return;
+    var row = document.createElement('p');
+    row.className = 'tbar';
     row.appendChild(t);
     host.appendChild(row);
     host.hidden = false;
@@ -15006,57 +15139,19 @@
 
   function setRailPicked(sys) {
     railPicked = sys || '';
-    Object.keys(STATION_SYS).forEach(function (k) {
-      var g = document.getElementById(k + '-rail');
-      if (g) g.classList.toggle('picked', k === railPicked);
+    /* Every railway group, Burma's included: they share a class now rather
+       than a hand-kept list of ids, which is what left Burma's unpressable. */
+    $$('.rail-net', svg).forEach(function (g) {
+      g.classList.toggle('picked', g.id === railPicked + '-rail');
     });
   }
 
   function showTrainCard(block) {
     if (!block || !infoBox) return;
-    markSelected(selected, false);
-    selected = null;
     /* A card built while the timetable was still coming says so, and is worth
        building again when it arrives. Anything else on screen is final. */
     trainCardWaiting = (block.waiting && block.geoLi >= 0) ? block.geoLi : -1;
-    selCluster = null;
-    redrawHighlight();
-    var chip = $('.chip', infoBox);
-    chip.textContent = block.chip;
-    chip.style.setProperty('--chip', block.colour || 'var(--muted)');
-    $('.primary', infoBox).textContent = block.primary || '';
-    $('.alt', infoBox).textContent = block.alt || '';
-    var prov = $('.prov', infoBox);
-    prov.textContent = block.prov || '';
-    prov.hidden = !block.prov;
-    var when = $('.when', infoBox);
-    when.textContent = '';
-    when.hidden = true;
-    var own = $('.note-own', infoBox);
-    setProse(own, block.note || '');
-    own.hidden = !block.note;
-    var grp = $('.note-group', infoBox);
-    setProse(grp, '');
-    grp.hidden = true;
-    grp.setAttribute('data-group', '');
-    var flip = $('#info-flip', infoBox);
-    if (flip) flip.hidden = true;
-    /* **A train is not a province, and it must not carry a province's
-       figures.** `#info-pop` is filled by whatever record was selected before
-       and nothing on this path emptied it, so pressing a line, a train or a
-       station left the last province's population block — and its "Provinces
-       by Population Density" and "Population Table" buttons — sitting under
-       the timetable. Reported. The block belongs to a place; this card is
-       about a service. */
-    var pop = $('#info-pop');
-    if (pop) { pop.innerHTML = ''; pop.hidden = true; }
-    renderTrainBlock($('#info-trains'), block);
-    collapseInfo();
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
-    hideTooltip();
-    gateLabels();
-    placeLabels();
+    showBlockCard(block, function (host) { renderTrainBlock(host, block); });
   }
 
   /* Somewhere to read further, at the foot of what a record says. The note
@@ -15072,9 +15167,21 @@
     a.href = rec.wiki;
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
-    a.textContent = 'Read more on Wikipedia';
+    a.textContent = wikiLinkText(rec.wiki);
     el.appendChild(a);
     return true;
+  }
+
+  /* The link's words say which Wikipedia it opens. English is the rule for
+     `wiki` cells; a Japanese article stands in on the railway lines, and
+     since 16 September 2026 a Korean one may where a Korean place has no
+     English article (Gwaneumdo, the Wonsan general strike), so the reader
+     is told before the page opens in a script they may not read. */
+  function wikiLinkText(url) {
+    var m = /^https?:\/\/([a-z]{2,3})\.wikipedia\.org\//.exec(url || '');
+    var lang = m ? m[1] : 'en';
+    var name = { ja: 'Japanese', ko: 'Korean', zh: 'Chinese' }[lang];
+    return name ? 'Read more on Wikipedia (' + name + ')' : 'Read more on Wikipedia';
   }
 
   /* On a phone the sheet opens as the name and nothing else, and this opens
@@ -15465,6 +15572,21 @@
     railFade();
     // and the divisions that belong to one date only
     gateSubEpochs();
+    /* **One computed style per ground, not one per path.** `railInk` and
+       `railGround` each ask `getComputedStyle` of the atom named by
+       `data-over`, and Japan's layer is 1,977 paths over the same atom: this
+       loop was 3,954 style computations a state change for two answers.
+       Memoised for the length of the pass, and no longer, because the palette
+       or the mono switch may have changed by the next one. */
+    var inkFor = {}, groundFor = {};
+    var inkOf = function (over) {
+      if (!(over in inkFor)) inkFor[over] = railInk(over);
+      return inkFor[over];
+    };
+    var groundOf = function (over) {
+      if (!(over in groundFor)) groundFor[over] = railGround(over);
+      return groundFor[over];
+    };
     [twRailGroup, krRailGroup, kfRailGroup, mnRailGroup, jpRailGroup,
      burmaRailGroup].forEach(function (g) {
       if (!g) return;
@@ -15500,14 +15622,14 @@
                      : el.getAttribute('data-epoch') === state.epoch;
         el.style.display = on ? '' : 'none';
         var over = el.getAttribute('data-over');
-        el.style.setProperty('--rail-ink', railInk(over));
+        el.style.setProperty('--rail-ink', inkOf(over));
         var tie = el.nextSibling;
         if (!tie || !tie.classList || !tie.classList.contains('rail-tie')) {
           tie = svgEl('path', { 'class': 'rail-tie', d: el.getAttribute('d') });
           el.parentNode.insertBefore(tie, el.nextSibling);
         }
         tie.style.display = on ? '' : 'none';
-        tie.style.setProperty('--rail-ground', railGround(over));
+        tie.style.setProperty('--rail-ground', groundOf(over));
 
         /* **Something wide enough to press.** The rail is drawn at 1.9 screen
            pixels and that is the whole of its hit area: a mouse can just about
@@ -15579,6 +15701,7 @@
     // and the station names bring the placer with them, since they are not
     // under the "Show names" button that used to be the only thing that ran it
     if (showLabels || popValues.length) placeLabels();
+    placeRevealed();
     saveState();
   }
 
@@ -16252,6 +16375,113 @@
     if (popCardKey !== null) fillPopCard(popCardKey, popCardName);
   }
 
+  /* ------------------------------------------- the pick menus, one machine -- */
+
+  /* **Six menus, one machine.** The railway, station, train, theme and
+     airline menus hang off the buttons beside the map and the names menu off
+     the bar's Other button, and each had its own node maker, placer, opener,
+     closer and open-flag — five copies of four functions that differed by two
+     strings, and a `closeOtherMenus` that named all six. What differs is here
+     in a table; what does not is written once. `pickOpenKey` is the one open
+     menu, because there is never more than one: opening any closes the rest.
+
+     The label menu is the odd one: it is in index.html rather than built, and
+     it opens *under* a bar button rather than beside a map button. */
+  var PICK_MENUS = {
+    rail:     { id: 'rail-menu',    btn: '#btn-rail',     aria: 'Which railway networks to draw' },
+    train:    { id: 'train-menu',   btn: '#btn-trains',   aria: 'Which timetable to run' },
+    stations: { id: 'station-menu', btn: '#btn-stations', aria: 'Which stations to draw' },
+    theme:    { id: 'theme-menu',   btn: '#btn-theme',    aria: 'Thematic layers for this place' },
+    air:      { id: 'air-menu',     btn: '#btn-air',      aria: 'Which airline sheets to draw' },
+    label:    { id: 'label-menu',   btn: '#layer-seg button[data-opt="labels"]', below: true },
+  };
+  var pickOpenKey = '';
+
+  function pickIsOpen(key) { return pickOpenKey === key; }
+
+  function pickNode(key) {
+    var spec = PICK_MENUS[key];
+    var m = document.getElementById(spec.id);
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = spec.id;
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', spec.aria || '');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+  /* An emptied menu with its heading, ready for rows. */
+  function pickHead(key, text) {
+    var m = pickNode(key);
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = text;
+    m.appendChild(head);
+    return m;
+  }
+
+  /* Beside the button that opened it — to its left, or its right at the
+     screen's edge — or, for the names menu, under the bar button. */
+  function pickPlace(key) {
+    var spec = PICK_MENUS[key];
+    var m = document.getElementById(spec.id), btn = $(spec.btn);
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left, top;
+    if (spec.below) {
+      left = Math.max(6, Math.min(b.left, window.innerWidth - w - 6));
+      top = (b.bottom + h + 6 <= window.innerHeight) ? b.bottom + 4
+                                                     : Math.max(6, b.top - h - 4);
+    } else {
+      left = b.left - w - 8;
+      if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+      left = Math.max(6, left);
+      top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    }
+    m.style.left = left + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function pickOpen(key, build) {
+    closeOtherMenus(key);
+    if (build) build();
+    var m = pickNode(key);
+    m.hidden = false;
+    pickOpenKey = key;
+    pickPlace(key);
+  }
+
+  function pickClose(key) {
+    if (pickOpenKey !== key) return;
+    var m = document.getElementById(PICK_MENUS[key].id);
+    if (m) m.hidden = true;
+    pickOpenKey = '';
+  }
+
+  function closeOtherMenus(keep) {
+    if (pickOpenKey && pickOpenKey !== keep) pickClose(pickOpenKey);
+  }
+
+  function openLabelMenu() { pickOpen('label', syncLabelBoxes); }
+  function closeLabelMenu() { pickClose('label'); }
+  function openAirMenu() { pickOpen('air', buildAirMenu); }
+  function closeAirMenu() { pickClose('air'); }
+  function openRailMenu() { pickOpen('rail', buildRailMenu); }
+  function closeRailMenu() { pickClose('rail'); }
+  function openThemeMenu(ids) { pickOpen('theme', function () { buildThemeMenu(ids); }); }
+  function closeThemeMenu() { pickClose('theme'); }
+  function openStationMenu() { pickOpen('stations', buildStationMenu); }
+  function closeStationMenu() { pickClose('stations'); }
+  function openTrainMenu(cands) { pickOpen('train', function () { buildTrainMenu(cands); }); }
+  function closeTrainMenu() { pickClose('train'); }
+
+
+
   /* ------------------------------------------- the label categories --- */
 
   /* One row per kind of name, in the Layers panel and again in the little
@@ -16377,25 +16607,10 @@
      same gesture and a reader who learns it on one should find it on the
      other. */
   var LABEL_HOLD_MS = 500;
-  var labelMenuOn = false;
   /* Set when a press on Other has been held long enough to mean the menu, and
      cleared by the click it swallows — see the wiring in `init`. */
   var labelPressLong = false;
 
-  function placeLabelMenu() {
-    var menu = $('#label-menu');
-    var btn = $('#layer-seg button[data-opt="labels"]');
-    if (!menu || !btn) return;
-    var b = btn.getBoundingClientRect();
-    // measured after it is displayed, or the box is zero and it lands top-left
-    var w = menu.offsetWidth, h = menu.offsetHeight;
-    var left = Math.max(6, Math.min(b.left, window.innerWidth - w - 6));
-    // under the button, or over it where there is no room below
-    var top = (b.bottom + h + 6 <= window.innerHeight) ? b.bottom + 4
-                                                       : Math.max(6, b.top - h - 4);
-    menu.style.left = left + 'px';
-    menu.style.top = top + 'px';
-  }
 
   /* ------------------------------------------- the sheets, on a menu --
    *
@@ -16403,29 +16618,11 @@
    * option-click it — because a reader who has found one has found the other.
    * One row per set, and the row says the operator and the sheet's year, which
    * is the pair a citation names. */
-  var airMenuOn = false;
   var airPressLong = false;
 
-  function airMenuEl() {
-    var m = $('#air-menu');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'air-menu';
-    m.className = 'pick-menu';
-    m.setAttribute('role', 'group');
-    m.setAttribute('aria-label', 'Which airline sheets to draw');
-    m.hidden = true;
-    (container || document.body).appendChild(m);
-    return m;
-  }
 
   function buildAirMenu() {
-    var m = airMenuEl();
-    m.innerHTML = '';
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = 'Which airlines to draw';
-    m.appendChild(head);
+    var m = pickHead('air', 'Which airlines to draw');
     /* **Two groups, the 1930 sheets and then the 1942 ones, each in date
        order.** Twenty-two operators in one alphabetical column asks the reader
        to remember which date each sheet belongs to; grouped, the list answers
@@ -16509,24 +16706,8 @@
     });
   }
 
-  /* Viewport coordinates, because the menu is `position: fixed` like the
-     names menu it copies. The air button sits at the right-hand edge of the
-     map beside the zoom controls, so the menu goes to its *left* — hung off
-     the button's own edge rather than under it, which is where the names menu
-     goes because that button is in the bar. */
-  function placeAirMenu() {
-    var m = $('#air-menu'), btn = $('#btn-air');
-    if (!m || !btn) return;
-    var b = btn.getBoundingClientRect();
-    var w = m.offsetWidth, h = m.offsetHeight;
-    var left = b.left - w - 8;
-    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
-    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
-    m.style.left = Math.max(6, left) + 'px';
-    m.style.top = top + 'px';
-  }
 
-  /* ---- the six railways, one by one ------------------------------------
+  /* ------------------------------ the six railways, one by one ----------
    *
    * The button beside the map switches every network at once, which is the
    * right default — a reader who has asked for railways wants them wherever
@@ -16544,29 +16725,11 @@
    * is 1944's survey drawn for December 1942 — and the source in a handful of
    * words. The full citation is on the card and in sources.html; a menu row is
    * one line. */
-  var railMenuOn = false;
   var railPressLong = false;
 
-  function railMenuEl() {
-    var m = $('#rail-menu');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'rail-menu';
-    m.className = 'pick-menu';
-    m.setAttribute('role', 'group');
-    m.setAttribute('aria-label', 'Which railway networks to draw');
-    m.hidden = true;
-    (container || document.body).appendChild(m);
-    return m;
-  }
 
   function buildRailMenu() {
-    var m = railMenuEl();
-    m.innerHTML = '';
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = 'Which railways to draw';
-    m.appendChild(head);
+    var m = pickHead('rail', 'Which railways to draw');
     /* **The airline menu's row, because it is the same kind of list.** This
        had a two-line design of its own — the name in bold, the source
        indented under it — so the same question, *which sheets shall I draw*,
@@ -16627,27 +16790,8 @@
     });
   }
 
-  function syncRailMenu() {
-    $$('#rail-menu input[data-rail-sys]').forEach(function (el) {
-      var row = null;
-      RAIL_SWITCH_ROWS.forEach(function (r) {
-        if (r.sys === el.getAttribute('data-rail-sys')) row = r;
-      });
-      if (row) el.checked = !!state[row.state];
-    });
-  }
 
-  function placeRailMenu() {
-    var m = $('#rail-menu'), btn = $('#btn-rail');
-    if (!m || !btn) return;
-    var b = btn.getBoundingClientRect();
-    var w = m.offsetWidth, h = m.offsetHeight;
-    var left = b.left - w - 8;
-    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
-    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
-    m.style.left = Math.max(6, left) + 'px';
-    m.style.top = top + 'px';
-  }
+  /* ----------------------------------------------- the other menus -- */
 
   /* **THE BOOK'S MENU.** Same shape as the railway's and styled by the same
      rules — `#theme-menu` is in each of those selector lists, because the
@@ -16658,28 +16802,10 @@
      switch and pressing it turns the layer on. The menu exists for the second
      one, and the code is written now so that adding it is a row in
      `THEMES_FOR` rather than a new button. */
-  var themeMenuOn = false;
 
-  function themeMenuNode() {
-    var m = $('#theme-menu');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'theme-menu';
-    m.className = 'pick-menu';
-    m.setAttribute('role', 'group');
-    m.setAttribute('aria-label', 'Thematic layers for this place');
-    m.hidden = true;
-    (container || document.body).appendChild(m);
-    return m;
-  }
 
   function buildThemeMenu(ids) {
-    var m = themeMenuNode();
-    m.innerHTML = '';
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = 'Thematic layers';
-    m.appendChild(head);
+    var m = pickHead('theme', 'Thematic layers');
 
     /* **THE ROW IS A CHECKBOX AND ONE BLOCK OF TEXT.**
        It was the checkbox, a span for the name and a second span for the
@@ -16729,33 +16855,8 @@
     row('');
   }
 
-  function placeThemeMenu() {
-    var m = $('#theme-menu'), btn = $('#btn-theme');
-    if (!m || !btn) return;
-    var b = btn.getBoundingClientRect();
-    var w = m.offsetWidth, h = m.offsetHeight;
-    var left = b.left - w - 8;
-    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
-    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
-    m.style.left = Math.max(6, left) + 'px';
-    m.style.top = top + 'px';
-  }
 
-  function openThemeMenu(ids) {
-    closeOtherMenus('theme');
-    buildThemeMenu(ids);
-    var m = themeMenuNode();
-    m.hidden = false;
-    themeMenuOn = true;
-    placeThemeMenu();
-  }
 
-  function closeThemeMenu() {
-    var m = $('#theme-menu');
-    if (!m || !themeMenuOn) return;
-    m.hidden = true;
-    themeMenuOn = false;
-  }
 
   /* The press. On with a theme up: off. Otherwise the menu, whatever is in
      it — see below. The geometry is fetched on the first press, so the first
@@ -16775,40 +16876,13 @@
     loadThemes(function () { openThemeMenu(ids); });
   }
 
-  /* **ONE MENU AT A TIME.** These three hang off buttons a few pixels apart
-     and each is up to twenty rows tall, so two of them open at once cover
-     each other and the map behind them. Opening one shuts the others. The
-     names menu is in the list too: it belongs to a button in the bar rather
-     than beside the map, but it is the same kind of thing and there is no
-     reading of the map that wants both. */
-  function closeOtherMenus(keep) {
-    if (keep !== 'air' && airMenuOn) closeAirMenu();
-    if (keep !== 'rail' && railMenuOn) closeRailMenu();
-    if (keep !== 'train' && trainMenuOn) closeTrainMenu();
-    if (keep !== 'stations' && stationMenuOn) closeStationMenu();
-    if (keep !== 'theme' && themeMenuOn) closeThemeMenu();
-    if (keep !== 'label' && labelMenuOn) closeLabelMenu();
-  }
 
   /* **WHICH STATIONS.** One network's squares at a time, by request: a
      radio row per system and one for none. Choosing a system whose railway
      is off switches the railway on with it — a station with no line under it
      is a dot in a field, and the row was hidden in the panel for that reason.
      Same shape and the same doors as the railway menu. */
-  var stationMenuOn = false;
 
-  function stationMenuEl() {
-    var m = $('#station-menu');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'station-menu';
-    m.className = 'pick-menu';
-    m.setAttribute('role', 'group');
-    m.setAttribute('aria-label', 'Which stations to draw');
-    m.hidden = true;
-    (container || document.body).appendChild(m);
-    return m;
-  }
 
   /* One system's stations on and every other's off; '' for none. The
      railway comes on with them, and what the tools borrowed follows, so the
@@ -16834,12 +16908,7 @@
   }
 
   function buildStationMenu() {
-    var m = stationMenuEl();
-    m.innerHTML = '';
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = 'Which stations to draw';
-    m.appendChild(head);
+    var m = pickHead('stations', 'Which stations to draw');
     var rows = Object.keys(STATION_SYS).map(function (k) { return [k, RAIL_LABEL[k] || k]; });
     rows.push(['', 'None']);
     rows.forEach(function (r) {
@@ -16874,61 +16943,18 @@
     });
   }
 
-  function placeStationMenu() {
-    var m = $('#station-menu'), btn = $('#btn-stations');
-    if (!m || !btn) return;
-    var b = btn.getBoundingClientRect();
-    var w = m.offsetWidth, h = m.offsetHeight;
-    var left = b.left - w - 8;
-    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
-    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
-    m.style.left = Math.max(6, left) + 'px';
-    m.style.top = top + 'px';
-  }
 
-  function openStationMenu() {
-    closeOtherMenus('stations');
-    buildStationMenu();
-    var m = stationMenuEl();
-    m.hidden = false;
-    stationMenuOn = true;
-    placeStationMenu();
-  }
 
-  function closeStationMenu() {
-    var m = $('#station-menu');
-    if (!m || !stationMenuOn) return;
-    m.hidden = true;
-    stationMenuOn = false;
-  }
 
   /* **WHICH TIMETABLE, WHEN TWO ARE IN VIEW.** The rail menu's shape — a
      head and a row per choice — and the same doors: it closes on a press
      outside, on Escape, and when another menu opens. One press on a row is
      the whole answer, so the rows are radio buttons and the menu goes as soon
      as one is chosen. */
-  var trainMenuOn = false;
 
-  function trainMenuEl() {
-    var m = $('#train-menu');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'train-menu';
-    m.className = 'pick-menu';
-    m.setAttribute('role', 'group');
-    m.setAttribute('aria-label', 'Which timetable to run');
-    m.hidden = true;
-    (container || document.body).appendChild(m);
-    return m;
-  }
 
   function buildTrainMenu(cands) {
-    var m = trainMenuEl();
-    m.innerHTML = '';
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = 'Which train tools to turn on';
-    m.appendChild(head);
+    var m = pickHead('train', 'Which train tools to turn on');
     cands.forEach(function (sys) {
       var cfg = TRAIN_SYS[sys];
       var label = document.createElement('label');
@@ -16957,82 +16983,16 @@
     });
   }
 
-  function placeTrainMenu() {
-    var m = $('#train-menu'), btn = $('#btn-trains');
-    if (!m || !btn) return;
-    var b = btn.getBoundingClientRect();
-    var w = m.offsetWidth, h = m.offsetHeight;
-    var left = b.left - w - 8;
-    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
-    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
-    m.style.left = Math.max(6, left) + 'px';
-    m.style.top = top + 'px';
-  }
 
-  function openTrainMenu(cands) {
-    closeOtherMenus('train');
-    buildTrainMenu(cands);
-    var m = trainMenuEl();
-    m.hidden = false;
-    trainMenuOn = true;
-    placeTrainMenu();
-  }
 
-  function closeTrainMenu() {
-    var m = $('#train-menu');
-    if (!m || !trainMenuOn) return;
-    m.hidden = true;
-    trainMenuOn = false;
-  }
 
-  function openRailMenu() {
-    closeOtherMenus('rail');
-    buildRailMenu();
-    var m = railMenuEl();
-    m.hidden = false;
-    railMenuOn = true;
-    placeRailMenu();
-  }
 
-  function closeRailMenu() {
-    var m = $('#rail-menu');
-    if (!m || !railMenuOn) return;
-    m.hidden = true;
-    railMenuOn = false;
-  }
 
-  function openAirMenu() {
-    closeOtherMenus('air');
-    buildAirMenu();
-    var m = airMenuEl();
-    m.hidden = false;
-    airMenuOn = true;
-    placeAirMenu();
-  }
 
-  function closeAirMenu() {
-    var m = $('#air-menu');
-    if (!m || !airMenuOn) return;
-    m.hidden = true;
-    airMenuOn = false;
-  }
 
-  function openLabelMenu() {
-    closeOtherMenus('label');
-    var menu = $('#label-menu');
-    if (!menu) return;
-    syncLabelBoxes();
-    menu.hidden = false;
-    labelMenuOn = true;
-    placeLabelMenu();
-  }
 
-  function closeLabelMenu() {
-    var menu = $('#label-menu');
-    if (!menu || !labelMenuOn) return;
-    menu.hidden = true;
-    labelMenuOn = false;
-  }
+
+  /* --------------------------------------- the population switches -- */
 
   function syncPopBoxes() {
     popGroups().forEach(function (g) {
@@ -18572,19 +18532,8 @@
   function showEpochBlurb() {
     var epoch = JMAP.EPOCHS.filter(function (e) { return e.id === state.epoch; })[0];
     if (!epoch) return;
-    var chip = $('.chip', infoBox);
-    chip.textContent = 'The map in ' + epoch.en;
-    chip.style.setProperty('--chip', 'var(--accent)');
-    $('.primary', infoBox).textContent = epoch.en;
-    $('.alt', infoBox).textContent = '';
-    $('.prov', infoBox).textContent = '';
-    $('.prov', infoBox).hidden = true;
-    $('.when', infoBox).textContent = '';
-    $('.when', infoBox).hidden = true;
-    setProse($('.note-own', infoBox), epoch.blurb);
-    $('.note-own', infoBox).hidden = false;
-    $('.note-group', infoBox).textContent = '';
-    $('.note-group', infoBox).hidden = true;
+    fillCardHead({ chip: 'The map in ' + epoch.en, colour: 'var(--accent)',
+                   primary: epoch.en, note: epoch.blurb });
     /* And nothing left over from the place that was open. This card is about
        a date; the figures and the departures under it belonged to whatever the
        reader had been reading, and they sat there under the blurb saying
@@ -18592,8 +18541,7 @@
     fillPopCard(null);
     fillTrainCard(null);
     collapseInfo();
-    infoBox.hidden = false;
-    document.body.classList.add('panel-open');
+    openCard();
   }
 
   /* The administrative divisions live in a second file. Fetch it once, graft
@@ -19765,7 +19713,7 @@
           return;
         }
         if (opt === 'labels' && e.altKey) {
-          if (labelMenuOn) closeLabelMenu(); else openLabelMenu();
+          if (pickIsOpen('label')) closeLabelMenu(); else openLabelMenu();
           return;
         }
         closeLabelMenu();
@@ -19807,7 +19755,7 @@
         labelHold = setTimeout(function () {
           labelHold = 0;
           labelPressLong = true;      // swallowed by the click handler above
-          if (labelMenuOn) closeLabelMenu(); else openLabelMenu();
+          if (pickIsOpen('label')) closeLabelMenu(); else openLabelMenu();
         }, LABEL_HOLD_MS);
       });
       ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
@@ -19820,61 +19768,21 @@
     /* And the ways out of it. A menu that stays open while the reader works
        the map is a panel, and this is not one. */
     document.addEventListener('pointerdown', function (e) {
-      if (airMenuOn) {
-        var am = $('#air-menu');
-        var ab = $('#btn-air');
-        if (!(am && am.contains(e.target)) && !(ab && ab.contains(e.target))) {
-          closeAirMenu();
-        }
-      }
-      if (railMenuOn) {
-        var rm = $('#rail-menu');
-        var rb = $('#btn-rail');
-        if (!(rm && rm.contains(e.target)) && !(rb && rb.contains(e.target))) {
-          closeRailMenu();
-        }
-      }
-      if (trainMenuOn) {
-        var tnm = $('#train-menu');
-        var tnb = $('#btn-trains');
-        if (!(tnm && tnm.contains(e.target)) && !(tnb && tnb.contains(e.target))) {
-          closeTrainMenu();
-        }
-      }
-      if (stationMenuOn) {
-        var stm = $('#station-menu');
-        var stb = $('#btn-stations');
-        if (!(stm && stm.contains(e.target)) && !(stb && stb.contains(e.target))) {
-          closeStationMenu();
-        }
-      }
-      if (themeMenuOn) {
-        var tm = $('#theme-menu');
-        var tb = $('#btn-theme');
-        if (!(tm && tm.contains(e.target)) && !(tb && tb.contains(e.target))) {
-          closeThemeMenu();
-        }
-      }
-      if (!labelMenuOn) return;
-      var menu = $('#label-menu');
-      if (menu && menu.contains(e.target)) return;
-      if (otherBtn && otherBtn.contains(e.target)) return;
-      closeLabelMenu();
+      if (!pickOpenKey) return;
+      var spec = PICK_MENUS[pickOpenKey];
+      var m = document.getElementById(spec.id);
+      var b = $(spec.btn);
+      if (m && m.contains(e.target)) return;
+      if (b && b.contains(e.target)) return;
+      if (pickOpenKey === 'label' && otherBtn && otherBtn.contains(e.target)) return;
+      pickClose(pickOpenKey);
     }, true);
     document.addEventListener('keydown', function (e) {
-      if (labelMenuOn && e.key === 'Escape') closeLabelMenu();
-      if (railMenuOn && e.key === 'Escape') closeRailMenu();
-      if (trainMenuOn && e.key === 'Escape') closeTrainMenu();
-      if (stationMenuOn && e.key === 'Escape') closeStationMenu();
-      if (themeMenuOn && e.key === 'Escape') closeThemeMenu();
+      if (pickOpenKey && e.key === 'Escape') pickClose(pickOpenKey);
     });
     window.addEventListener('resize', function () {
       legendScroll();
-      if (labelMenuOn) placeLabelMenu();
-      if (railMenuOn) placeRailMenu();
-      if (trainMenuOn) placeTrainMenu();
-      if (stationMenuOn) placeStationMenu();
-      if (themeMenuOn) placeThemeMenu();
+      if (pickOpenKey) pickPlace(pickOpenKey);
     });
 
     $$('#level-seg button').forEach(function (b) {
@@ -20291,14 +20199,14 @@
          way the railway button lists the railways. A press opens the menu;
          a row is a radio button, so choosing one puts the others away. */
       btnSta.addEventListener('click', function () {
-        if (stationMenuOn) closeStationMenu(); else openStationMenu();
+        if (pickIsOpen('stations')) closeStationMenu(); else openStationMenu();
       });
     }
 
     var btnTrn = $('#btn-trains');
     if (btnTrn) {
       btnTrn.addEventListener('click', function () {
-        if (trainMenuOn) { closeTrainMenu(); return; }
+        if (pickIsOpen('train')) { closeTrainMenu(); return; }
         if (!state.trainTools) {
           /* Two networks in view — Korea's and Manchuria's are neighbours —
              is the reader's call, not the map's: the button offers them. */
@@ -20330,7 +20238,7 @@
         airHold = setTimeout(function () {
           airHold = 0;
           airPressLong = true;
-          if (airMenuOn) closeAirMenu(); else openAirMenu();
+          if (pickIsOpen('air')) closeAirMenu(); else openAirMenu();
         }, LABEL_HOLD_MS);
       });
       ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
@@ -20340,7 +20248,7 @@
       btnAir.addEventListener('click', function (e) {
         if (airPressLong) { airPressLong = false; return; }
         if (e.altKey) {
-          if (airMenuOn) closeAirMenu(); else openAirMenu();
+          if (pickIsOpen('air')) closeAirMenu(); else openAirMenu();
           return;
         }
         closeAirMenu();
@@ -20386,7 +20294,7 @@
     var btnTheme = $('#btn-theme');
     if (btnTheme) {
       btnTheme.addEventListener('click', function () {
-        if (themeMenuOn) { closeThemeMenu(); return; }
+        if (pickIsOpen('theme')) { closeThemeMenu(); return; }
         pressTheme();
       });
     }
@@ -20409,7 +20317,7 @@
         railHold = setTimeout(function () {
           railHold = 0;
           railPressLong = true;
-          if (railMenuOn) closeRailMenu(); else openRailMenu();
+          if (pickIsOpen('rail')) closeRailMenu(); else openRailMenu();
         }, LABEL_HOLD_MS);
       });
       ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
@@ -20429,7 +20337,7 @@
            nobody would find it.
            So the button behaves like the book beside it: one press, a list of
            what there is, and the reader chooses. */
-        if (railMenuOn) closeRailMenu(); else openRailMenu();
+        if (pickIsOpen('rail')) closeRailMenu(); else openRailMenu();
       });
     }
 
@@ -21107,6 +21015,17 @@
     project: function (lon, lat) { return project(lon, lat); },
     unproject: function (x, y) { return unproject(x, y); },
     mode: function () { return projMode; },
+  };
+
+  /* **For the tests: is the map between things?** True when no frame is
+     booked, no view write is waiting, the settle timer has fired and the
+     address has been written. A test used to sleep a number of seconds after
+     pressing something — a guess that was too long on a quiet machine and
+     too short on a busy one, which is what made six scripts flaky — and
+     `calm()` in tools/test/settle.js polls this instead. Fetches are not
+     counted here; the test harness watches the network itself. */
+  window.JMAP_IDLE = function () {
+    return !rafPending && !viewRaf && !fineTimer && !urlTimer && !pendingTap;
   };
 
   function annWire() {

@@ -406,7 +406,10 @@ const shutDialogs=p=>p.evaluate(()=>{
       await ready(r);
       await shutDialogs(r);
       await setSwitch(r, '#opt-train-tools', true);
-      await sleep(4200);
+      // waited on, not slept through: the bar is the side effect read below,
+      // and where it must *not* come the wait runs out at the old sleep's length
+      await until(r, () => !!document.querySelector('#train-bar'), null, { timeout: 4200 }).catch(() => {});
+      await sleep(300);
       const up = await r.evaluate(() => ({
         bar: !!document.querySelector('#train-bar'),
         note: (document.querySelector('.train-note') || {}).textContent || '',
@@ -535,7 +538,10 @@ const shutDialogs=p=>p.evaluate(()=>{
       await ready(r);
       await shutDialogs(r);
       await setSwitch(r, '#opt-train-tools', true);
-      await sleep(4200);
+      // waited on, not slept through: the bar is the side effect read below,
+      // and where it must *not* come the wait runs out at the old sleep's length
+      await until(r, () => !!document.querySelector('#train-bar'), null, { timeout: 4200 }).catch(() => {});
+      await sleep(300);
       const up = await r.evaluate(() => ({
         bar: !!document.querySelector('#train-bar'),
         note: (document.querySelector('.train-note') || {}).textContent || '',

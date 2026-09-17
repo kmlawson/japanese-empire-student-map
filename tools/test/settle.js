@@ -54,11 +54,40 @@ async function ready(page, opts) {
   if (o.then) await sleep(o.then);
 }
 
-/* Anything else worth waiting on, in the page's own words. */
+/* Anything else worth waiting on, in the page's own words.
+
+   Polled on a timer, not on animation frames: under four browsers at once a
+   starved page can stall its frames, and a wait on `raf` then stalls with it.
+   A 250 ms poll costs nothing a test can notice and cannot. */
 async function until(page, fn, arg, opts) {
   const o = opts || {};
-  await page.waitForFunction(fn, { polling: o.polling || 'raf',
+  await page.waitForFunction(fn, { polling: o.polling || 250,
                                    timeout: o.timeout || 15000 }, arg);
 }
 
-module.exports = { ready, until, sleep };
+/* **The map has finished with whatever was just pressed.**
+
+   Three things a sleep after a press was standing in for, asked for by name:
+   the map's own frame work is done (`JMAP_IDLE` in map.js: no frame booked,
+   no settle timer pending, the address written), nothing is in flight on the
+   network, and — because a settle can start a fetch and a fetch can book a
+   frame — the first two again in that order. Then two frames, so what the
+   last frame drew can be read.
+
+   Not for a transition. A tooltip's hover delay, a fade, a step of animation
+   is time passing, and a test of it still waits for time to pass. */
+async function calm(page, opts) {
+  const o = opts || {};
+  const idle = () => !window.JMAP_IDLE || window.JMAP_IDLE();
+  const t = o.timeout || 15000;
+  await page.waitForFunction(idle, { polling: 100, timeout: t });
+  try {
+    await page.waitForNetworkIdle({ idleTime: 150, timeout: o.idle || 8000 });
+  } catch (err) { /* still busy after eight seconds: the script's own checks say */ }
+  await page.waitForFunction(idle, { polling: 100, timeout: t });
+  await page.evaluate(() => new Promise(r =>
+    requestAnimationFrame(() => requestAnimationFrame(r))));
+  if (o.then) await sleep(o.then);
+}
+
+module.exports = { ready, until, sleep, calm };

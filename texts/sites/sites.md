@@ -145,15 +145,11 @@ plague and cholera on Chinese towns.
 
 ## portarthur
 
-Taken from China in 1894, given up under the Triple Intervention of 1895,
-leased by Russia in 1898, and won back at enormous cost in the siege of
-1904–05. The pivot of Japanese continental policy for fifty years.
+Taken from China in 1894, given up under the Triple Intervention of 1895, leased by Russia in 1898, and won back at enormous cost in the siege of 1904–05. Japan held it as Ryojun from 1905 to 1945, a city of the Kwantung Leased Territory.
 
 ## dairen
 
-The commercial capital of the Kwantung Leased Territory and headquarters of
-the South Manchuria Railway Company, the vehicle of Japanese economic power in
-the region.
+The capital of the Kwantung Leased Territory, and the headquarters of the South Manchuria Railway Company from 1907.
 
 ## chengde
 
@@ -329,9 +325,7 @@ thousands died; Corregidor held out in its tunnels until 6 May.
 
 ## leyte
 
-Four separate actions over three days in October 1944, and by most measures the
-largest naval battle ever fought. It destroyed the Imperial Navy as a fighting
-force and saw the first organised kamikaze attacks.
+Four separate actions over four days in October 1944, and the largest naval battle of the war. It destroyed the Imperial Navy as a fighting force and saw the first organised kamikaze attacks.
 
 ## rangoon
 
@@ -512,9 +506,7 @@ some two hundred schools and lasting into the spring.
 
 ## tapani
 
-The Xilai'an rising of 1915, the last and largest armed revolt by Han
-Taiwanese against Japanese rule. Over eight hundred death sentences followed,
-most later commuted after the scale of it became known in Tokyo.
+The Xilai'an rising of 1915, the last and largest armed revolt by Han Taiwanese against Japanese rule. Some 1,400 were arrested and sentenced, and 135 were executed before an imperial amnesty stopped the rest.
 
 ## uozu
 
@@ -551,11 +543,7 @@ communists.
 
 ## huayuankou
 
-Nationalist troops, on Chiang Kai-shek's orders, blew the Yellow River dikes
-here on 9 June 1938 to stop the Japanese advance on Wuhan. The villages
-downstream were given no warning. The river left its bed for nine years, drowned several
-thousand villages, killed somewhere between 400,000 and 800,000 people, and
-left the country behind it open to the famine of 1942–43.
+Nationalist troops, on Chiang Kai-shek's orders, blew the Yellow River dikes here on 9 June 1938 to stop the Japanese advance on Wuhan. The villages downstream were given no warning. The river left its bed for nine years, killed somewhere between 400,000 and 500,000 people, and left the country behind it open to the famine of 1942–43.
 
 ## pingdingshan
 
@@ -655,9 +643,7 @@ fleets met at the Yalu two days later.
 
 ## portarthursiege
 
-Five months, eleven-inch howitzers firing on the harbour, and something like
-sixty thousand Japanese casualties for a fortress that surrendered on 2 January
-1905. The scale of the losses set the pattern the next war would follow.
+Five months, eleven-inch howitzers firing on the harbour, and something like sixty thousand Japanese casualties for a fortress that surrendered on 2 January 1905.
 
 ## itoharbin
 
@@ -742,10 +728,7 @@ went on for weeks. Estimates of the dead run from the tens of thousands to
 
 ## changshafire
 
-The garrison burned the city on 13 November 1938 on a false report that the
-Japanese were at the gates. They were still a hundred miles away. Some twenty
-thousand people died and most of Changsha was lost, in what remains one of the
-worst self-inflicted disasters of the war.
+The garrison burned the city on 13 November 1938 on a false report that the Japanese were at the gates. The front was still on the Xinqiang river, north of the city. More than thirty thousand people died and most of Changsha was lost, in what remains one of the worst self-inflicted disasters of the war.
 
 ## chongqingraids
 

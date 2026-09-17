@@ -14,7 +14,7 @@
  *     units and screen pixels are interchangeable and this always passes;
  *   * the layer travels in a link, and a link that carries it fetches it.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const { puppeteer, sleep, ready, until, calm, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const RAIL = (33554432 + 1).toString(36);      // Taiwan railways, Dec 1942
 const ISLAND = HOST+'/index.html?where=119.5,21.5,122.5,25.5&layers=';
@@ -59,7 +59,7 @@ const st = p => p.evaluate(() => {
     const x = document.getElementById('opt-rail-zoom');
     if (x && !x.checked) x.click();
   });
-  await sleep(900);
+  await calm(p);
   check('  and goes when the reader asks for the zoom gate',
     (await st(p)).offered === false);
   await p.close();
@@ -71,7 +71,7 @@ const st = p => p.evaluate(() => {
   console.log('\n— the lines —');
   p = await open(b, ISLAND + RAIL);
   await p.evaluate(() => document.querySelector('#btn-sugar').click());
-  await sleep(2500);
+  await calm(p);                     // the fetch, and the frame that draws it
   s = await st(p);
   check('pressing it draws the network', s.lines === 531 && s.drawn, String(s.lines));
   check('and the button says it is on', s.pressed === 'true');
@@ -83,7 +83,7 @@ const st = p => p.evaluate(() => {
     const z = document.querySelector('#zoom-in');
     for (let i = 0; i < 6; i++) z.click();
   });
-  await sleep(1800);
+  await calm(p);
   const close = await p.evaluate(() =>
     getComputedStyle(document.querySelector('#tw-sugar path')).strokeWidth);
   check('the stroke is the same six wheel steps in', wide.w === close,
@@ -157,7 +157,7 @@ const st = p => p.evaluate(() => {
      is what the reader ticks. The three things this block guards still hold;
      they hold one step further along. */
   await p.evaluate(() => document.querySelector('#btn-rail').click());
-  await sleep(700);
+  await calm(p);
   const menu = await p.evaluate(() => {
     const m = document.getElementById('rail-menu');
     return { shown: !!m && !m.hidden && getComputedStyle(m).display !== 'none',
@@ -167,19 +167,20 @@ const st = p => p.evaluate(() => {
   check('pressing it offers that ground\'s railway rather than drawing it',
     menu.shown && menu.rows === 6 && menu.drawnYet === false,
     JSON.stringify(menu));
-  const pressed = await p.evaluate(() => {
+  await p.evaluate(() => {
     const lab = [...document.querySelectorAll('#rail-menu label.row')]
       .find(e => /Korea/.test(e.textContent));
     const i = lab && lab.querySelector('input');
     if (i) i.click();
-    return new Promise(res => setTimeout(() => res({
-      pressed: document.querySelector('#btn-rail').getAttribute('aria-pressed'),
-      box: document.querySelector('#opt-kr-rail').checked,
-      station: !document.querySelector('#btn-stations').hidden,
-      bg: getComputedStyle(document.querySelector('#btn-rail')).backgroundColor,
-      plain: getComputedStyle(document.querySelector('#zoom-in')).backgroundColor,
-    }), 1600));
   });
+  await calm(p);                     // the railway's own script, fetched on the tick
+  const pressed = await p.evaluate(() => ({
+    pressed: document.querySelector('#btn-rail').getAttribute('aria-pressed'),
+    box: document.querySelector('#opt-kr-rail').checked,
+    station: !document.querySelector('#btn-stations').hidden,
+    bg: getComputedStyle(document.querySelector('#btn-rail')).backgroundColor,
+    plain: getComputedStyle(document.querySelector('#zoom-in')).backgroundColor,
+  }));
   check('  and ticking it there draws that ground\'s railway',
     pressed.pressed === 'true' && pressed.box === true,
     JSON.stringify(pressed));

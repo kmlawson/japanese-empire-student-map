@@ -34,6 +34,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rail_route
 import trains_split
+from trains_lib import read_consts, read_stations
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -115,27 +116,8 @@ def fold(s):
     return ''.join(FOLD.get(c, c) for c in s)
 
 
-def read_consts(path, names):
-    s = io.open(path, encoding='utf-8').read()
-    out = {}
-    for n in names:
-        m = re.search(r'^const %s = ' % n, s, re.M)
-        if not m:
-            raise SystemExit('%s: no %s' % (path, n))
-        i = m.end()
-        out[n] = json.loads(s[i:s.index('\n', i)].rstrip(';'))
-    return out
-
-
 def our_stations():
-    """kf-stations.js is written one record to a line with a trailing comma, so it is read a
-    line at a time rather than as one array."""
-    out = []
-    for line in io.open(os.path.join(SITE, 'kf-stations.js'), encoding='utf-8'):
-        line = line.strip().rstrip(',')
-        if line.startswith('{') and line.endswith('}'):
-            out.append(json.loads(line))
-    return out
+    return read_stations('kf')
 
 
 def table_anchors():

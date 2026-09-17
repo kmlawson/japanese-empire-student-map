@@ -23,7 +23,7 @@
  * ground under the districts.
  */
 'use strict';
-const { ready, check, report, SHIM, launch, sleep } = require('./suite.js');
+const { ready, check, report, SHIM, launch, sleep, calm } = require('./suite.js');
 const BASE = process.env.MAP_URL || HOST_BASE();
 function HOST_BASE() {
   const { HOST } = require('./suite.js');
@@ -58,7 +58,7 @@ const GROUPS = {
     await ready(p);
     // the districts are in the deferred admin sheet and grafted into the atom
     // when the layer goes on, so the wait is for a fetch and not a frame
-    await sleep(4000);
+    await calm(p);
 
     const got = await p.evaluate(async (groups) => {
       const atom = document.getElementById('a-burma');
@@ -163,7 +163,7 @@ const GROUPS = {
         await p.mouse.move(at.x - 6, at.y - 6); await sleep(250);
         await p.mouse.move(at.x, at.y); await sleep(600);
         await p.mouse.down(); await sleep(120); await p.mouse.up();
-        await sleep(1200);
+        await calm(p);
         const card = await p.evaluate(() => {
           const t = (document.querySelector('#info') || {}).textContent || '';
           return {
@@ -213,7 +213,7 @@ const GROUPS = {
            map must be untouched at this point — that is the half of it a
            straight toggle would pass anyway. */
         await p.click('#btn-theme');
-        await sleep(900);
+        await calm(p);
         const opened = await p.evaluate(() => {
           const m = document.getElementById('theme-menu');
           const rows = m ? [...m.querySelectorAll('label.row')] : [];
@@ -239,7 +239,7 @@ const GROUPS = {
           const inp = lab && lab.querySelector('input');
           if (inp) inp.click();
         });
-        await sleep(2800);
+        await calm(p);
         const on = await p.evaluate(() => {
           const g = document.getElementById('thematic');
           const cats = g ? [...g.querySelectorAll('path')]
@@ -314,9 +314,9 @@ const GROUPS = {
       z.on('pageerror', e => e3.push(String(e).slice(0, 160)));
       await z.goto(BASE + '?where=93.5,15,98.5,19.5',
                    { waitUntil: 'domcontentloaded' });
-      await ready(z); await sleep(2200);
+      await ready(z); await calm(z);
       // the book opens the menu; the theme is chosen from it
-      await z.click('#btn-theme'); await sleep(900);
+      await z.click('#btn-theme'); await calm(z);
       await z.evaluate(() => {
         const m = document.getElementById('theme-menu');
         const lab = m && [...m.querySelectorAll('label.row')]
@@ -324,7 +324,7 @@ const GROUPS = {
         const inp = lab && lab.querySelector('input');
         if (inp) inp.click();
       });
-      await sleep(2800);
+      await calm(z);
 
       const labs = await z.evaluate(() => {
         const D = ['Bassein', 'Myaungmya', 'Henzada', 'Hanthawaddy', 'Thaton',
@@ -440,7 +440,7 @@ const GROUPS = {
       await q.goto(BASE + '?layers=' + layers + '&where=95,23.5,100,28.5',
                    { waitUntil: 'domcontentloaded' });
       await ready(q);
-      await sleep(3200);
+      await calm(q);
       const at = await q.evaluate(() => {
         const svg = document.getElementById('jmap');
         const el = document.querySelector('#a-contested_burma path')

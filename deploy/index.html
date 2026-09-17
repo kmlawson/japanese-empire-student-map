@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=a53b549c80">
+<link rel="stylesheet" href="styles.css?v=24cb039e88">
 </head>
 <body>
 
@@ -368,7 +368,7 @@
 <!-- What a long press or an option-click on the Other button opens: the same
      five rows as the Layers panel, at the button rather than three clicks
      away. Positioned by map.js against the button it belongs to. -->
-<div id="label-menu" role="group" aria-label="Which names to show" hidden></div>
+<div id="label-menu" class="pick-menu" role="group" aria-label="Which names to show" hidden></div>
 
 <dialog id="dlg-options">
   <form method="dialog"><button class="x" aria-label="Close">×</button></form>
@@ -655,7 +655,7 @@
 
   <h3>Feedback</h3>
 
-  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">372</span><span class="beta-tag" hidden> beta</span> · last updated 14 September 2026, 14:44</p>
+  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">373</span><span class="beta-tag" hidden> beta</span> · last updated 17 September 2026, 08:45</p>
 
 <!-- END about -->
 </dialog>
@@ -763,7 +763,7 @@
 <!-- END help -->
 </dialog>
 
-<script src="data.js?v=cb3b3e08b3"></script>
+<script src="data.js?v=38ec00ebb0"></script>
 <script src="cities-gaz.js?v=2fe0c88511"></script>
 <script src="relief.js?v=a584543962"></script>
 <!-- The cache key of every file map.js fetches for itself, written by
@@ -771,8 +771,8 @@
      tile or timetable does not change map.js's own key and make every
      reader fetch the largest script again. -->
 <!-- BEGIN assets -->
-<script>window.JEM_ASSETS = {"admin.js": "515700d72c", "air-play.js": "3982bfbe96", "annotate.js": "4347030471", "japan-empire-map-admin.svg": "a9bf9d9f5b", "japan-empire-map-fine.svg": "a673d36791", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "66c9f92b23", "jp-rails.js": "0a7c906436", "jp-stations.js": "94e1778527", "kf-stations.js": "5b813d9ab0", "kf-times.js": "7794238211", "kf-trains.js": "dfbd657f59", "kr-stations.js": "bbf1264e10", "kr-times.js": "7a858023f2", "kr-trains.js": "e2c5d88077", "mn-stations.js": "d41a9297bf", "mn-times.js": "675d237296", "mn-trains.js": "f23db9ccfd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "themes.js": "47f1818ac3", "timetable/karafuto-1935.html": "5348193a83", "timetable/korea-1938.html": "6bd9860643", "timetable/manchuria-1942.html": "3c8fc53102", "timetable/taiwan-1936.html": "1ce3ba8518", "trains.js": "82b40e751b", "tw-stations.js": "1c5f5eb043", "tw-times.js": "dbd80c98cb", "tw-trains.js": "0534b63f8f"};</script>
+<script>window.JEM_ASSETS = {"admin.js": "515700d72c", "air-play.js": "3982bfbe96", "annotate.js": "303f9a64b3", "japan-empire-map-admin.svg": "a9bf9d9f5b", "japan-empire-map-fine.svg": "a673d36791", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "a2d3da350e", "jp-rails.js": "0a7c906436", "jp-stations.js": "94e1778527", "kf-stations.js": "5b813d9ab0", "kf-times.js": "7794238211", "kf-trains.js": "dfbd657f59", "kr-stations.js": "bbf1264e10", "kr-times.js": "7a858023f2", "kr-trains.js": "e2c5d88077", "mn-stations.js": "d41a9297bf", "mn-times.js": "675d237296", "mn-trains.js": "f23db9ccfd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "themes.js": "47f1818ac3", "timetable/karafuto-1935.html": "5348193a83", "timetable/korea-1938.html": "6bd9860643", "timetable/manchuria-1942.html": "3c8fc53102", "timetable/taiwan-1936.html": "1ce3ba8518", "trains.js": "2cc31c1c65", "tw-stations.js": "1c5f5eb043", "tw-times.js": "dbd80c98cb", "tw-trains.js": "0534b63f8f"};</script>
 <!-- END assets -->
-<script src="lean/map.js?v=3747f92b41"></script>
+<script src="lean/map.js?v=b0bfa8dba0"></script>
 </body>
 </html>

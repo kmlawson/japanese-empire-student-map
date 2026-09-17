@@ -25,7 +25,7 @@ island an American base for the next twenty-seven years.
 
 ## Yakushima
 
-Kagoshima, not Okinawa: the cedar forests here were logged for the navy, and some of the trees standing are thousands of years old.
+Kagoshima, not Okinawa: the cedar of these forests was cut for roof shingles under Satsuma, and some of the trees standing are thousands of years old.
 
 # Island by island
 
@@ -84,6 +84,13 @@ Okinawa Prefecture. The Shō dynasty of the Ryūkyū kings came from here.
 ## Iejima
 
 Taken between 16 and 21 April 1945 for its airfield. The war correspondent Ernie Pyle was killed on it.
+
+## the Kerama Islands
+
+Thirty-six islands 32 km south-west of Okinawa, four of them inhabited. The
+American 77th Division landed on 26 March 1945, six days before the main island,
+and secured the group in five days for its anchorage. The first of the civilian
+mass suicides that marked the battle of Okinawa happened here.
 
 ## Kumejima
 

@@ -1225,6 +1225,15 @@ window.JMAP_TRAINS = function (host) {
    * The source names them, so nothing has to be inferred: a Japanese line name
    * ending 連絡船 is a ferry, and 連絡線 is the Kum estuary crossing, which the
    * timetable also works as a boat. */
+  /* What a card says of a line beyond the timetable's own network. One
+     sentence, and no longer "alignment unsourced": the Manchurian connections
+     have run along the traced railway since 13 September 2026, and the Japanese
+     ones along N05 before that. The ferries are still chords. */
+  var CONN_NOTE = 'Beyond this timetable\u2019s own network: drawn along the traced '
+    + 'railway where the map has one, and straight between cities where it does not yet.';
+  var FERRY_NOTE = 'The crossing is drawn straight between the ports; the course the '
+    + 'boats steered is not sourced.';
+
   function isFerry(line) {
     var n = (line && line.n) || '';
     return /\u9023\u7d61\u8239$/.test(n) || /\u9023\u7d61\u7dda$/.test(n);
@@ -1264,9 +1273,7 @@ window.JMAP_TRAINS = function (host) {
       chip: cardWords(line).chip, colour: inks[li] || '#555',
       primary: lineName(li, false),
       alt: line.n,
-      note: (line.d || '') + (line.x
-        ? ' The map draws this line straight between the cities it can place; the track\'s real alignment is not yet sourced.'
-        : ''),
+      note: (line.d || '') + (line.x ? ' ' + CONN_NOTE : ''),
       head: 'The timetable is still loading.',
       waiting: true,
     };
@@ -1380,11 +1387,7 @@ window.JMAP_TRAINS = function (host) {
          measured from this transcription; the caption on the table below says
          which of the two the figures are, so the note does not have to carry
          the caveat as well as the prose. */
-      note: (line.d || '') + (line.x
-        ? (isFerry(line)
-             ? ' The map draws this crossing straight between the ports; the course the boats actually steered is not yet sourced.'
-             : ' The map draws this line straight between the cities it can place; the track\'s real alignment is not yet sourced.')
-        : ''),
+      note: (line.d || '') + (line.x ? ' ' + (isFerry(line) ? FERRY_NOTE : CONN_NOTE) : ''),
       head: W.head + (data.issued || data.year) + ' table',
       cols: ['', ''],
       rows: rows,
@@ -1458,16 +1461,16 @@ window.JMAP_TRAINS = function (host) {
 
     var legend = el('div', 'train-legend');
     els.legend = legend;
-    data.lines.forEach(function (l) {
+    data.lines.forEach(function (l, li) {
       var chip = el('span', 'train-chip');
       var sw = el('span', 'sw');
-      sw.style.background = inks[data.lines.indexOf(l)] || l.c;
-      chips.push({ el: sw, li: data.lines.indexOf(l) });
+      sw.style.background = inks[li] || l.c;
+      chips.push({ el: sw, li: li });
       chip.appendChild(sw);
-      chip.appendChild(document.createTextNode(lineName(data.lines.indexOf(l), false)));
+      chip.appendChild(document.createTextNode(lineName(li, false)));
       chip.title = l.en + '   ' + (l.ja ? l.ja + '   ' : '') + l.n
-        + (l.x ? '   (drawn straight between cities; alignment unsourced)' : '');
-      chip.setAttribute('data-li', data.lines.indexOf(l));
+        + (l.x ? '   (beyond this timetable\u2019s own network)' : '');
+      chip.setAttribute('data-li', li);
       if (l.x) chip.classList.add('train-chip-conn');
       /* **Press the name and the line lights up.** Forty-two chips in a strip
          and forty-two lines on the map is a matching exercise the reader
@@ -1679,6 +1682,27 @@ window.JMAP_TRAINS = function (host) {
 
   /* ---------------------------------------------------------------- api --- */
 
+  /* The box round every placed station on a shown line, west/south/east/north;
+     `bounds` below memoises it. */
+  var boundsFor = null;
+  function boundsNow() {
+    var w = 1e9, s2 = 1e9, e = -1e9, n = -1e9, seen = 0;
+    data.stations.forEach(function (st, i) {
+      if (!st || st.lon === undefined) return;
+      var on = (st.li || []).some(function (li) {
+        var l = data.lines[li];
+        return l && (connOn || !l.x);
+      });
+      if (!on) return;
+      seen++;
+      if (st.lon < w) w = st.lon;
+      if (st.lon > e) e = st.lon;
+      if (st.lat < s2) s2 = st.lat;
+      if (st.lat > n) n = st.lat;
+    });
+    return seen > 1 ? { w: w, s: s2, e: e, n: n } : null;
+  }
+
   var api = {
     /* Bring the interface up over one system. Everything here is built once
        per mount and thrown away on unmount: a reader who zooms out has said
@@ -1738,6 +1762,7 @@ window.JMAP_TRAINS = function (host) {
       cfg = null; data = null; trainGroup = null; bar = null;
       lineLayer = null; markLayer = null; lineGeom = []; livePos = [];
       lineOwns = {};
+      boundsFor = null;
       els = {}; plans = []; marks = []; segCache = null; byStation = null;
       byName = null;
       inks = []; linePaths = []; casePaths = []; chips = []; groundNow = '';
@@ -1774,21 +1799,17 @@ window.JMAP_TRAINS = function (host) {
        switch means. */
     bounds: function () {
       if (!cfg || !data) return null;
-      var w = 1e9, s2 = 1e9, e = -1e9, n = -1e9, seen = 0;
-      data.stations.forEach(function (st, i) {
-        if (!st || st.lon === undefined) return;
-        var on = (st.li || []).some(function (li) {
-          var l = data.lines[li];
-          return l && (connOn || !l.x);
-        });
-        if (!on) return;
-        seen++;
-        if (st.lon < w) w = st.lon;
-        if (st.lon > e) e = st.lon;
-        if (st.lat < s2) s2 = st.lat;
-        if (st.lat > n) n = st.lat;
-      });
-      return seen > 1 ? { w: w, s: s2, e: e, n: n } : null;
+      /* Asked on every frame of a pan by the host's zone test, and the
+         answer changes only when a different bundle mounts or the connections
+         switch flips: keyed on the data object itself, not on `cfg.sys`, so a
+         system whose data has been replaced does not answer from the old walk.
+         Measured (CPU/4, Korea, 40-step drag): 62 → 34 ms of busy time. */
+      if (boundsFor && boundsFor.data === data && boundsFor.conn === connOn) {
+        return boundsFor.v;
+      }
+      var v = boundsNow();
+      boundsFor = { data: data, conn: connOn, v: v };
+      return v;
     },
 
     /* **The fetch failed, and the reader must be able to try again.**
@@ -1833,12 +1854,14 @@ window.JMAP_TRAINS = function (host) {
     rescaled: function (k) {
       if (!cfg || !(k > 0)) return;
       lastK = k;
+      /* From where each train is, which `render` keeps in `livePos`; not by
+         reading the transform back and parsing it, which this did on every
+         zoom frame for every visible train. */
       for (var i = 0; i < marks.length; i++) {
-        var m = marks[i];
-        if (!m || m.style.display === 'none') continue;
-        var t = m.getAttribute('transform') || '';
-        var p = /translate\(([^)]*)\)/.exec(t);
-        if (p) m.setAttribute('transform', 'translate(' + p[1] + ') scale(' + k + ')');
+        var m = marks[i], pos = livePos[i];
+        if (!m || !pos || m.style.display === 'none') continue;
+        m.setAttribute('transform',
+          'translate(' + pos.x.toFixed(1) + ' ' + pos.y.toFixed(1) + ') scale(' + k + ')');
       }
     },
 

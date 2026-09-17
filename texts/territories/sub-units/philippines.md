@@ -17,10 +17,7 @@ A landlocked basin in the foothills of the Cordillera, drained by the Abra river
 and shut in by mountains on three sides, with Bangued as its town. The valley
 floor is Ilocano and grows irrigated rice, maize and — since the Spanish tobacco
 monopoly reached up here — leaf for the Manila factories; the ridges above it are
-Tinguian country, worked in swidden and terrace. Gold was panned out of the
-river gravels, and pine and hardwood came off the slopes, but the province had no
-road worth the name until the American period and stayed one of the poorest and
-least visited in Luzon.
+Tinguian country, worked in swidden and terrace. Gold was panned out of the river gravels and pine and hardwood came off the slopes, but the province had no road worth the name until the American period and stayed poor and remote.
 
 {{phlprov}}
 
@@ -56,8 +53,7 @@ The narrow western coast of Panay, a strip of shore between the Central Panay
 mountains and the Sulu Sea, with no harbour of consequence and the mountains
 cutting it off from the richer provinces on the other side. Its people farmed
 rice and maize on the coastal flats and fished from the beach, and the interior
-was Iraya and Sulod country in the uplands. It was the poorest province on the
-island and lost people steadily to Iloilo, Negros and Manila; San Jose de
+was Iraya and Sulod country in the uplands. It was a poor province that lost people steadily to Iloilo, Negros and Manila; San Jose de
 Buenavista was the capital and never grew large.
 
 {{phlprov}}
@@ -94,11 +90,7 @@ South-western Luzon: rolling volcanic uplands and cattle country round the
 caldera lake of Taal, with the small active cone inside it, and a coastline of
 deep bays on the Verde Island passage. It grew the coffee that made Lipa
 briefly one of the richest towns in the islands, until blight destroyed the trees
-in the 1880s and the ground went over to sugar, maize and cattle. Batangueños
-have a reputation for being difficult that they earned twice: the province was
-one of the first to rise in 1896, and General Bell's campaign against it in
-1901–02, with the population concentrated into zones, was the harshest of the
-Philippine–American war.
+in the 1880s and the ground went over to sugar, maize and cattle. The province was one of the first to rise in 1896, and General Bell's campaign against it in 1901–02, with the population concentrated into zones, was among the harshest of the Philippine–American war.
 
 {{phlprov}}
 
@@ -121,10 +113,7 @@ The alluvial plain immediately north of Manila, flat, densely settled and heavil
 irrigated, running down to fishponds and mangrove along the bay. It grew rice for
 the capital and raised milkfish in the ponds, and its towns kept unusually
 specialised crafts — goldsmiths and jewellers at Meycauayan, fireworks at Bocaue,
-buntal hats at Baliuag. It has a place in the country's political memory out of
-proportion to its size: Marcelo H. del Pilar and the poet Balagtas came from
-here, and the congress of the First Philippine Republic met in the church at
-Malolos in 1898 and wrote a constitution there.
+buntal hats at Baliuag. Marcelo H. del Pilar and the poet Balagtas came from here, and the congress of the First Philippine Republic met in the church at Malolos in 1898 and wrote a constitution there.
 
 {{phlprov}}
 
@@ -160,8 +149,7 @@ the Bicol river plain and Lake Bato, and coasts on both the Pacific and San
 Miguel Bay. It is fertile volcanic country: rice on the plain, abaca and coconut
 on the slopes, and fishing in the bay and the lakes. Naga, which the Spanish
 called Nueva Cáceres, was one of the few cities they chartered outright and the
-seat of the bishopric for the whole region, and the Peñafrancia procession down
-the Bicol river every September is the largest Marian devotion in the country.
+seat of the bishopric for the whole region, and the Peñafrancia procession is held down the Bicol river every September.
 
 {{phlprov}}
 
@@ -198,8 +186,7 @@ river, a great alluvial plain with marsh and lake in its middle, hemmed by
 mountains and opening on Illana Bay. This was the country of the Maguindanao
 sultanate, brought under American administration only after 1900, and from the
 1910s the government planted agricultural colonies here — settlers from Luzon and
-the Visayas given land in the valley — which by the 1930s had begun to change
-the province's population and its politics for good. Rice, maize and abaca were
+the Visayas given land in the valley — which by the 1930s had begun to change the province's population. Rice, maize and abaca were
 what it grew, with forest over most of the rest of it, and the roads were few
 enough that the river was still the way in.
 
@@ -221,9 +208,7 @@ welcomed by part of that community.
 
 ## IlocosNorte
 
-A narrow shelf of coast between the Cordillera and the South China Sea, with more
-people on it than the land can feed — the reason Ilocanos have been leaving for
-four hundred years. What it grows it grows intensively: irrigated rice on the
+A narrow shelf of coast between the Cordillera and the South China Sea, with more people on it than the land can feed, which is why Ilocanos have emigrated from it for generations. What it grows it grows intensively: irrigated rice on the
 terraces, then tobacco, garlic, onions and cotton in the dry season, with fishing
 off a straight and dangerous coast. From 1906 the province supplied the Hawaiian
 sugar plantations with contract labour, and later the farms of California, and
@@ -315,7 +300,7 @@ the hydro-electric site the government had its eye on.
 
 ## Manila
 
-The capital and the reason for everything else: the port through which the
+The capital: the port through which the
 country's trade passed, the seat of the Insular and then Commonwealth government,
 the university, the banks and the newspapers, with something over six hundred
 thousand people by 1939. Intramuros, the walled Spanish city at the mouth of the
@@ -335,8 +320,7 @@ A nearly circular island between the tail of Luzon and Mindoro, mountainous in
 the middle with a fringe of coastal plain, and small enough to be a province of
 one island and a few islets. Coconut and rice were the ordinary living, with
 fishing all round the coast, and from the 1930s the Marinduque Iron Mines
-Corporation worked an open-cut iron deposit at Santa Cruz and shipped the ore to
-Japan — one of several such contracts that later looked different than they had.
+Corporation worked an open-cut iron deposit at Santa Cruz and shipped the ore to Japan.
 The Moriones pageant at Easter, with its carved Roman helmets and masks, was and
 is the island's best-known thing.
 
@@ -344,9 +328,7 @@ is the island's best-known thing.
 
 ## MisamisOccidental
 
-A narrow province on the western shore of the Panguil Bay inlet, a strip of coast
-under a mountain spine with almost no interior at all — you can cross it in an
-hour. Coconut was the crop, with maize on the slopes and a large inshore fishery
+A narrow province on the western shore of the Panguil Bay inlet, a strip of coast under a mountain spine with almost no interior at all. Coconut was the crop, with maize on the slopes and a large inshore fishery
 in the bay and along the Iligan Bay coast, and Ozamiz and Oroquieta were its
 towns. Its people were Cebuano and Subanen, and the province was cut off from its
 eastern namesake in 1929 because the two halves had nothing to do with each other
@@ -402,9 +384,7 @@ down close to the sea and there was never room for sugar on the western scale.
 Coconut, maize and fishing were what it lived on, with some sugar on the coastal
 flats round Bais, and the people spoke Cebuano rather than Hiligaynon, looking
 across to Cebu rather than over the mountains. Dumaguete, its capital, has been a
-university town since 1901, when American Presbyterians founded Silliman — the
-first American institution of higher learning in Asia — and the town's economy
-was largely built round it.
+university town since 1901, when American Presbyterians founded Silliman, the first Protestant institution of higher education in the Philippines, and the town's economy was largely built round it.
 
 {{phlprov}}
 
@@ -412,10 +392,7 @@ was largely built round it.
 
 The heart of the central Luzon rice bowl: a wide, flat, irrigated plain that grew
 more rice than any other province, mostly on large estates worked by tenants on a
-half-share. That arrangement, and the debt that went with it, made the province
-the most agrarian-conflicted in the country — the Sakdalista rising of May 1935
-took town halls here, and the Hukbalahap, formed in 1942, had its strongest base
-in these villages. Cabanatuan was the market town and later the site of the
+half-share. That arrangement, and the debt that went with it, made the province one of the most troubled by agrarian conflict in the country, and the Hukbalahap, formed in 1942, had its strongest base in these villages. Cabanatuan was the market town and later the site of the
 largest American prisoner-of-war camp in the islands.
 
 {{phlprov}}
@@ -497,9 +474,7 @@ and swift, and both navies used it in 1944.
 ## Sulu
 
 The archipelago that runs from Zamboanga to within sight of Borneo — several
-hundred islands, and the seat of the Sultanate of Sulu, which had been a power in
-these seas for centuries and was subdued by the Americans only after long and
-bloody fighting, at Bud Dajo in 1906 and Bud Bagsak in 1913. The Tausug and Samal
+hundred islands, and the seat of the Sultanate of Sulu, which had been a power in these seas for centuries and was subdued by the Americans after the fighting at Bud Dajo in 1906 and Bud Bagsak in 1913. The Tausug and Samal
 lived by the sea: pearling above all, on beds that were among the richest in the
 world and were worked by divers from Jolo and Siasi, with copra, seaweed and a
 trade to British North Borneo that no customs service ever controlled. Jolo, the
@@ -550,9 +525,7 @@ mountain to be sacred ground.
 
 The west coast of Luzon under the Zambales mountains, a strip of rice land and
 fishing villages backed by ridges of serpentine rock — which is what made the
-province matter. The Coto mine at Masinloc, opened in 1935, sat on one of the
-largest refractory chromite deposits in the world, and Philippine chromite went
-into the furnace linings of the American steel industry through the war. At the
+province matter. The Coto mine at Masinloc worked a large refractory chromite deposit, and Philippine chromite went into the furnace linings of the American steel industry through the war. At the
 southern end Subic Bay, a deep and sheltered anchorage, held a United States naval
 station and the town of Olongapo that served it, and the Aeta of the mountains
 behind were among the oldest inhabitants of the islands.

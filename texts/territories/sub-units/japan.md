@@ -324,8 +324,8 @@ killed over a thousand people, two years before the bombing would have.
 The old Izumo, which is where the myths that were not about the sun goddess came
 from: Izumo Taisha, the shrine of Ōkuninushi, is the second most important in
 the country and the oldest in form. Iwami Ginzan, in the west, was one of the
-great silver mines of the world in the sixteenth century and supplied a third of
-the silver in circulation globally at its peak; by this period it was finished.
+great silver mines of the world in the sixteenth century, when Japan was
+producing about a third of the world's silver; by this period it was finished.
 The prefecture also administers the Oki islands, exile country for two emperors,
 and — since Japan incorporated them in 1905 — the Liancourt Rocks that Korea
 calls Dokdo.

@@ -25,7 +25,7 @@
  * The first and the third are measured here. The second is guarded rather
  * than reproduced — see the note above that section.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const { puppeteer, sleep, ready, until, calm, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 /* Every name that is actually drawn, and every pair of them that overlap.
    The placer's whole job is that this list is empty. */
@@ -89,7 +89,7 @@ console.log('\n— a name that is moved to clear another is drawn where it was m
 for (const step of [1,2,3,4,5,6]) {
   await p.mouse.move(700,480);
   await p.mouse.wheel({deltaY:-260});
-  await sleep(430);
+  await calm(p);
   const o=await p.evaluate(OVERLAPS);
   check('no overlapping names '+step+' wheel steps in', o.hits.length===0,
     o.hits.slice(0,3).join(' | '));
@@ -155,7 +155,7 @@ await ready(p);
     host.dispatchEvent(new PointerEvent('pointerup',Object.assign({},o,{buttons:0,clientX:760,clientY:470})));
     await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
   });
-  await sleep(700);
+  await calm(p);
   const after=await p.evaluate(SCALE);
   check('the zoom really happened', Math.abs(after.want-base.want)>0.05,
     JSON.stringify(base)+' → '+JSON.stringify(after));
@@ -174,7 +174,7 @@ await ready(p);
     }
     host.dispatchEvent(new PointerEvent('pointerup',Object.assign({},o,{buttons:0,clientX:640,clientY:400})));
   });
-  await sleep(600);
+  await calm(p);
   const panned=await p.evaluate(SCALE);
   check('and are still right after a further pan', Math.abs(panned.want-panned.got)<0.002,
     JSON.stringify(panned));
@@ -194,10 +194,10 @@ console.log('\n— a long name is broken across lines —');
                {waitUntil:'domcontentloaded'});
   await ready(p);
   await p.evaluate(()=>{document.querySelector('header button[data-cat="territory"]').click();});
-  await sleep(1400);
+  await calm(p);
   await p.evaluate(()=>{const b=[...document.querySelectorAll('header button')]
     .find(x=>/Other/.test(x.textContent)); if(b) b.click();});
-  await sleep(1600);
+  await calm(p);
   const seen=await p.evaluate(()=>{
     const out=[];
     document.querySelectorAll('text').forEach(t=>{

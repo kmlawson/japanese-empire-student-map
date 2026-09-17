@@ -114,8 +114,8 @@ and Sinŭiju itself faced Antung across the bridge and became a chemical and pap
 town. From 1937 the Sup'ung dam was built across the Yalu, and when it was
 finished in 1941 it was among the largest hydro-electric stations in the world,
 supplying Manchuria and northern Korea together. Inland the province is high,
-cold and forested, with gold at Unsan — the concession an American company held
-from 1896, and the largest gold mine in the Far East.
+cold and forested, with gold at Unsan — an American concession from 1895, and
+the largest gold mine in Asia.
 
 ## Heiannan
 
@@ -162,8 +162,7 @@ than rice. The Mongols pastured horses here from the thirteenth century and
 Cheju horses remained a byword afterwards; the Chosŏn state used the island as
 a place of exile; and the haenyŏ, the women who dive without air for abalone
 and seaweed, were the island's cash economy and are still what it is known
-for. In the war it mattered for its position — bombers of the Kanoya and Kisarazu
-groups flew from Cheju to raid Nanjing in August 1937, in what were then the
-longest over-water bombing missions ever flown — and from 1945 the Japanese army
+for. In the war it mattered for its position — the navy flew bombers against China
+from an airfield here in 1937 — and from 1945 the Japanese army
 turned the whole island into a fortress against the invasion that never came,
 tunnelling the coastal cones and building airfields at Moseulp'o.

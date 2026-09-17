@@ -35,7 +35,7 @@ nearly 7,000 American lives; the airfields then served the B-29s over Tokyo.
 A fortified naval base, bombed from 1944 but never invaded, and the garrison
 held out to the surrender. George H. W. Bush was shot down off it in September
 1944. Officers on the island killed several captured American airmen and ate
-part of them, and were tried and hanged for it in 1946.
+part of them, and were tried after the war and hanged.
 
 ## Hahajima
 

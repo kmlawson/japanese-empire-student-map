@@ -12,33 +12,22 @@ used at run time — `texts/`, `tools/`, `data/`, `occupation-maps/` and
 root (`map.js`, `annotate.js`, `admin.js`, `trains.js`, `air-play.js`) are
 the *sources* of the comment-stripped copies the site serves from
 `deploy/lean/`. Upload `deploy/` whole, as the web root or as a subdirectory;
-every path inside it is relative. The table below is what it holds, and
-`docs/UPLOAD.md` is the list the build checks.
+every path inside it is relative. **`docs/UPLOAD.md` is the list of what it
+holds** — every file, its size raw and gzipped, and what makes a reader's
+browser ask for it — and the build refuses to run if a file the site can fetch
+is missing from it. There was a second copy of that table here and it drifted;
+there is one now.
 
-| file | size | gzipped | when it loads |
-|---|---:|---:|---|
-| `index.html` | 27 KB | 10 KB | first |
-| `styles.css` | 76 KB | 24 KB | first |
-| `map.js` | 355 KB | 114 KB | first |
-| `data.js` | 601 KB | 179 KB | first |
-| `cities-gaz.js` | 97 KB | 24 KB | first |
-| `relief.js` | 2 KB | 1 KB | first — the manifest for the sheets below |
-| `japan-empire-map.svg` | 2.8 MB | 807 KB | first |
-| `sources.html` | 15 KB | 7 KB | when the Sources page is opened |
-| `japan-empire-map-admin.svg` | 1.4 MB | 382 KB | when Administrative is switched on |
-| `japan-empire-map-fine.svg` | 635 KB | 128 KB | when the reader zooms deep into an island group |
-| `japan-empire-map-roc.svg` | 698 KB | 243 KB | when the AMS province source is chosen in Layers |
-| `annotate.js` | 220 KB | 64 KB | when a reader presses Create or Load annotations |
-| `relief/` (9 `.webp` sheets) | 6.8 MB | — | when Topography is switched on; one sheet per projection, fetched as asked for |
-| `admin.js` | 31 KB | — | only on option-click of Layers; leave it out if you would rather not ship the editing tools |
+In round figures, measured 17 September 2026 at update 372: the folder's
+runtime files are about **30 MB**, of which `relief/` is 6.9 MB of WebP that
+does not compress further and `timetable/` is 4 MB of printed tables opened
+one at a time. **A first view costs 1.57 MB gzipped** — the page, the
+stylesheet, `lean/map.js`, `data.js`, `cities-gaz.js` and the base SVG.
+Everything else waits until the reader asks for what is in it. `gis/`, the
+downloads linked from Sources, is a further 57 MB and nothing on the map
+waits for it.
 
-**About 13.7 MB in all, and about 8.7 MB over the wire** — but a reader never
-fetches most of it. A first view costs roughly 1.16 MB gzipped; the other
-three SVGs and the relief sheets are fetched only if the reader asks for what
-is in them, and WebP is already compressed, so the sheets cost what they
-weigh and no more.
-
-Twelfth is `.htaccess`, which is not part of the site — the map works without
+Beside them is `.htaccess`, which is not part of the site — the map works without
 it — but which is what makes the compression above actually happen on Apache.
 See the last section.
 
@@ -93,14 +82,11 @@ and is handed the *old* `map.js`, which their browser then keeps under the new
 name for a week. Two passes, everything else and then the page:
 
 ```sh
-rsync -avz \
-  styles.css map.js admin.js annotate.js data.js cities-gaz.js relief.js \
-  .htaccess relief \
-  japan-empire-map.svg japan-empire-map-admin.svg \
-  japan-empire-map-fine.svg japan-empire-map-roc.svg \
-  USER@SERVER:~/example.com/
+# from the repository root: everything but the two pages, then the pages
+rsync -avz --exclude /index.html --exclude /sources.html --exclude .DS_Store \
+  deploy/ USER@SERVER:~/example.com/
 
-rsync -avz index.html sources.html USER@SERVER:~/example.com/
+rsync -avz deploy/index.html deploy/sources.html USER@SERVER:~/example.com/
 ```
 
 The window is a few seconds and it takes a reader arriving inside it, so this

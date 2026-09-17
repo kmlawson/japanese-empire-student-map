@@ -40,6 +40,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import jp_link
 import rail_route
 import trains_split
+from trains_lib import grab, read_stations
 from urllib.parse import quote
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -336,13 +337,6 @@ def name_key(s):
     return ''.join(VARIANTS.get(c, c) for c in s)
 
 
-def grab(text, name):
-    """One `const NAME = <json>;` line out of the source bundle."""
-    i = text.index('const %s = ' % name) + len('const %s = ' % name)
-    j = text.index('\n', i)
-    return json.loads(text[i:j].rstrip().rstrip(';'))
-
-
 # **A MANCHURIAN CONNECTION STANDS AT ITS STATION, NOT AT ITS CITY.** The
 # Manchurian pages were transcribed with no line GIS behind them, so their
 # stops sat at the map's city points -- 奉天 3.6 km from the station, 哈爾濱
@@ -389,10 +383,7 @@ def mn_place(rec, name):
 
 
 def our_stations():
-    """kr-stations.js, which is JSON with a JS wrapper and trailing commas."""
-    txt = open(os.path.join(SITE, 'kr-stations.js'), encoding='utf-8').read()
-    body = txt[txt.index('['):txt.rindex(']') + 1]
-    return json.loads(re.sub(r',\s*([\]}])', r'\1', body))
+    return read_stations('kr')
 
 
 def build_js(anchors=None):

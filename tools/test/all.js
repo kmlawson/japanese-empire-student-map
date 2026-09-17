@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 /* Run every test the project has, several at a time.
  *
- *     python3 -m http.server 8123 &
  *     node tools/test/all.js                 # all of them
+ *     node tools/test/all.js smoke           # the sixty-second tripwire
+ *     node tools/test/all.js changed         # what the working tree's edits reach
  *     node tools/test/all.js taiwan labels   # only these
  *     node tools/test/all.js map             # only the map suites
  *     node tools/test/all.js ann             # only the annotation suites
  *     node tools/test/all.js data            # only what reads data/population/
  *     JOBS=2 node tools/test/all.js          # narrower, on a small machine
+ *
+ * The static server is started here if nothing answers on 8123 — on a free
+ * port, so two sessions in one checkout do not fight over it — and stopped
+ * when the run ends. `MAP_URL` in the environment overrides all of that.
  *
  * `annotations/all.js` has done this for its own half since the scripts there
  * were sped up, and the map suites were left being run one at a time by hand.
@@ -66,8 +71,8 @@ function noteRun(rec) {
 const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'projclip', 'extent', 'layers-url', 'bookmarks', 'cache-keys',
              'relief', 'mono', 'names', 'labuan', 'pin', 'stations', 'zoom', 'colours',
-             'trains', 'korea', 'population', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
-             'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airplay',
+             'trains', 'korea', 'population', 'poptables', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
+             'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airlines', 'airplay',
              'clipping', 'layerinfo', 'krtrains', 'kftrains', 'mntrains', 'layerfind', 'beta', 'hanlabels',
              'owns', 'jprails', 'indochina', 'citytap', 'ferries', 'arcs',
              'dei', 'burma'];
@@ -87,7 +92,7 @@ const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
  * So the lists are checked against the directory rather than trusted. Helpers
  * are named here because they are not scripts; anything else on disk that no
  * list mentions stops the run and says which. */
-const HELPERS = ['all', 'settle', 'downloads', 'suite'];
+const HELPERS = ['all', 'settle', 'downloads', 'suite', 'airlib'];
 (function orphanCheck() {
   const seen = {};
   MAP.concat(ANN).forEach(n => { seen[n] = true; });
@@ -136,6 +141,18 @@ const fileFor = n => /^run/.test(n)
  */
 
 const GROUPS = {
+  /* **The tripwire, not the gate.** Twenty-six scripts chosen by checks per
+     second with every group represented and nothing over eighteen seconds:
+     657 checks, a quarter of the suite's, for an eighth of its time — measured
+     at 58 s with four jobs and 36 s with eight. Run before any push. What it
+     deliberately leaves out: the relief raster, the station layers, the air
+     player, the annotation pane and three of the four train networks. `full`
+     still gates a release. */
+  smoke: ['owns', 'dei', 'layerfind', 'provsource', 'taiwanpop', 'bookmarks',
+          'cache-keys', 'zoom', 'mono', 'labuan', 'sugar', 'subnames', 'projclip',
+          'pointsize', 'beta', 'taiwan', 'labels', 'korea', 'backings', 'krtrains',
+          'twpop1930', 'colours', 'manchupop', 'theme', 'menu', 'run7'],
+
   /* The map's own interaction — what a pointer, a key or a switch does. This
      is what `map.js` changes touch, and `map.js` changes hourly. */
   core: ['labels', 'labelcats', 'legendpick', 'subnames', 'mapstrip', 'keys',
@@ -152,7 +169,7 @@ const GROUPS = {
   /* The figures — `data/population/` and the cards, tables, choropleths and
      sentences built from them. A dataset added or edited touches these and
      little else, and there is no reason to spend six minutes finding out. */
-  data: ['population', 'demography', 'japanpop', 'twpop1930', 'manchupop',
+  data: ['population', 'poptables', 'demography', 'japanpop', 'twpop1930', 'manchupop',
          'taiwanpop', 'korea', 'names', 'hanlabels'],
 
   /* The shapes themselves, and the sheets they are written to. These move when
@@ -162,7 +179,7 @@ const GROUPS = {
 
   /* Railways, stations and the sugar lines. Four data files that change in
      bursts and then sit still for weeks. */
-  transport: ['trains', 'krtrains', 'kftrains', 'mntrains', 'stations', 'sugar', 'air', 'airplay',
+  transport: ['trains', 'krtrains', 'kftrains', 'mntrains', 'stations', 'sugar', 'air', 'airlines', 'airplay',
                'layerinfo', 'hanlabels', 'owns', 'jprails', 'citytap',
                'ferries'],
 
@@ -278,6 +295,18 @@ const TRIGGERS = [
   [/^data\/burma\/burma-1931-rule-categories\./, ['geometry', 'core', 'links']],
 
   [/^tools\/build_(tw|kr|kf|mn)_(trains|stations)\.py$/, ['transport']],
+  [/^tools\/trains_lib\.py$/,       ['transport']],
+  // The builders that had no rule, so an edit to any of them ran everything:
+  // gis/ is the published exports and breaks nothing; the four geometry
+  // builders write what the geometry scripts read; the sugar lines are transport.
+  [/^tools\/build_gis_sources\.py$/, []],
+  [/^tools\/build_(relief|kf_coast|korea_fine|korea_provinces)\.py$/, ['geometry']],
+  [/^tools\/build_tw_sugar\.py$/,    ['transport']],
+  // Research scans, statistics, the deploy workflow and the source list: none
+  // of them is read by a test.
+  [/^(occupation-maps|stats)\//,     []],
+  [/^\.github\//,                    []],
+  [/^data\/sources\.csv$/,           []],
   [/^data\/(tw-1936|kr-1938|kf-1935)-timetable\//, []],   // vendored; the build reads it
   [/^data\/manchuria\//, []],                          // the same, for Manchuria
   [/^deploy\/timetable\//,         ['transport']],
@@ -330,14 +359,31 @@ const MAP_SECTIONS = [
   [/^what kind of point is it$/, ['core', 'points']],
   [/^controls$/, ['core', 'links']],
   [/^(shareable links|reading a shared address)$/, ['links']],
-  [/^(shaded relief|the fine coastlines|Korea at survey resolution)$/, ['geometry']],
-  [/^(the sugar railways|train tools|a station's trains)$/, ['transport']],
+  [/^(shaded relief|the relief, drawn|the fine coastlines|Korea at survey resolution)$/, ['geometry']],
+  [/^(the sugar railways|train tools|a station's trains|the six railways, one by one)$/, ['transport']],
+  [/^(the station layers|the air tap path)$/, ['transport', 'points']],
+  // The railway button, its fade and the fetch of Japan's lines: what both the
+  // transport scripts and the core ones press.
+  [/^Japan's railways$/, ['transport', 'core']],
+  [/^(the graticule|the lit cluster)$/, ['core']],
+  [/^reprojection$/, ['core', 'geometry']],
+  [/^(the gazetteer|the site labels|the other menus)$/, ['core', 'points']],
+  [/^the cards$/, ['core', 'data']],
+  [/^railways and cities as GeoJSON$/, ['links', 'points', 'transport']],
+  [/^the CSV button and the population tables$/, ['data']],
+  [/^the population switches$/, ['data', 'core']],
+  [/^THEMATIC LAYERS$/, ['geometry', 'core', 'links']],
   [/^epoch composition$/, ['core', 'data']],
   [/^(the air routes|reading a clock|which sheets are drawn|the air)$/, ['transport', 'points']],
   [/^(layers as GeoJSON|what a layer is, and what it is not)$/, ['links', 'points']],
   [/^(a choropleth, taken away whole|population by density|the pies|the units with no figure|the figure on each unit|and in the info card|taking a table away)$/, ['data']],
   [/^(legend|the palette|the key as a set of switches|the sheets, on a menu)$/, ['core', 'data']],
   [/^the right-click menu$/, ['points', 'core']],
+  [/^the pick menus, one machine$/, ['core', 'points']],
+  // `applyState` is the one place every layer change comes through: an edit
+  // there reaches everything, and the rule says so rather than leaving it to
+  // the fallback.
+  [/^applying state$/, ['core', 'points', 'links', 'data']],
   [/^annotations$/, ['ann', 'core']],
 ];
 const MAP_WHOLE = ['core', 'points', 'links', 'data'];   // the file's own rule
@@ -478,21 +524,17 @@ else list = pick.map(a => (/^\d+$/.test(a) ? 'run' + (a === '1' ? '' : a) : a));
    than one 45-second script the other three workers wait out. Names not in the
    table go last: an unknown script is usually a new one, and a new one is
    usually quick. */
-/* Measured, not guessed, and re-measured when it drifts. The runner sorts
-   longest-first so the tail of a run is short jobs rather than long ones —
-   which only works if the numbers are true. They had gone badly stale:
-   `stations` was down as 65 seconds and takes 147, `relief` as 60 and takes
-   140, `layers-url` as 18 and takes 70. All three were being scheduled near
-   the *back*, so a run ended with its longest scripts and three idle
-   workers. Regenerate from a full run's own per-script line. */
-const SECS = { owns: 1, jprails: 190, stations: 147, relief: 140, demography: 95, population: 97, 'layers-url': 158, names: 62, mapstrip: 56, trains: 79, krtrains: 16, kftrains: 19, mntrains: 30, japanpop: 44, theme: 40, labels: 40, subnames: 37, labelcats: 35, routes: 34, sugar: 33, twpop1930: 33, pin: 31, epoch: 29, mono: 27, colours: 26, extent: 26, islands: 25, manchupop: 25, keys: 52, legendpick: 22, labuan: 22, provsource: 19, bookmarks: 16, 'cache-keys': 15, backings: 15, taiwan: 15, korea: 14, zoom: 13, menu: 13, pointsize: 11, projclip: 11, taiwanpop: 7, beta: 22, hanlabels: 108, air: 159, airplay: 78, clipping: 24, layerinfo: 34, arcs: 2,
-               run2: 41, run15: 40, run5: 35, run14: 32, run: 19, run3: 28, run9: 30, run10: 25, run11: 24, run12: 19, run8: 19, run13: 18, run4: 17, run6: 12, run7: 5 };
-/* And now measured rather than transcribed. Every run writes what each script
-   took (`per`, in runs.jsonl) and the latest figure for a script overrides the
-   table above — so the table is the fallback for a script nobody has run
-   since this was added, not the authority. On 9 September sixteen of its
-   entries were more than 30% out, and `airplay`, the third-longest script,
-   was scheduled as the eleventh. */
+/* How long each script takes, so the runner can start the longest first
+   and the tail of a run is short jobs rather than long ones. Read from
+   `runs.jsonl`: every run writes what each script took (`per`), and the
+   latest figure wins. There used to be a hand-kept table here as the
+   fallback, and it rotted — on 9 September sixteen of its entries were more
+   than 30% out, `stations` was down as 65 seconds and took 147, and `airplay`,
+   the third-longest script, was scheduled eleventh. A table nobody measures
+   is a guess that reads as a fact, so it is gone: a script with no run
+   behind it sorts last, which is where a new script, usually a quick one,
+   belongs. */
+const SECS = {};
 (function measured() {
   let recs;
   try {
@@ -516,20 +558,26 @@ if (PAST.length) {
     + (last.failed ? ' and something failed' : ''));
 }
 
+/* Each script drives a browser, and a browser is several processes. All the
+   cores but two, never fewer than two and never more than eight. The cap was
+   four, and the default half the cores, on
+   the argument that past it they queue on the machine and a test starved of
+   CPU fails on timing rather than on truth. Measured on 15 September 2026 on
+   a ten-core machine that was already busy: the scripts are 88–94 per cent
+   asleep, eight browsers idle together as well as four do, and the whole
+   suite went from 494 s to 264 s with the same 2,471 checks and no failure.
+   `JOBS` in the environment still narrows it on a small machine, and the
+   retry below is what catches the browser that loses the start. */
+const JOBS = Math.max(2, Math.min(8,
+  parseInt(process.env.JOBS, 10) || ((os.cpus().length || 4) - 2)));
+
 if (dry) {
   const secs = list.reduce((a, n) => a + (SECS[n] || 0), 0);
   console.log('\n  would run ' + list.length + ' script(s), about '
-              + Math.round(secs / 4) + 's at four at a time:');
+              + Math.round(secs / JOBS) + 's at ' + JOBS + ' at a time:');
   console.log('    ' + list.join(' ') + '\n');
   process.exit(0);
 }
-
-/* Each script drives a browser, and a browser is several processes. Half the
-   cores, never fewer than two and never more than four: past that they queue
-   on the machine rather than on each other, and a test that is starved of CPU
-   starts failing on timing rather than on truth. */
-const JOBS = Math.max(2, Math.min(4,
-  parseInt(process.env.JOBS, 10) || Math.floor((os.cpus().length || 4) / 2)));
 
 const started = Date.now();
 const results = [];
@@ -618,5 +666,55 @@ function done() {
   process.exit(bad.length);
 }
 
-console.log('Running ' + list.length + ' scripts, ' + JOBS + ' at a time.');
-launch();
+/* **The server, started here if nobody has.** The docstring used to say
+   `python3 -m http.server 8123 &` first, and a whole run was once lost to a
+   port cleanup that had killed it. If `MAP_URL` is set it is honoured; if
+   8123 answers it is used; otherwise a server is started on a free port for
+   the run and stopped with it. */
+let server = null;
+
+function answers(url) {
+  return new Promise(resolve => {
+    const req = require('http').get(url, res => { res.resume(); resolve(res.statusCode === 200); });
+    req.on('error', () => resolve(false));
+    req.setTimeout(1500, () => { req.destroy(); resolve(false); });
+  });
+}
+
+function freePort() {
+  return new Promise((resolve, reject) => {
+    const srv = require('net').createServer();
+    srv.listen(0, '127.0.0.1', () => {
+      const port = srv.address().port;
+      srv.close(() => resolve(port));
+    });
+    srv.on('error', reject);
+  });
+}
+
+async function ensureServer() {
+  if (process.env.MAP_URL) return;
+  if (await answers('http://localhost:8123/deploy/index.html')) return;
+  const port = await freePort();
+  const root = path.join(__dirname, '..', '..');
+  server = spawn('python3', ['-m', 'http.server', String(port)],
+                 { cwd: root, stdio: 'ignore' });
+  const url = 'http://localhost:' + port + '/deploy/index.html';
+  for (let i = 0; i < 50; i++) {
+    if (await answers(url)) break;
+    await new Promise(r => setTimeout(r, 200));
+  }
+  process.env.MAP_URL = url;
+  console.log('  (static server started on port ' + port + ' for this run)');
+}
+
+function stopServer() {
+  if (server) { try { server.kill(); } catch (e) { /* already gone */ } server = null; }
+}
+process.on('SIGINT', () => { stopServer(); process.exit(130); });
+process.on('exit', stopServer);
+
+ensureServer().then(() => {
+  console.log('Running ' + list.length + ' scripts, ' + JOBS + ' at a time.');
+  launch();
+});

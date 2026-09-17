@@ -8756,7 +8756,10 @@ def main():
     for _gid, (_over, _epochs) in sorted(rails.items()):
         # One group per railway, one path per epoch: map.js shows whichever the
         # date asks for and hides the layer altogether unless the switch is on.
-        out.append(f'  <g id="{_gid}" style="display:none">')
+        # `rail-net` is the class every railway group shares -- the one built
+        # at run time for Japan too -- so map.js and the stylesheet can address
+        # "a railway" without listing the six by id
+        out.append(f'  <g id="{_gid}" class="rail-net" style="display:none">')
         for _ep in sorted(_epochs):
             # `data-over` names the ground the line runs on. map.js reads that
             # atom's *computed* fill and inks the dots against it — white on a

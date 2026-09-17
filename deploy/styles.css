@@ -1241,17 +1241,11 @@ button.plain:hover { background: var(--hover-fill); }
    so the highlight goes on the group and every path in it thickens together.
    Screen pixels, via non-scaling-stroke, so it reads the same at every zoom —
    the map-units/screen-pixels rule in CLAUDE.md. */
-#tw-rail.picked .rail,
-#kr-rail.picked .rail,
-#kf-rail.picked .rail,
-#mn-rail.picked .rail {
+.rail-net.picked .rail {
   stroke-width: 3.4;
   stroke: var(--pick, #b8860b);
 }
-#tw-rail.picked .rail-tie,
-#kr-rail.picked .rail-tie,
-#kf-rail.picked .rail-tie,
-#mn-rail.picked .rail-tie {
+.rail-net.picked .rail-tie {
   stroke-width: 3.4;
 }
 
@@ -3048,8 +3042,7 @@ dialog h3 {
   stroke: var(--mono-line);
 }
 #jmap.mono .hatch-fill,
-#jmap.mono .chinabase,
-#jmap.mono .ccp-fill {
+#jmap.mono .chinabase {
   display: none;
 }
 /* The mandates keep their line and lose their wash. The wash is a claim about
@@ -4216,12 +4209,7 @@ dialog h3 {
 
    Every id is written out in full in every list now. It is longer and it is
    the only form that says what it means. */
-#label-menu,
-#rail-menu,
-#train-menu,
-#station-menu,
-#theme-menu,
-#air-menu {
+.pick-menu {
   position: fixed;
   z-index: 60;
   min-width: 15rem;
@@ -4234,19 +4222,9 @@ dialog h3 {
   font-size: 13px;
   color: var(--ink);
 }
-#label-menu[hidden],
-#air-menu[hidden],
-#rail-menu[hidden],
-#train-menu[hidden],
-#station-menu[hidden],
-#theme-menu[hidden] { display: none; }
+.pick-menu[hidden] { display: none; }
 
-#label-menu .menu-head,
-#rail-menu .menu-head,
-#train-menu .menu-head,
-#station-menu .menu-head,
-#theme-menu .menu-head,
-#air-menu .menu-head {
+.pick-menu .menu-head {
   padding: 2px 10px 5px;
   color: var(--muted);
   font-size: 11.5px;
@@ -4268,12 +4246,7 @@ dialog h3 {
   margin-top: 0;
   border-top: 0;
 }
-#label-menu label,
-#rail-menu label,
-#train-menu label,
-#station-menu label,
-#theme-menu label,
-#air-menu label {
+.pick-menu label {
   display: flex;
   gap: 8px;
   align-items: flex-start;
@@ -4281,18 +4254,8 @@ dialog h3 {
   border-radius: 5px;
   cursor: pointer;
 }
-#label-menu label:hover,
-#rail-menu label:hover,
-#train-menu label:hover,
-#station-menu label:hover,
-#theme-menu label:hover,
-#air-menu label:hover { background: var(--hover-fill); }
-#label-menu input,
-#rail-menu input,
-#train-menu input,
-#station-menu input,
-#theme-menu input,
-#air-menu input { margin-top: 2px; flex: none; }
+.pick-menu label:hover { background: var(--hover-fill); }
+.pick-menu input { margin-top: 2px; flex: none; }
 
 /* **One design for all three.** The railway menu had a two-line row of its
    own — the name in bold, the source indented under it — which made the same
@@ -4305,22 +4268,13 @@ dialog h3 {
    and wrap as one sentence; the checkbox is the row's only other child. Three
    flex children made three columns — a narrow stack of the name beside a
    narrow stack of the source, which is how it was reported. */
-#rail-menu .menu-text,
-#train-menu .menu-text,
-#station-menu .menu-text,
-#theme-menu .menu-text { flex: 1 1 auto; min-width: 0; }
-#rail-menu .src,
-#train-menu .src,
-#theme-menu .src { color: var(--muted); }
+.pick-menu .menu-text { flex: 1 1 auto; min-width: 0; }
+.pick-menu .src { color: var(--muted); }
 
 /* Twenty-two sheets is a long menu, so it scrolls rather than running off the
    screen, and the way back sits at the foot of it. */
-#air-menu,
-#rail-menu,
-#theme-menu { max-height: min(70vh, 30rem); overflow-y: auto; }
-#air-menu .menu-reset,
-#rail-menu .menu-reset,
-#theme-menu .menu-reset {
+.pick-menu { max-height: min(70vh, 30rem); overflow-y: auto; }
+.pick-menu .menu-reset {
   display: block;
   width: calc(100% - 12px);
   margin: 6px 6px 2px;

@@ -1,0 +1,14 @@
+{
+  "texts/city-names.csv": {
+    "quetta": {
+      "wiki": "https://en.wikipedia.org/wiki/Quetta"
+    },
+    "kabul": {
+      "wiki": "https://en.wikipedia.org/wiki/Kabul"
+    }
+  },
+  "texts/city-names.md": {
+    "vizag": "The east-coast port, bombed on 7 April 1942 by aircraft from the carrier Ryūjō, which set off an exodus from the town.",
+    "benares": "The pilgrimage city on the Ganges. The city itself was British territory; the maharaja's state around it, drawn inside the United Provinces here, was recognised as a princely state only in 1911."
+  }
+}

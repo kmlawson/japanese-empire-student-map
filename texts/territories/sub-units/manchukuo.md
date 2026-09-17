@@ -18,12 +18,74 @@
 
 ## Hsing An Peh
 
+The Hulun Buir grasslands west of the Greater Khingan — Mongol banners, horses
+and sheep, and the Trans-Manchurian line running out to the Soviet frontier at
+Manchouli.
 
+## Hsing An Tung
 
-## Je Hol
+The eastern slope of the Greater Khingan falling to the Nen — larch and birch
+forest above, Daur and Mongol grazing below, and logging camps worked for the
+railway.
 
-A province of the Republic until February 1933, when the Kwantung Army took it
-and attached it to Manchukuo.
+## Hsing An Si
+
+Dry steppe between the Khingan and the Mongolian plateau, too thin to plough:
+pasture, and the caravan roads that carried wool south before the railways
+took the traffic.
+
+## Hsing An Nan
+
+The southern tail of the Khingan where the steppe meets the farmed land —
+Mongol banners losing ground to Chinese settlement, a frontier of tillage that
+had been moving north for a century.
+
+## Heiho
+
+Taiga and the Amur, facing Blagoveshchensk across the water — gold along the
+tributaries, and after 1932 a garrison frontier watched from both banks.
+
+## Lungkiang
+
+The Nonni plain, black earth and the great soya and wheat country of the
+north; Tsitsihar its capital, and the first serious fighting of the Manchurian
+Incident fought at the Nonni bridges in November 1931.
+
+## Sankiang
+
+The marshy confluence of the Sungari and the Amur — the Sanjiang plain,
+drained and broken in the 1930s for the Japanese agricultural colonies, the
+largest settlement scheme of the empire.
+
+## Pin Kiang
+
+Harbin and the Sungari: the junction of the Chinese Eastern Railway, a city of
+Russian émigrés, grain and distilling — and, at Pingfang on its southern edge,
+the Kwantung Army’s biological warfare establishment, Unit 731.
+
+## Chien Tao
+
+The Tumen frontier with Korea, mountainous and mostly Korean-settled; the
+ground on which the anti-Japanese partisan bands of the 1930s formed, and were
+hunted through.
+
+## Feng Tien
+
+The Liao plain and Mukden — headquarters of the South Manchuria Railway, the
+region’s arsenal and heavy industry, and the place where the line was blown up
+on 18 September 1931.
+
+## An Tung
+
+The Yalu frontier, timber floated down from the interior and milled at Antung,
+and the bridge across to Sinuiju that carried the traffic between Manchuria
+and Korea.
+
+## Kirin
+
+The upper Sungari in forested hills — lumber, and the Fengman dam begun in
+1937, one of the largest hydroelectric works in Asia, built with conscripted
+labour.
 
 ## Chinchow
 
@@ -31,12 +93,14 @@ The corridor between the Gulf of Chihli and the mountains: the road and the
 railway into China proper, and so the ground the Kwantung Army had to hold if
 the fighting was to pass south of the Wall.
 
-It is also where the war in the air began. Chang Hsüeh-liang had withdrawn his
-government here after Mukden, and on **8 October 1931** eleven Japanese
-aircraft bombed the city — one of the first aerial bombardments of an
-undefended town, and the first anywhere to be reported live to the League of
-Nations, whose observers were in China at the time. The raid did more than any
-other single act to turn foreign opinion, and it is what prompted Stimson to
-begin drafting the non-recognition doctrine that bears his name. Chinchow
-itself was occupied on **3 January 1932**, and with it the last Chinese
-administration in Manchuria went.
+Chang Hsüeh-liang had withdrawn his government here after Mukden, and on
+**8 October 1931** Japanese aircraft bombed the city. Stimson protested that
+bombing an unfortified and unwarned town was an extreme act even in war, and the
+raid was among the events behind the non-recognition doctrine he announced in
+January 1932. Chinchow itself was occupied on **3 January 1932**, and with it the
+last Chinese administration in Manchuria went.
+
+## Je Hol
+
+A province of the Republic until February 1933, when the Kwantung Army took it
+and attached it to Manchukuo, carrying the frontier down to the Wall itself.
