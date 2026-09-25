@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '375';
+  var JEM_VERSION = '376';
 
   /* Every file this one fetches, with the version on it.
 
@@ -3737,6 +3737,12 @@
     });
     if (gratGroup) { gratGroup.__step = null; gratGroup.__mode = null; }
     drawGraticule();
+    // a theme's names are held in lon/lat and put where this projection says
+    themeLabels.forEach(function (tl) {
+      var q = project(tl.lon, tl.lat);
+      tl.x = q.x; tl.y = q.y;
+      tl.areaW = undefined;       // the area's width is a new one too
+    });
     // the station squares are drawn from `sitePos`, just moved
     Object.keys(staLive).forEach(dropLiveMark);
     if (drawStationPicture) Object.keys(STATION_SYS).forEach(function (k) { drawStationPicture(k); });
@@ -6456,6 +6462,8 @@
     }
     // the stations' live marks, which are few by construction
     for (var sid in staLive) placeScalable(staLive[sid], k);
+    // and a theme's names, eighteen at most: see `placeThemeLabels`
+    placeThemeLabels(k);
     sizeStationPictures();
     /* `k` is SVG units per screen pixel, and anything a reader's own marks draw
        in *screen* terms needs it. A filter's deviation is the case: it is in
@@ -9250,6 +9258,8 @@
     svg.insertBefore(g, subsLiftLayer || markersGroup || null);
     if (projMode !== 'mercator') reprojectGraft([g]);
     themeLayer = g;
+    // a theme's names are placed by `rescale`, now there is a page to measure in
+    if (themeLabels.length && lastScaleW > 0) rescale();
     applyThemeClip();
     /* **THE WASH IS OPAQUE, SO THE BOUNDARIES COME UP THROUGH IT.**
        It was drawn at 0.55 so the districts underneath stayed readable, which
@@ -9263,13 +9273,18 @@
     return g;
   }
 
-  /* **A theme of areas and lines**, for one whose areas are not a country's
+  /* **A theme of named areas**, for one whose areas are not a country's
      districts — the 1931 military divisions, whose commands, districts and
      brigade areas cut across the provinces. Each area is a path in its
-     command's colour and carries the words the hover gives it; the plate's
-     two red lines, worked out by `build_themes.py`, go over them. 18 areas
-     and two lines: the element count is what costs, not the vertices
+     command's colour with a black outline of its own, so the boundaries are
+     whole wherever two areas meet, and carries the words the hover gives it.
+     Its name is written at the point `build_themes.py` found deepest inside
+     it: a district in small capitals, a brigade area letter-spaced. 18 areas
+     and 18 names: the element count is what costs, not the vertices
      (`reports/2026.09.25-heavy-layers.md`). */
+  var themeLabels = [];          // the names, as scalables: see `rescale`
+  var themeHotEl = null;         // the outline of the area under the pointer
+
   function buildThemeAreas(g, rec, geom) {
     var colour = {};
     (rec.cats || []).forEach(function (c) { colour[c.id] = c.c; });
@@ -9305,12 +9320,99 @@
       if (d) g.appendChild(svgEl('path', {
         d: d, fill: colour[a.cmd] || '#ccc', 'class': 'theme-area',
         'data-cat': a.cmd, 'data-cat-en': a.en,
+        'data-unit': a.unit || a.en, 'data-cmd-en': a.cmdEn || '',
       }));
     });
-    [['solid', 'theme-line'], ['dashed', 'theme-line theme-dash']].forEach(function (k) {
-      var d = dOf(geom[k[0]] || [], false);
-      if (d) g.appendChild(svgEl('path', { d: d, 'class': k[1] }));
+    /* The names over the areas, after them so no fill covers one. Placed
+       like every other name on the map — a translate to the point and a
+       scale of `k` — so the size is SCREEN pixels at every zoom. */
+    themeLabels = [];
+    (geom.areas || []).forEach(function (a) {
+      if (!a.at || !a.short) return;
+      var q = project(a.at[0], a.at[1]);
+      var t = svgEl('text', { 'class': 'theme-label theme-label-' + (a.kind || 'district') });
+      t.textContent = a.short;
+      g.appendChild(t);
+      var entry = { el: t, x: q.x, y: q.y, lon: a.at[0], lat: a.at[1] };
+      /* The area's width in map units, and roughly how wide the name is in
+         screen pixels: a name wider on screen than the area it labels is
+         hidden until the zoom gives it room (see `rescale`). Estimated from
+         the characters rather than measured, because a measurement here is
+         a layout of the whole document per name. */
+      entry.ap = g.querySelector('path.theme-area[data-unit="' + (a.unit || a.en).replace(/"/g, '') + '"]');
+      entry.areaW = undefined;  // measured once the group is in the page
+      entry.textW = a.short.length * (a.kind === 'brigade' ? 12 * 0.95 : 15 * 0.72);
+      themeLabels.push(entry);
     });
+  }
+
+  /* **Which of a theme's names are written, and where.** A name is shown
+     when its area is at least three quarters as wide on screen as the name —
+     a name may overhang a little, as the plate's own do, and Baluchistan,
+     mostly beyond the map's western edge, is otherwise never lettered — and
+     when it does not sit on a name already placed. Larger areas are placed
+     first, so at the opening view the four small districts of the frontier
+     give way to each other and to Lahore rather than being lettered in a
+     heap. `areaW` is map units and `textW` screen pixels: `k` converts.
+     Eighteen names, so the collision test is a double loop and costs
+     nothing. */
+  function placeThemeLabels(k) {
+    if (!themeLabels.length) return;
+    themeLabels.forEach(function (TL) {
+      if (TL.areaW === undefined && TL.ap && TL.ap.isConnected) {
+        try { TL.areaW = TL.ap.getBBox().width; } catch (err) { TL.areaW = 0; }
+      }
+    });
+    var order = themeLabels.slice().sort(function (a, b) {
+      return (b.areaW || 0) - (a.areaW || 0);
+    });
+    var kept = [];
+    order.forEach(function (TL) {
+      var fits = !TL.areaW || TL.areaW / k >= TL.textW * 0.75;
+      // the name's box in screen pixels, about its point
+      var cx = TL.x / k, cy = TL.y / k;
+      var box = { l: cx - TL.textW / 2 - 4, r: cx + TL.textW / 2 + 4,
+                  t: cy - 10, b: cy + 10 };
+      var clear = fits && kept.every(function (o) {
+        return box.r < o.l || box.l > o.r || box.b < o.t || box.t > o.b;
+      });
+      TL.el.style.display = clear ? '' : 'none';
+      if (clear) {
+        kept.push(box);
+        placeScalable(TL, k);
+      }
+    });
+  }
+
+  /* The area path under a point in map units, for a theme of named areas. */
+  function themeAreaAtUser(ux, uy) {
+    if (!themeShown || !themeLayer || !svg) return null;
+    var q = svg.createSVGPoint();
+    q.x = ux; q.y = uy;
+    var paths = themeLayer.querySelectorAll('path.theme-area');
+    for (var i = 0; i < paths.length; i++) {
+      try { if (paths[i].isPointInFill(q)) return paths[i]; } catch (err) { /* no geometry yet */ }
+    }
+    return null;
+  }
+
+  function themeAreaAt(cx, cy) {
+    var u = toUser(cx, cy);
+    return u ? themeAreaAtUser(u.x, u.y) : null;
+  }
+
+  /* The area under the pointer, outlined: the whole unit, not the country
+     it is in. A copy of its outline drawn last in the theme's group, so no
+     neighbour's fill covers half the line. */
+  function setThemeHot(area) {
+    if (themeHotEl && (!area || themeHotEl.__for !== area)) {
+      themeHotEl.remove();
+      themeHotEl = null;
+    }
+    if (!area || themeHotEl || !themeLayer) return;
+    themeHotEl = svgEl('path', { d: area.getAttribute('d'), 'class': 'theme-hot' });
+    themeHotEl.__for = area;
+    themeLayer.appendChild(themeHotEl);
   }
 
   /* **CLIPPED TO THE COUNTRY, LIKE ITS DISTRICTS.**
@@ -9363,6 +9465,8 @@
        layer that had not asked for them. */
     if (id && themeShown) setTheme('');
     if (themeLayer) { themeLayer.remove(); themeLayer = null; }
+    themeLabels = [];
+    themeHotEl = null;
     if (!id) {
       var wasAtom = atomEls[(themeRec(themeShown) || {}).atom]
         || $('#a-' + ((themeRec(themeShown) || {}).atom || ''), svg);
@@ -9811,7 +9915,7 @@
       return;
     }
     if (state.mode === 'quiz' || dragStart || marquee) {
-      setHot(null); setHotProv(null); setSubsAtom(null); return;
+      setHot(null); setHotProv(null); setSubsAtom(null); setThemeHot(null); return;
     }
     var got = pick(e.target, e.clientX, e.clientY);
     var hit = got && got.hit;
@@ -9821,11 +9925,17 @@
     setSubsAtom(hit.rec.kind === 'territory' && got.el && got.el.closest
                 ? got.el.closest('.atom') : null);
     var prov = hit.rec.kind === 'territory' ? provinceAt(got, e.clientX, e.clientY) : null;
-    setHot(hit.rec.kind === 'territory' ? hit.rec.id : null,
+    /* Under a theme of named areas the unit is what the pointer is on: it
+       is outlined, and the country's own outline stands down rather than
+       drawing a second shape round the whole of British India. */
+    var tArea = (themeLayer && hit.rec.kind === 'territory')
+      ? themeAreaAt(e.clientX, e.clientY) : null;
+    setThemeHot(tArea);
+    setHot(hit.rec.kind === 'territory' && !tArea ? hit.rec.id : null,
            prov && clusterOf(prov.el));
     lastProv = prov;
     lastProvAt = prov ? toUser(e.clientX, e.clientY) : null;
-    setHotProv(prov ? prov.el : null);
+    setHotProv(prov && !tArea ? prov.el : null);
     showTooltip(hit.rec, e.clientX, e.clientY, prov);
   }
 
@@ -10110,11 +10220,32 @@
         tooltip.appendChild(pn);
       }
     }
+    /* **The unit leads, under a theme of named areas.** The reader turned
+       the military divisions on to ask which district this is, so its name
+       is the headline and its command the line under it; the country is
+       context and goes below, as a province's country does. */
+    var tUnit = themeLayer ? themeAreaAt(cx, cy) : null;
+    if (tUnit) {
+      $$('.theme-cat', tooltip).forEach(function (n) { n.remove(); });
+      var first = tooltip.firstChild;
+      var un = document.createElement('strong');
+      un.className = 'theme-unit';
+      un.textContent = tUnit.getAttribute('data-unit') || '';
+      tooltip.insertBefore(un, first);
+      var cmdEn = tUnit.getAttribute('data-cmd-en');
+      if (cmdEn) {
+        var cm = document.createElement('span');
+        cm.className = 'sub theme-cmd';
+        cm.textContent = cmdEn;
+        tooltip.insertBefore(cm, first);
+      }
+    }
     tooltip.hidden = false;
     if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
   }
 
   function hideTooltip() {
+    setThemeHot(null);
     tooltip.hidden = true;
     tipKey = null;
     tipAt = null;
@@ -17506,7 +17637,8 @@
      it — see below. The geometry is fetched on the first press, so the first
      one is a beat slower and every one after is not. */
   function pressTheme() {
-    if (themeOn()) { setTheme(''); return; }
+    /* With a theme up the press opens the menu too, not a switch-off: the
+       reader may want the other theme, and Off is one of its rows. */
     var ids = themesHere();
     if (!ids.length) return;
     /* **THE MENU OPENS EVEN WHEN THERE IS ONE THEME IN IT.**
@@ -18810,9 +18942,17 @@
         trec.cats.forEach(function (cat) {
           legendRow(legend, 'sw-theme', cat.c, cat.en, null, null);
         });
-        (trec.keyLines || []).forEach(function (kl) {
-          legendRow(legend, kl.dash ? 'sw-theme-line sw-theme-dash' : 'sw-theme-line',
-                    null, kl.en, null, null);
+        /* And what the two kinds of name mean, each shown in its own
+           lettering: a district in small capitals, a brigade area spaced. */
+        (trec.keyLabels || []).forEach(function (kl) {
+          var row = document.createElement('div');
+          row.className = 'item theme-key-label';
+          var smp = document.createElement('span');
+          smp.className = 'theme-key-sample theme-label-' + kl.kind;
+          smp.textContent = kl.sample;
+          row.appendChild(smp);
+          row.appendChild(document.createTextNode(kl.en));
+          legend.appendChild(row);
         });
       }
     }

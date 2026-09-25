@@ -32,6 +32,7 @@ Two things are computed here rather than at runtime.
   at build.
 """
 import json
+import math
 import os
 import sys
 
@@ -91,25 +92,29 @@ THEME = {
 # brigade area, named in `name` (Zhob, Sind, Poona, Delhi). Burma is a
 # district that is also a command.
 #
-# The plate colours by command and draws two kinds of red line: solid between
-# districts, dashed round an independent brigade area. The lines are worked
-# out here, not traced: an edge is a boundary when another area lies against
-# it — sharing its vertices, or within `EDGE_NEAR` of it where the tracing
-# left a sliver — and the coast and the outer frontier, which the plate does
-# not line in red, have nothing against them.
+# Read from the *filled* copy `tools/fill_military.py` writes — the tracing
+# with the ground it stops short of at Bombay and on the Chin hills given to
+# the area the author assigned it. The tracing itself is never written to.
+#
+# Each area is drawn with a black outline of its own, so the boundaries
+# between them are whole wherever the areas meet; they were worked out from
+# shared edges once, and broke wherever the tracing's neighbours did not
+# quite touch. And each carries a name, placed at the point deepest inside
+# it: districts in small capitals, brigade areas letter-spaced, as the key
+# explains.
 #
 # Its own file, fetched when a reader chooses it: 36,000 vertices, every one
 # the tracing has, is too much to send with Burma's theme to somebody who
 # only wanted Burma. `themes.js` carries its name, its key and the file.
 MIL_SRC = os.path.join(ROOT, "tools", "cache",
-                       "1931-india-military-divisions.geojson")
+                       "1931-india-military-divisions-filled.geojson")
 MIL_OUT = os.path.join(SITE, "theme-india-military.js")
 
-# The plate's colours, in the map's own palette where it has one: the
-# Western Command in the British pink every British possession is drawn in.
+# The plate's colours. Western is the plate's own light pink rather than the
+# map's British, which is darker and read as a different thing.
 MIL_COMMANDS = [
     ("Northern", "Northern Command", "#a998bf"),
-    ("Western", "Western Command", "#b07f8e"),
+    ("Western", "Western Command", "#e3b3c0"),
     ("Eastern", "Eastern Command", "#a9bf7a"),
     ("Southern", "Southern Command", "#efd96b"),
     ("Burma Independent District", "Burma Independent District", "#ec9a5b"),
@@ -127,17 +132,14 @@ MIL_THEME = {
     "admin": False,
     "clip": False,
     "download": "gis/source/india-1931-military-divisions.geojson",
-    "keyLines": [
-        {"en": "Boundaries of Districts within Commands", "dash": False},
-        {"en": "Boundaries of Independent Brigade Areas", "dash": True},
+    # what the two kinds of name on the map are, for the key
+    "keyLabels": [
+        {"kind": "district", "sample": "Lahore",
+         "en": "District within a command"},
+        {"kind": "brigade", "sample": "Delhi",
+         "en": "Independent brigade area"},
     ],
 }
-
-# How close another area's edge has to be for this one to count as a
-# boundary rather than the coast: about two kilometres. The tracing's slivers
-# are narrower than that; the nearest coast-to-frontier gap is far wider.
-EDGE_NEAR = 0.02
-GRID = 0.05
 
 # Four decimals is about eleven metres, which is finer than the source map at
 # fifty miles to the inch can possibly be. It is the precision `jp-rails.js`
@@ -319,26 +321,93 @@ def main():
 
 
 def mil_label(props):
-    """What the hover says: the area, then the command it answers to."""
+    """The area, its command, and the name written on the map."""
     cmd = (props.get("command") or "").strip()
     area = (props.get("name") or "").strip()
     div = (props.get("division") or "").strip()
     if cmd == "Burma Independent District":
-        return cmd
+        return {"unit": cmd, "cmdEn": "", "short": "Burma", "kind": "district"}
     if area:
-        return "%s Independent Brigade Area, %s Command" % (area, cmd)
-    return "%s District, %s Command" % (div, cmd)
+        return {"unit": "%s Independent Brigade Area" % area,
+                "cmdEn": "%s Command" % cmd, "short": area, "kind": "brigade"}
+    return {"unit": "%s District" % div, "cmdEn": "%s Command" % cmd,
+            "short": div, "kind": "district"}
+
+
+def map_west():
+    """The map's western edge, in degrees: the base sheet says, in
+    `data-lon-min`. A name placed west of it is not on the map."""
+    import re
+    with open(os.path.join(SITE, "japan-empire-map.svg"), encoding="utf-8") as fh:
+        head = fh.read(20000)
+    m = re.search(r'data-lon-min="([-\d.]+)"', head)
+    return float(m.group(1)) if m else -180.0
+
+
+def label_point(rings, west=-180.0):
+    """The point deepest inside the largest polygon's outer ring — where a
+    name can be written without running over the edge, which a centroid does
+    not promise for Bombay's coast or the crescent of the Central Provinces.
+    A grid search refined three times, distances in kilometres so that a
+    degree of longitude counts for what it is at that latitude."""
+    outer = max(rings, key=lambda r: abs(ic.signed_area(r)))
+    # a copy of about 400 points to search against: placing a name needs a
+    # few kilometres, not the tracing's every vertex, and the search is a
+    # point-in-ring and a distance per point per candidate. Only for this;
+    # what is drawn keeps every vertex.
+    step = max(1, len(outer) // 400)
+    outer = outer[::step] + [outer[0]]
+    xs = [p[0] for p in outer]
+    ys = [p[1] for p in outer]
+    lat0 = (min(ys) + max(ys)) / 2
+    kx = math.cos(math.radians(lat0))
+
+    def inside(p):
+        return ic.point_in_ring(p, outer)
+
+    def depth(p):
+        best = 1e18
+        for a, b in zip(outer, outer[1:]):
+            ax, ay = (a[0] - p[0]) * kx, a[1] - p[1]
+            bx, by = (b[0] - p[0]) * kx, b[1] - p[1]
+            dx, dy = bx - ax, by - ay
+            L = dx * dx + dy * dy
+            t = 0.0 if not L else max(0.0, min(1.0, -(ax * dx + ay * dy) / L))
+            x, y = ax + t * dx, ay + t * dy
+            d = x * x + y * y
+            if d < best:
+                best = d
+        return best
+
+    x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
+    best, at = -1.0, ic.centroid(outer)
+    for _ in range(4):
+        n = 24
+        for i in range(n + 1):
+            for j in range(n + 1):
+                p = (x0 + (x1 - x0) * i / n, y0 + (y1 - y0) * j / n)
+                # and on the map with room for the word: Baluchistan's
+                # deepest point is west of the edge, and a name centred half a
+                # degree in ran off it at the opening view
+                if p[0] < west + 1.8 or not inside(p):
+                    continue
+                d = depth(p)
+                if d > best:
+                    best, at = d, p
+        wx, wy = (x1 - x0) / 6, (y1 - y0) / 6
+        x0, x1, y0, y1 = at[0] - wx, at[0] + wx, at[1] - wy, at[1] + wy
+    return [round(at[0], PREC), round(at[1], PREC)]
 
 
 def build_military():
-    """The theme's areas and its two kinds of line. Returns (meta, geometry)."""
+    """The theme's areas, each with its name and where to write it.
+    Returns (meta, geometry)."""
     if not os.path.exists(MIL_SRC):
-        raise SystemExit("%s is missing" % MIL_SRC)
+        raise SystemExit("%s is missing: run tools/fill_military.py" % MIL_SRC)
     feats = rings_of(MIL_SRC)
     colour = dict((c[0], c[2]) for c in MIL_COMMANDS)
+    west = map_west()
     areas = []
-    brigade = []
-    rings_by = []
     verts = 0
     for feat in feats:
         props = feat["properties"]
@@ -348,115 +417,17 @@ def build_military():
                              "knows. Add it to MIL_COMMANDS with a colour." % cmd)
         rs = [r for r in ic.rings_of(feat["geometry"]) if len(r) >= 4]
         verts += sum(len(r) for r in rs)
-        areas.append({"en": mil_label(props), "cmd": cmd,
-                      "r": [flat(r) for r in rs]})
-        brigade.append(bool((props.get("name") or "").strip()))
-        rings_by.append(rs)
-
-    # every edge, keyed without direction, with the areas that have it
-    def key(p):
-        return (round(p[0], 6), round(p[1], 6))
-    owners = {}
-    for i, rs in enumerate(rings_by):
-        for r in rs:
-            for a, b in zip(r, r[1:]):
-                owners.setdefault(frozenset((key(a), key(b))), set()).add(i)
-
-    # a grid of every edge, for the ones no neighbour shares vertex for vertex
-    grid = {}
-    for i, rs in enumerate(rings_by):
-        for r in rs:
-            for a, b in zip(r, r[1:]):
-                mx, my = (a[0] + b[0]) / 2, (a[1] + b[1]) / 2
-                grid.setdefault((int(mx // GRID), int(my // GRID)), []).append((i, a, b))
-
-    def near_other(i, m):
-        best, who = EDGE_NEAR, None
-        gx, gy = int(m[0] // GRID), int(m[1] // GRID)
-        for dx in (-1, 0, 1):
-            for dy in (-1, 0, 1):
-                for j, a, b in grid.get((gx + dx, gy + dy), ()):
-                    if j == i:
-                        continue
-                    d = seg_dist(m, a, b)
-                    if d < best:
-                        best, who = d, j
-        return who
-
-    solid, dashed = [], []
-    shared = near = 0
-    for i, rs in enumerate(rings_by):
-        for r in rs:
-            for a, b in zip(r, r[1:]):
-                own = owners[frozenset((key(a), key(b)))]
-                if len(own) > 1:
-                    j = min(o for o in own if o != i)
-                    if j < i:
-                        continue            # drawn once, from the lower side
-                    shared += 1
-                else:
-                    j = near_other(i, ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2))
-                    if j is None:
-                        continue            # the coast, or the frontier
-                    if j < i and near_other(j, ((a[0] + b[0]) / 2,
-                                                (a[1] + b[1]) / 2)) is not None:
-                        continue            # its neighbour draws this stretch
-                    near += 1
-                (dashed if brigade[i] or brigade[j] else solid).append((a, b))
-
-    geom = {"areas": areas, "solid": chains(solid), "dashed": chains(dashed)}
+        lab = mil_label(props)
+        area = {"cmd": cmd, "r": [flat(r) for r in rs], "at": label_point(rs, west)}
+        area.update(lab)
+        area["en"] = lab["unit"] + (", " + lab["cmdEn"] if lab["cmdEn"] else "")
+        areas.append(area)
+    geom = {"areas": areas}
     meta = dict(MIL_THEME)
     meta["cats"] = [{"id": c[0], "en": c[1], "c": c[2]} for c in MIL_COMMANDS]
-    print("military   %d areas, %d vertices; lines: %d shared edges, %d by "
-          "nearness; %d solid and %d dashed chains"
-          % (len(areas), verts, shared, near, len(geom["solid"]),
-             len(geom["dashed"])))
+    print("military   %d areas, %d vertices, every one the filled file has"
+          % (len(areas), verts))
     return meta, geom
-
-
-def seg_dist(p, a, b):
-    """Distance in degrees from p to the segment ab: short, so flat is fine."""
-    ax, ay = a[0] - p[0], a[1] - p[1]
-    bx, by = b[0] - p[0], b[1] - p[1]
-    dx, dy = bx - ax, by - ay
-    L = dx * dx + dy * dy
-    t = 0.0 if not L else max(0.0, min(1.0, -(ax * dx + ay * dy) / L))
-    x, y = ax + t * dx, ay + t * dy
-    return (x * x + y * y) ** 0.5
-
-
-def chains(segs):
-    """Segments joined end to end into as few polylines as they make, each a
-    flat [lon, lat, …] list. Order within a chain is the only thing decided
-    here; no vertex is added, moved or dropped."""
-    adj = {}
-    for n, (a, b) in enumerate(segs):
-        adj.setdefault(tuple(a[:2]), []).append(n)
-        adj.setdefault(tuple(b[:2]), []).append(n)
-    used = [False] * len(segs)
-    out = []
-    for n in range(len(segs)):
-        if used[n]:
-            continue
-        used[n] = True
-        a, b = segs[n]
-        line = [tuple(a[:2]), tuple(b[:2])]
-        for end in (1, 0):
-            while True:
-                tip = line[-1] if end else line[0]
-                nxt = [m for m in adj.get(tip, ()) if not used[m]]
-                if not nxt:
-                    break
-                m = nxt[0]
-                used[m] = True
-                c, d = tuple(segs[m][0][:2]), tuple(segs[m][1][:2])
-                far = d if c == tip else c
-                if end:
-                    line.append(far)
-                else:
-                    line.insert(0, far)
-        out.append(flat(line))
-    return out
 
 
 if __name__ == "__main__":

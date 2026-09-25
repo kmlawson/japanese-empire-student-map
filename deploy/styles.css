@@ -875,27 +875,63 @@ button.plain:hover { background: var(--hover-fill); }
   stroke-width: .6;
   vector-effect: non-scaling-stroke;
 }
-/* The 1931 military divisions' two boundaries, in the plate's red: solid
-   between the districts of a command, dashed round an independent brigade
-   area. Screen pixels, being `non-scaling-stroke`, dash and all. */
-#thematic path.theme-line {
-  fill: none;
-  stroke: #b3202a;
-  stroke-width: 1.5;
+/* **The 1931 military divisions.** Each area outlined in black on its own
+   path, so a boundary is whole wherever two areas meet — they were once
+   computed from shared edges and broke wherever the tracing's neighbours did
+   not quite touch. SCREEN pixels, being `non-scaling-stroke`. */
+#thematic path.theme-area {
+  stroke: #1d1813;
+  stroke-width: .9;
   stroke-linejoin: round;
 }
-#thematic path.theme-dash { stroke-dasharray: 6 4; }
-/* No outline of their own: the thin dark line every other theme shape has
-   ran under the red and filled the dashes' gaps, so a brigade area read as
-   a district. The fill stands against the sea without it. */
-#thematic path.theme-area { stroke: none; }
-#legend .sw.sw-theme-line {
-  height: 0;
-  border: 0;
-  border-radius: 0;
-  border-top: 2px solid #b3202a;
+/* The area under the pointer, outlined over its neighbours. */
+#thematic path.theme-hot {
+  fill: none;
+  stroke: #14110c;
+  stroke-width: 2.6;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
-#legend .sw.sw-theme-line.sw-theme-dash { border-top-style: dashed; }
+/* Their names, as the plate letters them: a district in small capitals and
+   larger, a brigade area smaller with its letters spaced out. A pale halo so
+   they read over the boundaries. Sizes are SCREEN pixels: each name is
+   counter-scaled like every other on the map. */
+#thematic .theme-label {
+  text-anchor: middle;
+  dominant-baseline: central;
+  fill: #2a1a14;
+  paint-order: stroke;
+  stroke: rgba(255, 253, 248, .8);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+#thematic .theme-label-district {
+  font-size: 15px;
+  font-variant: small-caps;
+  letter-spacing: .06em;
+  font-weight: 600;
+}
+#thematic .theme-label-brigade {
+  font-size: 12px;
+  letter-spacing: .32em;
+}
+#tooltip .theme-unit { display: block; font-weight: 700; }
+/* the key's samples of the two letterings, in the same faces */
+#legend .theme-key-label { gap: 8px; }
+#legend .theme-key-sample {
+  flex: 0 0 auto;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #2a1a14;
+}
+#legend .theme-key-sample.theme-label-district {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: 1.1em;
+  letter-spacing: .06em;
+}
+#legend .theme-key-sample.theme-label-brigade { letter-spacing: .3em; }
+
 
 /* Burma's divisions, the Shan federation and the Karenni states.
  *

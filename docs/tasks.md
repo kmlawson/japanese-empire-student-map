@@ -23310,3 +23310,49 @@ sources page and in the layer note.
   themes over Burma. Full suite: 2,550 checks across 75 scripts, 372 s, under
   load (five retried); `burma` fixed, `layerinfo`, `run11`, `run15` pass alone.
   Not committed.
+
+## 218. The military divisions: filled, lettered, outlined in black, and the book opens its menu
+
+Asked for, with screenshots: the book should open its menu with a theme up,
+not switch the theme off; Western in a lighter pink; the broken boundary
+lines joined; the uncovered land at Bombay and between Presidency & Assam and
+Burma given to those areas; the districts and brigade areas named on the map
+and the naming explained in the key; the lines black and undashed; the unit
+named in the hover.
+
+* **The book**: `pressTheme` opens the menu whatever is up; Off is a row.
+* **Western Command** `#e3b3c0` (was the map's British `#b07f8e`).
+* **Lines**: the computed solid and dashed chains are gone — they broke where
+  the tracing's neighbours did not meet. Each area is outlined in black
+  (`#1d1813`, 0.9 px) on its own path, so every boundary is whole; the coast
+  is outlined too, as Burma's theme outlines its own.
+* **Uncovered land**: British India's land (`deploy/gis/british-india-1930
+  .geojson`) less the tracing leaves 134 pieces. New `tools/fill_military.py`
+  (GDAL/SQLite, rerunnable) unions the author's two into their areas and
+  writes `tools/cache/1931-india-military-divisions-filled.geojson`, which the
+  build draws and the site offers as the download; the tracing is not
+  written to. Bombay: the island, Salsette and the coast beside them, five
+  pieces, ~476 km² (box 72.6–73.1 E, 18.6–19.8 N). Presidency & Assam: the
+  Chin hills strip, 2,001 km². Both valid afterwards (Bombay's 52 m spike
+  goes with `ST_MakeValid`); the other 16 areas identical coordinate for
+  coordinate. **Left uncovered, for the author**: Kashmir (222,304 km², not
+  coloured on the plate), the Andaman and Nicobar islands (about 40 pieces,
+  largest 970 km²; the plate has them orange), a 33 km² gap near Dholpur
+  (77.84 E, 26.59 N), and 67 slivers under 1 km².
+* **Names**: at the point deepest inside each area (`label_point` in
+  build_themes.py, searched against a ~400-point copy of the outline, kept at
+  least 1.8° east of the map's 66° edge). Districts in small capitals at
+  15 px, brigade areas at 12 px letter-spaced, counter-scaled like every
+  name; `placeThemeLabels` shows a name when its area is at least ¾ as wide
+  on screen and it overlaps no larger area's name — at the opening view Kohat
+  and Waziristan give way, close in all four frontier districts are named.
+  Measured inside their own area under Mercator, Albers and Lambert. The key
+  shows *Lahore* in small capitals "District within a command" and *D e l h
+  i* "Independent brigade area".
+* **Hover**: leads with the unit and its command ("Lahore District / Northern
+  Command"), outlines the unit (`setThemeHot`) and leaves the country's own
+  outline off.
+* `theme-india-military.js` 559 KB (was 670, the lines gone); 36,129
+  vertices, every one the filled file has.
+* **Tests**: `military` rewritten to these, 40 checks. Full suite: 2,646
+  checks across 75 scripts, 264.5 s, all passing. Released as update 376.

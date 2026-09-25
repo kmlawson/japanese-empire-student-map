@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '375';
+  var JEM_VERSION = '376';
 
 
 
@@ -3738,6 +3738,12 @@
     if (gratGroup) { gratGroup.__step = null; gratGroup.__mode = null; }
     drawGraticule();
 
+    themeLabels.forEach(function (tl) {
+      var q = project(tl.lon, tl.lat);
+      tl.x = q.x; tl.y = q.y;
+      tl.areaW = undefined;       // the area's width is a new one too
+    });
+
     Object.keys(staLive).forEach(dropLiveMark);
     if (drawStationPicture) Object.keys(STATION_SYS).forEach(function (k) { drawStationPicture(k); });
     liveStations();
@@ -6456,6 +6462,8 @@
     }
 
     for (var sid in staLive) placeScalable(staLive[sid], k);
+
+    placeThemeLabels(k);
     sizeStationPictures();
 
 
@@ -9250,6 +9258,8 @@
     svg.insertBefore(g, subsLiftLayer || markersGroup || null);
     if (projMode !== 'mercator') reprojectGraft([g]);
     themeLayer = g;
+
+    if (themeLabels.length && lastScaleW > 0) rescale();
     applyThemeClip();
 
 
@@ -9269,6 +9279,11 @@
 
 
 
+
+
+
+  var themeLabels = [];          // the names, as scalables: see `rescale`
+  var themeHotEl = null;         // the outline of the area under the pointer
 
   function buildThemeAreas(g, rec, geom) {
     var colour = {};
@@ -9305,12 +9320,99 @@
       if (d) g.appendChild(svgEl('path', {
         d: d, fill: colour[a.cmd] || '#ccc', 'class': 'theme-area',
         'data-cat': a.cmd, 'data-cat-en': a.en,
+        'data-unit': a.unit || a.en, 'data-cmd-en': a.cmdEn || '',
       }));
     });
-    [['solid', 'theme-line'], ['dashed', 'theme-line theme-dash']].forEach(function (k) {
-      var d = dOf(geom[k[0]] || [], false);
-      if (d) g.appendChild(svgEl('path', { d: d, 'class': k[1] }));
+
+
+
+    themeLabels = [];
+    (geom.areas || []).forEach(function (a) {
+      if (!a.at || !a.short) return;
+      var q = project(a.at[0], a.at[1]);
+      var t = svgEl('text', { 'class': 'theme-label theme-label-' + (a.kind || 'district') });
+      t.textContent = a.short;
+      g.appendChild(t);
+      var entry = { el: t, x: q.x, y: q.y, lon: a.at[0], lat: a.at[1] };
+
+
+
+
+
+      entry.ap = g.querySelector('path.theme-area[data-unit="' + (a.unit || a.en).replace(/"/g, '') + '"]');
+      entry.areaW = undefined;  // measured once the group is in the page
+      entry.textW = a.short.length * (a.kind === 'brigade' ? 12 * 0.95 : 15 * 0.72);
+      themeLabels.push(entry);
     });
+  }
+
+
+
+
+
+
+
+
+
+
+
+  function placeThemeLabels(k) {
+    if (!themeLabels.length) return;
+    themeLabels.forEach(function (TL) {
+      if (TL.areaW === undefined && TL.ap && TL.ap.isConnected) {
+        try { TL.areaW = TL.ap.getBBox().width; } catch (err) { TL.areaW = 0; }
+      }
+    });
+    var order = themeLabels.slice().sort(function (a, b) {
+      return (b.areaW || 0) - (a.areaW || 0);
+    });
+    var kept = [];
+    order.forEach(function (TL) {
+      var fits = !TL.areaW || TL.areaW / k >= TL.textW * 0.75;
+
+      var cx = TL.x / k, cy = TL.y / k;
+      var box = { l: cx - TL.textW / 2 - 4, r: cx + TL.textW / 2 + 4,
+                  t: cy - 10, b: cy + 10 };
+      var clear = fits && kept.every(function (o) {
+        return box.r < o.l || box.l > o.r || box.b < o.t || box.t > o.b;
+      });
+      TL.el.style.display = clear ? '' : 'none';
+      if (clear) {
+        kept.push(box);
+        placeScalable(TL, k);
+      }
+    });
+  }
+
+
+  function themeAreaAtUser(ux, uy) {
+    if (!themeShown || !themeLayer || !svg) return null;
+    var q = svg.createSVGPoint();
+    q.x = ux; q.y = uy;
+    var paths = themeLayer.querySelectorAll('path.theme-area');
+    for (var i = 0; i < paths.length; i++) {
+      try { if (paths[i].isPointInFill(q)) return paths[i]; } catch (err) { /* no geometry yet */ }
+    }
+    return null;
+  }
+
+  function themeAreaAt(cx, cy) {
+    var u = toUser(cx, cy);
+    return u ? themeAreaAtUser(u.x, u.y) : null;
+  }
+
+
+
+
+  function setThemeHot(area) {
+    if (themeHotEl && (!area || themeHotEl.__for !== area)) {
+      themeHotEl.remove();
+      themeHotEl = null;
+    }
+    if (!area || themeHotEl || !themeLayer) return;
+    themeHotEl = svgEl('path', { d: area.getAttribute('d'), 'class': 'theme-hot' });
+    themeHotEl.__for = area;
+    themeLayer.appendChild(themeHotEl);
   }
 
 
@@ -9363,6 +9465,8 @@
 
     if (id && themeShown) setTheme('');
     if (themeLayer) { themeLayer.remove(); themeLayer = null; }
+    themeLabels = [];
+    themeHotEl = null;
     if (!id) {
       var wasAtom = atomEls[(themeRec(themeShown) || {}).atom]
         || $('#a-' + ((themeRec(themeShown) || {}).atom || ''), svg);
@@ -9811,7 +9915,7 @@
       return;
     }
     if (state.mode === 'quiz' || dragStart || marquee) {
-      setHot(null); setHotProv(null); setSubsAtom(null); return;
+      setHot(null); setHotProv(null); setSubsAtom(null); setThemeHot(null); return;
     }
     var got = pick(e.target, e.clientX, e.clientY);
     var hit = got && got.hit;
@@ -9821,11 +9925,17 @@
     setSubsAtom(hit.rec.kind === 'territory' && got.el && got.el.closest
                 ? got.el.closest('.atom') : null);
     var prov = hit.rec.kind === 'territory' ? provinceAt(got, e.clientX, e.clientY) : null;
-    setHot(hit.rec.kind === 'territory' ? hit.rec.id : null,
+
+
+
+    var tArea = (themeLayer && hit.rec.kind === 'territory')
+      ? themeAreaAt(e.clientX, e.clientY) : null;
+    setThemeHot(tArea);
+    setHot(hit.rec.kind === 'territory' && !tArea ? hit.rec.id : null,
            prov && clusterOf(prov.el));
     lastProv = prov;
     lastProvAt = prov ? toUser(e.clientX, e.clientY) : null;
-    setHotProv(prov ? prov.el : null);
+    setHotProv(prov && !tArea ? prov.el : null);
     showTooltip(hit.rec, e.clientX, e.clientY, prov);
   }
 
@@ -10110,11 +10220,32 @@
         tooltip.appendChild(pn);
       }
     }
+
+
+
+
+    var tUnit = themeLayer ? themeAreaAt(cx, cy) : null;
+    if (tUnit) {
+      $$('.theme-cat', tooltip).forEach(function (n) { n.remove(); });
+      var first = tooltip.firstChild;
+      var un = document.createElement('strong');
+      un.className = 'theme-unit';
+      un.textContent = tUnit.getAttribute('data-unit') || '';
+      tooltip.insertBefore(un, first);
+      var cmdEn = tUnit.getAttribute('data-cmd-en');
+      if (cmdEn) {
+        var cm = document.createElement('span');
+        cm.className = 'sub theme-cmd';
+        cm.textContent = cmdEn;
+        tooltip.insertBefore(cm, first);
+      }
+    }
     tooltip.hidden = false;
     if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
   }
 
   function hideTooltip() {
+    setThemeHot(null);
     tooltip.hidden = true;
     tipKey = null;
     tipAt = null;
@@ -17506,7 +17637,8 @@
 
 
   function pressTheme() {
-    if (themeOn()) { setTheme(''); return; }
+
+
     var ids = themesHere();
     if (!ids.length) return;
 
@@ -18810,9 +18942,17 @@
         trec.cats.forEach(function (cat) {
           legendRow(legend, 'sw-theme', cat.c, cat.en, null, null);
         });
-        (trec.keyLines || []).forEach(function (kl) {
-          legendRow(legend, kl.dash ? 'sw-theme-line sw-theme-dash' : 'sw-theme-line',
-                    null, kl.en, null, null);
+
+
+        (trec.keyLabels || []).forEach(function (kl) {
+          var row = document.createElement('div');
+          row.className = 'item theme-key-label';
+          var smp = document.createElement('span');
+          smp.className = 'theme-key-sample theme-label-' + kl.kind;
+          smp.textContent = kl.sample;
+          row.appendChild(smp);
+          row.appendChild(document.createTextNode(kl.en));
+          legend.appendChild(row);
         });
       }
     }
