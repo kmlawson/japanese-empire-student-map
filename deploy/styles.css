@@ -875,6 +875,27 @@ button.plain:hover { background: var(--hover-fill); }
   stroke-width: .6;
   vector-effect: non-scaling-stroke;
 }
+/* The 1931 military divisions' two boundaries, in the plate's red: solid
+   between the districts of a command, dashed round an independent brigade
+   area. Screen pixels, being `non-scaling-stroke`, dash and all. */
+#thematic path.theme-line {
+  fill: none;
+  stroke: #b3202a;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+#thematic path.theme-dash { stroke-dasharray: 6 4; }
+/* No outline of their own: the thin dark line every other theme shape has
+   ran under the red and filled the dashes' gaps, so a brigade area read as
+   a district. The fill stands against the sea without it. */
+#thematic path.theme-area { stroke: none; }
+#legend .sw.sw-theme-line {
+  height: 0;
+  border: 0;
+  border-radius: 0;
+  border-top: 2px solid #b3202a;
+}
+#legend .sw.sw-theme-line.sw-theme-dash { border-top-style: dashed; }
 
 /* Burma's divisions, the Shan federation and the Karenni states.
  *
@@ -1143,6 +1164,14 @@ button.plain:hover { background: var(--hover-fill); }
 .sta-layer .sta-pic-case { stroke: var(--sta-line); stroke-width: 6.1; }
 .sta-layer .sta-pic-fill { stroke: var(--sta-fill); stroke-width: 3.9; }
 .sta-layer .sta-mark:hover .sta-sq { fill: #ffd200; }
+/* The picture draws every square, at the size the zoom gives it (see
+   `sizeStationPictures`); a live mark's own square is for the one under the
+   pointer and the one the card is open on. Drawn always, the live marks put a
+   full 5px square over the shrunken ones wherever a railway had few enough
+   stations to have live marks — Taiwan, Korea — and the two sizes fought. */
+.sta-layer .sta-mark .sta-sq { visibility: hidden; }
+.sta-layer .sta-mark:hover .sta-sq,
+.sta-layer .sta-mark.sel .sta-sq { visibility: visible; }
 /* The one the card is open on. A touch screen has no hover to say which square
    was tapped, and a card headed Gāoxióng over a hundred and ninety identical
    squares does not say it either. */

@@ -65,6 +65,11 @@ FILES = [
 
     ("data/manchuria/manchuria-1942-lines.geojson", "manchuria-1942-lines.geojson"),
     ("data/manchuria/manchuria-1942-stations.geojson", "manchuria-1942-stations.geojson"),
+
+    # the 1931 military divisions: the theme's own tracing, read by
+    # build_themes.py, and the file the theme's download offers
+    ("tools/cache/1931-india-military-divisions.geojson",
+     "india-1931-military-divisions.geojson"),
 ]
 
 

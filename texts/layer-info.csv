@@ -23,3 +23,4 @@ train-tools,Train Tools,trainTools,,,
 relief,Shaded Relief,relief,,"Shaded relief after [Natural Earth](https://www.naturalearthdata.com/), warped once per projection by tools/build_relief.py.",https://www.naturalearthdata.com/
 graticule,The Graticule,graticule,,,
 theme-burma-rule,1931 Administration Map of Burma,themeId,,"The map at p. xi of *Census of India, 1931 Vol XI Burma Part I Report*.",
+theme-india-military,1931 Military Divisions of British India,themeId,,Map from the [1931 Imperial Gazetteer of India](https://dsal.uchicago.edu/reference/gaz_atlas_1931/gaz_atlas_mirador?https://dsal.uchicago.edu/reference/gaz_atlas_1931/manifests/gazetteer_atlas_1931.json&canvasID=28#gsc.tab=0).,https://dsal.uchicago.edu/reference/gaz_atlas_1931/gaz_atlas_mirador?https://dsal.uchicago.edu/reference/gaz_atlas_1931/manifests/gazetteer_atlas_1931.json&canvasID=28#gsc.tab=0

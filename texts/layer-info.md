@@ -118,3 +118,7 @@ Report*. It shows four different categories of territory for British Burma:
 States, Upper Chindwin district including the Hukawng Valley and Naga Hills),
 the "Triangle", part of the Arakan Hill tracks only brought under
 administration in 1930, and the Karenni states.
+
+## theme-india-military
+
+[Download this layer as GeoJSON](gis/source/india-1931-military-divisions.geojson).

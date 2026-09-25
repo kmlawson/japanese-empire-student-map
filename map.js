@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '374';
+  var JEM_VERSION = '375';
 
   /* Every file this one fetches, with the version on it.
 
@@ -4187,6 +4187,40 @@
   var staOverCap = false;         // too many in view: the pointer asks the table
   var drawStationPicture = null;  // set where the stations are built
 
+  /* **Smaller as the map pulls back.** Drawn at the full 5px square at every
+     zoom, Japan's stations ran together along every line from a few degrees
+     out: the fills of neighbouring squares cover each other's outlines, since
+     the outline path is drawn whole under the fill path, and what was left
+     was a white ribbon with a ragged edge. Reported as chunky. So the size
+     goes with the view: the full square at `STA_FULL_LAT` degrees of
+     latitude on screen or closer, shrinking with the span to 35% of it — a
+     bead under two pixels with a hairline round it — and round
+     rather than square once it is under four pixels, where a square's
+     corners only read as noise. SCREEN pixels throughout: the strokes are
+     `non-scaling-stroke`, and this is written on a zoom, where `k` changes,
+     never on a pan. */
+  var STA_FULL_LAT = 1.2;
+  var staPicAt = -1;              // the size last written, so a zoom that
+                                  // does not change it writes nothing
+
+  function sizeStationPictures(force) {
+    var f = Math.min(1, Math.max(0.35, Math.pow(STA_FULL_LAT / latSpan(), 0.6)));
+    f = Math.round(f * 40) / 40;
+    if (f === staPicAt && !force) return;
+    staPicAt = f;
+    var sq = STA_SQ * f;
+    var ring = Math.min(1.1, sq * 0.3);
+    var cap = sq < 4 ? 'round' : 'square';
+    Object.keys(STATION_SYS).forEach(function (k) {
+      var cfg = STATION_SYS[k];
+      if (!cfg.picFill) return;
+      cfg.picCase.style.strokeWidth = (sq + ring) + 'px';
+      cfg.picFill.style.strokeWidth = (sq - ring) + 'px';
+      cfg.picCase.style.strokeLinecap = cap;
+      cfg.picFill.style.strokeLinecap = cap;
+    });
+  }
+
   function liveMark(rec) {
     if (staLive[rec.id]) return staLive[rec.id];
     var cfg = STATION_SYS[rec.sys];
@@ -4706,6 +4740,7 @@
          map show" is a question worth answering from the page itself. */
       cfg.picFill.setAttribute('data-total', cfg.recs.length);
       cfg.picFill.setAttribute('data-n', n);
+      sizeStationPictures(true);
       cfg.picCase.setAttribute('d', d || 'M0 0');
       cfg.picFill.setAttribute('d', d || 'M0 0');
       cfg.picCase.style.display = d ? '' : 'none';
@@ -6421,6 +6456,7 @@
     }
     // the stations' live marks, which are few by construction
     for (var sid in staLive) placeScalable(staLive[sid], k);
+    sizeStationPictures();
     /* `k` is SVG units per screen pixel, and anything a reader's own marks draw
        in *screen* terms needs it. A filter's deviation is the case: it is in
        user units, so left alone it grows with the zoom until the shape it
@@ -8114,11 +8150,42 @@
     var shaded = candEl && candEl.classList
       && (candEl.classList.contains('pop-shaded')
           || candEl.classList.contains('pop-edged'));
-    if (!state.cats.territory && !own && !fine && !shaded &&
-        !(atom && atom.getAttribute('data-islands'))) {
+    /* **An island atom's islands, not its residencies.** `data-islands` says
+       an atom's sub-units are places — Java, Ambon, the Ryukyus — and they
+       answer with the layer off. The Netherlands Indies is the one island atom
+       that also carries dated administrative units, its sixty-five
+       residencies, drawn in front of the islands in the same atom; they took
+       the exemption with them, so with Administrative off the pointer named
+       "Semarang, Midden-Java" and outlined the residency while every other
+       colony answered as a whole. Reported. A unit with `data-epoch` is a
+       division of a date, not a place, and with the layer off the island
+       under it answers instead. */
+    var islands = atom && atom.getAttribute('data-islands');
+    var dated = candEl && candEl.hasAttribute && candEl.hasAttribute('data-epoch');
+    if (!state.cats.territory && islands && dated && !own && !fine && !shaded) {
+      var isle = islandUnder(atom, cx, cy);
+      return isle ? provinceOf(isle) : null;
+    }
+    if (!state.cats.territory && !own && !fine && !shaded && !islands) {
       return null;
     }
     return cand || null;
+  }
+
+  /* The undated sub-unit of an island atom under a point on the screen — the
+     island, where a residency is drawn over it. Asked of the geometry because
+     the residency is what the pointer is on. */
+  function islandUnder(atom, cx, cy) {
+    if (!atom || typeof cx !== 'number') return null;
+    var u = toUser(cx, cy);
+    if (!u) return null;
+    var pt = svg.createSVGPoint();
+    pt.x = u.x; pt.y = u.y;
+    var isles = atom.querySelectorAll('path[data-prov]:not([data-epoch])');
+    for (var i = 0; i < isles.length; i++) {
+      if (isles[i].isPointInFill && isles[i].isPointInFill(pt)) return isles[i];
+    }
+    return null;
   }
 
   function recordFor(target) {
@@ -8470,6 +8537,7 @@
     var prov = hit && hit.rec.kind === 'territory' ? provinceAt(got, cx, cy) : null;
     lastProv = prov;
     lastProvAt = prov ? toUser(cx, cy) : null;
+    lastTapAt = hit ? { at: toUser(cx, cy), id: hit.rec.id } : null;
     if (state.mode === 'quiz') {
       if (hit) { quizAnswer(hit); return; }
       if (quiz && quiz.current) {
@@ -8849,6 +8917,12 @@
      rather than what the district's table says, because a district can
      straddle two categories and Myitkyina does. */
   var lastProvAt = null;
+  /* And where a tap landed and what it opened, whether or not there was a
+     province there: a theme that draws its own areas is read with the
+     Administrative layer off, so the card for the whole country is the one
+     that has to say which area the tap was in. Kept with the record's id so a
+     card opened some other way does not answer from a stale point. */
+  var lastTapAt = null;
   /* And the province the *selection* is of, which is a different thing and has
      to be kept apart from it.
      
@@ -8930,7 +9004,7 @@
        move comes through `setSubsAtom` to here, and the graft's `applyState`
        does too, either of which would otherwise wipe the lift a moment after
        the theme made it. */
-    if (themeShown && themeLayer) {
+    if (themeShown && themeLayer && themeRec(themeShown).admin !== false) {
       var trec = themeRec(themeShown);
       var tatom = trec && (atomEls[trec.atom] || $('#a-' + trec.atom, svg));
       if (tatom) el = tatom;
@@ -8940,6 +9014,7 @@
     if (!el) return;
     var key = el.id.replace(/^a-/, '');
     var themeOwns = !!(themeShown && themeRec(themeShown)
+                       && themeRec(themeShown).admin !== false
                        && themeRec(themeShown).atom === key);
     if (!SUBS_LIFT[key] && !themeOwns) return;
     if (!svg.classList.contains('admin-on')) return;
@@ -9090,6 +9165,9 @@
    * extent is its own business, not the atom's. */
   var THEMES_FOR = {
     burma: { box: [92.1, 9.9, 101.2, 28.5], ids: ['burma-rule'] },
+    /* The 1931 military divisions: British India and Burma together, 61.20
+       to 101.17 E and 8.08 to 36.90 N, rounded outwards. */
+    india: { box: [61.1, 8.0, 101.2, 37.0], ids: ['india-military'] },
   };
 
   function themeRec(id) {
@@ -9148,7 +9226,10 @@
        a later theme names an atom with no clip, `clipFor` gives nothing and
        the group is drawn whole, as before. */
 
-    (rec.cats || []).forEach(function (cat) {
+    var geom = (JMAP.THEME_GEOM || {})[id];
+    if (geom) {
+      buildThemeAreas(g, rec, geom);
+    } else (rec.cats || []).forEach(function (cat) {
       var d = '';
       (cat.r || []).forEach(function (flatRing) {
         for (var i = 0; i < flatRing.length; i += 2) {
@@ -9182,6 +9263,56 @@
     return g;
   }
 
+  /* **A theme of areas and lines**, for one whose areas are not a country's
+     districts — the 1931 military divisions, whose commands, districts and
+     brigade areas cut across the provinces. Each area is a path in its
+     command's colour and carries the words the hover gives it; the plate's
+     two red lines, worked out by `build_themes.py`, go over them. 18 areas
+     and two lines: the element count is what costs, not the vertices
+     (`reports/2026.09.25-heavy-layers.md`). */
+  function buildThemeAreas(g, rec, geom) {
+    var colour = {};
+    (rec.cats || []).forEach(function (c) { colour[c.id] = c.c; });
+    /* **The map ends at `proj.lonMin`, 66° E, and so does the layer.**
+       Baluchistan runs out to 61° E, and `mercFwd` puts a longitude west of
+       the edge at the far *east* of the sheet, 360° round — so the district
+       was drawn as a band from the Makran to Burma. An area's vertices west
+       of the edge are laid on the edge meridian, which fills exactly what a
+       clip there would; a line's pieces beyond it are left out, since laid on
+       the edge they would draw a red rule up the side of the map. The source
+       file is untouched: this is only what the drawing does at its frame. */
+    var west = proj.lonMin;
+    function pt(lon, lat, first) {
+      var q = mercFwd(Math.max(lon, west), lat);
+      return (first ? 'M' : 'L') + (Math.round(q.x * 10) / 10) + ' '
+        + (Math.round(q.y * 10) / 10);
+    }
+    function dOf(flatLines, close) {
+      var d = '';
+      flatLines.forEach(function (fl) {
+        var open = false;
+        for (var i = 0; i < fl.length; i += 2) {
+          if (!close && fl[i] < west) { open = false; continue; }
+          d += pt(fl[i], fl[i + 1], !open);
+          open = true;
+        }
+        if (close) d += 'Z';
+      });
+      return d;
+    }
+    (geom.areas || []).forEach(function (a) {
+      var d = dOf(a.r || [], true);
+      if (d) g.appendChild(svgEl('path', {
+        d: d, fill: colour[a.cmd] || '#ccc', 'class': 'theme-area',
+        'data-cat': a.cmd, 'data-cat-en': a.en,
+      }));
+    });
+    [['solid', 'theme-line'], ['dashed', 'theme-line theme-dash']].forEach(function (k) {
+      var d = dOf(geom[k[0]] || [], false);
+      if (d) g.appendChild(svgEl('path', { d: d, 'class': k[1] }));
+    });
+  }
+
   /* **CLIPPED TO THE COUNTRY, LIKE ITS DISTRICTS.**
      The source sheet and this map's coastline are two readings of the same
      shore and they do not agree to the metre: at the mouth of the Rangoon
@@ -9199,6 +9330,7 @@
   function applyThemeClip() {
     if (!themeLayer || themeLayer.getAttribute('clip-path')) return;
     var rec = themeRec(themeShown);
+    if (rec && rec.clip === false) return;
     var clip = clipFor(rec && rec.atom);
     if (clip) themeLayer.setAttribute('clip-path', 'url(#' + clip + ')');
   }
@@ -9212,6 +9344,24 @@
       loadThemes(function () { setTheme(id); });
       return;
     }
+    /* A theme too large to travel with the others has its own file, named in
+       its record; fetched the first time it is chosen. */
+    var want = id && themeRec(id);
+    if (want && want.file && !(JMAP.THEME_GEOM || {})[id]) {
+      if (want.loading) return;
+      want.loading = true;
+      loadScript(want.file).then(function () {
+        want.loading = false;
+        if ((JMAP.THEME_GEOM || {})[id]) setTheme(id);
+      }, function () { want.loading = false; });
+      return;
+    }
+    /* **One theme to another goes through off.** Burma's switches the
+       Administrative layer and the names on and remembers what they were; the
+       military divisions leave them alone. Going straight from one to the
+       other skipped the putting back, and the districts stayed on under a
+       layer that had not asked for them. */
+    if (id && themeShown) setTheme('');
     if (themeLayer) { themeLayer.remove(); themeLayer = null; }
     if (!id) {
       var wasAtom = atomEls[(themeRec(themeShown) || {}).atom]
@@ -9236,13 +9386,19 @@
       syncMapButtons();
       return;
     }
-    themeRestore = { admin: !!state.cats.territory, labels: !!state.labels };
     /* **The two layers a theme cannot be read without.** The categories mean
        nothing over a blank country: the reader has to see which district is
        which, and be able to read its name without hunting for it with the
-       pointer. Both are put back on the way out. */
-    state.cats.territory = true;
-    state.labels = true;
+       pointer. Both are put back on the way out. Not for a theme that draws
+       its own areas (`admin: false`): the provinces' lines would run across
+       its districts and say something the plate does not. */
+    var ownAreas = themeRec(id).admin === false;
+    themeRestore = ownAreas ? null
+      : { admin: !!state.cats.territory, labels: !!state.labels };
+    if (!ownAreas) {
+      state.cats.territory = true;
+      state.labels = true;
+    }
     themeShown = id;
     state.themeId = id;
     applyState();
@@ -9255,8 +9411,8 @@
        asked to hold the map in their head. The theme's own atom takes `subs`
        for as long as the theme is up — the same class the pointer applies,
        and the same one Ctrl applies to all of them. */
-    var tAtom = atomEls[(themeRec(id) || {}).atom]
-      || $('#a-' + ((themeRec(id) || {}).atom || ''), svg);
+    var tAtom = ownAreas ? null : (atomEls[(themeRec(id) || {}).atom]
+      || $('#a-' + ((themeRec(id) || {}).atom || ''), svg));
     if (tAtom) tAtom.classList.add('subs');
     buildLegend();
     syncMapButtons();
@@ -9346,7 +9502,7 @@
     var paths = themeLayer.childNodes;
     for (var i = 0; i < paths.length; i++) {
       var el = paths[i];
-      if (!el.isPointInFill) continue;
+      if (!el.isPointInFill || !el.hasAttribute('data-cat-en')) continue;
       try {
         if (el.isPointInFill(q)) return el.getAttribute('data-cat-en') || '';
       } catch (err) { /* no geometry yet */ }
@@ -9901,6 +10057,16 @@
         sub.className = 'sub';
         sub.textContent = second;
         tooltip.appendChild(sub);
+      }
+      /* The theme's answer here too: a theme that draws its own areas is read
+         with the Administrative layer off, so there is no province and this
+         is the branch it comes through. */
+      var tcatW = themeCatAt(cx, cy);
+      if (tcatW) {
+        var tcw = document.createElement('span');
+        tcw.className = 'sub theme-cat';
+        tcw.textContent = tcatW;
+        tooltip.appendChild(tcw);
       }
     }
     var when = host.date || host.when;
@@ -10538,6 +10704,9 @@
      something that silently works. */
   function safeHref(u) {
     var raw = String(u || '').trim();
+    /* And the site's own downloads, which are relative: `gis/…`, plain
+       characters, no way up out of the folder. */
+    if (/^gis\/[A-Za-z0-9._\/-]+$/.test(raw) && raw.indexOf('..') < 0) return raw;
     if (!/^https?:\/\//i.test(raw)) return '';
     try {
       var url = new URL(raw);
@@ -10571,6 +10740,8 @@
           link.href = href;
           link.target = '_blank';
           link.rel = 'noopener noreferrer';
+          // one of the site's own files is a download, not a page
+          if (/^gis\//.test(href)) link.download = href.split('/').pop();
           link.textContent = lm[1];
           el.appendChild(link);
         } else {
@@ -10793,7 +10964,8 @@
     var themeCat = sub
       ? ((lastProvAt ? themeCatAtUser(lastProvAt.x, lastProvAt.y) : '')
          || themeCatOf(lastProv && lastProv.el))
-      : '';
+      : ((lastTapAt && lastTapAt.at && lastTapAt.id === id)
+         ? themeCatAtUser(lastTapAt.at.x, lastTapAt.at.y) : '');
     var provEl = lastProv && lastProv.el;
     var mil = (sub && provEl && provEl.getAttribute)
       ? (provEl.getAttribute('data-mil') || '') : '';
@@ -13411,6 +13583,9 @@
   function layerInfoOn(row) {
     if (!row) return false;
     if (row.on_epoch) return state.epoch === row.on_epoch;
+    /* `themeId` holds *which* theme, and each theme has its own row, named
+       `theme-<id>`; any id at all would light every theme's note. */
+    if (row.flag === 'themeId') return state.themeId === String(row.id).replace(/^theme-/, '');
     return !!(row.flag && state[row.flag]);
   }
 
@@ -14812,6 +14987,17 @@
          territory with Burma and the Andamans. Offered over any of the atoms
          either one is made of. A plain link, so the download happens inside
          the click that asked for it. */
+      const trecDl = themeOn() && themeRec(themeOn());
+      if (trecDl && trecDl.download) {
+        menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + trecDl.en, () => {
+          const a = document.createElement('a');
+          a.href = trecDl.download;
+          a.download = trecDl.download.split('/').pop();
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }));
+      }
       if (INDIA_DL_ATOMS.has(atomKey)) {
         INDIA_DL.forEach(([file, what]) => {
           menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + what, () => {
@@ -18623,6 +18809,10 @@
         legend.appendChild(thead);
         trec.cats.forEach(function (cat) {
           legendRow(legend, 'sw-theme', cat.c, cat.en, null, null);
+        });
+        (trec.keyLines || []).forEach(function (kl) {
+          legendRow(legend, kl.dash ? 'sw-theme-line sw-theme-dash' : 'sw-theme-line',
+                    null, kl.en, null, null);
         });
       }
     }

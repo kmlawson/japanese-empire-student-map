@@ -81,6 +81,64 @@ THEME = {
                "Burma, Part I — Report"),
 }
 
+# ---------------------------------------------------------------------------
+# **THE 1931 MILITARY DIVISIONS OF BRITISH INDIA.**
+#
+# From the *Military Divisions* plate of the Imperial Gazetteer Atlas of India
+# (1931), traced into `tools/cache/1931-india-military-divisions.geojson`:
+# eighteen areas, each under a `command`. An area is either a district of a
+# command, named in `division` (Lahore, Deccan, Meerut), or an independent
+# brigade area, named in `name` (Zhob, Sind, Poona, Delhi). Burma is a
+# district that is also a command.
+#
+# The plate colours by command and draws two kinds of red line: solid between
+# districts, dashed round an independent brigade area. The lines are worked
+# out here, not traced: an edge is a boundary when another area lies against
+# it — sharing its vertices, or within `EDGE_NEAR` of it where the tracing
+# left a sliver — and the coast and the outer frontier, which the plate does
+# not line in red, have nothing against them.
+#
+# Its own file, fetched when a reader chooses it: 36,000 vertices, every one
+# the tracing has, is too much to send with Burma's theme to somebody who
+# only wanted Burma. `themes.js` carries its name, its key and the file.
+MIL_SRC = os.path.join(ROOT, "tools", "cache",
+                       "1931-india-military-divisions.geojson")
+MIL_OUT = os.path.join(SITE, "theme-india-military.js")
+
+# The plate's colours, in the map's own palette where it has one: the
+# Western Command in the British pink every British possession is drawn in.
+MIL_COMMANDS = [
+    ("Northern", "Northern Command", "#a998bf"),
+    ("Western", "Western Command", "#b07f8e"),
+    ("Eastern", "Eastern Command", "#a9bf7a"),
+    ("Southern", "Southern Command", "#efd96b"),
+    ("Burma Independent District", "Burma Independent District", "#ec9a5b"),
+]
+
+MIL_THEME = {
+    "id": "india-military",
+    "atom": "india",
+    "en": "1931 Military Divisions of British India",
+    "when": "1931",
+    "source": "Map from the 1931 Imperial Gazetteer of India",
+    "file": "theme-india-military.js",
+    # drawn over the country as it is: its own boundaries and names, not
+    # the provinces', and not clipped to one atom — it covers two
+    "admin": False,
+    "clip": False,
+    "download": "gis/source/india-1931-military-divisions.geojson",
+    "keyLines": [
+        {"en": "Boundaries of Districts within Commands", "dash": False},
+        {"en": "Boundaries of Independent Brigade Areas", "dash": True},
+    ],
+}
+
+# How close another area's edge has to be for this one to count as a
+# boundary rather than the coast: about two kilometres. The tracing's slivers
+# are narrower than that; the nearest coast-to-frontier gap is far wider.
+EDGE_NEAR = 0.02
+GRID = 0.05
+
 # Four decimals is about eleven metres, which is finer than the source map at
 # fifty miles to the inch can possibly be. It is the precision `jp-rails.js`
 # ships its track at and there is no reason for this to be finer.
@@ -234,12 +292,23 @@ def main():
         " * projects, and a table of which category each district falls in by\n"
         " * its own centroid. Fetched only when a reader asks for a theme. */\n"
     )
+    mil_meta, mil_geom = build_military()
     with open(OUT, "w", encoding="utf-8") as fh:
         fh.write(head)
         fh.write("JMAP.THEMES = ")
-        json.dump({THEME["id"]: doc}, fh, ensure_ascii=False,
-                  separators=(",", ":"))
+        json.dump({THEME["id"]: doc, MIL_THEME["id"]: mil_meta}, fh,
+                  ensure_ascii=False, separators=(",", ":"))
         fh.write(";\n")
+    with open(MIL_OUT, "w", encoding="utf-8") as fh:
+        fh.write("/* Built by tools/build_themes.py -- do not edit.\n"
+                 " * The 1931 military divisions of British India: the areas and\n"
+                 " * the two kinds of boundary, in lon/lat. Fetched when chosen. */\n")
+        fh.write("JMAP.THEME_GEOM = JMAP.THEME_GEOM || {};\n")
+        fh.write("JMAP.THEME_GEOM[%s] = " % json.dumps(MIL_THEME["id"]))
+        json.dump(mil_geom, fh, ensure_ascii=False, separators=(",", ":"))
+        fh.write(";\n")
+    print("wrote      %s (%.0f KB)" % (os.path.relpath(MIL_OUT, ROOT),
+                                      os.path.getsize(MIL_OUT) / 1024.0))
 
     kb = os.path.getsize(OUT) / 1024.0
     print("themes     %d category(ies), %d vertices, %d district(s) placed"
@@ -247,6 +316,147 @@ def main():
     if unplaced:
         print("  in no category by their centroid: %s" % ", ".join(unplaced))
     print("wrote      %s (%.0f KB)" % (os.path.relpath(OUT, ROOT), kb))
+
+
+def mil_label(props):
+    """What the hover says: the area, then the command it answers to."""
+    cmd = (props.get("command") or "").strip()
+    area = (props.get("name") or "").strip()
+    div = (props.get("division") or "").strip()
+    if cmd == "Burma Independent District":
+        return cmd
+    if area:
+        return "%s Independent Brigade Area, %s Command" % (area, cmd)
+    return "%s District, %s Command" % (div, cmd)
+
+
+def build_military():
+    """The theme's areas and its two kinds of line. Returns (meta, geometry)."""
+    if not os.path.exists(MIL_SRC):
+        raise SystemExit("%s is missing" % MIL_SRC)
+    feats = rings_of(MIL_SRC)
+    colour = dict((c[0], c[2]) for c in MIL_COMMANDS)
+    areas = []
+    brigade = []
+    rings_by = []
+    verts = 0
+    for feat in feats:
+        props = feat["properties"]
+        cmd = (props.get("command") or "").strip()
+        if cmd not in colour:
+            raise SystemExit("the command %r is not one of the five this theme "
+                             "knows. Add it to MIL_COMMANDS with a colour." % cmd)
+        rs = [r for r in ic.rings_of(feat["geometry"]) if len(r) >= 4]
+        verts += sum(len(r) for r in rs)
+        areas.append({"en": mil_label(props), "cmd": cmd,
+                      "r": [flat(r) for r in rs]})
+        brigade.append(bool((props.get("name") or "").strip()))
+        rings_by.append(rs)
+
+    # every edge, keyed without direction, with the areas that have it
+    def key(p):
+        return (round(p[0], 6), round(p[1], 6))
+    owners = {}
+    for i, rs in enumerate(rings_by):
+        for r in rs:
+            for a, b in zip(r, r[1:]):
+                owners.setdefault(frozenset((key(a), key(b))), set()).add(i)
+
+    # a grid of every edge, for the ones no neighbour shares vertex for vertex
+    grid = {}
+    for i, rs in enumerate(rings_by):
+        for r in rs:
+            for a, b in zip(r, r[1:]):
+                mx, my = (a[0] + b[0]) / 2, (a[1] + b[1]) / 2
+                grid.setdefault((int(mx // GRID), int(my // GRID)), []).append((i, a, b))
+
+    def near_other(i, m):
+        best, who = EDGE_NEAR, None
+        gx, gy = int(m[0] // GRID), int(m[1] // GRID)
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                for j, a, b in grid.get((gx + dx, gy + dy), ()):
+                    if j == i:
+                        continue
+                    d = seg_dist(m, a, b)
+                    if d < best:
+                        best, who = d, j
+        return who
+
+    solid, dashed = [], []
+    shared = near = 0
+    for i, rs in enumerate(rings_by):
+        for r in rs:
+            for a, b in zip(r, r[1:]):
+                own = owners[frozenset((key(a), key(b)))]
+                if len(own) > 1:
+                    j = min(o for o in own if o != i)
+                    if j < i:
+                        continue            # drawn once, from the lower side
+                    shared += 1
+                else:
+                    j = near_other(i, ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2))
+                    if j is None:
+                        continue            # the coast, or the frontier
+                    if j < i and near_other(j, ((a[0] + b[0]) / 2,
+                                                (a[1] + b[1]) / 2)) is not None:
+                        continue            # its neighbour draws this stretch
+                    near += 1
+                (dashed if brigade[i] or brigade[j] else solid).append((a, b))
+
+    geom = {"areas": areas, "solid": chains(solid), "dashed": chains(dashed)}
+    meta = dict(MIL_THEME)
+    meta["cats"] = [{"id": c[0], "en": c[1], "c": c[2]} for c in MIL_COMMANDS]
+    print("military   %d areas, %d vertices; lines: %d shared edges, %d by "
+          "nearness; %d solid and %d dashed chains"
+          % (len(areas), verts, shared, near, len(geom["solid"]),
+             len(geom["dashed"])))
+    return meta, geom
+
+
+def seg_dist(p, a, b):
+    """Distance in degrees from p to the segment ab: short, so flat is fine."""
+    ax, ay = a[0] - p[0], a[1] - p[1]
+    bx, by = b[0] - p[0], b[1] - p[1]
+    dx, dy = bx - ax, by - ay
+    L = dx * dx + dy * dy
+    t = 0.0 if not L else max(0.0, min(1.0, -(ax * dx + ay * dy) / L))
+    x, y = ax + t * dx, ay + t * dy
+    return (x * x + y * y) ** 0.5
+
+
+def chains(segs):
+    """Segments joined end to end into as few polylines as they make, each a
+    flat [lon, lat, …] list. Order within a chain is the only thing decided
+    here; no vertex is added, moved or dropped."""
+    adj = {}
+    for n, (a, b) in enumerate(segs):
+        adj.setdefault(tuple(a[:2]), []).append(n)
+        adj.setdefault(tuple(b[:2]), []).append(n)
+    used = [False] * len(segs)
+    out = []
+    for n in range(len(segs)):
+        if used[n]:
+            continue
+        used[n] = True
+        a, b = segs[n]
+        line = [tuple(a[:2]), tuple(b[:2])]
+        for end in (1, 0):
+            while True:
+                tip = line[-1] if end else line[0]
+                nxt = [m for m in adj.get(tip, ()) if not used[m]]
+                if not nxt:
+                    break
+                m = nxt[0]
+                used[m] = True
+                c, d = tuple(segs[m][0][:2]), tuple(segs[m][1][:2])
+                far = d if c == tip else c
+                if end:
+                    line.append(far)
+                else:
+                    line.insert(0, far)
+        out.append(flat(line))
+    return out
 
 
 if __name__ == "__main__":

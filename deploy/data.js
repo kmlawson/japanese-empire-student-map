@@ -125,6 +125,14 @@ JMAP.LAYER_INFO = [
     flag: 'themeId', title: '1931 Administration Map of Burma',
     note: 'This is from the map on p. xi of *Census of India, 1931 Vol XI Burma Part I Report*. It shows four different categories of territory for British Burma: "unadministered" and "loosely" administered territories (uncontrolled Wa States, Upper Chindwin district including the Hukawng Valley and Naga Hills), the "Triangle", part of the Arakan Hill tracks only brought under administration in 1930, and the Karenni states.'
   },
+  {
+    id: 'theme-india-military',
+    source: 'Map from the [1931 Imperial Gazetteer of India](https://dsal.uchicago.edu/reference/gaz_atlas_1931/gaz_atlas_mirador?https://dsal.uchicago.edu/reference/gaz_atlas_1931/manifests/gazetteer_atlas_1931.json&canvasID=28#gsc.tab=0).',
+    flag: 'themeId',
+    source_url: 'https://dsal.uchicago.edu/reference/gaz_atlas_1931/gaz_atlas_mirador?https://dsal.uchicago.edu/reference/gaz_atlas_1931/manifests/gazetteer_atlas_1931.json&canvasID=28#gsc.tab=0',
+    title: '1931 Military Divisions of British India',
+    note: '[Download this layer as GeoJSON](gis/source/india-1931-military-divisions.geojson).'
+  },
 ];
 
 JMAP.CATEGORIES = {

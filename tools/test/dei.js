@@ -24,7 +24,7 @@
  * are drawn in front of them, so both must be in the sheet.
  */
 'use strict';
-const { ready, check, report, SHIM, launch, HOST } = require('./suite.js');
+const { ready, calm, sleep, check, report, SHIM, launch, HOST } = require('./suite.js');
 const BASE = process.env.MAP_URL || HOST + '/index.html';
 
 /* Every gouvernement in the source, with how many units the build put in it.
@@ -163,6 +163,41 @@ const COMMANDS = { 'Java 17th Army': 21, 'Japanese Navy': 16,
           JSON.stringify(got.order));
     check('and the unnamed leftover is painted first of all',
           got.order.bareAt === 0, 'at index ' + got.order.bareAt);
+
+    /* **With Administrative off, Java is Java.** The residencies are drawn in
+       front of the islands in the same atom, and the atom's `data-islands`
+       exempted them from the switch too: pointing at Java named Semarang and
+       outlined it while every other colony answered as a whole. Reported.
+       With the layer off the island answers; with it on, the residency. */
+    const hoverJava = async () => {
+      const at = await p.evaluate(() => {
+        const q = window.JMAP_GEO.project(110.4, -7.3);
+        const m = document.querySelector('#jmap').getScreenCTM();
+        return { x: m.a * q.x + m.e, y: m.d * q.y + m.f };
+      });
+      await p.mouse.move(at.x - 4, at.y - 4);
+      await p.mouse.move(at.x, at.y, { steps: 3 });
+      await sleep(350);          // the hover's own delay before the box
+      return p.evaluate(() => ({
+        tip: document.getElementById('tooltip').textContent,
+        lit: [...document.querySelectorAll('#a-dei .prov-hot')]
+          .map(e => (e.hasAttribute('data-epoch') ? 'residency ' : 'island ') + e.getAttribute('data-prov')),
+      }));
+    };
+    await p.goto(BASE + '?bbox=104,-9.5,116,-4', { waitUntil: 'domcontentloaded' });
+    await ready(p);
+    const off = await hoverJava();
+    check('with Administrative off, pointing at Java names Java',
+          /^Java/.test(off.tip) && !/Semarang/.test(off.tip), off.tip.slice(0, 60));
+    // the island is lit, as any island atom's is; a residency is not
+    check('  and lights the island, not a residency',
+          off.lit.length > 0 && off.lit.every(t => /^island /.test(t)), off.lit.join(', '));
+    await p.evaluate(() => document.querySelector('#layer-seg [data-cat="territory"]').click());
+    await calm(p);
+    const on = await hoverJava();
+    check('with it on, the residency answers',
+          /^Semarang/.test(on.tip) && on.lit.some(t => /^residency /.test(t)),
+          on.tip.slice(0, 60) + ', ' + on.lit.join(', '));
 
     check('no page errors', errs.length === 0, errs.join(' | '));
   } finally {

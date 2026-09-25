@@ -45,7 +45,8 @@ below are what it holds, named relative to it.
 | `mn-stations.js` | 181 KB | 35 KB | when Manchuria's are |
 | `jp-rails.js` | 1,784 KB | 338 KB | when **Japan Railways** is switched on — 1,977 lines, never with the page |
 | `jp-stations.js` | 1,058 KB | 215 KB | when **Show Japan Stations** is — 12,800 places |
-| `themes.js` | 111 KB | 34 KB | when a **thematic layer** is opened from the book beside the map |
+| `themes.js` | 112 KB | 35 KB | when a **thematic layer** is opened from the book beside the map |
+| `theme-india-military.js` | 670 KB | 217 KB | when the **1931 military divisions of British India** are chosen from that book |
 | `timetable/` (6 pages) | 4,074 KB | 682 KB | one at a time, when a card's link to its printed table is followed |
 | `relief/` (9 `.webp` sheets) | 6,906 KB | — | when **Topo** is pressed; one sheet per projection and zoom band, fetched as asked for |
 | **total** | **29.7 MB** | **12.4 MB** | |

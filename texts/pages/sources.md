@@ -126,6 +126,8 @@ The map is drawn on a Pacific-centred frame running 66°E–206°E and 13°S–5
 
 * **1931 Administration Map of Burma.** This is from the map on p. xi of *Census of India, 1931 Vol XI Burma Part I Report*. It is the map's first **thematic layer** — a question asked of a place rather than a statement of what its divisions were called — and it is opened from the book beside the map when the view is over Burma. Four categories of territory: regularly administered, loosely administered, specially administered, and unadministered. Switching it on brings the districts and their names with it, because the categories mean nothing over a blank country, and it draws over them at an opacity that leaves both legible; the districts still answer the pointer, and a district's card says which category its ground was in.
 
+* **1931 Military Divisions of British India.** Map from the [1931 Imperial Gazetteer of India](https://dsal.uchicago.edu/reference/gaz_atlas_1931/gaz_atlas_mirador?https://dsal.uchicago.edu/reference/gaz_atlas_1931/manifests/gazetteer_atlas_1931.json&canvasID=28#gsc.tab=0). [Download GeoJSON](gis/source/india-1931-military-divisions.geojson)
+
 ## Download the geometry
 
 In general, you can right-click on objects on the map and get options for downloding a geojson file for specific layers and objects. Keep in mind that the original GIS files are "thinned" in the process of building the website to make them less granular in detail for use in a browser to enable better performance.
@@ -162,6 +164,7 @@ tables above.
 
 The files the build reads, exactly as they came.
 
+* **[British India, military divisions, 1931](gis/source/india-1931-military-divisions.geojson)** — 1.1 MB
 * **[Burma, administrative units, 1931](gis/source/burma-1931-admin.geojson)** — 402 KB
 * **[Burma, administrative units by district and state, 1931](gis/source/burma-1931-admin-units.geojson)** — 349 KB
 * **[Burma, dissolved outline, 1931](gis/source/burma-1931-dissolved.geojson)** — 80 KB

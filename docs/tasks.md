@@ -23218,3 +23218,95 @@ them alone, checked by rebuilding) with a three-panel folded map in parchment
 tones, the middle panel shaded as a fold, a grey-blue coastline across it and
 a brown outline. Rendered at 16, 32 and 64 px on a light and a dark tab bar
 before it went in. The printed timetables carry no icon and were not given one.
+
+## 215. Stations shrink as the map pulls back
+
+Reported with screenshots: zoomed out over the Inland Sea, Japan's stations
+were a chunky white ribbon with no outline, and the outline came back only
+on hover. Cause: the picture of entry 213 draws every outline, then every
+fill, so crowded squares' fills covered their neighbours' outlines.
+
+* `sizeStationPictures` (map.js) sets the picture's stroke widths from the
+  latitude span on screen, on a zoom only and only when the size changes:
+  the full 5px square at 1.2° or closer, shrinking with `(1.2/span)^0.6` to
+  35% (a bead under 2px with a thin ring), round-capped under 4px.
+* A live mark's own square is hidden except on hover and when selected, so
+  the picture is the one drawing of every station — before, Taiwan and Korea
+  drew a full square over the shrunken picture at every zoom.
+* Looked at, 900×620: the Inland Sea at ~2°, all of Japan at ~9°, Hiroshima
+  at 0.7°, Taiwan whole; hover over a Taiwanese station still lights its
+  square. At the whole-Japan view the white that remains is mostly the track.
+* Tests: `stations`, `jprails`, `trains`, `krtrains`, `mntrains`,
+  `kftrains`, `hanlabels`, `citytap`, `picture` — 508 checks, all passing,
+  156 s. Not committed.
+
+## 216. With Administrative off, the Indies answer by island, not by residency
+
+Reported: with Admin off the Netherlands East Indies behaved as if it were
+on. Measured: pointing at Java named "Semarang, Midden-Java" and lit the
+residency, and the same over Sumatra, Borneo, Celebes, Timor and New Guinea,
+while Indochina and Burma answered as a whole.
+
+Cause: `#a-dei` carries `data-islands`, which exempts an atom's sub-units from
+the switch because they are places (Java, Ambon) and not divisions. The 65
+residencies went into the same atom (entry for `b79b31e`) in front of the
+islands and took the exemption with them. It is the only island atom with
+dated sub-units — checked across every `data-islands` atom on both sheets.
+
+`provinceAt` (map.js): with the layer off, a sub-unit carrying `data-epoch` in
+an island atom does not answer; `islandUnder` finds the undated island under
+the pointer by `isPointInFill` and that answers instead. Checked: mouse hover
+and click name Java with Admin off and Semarang with it on; a finger's first
+tap names the Indies and the second Java (off) or a residency (on). `dei`
+gains three checks (26, all passing). `dei`, `labuan`, `islands`, `burma`,
+`indochina`, `korea`, `taiwan`, `subnames`, `names`, `labels`, `pin`, `menu`:
+359 checks, all passing, 25 s. Not committed.
+
+## 217. The 1931 military divisions of British India, a second thematic layer
+
+Asked for: `tools/cache/1931-india-military-divisions.geojson` as a thematic
+layer, named in the book *1931 Military Divisions of British India (Map from
+the 1931 Imperial Gazetteer of India)*, coloured by command as the plate is,
+exportable as GeoJSON, with a one-sentence source and a download on the
+sources page and in the layer note.
+
+* **Build** (`tools/build_themes.py`, `build_military`): 18 areas — 13
+  districts (`division`), 4 independent brigade areas (`name`: Zhob, Sind,
+  Poona, Delhi) and Burma — **36,108 of 36,108 vertices kept**. Written to its
+  own file, `deploy/theme-india-military.js` (670 KB, 217 KB gzipped), fetched
+  only when chosen; `themes.js` carries its name, key and file (Burma's record
+  byte-identical). Colours: Northern #a998bf, Western #b07f8e (the map's
+  British), Eastern #a9bf7a, Southern #efd96b, Burma #ec9a5b.
+* **The red lines are computed, not traced**: an edge is a boundary when
+  another area shares it vertex for vertex (7,143 edges) or lies within 0.02°
+  of it (188 more, where the tracing overlaps); the coast and outer frontier
+  have nothing against them and are not lined. Solid between districts, dashed
+  where a brigade area is on either side — 20 solid and 8 dashed chains.
+* **map.js**: `buildThemeAreas` draws the areas (each `data-cat-en` "Lahore
+  District, Northern Command" etc.) and two line paths. A theme with
+  `admin: false` leaves the Administrative layer, the names and the lift
+  alone; `clip: false` is not clipped to one atom. Switching theme to theme
+  now goes through off, so Burma's switches are put back (they stayed on
+  before). The hover and the card give the area with Admin off
+  (`lastTapAt`). Layer notes match their own theme, not any theme.
+  `safeHref` accepts the site's own `gis/…` files, as downloads.
+* **Found on the way**: the map's west edge is 66° E and Baluchistan runs to
+  61°; `mercFwd` puts a longitude west of the edge 360° east, so the district
+  drew as a band from the Makran to Burma. An area's vertices west of the edge
+  are laid on the edge meridian and a line's pieces there are left out; the
+  source file is untouched.
+* **Offered**: right-click "Download GeoJSON — 1931 Military Divisions of
+  British India" while it is up; `deploy/gis/source/india-1931-military-
+  divisions.geojson` via `build_gis_sources.py`; the sources page's thematic
+  list and download list; the layer note (`texts/layer-info.csv`/`.md`).
+* **In the source file, reported and not corrected**: Bombay is an invalid
+  polygon (GEOS); eight pairs overlap, the largest Bombay/Central Provinces at
+  0.0157 deg² (~180 km², both Southern and the same colour), the others slivers
+  of up to ~35 km² (Central Provinces/Meerut 0.0030).
+* **Tests**: new `tools/test/military.js`, 28 checks (menu label, 18 areas in
+  command colours, both lines, the west edge, nine hover names, the card, the
+  note's source and download, the right-click item, the file served, Burma →
+  military → Burma → off, a finger). `burma`'s menu check now expects both
+  themes over Burma. Full suite: 2,550 checks across 75 scripts, 372 s, under
+  load (five retried); `burma` fixed, `layerinfo`, `run11`, `run15` pass alone.
+  Not committed.

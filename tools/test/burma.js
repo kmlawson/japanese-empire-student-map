@@ -222,13 +222,16 @@ const GROUPS = {
                    button: !!(m && m.querySelector('.menu-reset')),
                    drawn: !!document.getElementById('thematic') };
         });
-        /* One theme and the way out, which is a row like any other rather than
-           a button under the list: turning the layer off is the same kind of
-           act as turning one on, and these are radios. */
-        check('    the press opens the menu, with the one theme and Off in it',
-              opened.shown && opened.rows.length === 2
+        /* Burma's theme, the 1931 military divisions — which cover Burma as
+           the Burma Independent District — and the way out, which is a row
+           like any other rather than a button under the list: turning the
+           layer off is the same kind of act as turning one on, and these are
+           radios. */
+        check('    the press opens the menu, with Burma\'s theme, the military divisions and Off in it',
+              opened.shown && opened.rows.length === 3
               && /1931 Administration/.test(opened.rows[0])
-              && opened.rows[1] === 'Off' && !opened.button,
+              && /1931 Military Divisions/.test(opened.rows[1])
+              && opened.rows[2] === 'Off' && !opened.button,
               JSON.stringify(opened));
         check('    and draws nothing until something is chosen',
               !opened.drawn, String(opened.drawn));

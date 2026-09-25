@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Sources — The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M3 8l9-3v20l-9 3z' fill='%23e9e2d2'/%3E%3Cpath d='M12 5l8 3v20l-8-3z' fill='%23d6ccb6'/%3E%3Cpath d='M20 8l9-3v20l-9 3z' fill='%23e9e2d2'/%3E%3Cpath d='M5 21c3-1 4-4 7-4s5 2 8-1 5-5 7-5' fill='none' stroke='%237f95a1' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M3 8l9-3 8 3 9-3v20l-9 3-8-3-9 3z' fill='none' stroke='%236b5b47' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=0fb1ca306a">
+<link rel="stylesheet" href="styles.css?v=992e3412c5">
 <style>
   /* Nothing to undo here any more: the map's scroll lock is scoped to
      `html.app` in styles.css and this page does not carry that class. */
@@ -192,6 +192,10 @@
   <li><strong>1931 Administration Map of Burma.</strong> This is from the map on p. xi of <em>Census of India, 1931 Vol XI Burma Part I Report</em>. It is the map's first <strong>thematic layer</strong> — a question asked of a place rather than a statement of what its divisions were called — and it is opened from the book beside the map when the view is over Burma. Four categories of territory: regularly administered, loosely administered, specially administered, and unadministered. Switching it on brings the districts and their names with it, because the categories mean nothing over a blank country, and it draws over them at an opacity that leaves both legible; the districts still answer the pointer, and a district's card says which category its ground was in.</li>
 </ul>
 
+<ul>
+  <li><strong>1931 Military Divisions of British India.</strong> Map from the <a href="https://dsal.uchicago.edu/reference/gaz_atlas_1931/gaz_atlas_mirador?https://dsal.uchicago.edu/reference/gaz_atlas_1931/manifests/gazetteer_atlas_1931.json&canvasID=28#gsc.tab=0">1931 Imperial Gazetteer of India</a>. <a href="gis/source/india-1931-military-divisions.geojson">Download GeoJSON</a></li>
+</ul>
+
 <h2>Download the geometry</h2>
 
 <p>In general, you can right-click on objects on the map and get options for downloding a geojson file for specific layers and objects. Keep in mind that the original GIS files are "thinned" in the process of building the website to make them less granular in detail for use in a browser to enable better performance.</p>
@@ -214,6 +218,7 @@
 <p>The files the build reads, exactly as they came.</p>
 
 <ul>
+  <li><strong><a href="gis/source/india-1931-military-divisions.geojson">British India, military divisions, 1931</a></strong> — 1.1 MB</li>
   <li><strong><a href="gis/source/burma-1931-admin.geojson">Burma, administrative units, 1931</a></strong> — 402 KB</li>
   <li><strong><a href="gis/source/burma-1931-admin-units.geojson">Burma, administrative units by district and state, 1931</a></strong> — 349 KB</li>
   <li><strong><a href="gis/source/burma-1931-dissolved.geojson">Burma, dissolved outline, 1931</a></strong> — 80 KB</li>

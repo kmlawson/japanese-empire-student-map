@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '374';
+  var JEM_VERSION = '375';
 
 
 
@@ -4187,6 +4187,40 @@
   var staOverCap = false;         // too many in view: the pointer asks the table
   var drawStationPicture = null;  // set where the stations are built
 
+
+
+
+
+
+
+
+
+
+
+
+
+  var STA_FULL_LAT = 1.2;
+  var staPicAt = -1;              // the size last written, so a zoom that
+
+
+  function sizeStationPictures(force) {
+    var f = Math.min(1, Math.max(0.35, Math.pow(STA_FULL_LAT / latSpan(), 0.6)));
+    f = Math.round(f * 40) / 40;
+    if (f === staPicAt && !force) return;
+    staPicAt = f;
+    var sq = STA_SQ * f;
+    var ring = Math.min(1.1, sq * 0.3);
+    var cap = sq < 4 ? 'round' : 'square';
+    Object.keys(STATION_SYS).forEach(function (k) {
+      var cfg = STATION_SYS[k];
+      if (!cfg.picFill) return;
+      cfg.picCase.style.strokeWidth = (sq + ring) + 'px';
+      cfg.picFill.style.strokeWidth = (sq - ring) + 'px';
+      cfg.picCase.style.strokeLinecap = cap;
+      cfg.picFill.style.strokeLinecap = cap;
+    });
+  }
+
   function liveMark(rec) {
     if (staLive[rec.id]) return staLive[rec.id];
     var cfg = STATION_SYS[rec.sys];
@@ -4706,6 +4740,7 @@
 
       cfg.picFill.setAttribute('data-total', cfg.recs.length);
       cfg.picFill.setAttribute('data-n', n);
+      sizeStationPictures(true);
       cfg.picCase.setAttribute('d', d || 'M0 0');
       cfg.picFill.setAttribute('d', d || 'M0 0');
       cfg.picCase.style.display = d ? '' : 'none';
@@ -6421,6 +6456,7 @@
     }
 
     for (var sid in staLive) placeScalable(staLive[sid], k);
+    sizeStationPictures();
 
 
 
@@ -8114,11 +8150,42 @@
     var shaded = candEl && candEl.classList
       && (candEl.classList.contains('pop-shaded')
           || candEl.classList.contains('pop-edged'));
-    if (!state.cats.territory && !own && !fine && !shaded &&
-        !(atom && atom.getAttribute('data-islands'))) {
+
+
+
+
+
+
+
+
+
+
+    var islands = atom && atom.getAttribute('data-islands');
+    var dated = candEl && candEl.hasAttribute && candEl.hasAttribute('data-epoch');
+    if (!state.cats.territory && islands && dated && !own && !fine && !shaded) {
+      var isle = islandUnder(atom, cx, cy);
+      return isle ? provinceOf(isle) : null;
+    }
+    if (!state.cats.territory && !own && !fine && !shaded && !islands) {
       return null;
     }
     return cand || null;
+  }
+
+
+
+
+  function islandUnder(atom, cx, cy) {
+    if (!atom || typeof cx !== 'number') return null;
+    var u = toUser(cx, cy);
+    if (!u) return null;
+    var pt = svg.createSVGPoint();
+    pt.x = u.x; pt.y = u.y;
+    var isles = atom.querySelectorAll('path[data-prov]:not([data-epoch])');
+    for (var i = 0; i < isles.length; i++) {
+      if (isles[i].isPointInFill && isles[i].isPointInFill(pt)) return isles[i];
+    }
+    return null;
   }
 
   function recordFor(target) {
@@ -8470,6 +8537,7 @@
     var prov = hit && hit.rec.kind === 'territory' ? provinceAt(got, cx, cy) : null;
     lastProv = prov;
     lastProvAt = prov ? toUser(cx, cy) : null;
+    lastTapAt = hit ? { at: toUser(cx, cy), id: hit.rec.id } : null;
     if (state.mode === 'quiz') {
       if (hit) { quizAnswer(hit); return; }
       if (quiz && quiz.current) {
@@ -8854,6 +8922,12 @@
 
 
 
+  var lastTapAt = null;
+
+
+
+
+
 
 
 
@@ -8930,7 +9004,7 @@
 
 
 
-    if (themeShown && themeLayer) {
+    if (themeShown && themeLayer && themeRec(themeShown).admin !== false) {
       var trec = themeRec(themeShown);
       var tatom = trec && (atomEls[trec.atom] || $('#a-' + trec.atom, svg));
       if (tatom) el = tatom;
@@ -8940,6 +9014,7 @@
     if (!el) return;
     var key = el.id.replace(/^a-/, '');
     var themeOwns = !!(themeShown && themeRec(themeShown)
+                       && themeRec(themeShown).admin !== false
                        && themeRec(themeShown).atom === key);
     if (!SUBS_LIFT[key] && !themeOwns) return;
     if (!svg.classList.contains('admin-on')) return;
@@ -9090,6 +9165,9 @@
 
   var THEMES_FOR = {
     burma: { box: [92.1, 9.9, 101.2, 28.5], ids: ['burma-rule'] },
+
+
+    india: { box: [61.1, 8.0, 101.2, 37.0], ids: ['india-military'] },
   };
 
   function themeRec(id) {
@@ -9148,7 +9226,10 @@
 
 
 
-    (rec.cats || []).forEach(function (cat) {
+    var geom = (JMAP.THEME_GEOM || {})[id];
+    if (geom) {
+      buildThemeAreas(g, rec, geom);
+    } else (rec.cats || []).forEach(function (cat) {
       var d = '';
       (cat.r || []).forEach(function (flatRing) {
         for (var i = 0; i < flatRing.length; i += 2) {
@@ -9189,6 +9270,56 @@
 
 
 
+  function buildThemeAreas(g, rec, geom) {
+    var colour = {};
+    (rec.cats || []).forEach(function (c) { colour[c.id] = c.c; });
+
+
+
+
+
+
+
+
+    var west = proj.lonMin;
+    function pt(lon, lat, first) {
+      var q = mercFwd(Math.max(lon, west), lat);
+      return (first ? 'M' : 'L') + (Math.round(q.x * 10) / 10) + ' '
+        + (Math.round(q.y * 10) / 10);
+    }
+    function dOf(flatLines, close) {
+      var d = '';
+      flatLines.forEach(function (fl) {
+        var open = false;
+        for (var i = 0; i < fl.length; i += 2) {
+          if (!close && fl[i] < west) { open = false; continue; }
+          d += pt(fl[i], fl[i + 1], !open);
+          open = true;
+        }
+        if (close) d += 'Z';
+      });
+      return d;
+    }
+    (geom.areas || []).forEach(function (a) {
+      var d = dOf(a.r || [], true);
+      if (d) g.appendChild(svgEl('path', {
+        d: d, fill: colour[a.cmd] || '#ccc', 'class': 'theme-area',
+        'data-cat': a.cmd, 'data-cat-en': a.en,
+      }));
+    });
+    [['solid', 'theme-line'], ['dashed', 'theme-line theme-dash']].forEach(function (k) {
+      var d = dOf(geom[k[0]] || [], false);
+      if (d) g.appendChild(svgEl('path', { d: d, 'class': k[1] }));
+    });
+  }
+
+
+
+
+
+
+
+
 
 
 
@@ -9199,6 +9330,7 @@
   function applyThemeClip() {
     if (!themeLayer || themeLayer.getAttribute('clip-path')) return;
     var rec = themeRec(themeShown);
+    if (rec && rec.clip === false) return;
     var clip = clipFor(rec && rec.atom);
     if (clip) themeLayer.setAttribute('clip-path', 'url(#' + clip + ')');
   }
@@ -9212,6 +9344,24 @@
       loadThemes(function () { setTheme(id); });
       return;
     }
+
+
+    var want = id && themeRec(id);
+    if (want && want.file && !(JMAP.THEME_GEOM || {})[id]) {
+      if (want.loading) return;
+      want.loading = true;
+      loadScript(want.file).then(function () {
+        want.loading = false;
+        if ((JMAP.THEME_GEOM || {})[id]) setTheme(id);
+      }, function () { want.loading = false; });
+      return;
+    }
+
+
+
+
+
+    if (id && themeShown) setTheme('');
     if (themeLayer) { themeLayer.remove(); themeLayer = null; }
     if (!id) {
       var wasAtom = atomEls[(themeRec(themeShown) || {}).atom]
@@ -9236,13 +9386,19 @@
       syncMapButtons();
       return;
     }
-    themeRestore = { admin: !!state.cats.territory, labels: !!state.labels };
 
 
 
 
-    state.cats.territory = true;
-    state.labels = true;
+
+
+    var ownAreas = themeRec(id).admin === false;
+    themeRestore = ownAreas ? null
+      : { admin: !!state.cats.territory, labels: !!state.labels };
+    if (!ownAreas) {
+      state.cats.territory = true;
+      state.labels = true;
+    }
     themeShown = id;
     state.themeId = id;
     applyState();
@@ -9255,8 +9411,8 @@
 
 
 
-    var tAtom = atomEls[(themeRec(id) || {}).atom]
-      || $('#a-' + ((themeRec(id) || {}).atom || ''), svg);
+    var tAtom = ownAreas ? null : (atomEls[(themeRec(id) || {}).atom]
+      || $('#a-' + ((themeRec(id) || {}).atom || ''), svg));
     if (tAtom) tAtom.classList.add('subs');
     buildLegend();
     syncMapButtons();
@@ -9346,7 +9502,7 @@
     var paths = themeLayer.childNodes;
     for (var i = 0; i < paths.length; i++) {
       var el = paths[i];
-      if (!el.isPointInFill) continue;
+      if (!el.isPointInFill || !el.hasAttribute('data-cat-en')) continue;
       try {
         if (el.isPointInFill(q)) return el.getAttribute('data-cat-en') || '';
       } catch (err) { /* no geometry yet */ }
@@ -9901,6 +10057,16 @@
         sub.className = 'sub';
         sub.textContent = second;
         tooltip.appendChild(sub);
+      }
+
+
+
+      var tcatW = themeCatAt(cx, cy);
+      if (tcatW) {
+        var tcw = document.createElement('span');
+        tcw.className = 'sub theme-cat';
+        tcw.textContent = tcatW;
+        tooltip.appendChild(tcw);
       }
     }
     var when = host.date || host.when;
@@ -10538,6 +10704,9 @@
 
   function safeHref(u) {
     var raw = String(u || '').trim();
+
+
+    if (/^gis\/[A-Za-z0-9._\/-]+$/.test(raw) && raw.indexOf('..') < 0) return raw;
     if (!/^https?:\/\//i.test(raw)) return '';
     try {
       var url = new URL(raw);
@@ -10571,6 +10740,8 @@
           link.href = href;
           link.target = '_blank';
           link.rel = 'noopener noreferrer';
+
+          if (/^gis\//.test(href)) link.download = href.split('/').pop();
           link.textContent = lm[1];
           el.appendChild(link);
         } else {
@@ -10793,7 +10964,8 @@
     var themeCat = sub
       ? ((lastProvAt ? themeCatAtUser(lastProvAt.x, lastProvAt.y) : '')
          || themeCatOf(lastProv && lastProv.el))
-      : '';
+      : ((lastTapAt && lastTapAt.at && lastTapAt.id === id)
+         ? themeCatAtUser(lastTapAt.at.x, lastTapAt.at.y) : '');
     var provEl = lastProv && lastProv.el;
     var mil = (sub && provEl && provEl.getAttribute)
       ? (provEl.getAttribute('data-mil') || '') : '';
@@ -13411,6 +13583,9 @@
   function layerInfoOn(row) {
     if (!row) return false;
     if (row.on_epoch) return state.epoch === row.on_epoch;
+
+
+    if (row.flag === 'themeId') return state.themeId === String(row.id).replace(/^theme-/, '');
     return !!(row.flag && state[row.flag]);
   }
 
@@ -14812,6 +14987,17 @@
 
 
 
+      const trecDl = themeOn() && themeRec(themeOn());
+      if (trecDl && trecDl.download) {
+        menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + trecDl.en, () => {
+          const a = document.createElement('a');
+          a.href = trecDl.download;
+          a.download = trecDl.download.split('/').pop();
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }));
+      }
       if (INDIA_DL_ATOMS.has(atomKey)) {
         INDIA_DL.forEach(([file, what]) => {
           menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + what, () => {
@@ -18623,6 +18809,10 @@
         legend.appendChild(thead);
         trec.cats.forEach(function (cat) {
           legendRow(legend, 'sw-theme', cat.c, cat.en, null, null);
+        });
+        (trec.keyLines || []).forEach(function (kl) {
+          legendRow(legend, kl.dash ? 'sw-theme-line sw-theme-dash' : 'sw-theme-line',
+                    null, kl.en, null, null);
         });
       }
     }

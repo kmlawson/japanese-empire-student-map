@@ -75,7 +75,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airlines', 'airplay',
              'clipping', 'layerinfo', 'krtrains', 'kftrains', 'mntrains', 'layerfind', 'beta', 'hanlabels',
              'owns', 'jprails', 'indochina', 'citytap', 'ferries', 'arcs',
-             'dei', 'burma', 'overlap', 'picture'];
+             'dei', 'burma', 'overlap', 'picture', 'military'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -157,7 +157,7 @@ const GROUPS = {
      is what `map.js` changes touch, and `map.js` changes hourly. */
   core: ['labels', 'labelcats', 'legendpick', 'subnames', 'mapstrip', 'keys',
          'theme', 'zoom', 'pin', 'labuan', 'epoch', 'mono', 'colours', 'extent',
-         'names', 'clipping', 'layerfind', 'beta', 'hanlabels', 'overlap', 'picture'],
+         'names', 'clipping', 'layerfind', 'beta', 'hanlabels', 'overlap', 'picture', 'military'],
 
   /* Everything drawn as a dot or read off one: the markers, the gazetteer,
      the sites table and the menu that hangs off a shape. */
@@ -175,7 +175,7 @@ const GROUPS = {
   /* The shapes themselves, and the sheets they are written to. These move when
      `build_map.py` runs, not when somebody edits behaviour. */
   geometry: ['backings', 'projclip', 'provsource', 'taiwan', 'korea', 'relief',
-             'islands', 'mapstrip', 'indochina', 'arcs', 'dei', 'burma'],
+             'islands', 'mapstrip', 'indochina', 'arcs', 'dei', 'burma', 'military'],
 
   /* Railways, stations and the sugar lines. Four data files that change in
      bursts and then sit still for weeks. */
@@ -292,6 +292,10 @@ const TRIGGERS = [
      tools/test/burma.js drives the one there is. */
   [/^deploy\/themes\.js$/,        ['geometry', 'core', 'links']],
   [/^tools\/build_themes\.py$/,   ['geometry', 'core', 'links']],
+  /* The 1931 military divisions: their own file, and the tracing it is built
+     from, which the user keeps in tools/cache. tools/test/military.js. */
+  [/^deploy\/theme-india-military\.js$/, ['geometry', 'core']],
+  [/^tools\/cache\/1931-india-military-divisions\./, ['geometry', 'core']],
   [/^data\/burma\/burma-1931-rule-categories\./, ['geometry', 'core', 'links']],
 
   [/^tools\/build_(tw|kr|kf|mn)_(trains|stations)\.py$/, ['transport']],
