@@ -40,8 +40,8 @@ const look=p=>p.evaluate(()=>{
     module: !!window.JMAP_TRAINS,
     kr: typeof JMAP!=='undefined' && !!JMAP.KR_TRAINS,
     tw: typeof JMAP!=='undefined' && !!JMAP.TW_TRAINS,
-    stations: document.querySelectorAll('#kr-stations .sta-mark').length,
-    shown:[...document.querySelectorAll('#kr-stations .sta-mark')].filter(m=>m.style.display!=='none').length,
+    stations: +((document.querySelector('#kr-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-total')),
+    shown:+((document.querySelector('#kr-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-n')),
     railBox: !!(document.querySelector('#opt-kr-rail')||{}).checked,
     staBox: !!(document.querySelector('#opt-kr-stations')||{}).checked,
   };});

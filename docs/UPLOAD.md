@@ -67,9 +67,11 @@ can forget is worth more than a list somebody remembers.
 
 `deploy/gis/` holds what the map draws, written back out of the built geometry,
 and `deploy/gis/source/` the files the build reads, exactly as they came. A
-reader only reaches them from the links in **Sources**, so nothing on the map
-waits for them and nothing breaks if they are left behind — but the links go
-dead, so upload them with the rest.
+reader reaches them from the links in **Sources**, and the two British India
+files (`india-1931.geojson`, `british-india-1930.geojson`) from the right-click
+menu over India as well. Nothing on the map waits for them and nothing breaks
+if they are left behind — but the links and those two menu items go dead, so
+upload them with the rest.
 
 `gis/source/` is **35 MB**, and 28 MB of that is Japan's two 1942 railway
 sheets. On a metered host that is worth knowing before it goes up.

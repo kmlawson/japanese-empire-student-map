@@ -286,6 +286,7 @@ lists every file in it with its size and what makes a browser ask for it.
 | `tools/apply_card_changes.py` | applies a JSON batch of card-text changes to the shared files in `texts/`, by key, so that several editors cannot overwrite one another |
 | `tools/test/` | the test scripts, their harness (`suite.js`, `settle.js`) and the runner (`all.js`) |
 | `tools/stats.js`, `tools/compare_perf.js` | what the map costs, measured the same way every time into `stats/`; and two builds timed side by side |
+| `tools/export_india.py` | British India as one polygon, both ways, into `deploy/gis/`: the 1931 outline alone, and the 1930 territory with Burma and the Andamans |
 | `tools/check_deploy.py` | fetches a deployed copy and checks every file against the key it was asked for |
 | `tools/bundle.py` | builds the single-file version into `stale/` |
 

@@ -271,6 +271,62 @@ const admin=async p=>{ await p.evaluate(()=>{
     await sleep(120);
   }
 
+  /* ---- British India whole, in the two shapes the two dates draw ----
+   *
+   * Two files built from the sources by tools/export_india.py, offered over
+   * any atom they are made of. And the map's own read-back of the India atom
+   * has to keep its eleven French and Portuguese settlements as *holes*: it
+   * wrote one polygon per ring, and they came out as filled islands. */
+  console.log('\n— British India, whole, both ways —');
+  for (const [n,lo,la] of [['Delhi',77.2,28.6],['Rangoon',96.2,16.9]]) {
+    const r=await menuAt(page,lo,la);
+    const dl=(r.items||[]).filter(t=>/^Download GeoJSON/.test(t));
+    check(n + ' offers British India, 1931',
+          dl.some(t=>/British India, 1931$/.test(t)), dl.join(' | '));
+    check(n + ' offers British India, 1930, including Burma',
+          dl.some(t=>/British India, 1930, including Burma$/.test(t)), dl.join(' | '));
+    if (n==='Delhi') {
+      const holes=await page.evaluate(()=>{
+        let caught=null;
+        const realBlob=window.Blob, realURL=URL.createObjectURL;
+        window.Blob=function(parts,opts){ caught=String(parts[0]);
+                                          return new realBlob(parts,opts); };
+        URL.createObjectURL=function(){ return 'blob:stub'; };
+        const b=[...document.querySelectorAll('#jmap-menu button')]
+          .filter(x=>/^Download GeoJSON — British India( \(|$)/.test(x.textContent))[0];
+        if(b) b.click();
+        window.Blob=realBlob; URL.createObjectURL=realURL;
+        if(!caught) return {label:b&&b.textContent};
+        const g=JSON.parse(caught).features[0].geometry;
+        return {polys:g.coordinates.length,
+                holes:g.coordinates.reduce((n,p)=>n+p.length-1,0)};
+      });
+      check('the drawn India keeps its settlements as holes, not islands',
+            holes.holes===11, JSON.stringify(holes));
+    }
+    await page.keyboard.press('Escape');
+    await sleep(120);
+  }
+  const files=await page.evaluate(async()=>{
+    const out={};
+    for (const f of ['india-1931.geojson','british-india-1930.geojson']) {
+      const r=await fetch('gis/'+f);
+      if(!r.ok){ out[f]={status:r.status}; continue; }
+      const g=(await r.json()).features[0].geometry;
+      const polys=g.type==='Polygon'?[g.coordinates]:g.coordinates;
+      out[f]={status:r.status, polys:polys.length,
+              holes:polys.reduce((n,p)=>n+p.length-1,0)};
+    }
+    return out;
+  });
+  check('the 1931 file is served: one polygon, eleven holes',
+        files['india-1931.geojson'].polys===1 && files['india-1931.geojson'].holes===11,
+        JSON.stringify(files['india-1931.geojson']));
+  check('the 1930 file is served, India and Burma dissolved into one',
+        files['british-india-1930.geojson'].status===200
+        && files['british-india-1930.geojson'].holes>=11,
+        JSON.stringify(files['british-india-1930.geojson']));
+
   console.log('\n— and a finger opens the same menu —');
   const phone=await browser.newPage();
   await phone.setViewport({width:390,height:844,isMobile:true,hasTouch:true});
@@ -291,6 +347,15 @@ const admin=async p=>{ await p.evaluate(()=>{
     return b.left>=0 && b.top>=0 && b.right<=window.innerWidth+1
         && b.bottom<=window.innerHeight+1;
   }), 'a menu off the edge of a phone is no menu');
+  // Delhi is off a phone's screen at the opening view, so open on India.
+  await phone.goto(URL+'?bbox=68,8,90,34',{waitUntil:'domcontentloaded'});
+  await ready(phone);
+  await admin(phone);
+  const ptap=await menuAt(phone,77.2,28.6);
+  check('a finger on India gets both British India files too',
+        (ptap.items||[]).some(t=>/British India, 1931$/.test(t))
+        && (ptap.items||[]).some(t=>/British India, 1930, including Burma$/.test(t)),
+        ptap.opened ? ptap.items.join(' | ') : JSON.stringify(ptap));
 
   /* ---- the Layers pane hands over its layers too --------------------
    *

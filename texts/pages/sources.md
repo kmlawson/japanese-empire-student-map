@@ -136,12 +136,16 @@ are what the map means rather than what it happens to look like at one scale —
 and they carry the atom key and the unit name, so a file can be joined to the
 tables above.
 
-* **[Administrative units](gis/sub-units.geojson)** — 550 units across 46
+* **[Administrative units](gis/sub-units.geojson)** — 765 units across 46
   countries and colonies: the provinces, prefectures, 州廳, districts and
   states the Administrative layer draws. 13 MB.
 * **[Land](gis/land.geojson)** — 84 outlines, one per atom: the countries,
   colonies and island groups as whole shapes, without their internal
   divisions. 7 MB.
+* **[British India, 1931](gis/india-1931.geojson)** — the provinces and the
+  princely states as one outline. 419 KB.
+* **[British India, 1930, including Burma](gis/british-india-1930.geojson)** —
+  the same outline with Burma and the Andaman and Nicobar Islands. 572 KB.
 * **[The occupied zone, December 1942](gis/occupied-zone-1942.geojson)** — five
   blocks, traced from a period map and adjusted. Approximate, and generous:
   Japanese control ran along the railways and around the cities. Clip it to the

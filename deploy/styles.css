@@ -1127,6 +1127,21 @@ button.plain:hover { background: var(--hover-fill); }
   pointer-events: none;
 }
 .sta-layer .sta-hit { fill: transparent; cursor: pointer; }
+/* **The squares as one picture.** Each station is a square-capped stroke a
+   hundredth of a map unit long: the cap makes the square and
+   `non-scaling-stroke` keeps it `STA_SQ` screen pixels across at every zoom,
+   so nothing is rewritten when the view changes. The outline is the wider
+   stroke underneath, the fill the narrower one on top — the same 5px square
+   with a 1.1px line that `.sta-sq` draws. The live marks sit over these and
+   draw the same square again, which is what lights on hover and selection. */
+.sta-layer .sta-pic {
+  fill: none;
+  stroke-linecap: square;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.sta-layer .sta-pic-case { stroke: var(--sta-line); stroke-width: 6.1; }
+.sta-layer .sta-pic-fill { stroke: var(--sta-fill); stroke-width: 3.9; }
 .sta-layer .sta-mark:hover .sta-sq { fill: #ffd200; }
 /* The one the card is open on. A touch screen has no hover to say which square
    was tapped, and a card headed Gāoxióng over a hundred and ninety identical
@@ -2153,12 +2168,9 @@ dialog a { color: var(--accent); }
 
 /* The dialogs scroll, and an absolutely positioned × scrolls away with the
    text — on a phone, with no Escape key, that leaves no way out but to scroll
-   all the way back up. Sticky keeps it in the corner. */
+   all the way back up. Sticky keeps it in the corner: see the form below. */
 dialog .x {
-  position: sticky;
-  float: right;
-  top: 0;
-  z-index: 2;
+  display: block;
   appearance: none;
   border: 0;
   background: var(--panel);
@@ -2170,6 +2182,21 @@ dialog .x {
   color: var(--muted);
   cursor: pointer;
   padding: 0;
+}
+
+/* **And sticky has to be on the form, not the button.** A sticky element
+   sticks only inside its own parent, and the × is the one child of a
+   `<form method="dialog">` 44px tall — so it stuck for 44px and then went off
+   the top with the form, and on a phone the Layers and help panes had no way
+   out but to scroll the whole way back up. Reported: "I cannot find the close
+   button." The form is the dialog's own child, so it sticks for the length of
+   the dialog. */
+dialog > form:first-child {
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 3;
+  margin: -6px -8px 0 8px;
 }
 
 dialog .hint { color: var(--muted); font-size: 13px; }
@@ -2531,13 +2558,66 @@ dialog h3 {
   #zoom-controls { top: 8px; right: 8px; }
   #zoom-controls button { width: 44px; height: 44px; }
 
+  /* `dvh`, not `vh`: on a phone `vh` is the screen with the browser's bars
+     put away, so a sheet 88vh tall with the bars showing ran its top — and
+     its × — up under them. `dvh` is the screen as it is now. */
   dialog {
     width: 100%;
     max-width: none;
     max-height: 88vh;
+    max-height: 88dvh;
     margin: auto auto 0;
     border-radius: 14px 14px 0 0;
-    padding: 20px 18px calc(20px + var(--safe-b));
+    padding: 0 18px calc(20px + var(--safe-b));
+    /* anything scrolled to — a search hit, a jump to a section — stops below
+       the pinned header rather than under it */
+    scroll-padding-top: 72px;
+  }
+
+  /* **A sheet has a header that stays.** The title and the × are one strip
+     pinned to the top of the sheet, ruled off from what scrolls under it, so
+     that wherever the reader has got to they can see which pane this is and
+     how to leave it. The × is drawn as a button — a border and the ink
+     colour — rather than a grey glyph on the panel, which on a phone was a
+     thing nobody could find. */
+  dialog > form:first-child { margin: 6px -10px 0 8px; }
+  dialog > h2 {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    margin: 0 -18px 10px;
+    padding: 16px 64px 11px 18px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+  }
+  dialog .x {
+    border: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 26px;
+    box-shadow: var(--shadow);
+  }
+}
+
+/* **What the dock put away.** `dockPanels` in map.js stands a floating control
+   down when there is nowhere on the screen to put it clear of the others;
+   hidden rather than removed, so it keeps its size and its place for when
+   there is room again. */
+#stage .docked-away { visibility: hidden; pointer-events: none; }
+
+/* The three columns of buttons are boxes around their buttons, and a box takes
+   the pointer across its whole height — so with its lower buttons stood down
+   under a card, the empty column went on swallowing the card's ×. Only the
+   buttons take the pointer; the gaps and the stood-down places let it
+   through to whatever is under them. */
+#zoom-controls, #map-extras, #corner-controls { pointer-events: none; }
+#zoom-controls > *, #map-extras > *, #corner-controls > * { pointer-events: auto; }
+
+/* On a phone the key runs the width of the map's foot and the ⓘ sits in its
+   right-hand corner, so the key stops short of it and the two share the foot
+   instead of the dock lifting one over the other. */
+@media (max-width: 620px), (max-height: 520px) {
+  #stage:has(#corner-controls button:not([hidden])) #legend:not(.folded) {
+    right: calc(max(10px, var(--safe-r)) + 48px);
   }
 }
 

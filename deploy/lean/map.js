@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '373';
+  var JEM_VERSION = '374';
 
 
 
@@ -1487,6 +1487,7 @@
       });
     }
     initCornerControls();
+    initDock();
   }
 
 
@@ -3737,6 +3738,10 @@
     if (gratGroup) { gratGroup.__step = null; gratGroup.__mode = null; }
     drawGraticule();
 
+    Object.keys(staLive).forEach(dropLiveMark);
+    if (drawStationPicture) Object.keys(STATION_SYS).forEach(function (k) { drawStationPicture(k); });
+    liveStations();
+
 
     rebuildFineHits();
 
@@ -4130,14 +4135,9 @@
 
 
 
-      if (on) {
-        for (var i = 0; i < cfg.group.childNodes.length; i++) {
-          var m = cfg.group.childNodes[i];
-          var rec = byId[m.getAttribute('data-id')];
-          m.style.display = (!rec || stationShown(rec)) ? '' : 'none';
-        }
-      }
+      if (on && drawStationPicture) drawStationPicture(sys);
     });
+    liveStations();
   }
 
 
@@ -4168,6 +4168,104 @@
     if (!trainDraws(rec.sys)) return true;
     return trainApi.serves(rec.id);
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var STA_LIVE_MAX = 1200;
+  var STA_LIVE_PAD = 0.25;        // of the view's size, on every side
+  var staLive = {};               // id -> the scalable entry of its mark
+  var staOverCap = false;         // too many in view: the pointer asks the table
+  var drawStationPicture = null;  // set where the stations are built
+
+  function liveMark(rec) {
+    if (staLive[rec.id]) return staLive[rec.id];
+    var cfg = STATION_SYS[rec.sys];
+    var p = sitePos[rec.id];
+    if (!cfg || !cfg.live || !p) return null;
+    var mark = svgEl('g', { 'class': 'sta-mark', 'data-id': rec.id });
+    mark.appendChild(svgEl('rect', { x: -STA_SQ / 2, y: -STA_SQ / 2,
+                                     width: STA_SQ, height: STA_SQ,
+                                     'class': 'sta-sq' }));
+
+
+
+
+    mark.appendChild(svgEl('rect', { x: -STA_SQ, y: -STA_SQ,
+                                     width: STA_SQ * 2, height: STA_SQ * 2,
+                                     'class': 'sta-hit' }));
+    if (rec.id === selected) mark.classList.add('sel');
+    cfg.live.appendChild(mark);
+    elById[rec.id] = mark;
+    var entry = { el: mark, x: p.x, y: p.y };
+    staLive[rec.id] = entry;
+    if (lastScaleW > 0) placeScalable(entry, view.w / containerSize().w);
+    return entry;
+  }
+
+  function dropLiveMark(id) {
+    var entry = staLive[id];
+    if (!entry) return;
+    entry.el.remove();
+    if (elById[id] === entry.el) delete elById[id];
+    delete staLive[id];
+  }
+
+  function liveStations() {
+    var want = {};
+    var pad = STA_LIVE_PAD;
+    var x0 = view.x - view.w * pad, x1 = view.x + view.w * (1 + pad);
+    var y0 = view.y - view.h * pad, y1 = view.y + view.h * (1 + pad);
+    var inView = [];
+    Object.keys(STATION_SYS).forEach(function (sys) {
+      var cfg = STATION_SYS[sys];
+      if (!cfg.recs || !stationsOn(sys)) return;
+      cfg.recs.forEach(function (rec) {
+        var p = sitePos[rec.id];
+        if (p.x < x0 || p.x > x1 || p.y < y0 || p.y > y1) return;
+        if (!stationShown(rec)) return;
+        inView.push(rec);
+      });
+    });
+    staOverCap = inView.length > STA_LIVE_MAX;
+    if (!staOverCap) inView.forEach(function (r) { want[r.id] = r; });
+    var sel = selected && byId[selected];
+    if (sel && sel.kind === 'station' && stationsOn(sel.sys) && stationShown(sel)) want[sel.id] = sel;
+    Object.keys(staLive).forEach(function (id) { if (!want[id]) dropLiveMark(id); });
+    Object.keys(want).forEach(function (id) { liveMark(want[id]); });
+  }
+
+
+
+
+  function nearestStation(cx, cy) {
+    if (typeof cx !== 'number' || !svg) return null;
+    var m = svg.getScreenCTM();
+    if (!m) return null;
+    var best = null, bestD = STA_SQ * STA_SQ;
+    Object.keys(STATION_SYS).forEach(function (sys) {
+      var cfg = STATION_SYS[sys];
+      if (!cfg.recs || !stationsOn(sys)) return;
+      for (var i = 0; i < cfg.recs.length; i++) {
+        var p = sitePos[cfg.recs[i].id];
+        var dx = (m.a * p.x + m.c * p.y + m.e) - cx;
+        var dy = (m.b * p.x + m.d * p.y + m.f) - cy;
+        var d = dx * dx + dy * dy;
+        if (d < bestD && stationShown(cfg.recs[i])) { bestD = d; best = cfg.recs[i]; }
+      }
+    });
+    return best;
+  }
+
 
   var yellow1938 = null;
 
@@ -4518,28 +4616,24 @@
 
       svg.insertBefore(group, markersGroup || null);
       cfg.group = group;
+
+
+
+
+
+
+
+
+
+      cfg.picCase = svgEl('path', { 'class': 'sta-pic sta-pic-case' });
+      cfg.picFill = svgEl('path', { 'class': 'sta-pic sta-pic-fill' });
+      cfg.live = svgEl('g', { 'class': 'sta-live' });
+      group.appendChild(cfg.picCase);
+      group.appendChild(cfg.picFill);
+      group.appendChild(cfg.live);
+      cfg.recs = [];
       (JMAP[cfg.data] || []).forEach(function (t) {
         var p = project(t.lon, t.lat);
-        var mark = svgEl('g', { 'class': 'sta-mark', 'data-id': t.id });
-        mark.appendChild(svgEl('rect', { x: -STA_SQ / 2, y: -STA_SQ / 2,
-                                         width: STA_SQ, height: STA_SQ,
-                                         'class': 'sta-sq' }));
-
-
-
-        mark.appendChild(svgEl('rect', { x: -STA_SQ, y: -STA_SQ,
-                                         width: STA_SQ * 2, height: STA_SQ * 2,
-                                         'class': 'sta-hit' }));
-        group.appendChild(mark);
-
-
-
-
-
-
-
-
-        scalables.push({ el: mark, x: p.x, y: p.y });
         var text = svgEl('text', { 'class': 'tlabel sta', 'font-size': STA_PX,
                                    y: STA_PX + 5 });
         labelLayer.appendChild(text);
@@ -4566,7 +4660,7 @@
 
 
         sitePos[t.id] = { x: p.x, y: p.y };
-        elById[t.id] = mark;
+        cfg.recs.push(rec);
 
 
         if (rec.han) text.setAttribute('aria-label', rec.han);
@@ -4587,6 +4681,37 @@
       gateLabels();
       placeLabels();
     };
+
+
+
+
+
+
+
+
+
+
+    drawStationPicture = function (sys) {
+      var cfg = STATION_SYS[sys];
+      if (!cfg || !cfg.picFill) return;
+      var d = '', n = 0;
+      cfg.recs.forEach(function (rec) {
+        if (!stationShown(rec)) return;
+        var p = sitePos[rec.id];
+        d += 'M' + (Math.round(p.x * 100) / 100) + ' ' + (Math.round(p.y * 100) / 100) + 'h.01';
+        n++;
+      });
+
+
+
+      cfg.picFill.setAttribute('data-total', cfg.recs.length);
+      cfg.picFill.setAttribute('data-n', n);
+      cfg.picCase.setAttribute('d', d || 'M0 0');
+      cfg.picFill.setAttribute('d', d || 'M0 0');
+      cfg.picCase.style.display = d ? '' : 'none';
+      cfg.picFill.style.display = d ? '' : 'none';
+    };
+
 
 
 
@@ -5928,10 +6053,102 @@
 
   function round(v) { return Math.round(v * 100) / 100; }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var PICTURE_SETTLE_MS = 180;
+  var picture = null;             // what the SVG was drawn at, while it is being moved
+  var pictureTimer = 0;
+  var drawnView = null;           // the view of the last real drawing
+  var mapHost = null;
+
+  function pictureWanted() {
+    return !!(themeShown || (trainApi && trainApi.mounted())
+              || (airApi && airApi.mounted()));
+  }
+
+
+
+  function fitOnScreen(v, c) {
+    var sc = Math.min(c.w / v.w, c.h / v.h);
+    return { s: sc, x: (c.w - v.w * sc) / 2 - v.x * sc, y: (c.h - v.h * sc) / 2 - v.y * sc };
+  }
+
+  function pictureMove() {
+    if (!mapHost) mapHost = $('#map-svg');
+    var c = containerSize();
+    if (!picture) {
+      picture = { v: drawnView, c: { w: c.w, h: c.h } };
+      mapHost.style.transformOrigin = '0 0';
+      mapHost.style.willChange = 'transform';
+    }
+
+
+    var f0 = fitOnScreen(picture.v, picture.c), f1 = fitOnScreen(view, c);
+    var k = f1.s / f0.s;
+    mapHost.style.transform = 'translate(' + (f1.x - k * f0.x) + 'px,'
+      + (f1.y - k * f0.y) + 'px) scale(' + k + ')';
+    scheduleUrl();
+    if (pictureTimer) clearTimeout(pictureTimer);
+    pictureTimer = setTimeout(pictureSettle, PICTURE_SETTLE_MS);
+  }
+
+  function pictureSettle() {
+    pictureTimer = 0;
+    if (!picture) return;
+
+    if (pointers.size) { pictureTimer = setTimeout(pictureSettle, PICTURE_SETTLE_MS); return; }
+    applyView(true);
+  }
+
+  function pictureDrop() {
+    picture = null;
+    if (pictureTimer) { clearTimeout(pictureTimer); pictureTimer = 0; }
+    if (mapHost) {
+      mapHost.style.transform = '';
+      mapHost.style.willChange = '';
+    }
+  }
+
   function applyView(force) {
     clampView(view);
+    if (drawnView && !force && pictureWanted()) {
+      var cs = containerSize();
+
+
+      if (!picture || (picture.c.w === cs.w && picture.c.h === cs.h)) {
+        pictureMove();
+        return;
+      }
+    }
+    if (picture) pictureDrop();
     svg.setAttribute('viewBox',
       round(view.x) + ' ' + round(view.y) + ' ' + round(view.w) + ' ' + round(view.h));
+    drawnView = { x: round(view.x), y: round(view.y), w: round(view.w), h: round(view.h) };
     scheduleUrl();
     var home = defaultView();
 
@@ -6022,6 +6239,7 @@
       lastPlaced = 0;
       placeLabels();
       syncFine();
+      liveStations();
     }, 220);
   }
   var fineTimer = 0;
@@ -6201,6 +6419,8 @@
       if (!all && s.el.style.display === 'none') { s.atK = 0; continue; }
       placeScalable(s, k);
     }
+
+    for (var sid in staLive) placeScalable(staLive[sid], k);
 
 
 
@@ -7755,6 +7975,17 @@
   }
 
   function pick(target, cx, cy) {
+
+
+
+
+    if (staOverCap && target && target.closest
+        && (target === svg || target.id === 'ocean'
+            || target.closest('#land, #atom-hits, #sub-outlines, #subs-lift, .sta-layer'))) {
+      var sta = nearestStation(cx, cy);
+      var liv = sta && liveMark(sta);
+      if (liv) return { hit: { rec: sta, el: liv.el }, el: target };
+    }
     if (target && target.closest && target.closest('.site')) {
       var near = nearestMarker(cx, cy);
       if (near) return { hit: { rec: near, el: elById[near.rid || near.id] || target }, el: target };
@@ -10370,6 +10601,8 @@
 
   function markSelected(id, on) {
     if (!id) return;
+
+    if (on && !elById[id] && byId[id] && byId[id].kind === 'station') liveMark(byId[id]);
     var els = atomsOf[id] || (elById[id] ? [elById[id]] : []);
     if (!atomsOf[id]) els.forEach(function (el) { el.classList.toggle('sel', on); });
   }
@@ -13367,6 +13600,142 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var DOCK_SHEETS = ['#info', '#quiz', '#annotate'];
+  var DOCK_LIFT = ['#train-bar', '#air-bar', '#ann-clock', '#corner-controls',
+                   '#ann-edit', '#beta-badge', '#legend'];
+  var DOCK_YIELD = '#zoom-controls > button, #map-extras > button';
+  var DOCK_GAP = 8;               // screen pixels between two docked things
+  var dockQueued = false;
+
+  function dockFloats(el) {
+    if (!el || el.hidden) return false;
+    var cs = getComputedStyle(el);
+    if (cs.display === 'none') return false;
+    if (cs.position !== 'absolute' && cs.position !== 'fixed') return false;
+    return el.offsetWidth > 0 && el.offsetHeight > 0;
+  }
+
+  function dockMeets(a, b) {
+    return a.left < b.right - 1 && b.left < a.right - 1
+      && a.top < b.bottom - 1 && b.top < a.bottom - 1;
+  }
+
+  function dockPanels() {
+    dockQueued = false;
+    var stage = $('#stage');
+    if (!stage) return;
+    var lifts = DOCK_LIFT.map(function (s) { return $(s); }).filter(Boolean);
+    var yields = $$(DOCK_YIELD);
+
+    lifts.concat(yields).forEach(function (el) {
+      el.style.translate = '';
+      el.classList.remove('docked-away');
+    });
+    var top = stage.getBoundingClientRect().top;
+    var placed = [];
+    DOCK_SHEETS.forEach(function (s) {
+      var el = $(s);
+      if (dockFloats(el)) placed.push(el.getBoundingClientRect());
+    });
+    var column = yields.filter(function (b) { return !b.hidden && b.offsetWidth; })
+      .map(function (b) { return { el: b, r: b.getBoundingClientRect() }; });
+
+    column = column.filter(function (c) {
+      var under = placed.some(function (p) { return dockMeets(c.r, p); });
+      if (under) c.el.classList.add('docked-away');
+      return !under;
+    });
+    lifts.forEach(function (el) {
+      if (!dockFloats(el)) return;
+      var r = el.getBoundingClientRect();
+      var lift = 0;
+
+
+      for (var guard = 0; guard < 12; guard++) {
+        var at = { left: r.left, right: r.right, top: r.top - lift, bottom: r.bottom - lift };
+        var hit = placed.filter(function (p) { return dockMeets(at, p); });
+        if (!hit.length) break;
+        var roof = Math.min.apply(null, hit.map(function (p) { return p.top; }));
+        lift = r.bottom - roof + DOCK_GAP;
+      }
+      var box = { left: r.left, right: r.right, top: r.top - lift, bottom: r.bottom - lift };
+      var clear = box.top >= top
+        && !placed.some(function (p) { return dockMeets(box, p); })
+        && !column.some(function (c) { return dockMeets(box, c.r); });
+      if (!clear) { el.classList.add('docked-away'); return; }
+      if (lift) el.style.translate = '0 ' + (-Math.round(lift)) + 'px';
+      placed.push(box);
+    });
+    bumpLayout();                 // the label placer reads these boxes
+  }
+
+
+  function queueDock() {
+    if (dockQueued) return;
+    dockQueued = true;
+    requestAnimationFrame(dockPanels);
+  }
+
+
+
+
+
+  function initDock() {
+    if (typeof ResizeObserver !== 'function') return;
+    var ro = new ResizeObserver(queueDock);
+    var watched = [];
+    function watch() {
+      DOCK_SHEETS.concat(DOCK_LIFT, ['#zoom-controls', '#map-extras', '#stage'])
+        .forEach(function (s) {
+          var el = $(s);
+          if (el && watched.indexOf(el) < 0) { watched.push(el); ro.observe(el); }
+        });
+    }
+    watch();
+    if (typeof MutationObserver === 'function') {
+      var mo = new MutationObserver(function () { watch(); queueDock(); });
+      ['#stage', '#side', '#map-container'].forEach(function (s) {
+        var el = $(s);
+        if (el) mo.observe(el, { childList: true });
+      });
+    }
+    queueDock();
+  }
+
+
+
+
   function applyAirFrame() {
     if (!airGroup || !state.air) return;
     airGroup.classList.toggle('air-close', latSpan() <= AIR_NAME_CLOSE_LAT);
@@ -13670,9 +14039,75 @@
     var parent = partOf(props.name) || groupPartOf(el);
     if (parent) props.part_of = parent;
     return { type: 'Feature',
-             geometry: { type: 'MultiPolygon',
-                         coordinates: polys.map(function (r) { return [r]; }) },
+             geometry: { type: 'MultiPolygon', coordinates: nestRings(polys) },
              properties: props };
+  }
+
+
+
+
+
+
+
+
+
+
+  function nestRings(rings) {
+    const box = rings.map((r) => {
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      r.forEach(([x, y]) => {
+        if (x < x0) x0 = x; if (x > x1) x1 = x;
+        if (y < y0) y0 = y; if (y > y1) y1 = y;
+      });
+      return [x0, y0, x1, y1];
+    });
+    const ccw = rings.map((r) => {
+      let a = 0;
+      for (let k = 0; k + 1 < r.length; k++) a += r[k][0] * r[k + 1][1] - r[k + 1][0] * r[k][1];
+      return a > 0;
+    });
+    const holds = (j, [x, y]) => {
+      const b = box[j];
+      if (x < b[0] || x > b[2] || y < b[1] || y > b[3]) return false;
+      const r = rings[j];
+      let hit = false;
+      for (let k = 0; k + 1 < r.length; k++) {
+        const [xa, ya] = r[k], [xb, yb] = r[k + 1];
+        if ((ya > y) !== (yb > y) && x < xa + (y - ya) * (xb - xa) / (yb - ya)) hit = !hit;
+      }
+      return hit;
+    };
+    const size = (j) => (box[j][2] - box[j][0]) * (box[j][3] - box[j][1]);
+
+
+
+    const within = (i, j) => {
+      const a = box[i], b = box[j];
+      if (a[0] < b[0] || a[1] < b[1] || a[2] > b[2] || a[3] > b[3]) return false;
+      const r = rings[i];
+      const step = Math.max(1, Math.floor((r.length - 1) / 9));
+      const pts = r.slice(0, -1).filter((_, k) => k % step === 0).slice(0, 9);
+      return pts.filter((q) => holds(j, q)).length * 5 >= pts.length * 4;
+    };
+    const home = new Map();
+    rings.forEach((r, i) => {
+      let best = -1;
+      rings.forEach((_, j) => {
+        if (j !== i && ccw[j] !== ccw[i] && within(i, j)
+            && (best < 0 || size(j) < size(best))) best = j;
+      });
+      if (best >= 0) home.set(i, best);
+    });
+    const polys = [];
+    const at = new Map();
+    rings.forEach((r, i) => {
+      if (!home.has(i)) { at.set(i, polys.length); polys.push([r]); }
+    });
+    home.forEach((j, i) => {
+      if (at.has(j)) polys[at.get(j)].push(rings[i]);
+      else polys.push([rings[i]]);
+    });
+    return polys;
   }
 
   function saveGeoJSON(els, name) {
@@ -14109,6 +14544,10 @@
     return out;
   }
 
+  const INDIA_DL = [['india-1931.geojson', 'British India, 1931'],
+                    ['british-india-1930.geojson', 'British India, 1930, including Burma']];
+  const INDIA_DL_ATOMS = new Set(['india', 'princely', 'andaman', 'burma', 'saharat']);
+
   function menuItem(label, fn) {
     var b = document.createElement('button');
     b.type = 'button';
@@ -14365,6 +14804,25 @@
             + ' (' + kin.length + ' territories)',
             function () { saveGeoJSON(big, cl); }));
         }
+      }
+
+
+
+
+
+
+
+      if (INDIA_DL_ATOMS.has(atomKey)) {
+        INDIA_DL.forEach(([file, what]) => {
+          menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + what, () => {
+            const a = document.createElement('a');
+            a.href = 'gis/' + file;
+            a.download = file;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }));
+        });
       }
     }
 
@@ -21025,7 +21483,8 @@
 
 
   window.JMAP_IDLE = function () {
-    return !rafPending && !viewRaf && !fineTimer && !urlTimer && !pendingTap;
+    return !rafPending && !viewRaf && !fineTimer && !urlTimer && !pendingTap
+      && !pictureTimer;
   };
 
   function annWire() {

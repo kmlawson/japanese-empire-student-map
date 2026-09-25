@@ -23076,3 +23076,145 @@ there at update 372, every figure read from the built files:
 UPLOAD.md still names every file the build looks for. Nothing the site serves
 changed but the build's date stamp; `smoke` run before and after. Released with
 entries 205a to 209 as update 373.
+
+## 211. Nothing floating over the map sits on anything else, on a phone
+
+Reported: the close button of the About and Layers panes could not be found on
+a phone. **Cause:** `dialog .x` was `position: sticky`, but inside the 44px
+`<form method="dialog">` that holds it, and sticky only sticks within its
+parent — so the × left the screen as soon as the pane scrolled. On a phone
+About's text lives at the foot of Layers, so it was the same bug twice.
+
+A walk of every state that puts something at the foot of a phone (390×664,
+360×560, 740×340, 768×1000; the key open, a card, the card opened out, the
+plane strip, the train strip, each with a card, the railway menu, the
+annotation sheet, every dialog at top/middle/end of its scroll) found **46
+failing states** on the code as it was: the card's × under the railway button,
+the annotation sheet's × and lock under the stations button, the plane strip
+over the ⓘ and over the key's fold, the ⓘ over the key and the card, and the
+× of Layers, help and (at 768) About off the top of the screen.
+
+Changed:
+
+* **Dialogs** (`styles.css`): the *form* is sticky now, so the × stays for the
+  whole scroll at every width. On a phone the sheet has a pinned header — the
+  title and a bordered × ruled off from what scrolls under it — and
+  `scroll-padding-top` so a scrolled-to row stops below the header (the
+  `theme` test caught that). `max-height` is `88dvh` with `88vh` behind it,
+  since `vh` on a phone is the screen with the browser bars put away. Not
+  measurable headlessly; unverified on a real iPhone.
+* **The dock** (`dockPanels` in `map.js`): one rule places every floating
+  panel. Sheets (`#info`, `#quiz`, `#annotate`) stay put; the strips, the ⓘ,
+  the annotation clock and pencil, BETA and the key are lifted clear of what
+  is under them with a `translate`; anything with nowhere to go, and any
+  zoom-column button a sheet reaches, stands down (`.docked-away`,
+  `visibility: hidden`) until there is room. Driven by a ResizeObserver and a
+  MutationObserver for panels the modules add later. Only absolutely
+  positioned panels take part, so the desktop side column is untouched.
+* The three button columns take the pointer on their buttons only, so an
+  empty stretch of column no longer swallows a tap on a card's ×.
+* On a phone the opened key stops short of the ⓘ instead of running under it.
+* **`tools/test/overlap.js`** (new; in `core` and `transport`): 104 checks —
+  every showing control inside the screen and hit by a finger at five points,
+  and no two floating panels overlapping. Fails 46 on the old CSS and script,
+  passes all on the new; 59 s.
+
+Full suite: 2,574 checks across 73 scripts, 301 s; the one failure (`theme`,
+a tap under the new header) fixed and re-run clean. Built without `--bump`.
+
+## 212. British India as one polygon, both ways, and holes that stay holes
+
+Asked for: an export of India as a polygon, offering both the 1931 outline
+alone and the 1930 territory with Burma.
+
+* **`tools/export_india.py`** writes two files into `deploy/gis/`, read
+  straight from the sources the build draws those atoms from:
+  `india-1931.geojson` from `tools/cache/india-1931.geojson` — one polygon,
+  the provinces and princely states as one outline, the eleven inland French
+  and Portuguese settlements as holes, **13,667 of 13,667 vertices**, 419 KB,
+  valid by GEOS — and `british-india-1930.geojson`, the same with Burma
+  (`burma-modern-modified.geojson`) and the Andamans (Natural Earth's India,
+  in `split_india`'s box). India and Burma share 461 segments vertex for
+  vertex (1,364 km of frontier, no overlap), so they are dissolved by edge
+  cancellation: 57 polygons, 18,045 of 18,971 vertices — the 926 gone are the
+  seam's — 572 KB, valid. Undissolved it was invalid, the two parts meeting
+  along a line. `saharat` adds nothing: every piece lies inside Burma's
+  outline, and the script checks that rather than assuming it.
+* **One gap the sources leave**: the dissolve opens a hole of about 0.08 km²
+  on the Naf frontier (92.22 E, 21.10 N), where the two tracings do not quite
+  meet. The map draws the same gap. Left as it is.
+* **Offered** on the Sources page, under the land outlines, and in the
+  right-click menu over India, the princely states, the Andamans, Burma and
+  Saharat, as *British India, 1931* and *British India, 1930, including Burma*.
+  `menu` checks both items with a mouse and with a finger, and that both files
+  are served with the right shape.
+* **The hole bug, in both writers.** The map's right-click export
+  (`featureFor`) and `build_map.py --export` wrote every ring as a polygon of
+  its own, so India's settlements came out as eleven filled islands over India
+  — in the land download and in "Download GeoJSON — British India". Both now
+  nest a ring under the smallest ring **wound the other way** that contains
+  it (`nestRings` in map.js, `_nest` in build_map.py). Not containment alone:
+  the atoms fill by the nonzero rule and the seam strips over a frontier are
+  inside their country and wound the same way, which makes them land. And not
+  one vertex: the first draft filed Sichuan as a 415,000 km² hole in Gansu on
+  the strength of a shared vertex, so a hole's box must sit inside the outer's
+  and four in five of up to nine of its vertices inside it.
+* **`deploy/gis/land.geojson` and `sub-units.geojson` regenerated** (full
+  `build_map.py --export deploy/gis`, 29 s, no SVG changed). They had not been
+  exported since before the Burma, Indochina and Indies sheets: 550 units then,
+  765 now. Invalid features by GEOS, before → after: land 20 → 17, sub-units
+  81 → 83 of 765 — the overlapping seam strips, which were there before and are
+  not this change. Taiwan's outline carries 58 holes of zero area, which draw
+  nothing.
+
+Unverified: the map the 1931 India outline was traced from is not recorded in
+the repository, so the files' `source` says only "hand-traced for this map as
+it stood in 1931". `tools/export_india.py` has no trigger in `all.js` yet, so
+`changed` runs everything when it moves.
+
+Tests: the full suite, 2,584 checks across 73 scripts in 247 s, all passing. Built
+without `--bump`; not committed.
+
+## 213. Stations as a picture, and the gesture as a picture under heavy layers
+
+Asked for after the measurements in `reports/2026.09.25-heavy-layers.md`,
+which found that dimming or freezing the rest of the map saves 0–12% and that
+the cost of a heavy layer is its own element count.
+
+* **Stations, always.** Each railway's squares are now two paths —
+  outline and fill — of square-capped strokes 0.01 map units long with
+  `non-scaling-stroke` (`drawStationPicture`), rebuilt when the date, the
+  train tools or the projection change and never on a zoom. The pressable
+  `.sta-mark` elements are built only for stations within the view plus a
+  quarter each side, at the settle, up to 1,200 (`liveStations`); past that
+  (Japan, from a view about 1.5° tall outwards) the pointer is answered by
+  `nearestStation` from the table, and the selected station always has its
+  mark. The pictures carry `data-total` and `data-n`, which the tests now
+  count instead of marks.
+* **The gesture as a picture** (`pictureMove`), while a thematic layer, the
+  train tools or the plane tools are up: a pan or zoom is a CSS transform on
+  `#map-svg`, and the map is drawn once 180 ms after the last change with no
+  pointer down. `JMAP_IDLE` waits for it. Agrees with the redraw to 0.000 px
+  at 1280×900 and 390×664, by mouse, finger drag and pinch. During the
+  gesture names, dots and lines scale with the picture, and ground outside
+  the old drawing is page-coloured until the redraw.
+* Measured against update 373, a drag plus twelve wheel steps at a quarter
+  CPU: Japan's stations over the Kantō 8,330 → 2,292 ms; Manchuria train tools
+  1,395 → 560; plane tools 959 → 387; Burma theme 1,648 → 734; Manchuria's
+  stations alone unchanged (614, under the cap).
+* **Tests.** New `tools/test/picture.js` (19 checks). `stations`, `trains`,
+  `jprails`, `krtrains`, `kftrains`, `mntrains` count squares from the
+  picture; `jprails` takes positions from it and presses a square through
+  the table lookup; `trains` drags Taihoku into view before pressing it and
+  drags back, since a mark off the screen no longer exists.
+* Unverified: Safari and Firefox (the short square-capped stroke; the
+  transform in `getScreenCTM`). Station labels are still one `<text>` each.
+
+## 214. A folded map for the favicon
+
+The red disc on cream read as the Japanese flag. Replaced in the heads of
+`deploy/index.html` and `deploy/sources.html` (hand-written; the build leaves
+them alone, checked by rebuilding) with a three-panel folded map in parchment
+tones, the middle panel shaded as a fold, a grey-blue coastline across it and
+a brown outline. Rendered at 16, 32 and 64 px on a light and a dark tab bar
+before it went in. The printed timetables carry no icon and were not given one.

@@ -45,8 +45,8 @@ const look=p=>p.evaluate(()=>{
       return g?g.classList.contains('conn-off'):null;})(),
     mn: typeof JMAP!=='undefined' && !!JMAP.MN_TRAINS,
     kr: typeof JMAP!=='undefined' && !!JMAP.KR_TRAINS,
-    stations: document.querySelectorAll('#mn-stations .sta-mark').length,
-    shown:[...document.querySelectorAll('#mn-stations .sta-mark')].filter(m=>m.style.display!=='none').length,
+    stations: +((document.querySelector('#mn-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-total')),
+    shown:+((document.querySelector('#mn-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-n')),
     railBox: !!(document.querySelector('#opt-mn-rail')||{}).checked,
     staBox: !!(document.querySelector('#opt-mn-stations')||{}).checked,
     staRow: !(document.querySelector('#row-mn-stations')||{}).hidden,
@@ -503,16 +503,16 @@ const shutDialogs=p=>p.evaluate(()=>{
         menu.offered && menu.shown && menu.radio && menu.rows.length === 6 && menu.rows.indexOf('*') >= 0, JSON.stringify(menu));
       await r.evaluate(() => document.querySelector('#station-menu input[data-station-sys="mn"]').click());
       await sleep(1500);
-      let sq = await r.evaluate(() => ({ mn: document.querySelectorAll('#mn-stations .sta-mark').length, box: document.querySelector('#opt-mn-stations').checked }));
+      let sq = await r.evaluate(() => ({ mn: +((document.querySelector('#mn-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-total')), box: document.querySelector('#opt-mn-stations').checked }));
       check('  choosing Manchuria draws its squares', sq.mn === 614 && sq.box, JSON.stringify(sq));
       await r.evaluate(() => { document.querySelector('#btn-stations').click(); });
       await sleep(300);
       await r.evaluate(() => document.querySelector('#station-menu input[data-station-sys="kr"]').click());
       await sleep(1500);
       sq = await r.evaluate(() => ({
-        mnShown: [...document.querySelectorAll('#mn-stations .sta-mark')].filter(m => m.getBoundingClientRect().width > 0).length,
+        mnShown: (e=>e&&e.getBoundingClientRect().width>0?+e.getAttribute('data-n'):0)(document.querySelector('#mn-stations .sta-pic-fill')),
         mnBox: document.querySelector('#opt-mn-stations').checked, krBox: document.querySelector('#opt-kr-stations').checked,
-        krRail: document.querySelector('#opt-kr-rail').checked, kr: document.querySelectorAll('#kr-stations .sta-mark').length }));
+        krRail: document.querySelector('#opt-kr-rail').checked, kr: +((document.querySelector('#kr-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-total')) }));
       check('  choosing Korea puts Manchuria’s away and switches Korea’s railway on with its squares',
         sq.mnShown === 0 && !sq.mnBox && sq.krBox && sq.krRail && sq.kr > 800, JSON.stringify(sq));
       // and the panel keeps the same rule

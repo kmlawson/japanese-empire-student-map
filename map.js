@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '373';
+  var JEM_VERSION = '374';
 
   /* Every file this one fetches, with the version on it.
 
@@ -1487,6 +1487,7 @@
       });
     }
     initCornerControls();
+    initDock();
   }
 
   /* admin.js, once, on demand. It is a tool for working on the map and not
@@ -3736,6 +3737,10 @@
     });
     if (gratGroup) { gratGroup.__step = null; gratGroup.__mode = null; }
     drawGraticule();
+    // the station squares are drawn from `sitePos`, just moved
+    Object.keys(staLive).forEach(dropLiveMark);
+    if (drawStationPicture) Object.keys(STATION_SYS).forEach(function (k) { drawStationPicture(k); });
+    liveStations();
     // the reach that lets a reader point at a reef is held in map units, so it
     // has to be rebuilt when those units change
     rebuildFineHits();
@@ -4127,17 +4132,12 @@
       if (!cfg.group) return;
       cfg.group.style.display = on ? '' : 'none';
       /* Korea's 1930 network is 636 of its 918 stations, and the rest were
-         not there to be pointed at. Hidden per mark rather than by rebuilding
-         the layer: the marks cost nothing while they are `display: none` and
-         a rebuild costs the whole group on every change of date. */
-      if (on) {
-        for (var i = 0; i < cfg.group.childNodes.length; i++) {
-          var m = cfg.group.childNodes[i];
-          var rec = byId[m.getAttribute('data-id')];
-          m.style.display = (!rec || stationShown(rec)) ? '' : 'none';
-        }
-      }
+         not there to be pointed at. The picture is drawn from the stations
+         that stood at the date (and, with the tools up, that the timetable
+         serves), so it is redrawn here, where either can have changed. */
+      if (on && drawStationPicture) drawStationPicture(sys);
     });
+    liveStations();
   }
 
   /* And did this station stand at the date being shown? Taiwan's table says
@@ -4168,6 +4168,104 @@
     if (!trainDraws(rec.sys)) return true;
     return trainApi.serves(rec.id);
   }
+
+  /* ------------------------------------------------ stations: the live marks --
+   *
+   * The pressable squares, for the stations in view only. Built when the
+   * view settles (the same timer that re-places the names), when a layer or
+   * the date changes, and for the selected station wherever it is — so the
+   * card's square is always the lit one.
+   *
+   * **Capped.** Past `STA_LIVE_MAX` stations in view — Japan, from a view about
+   * a degree and a half tall outwards — none are built, and `nearestStation`
+   * answers the pointer from the table instead, the way `nearestMarker` does
+   * for the cities. The cap is what keeps a zoom frame's work bounded: every
+   * live mark is a transform written per frame, and the picture is not. */
+  var STA_LIVE_MAX = 1200;
+  var STA_LIVE_PAD = 0.25;        // of the view's size, on every side
+  var staLive = {};               // id -> the scalable entry of its mark
+  var staOverCap = false;         // too many in view: the pointer asks the table
+  var drawStationPicture = null;  // set where the stations are built
+
+  function liveMark(rec) {
+    if (staLive[rec.id]) return staLive[rec.id];
+    var cfg = STATION_SYS[rec.sys];
+    var p = sitePos[rec.id];
+    if (!cfg || !cfg.live || !p) return null;
+    var mark = svgEl('g', { 'class': 'sta-mark', 'data-id': rec.id });
+    mark.appendChild(svgEl('rect', { x: -STA_SQ / 2, y: -STA_SQ / 2,
+                                     width: STA_SQ, height: STA_SQ,
+                                     'class': 'sta-sq' }));
+    /* The press has to be forgiving: five pixels is not a thing anybody can
+       put a finger on, so a transparent rect twice the size sits over the
+       square. No handlers of its own: `recordFor` finds it by `.sta-mark`,
+       and a hover or a tap takes the ordinary path from there. */
+    mark.appendChild(svgEl('rect', { x: -STA_SQ, y: -STA_SQ,
+                                     width: STA_SQ * 2, height: STA_SQ * 2,
+                                     'class': 'sta-hit' }));
+    if (rec.id === selected) mark.classList.add('sel');
+    cfg.live.appendChild(mark);
+    elById[rec.id] = mark;
+    var entry = { el: mark, x: p.x, y: p.y };
+    staLive[rec.id] = entry;
+    if (lastScaleW > 0) placeScalable(entry, view.w / containerSize().w);
+    return entry;
+  }
+
+  function dropLiveMark(id) {
+    var entry = staLive[id];
+    if (!entry) return;
+    entry.el.remove();
+    if (elById[id] === entry.el) delete elById[id];
+    delete staLive[id];
+  }
+
+  function liveStations() {
+    var want = {};
+    var pad = STA_LIVE_PAD;
+    var x0 = view.x - view.w * pad, x1 = view.x + view.w * (1 + pad);
+    var y0 = view.y - view.h * pad, y1 = view.y + view.h * (1 + pad);
+    var inView = [];
+    Object.keys(STATION_SYS).forEach(function (sys) {
+      var cfg = STATION_SYS[sys];
+      if (!cfg.recs || !stationsOn(sys)) return;
+      cfg.recs.forEach(function (rec) {
+        var p = sitePos[rec.id];
+        if (p.x < x0 || p.x > x1 || p.y < y0 || p.y > y1) return;
+        if (!stationShown(rec)) return;
+        inView.push(rec);
+      });
+    });
+    staOverCap = inView.length > STA_LIVE_MAX;
+    if (!staOverCap) inView.forEach(function (r) { want[r.id] = r; });
+    var sel = selected && byId[selected];
+    if (sel && sel.kind === 'station' && stationsOn(sel.sys) && stationShown(sel)) want[sel.id] = sel;
+    Object.keys(staLive).forEach(function (id) { if (!want[id]) dropLiveMark(id); });
+    Object.keys(want).forEach(function (id) { liveMark(want[id]); });
+  }
+
+  /* The station under a point when no live mark is there to be hit — the
+     view is past the cap. Nearest centre within the hit square's reach, in
+     screen pixels, read through the SVG's own screen matrix. */
+  function nearestStation(cx, cy) {
+    if (typeof cx !== 'number' || !svg) return null;
+    var m = svg.getScreenCTM();
+    if (!m) return null;
+    var best = null, bestD = STA_SQ * STA_SQ;
+    Object.keys(STATION_SYS).forEach(function (sys) {
+      var cfg = STATION_SYS[sys];
+      if (!cfg.recs || !stationsOn(sys)) return;
+      for (var i = 0; i < cfg.recs.length; i++) {
+        var p = sitePos[cfg.recs[i].id];
+        var dx = (m.a * p.x + m.c * p.y + m.e) - cx;
+        var dy = (m.b * p.x + m.d * p.y + m.f) - cy;
+        var d = dx * dx + dy * dy;
+        if (d < bestD && stationShown(cfg.recs[i])) { bestD = d; best = cfg.recs[i]; }
+      }
+    });
+    return best;
+  }
+
 
   var yellow1938 = null;
 
@@ -4518,28 +4616,24 @@
          them; this puts the stops where their line is. */
       svg.insertBefore(group, markersGroup || null);
       cfg.group = group;
+      /* **The squares are one picture; only the ones in view are things.**
+         Every station used to be a group of two rects with a transform of its
+         own, rewritten on every frame of every zoom — 12,800 of them for
+         Japan, 4,100 inside a view two degrees tall. The squares the reader
+         sees are now two paths, an outline and a fill, drawn once: see
+         `drawStationPicture`. The pressable marks — the same `.sta-mark` as
+         before, so hover, tap and the selected square behave as they did —
+         are built only for the stations in view, when the view settles; see
+         `liveStations`. */
+      cfg.picCase = svgEl('path', { 'class': 'sta-pic sta-pic-case' });
+      cfg.picFill = svgEl('path', { 'class': 'sta-pic sta-pic-fill' });
+      cfg.live = svgEl('g', { 'class': 'sta-live' });
+      group.appendChild(cfg.picCase);
+      group.appendChild(cfg.picFill);
+      group.appendChild(cfg.live);
+      cfg.recs = [];
       (JMAP[cfg.data] || []).forEach(function (t) {
         var p = project(t.lon, t.lat);
-        var mark = svgEl('g', { 'class': 'sta-mark', 'data-id': t.id });
-        mark.appendChild(svgEl('rect', { x: -STA_SQ / 2, y: -STA_SQ / 2,
-                                         width: STA_SQ, height: STA_SQ,
-                                         'class': 'sta-sq' }));
-        /* The press has to be forgiving: five pixels is not a thing anybody
-           can put a finger on, so a transparent rect twice the size sits over
-           the square. */
-        mark.appendChild(svgEl('rect', { x: -STA_SQ, y: -STA_SQ,
-                                         width: STA_SQ * 2, height: STA_SQ * 2,
-                                         'class': 'sta-hit' }));
-        group.appendChild(mark);
-        /* No handlers of its own. The mark answers the pointer through the
-           ordinary path — `recordFor` finds it by `.sta-mark`, and from there
-           a hover raises the tooltip and a tap opens the card, exactly as for
-           a city or a province. It carried three listeners once, to letter
-           itself on hover and to toggle that label on a tap; the label is not
-           the hover's business any more, and 1,041 marks × 3 listeners was
-           three thousand closures for a job the map already had a path for.
-           The square still lights on hover, from CSS. */
-        scalables.push({ el: mark, x: p.x, y: p.y });
         var text = svgEl('text', { 'class': 'tlabel sta', 'font-size': STA_PX,
                                    y: STA_PX + 5 });
         labelLayer.appendChild(text);
@@ -4566,7 +4660,7 @@
         // so the card does not open on top of the station it is describing,
         // and so the mark can be given the selected class
         sitePos[t.id] = { x: p.x, y: p.y };
-        elById[t.id] = mark;
+        cfg.recs.push(rec);
         // the characters, on the element itself: this is what a screen reader
         // and a `find in page` are given
         if (rec.han) text.setAttribute('aria-label', rec.han);
@@ -4587,6 +4681,37 @@
       gateLabels();
       placeLabels();
     };
+
+    /* One system's squares as a picture: a very short square-capped stroke
+       at each station, twice — the outline colour wider, the fill narrower on
+       top — with `non-scaling-stroke`, so the width is in SCREEN pixels and
+       the square is `STA_SQ` across at every zoom without a transform being
+       written to anything. The segment is a hundredth of a map unit long,
+       which is nothing on screen at any zoom this map reaches; a stroke of
+       zero length would do in the spec and is where browsers have differed.
+       Rebuilt when the set changes (the date, the train tools, a projection),
+       never when the view does. */
+    drawStationPicture = function (sys) {
+      var cfg = STATION_SYS[sys];
+      if (!cfg || !cfg.picFill) return;
+      var d = '', n = 0;
+      cfg.recs.forEach(function (rec) {
+        if (!stationShown(rec)) return;
+        var p = sitePos[rec.id];
+        d += 'M' + (Math.round(p.x * 100) / 100) + ' ' + (Math.round(p.y * 100) / 100) + 'h.01';
+        n++;
+      });
+      /* How many are built and how many drawn, on the element: there is no
+         longer one node per square to count, and "how many stations does the
+         map show" is a question worth answering from the page itself. */
+      cfg.picFill.setAttribute('data-total', cfg.recs.length);
+      cfg.picFill.setAttribute('data-n', n);
+      cfg.picCase.setAttribute('d', d || 'M0 0');
+      cfg.picFill.setAttribute('d', d || 'M0 0');
+      cfg.picCase.style.display = d ? '' : 'none';
+      cfg.picFill.style.display = d ? '' : 'none';
+    };
+
 
     /* The physical map: seas, deserts, plateaus, ranges. They belong to no
        polity and to neither epoch — the Gobi did not change hands in 1937 —
@@ -5928,10 +6053,102 @@
 
   function round(v) { return Math.round(v * 100) / 100; }
 
+  /* ------------------------------------------- the gesture as a picture --
+   *
+   * **While a heavy layer is up, a pan or a zoom moves what is already drawn,
+   * and the map is drawn again once, when the hand stops.**
+   *
+   * Every frame of a gesture writes a new `viewBox`, and a new viewBox is a
+   * new drawing of the whole SVG — every path, every mark, every name. With
+   * the plain map that is affordable. With a thematic layer, the train tools
+   * or the plane tools up it is not: measured 25 September 2026 at a quarter
+   * CPU, forty frames of pan cost 405 ms of main-thread work over Manchuria's
+   * railway and stations and 636 ms over a layer of 8,000 shapes — and 119
+   * and 65 ms when the same forty frames only moved a picture of the map
+   * (`reports/2026.09.25-heavy-layers.md` has the method).
+   *
+   * So, with one of those layers on, a view change during a gesture is a CSS
+   * transform on `#map-svg` — the compositor slides and scales the drawing it
+   * already has — and `view` moves as it always did, so everything that does
+   * arithmetic on it stays right. `getScreenCTM` includes the transform, so
+   * everything that asks the SVG where a point is on screen stays right too.
+   * `PICTURE_SETTLE_MS` after the last change, with no finger or button still
+   * down, the transform comes off and `applyView(true)` draws the map once at
+   * the view the reader ended on.
+   *
+   * What the reader sees in between: the names, the dots and the line widths
+   * grow and shrink with the picture instead of holding their size, and ground
+   * the drawing did not cover is page-coloured until the redraw. That is the
+   * price, and it is paid only while a heavy layer is up. */
+  var PICTURE_SETTLE_MS = 180;
+  var picture = null;             // what the SVG was drawn at, while it is being moved
+  var pictureTimer = 0;
+  var drawnView = null;           // the view of the last real drawing
+  var mapHost = null;
+
+  function pictureWanted() {
+    return !!(themeShown || (trainApi && trainApi.mounted())
+              || (airApi && airApi.mounted()));
+  }
+
+  /* The map's own fit — `xMidYMid meet` — for a view in a container: the
+     screen pixels per map unit, and where the view's corner lands. */
+  function fitOnScreen(v, c) {
+    var sc = Math.min(c.w / v.w, c.h / v.h);
+    return { s: sc, x: (c.w - v.w * sc) / 2 - v.x * sc, y: (c.h - v.h * sc) / 2 - v.y * sc };
+  }
+
+  function pictureMove() {
+    if (!mapHost) mapHost = $('#map-svg');
+    var c = containerSize();
+    if (!picture) {
+      picture = { v: drawnView, c: { w: c.w, h: c.h } };
+      mapHost.style.transformOrigin = '0 0';
+      mapHost.style.willChange = 'transform';
+    }
+    /* A point drawn at screen `a0 + P * s0` has to appear at `a1 + P * s1`:
+       a scale of s1/s0 about the container's corner, then a shift. */
+    var f0 = fitOnScreen(picture.v, picture.c), f1 = fitOnScreen(view, c);
+    var k = f1.s / f0.s;
+    mapHost.style.transform = 'translate(' + (f1.x - k * f0.x) + 'px,'
+      + (f1.y - k * f0.y) + 'px) scale(' + k + ')';
+    scheduleUrl();
+    if (pictureTimer) clearTimeout(pictureTimer);
+    pictureTimer = setTimeout(pictureSettle, PICTURE_SETTLE_MS);
+  }
+
+  function pictureSettle() {
+    pictureTimer = 0;
+    if (!picture) return;
+    // a finger resting mid-drag has not finished the gesture
+    if (pointers.size) { pictureTimer = setTimeout(pictureSettle, PICTURE_SETTLE_MS); return; }
+    applyView(true);
+  }
+
+  function pictureDrop() {
+    picture = null;
+    if (pictureTimer) { clearTimeout(pictureTimer); pictureTimer = 0; }
+    if (mapHost) {
+      mapHost.style.transform = '';
+      mapHost.style.willChange = '';
+    }
+  }
+
   function applyView(force) {
     clampView(view);
+    if (drawnView && !force && pictureWanted()) {
+      var cs = containerSize();
+      /* A window resized mid-gesture changes what the old drawing means;
+         that one is drawn for real. */
+      if (!picture || (picture.c.w === cs.w && picture.c.h === cs.h)) {
+        pictureMove();
+        return;
+      }
+    }
+    if (picture) pictureDrop();
     svg.setAttribute('viewBox',
       round(view.x) + ' ' + round(view.y) + ' ' + round(view.w) + ' ' + round(view.h));
+    drawnView = { x: round(view.x), y: round(view.y), w: round(view.w), h: round(view.h) };
     scheduleUrl();
     var home = defaultView();
     // Once the islands are worth looking at rather than merely locating, drop
@@ -6022,6 +6239,7 @@
       lastPlaced = 0;
       placeLabels();
       syncFine();
+      liveStations();
     }, 220);
   }
   var fineTimer = 0;
@@ -6201,6 +6419,8 @@
       if (!all && s.el.style.display === 'none') { s.atK = 0; continue; }
       placeScalable(s, k);
     }
+    // the stations' live marks, which are few by construction
+    for (var sid in staLive) placeScalable(staLive[sid], k);
     /* `k` is SVG units per screen pixel, and anything a reader's own marks draw
        in *screen* terms needs it. A filter's deviation is the case: it is in
        user units, so left alone it grows with the zoom until the shape it
@@ -7755,6 +7975,17 @@
   }
 
   function pick(target, cx, cy) {
+    /* Past the live cap the squares are only a picture, so the station under
+       the pointer is found from the table — and only over ground or sea, so
+       that a city, a train or an aeroplane drawn over the square keeps the
+       press it would have had. */
+    if (staOverCap && target && target.closest
+        && (target === svg || target.id === 'ocean'
+            || target.closest('#land, #atom-hits, #sub-outlines, #subs-lift, .sta-layer'))) {
+      var sta = nearestStation(cx, cy);
+      var liv = sta && liveMark(sta);
+      if (liv) return { hit: { rec: sta, el: liv.el }, el: target };
+    }
     if (target && target.closest && target.closest('.site')) {
       var near = nearestMarker(cx, cy);
       if (near) return { hit: { rec: near, el: elById[near.rid || near.id] || target }, el: target };
@@ -10370,6 +10601,8 @@
 
   function markSelected(id, on) {
     if (!id) return;
+    // a station picked past the live cap has no mark yet; the lit square needs one
+    if (on && !elById[id] && byId[id] && byId[id].kind === 'station') liveMark(byId[id]);
     var els = atomsOf[id] || (elById[id] ? [elById[id]] : []);
     if (!atomsOf[id]) els.forEach(function (el) { el.classList.toggle('sel', on); });
   }
@@ -13364,6 +13597,142 @@
     syncLayerInfo();
   }
 
+  /* ------------------------------------------------------------ the dock --
+   *
+   * **Nothing floating over the map may sit on anything else floating over
+   * it.** On a phone every panel wants the foot of the screen — the key, the
+   * card, the annotation sheet, the train and plane strips, the ⓘ button, the
+   * BETA mark — and each was placed by its own rule, written on its own day,
+   * with no idea the others were there. Measured on 23 September 2026 at five
+   * phone and tablet sizes: the card's × under the railway button, the plane
+   * strip over the ⓘ and the key's own fold, the annotation sheet's close
+   * under the stations button. A sixth rule in the stylesheet would have
+   * fixed one pair and not the next panel somebody adds.
+   *
+   * So this places them all, by one rule, from what is on the screen:
+   *
+   *   1. **Sheets stay where they are.** The card and the annotation sheet are
+   *      what the reader opened; they are never moved.
+   *   2. **Everything else that floats is lifted** clear of whatever is below
+   *      it in the same columns, in the order of `DOCK_LIFT` — the strips
+   *      first, then the small things. A lift is a `translate`, so it composes
+   *      with the strips' own centring `transform` and no rule in the
+   *      stylesheet has to know about it.
+   *   3. **Whatever cannot be placed stands down** — hidden, not squeezed —
+   *      and so does any button of the zoom column a sheet has reached. A
+   *      control the reader can see and cannot press is worse than one that
+   *      is not there, and half a button under a card is exactly that. It
+   *      comes back the moment the card closes or folds.
+   *
+   * Only what is actually floating takes part: on a wide screen the key and
+   * the card are in the side column, in the flow, and are left alone.
+   *
+   * `tools/test/overlap.js` walks the states this is for, at phone sizes, and
+   * fails on any control that a finger cannot reach. **A new floating panel
+   * belongs in one of these lists and in that test**, or it will be the next
+   * thing found under another. */
+  var DOCK_SHEETS = ['#info', '#quiz', '#annotate'];
+  var DOCK_LIFT = ['#train-bar', '#air-bar', '#ann-clock', '#corner-controls',
+                   '#ann-edit', '#beta-badge', '#legend'];
+  var DOCK_YIELD = '#zoom-controls > button, #map-extras > button';
+  var DOCK_GAP = 8;               // screen pixels between two docked things
+  var dockQueued = false;
+
+  function dockFloats(el) {
+    if (!el || el.hidden) return false;
+    var cs = getComputedStyle(el);
+    if (cs.display === 'none') return false;
+    if (cs.position !== 'absolute' && cs.position !== 'fixed') return false;
+    return el.offsetWidth > 0 && el.offsetHeight > 0;
+  }
+
+  function dockMeets(a, b) {
+    return a.left < b.right - 1 && b.left < a.right - 1
+      && a.top < b.bottom - 1 && b.top < a.bottom - 1;
+  }
+
+  function dockPanels() {
+    dockQueued = false;
+    var stage = $('#stage');
+    if (!stage) return;
+    var lifts = DOCK_LIFT.map(function (s) { return $(s); }).filter(Boolean);
+    var yields = $$(DOCK_YIELD);
+    // back to where the stylesheet puts them, so what is measured is theirs
+    lifts.concat(yields).forEach(function (el) {
+      el.style.translate = '';
+      el.classList.remove('docked-away');
+    });
+    var top = stage.getBoundingClientRect().top;
+    var placed = [];
+    DOCK_SHEETS.forEach(function (s) {
+      var el = $(s);
+      if (dockFloats(el)) placed.push(el.getBoundingClientRect());
+    });
+    var column = yields.filter(function (b) { return !b.hidden && b.offsetWidth; })
+      .map(function (b) { return { el: b, r: b.getBoundingClientRect() }; });
+    // a sheet wins over the column: the buttons it reaches stand down
+    column = column.filter(function (c) {
+      var under = placed.some(function (p) { return dockMeets(c.r, p); });
+      if (under) c.el.classList.add('docked-away');
+      return !under;
+    });
+    lifts.forEach(function (el) {
+      if (!dockFloats(el)) return;
+      var r = el.getBoundingClientRect();
+      var lift = 0;
+      /* Up past everything it would sit on, one obstacle at a time: lifting
+         clear of one can land it on the next, so go round until it is clear. */
+      for (var guard = 0; guard < 12; guard++) {
+        var at = { left: r.left, right: r.right, top: r.top - lift, bottom: r.bottom - lift };
+        var hit = placed.filter(function (p) { return dockMeets(at, p); });
+        if (!hit.length) break;
+        var roof = Math.min.apply(null, hit.map(function (p) { return p.top; }));
+        lift = r.bottom - roof + DOCK_GAP;
+      }
+      var box = { left: r.left, right: r.right, top: r.top - lift, bottom: r.bottom - lift };
+      var clear = box.top >= top
+        && !placed.some(function (p) { return dockMeets(box, p); })
+        && !column.some(function (c) { return dockMeets(box, c.r); });
+      if (!clear) { el.classList.add('docked-away'); return; }
+      if (lift) el.style.translate = '0 ' + (-Math.round(lift)) + 'px';
+      placed.push(box);
+    });
+    bumpLayout();                 // the label placer reads these boxes
+  }
+
+  /* Once per frame, however many panels changed in it. */
+  function queueDock() {
+    if (dockQueued) return;
+    dockQueued = true;
+    requestAnimationFrame(dockPanels);
+  }
+
+  /* Every panel in the lists, when it changes size — which is also when it
+     opens or closes, since `display: none` measures nothing — and every panel
+     a module adds later, which is when the strips and the annotation sheet
+     arrive. */
+  function initDock() {
+    if (typeof ResizeObserver !== 'function') return;
+    var ro = new ResizeObserver(queueDock);
+    var watched = [];
+    function watch() {
+      DOCK_SHEETS.concat(DOCK_LIFT, ['#zoom-controls', '#map-extras', '#stage'])
+        .forEach(function (s) {
+          var el = $(s);
+          if (el && watched.indexOf(el) < 0) { watched.push(el); ro.observe(el); }
+        });
+    }
+    watch();
+    if (typeof MutationObserver === 'function') {
+      var mo = new MutationObserver(function () { watch(); queueDock(); });
+      ['#stage', '#side', '#map-container'].forEach(function (s) {
+        var el = $(s);
+        if (el) mo.observe(el, { childList: true });
+      });
+    }
+    queueDock();
+  }
+
   /* The one thing in `applyAir` that a pan or zoom can change: whether the
      view is close enough for the stop names. Everything else it does follows
      a switch, the date or the player, and is done when those change. */
@@ -13670,9 +14039,75 @@
     var parent = partOf(props.name) || groupPartOf(el);
     if (parent) props.part_of = parent;
     return { type: 'Feature',
-             geometry: { type: 'MultiPolygon',
-                         coordinates: polys.map(function (r) { return [r]; }) },
+             geometry: { type: 'MultiPolygon', coordinates: nestRings(polys) },
              properties: props };
+  }
+
+  /* **A hole is a ring of the polygon round it, not a polygon of its own.**
+     India's eleven French and Portuguese settlements are the case that showed
+     it: written one polygon per ring, they came out as eleven filled islands
+     laid over India. The drawing fills by the nonzero rule, so being inside
+     another ring is not enough — the seam strips the build lays over a
+     frontier are inside their country and wound the same way, and they are
+     land. A ring is a hole when a ring wound the other way contains it, and it
+     goes to the smallest such ring. A box round each ring keeps the
+     point-in-ring tests to the rings that could answer yes. */
+  function nestRings(rings) {
+    const box = rings.map((r) => {
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      r.forEach(([x, y]) => {
+        if (x < x0) x0 = x; if (x > x1) x1 = x;
+        if (y < y0) y0 = y; if (y > y1) y1 = y;
+      });
+      return [x0, y0, x1, y1];
+    });
+    const ccw = rings.map((r) => {
+      let a = 0;
+      for (let k = 0; k + 1 < r.length; k++) a += r[k][0] * r[k + 1][1] - r[k + 1][0] * r[k][1];
+      return a > 0;
+    });
+    const holds = (j, [x, y]) => {
+      const b = box[j];
+      if (x < b[0] || x > b[2] || y < b[1] || y > b[3]) return false;
+      const r = rings[j];
+      let hit = false;
+      for (let k = 0; k + 1 < r.length; k++) {
+        const [xa, ya] = r[k], [xb, yb] = r[k + 1];
+        if ((ya > y) !== (yb > y) && x < xa + (y - ya) * (xb - xa) / (yb - ya)) hit = !hit;
+      }
+      return hit;
+    };
+    const size = (j) => (box[j][2] - box[j][0]) * (box[j][3] - box[j][1]);
+    /* Inside: the box inside the other's, and four in five of up to nine
+       vertices inside. One vertex is not enough — two provinces that merely
+       touch share one. */
+    const within = (i, j) => {
+      const a = box[i], b = box[j];
+      if (a[0] < b[0] || a[1] < b[1] || a[2] > b[2] || a[3] > b[3]) return false;
+      const r = rings[i];
+      const step = Math.max(1, Math.floor((r.length - 1) / 9));
+      const pts = r.slice(0, -1).filter((_, k) => k % step === 0).slice(0, 9);
+      return pts.filter((q) => holds(j, q)).length * 5 >= pts.length * 4;
+    };
+    const home = new Map();
+    rings.forEach((r, i) => {
+      let best = -1;
+      rings.forEach((_, j) => {
+        if (j !== i && ccw[j] !== ccw[i] && within(i, j)
+            && (best < 0 || size(j) < size(best))) best = j;
+      });
+      if (best >= 0) home.set(i, best);
+    });
+    const polys = [];
+    const at = new Map();
+    rings.forEach((r, i) => {
+      if (!home.has(i)) { at.set(i, polys.length); polys.push([r]); }
+    });
+    home.forEach((j, i) => {
+      if (at.has(j)) polys[at.get(j)].push(rings[i]);
+      else polys.push([rings[i]]);
+    });
+    return polys;
   }
 
   function saveGeoJSON(els, name) {
@@ -14109,6 +14544,10 @@
     return out;
   }
 
+  const INDIA_DL = [['india-1931.geojson', 'British India, 1931'],
+                    ['british-india-1930.geojson', 'British India, 1930, including Burma']];
+  const INDIA_DL_ATOMS = new Set(['india', 'princely', 'andaman', 'burma', 'saharat']);
+
   function menuItem(label, fn) {
     var b = document.createElement('button');
     b.type = 'button';
@@ -14365,6 +14804,25 @@
             + ' (' + kin.length + ' territories)',
             function () { saveGeoJSON(big, cl); }));
         }
+      }
+
+      /* British India whole, in the two shapes the two dates draw it, as
+         files built from the sources by tools/export_india.py rather than
+         read back off the drawing: the 1931 outline alone, and the 1930
+         territory with Burma and the Andamans. Offered over any of the atoms
+         either one is made of. A plain link, so the download happens inside
+         the click that asked for it. */
+      if (INDIA_DL_ATOMS.has(atomKey)) {
+        INDIA_DL.forEach(([file, what]) => {
+          menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + what, () => {
+            const a = document.createElement('a');
+            a.href = 'gis/' + file;
+            a.download = file;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }));
+        });
       }
     }
 
@@ -21025,7 +21483,8 @@
      `calm()` in tools/test/settle.js polls this instead. Fetches are not
      counted here; the test harness watches the network itself. */
   window.JMAP_IDLE = function () {
-    return !rafPending && !viewRaf && !fineTimer && !urlTimer && !pendingTap;
+    return !rafPending && !viewRaf && !fineTimer && !urlTimer && !pendingTap
+      && !pictureTimer;
   };
 
   function annWire() {

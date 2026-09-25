@@ -113,15 +113,21 @@ console.log('\n— a square for every station, and not one name —');
 await turnOn(p);
 {
   const st=await p.evaluate(()=>{
+    /* The squares are one picture now (`drawStationPicture`), which says on
+       itself how many it holds; the pressable marks are built for the ones
+       in view, and each of those still carries its hit target. */
     const g=document.getElementById('tw-stations');
-    return {marks:g?g.querySelectorAll('.sta-mark').length:0,
+    const pic=g&&g.querySelector('.sta-pic-fill');
+    return {marks:pic?+pic.getAttribute('data-n'):0,
+            live:g?g.querySelectorAll('.sta-mark').length:0,
             hits:g?g.querySelectorAll('.sta-hit').length:0,
             shown:g?getComputedStyle(g).display!=='none':false,
             total:(JMAP.TW_STATIONS||[]).length};
   });
-  check('one mark per station', st.marks===st.total && st.total>150,
+  check('a square for every station', st.marks===st.total && st.total>150,
     st.marks+' of '+st.total);
-  check('each with a hit target over it', st.hits===st.marks);
+  check('each live mark with a hit target over it', st.live>0 && st.hits===st.live,
+    st.hits+' hits on '+st.live+' live marks');
   check('the layer is showing', st.shown);
   check('and no station is named yet', (await names(p)).length===0);
 }
@@ -284,7 +290,7 @@ console.log('\n— with Other on, the names wait for the zoom —');
      `length===0` passed just as well when the station layer had failed to
      build at all, so the check could not tell "the labels are held back at
      this width" from "there are no stations here to label". */
-  const wideDots=await far.evaluate(()=>document.querySelectorAll('#tw-stations .sta-mark').length);
+  const wideDots=await far.evaluate(()=>+((document.querySelector('#tw-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-total')));
   check('the whole island in view draws stations', wideDots>0, wideDots+' drawn');
   check('and names none of them', (await names(far)).length===0);
   await far.goto(HOST+'/index.html?bbox=120.8,24.3,121.3,24.7',{waitUntil:'domcontentloaded'});
@@ -313,10 +319,10 @@ console.log('\n— with Other on, the names wait for the zoom —');
      three times, which is what a reader saw at Iri. */
   const stacked=await far.evaluate(()=>{
     const seen={}; let n=0;
-    document.querySelectorAll('.sta-layer .sta-mark').forEach(m=>{
-      if(m.style.display==='none') return;
-      const t=m.getAttribute('transform')||'';
-      if(seen[t]) n++; else seen[t]=1;});
+    // every square drawn, from the pictures: a point per `M`
+    document.querySelectorAll('.sta-layer .sta-pic-fill').forEach(pic=>{
+      ((pic.getAttribute('d')||'').match(/M[-\d.]+ [-\d.]+/g)||[]).forEach(t=>{
+        if(seen[t]) n++; else seen[t]=1;});});
     return n;});
   check('and no two squares are stacked on one spot', stacked===0, stacked+' stacked');
   await far.close();
@@ -360,9 +366,8 @@ console.log('\n— Korea: the same machinery, a different pair of names —');
   await sleep(400);
   const built=await k.evaluate(()=>({
     total:(JMAP.KR_STATIONS||[]).length,
-    marks:document.querySelectorAll('#kr-stations .sta-mark').length,
-    shown:[...document.querySelectorAll('#kr-stations .sta-mark')]
-      .filter(m=>m.style.display!=='none').length}));
+    marks:+((document.querySelector('#kr-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-total')),
+    shown:+((document.querySelector('#kr-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-n'))}));
   /* 850 and not the source's 918: a junction is in the source once per line,
      at the same coordinate under a different id — Iri three times, on the
      Honam, the Jeolla and the Gunsan — and they are merged into one station
@@ -420,13 +425,11 @@ console.log('\n— Korea: the same machinery, a different pair of names —');
 
   console.log('\n— and the 1942 map has the stations 1930 did not —');
   {
-    const was=await k.evaluate(()=>[...document.querySelectorAll('#kr-stations .sta-mark')]
-      .filter(m=>m.style.display!=='none').length);
+    const was=await k.evaluate(()=>+((document.querySelector('#kr-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-n')));
     await k.evaluate(()=>{const btn=[...document.querySelectorAll('#epoch-seg button')]
       .find(x=>/1942/.test(x.textContent)); if(btn) btn.click();});
     await sleep(1800);
-    const now=await k.evaluate(()=>[...document.querySelectorAll('#kr-stations .sta-mark')]
-      .filter(m=>m.style.display!=='none').length);
+    const now=await k.evaluate(()=>+((document.querySelector('#kr-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-n')));
     check('more stations stand in 1942 than in 1930', now>was, was+' then '+now);
     check('and the railway still draws one path for the date',
       (await k.evaluate(()=>[...document.querySelectorAll('#kr-rail path.rail')]

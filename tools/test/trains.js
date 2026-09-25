@@ -18,7 +18,7 @@
  * pointing at the map, shim matchMedia for the mouse, and use
  * `touchscreen.tap` — never `mouse.down` — for the finger.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const { puppeteer, sleep, ready, until, calm, check, report, SHIM, launch, HOST } = require('./suite.js');
 const { sandboxDownloads } = require('./downloads.js');
 const fs = require('fs');
 
@@ -48,7 +48,7 @@ const look=p=>p.evaluate(()=>{
        probe through `window` reads a different, empty object and reports the
        data missing when it is there. */
     data: typeof JMAP!=='undefined' && !!JMAP.TW_TRAINS,
-    stations: document.querySelectorAll('#tw-stations .sta-mark').length,
+    stations: +((document.querySelector('#tw-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-total')),
     railBox: !!(document.querySelector('#opt-tw-rail')||{}).checked,
     staBox: !!(document.querySelector('#opt-tw-stations')||{}).checked,
   };});
@@ -103,8 +103,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     const btn=()=>p.evaluate(()=>{
       const b=document.querySelector('#btn-stations');
       return {hidden:b.hidden, pressed:b.getAttribute('aria-pressed'), title:b.title,
-        shown:[...document.querySelectorAll('#tw-stations .sta-mark')]
-          .filter(m=>m.getBoundingClientRect().width>0).length};});
+        shown:(e=>e&&e.getBoundingClientRect().width>0?+e.getAttribute('data-n'):0)(document.querySelector('#tw-stations .sta-pic-fill'))};});
     check('with no railway on, no station button', (await btn()).hidden, '');
     await p.evaluate(()=>{
       const r=document.querySelector('#opt-tw-rail');
@@ -223,12 +222,38 @@ const shutDialogs=p=>p.evaluate(()=>{
        otherwise sit on the coloured network looking like the stops around
        them and open a card with no trains in it. */
     const drawn=()=>p.evaluate(()=>({
-      squares:document.querySelectorAll('#tw-stations .sta-mark').length,
-      shown:[...document.querySelectorAll('#tw-stations .sta-mark')]
-        .filter(m=>m.style.display!=='none').length}));
+      squares:+((document.querySelector('#tw-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-total')),
+      shown:+((document.querySelector('#tw-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-n'))}));
     const withTools=await drawn();
     check('and only those the timetable knows are drawn',
       withTools.squares===206 && withTools.shown===167, JSON.stringify(withTools));
+    /* **Taihoku brought on screen first.** A station's pressable mark is built
+       only while it is in view (`liveStations`), and after the four zooms
+       above Taihoku can be off the edge, where it used to be pressed anyway.
+       Dragged there the way a reader would get there, a bounded step at a
+       time, and then left to settle so its mark is built — and dragged back
+       after, because the checks below were written against the view as it
+       was. */
+    const dragged=[];
+    for (let step=0; step<8; step++) {
+      const at=await p.evaluate(()=>{
+        const t=(JMAP.TW_STATIONS||[]).find(x=>x.id==='tws029');
+        const q=window.JMAP_GEO.project(t.lon,t.lat);
+        const m=document.querySelector('#jmap').getScreenCTM();
+        const c=document.querySelector('#map-container').getBoundingClientRect();
+        return {x:m.a*q.x+m.c*q.y+m.e, y:m.b*q.x+m.d*q.y+m.f,
+                cx:c.left+c.width/2, cy:c.top+c.height/2};});
+      const dx=at.cx-at.x, dy=at.cy-at.y;
+      if (Math.hypot(dx,dy)<40) break;
+      const k=Math.min(1, 300/Math.hypot(dx,dy));
+      await p.mouse.move(at.cx, at.cy);
+      await p.mouse.down();
+      await p.mouse.move(at.cx+dx*k, at.cy+dy*k, {steps:6});
+      await p.mouse.up();
+      dragged.push([at.cx, at.cy, dx*k, dy*k]);
+      await calm(p);
+    }
+    await calm(p);
     const card=await p.evaluate(()=>{
       // Taihoku, by its id in tw-stations.js, through the map's own selection
       const el=document.querySelector('[data-id="tws029"]');
@@ -249,6 +274,14 @@ const shutDialogs=p=>p.evaluate(()=>{
       card.swatches+' swatches for '+card.rows+' rows');
     check('and links to the printed table for that line',
       /timetable\/taiwan-1936\.html/.test(card.href)&&/#line-1-1$/.test(card.href), card.href);
+    // the map put back where the zooms left it
+    for (const [x, y, dx, dy] of dragged.reverse()) {
+      await p.mouse.move(x+dx, y+dy);
+      await p.mouse.down();
+      await p.mouse.move(x, y, {steps:6});
+      await p.mouse.up();
+      await calm(p);
+    }
 
     /* ---- 7. zooming out takes it away ------------------------------- */
     await p.evaluate(()=>{
@@ -446,11 +479,10 @@ const shutDialogs=p=>p.evaluate(()=>{
         w:Math.round(b.getBoundingClientRect().width),
         h:Math.round(b.getBoundingClientRect().height)}:null;};
       return {sta:R('#btn-stations'), trn:R('#btn-trains'),
-              squares:document.querySelectorAll('#tw-stations .sta-mark').length,
+              squares:+((document.querySelector('#tw-stations .sta-pic-fill')||{getAttribute:()=>0}).getAttribute('data-total')),
               /* The layer is hidden as a group, not mark by mark, so a mark's
                  own style says nothing about whether it is on screen. */
-              shown:[...document.querySelectorAll('#tw-stations .sta-mark')]
-                .filter(m=>m.getBoundingClientRect().width>0).length};});
+              shown:(e=>e&&e.getBoundingClientRect().width>0?+e.getAttribute('data-n'):0)(document.querySelector('#tw-stations .sta-pic-fill'))};});
     /* The zoom-out in section 7 took the tools down and gave the railway back,
        and the tools no longer switch the squares on when they come up again —
        so this block asks for them itself rather than inheriting whatever the

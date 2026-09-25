@@ -290,6 +290,30 @@ open `http://localhost:8123/deploy/index.html` from a server started at the
 repository root, and `docs/UPLOAD.md` names what the folder holds. A new
 runtime file goes in `deploy/` and on that list, or the build refuses.
 
+## Nothing floating over the map may sit on anything else
+
+On a phone every panel wants the foot of the screen, and each used to be
+placed by its own rule — so the card's × ended up under the railway button and
+the Layers pane's × scrolled off the top. `dockPanels` in `map.js` now places
+every floating panel by one rule: sheets stay, everything else is lifted clear
+of them, and whatever has nowhere to go stands down until there is room.
+
+**A new floating panel goes in `DOCK_*` in `map.js` and in `CONTROLS` /
+`PANELS` in `tools/test/overlap.js`**, or it will be the next thing found under
+another. A dialog's close is the `.x` in its first `<form>`, and that form is
+what is sticky — sticky on the button itself only sticks inside the form.
+
+## Under a heavy layer, a gesture does not run the frame path
+
+While a thematic layer, the train tools or the plane tools are up,
+`applyView` does not redraw during a pan or zoom: `pictureMove` moves the
+drawing with a CSS transform and the map is drawn once when the hand stops.
+So anything added to the frame path — `applyView`, `rescale`, the label
+placer — **does not run mid-gesture there**, and a test of it must wait for
+`calm()`. Stations are one picture per railway, with pressable marks only in
+view (`liveStations`); count squares from the picture's `data-n`, not from
+`.sta-mark`. `reports/2026.09.25-heavy-layers.md` has the measurements.
+
 ## A fix is not done until it works with a finger
 
 There is no hover on a touch screen, and the map has a second set of

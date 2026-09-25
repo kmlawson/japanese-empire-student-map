@@ -9919,6 +9919,72 @@ def _round(ring, nd=6):
     return [[round(x, nd), round(y, nd)] for x, y in ring]
 
 
+def _nest(rings):
+    """Rings as polygons, each hole inside the outer that holds it.
+
+    The atoms and sub-units are kept as flat lists of rings, and written one
+    polygon per ring India's eleven settlement holes came out as eleven filled
+    islands. The SVG fills by the **nonzero** rule, so containment alone does
+    not make a hole: the seam strips `build_map` lays over a frontier are
+    inside their country and wound the same way, and they are land. A ring is
+    a hole when a ring wound the other way contains it, and it goes to the
+    smallest such ring. Boxes keep the point-in-ring tests to rings that could
+    answer yes.
+    """
+    box, wind = [], []
+    for r in rings:
+        xs = [p[0] for p in r]
+        ys = [p[1] for p in r]
+        box.append((min(xs), min(ys), max(xs), max(ys)))
+        wind.append(signed_ring_area(r) > 0)
+
+    def holds(j, pt):
+        x, y = pt[0], pt[1]
+        b = box[j]
+        if x < b[0] or x > b[2] or y < b[1] or y > b[3]:
+            return False
+        r = rings[j]
+        hit = False
+        for k in range(len(r) - 1):
+            (xa, ya), (xb, yb) = r[k][:2], r[k + 1][:2]
+            if (ya > y) != (yb > y) and x < xa + (y - ya) * (xb - xa) / (yb - ya):
+                hit = not hit
+        return hit
+
+    size = lambda j: (box[j][2] - box[j][0]) * (box[j][3] - box[j][1])
+
+    def within(i, j):
+        """Ring i inside ring j: its box inside j's, and at least four in five
+        of up to nine of its vertices inside. One vertex is not enough — two
+        provinces that merely touch share one, and China's Sichuan was filed as
+        a hole in Gansu on the strength of it."""
+        a, b = box[i], box[j]
+        if a[0] < b[0] or a[1] < b[1] or a[2] > b[2] or a[3] > b[3]:
+            return False
+        r = rings[i]
+        step = max(1, (len(r) - 1) // 9)
+        pts = r[:-1:step][:9]
+        return sum(1 for q in pts if holds(j, q)) * 5 >= len(pts) * 4
+
+    home = {}
+    for i, r in enumerate(rings):
+        outers = [j for j in range(len(rings))
+                  if j != i and wind[j] != wind[i] and within(i, j)]
+        if outers:
+            home[i] = min(outers, key=size)
+    polys, at = [], {}
+    for i, r in enumerate(rings):
+        if i not in home:
+            at[i] = len(polys)
+            polys.append([r])
+    for i, j in home.items():
+        if j in at:
+            polys[at[j]].append(rings[i])
+        else:
+            polys.append([rings[i]])
+    return polys
+
+
 def export_geojson(dest, groups, provinces, pieces):
     """The map's own geometry, in lon/lat, for opening somewhere else.
 
@@ -9979,14 +10045,15 @@ def export_geojson(dest, groups, provinces, pieces):
     feats = []
     for key in sorted(provinces):
         for pname, rings in provinces[key]:
-            polys = []
+            flat = []
             for r in rings:
                 r = normalise_ring(r)
                 if len(r) < 3:
                     continue
                 if r[0] != r[-1]:
                     r = list(r) + [r[0]]
-                polys.append([_round(r)])
+                flat.append(_round(r))
+            polys = _nest(flat)
             if polys:
                 feats.append(_feat("MultiPolygon", polys,
                                    {"atom": key, "name": pname or None}))
@@ -9994,14 +10061,15 @@ def export_geojson(dest, groups, provinces, pieces):
 
     feats = []
     for key in sorted(groups):
-        polys = []
+        flat = []
         for r in groups[key]:
             r = normalise_ring(r)
             if len(r) < 3:
                 continue
             if r[0] != r[-1]:
                 r = list(r) + [r[0]]
-            polys.append([_round(r)])
+            flat.append(_round(r))
+        polys = _nest(flat)
         if polys:
             feats.append(_feat("MultiPolygon", polys, {"atom": key}))
     put("land.geojson", _fc(feats))

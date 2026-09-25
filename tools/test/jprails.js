@@ -50,7 +50,9 @@ const KANTO = BASE + '?where=139,35,140.5,36.2';
 const state = p => p.evaluate(() => {
   const g = document.querySelector('#jp-rail');
   const rails = g ? [...g.querySelectorAll('path.rail')] : [];
-  const marks = [...document.querySelectorAll('#jp-stations .sta-mark')];
+  /* The squares are one picture that says how many it holds and how many it
+     draws (`drawStationPicture`); there is no node per station to count. */
+  const pic = document.querySelector('#jp-stations .sta-pic-fill');
   return {
     group: !!g,
     rails: rails.length,
@@ -58,8 +60,8 @@ const state = p => p.evaluate(() => {
     hits: g ? [...g.querySelectorAll('.rail-hit')].filter(e => e.style.display !== 'none').length : 0,
     both: rails.filter(e => e.getAttribute('data-epochs') === 'e1930 e1942').length,
     later: rails.filter(e => e.getAttribute('data-epochs') === 'e1942').length,
-    marks: marks.length,
-    marksShown: marks.filter(e => e.style.display !== 'none').length,
+    marks: pic ? +pic.getAttribute('data-total') : 0,
+    marksShown: pic ? +pic.getAttribute('data-n') : 0,
   };
 });
 
@@ -285,7 +287,7 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
 
     console.log('\n— the stations, on their own switch —');
     await setBox(p, '#opt-jp-stations', true);
-    await until(p, () => document.querySelectorAll('#jp-stations .sta-mark').length > 0,
+    await until(p, () => +((document.querySelector('#jp-stations .sta-pic-fill') || {getAttribute: () => 0}).getAttribute('data-n')) > 0,
                 null, { timeout: 25000 });
     await sleep(2500);
     s = await state(p);
@@ -300,18 +302,25 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
     check('and 10,639 of them stood in 1930',
       s.marksShown === 10639, 'shown=' + s.marksShown);
 
+    /* **Past the live cap the squares are a picture and the table answers.**
+       The Kantō holds more stations than `STA_LIVE_MAX`, so no square here is
+       a node of its own: `nearestStation` finds the one under the press. So
+       this takes a square's centre from the picture and presses there. */
     const sq = await p.evaluate(() => {
-      for (const m of document.querySelectorAll('#jp-stations .sta-mark')) {
-        const r = m.getBoundingClientRect();
-        if (r.width > 0 && r.left > 100 && r.right < 1300 && r.top > 150 && r.bottom < 720) {
-          const x = Math.round(r.left + r.width / 2), y = Math.round(r.top + r.height / 2);
-          const t = document.elementFromPoint(x, y);
-          if (t && t.closest && t.closest('#jp-stations')) return { x, y };
-        }
+      const pic = document.querySelector('#jp-stations .sta-pic-fill');
+      const m = pic && pic.getScreenCTM();
+      if (!m) return null;
+      for (const t of (pic.getAttribute('d') || '').match(/M[-\d.]+ [-\d.]+/g) || []) {
+        const [px, py] = t.slice(1).split(' ').map(Number);
+        const x = Math.round(m.a * px + m.c * py + m.e), y = Math.round(m.b * px + m.d * py + m.f);
+        if (x < 100 || x > 1300 || y < 150 || y > 720) continue;
+        const e = document.elementFromPoint(x, y);
+        // over the ground, where a city or a line would not take it first
+        if (e && e.closest && e.closest('#land')) return { x, y };
       }
       return null;
     });
-    check('a station square takes the pointer', !!sq, JSON.stringify(sq));
+    check('a station square is on screen to press', !!sq, JSON.stringify(sq));
     if (sq) {
       await p.mouse.click(sq.x, sq.y);
       await sleep(900);
@@ -335,8 +344,9 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
       }, mode);
       await sleep(3500);
       const d = await p.evaluate(() => {
-        const ms = [...document.querySelectorAll('#jp-stations .sta-mark')]
-          .filter(e => e.getBoundingClientRect().width > 0).slice(0, 120);
+        const pic = document.querySelector('#jp-stations .sta-pic-fill');
+        const ms = ((pic && pic.getAttribute('d')) || '').match(/M[-\d.]+ [-\d.]+/g) || [];
+        ms.splice(120);
         const verts = [];
         for (const e of [...document.querySelectorAll('#jp-rail path.rail')]
                          .filter(e2 => e2.style.display !== 'none').slice(0, 700)) {
@@ -348,10 +358,8 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
         const svg = document.querySelector('#jmap svg') || document.querySelector('svg');
         let worst = 0;
         for (const mk of ms) {
-          const r = mk.getBoundingClientRect();
-          const s2 = svg.createSVGPoint();
-          s2.x = r.left + r.width / 2; s2.y = r.top + r.height / 2;
-          const u = s2.matrixTransform(svg.getScreenCTM().inverse());
+          const [ux, uy] = mk.slice(1).split(' ').map(Number);
+          const u = { x: ux, y: uy };
           let best = 1e9;
           for (const v of verts) {
             const dd = Math.hypot(v[0] - u.x, v[1] - u.y);
@@ -477,12 +485,13 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
       await sleep(3000);
       await setBox(q, '#opt-jp-rail', true);
       await setBox(q, '#opt-jp-stations', true);
-      await until(q, () => document.querySelectorAll('#jp-stations .sta-mark').length > 0,
+      await until(q, () => +((document.querySelector('#jp-stations .sta-pic-fill') || {getAttribute: () => 0}).getAttribute('data-n')) > 0,
                   null, { timeout: 30000 }).catch(() => {});
       await sleep(3000);
       const d = await q.evaluate(() => {
-        const ms = [...document.querySelectorAll('#jp-stations .sta-mark')]
-          .filter(e => e.getBoundingClientRect().width > 0).slice(0, 120);
+        const pic = document.querySelector('#jp-stations .sta-pic-fill');
+        const ms = ((pic && pic.getAttribute('d')) || '').match(/M[-\d.]+ [-\d.]+/g) || [];
+        ms.splice(120);
         const verts = [];
         for (const e of [...document.querySelectorAll('#jp-rail path.rail')]
                          .filter(e2 => e2.style.display !== 'none').slice(0, 700)) {
@@ -494,10 +503,8 @@ const setBox = (p, id, on) => p.evaluate((i, v) => {
         const svg = document.querySelector('#jmap svg') || document.querySelector('svg');
         let worst = 0;
         for (const mk of ms) {
-          const r = mk.getBoundingClientRect();
-          const s2 = svg.createSVGPoint();
-          s2.x = r.left + r.width / 2; s2.y = r.top + r.height / 2;
-          const u = s2.matrixTransform(svg.getScreenCTM().inverse());
+          const [ux, uy] = mk.slice(1).split(' ').map(Number);
+          const u = { x: ux, y: uy };
           let best = 1e9;
           for (const v of verts) {
             const dd = Math.hypot(v[0] - u.x, v[1] - u.y);

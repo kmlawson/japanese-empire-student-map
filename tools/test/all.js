@@ -75,7 +75,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airlines', 'airplay',
              'clipping', 'layerinfo', 'krtrains', 'kftrains', 'mntrains', 'layerfind', 'beta', 'hanlabels',
              'owns', 'jprails', 'indochina', 'citytap', 'ferries', 'arcs',
-             'dei', 'burma'];
+             'dei', 'burma', 'overlap', 'picture'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -157,7 +157,7 @@ const GROUPS = {
      is what `map.js` changes touch, and `map.js` changes hourly. */
   core: ['labels', 'labelcats', 'legendpick', 'subnames', 'mapstrip', 'keys',
          'theme', 'zoom', 'pin', 'labuan', 'epoch', 'mono', 'colours', 'extent',
-         'names', 'clipping', 'layerfind', 'beta', 'hanlabels'],
+         'names', 'clipping', 'layerfind', 'beta', 'hanlabels', 'overlap', 'picture'],
 
   /* Everything drawn as a dot or read off one: the markers, the gazetteer,
      the sites table and the menu that hangs off a shape. */
@@ -181,7 +181,7 @@ const GROUPS = {
      bursts and then sit still for weeks. */
   transport: ['trains', 'krtrains', 'kftrains', 'mntrains', 'stations', 'sugar', 'air', 'airlines', 'airplay',
                'layerinfo', 'hanlabels', 'owns', 'jprails', 'citytap',
-               'ferries'],
+               'ferries', 'overlap', 'picture'],
 
   /* What a link carries and what a reload remembers. */
   links: ['layers-url', 'bookmarks', 'cache-keys', 'layerinfo', 'beta', 'hanlabels'],
