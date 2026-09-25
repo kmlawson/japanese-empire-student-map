@@ -399,6 +399,218 @@ def label_point(rings, west=-180.0):
     return [round(at[0], PREC), round(at[1], PREC)]
 
 
+# **INTERIOR BOUNDARIES, SIMPLIFIED ON THE AUTHOR'S ASKING.** The tracing
+# follows some frontiers vertex by vertex — a kilometre apart along Central
+# Provinces and Meerut — and others in long straight runs, and side by side
+# the dense ones read as a different kind of line. So a boundary two areas
+# share is simplified (Douglas-Peucker, `MIL_SIMPLIFY` degrees, about 6 km);
+# the coast, and anything not shared vertex for vertex, is left as traced.
+# Each shared stretch is simplified once, in one fixed direction, and both
+# areas take that one answer, so the two sides of a frontier still meet
+# exactly. Where three areas meet, and where a frontier reaches the coast,
+# the point is kept. The download is the unsimplified file.
+MIL_SIMPLIFY = 0.06
+
+
+def dp(pts, tol):
+    """Douglas-Peucker on a run of lon/lat points, ends kept. Distances with a
+    degree of longitude shortened by the latitude, as on the ground."""
+    if len(pts) < 3:
+        return list(pts)
+    kx = math.cos(math.radians(pts[0][1]))
+    keep = [False] * len(pts)
+    keep[0] = keep[-1] = True
+    stack = [(0, len(pts) - 1)]
+    while stack:
+        a, b = stack.pop()
+        ax, ay = pts[a][0] * kx, pts[a][1]
+        bx, by = pts[b][0] * kx, pts[b][1]
+        dx, dy = bx - ax, by - ay
+        L = dx * dx + dy * dy
+        best, at = -1.0, -1
+        for i in range(a + 1, b):
+            px, py = pts[i][0] * kx - ax, pts[i][1] - ay
+            if L:
+                t = max(0.0, min(1.0, (px * dx + py * dy) / L))
+                ex, ey = px - t * dx, py - t * dy
+            else:
+                ex, ey = px, py
+            d = ex * ex + ey * ey
+            if d > best:
+                best, at = d, i
+        if at > 0 and best > tol * tol:
+            keep[at] = True
+            stack.append((a, at))
+            stack.append((at, b))
+    return [p for p, k in zip(pts, keep) if k]
+
+
+def _cross(a, b, c, d):
+    """Do segments ab and cd cross, other than at a shared end?"""
+    if a == c or a == d or b == c or b == d:
+        return False
+    def o(p, q, r):
+        v = (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0])
+        return (v > 0) - (v < 0)
+    return (o(a, b, c) != o(a, b, d) and o(c, d, a) != o(c, d, b))
+
+
+def simplify_shared(areas_rings, tol):
+    """Every ring of every area, with its shared stretches simplified and its
+    unshared ones untouched. `areas_rings` is a list (per area) of rings.
+
+    **And no stretch straightened across another line.** Douglas-Peucker
+    knows nothing of what lies beside the stretch it is working on, and a
+    frontier that doubles back on itself can be cut across its own bend —
+    measured, the Central Provinces–Meerut frontier near 79.16 E and the
+    Chin hills seam near 92.84 E. So every simplified stretch is checked
+    against every other line of the two areas it divides, and one that
+    crosses is done again at half the tolerance, down to the tracing itself
+    if need be."""
+    def key(p):
+        return (round(p[0], 9), round(p[1], 9))
+    owners = {}
+    for i, rings in enumerate(areas_rings):
+        for r in rings:
+            for a, b in zip(r, r[1:]):
+                owners.setdefault(frozenset((key(a), key(b))), set()).add(i)
+
+    # each ring as a list of pieces: ('as-is', points) or ('shared', canon, rev)
+    runs = {}                   # canon -> the traced points, in canon order
+    plan = []
+    for i, rings in enumerate(areas_rings):
+        mine = []
+        for r in rings:
+            pts = r[:-1] if r[0] == r[-1] else r[:]
+            n = len(pts)
+            def lab_of(k):
+                o = owners[frozenset((key(pts[k]), key(pts[(k + 1) % n])))]
+                return frozenset(o) if len(o) > 1 else None
+            lab = [lab_of(k) for k in range(n)]
+            start = next((k for k in range(n) if lab[k] != lab[k - 1]), None)
+            if start is None:
+                mine.append([("as-is", r)])
+                continue
+            pts = pts[start:] + pts[:start]
+            lab = lab[start:] + lab[:start]
+            pieces = []
+            k = 0
+            while k < n:
+                j = k
+                while j + 1 < n and lab[j + 1] == lab[k]:
+                    j += 1
+                run = pts[k:j + 2] if j + 1 < n else pts[k:] + [pts[0]]
+                if lab[k] is None:
+                    pieces.append(("as-is", run))
+                else:
+                    fwd = tuple(key(p) for p in run)
+                    back = fwd[::-1]
+                    canon, rev = (fwd, False) if fwd <= back else (back, True)
+                    runs.setdefault(canon, run[::-1] if rev else run)
+                    pieces.append(("shared", canon, rev))
+                k = j + 1
+            mine.append(pieces)
+        plan.append(mine)
+
+    tol_of = dict((c, tol) for c in runs)
+    done = {}
+
+    def assemble():
+        out = []
+        for mine in plan:
+            rings = []
+            for pieces in mine:
+                if len(pieces) == 1 and pieces[0][0] == "as-is" and \
+                        pieces[0][1][0] == pieces[0][1][-1]:
+                    rings.append(pieces[0][1])
+                    continue
+                res, tags = [], []
+                for pc in pieces:
+                    if pc[0] == "as-is":
+                        seg, tag = pc[1], None
+                    else:
+                        c = pc[1]
+                        if c not in done:
+                            t = tol_of[c]
+                            done[c] = dp(runs[c], t) if t > 0 else list(runs[c])
+                        seg = done[c][::-1] if pc[2] else done[c]
+                        tag = c
+                    res.extend(seg[:-1])
+                    tags.extend([tag] * (len(seg) - 1))
+                res.append(res[0])
+                rings.append((res, tags))
+            out.append(rings)
+        return out
+
+    for _round in range(8):
+        built = assemble()
+        bad = set()
+        for rings in built:
+            segs = []
+            for rg in rings:
+                if isinstance(rg, tuple):
+                    pts, tags = rg
+                    segs.extend((pts[k], pts[k + 1], tags[k]) for k in range(len(tags)))
+                else:
+                    segs.extend((rg[k], rg[k + 1], None) for k in range(len(rg) - 1))
+            grid = {}
+            for n_, (a, b, t) in enumerate(segs):
+                for gx in range(int(min(a[0], b[0]) // 0.1), int(max(a[0], b[0]) // 0.1) + 1):
+                    for gy in range(int(min(a[1], b[1]) // 0.1), int(max(a[1], b[1]) // 0.1) + 1):
+                        grid.setdefault((gx, gy), []).append(n_)
+            for cell in grid.values():
+                for x in range(len(cell)):
+                    sa = segs[cell[x]]
+                    for y in range(x + 1, len(cell)):
+                        sb = segs[cell[y]]
+                        if sa[2] is None and sb[2] is None:
+                            continue        # two traced lines: not ours to judge
+                        # a crossing, or one line laid back along another —
+                        # a narrow tongue whose two sides were straightened
+                        # onto the same line, which is a shape collapsed to
+                        # nothing and crosses nothing
+                        same = {sa[0], sa[1]} == {sb[0], sb[1]}
+                        if same or _cross(sa[0], sa[1], sb[0], sb[1]):
+                            for t in (sa[2], sb[2]):
+                                if t is not None:
+                                    bad.add(t)
+        # and a point the drawn outline visits twice that the tracing did not
+        for i_area, rings in enumerate(built):
+            traced_seen = {}
+            for r in areas_rings[i_area]:
+                for p_ in r[:-1]:
+                    traced_seen[key(p_)] = traced_seen.get(key(p_), 0) + 1
+            for rg in rings:
+                if not isinstance(rg, tuple):
+                    continue
+                pts, tags = rg
+                seen = {}
+                for k_, p_ in enumerate(pts[:-1]):
+                    kk = key(p_)
+                    if kk in seen and traced_seen.get(kk, 0) < 2:
+                        for t in (tags[k_], tags[k_ - 1], tags[seen[kk]],
+                                  tags[seen[kk] - 1]):
+                            if t is not None:
+                                bad.add(t)
+                    seen[kk] = k_
+        if not bad:
+            break
+        for c in bad:
+            tol_of[c] = tol_of[c] / 2 if tol_of[c] > tol / 64 else 0
+            done.pop(c, None)
+    else:
+        sys.stderr.write("note: %d stretch(es) still cross after eight rounds\n" % len(bad))
+
+    final = []
+    for rings in assemble():
+        final.append([rg[0] if isinstance(rg, tuple) else rg for rg in rings])
+    redone = sum(1 for c in tol_of if tol_of[c] < tol)
+    if redone:
+        print("  %d shared stretch(es) done again finer, where the first pass "
+              "cut across another line" % redone)
+    return final
+
+
 def build_military():
     """The theme's areas, each with its name and where to write it.
     Returns (meta, geometry)."""
@@ -407,26 +619,44 @@ def build_military():
     feats = rings_of(MIL_SRC)
     colour = dict((c[0], c[2]) for c in MIL_COMMANDS)
     west = map_west()
+    # rounded as they will be written before anything is simplified or
+    # checked, so the crossing test sees the lines that are drawn: rounding
+    # after it once turned a clean stretch at the Chin hills seam into one
+    # that crossed itself
+    def rounded(r):
+        out = []
+        for p in r:
+            q = (round(p[0], PREC), round(p[1], PREC))
+            if not out or q != out[-1]:
+                out.append(q)
+        return out
+    traced = [[rounded(r) for r in ic.rings_of(f["geometry"]) if len(r) >= 4]
+              for f in feats]
+    drawn = simplify_shared(traced, MIL_SIMPLIFY)
     areas = []
     verts = 0
-    for feat in feats:
+    kept = 0
+    for fi, feat in enumerate(feats):
         props = feat["properties"]
         cmd = (props.get("command") or "").strip()
         if cmd not in colour:
             raise SystemExit("the command %r is not one of the five this theme "
                              "knows. Add it to MIL_COMMANDS with a colour." % cmd)
-        rs = [r for r in ic.rings_of(feat["geometry"]) if len(r) >= 4]
+        rs = traced[fi]
         verts += sum(len(r) for r in rs)
+        kept += sum(len(r) for r in drawn[fi])
         lab = mil_label(props)
-        area = {"cmd": cmd, "r": [flat(r) for r in rs], "at": label_point(rs, west)}
+        area = {"cmd": cmd, "r": [flat(r) for r in drawn[fi]],
+                "at": label_point(rs, west)}
         area.update(lab)
         area["en"] = lab["unit"] + (", " + lab["cmdEn"] if lab["cmdEn"] else "")
         areas.append(area)
     geom = {"areas": areas}
     meta = dict(MIL_THEME)
     meta["cats"] = [{"id": c[0], "en": c[1], "c": c[2]} for c in MIL_COMMANDS]
-    print("military   %d areas, %d vertices, every one the filled file has"
-          % (len(areas), verts))
+    print("military   %d areas; %d of %d vertices drawn (%.0f%%): the coast as "
+          "traced, shared frontiers simplified at %.2f°"
+          % (len(areas), kept, verts, 100.0 * kept / verts, MIL_SIMPLIFY))
     return meta, geom
 
 

@@ -62,7 +62,7 @@ def inverse_tm(x, y):
 
 
 # ------------------------------------------------------- the map's own frame
-LON_MIN = 66.0
+LON_MIN = 60.5   # as build_map.py
 LAT_MAX = 55.0
 PX_PER_DEG = 20.0
 R = PX_PER_DEG * 180.0 / math.pi

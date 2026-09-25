@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '376';
+  var JEM_VERSION = '377';
 
   /* Every file this one fetches, with the version on it.
 
@@ -7173,6 +7173,8 @@
     return null;
   }
 
+  var LABEL_GAP = 2;              // screen pixels between two names: see `free`
+
   function placeLabels() {
     if (state.mode === 'quiz') return;
     // Not `!state.labels` alone: the density figures are placed by the same
@@ -7191,11 +7193,19 @@
        display write only when the value changes, because every write dirties
        style whether or not it changed anything. `L.shown` mirrors what was
        last written. */
+    /* **Clear by a margin, not merely not overlapping.** Boxes that touched
+       counted as free, so a nudge could set one name flush against the next —
+       Spratly Islands pushed left until it met Philippine Islands edge to
+       edge, which reads as one run of words and, the glyphs being wider than
+       their estimate by a fraction, overlaps by one. It showed when the
+       western edge moved on 25 September 2026 and the opening scale with it.
+       `LABEL_GAP` screen pixels between any two names. */
     var free = function (b) {
       if (b.l < 2 || b.r > c.w - 2 || b.t < 2 || b.b > c.h - 2) return false;
       for (var j = 0; j < placed.length; j++) {
         var p = placed[j];
-        if (b.l < p.r && b.r > p.l && b.t < p.b && b.b > p.t) return false;
+        if (b.l < p.r + LABEL_GAP && b.r > p.l - LABEL_GAP
+            && b.t < p.b + LABEL_GAP && b.b > p.t - LABEL_GAP) return false;
       }
       return true;
     };

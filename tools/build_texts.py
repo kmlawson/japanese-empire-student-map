@@ -751,7 +751,7 @@ def keyed(rows, ns, snippets, key="key", indent=2):
 # The drawn frame, from tools/build_map.py. A record outside it is placed off
 # the edge of the map and simply never seen — which is how the Bering Sea label
 # sat two degrees above the top of the sheet without anyone noticing.
-FRAME = (66.0, 206.0, -13.0, 55.0)
+FRAME = (60.5, 206.0, -13.0, 55.0)
 
 
 def check_frame(rows, where):

@@ -13,19 +13,19 @@ JMAP.RELIEF = {
   "boxes": {
     "albers": {
       "h": 1680.75,
-      "w": 3052.1,
+      "w": 3168.84,
       "x": 0.0,
       "y": 0.0
     },
     "laea": {
-      "h": 1792.53,
-      "w": 2653.47,
+      "h": 1792.51,
+      "w": 2754.85,
       "x": 0.0,
       "y": 0.0
     },
     "mercator": {
       "h": 1584.92,
-      "w": 2800.0,
+      "w": 2910.0,
       "x": 0.0,
       "y": 0.0
     }
@@ -33,9 +33,9 @@ JMAP.RELIEF = {
   "levels": [
     {
       "deg": 30.0,
-      "kb": 360,
+      "kb": 369,
       "key": "coarse",
-      "mb": 48,
+      "mb": 50,
       "note": "1:50m, 2 arc-minutes",
       "src": {
         "albers": "relief/relief-coarse-albers.webp",
@@ -45,9 +45,9 @@ JMAP.RELIEF = {
     },
     {
       "deg": 45.0,
-      "kb": 966,
+      "kb": 989,
       "key": "fine",
-      "mb": 107,
+      "mb": 112,
       "note": "1:10m, thinned to 4/5",
       "src": {
         "albers": "relief/relief-fine-albers.webp",
@@ -57,9 +57,9 @@ JMAP.RELIEF = {
     },
     {
       "deg": 60.0,
-      "kb": 1454,
+      "kb": 1479,
       "key": "finest",
-      "mb": 191,
+      "mb": 198,
       "note": "1:10m, 1 arc-minute",
       "src": {
         "albers": "relief/relief-finest-albers.webp",

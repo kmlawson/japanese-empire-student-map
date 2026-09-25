@@ -25,13 +25,13 @@ warp, done here where there is a real resampler, and the browser swaps the
 56 MB in, about 350 KB out, and **no resolution is thrown away** to get there.
 Two things do the work:
 
-  * the map covers 66E..206E and 13S..55N, which is 6% of the world's surface.
+  * the map covers 60.5E..206E and 13S..55N, which is 6% of the world's surface.
     Clipping to it drops 94% of the pixels before anything else happens.
   * shaded relief is a smooth grey field, which is what WebP is good at. At
     quality 72 the clipped sheet is 347 KB against 1,645 KB for PNG.
 
 The clip crosses the antimeridian, so the source is read as two windows —
-66E..180E and 180W..154W — and the second is given a geotransform 360 degrees
+60.5E..180E and 180W..154W — and the second is given a geotransform 360 degrees
 further east so the two sit side by side. Warping across the seam without this
 produces either a blank right-hand third or a world smeared backwards, both of
 which happened before the shift went in.
@@ -75,14 +75,18 @@ SR_HR = os.path.expanduser("~/Library/CloudStorage/Dropbox/GIS/SR_50M/SR_HR/SR_H
 # this is not the download but the decode: 34.3 Mpx is about 137 MB of RGBA in
 # a browser against 77 for 19.3 and 34 for 8.6, and the largest is a lot to ask
 # of a phone for a layer that is off by default.
+# The widths are for the frame's 145.5 degrees: 30, 45 and 60 pixels to the
+# degree, as they were when the frame was 140 degrees and the widths 4200,
+# 6300 and 8400. Widened with the frame on 25 September 2026 so the western
+# edge moving did not quietly lower the resolution.
 LEVELS = [
-    {"key": "coarse", "src": SR50,  "width": 4200, "label": "1:50m, 2 arc-minutes"},
-    {"key": "fine",   "src": SR_HR, "width": 6300, "label": "1:10m, thinned to 4/5"},
-    {"key": "finest", "src": SR_HR, "width": 8400, "label": "1:10m, 1 arc-minute"},
+    {"key": "coarse", "src": SR50,  "width": 4365, "label": "1:50m, 2 arc-minutes"},
+    {"key": "fine",   "src": SR_HR, "width": 6548, "label": "1:10m, thinned to 4/5"},
+    {"key": "finest", "src": SR_HR, "width": 8730, "label": "1:10m, 1 arc-minute"},
 ]
 
 # the frame, as build_map.py draws it
-LON_MIN, LON_MAX = 66.0, 206.0
+LON_MIN, LON_MAX = 60.5, 206.0   # as build_map.py
 LAT_MIN, LAT_MAX = -13.0, 55.0
 
 R_EARTH = 6378137.0          # the sphere PROJ is told to use

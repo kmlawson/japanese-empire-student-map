@@ -86,13 +86,19 @@ console.log('\n— off until it is asked for —');
   /* The mercator box is the document's own viewBox — the frame is the
      mercator rectangle by construction — so this is a real check on the
      Python that computed it and not a restatement of the manifest. */
-  const vb = await p.evaluate(() => {
-    const el = document.getElementById('jmap');
-    return (el.getAttribute('data-viewbox0') || '0 0 2800 1584.9').split(' ').map(Number);
+  /* Read from the sheet itself, as it was built: the live `viewBox` is the
+     reader's view, and `data-viewbox0` — asked for here once — was never
+     written, so this used to fall back to a width typed into the test. */
+  const vb = await p.evaluate(async () => {
+    const t = await (await fetch('japan-empire-map.svg')).text();
+    return t.match(/<svg[^>]*viewBox="([^"]+)"/)[1].split(/\s+/).map(Number);
   });
+  /* Against the document's own frame, not a number written here: the frame
+     was 2,800 units wide until the western edge moved from 66 to 60.5 E on
+     25 September 2026, and a width in the test is a second copy of it. */
   check('it covers the whole frame in map units',
-    img && +img.w === 2800 && Math.abs(+img.h - 1584.92) < 0.2,
-    JSON.stringify(img));
+    img && Math.abs(+img.w - vb[2]) < 0.2 && Math.abs(+img.h - vb[3]) < 0.2,
+    JSON.stringify(img) + ' vs ' + JSON.stringify(vb));
   /* Whichever blend the build chose — it writes the water to that blend's own
      neutral, and `map.js` reads the name out of the manifest rather than
      carrying one of its own. What must not happen is `normal`, which would
@@ -330,11 +336,16 @@ console.log('\n— one warp per projection, and only the one in use —');
     const box = await p.evaluate(() => {
       const i = document.querySelector('#relief image');
       return i ? [+i.getAttribute('w' + 'idth'), +i.getAttribute('height')] : null; });
+    // mercator's width is the frame's, from the document
+    const mercW = await p.evaluate(async () => {
+      const t = await (await fetch('japan-empire-map.svg')).text();
+      return +t.match(/<svg[^>]*viewBox="([^"]+)"/)[1].split(/\s+/)[2];
+    });
     /* The box has to be this projection's own, not mercator's. The three
        differ by hundreds of units, so a stale box would be obvious here and
        nowhere else. */
     check(mode + ': placed in its own box, not mercator\'s',
-      box && Math.abs(box[0] - 2800) > 100, JSON.stringify(box));
+      box && mercW > 0 && Math.abs(box[0] - mercW) > 100, JSON.stringify(box) + ' vs ' + mercW);
     check(mode + ': no page errors', errs.length === 0, errs[0]);
     await p.close();
   }

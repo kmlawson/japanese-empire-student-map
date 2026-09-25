@@ -322,7 +322,7 @@ no line at the Punjab, French Indochina none at the Mekong, Korea none at the
 [Natural Earth](https://www.naturalearthdata.com/) 1:10m vector data (public
 domain) for the world, and the ENP-China project's Chinese provincial
 boundaries for 1928–45 (CC BY 4.0) for everything inside China. It projects to
-Mercator on a frame running 66°E–206°E and 13°S–55°N — British India to Pearl
+Mercator on a frame running 60.5°E–206°E and 13°S–55°N — British India to Pearl
 Harbor — sorts units into historical regions, dissolves their internal
 boundaries, clips, simplifies, and writes one path per atom. Source data is
 cached in `tools/cache/`; pass `--download` to refresh the Natural Earth part.

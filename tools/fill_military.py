@@ -65,6 +65,31 @@ def count(geom):
     return n
 
 
+def unspike(ring, eps=1e-9):
+    """A ring with its hairlines taken out: a point the line goes out to and
+    comes straight back from, to within `eps` degrees of where it left. The
+    union leaves one at the Chin hills seam, 7 km long and 1e-15 degrees
+    wide, which GEOS passes as valid and a simplification later laid flat
+    into a spike. Nothing else is touched. Returns (ring, how many removed)."""
+    pts = ring[:-1]
+    near = lambda a, b: abs(a[0] - b[0]) <= eps and abs(a[1] - b[1]) <= eps
+    gone = 0
+    changed = True
+    while changed and len(pts) > 3:
+        changed = False
+        n = len(pts)
+        for i in range(n):
+            a, c = pts[i - 1], pts[(i + 1) % n]
+            if near(a, c):
+                # drop the tip and the return to where it left
+                drop = {i, (i + 1) % n}
+                pts = [p for k, p in enumerate(pts) if k not in drop]
+                gone += 1
+                changed = True
+                break
+    return pts + [pts[0]], gone
+
+
 def main():
     for p in (SRC, LAND):
         if not os.path.exists(p):
@@ -113,6 +138,16 @@ def main():
     for f, g in zip(doc["features"], sorted(src["features"],
                                             key=lambda x: x["properties"]["fid"])):
         f["properties"] = dict(g["properties"])
+    spikes = 0
+    for f in doc["features"]:
+        g = f["geometry"]
+        polys = g["coordinates"] if g["type"] == "MultiPolygon" else [g["coordinates"]]
+        for poly in polys:
+            for k_, ring in enumerate(poly):
+                poly[k_], n_ = unspike(ring)
+                spikes += n_
+    if spikes:
+        print("  %d hairline(s) the union left, taken out" % spikes)
     for f in doc["features"]:
         b = before[key(f)]
         was, now = count(b["geometry"]), count(f["geometry"])

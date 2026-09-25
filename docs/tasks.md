@@ -23356,3 +23356,64 @@ named in the hover.
   vertices, every one the filled file has.
 * **Tests**: `military` rewritten to these, 40 checks. Full suite: 2,646
   checks across 75 scripts, 264.5 s, all passing. Released as update 376.
+
+## 219. The military divisions' interior boundaries simplified; the coast kept
+
+Asked for, with a screenshot: some frontiers were traced vertex by vertex
+and others in long straight runs, and side by side they read as two kinds of
+line; simplify the dense ones significantly, not the coast.
+
+* `simplify_shared` in `tools/build_themes.py`: a boundary two areas share
+  vertex for vertex is simplified once (Douglas-Peucker, 0.06°, about 6 km),
+  in one fixed direction, and both areas take that answer, so the sides still
+  meet exactly; the coast and anything not shared are as traced. Points where
+  three areas meet, or a frontier reaches the coast, are kept.
+* **Checked against what it can break**: a straightened stretch that crosses
+  another line of either area, lies back along one, or makes the outline
+  visit a point twice is done again at half the tolerance, down to the
+  tracing. At 0.03° one stretch needed it (Central Provinces–Meerut, 79.16 E).
+  Points are rounded to what is written (4 decimals) before any of it, so the
+  check sees the drawn line.
+* **Found on the way**: the union in `fill_military.py` left a hairline at
+  the Chin hills seam — 7 km out and back to points differing in the 15th
+  decimal, passed as valid by GEOS — which simplifying laid flat into a
+  spike. `unspike` takes such out-and-backs out after the union (1 found);
+  nothing else is touched.
+* Result: 22,225 of 35,811 vertices drawn (62%); every drawn area valid (GEOS);
+  the drawn union's area within 0.0001 deg² of the filled file's. New slivers
+  where a simplified frontier meets an unsnapped one are under 1e-6 deg² each.
+  `theme-india-military.js` 345 KB (111 gzipped). The download is the
+  unsimplified filled file. `military` 40 checks passing.
+
+## 220. The map's western edge moved from 66° to 60.5° E: the whole of British India
+
+Asked for: extend the map west just far enough to show all of British India.
+Baluchistan reaches 61.2° E; at 66° the frame cut the Raj off at the Indus.
+
+* `LON_MIN` 60.5 in `build_map.py`, `build_relief.py`, `build_tw_sugar.py`
+  and `FRAME` in `build_texts.py`; `map.js` reads the edge from the sheet and
+  needed nothing. Iran is drawn as Elsewhere, as Afghanistan is. Everything in
+  map units moved 110 units east (checked in the base, admin, Korea and
+  Taiwan-sugar sheets); the frame is 2,910 units wide, was 2,800.
+* Rebuilt: `build_map.py` (the base, admin, fine, ROC and NE sheets),
+  `build_korea_fine.py`, `build_tw_sugar.py`, `build_relief.py` (all nine
+  sheets, 22.7 s — the widths raised to 4365/6548/8730 so the pixels per
+  degree are what they were), `build_map.py --export deploy/gis`
+  (`land.geojson` changed; `sub-units.geojson` identical), `build_themes.py`
+  (the label search reads the new edge). `check_extent.py` reports the same
+  50 yellow islands inside the 1942 line it did before; it is about China.
+* **The names placer** kept two names flush against each other once the
+  opening scale changed (Spratly Islands nudged edge to edge with Philippine
+  Islands; Papua's against the British Solomons): `free` counted touching
+  boxes as clear. Now `LABEL_GAP`, 2 screen pixels, between any two names.
+  Update 376 on the same Chrome passed `labels`, which is how the cause was
+  placed on the frame rather than the browser.
+* **Tests**: `relief` had the frame's width typed in (2800) and read a
+  `data-viewbox0` that was never written; it reads the sheet's own viewBox
+  now. Full suite: 2,646 checks across 75 scripts, 254.8 s, all passing.
+* **The test browser**: `~/.cache/puppeteer` was deleted during the session
+  (not by this work), so Puppeteer's Chrome 152 is gone. These runs used the
+  installed Chrome 154 through `PUPPETEER_EXECUTABLE_PATH`; restoring the
+  cache is `npx puppeteer browsers install chrome`.
+* `docs/UPLOAD.md` sizes re-measured; README's frame line updated. Released
+  with entry 219 as update 377.

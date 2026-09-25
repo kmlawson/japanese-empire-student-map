@@ -129,7 +129,12 @@ CHINA_PROVINCE_ALIAS = {"Rehe": "Jehol", "Chahar": "Chahaer", "Tibet": "Xizang"}
 ROC_PROVINCES = os.path.join(CACHE, "roc-provinces-1936.geojson")
 
 # --- Projection -------------------------------------------------------------
-LON_MIN, LON_MAX = 66.0, 206.0
+# The western edge is 60.5 E, far enough to take in the whole of British
+# India: Baluchistan runs out to 61.2 E, and at 66.0 — where the edge was until
+# 25 September 2026 — the map cut the Raj off at the Indus and drew half of
+# Baluchistan. `build_tw_sugar.py`, `build_relief.py` and `build_texts.py` carry
+# the same number and must be kept with it.
+LON_MIN, LON_MAX = 60.5, 206.0
 LAT_MIN, LAT_MAX = -13.0, 55.0
 PX_PER_DEG = 20.0
 R = PX_PER_DEG * 180.0 / math.pi
@@ -5960,6 +5965,9 @@ ADMIN0 = {
     "Kazakhstan": "ussr", "Kyrgyzstan": "ussr", "Tajikistan": "ussr",
     "Turkmenistan": "ussr", "Uzbekistan": "ussr",
     "Afghanistan": "other",
+    # eastern Persia, which the western edge reaches now it takes in the
+    # whole of Baluchistan: not a country this map names, like Afghanistan
+    "Iran": "other",
 }
 
 SPLITTERS = {

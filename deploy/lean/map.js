@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '376';
+  var JEM_VERSION = '377';
 
 
 
@@ -7173,6 +7173,8 @@
     return null;
   }
 
+  var LABEL_GAP = 2;              // screen pixels between two names: see `free`
+
   function placeLabels() {
     if (state.mode === 'quiz') return;
 
@@ -7191,11 +7193,19 @@
 
 
 
+
+
+
+
+
+
+
     var free = function (b) {
       if (b.l < 2 || b.r > c.w - 2 || b.t < 2 || b.b > c.h - 2) return false;
       for (var j = 0; j < placed.length; j++) {
         var p = placed[j];
-        if (b.l < p.r && b.r > p.l && b.t < p.b && b.b > p.t) return false;
+        if (b.l < p.r + LABEL_GAP && b.r > p.l - LABEL_GAP
+            && b.t < p.b + LABEL_GAP && b.b > p.t - LABEL_GAP) return false;
       }
       return true;
     };

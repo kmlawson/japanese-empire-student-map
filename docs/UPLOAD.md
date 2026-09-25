@@ -18,19 +18,19 @@ below are what it holds, named relative to it.
 | `lean/map.js` | 455 KB | 117 KB | first — the shipped copy of `map.js`, comments stripped; the source stays at the repository root |
 | `data.js` | 1,223 KB | 288 KB | first |
 | `cities-gaz.js` | 105 KB | 26 KB | first |
-| `japan-empire-map.svg` | 3,816 KB | 1,093 KB | first |
+| `japan-empire-map.svg` | 4,139 KB | 1,133 KB | first |
 | `lean/annotate.js` | 152 KB | 39 KB | when **Create** or **Load annotations** is pressed — the shipped copy of `annotate.js` |
 | `lean/trains.js` | 45 KB | 13 KB | when the train tools are asked for — the shipped copy of `trains.js` |
 | `lean/air-play.js` | 20 KB | 7 KB | when the plane tools are asked for — the shipped copy of `air-play.js` |
 | `lean/admin.js` | 59 KB | 16 KB | if the author option-clicks Layers — the shipped copy of `admin.js` |
-| `japan-empire-map-admin.svg` | 1,485 KB | 412 KB | when **Administrative** is pressed |
+| `japan-empire-map-admin.svg` | 1,773 KB | 446 KB | when **Administrative** is pressed |
 | `japan-empire-map-fine.svg` | 976 KB | 186 KB | on a deep zoom, for the fine coastlines |
-| `japan-empire-map-roc.svg` | 698 KB | 244 KB | if the reader switches China's province source |
-| `japan-empire-map-korea.svg` | 1,376 KB | 349 KB | on a deep zoom over Korea, for its provinces |
-| `japan-empire-map-tw-sugar.svg` | 182 KB | 38 KB | when Taiwan's sugar railways are switched on |
-| `japan-empire-map-ne.svg` | 1,729 KB | 590 KB | only by `admin.js`, as an unsimplified coastline to check against; no reader loads it |
+| `japan-empire-map-roc.svg` | 710 KB | 244 KB | if the reader switches China's province source |
+| `japan-empire-map-korea.svg` | 1,376 KB | 348 KB | on a deep zoom over Korea, for its provinces |
+| `japan-empire-map-tw-sugar.svg` | 181 KB | 37 KB | when Taiwan's sugar railways are switched on |
+| `japan-empire-map-ne.svg` | 1,778 KB | 604 KB | only by `admin.js`, as an unsimplified coastline to check against; no reader loads it |
 | `sources.html` | 44 KB | 17 KB | from the link in About |
-| `relief.js` | 2 KB | 1 KB | when **Topo** is pressed — the manifest for the sheets in `relief/` |
+| `relief.js` | 1 KB | 0.4 KB | when **Topo** is pressed — the manifest for the sheets in `relief/` |
 | `tw-trains.js` | 181 KB | 46 KB | with the train tools, over Taiwan — the track, the stations and the line colours |
 | `tw-times.js` | 101 KB | 23 KB | and its timetable, when the reader runs the clock or opens a line or a station |
 | `kr-trains.js` | 1,018 KB | 305 KB | with them, over Korea, its connections routed along Manchuria's track |
@@ -46,15 +46,15 @@ below are what it holds, named relative to it.
 | `jp-rails.js` | 1,784 KB | 338 KB | when **Japan Railways** is switched on — 1,977 lines, never with the page |
 | `jp-stations.js` | 1,058 KB | 215 KB | when **Show Japan Stations** is — 12,800 places |
 | `themes.js` | 112 KB | 35 KB | when a **thematic layer** is opened from the book beside the map |
-| `theme-india-military.js` | 670 KB | 217 KB | when the **1931 military divisions of British India** are chosen from that book |
+| `theme-india-military.js` | 345 KB | 111 KB | when the **1931 military divisions of British India** are chosen from that book |
 | `timetable/` (6 pages) | 4,074 KB | 682 KB | one at a time, when a card's link to its printed table is followed |
-| `relief/` (9 `.webp` sheets) | 6,906 KB | — | when **Topo** is pressed; one sheet per projection and zoom band, fetched as asked for |
+| `relief/` (9 `.webp` sheets) | 7,127 KB | — | when **Topo** is pressed; one sheet per projection and zoom band, fetched as asked for |
 | **total** | **29.7 MB** | **12.4 MB** | |
 
 Sizes measured on 17 September 2026, at update 372, gzip level 6.
 
-Only the first six are fetched before the map is on screen: **5.7 MB raw,
-1.57 MB gzipped**. The rest wait until something asks for them, and a reader
+Only the first six are fetched before the map is on screen: **6.0 MB raw,
+1.61 MB gzipped**. The rest wait until something asks for them, and a reader
 who never presses Administrative — or never draws on the map, or never runs a
 timetable — never downloads those.
 
@@ -101,7 +101,7 @@ is silent and it lasts a week, so it is worth the ordering.
 
 ## Serve them gzipped
 
-A first view is 1.57 MB compressed against 5.7 MB raw, so this is the one server
+A first view is 1.61 MB compressed against 6.0 MB raw, so this is the one server
 setting worth checking. Most hosts do it for `.html` and `.css`
 already and forget `.svg`, which is where two thirds of the weight is. On
 Apache the `.htaccess` in this repository handles it.
