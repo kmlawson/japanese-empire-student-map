@@ -23417,3 +23417,61 @@ Baluchistan reaches 61.2° E; at 66° the frame cut the Raj off at the Indus.
   cache is `npx puppeteer browsers install chrome`.
 * `docs/UPLOAD.md` sizes re-measured; README's frame line updated. Released
   with entry 219 as update 377.
+
+## 221. The 1931 census language maps, by province and by district, as thematic layers
+
+Asked for: the census language maps of
+[playground-india-language](https://github.com/kmlawson/playground-india-language)
+in the book, not everything on that site, with more detailed tables opened from
+the info pane as the Manchurian timetables are, and a link to the full site at
+the foot of the pane wherever something is clicked.
+
+* **Source**: `data/india-language-1931/`, four data files and the licence copied
+  unchanged at commit 96ae2cc, with a README. `tools/build_census.py`, called by
+  `build_themes.py`, writes `deploy/theme-census-langs.js` (the classification,
+  Vol. I's figures, Part II), `-province.js` and `-district.js`; `themes.js`
+  carries the two rows. `theme-india-military.js` is byte-identical and the two
+  existing records in `themes.js` are unchanged.
+* **Geometry, none of it simplified**: SVG paths inverted to lon/lat at three
+  decimals. Province 18,574 of 18,574 vertices written, district 93,779 of 93,779
+  (units and province outlines). Worst round trip back to the source's pixels
+  0.013 px, against the 0.1 px it was written to; the build fails past 0.02. The
+  source's own coverage simplification is what is drawn.
+* **`theme-census.js`**, a sixth hand-written script, lean copy fetched with the
+  figures. The reckoning follows the source's app.js, districts-app.js and
+  langcolors.js so a language has the same name, colour and share as there.
+* **The pane**: choosing a theme opens an overview card; a unit's card gives its
+  population, languages and notes; a language's card its classification, members
+  and where it was spoken. Tables, through `popSortable` and `addCsvButton`: all
+  languages, all units, a unit's languages, a language in every unit, second
+  languages (Part II), a district unit's 1931 areas with scan links. `popSortable`
+  gained text columns, cells of links, a pressable row and a filter.
+* **`#info-theme-foot`**, one element in the page and not something each card
+  adds, so it is under every card while the theme is up: unit, language, a place
+  the census did not draw. Set from `more` in the theme's record; other themes
+  have none.
+* **In `map.js`**: `themeRingsD` taken out of `buildThemeAreas`; `themeAreaAtUser`
+  asks each path's box first, there now being 349 on every pointer move; the
+  hover and the tap go to the theme's unit before the country, marker excepted,
+  and not only where this map's `pick` says there is land.
+* **Two tracings of one frontier**: where the map's British India reaches past the
+  census's shapes, the gap showed in the British colour as a dark band along the
+  Afghan frontier. `themeUnderlay` paints those atoms in the no-figures grey first,
+  from shapes already in the page. British India's edge line up the Burma frontier
+  is hidden under these two themes.
+* **Differs from the source once**: Burma is grey for the Hindi composite. Its
+  docs/regional.md section 9 says grey, and its districts-app.js shows "none
+  recorded", because `agg.HB` is always set. Reported rather than copied.
+* **Left out**: population 1901-2011, atlas plate links, count, distribution, sex
+  ratio and diversity views, district-level Part II, the provincial tables. The
+  foot links to them. No GeoJSON download offered.
+* **Not checked by anyone but me**: the Gwadar strip is grey along the whole
+  Makran coast, because the source draws the present-day district; left as it is.
+  The layer-note sentences, the sources line and the card's two short notes need
+  the author's eye (the last two adapted from the source's own text).
+* **Tests**: `tools/test/census.js`, 89 checks, 65 s in the suite, against figures read
+  from the source files on their own: both themes, mouse and finger, two zooms,
+  Albers, 1942, dark ramp by build only (viewed in a screenshot, not asserted),
+  CSVs, filter, off, panning away. `burma`'s count of menu rows updated. Full suite: 2,735 checks across 76 scripts,
+  265 s, all passing. Released as update 378.
+

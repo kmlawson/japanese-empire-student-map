@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '377';
+  var JEM_VERSION = '378';
 
   /* Every file this one fetches, with the version on it.
 
@@ -38,7 +38,7 @@
      It is on the page and not in this file so that a change to a relief tile
      does not change this file's own key. The version is kept as a fallback
      for a build that has not been run. */
-  var LEAN = ['admin.js', 'annotate.js', 'trains.js', 'air-play.js'];
+  var LEAN = ['admin.js', 'annotate.js', 'trains.js', 'air-play.js', 'theme-census.js'];
   function asset(name) {
     var table = window.JEM_ASSETS || null;
     var key = (table && table[name]) || null;
@@ -8664,6 +8664,20 @@
     }
     if (railPicked) setRailPicked('');
 
+    /* A unit of a theme with its own answers, unless a marker is on it. By the
+       ground rather than by `hit`: a shore this map draws a little further in
+       than the census did is still that unit. A first tap with a finger gets
+       the same as a click, there being no country to name first. */
+    var tModTap = sticky ? null : themeMod();
+    if (tModTap && !(hit && hit.rec.kind !== 'territory')) {
+      var tapArea = themeAreaAt(cx, cy);
+      if (tapArea) {
+        setHot(null); setHotProv(null); setSubsAtom(null);
+        tModTap.tap(tapArea);
+        return;
+      }
+    }
+
     var id = hit ? (hit.rec.rid || hit.rec.id) : null;
     /* A second tap on a station already open closes it. Everything else on
        the map is deselected by tapping the sea, which is fine when the thing
@@ -9186,6 +9200,11 @@
     /* The 1931 military divisions: British India and Burma together, 61.20
        to 101.17 E and 8.08 to 36.90 N, rounded outwards. */
     india: { box: [61.1, 8.0, 101.2, 37.0], ids: ['india-military'] },
+    /* The 1931 census language maps: British India, the states and Burma, Aden
+       apart, which is off the map. 60.9 to 101.2 E and 6.7 to 37.1 N, the
+       Nicobars being what reaches furthest south. */
+    'india-census': { box: [60.9, 6.7, 101.2, 37.1],
+                      ids: ['india-census-province', 'india-census-district'] },
   };
 
   function themeRec(id) {
@@ -9245,7 +9264,10 @@
        the group is drawn whole, as before. */
 
     var geom = (JMAP.THEME_GEOM || {})[id];
-    if (geom) {
+    var modT = rec.mod ? themeMod() : null;
+    if (modT && geom) {
+      modT.build(g, rec, geom);
+    } else if (geom) {
       buildThemeAreas(g, rec, geom);
     } else (rec.cats || []).forEach(function (cat) {
       var d = '';
@@ -9295,38 +9317,37 @@
   var themeLabels = [];          // the names, as scalables: see `rescale`
   var themeHotEl = null;         // the outline of the area under the pointer
 
+  /* **The map ends at `proj.lonMin`, and so does the layer.**
+     Baluchistan runs out to 61° E, and `mercFwd` puts a longitude west of
+     the edge at the far *east* of the sheet, 360° round — so the district
+     was drawn as a band from the Makran to Burma. An area's vertices west
+     of the edge are laid on the edge meridian, which fills exactly what a
+     clip there would; a line's pieces beyond it are left out, since laid on
+     the edge they would draw a red rule up the side of the map. The source
+     file is untouched: this is only what the drawing does at its frame.
+     Flat rings in lon/lat to a Mercator path, which `reprojectGraft` moves. */
+  function themeRingsD(flatLines, close) {
+    var west = proj.lonMin;
+    var d = '';
+    flatLines.forEach(function (fl) {
+      var open = false;
+      for (var i = 0; i < fl.length; i += 2) {
+        if (!close && fl[i] < west) { open = false; continue; }
+        var q = mercFwd(Math.max(fl[i], west), fl[i + 1]);
+        d += (open ? 'L' : 'M') + (Math.round(q.x * 10) / 10) + ' '
+          + (Math.round(q.y * 10) / 10);
+        open = true;
+      }
+      if (close) d += 'Z';
+    });
+    return d;
+  }
+
   function buildThemeAreas(g, rec, geom) {
     var colour = {};
     (rec.cats || []).forEach(function (c) { colour[c.id] = c.c; });
-    /* **The map ends at `proj.lonMin`, 66° E, and so does the layer.**
-       Baluchistan runs out to 61° E, and `mercFwd` puts a longitude west of
-       the edge at the far *east* of the sheet, 360° round — so the district
-       was drawn as a band from the Makran to Burma. An area's vertices west
-       of the edge are laid on the edge meridian, which fills exactly what a
-       clip there would; a line's pieces beyond it are left out, since laid on
-       the edge they would draw a red rule up the side of the map. The source
-       file is untouched: this is only what the drawing does at its frame. */
-    var west = proj.lonMin;
-    function pt(lon, lat, first) {
-      var q = mercFwd(Math.max(lon, west), lat);
-      return (first ? 'M' : 'L') + (Math.round(q.x * 10) / 10) + ' '
-        + (Math.round(q.y * 10) / 10);
-    }
-    function dOf(flatLines, close) {
-      var d = '';
-      flatLines.forEach(function (fl) {
-        var open = false;
-        for (var i = 0; i < fl.length; i += 2) {
-          if (!close && fl[i] < west) { open = false; continue; }
-          d += pt(fl[i], fl[i + 1], !open);
-          open = true;
-        }
-        if (close) d += 'Z';
-      });
-      return d;
-    }
     (geom.areas || []).forEach(function (a) {
-      var d = dOf(a.r || [], true);
+      var d = themeRingsD(a.r || [], true);
       if (d) g.appendChild(svgEl('path', {
         d: d, fill: colour[a.cmd] || '#ccc', 'class': 'theme-area',
         'data-cat': a.cmd, 'data-cat-en': a.en,
@@ -9369,7 +9390,9 @@
   function placeThemeLabels(k) {
     if (!themeLabels.length) return;
     themeLabels.forEach(function (TL) {
-      if (TL.areaW === undefined && TL.ap && TL.ap.isConnected) {
+      if (TL.areaW === undefined && TL.measure) {
+        TL.areaW = TL.measure();
+      } else if (TL.areaW === undefined && TL.ap && TL.ap.isConnected) {
         try { TL.areaW = TL.ap.getBBox().width; } catch (err) { TL.areaW = 0; }
       }
     });
@@ -9399,9 +9422,18 @@
     if (!themeShown || !themeLayer || !svg) return null;
     var q = svg.createSVGPoint();
     q.x = ux; q.y = uy;
+    /* Eighteen paths when this was written and 349 now, on every pointer move,
+       so each is asked first whether the point is even in its box. The box is
+       kept per projection, because a path has a different one in each. */
+    var boxKey = '__box_' + projMode;
     var paths = themeLayer.querySelectorAll('path.theme-area');
     for (var i = 0; i < paths.length; i++) {
-      try { if (paths[i].isPointInFill(q)) return paths[i]; } catch (err) { /* no geometry yet */ }
+      var pa = paths[i];
+      try {
+        var bb = pa[boxKey] || (pa[boxKey] = pa.getBBox());
+        if (ux < bb.x || ux > bb.x + bb.width || uy < bb.y || uy > bb.y + bb.height) continue;
+        if (pa.isPointInFill(q)) return pa;
+      } catch (err) { /* no geometry yet */ }
     }
     return null;
   }
@@ -9459,11 +9491,15 @@
     /* A theme too large to travel with the others has its own file, named in
        its record; fetched the first time it is chosen. */
     var want = id && themeRec(id);
-    if (want && want.file && !(JMAP.THEME_GEOM || {})[id]) {
+    /* Or several, for a theme with code and shared figures of its own: all
+       of them are here before any of it is used. */
+    var wantFiles = want && (want.files || (want.file ? [want.file] : null));
+    if (wantFiles && !want.loaded) {
       if (want.loading) return;
       want.loading = true;
-      loadScript(want.file).then(function () {
+      Promise.all(wantFiles.map(loadScript)).then(function () {
         want.loading = false;
+        want.loaded = true;
         if ((JMAP.THEME_GEOM || {})[id]) setTheme(id);
       }, function () { want.loading = false; });
       return;
@@ -9474,6 +9510,12 @@
        other skipped the putting back, and the districts stayed on under a
        layer that had not asked for them. */
     if (id && themeShown) setTheme('');
+    /* A theme that answers in the card takes its card with it. Any other card
+       the reader has open is theirs and stays. */
+    var modOut = themeShown && themeRec(themeShown).mod ? themeMod() : null;
+    if (modOut && infoBox && !infoBox.hidden
+        && modOut.ownsCard($('.chip', infoBox).textContent)) select(null);
+    if (modOut) modOut.unmount();
     if (themeLayer) { themeLayer.remove(); themeLayer = null; }
     themeLabels = [];
     themeHotEl = null;
@@ -9488,6 +9530,7 @@
       if (wasAtom) liftSubs(subsAtom);
       themeShown = '';
       state.themeId = '';
+      syncThemeFoot();
       /* Put back what the theme borrowed, and only what it borrowed: a reader
          who switched the districts on themselves keeps them. */
       if (themeRestore) {
@@ -9532,6 +9575,135 @@
     syncMapButtons();
     scheduleUrl();
     saveState();
+    syncThemeFoot();
+    var modIn = themeRec(id).mod ? themeMod() : null;
+    if (modIn) modIn.opened();
+  }
+
+  /* **THE FULL SITE, AT THE FOOT OF EVERY CARD.** A theme that is one view of
+     somebody's larger work names it in its record, as `more`, and the link
+     sits under whatever the card holds for as long as the theme is up: a unit,
+     a language, a city pressed on top of them. One element in the page rather
+     than something each card remembers to add, so that no card can forget. */
+  function syncThemeFoot() {
+    var foot = $('#info-theme-foot');
+    if (!foot) return;
+    var more = themeShown && themeRec(themeShown) && themeRec(themeShown).more;
+    foot.hidden = !more;
+    if (!more) return;
+    var a = $('a', foot);
+    a.href = more.href;
+    a.textContent = more.en;
+  }
+
+  /* **A theme that answers in the card has code of its own**, `theme-census.js`,
+     fetched with its figures and handed what it needs from here. Nothing about
+     languages belongs in this file. */
+  var censusApi = null;
+  function themeMod() {
+    var trec = themeShown && themeRec(themeShown);
+    if (!trec || !trec.mod) return null;
+    if (!censusApi && window.JMAP_CENSUS) censusApi = window.JMAP_CENSUS(censusHost());
+    return censusApi;
+  }
+
+  function censusHost() {
+    return {
+      svgEl: svgEl,
+      ringsD: function (rings) { return themeRingsD(rings, true); },
+      setLabels: setThemeLabels,
+      labelsInto: function (g) {
+        themeLabels.forEach(function (TL) { g.appendChild(TL.el); });
+      },
+      rebuildKey: buildLegend,
+      showCard: showBlockCard,
+      tableBox: tableBox,
+      popSortable: popSortable,
+      addCsvButton: addCsvButton,
+      /* The same link in a table as at the foot of the card: the table is what
+         a reader takes away, and what it came out of should go with it. */
+      moreLink: function () {
+        var more = themeRec(themeShown).more;
+        var p = document.createElement('p');
+        p.className = 'pop-src';
+        var a = document.createElement('a');
+        a.href = more.href;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = more.en;
+        p.appendChild(a);
+        return p;
+      },
+      showUnit: themeShowArea,
+      under: themeUnderlay,
+    };
+  }
+
+  /* **The ground this map counts as India and the census did not draw.** Two
+     tracings of one frontier never agree, and without this the gap between
+     them came up in the map's own British colour: a dark band along the Afghan
+     frontier and the foot of the Himalaya, looking like a category. So the
+     atoms the theme stands on are painted first, in the colour that says there
+     is nothing to show. They are the map's own shapes, already in the page, and
+     nothing here answers the pointer. The stored Mercator `d` goes across so
+     that `reprojectGraft` moves the copy from the right place. */
+  function themeUnderlay(g, atoms) {
+    atoms.forEach(function (key) {
+      var src = $('#a-' + key, svg);
+      if (!src || src.tagName !== 'path') src = $('#backings path[data-for="' + key + '"]', svg);
+      if (!src) return;
+      var under = svgEl('path', { d: src.__d0 || src.getAttribute('d'), 'class': 'census-under' });
+      g.appendChild(under);
+    });
+  }
+
+  /* A theme's names, replaced whole: which ones it wants changes with what it
+     is mapping. Each goes in lon/lat, like the names `buildThemeAreas` writes,
+     so a change of projection moves them too. */
+  function setThemeLabels(list, building) {
+    themeLabels.forEach(function (TL) { TL.el.remove(); });
+    themeLabels = [];
+    var g = building ? null : themeLayer;
+    list.forEach(function (lab) {
+      var q = project(lab.lon, lab.lat);
+      var t = svgEl('text', { 'class': 'theme-label theme-label-census' });
+      t.textContent = lab.text;
+      themeLabels.push({ el: t, x: q.x, y: q.y, lon: lab.lon, lat: lab.lat, ap: lab.ap,
+                         measure: lab.measure, areaW: undefined,
+                         textW: lab.text.length * 6.6 });
+    });
+    if (building) return;
+    if (g) themeLabels.forEach(function (TL) { g.appendChild(TL.el); });
+    if (lastScaleW > 0) rescale();
+  }
+
+  /* Brought on screen when a table has sent the reader to somewhere the view
+     does not reach. At the zoom they chose: only the centre moves. */
+  function themeShowArea(el) {
+    if (!el) return;
+    var b;
+    try { b = el.getBBox(); } catch (err) { return; }
+    if (b.x < view.x + view.w && b.x + b.width > view.x
+        && b.y < view.y + view.h && b.y + b.height > view.y) return;
+    view.x = b.x + b.width / 2 - view.w / 2;
+    view.y = b.y + b.height / 2 - view.h / 2;
+    applyView();
+  }
+
+  /* The hover under such a theme: the module writes it, this places it, by the
+     same `tipKey` and the same frame every other hover goes through. */
+  function showThemeTip(mod, area, cx, cy) {
+    tipAt = { x: cx, y: cy };
+    var key = 'theme|' + area.getAttribute('data-unit') + '|' + mod.tipKey();
+    if (key === tipKey && !tooltip.hidden) {
+      if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
+      return;
+    }
+    tipKey = key;
+    tooltip.innerHTML = '';
+    mod.fillTip(tooltip, area);
+    tooltip.hidden = false;
+    if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
   }
 
   /* **A theme belongs to its ground.** Panned away from Burma entirely, the
@@ -9929,6 +10101,19 @@
     }
     var got = pick(e.target, e.clientX, e.clientY);
     var hit = got && got.hit;
+    /* Under a theme with its own answers, the unit is what is under the
+       pointer, unless a marker is drawn on it: whatever the map has beneath,
+       and whether or not this map's coast agrees that it is land. */
+    var tMod = themeMod();
+    if (tMod && !(hit && hit.rec.kind !== 'territory')) {
+      var tmArea = themeAreaAt(e.clientX, e.clientY);
+      if (tmArea) {
+        setHot(null); setHotProv(null); setSubsAtom(null);
+        setThemeHot(tmArea);
+        showThemeTip(tMod, tmArea, e.clientX, e.clientY);
+        return;
+      }
+    }
     if (!hit) {
       setHot(null); setHotProv(null); setSubsAtom(null); hideTooltip(); return;
     }
@@ -10234,7 +10419,7 @@
        the military divisions on to ask which district this is, so its name
        is the headline and its command the line under it; the country is
        context and goes below, as a province's country does. */
-    var tUnit = themeLayer ? themeAreaAt(cx, cy) : null;
+    var tUnit = (themeLayer && !themeMod()) ? themeAreaAt(cx, cy) : null;
     if (tUnit) {
       $$('.theme-cat', tooltip).forEach(function (n) { n.remove(); });
       var first = tooltip.firstChild;
@@ -10923,6 +11108,7 @@
     markSelected(selected, false);
     selected = null;
     trainCardWaiting = -1;
+    if (censusApi && themeShown) censusApi.released();
     // A tap says which cluster it landed on, because on a touch screen there
     // is no hover to have worked it out already. Every other caller means the
     // last thing the pointer was over.
@@ -11582,11 +11768,16 @@
     var table = document.createElement('table');
     table.className = 'pop-table';
     var sortAt = 1, sortDir = -1;
+    var filterBy = '';
+    rows.forEach(function (r) {
+      r.filterText = (r.cells.filter(function (c, i) { return !i || cols[i].text; })
+        .map(function (c) { return c.t; }).concat(r.search || '')).join(' ').toLowerCase();
+    });
     var thead = document.createElement('thead');
     var hr = document.createElement('tr');
     cols.forEach(function (c, i) {
       var th = document.createElement('th');
-      if (i) th.className = 'num';
+      if (i && !c.text) th.className = 'num';
       th.scope = 'col';
       var btn = document.createElement('button');
       btn.type = 'button';
@@ -11629,10 +11820,14 @@
         $('.arrow', th).textContent = on ? (sortDir < 0 ? ' ↓' : ' ↑') : '';
         $('.pop-sort', th).classList.toggle('on', on);
       });
-      var order = rows.filter(function (r) { return !r.pinned; }).slice()
+      var order = rows.filter(function (r) {
+        return !r.pinned && (!filterBy || r.filterText.indexOf(filterBy) >= 0);
+      }).slice()
         .sort(function (a, b) {
           var x = a.cells[sortAt], y = b.cells[sortAt];
-          if (sortAt === 0) return String(x.t).localeCompare(String(y.t)) * sortDir;
+          if (sortAt === 0 || cols[sortAt].text) {
+            return String(x.t).localeCompare(String(y.t)) * sortDir;
+          }
           if (x.n === null && y.n === null) return 0;
           if (x.n === null) return 1;      // nothing counted sinks, either way
           if (y.n === null) return -1;
@@ -11645,8 +11840,29 @@
           if (here && r.key === here) tr.classList.add('here');
           r.cells.forEach(function (cell, i) {
             var td = document.createElement(i ? 'td' : 'th');
-            td.textContent = cell.t;
-            td.className = i ? 'num' : 'name';
+            /* A row that does something has a button for a name, so a finger
+               and a keyboard can both press it; a cell of links is its links. */
+            if (!i && r.pick) {
+              var pk = document.createElement('button');
+              pk.type = 'button';
+              pk.className = 'pop-pick';
+              pk.textContent = cell.t;
+              pk.addEventListener('click', r.pick);
+              td.appendChild(pk);
+            } else if (cell.links && cell.links.length) {
+              cell.links.forEach(function (lk, j) {
+                if (j) td.appendChild(document.createTextNode(' '));
+                var a = document.createElement('a');
+                a.href = lk.href;
+                a.target = '_blank';
+                a.rel = 'noopener';
+                a.textContent = lk.t;
+                td.appendChild(a);
+              });
+            } else {
+              td.textContent = cell.t;
+            }
+            td.className = i ? (cols[i].text ? 'txt' : 'num') : 'name';
             tr.appendChild(td);
           });
           tbody.appendChild(tr);
@@ -11660,6 +11876,11 @@
        whatever the reader last sorted it into, with the em dashes and the
        thousands separators baked in; this is the figures. */
     scroll.tableSpec = { cols: cols, rows: rows };
+    /* What is shown, and never what is taken away: the CSV is every row. */
+    scroll.setFilter = function (q) {
+      filterBy = String(q || '').trim().toLowerCase();
+      draw();
+    };
     return scroll;
   }
 
@@ -18944,7 +19165,13 @@
        mean what the key above says they mean. */
     if (themeOn()) {
       var trec = themeRec(themeOn());
-      if (trec && (trec.cats || []).length) {
+      if (trec && trec.mod && themeMod()) {
+        /* First, not last: this is the key to what most of the map is showing,
+           and the reader presses it, so it is not left under the fold. */
+        var modKey = document.createElement('div');
+        themeMod().legend(modKey);
+        legend.insertBefore(modKey, legend.firstChild);
+      } else if (trec && (trec.cats || []).length) {
         var thead = document.createElement('p');
         thead.className = 'legend-sub';
         thead.textContent = trec.en || 'Thematic layer';

@@ -1526,6 +1526,10 @@ def build_pages():
                # the thematic layers, fetched the first time a reader opens
                # the book beside the map
                "themes.js",
+               # and the census language maps, chosen from that book: their
+               # code, the shared figures and the geometry of each
+               "theme-census.js", "theme-census-langs.js",
+               "theme-census-province.js", "theme-census-district.js",
                # the train tools and the network they draw, both fetched only
                # when a reader zooms in to a railway that has one
                "trains.js", "tw-trains.js", "kr-trains.js", "kf-trains.js",
@@ -1578,7 +1582,8 @@ def build_pages():
                    and not n.startswith("timetable/"))
         want |= set(n for n in os.listdir(SITE) if n.endswith(".js"))
         want |= set("lean/" + n for n in ("map.js", "annotate.js", "admin.js",
-                                           "trains.js", "air-play.js"))
+                                           "trains.js", "air-play.js",
+                                           "theme-census.js"))
         missing = sorted(n for n in want if "`%s`" % n not in listed)
         if missing:
             raise Problem(
@@ -1648,7 +1653,8 @@ def build_pages():
             out.append(line)
         return "\n".join(out)
 
-    LEAN = ("map.js", "annotate.js", "admin.js", "trains.js", "air-play.js")
+    LEAN = ("map.js", "annotate.js", "admin.js", "trains.js", "air-play.js",
+            "theme-census.js")
     lean_dir = os.path.join(SITE, "lean")
     os.makedirs(lean_dir, exist_ok=True)
     for name in LEAN:
@@ -1738,7 +1744,8 @@ def build_pages():
 # name in a different function is legal and is not counted.
 def check_duplicate_functions():
     import re
-    for name in ("map.js", "annotate.js", "admin.js", "trains.js", "air-play.js"):
+    for name in ("map.js", "annotate.js", "admin.js", "trains.js", "air-play.js",
+                 "theme-census.js"):
         path = os.path.join(ROOT, name)
         if not os.path.exists(path):
             continue

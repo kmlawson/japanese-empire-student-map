@@ -38,6 +38,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import build_indochina as ic                                  # noqa: E402
+import build_census                                           # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(ROOT, "deploy")
@@ -298,8 +299,9 @@ def main():
     with open(OUT, "w", encoding="utf-8") as fh:
         fh.write(head)
         fh.write("JMAP.THEMES = ")
-        json.dump({THEME["id"]: doc, MIL_THEME["id"]: mil_meta}, fh,
-                  ensure_ascii=False, separators=(",", ":"))
+        rows = {THEME["id"]: doc, MIL_THEME["id"]: mil_meta}
+        rows.update(build_census.meta())
+        json.dump(rows, fh, ensure_ascii=False, separators=(",", ":"))
         fh.write(";\n")
     with open(MIL_OUT, "w", encoding="utf-8") as fh:
         fh.write("/* Built by tools/build_themes.py -- do not edit.\n"
@@ -311,6 +313,7 @@ def main():
         fh.write(";\n")
     print("wrote      %s (%.0f KB)" % (os.path.relpath(MIL_OUT, ROOT),
                                       os.path.getsize(MIL_OUT) / 1024.0))
+    build_census.main()
 
     kb = os.path.getsize(OUT) / 1024.0
     print("themes     %d category(ies), %d vertices, %d district(s) placed"

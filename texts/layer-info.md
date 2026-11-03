@@ -122,3 +122,11 @@ administration in 1930, and the Karenni states.
 ## theme-india-military
 
 [Download this layer as GeoJSON](gis/source/india-1931-military-divisions.geojson).
+
+## theme-india-census-province
+
+Mother tongues in the 1931 census, by province and state. Press a place or a language to open its figures.
+
+## theme-india-census-district
+
+Mother tongues in the 1931 census, by district. Press a place or a language to open its figures.

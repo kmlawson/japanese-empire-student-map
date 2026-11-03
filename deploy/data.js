@@ -133,6 +133,18 @@ JMAP.LAYER_INFO = [
     title: '1931 Military Divisions of British India',
     note: '[Download this layer as GeoJSON](gis/source/india-1931-military-divisions.geojson).'
   },
+  {
+    id: 'theme-india-census-province',
+    source: '*Census of India, 1931*, [Vol. I, Part II, Imperial Table XV](https://archive.org/details/india.history.resource.92539), from [Languages of India, 1931](https://kmlawson.github.io/playground-india-language/).',
+    flag: 'themeId', title: '1931 Census Languages of India, by Province',
+    note: 'Mother tongues in the 1931 census, by province and state. Press a place or a language to open its figures.'
+  },
+  {
+    id: 'theme-india-census-district',
+    source: '*Census of India, 1931*, provincial and state volumes, Table XV, from [Languages of India, 1931](https://kmlawson.github.io/playground-india-language/).',
+    flag: 'themeId', title: '1931 Census Languages of India, by District',
+    note: 'Mother tongues in the 1931 census, by district. Press a place or a language to open its figures.'
+  },
 ];
 
 JMAP.CATEGORIES = {

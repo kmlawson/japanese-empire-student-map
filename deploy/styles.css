@@ -9,6 +9,11 @@
   --line: #cec7b8;
   --panel: #fffdf8;
   --air-halo: #ffffff;
+  /* the census language maps: the share of a language, none recorded, and
+     nothing to show. The source site's own ramp, in both colour schemes. */
+  --cen-s0: #cde2fb; --cen-s1: #9ec5f4; --cen-s2: #6da7ec; --cen-s3: #3987e5;
+  --cen-s4: #256abf; --cen-s5: #184f95; --cen-s6: #0d366b;
+  --cen-zero: #ece6d8; --cen-nofig: #dcd8cf;
   --air-time: #4d7086;
   --accent: #9a1813;
   --accent-soft: #f6e2df;
@@ -106,6 +111,9 @@
     --line: #333c46;
     --panel: #1b232b;
   --air-halo: #f2f4f7;
+  --cen-s0: #1b3556; --cen-s1: #184f95; --cen-s2: #1c5cab; --cen-s3: #2a78d6;
+  --cen-s4: #5598e7; --cen-s5: #86b6ef; --cen-s6: #cde2fb;
+  --cen-zero: #2b333c; --cen-nofig: #353d46;
   --air-time: #8fb6cd;
     --accent: #d9564e;
     --accent-soft: #3a2320;
@@ -154,6 +162,9 @@
   --line: #333c46;
   --panel: #1b232b;
   --air-halo: #f2f4f7;
+  --cen-s0: #1b3556; --cen-s1: #184f95; --cen-s2: #1c5cab; --cen-s3: #2a78d6;
+  --cen-s4: #5598e7; --cen-s5: #86b6ef; --cen-s6: #cde2fb;
+  --cen-zero: #2b333c; --cen-nofig: #353d46;
   --air-time: #8fb6cd;
   --accent: #d9564e;
   --accent-soft: #3a2320;
@@ -915,6 +926,31 @@ button.plain:hover { background: var(--hover-fill); }
 #thematic .theme-label-brigade {
   font-size: 12px;
   letter-spacing: .32em;
+}
+/* **The 1931 census language maps.** Even-odd because that is how the source
+   draws its holes. A province keeps the heavier line; a district unit is one
+   of 349 and is outlined lightly, with the 1931 provinces drawn over them. All
+   SCREEN pixels, being `non-scaling-stroke`. */
+#thematic path.census-under { fill: var(--cen-nofig); stroke: none; }
+/* British India's own edge line runs up the Burma frontier, for where the two
+   share a colour. Here they do not, and it read as a third kind of boundary. */
+#thematic[data-theme^="india-census"] ~ #sub-outlines { display: none; }
+#thematic path.census-area { fill-rule: evenodd; stroke-width: .7; }
+#thematic path.census-area.census-fine { stroke: rgba(29, 24, 19, .42); stroke-width: .45; }
+#thematic path.census-area.sel { stroke: #fff59d; stroke-width: 3; paint-order: stroke; }
+#thematic path.census-prov {
+  fill: none;
+  stroke: #1d1813;
+  stroke-width: .9;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+#thematic path.theme-hot { fill-rule: evenodd; }
+#thematic .theme-label-census {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  stroke-width: 2.5px;
 }
 #tooltip .theme-unit { display: block; font-weight: 700; }
 /* the key's samples of the two letterings, in the same faces */
@@ -2615,7 +2651,8 @@ dialog h3 {
   #info:not(.open) .prov,
   #info:not(.open) .when,
   #info:not(.open) #info-pop,
-  #info:not(.open) .note { display: none; }
+  #info:not(.open) .note,
+  #info:not(.open) #info-theme-foot { display: none; }
 
   #info:not(.open) { max-height: none; overflow: visible; }
   #info.open { max-height: 76%; overflow-y: auto; }
@@ -5026,3 +5063,102 @@ body.bar-folded #bar {
   justify-content: flex-end;
   min-height: 0;
 }
+
+/* The census language maps' card and key. The foot is under whatever card is
+   open while such a theme is up; on a phone it waits for `More`, with the rest
+   of the card. */
+#info-theme-foot {
+  margin: 12px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+}
+#info-theme-foot[hidden] { display: none; }
+.cen-bars { list-style: none; margin: 0 0 8px; padding: 0; }
+.cen-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1px 8px;
+  width: 100%;
+  padding: 3px 4px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12.5px;
+  text-align: left;
+  cursor: pointer;
+}
+.cen-bar:hover, .cen-bar:focus-visible { background: var(--hi, rgba(122, 23, 48, .07)); }
+.cen-bar.on { background: var(--hi, rgba(122, 23, 48, .1)); font-weight: 600; }
+.cen-bar .val { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cen-bar .track { grid-column: 1 / -1; display: block; height: 3px; background: var(--line); border-radius: 2px; }
+.cen-bar .fill { display: block; height: 100%; background: var(--cen-s3); border-radius: 2px; }
+.cen-actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+.cen-now, .cen-path { margin: 0 0 8px; font-size: 12.5px; }
+.cen-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.cen-filter {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 6px 0;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+}
+@media (hover: hover) and (pointer: fine) { .cen-filter { font-size: 13px; } }
+.pop-table .txt { text-align: left; min-width: 13em; }
+.pop-pick {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.pop-pick:hover { text-decoration: underline; }
+/* the key: these rows do something, so unlike the rest they take the pointer */
+#legend .cen-key-head { margin: 8px 0 4px; font-weight: 600; }
+#legend .cen-key { pointer-events: auto; }
+#legend .cen-key-title, #legend .cen-key-note { margin: 2px 0 4px; font-size: 11.5px; color: var(--muted); }
+#legend .cen-fam { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 4px; margin: 3px 0; }
+#legend .cen-fam-name {
+  flex: 0 0 100%;
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#legend .cen-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 1px 2px 1px 0;
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+#legend .cen-chip:hover, #legend .cen-chip:focus-visible { border-color: var(--ink); }
+#legend .cen-chip .sw { width: 10px; height: 10px; }
+#legend .cen-ramp { display: flex; height: 10px; margin: 2px 0; }
+#legend .cen-ramp span { flex: 1; }
+#legend .cen-ticks { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 4px; }

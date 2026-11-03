@@ -128,6 +128,8 @@ The map is drawn on a Pacific-centred frame running 66°E–206°E and 13°S–5
 
 * **1931 Military Divisions of British India.** Map from the [1931 Imperial Gazetteer of India](https://dsal.uchicago.edu/reference/gaz_atlas_1931/gaz_atlas_mirador?https://dsal.uchicago.edu/reference/gaz_atlas_1931/manifests/gazetteer_atlas_1931.json&canvasID=28#gsc.tab=0). [Download GeoJSON](gis/source/india-1931-military-divisions.geojson)
 
+* **1931 Census Languages of India.** [Languages of India, 1931](https://kmlawson.github.io/playground-india-language/) ([repository](https://github.com/kmlawson/playground-india-language)), from *Census of India, 1931*, [Vol. I, Part II, Imperial Table XV](https://archive.org/details/india.history.resource.92539), and Table XV of the provincial and state volumes. Boundaries from [plague_india](https://github.com/wtennant/plague_india) (LGPL-3.0), [geoBoundaries](https://www.geoboundaries.org/) (India ODbL 1.0, Pakistan public domain, Bangladesh CC BY 3.0 IGO), [OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL 1.0) and [Natural Earth](https://www.naturalearthdata.com/).
+
 ## Download the geometry
 
 In general, you can right-click on objects on the map and get options for downloding a geojson file for specific layers and objects. Keep in mind that the original GIS files are "thinned" in the process of building the website to make them less granular in detail for use in a browser to enable better performance.

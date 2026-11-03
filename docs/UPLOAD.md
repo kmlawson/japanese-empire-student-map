@@ -47,11 +47,16 @@ below are what it holds, named relative to it.
 | `jp-stations.js` | 1,058 KB | 215 KB | when **Show Japan Stations** is — 12,800 places |
 | `themes.js` | 112 KB | 35 KB | when a **thematic layer** is opened from the book beside the map |
 | `theme-india-military.js` | 345 KB | 111 KB | when the **1931 military divisions of British India** are chosen from that book |
+| `lean/theme-census.js` | 41 KB | 12 KB | when either **1931 census language map** is chosen from that book — the shipped copy of `theme-census.js` |
+| `theme-census-langs.js` | 204 KB | 55 KB | with it, either way: the classification, Vol. I's figures and the second languages |
+| `theme-census-province.js` | 246 KB | 82 KB | when the map **by province** is chosen |
+| `theme-census-district.js` | 1,524 KB | 444 KB | when the map **by district** is chosen |
 | `timetable/` (6 pages) | 4,074 KB | 682 KB | one at a time, when a card's link to its printed table is followed |
 | `relief/` (9 `.webp` sheets) | 7,127 KB | — | when **Topo** is pressed; one sheet per projection and zoom band, fetched as asked for |
-| **total** | **29.7 MB** | **12.4 MB** | |
+| **total** | **31.7 MB** | **13.0 MB** | |
 
-Sizes measured on 17 September 2026, at update 372, gzip level 6.
+Sizes measured on 17 September 2026, at update 372, gzip level 6; the census
+language files on 3 November 2026, and added to the total.
 
 Only the first six are fetched before the map is on screen: **6.0 MB raw,
 1.61 MB gzipped**. The rest wait until something asks for them, and a reader

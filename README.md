@@ -117,8 +117,9 @@ The rest of the repository is how that folder is made.
   district's card. Every table offers **Download CSV**, and the file carries
   the table's notes and its source.
 * **Thematic layers** — a book button beside the map opens a theme drawn over
-  the districts. There is one so far: the administration map of Burma from the
-  1931 census report.
+  the country: the administration map of Burma from the 1931 census report, the
+  1931 military divisions of British India, and the 1931 census languages of
+  India by province and by district, whose figures open from the detail card.
 
 Pan by dragging, zoom with the wheel, a pinch, the buttons, or `+` / `-`.
 `Esc` closes the detail card, and returns to the opening view if none is open.
@@ -253,7 +254,7 @@ lists every file in it with its size and what makes a browser ask for it.
 | `deploy/japan-empire-map-admin.svg`, `-fine.svg`, `-roc.svg`, `-korea.svg`, `-tw-sugar.svg` | the administrative divisions, the fine coastlines, the alternative Chinese provinces, Korea's provinces at survey resolution and Taiwan's sugar railways, each fetched only when asked for |
 | `deploy/tw-`, `kr-`, `kf-`, `mn-trains.js`, `-times.js`, `-stations.js` | one railway each: the network the train tools draw, its timetable as a second file, and its stations |
 | `deploy/jp-rails.js`, `deploy/jp-stations.js` | Japan's railways and their 12,800 stations |
-| `deploy/themes.js` | the thematic layers |
+| `deploy/themes.js`, `deploy/theme-*.js` | the thematic layers, and those too large to travel with the rest |
 | `deploy/relief.js`, `deploy/relief/` | shaded relief: nine WebP sheets, three zoom bands in each of three projections |
 | `deploy/timetable/` | the printed tables as published, one page per timetable, linked from the cards |
 | `deploy/gis/`, `deploy/gis/source/` | the downloads linked from Sources: what the map draws, and the unthinned files the build reads |
