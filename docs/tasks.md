@@ -23475,3 +23475,19 @@ the foot of the pane wherever something is clicked.
   CSVs, filter, off, panning away. `burma`'s count of menu rows updated. Full suite: 2,735 checks across 76 scripts,
   265 s, all passing. Released as update 378.
 
+## 222. The way back from a language is on the map
+
+Reported from a screenshot:
+"Back to the largest language" was a small chip in the key and a link in the card,
+and a reader looking at the map saw neither. `theme-census.js` now puts a button,
+`#cen-back`, in `#map-container` while one language is showing: centred at the top
+of the map, and at the left at 600 px and under, where the centre would reach the
+button columns. It is in `DOCK_LIFT` and `uiBoxes` in `map.js` and in `CONTROLS` and
+`PANELS` in `tools/test/overlap.js`. The chip and the link stay. The container starts
+a drag on any press inside it, so the button stops `pointerdown`. Measured with a
+mouse at 1280×800 and a finger at 390×664 (`census`): it shows only for a language,
+a real press goes back and selects nothing, the same press with it gone does select
+the unit under it, it holds its place through a pan and a zoom, and it leaves with
+the theme. `overlap` audits it with the key open and the card opened out at all four
+sizes. Looked at in screenshots, wide and phone. `changed`: 1,455 checks across 40
+scripts, 111.5 s, all passing. Released in update 379.

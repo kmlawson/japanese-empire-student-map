@@ -108,6 +108,75 @@ const pressButton = (p, sel, re) => p.evaluate((sel, re) => {
   return !!b;
 }, sel, re);
 
+/* The way back on the map: there only while a language shows, a real press
+   works and does not fall through to the unit under it, and it stays put when
+   the map moves. Mouse and finger, and more than one zoom. */
+async function checkBackButton(b, who, opts) {
+  const p = await open(b, '?bbox=76,18,84,26', opts);
+  await choose(p, 'by Province');
+  const box = () => p.evaluate(() => {
+    const e = document.getElementById('cen-back');
+    if (!e || e.hidden) return null;
+    const r = e.getBoundingClientRect();
+    const x = r.left + r.width / 2, y = r.top + r.height / 2;
+    const m = document.getElementById('map-container').getBoundingClientRect();
+    return { x, y, h: r.height, left: r.left, right: r.right, top: r.top, off: r.left + r.width / 2 - (m.left + m.width / 2),
+      vis: getComputedStyle(e).visibility, onTop: document.elementFromPoint(x, y) === e };
+  });
+  const showLang = async () => {
+    await p.evaluate(() => document.querySelector('#legend .cen-fam .cen-chip').click());
+    await calm(p);
+  };
+  check(who + ': no button on the largest language', !(await box()));
+  await showLang();
+  const on = await box();
+  check(who + ': a language brings it up, big enough to press', !!on && on.vis === 'visible' && on.h >= 40, JSON.stringify(on));
+  check(who + ':   on top, on the screen', on.onTop && on.left >= 0 && on.right <= opts.width && on.top >= 0, JSON.stringify(on));
+  if (opts.width > 600) check(who + ':   centred on the map', Math.abs(on.off) < 1, String(on.off));
+
+  await p.mouse.move(on.x, on.y);
+  await p.mouse.down();
+  await sleep(60);               // a press, not a flick
+  await p.mouse.up();
+  await sleep(450);              // past the 320 ms double-tap window
+  await calm(p);
+  const after = await p.evaluate(() => ({
+    ramp: !!document.querySelector('#legend .cen-ramp'),
+    fam: !!document.querySelector('#legend .cen-fam'),
+    sel: !!document.querySelector('#thematic .census-area.sel'),
+  }));
+  check(who + ': pressing it goes back to the largest language', !after.ramp && after.fam, JSON.stringify(after));
+  check(who + ':   and selects nothing underneath', !after.sel, JSON.stringify(after));
+  check(who + ':   and it goes away', !(await box()));
+  // the map answers by position, not by the element under the pointer, so ask
+  // it: the same press with the button gone must select the unit it was over
+  await p.mouse.move(on.x, on.y);
+  await p.mouse.down();
+  await sleep(60);               // a press, not a flick
+  await p.mouse.up();
+  await sleep(450);              // past the 320 ms double-tap window
+  await calm(p);
+  check(who + ':   though there is a unit under it to select',
+    await p.evaluate(() => !!document.querySelector('#thematic .census-area.sel')));
+
+  await showLang();
+  const before = await box();
+  await p.mouse.move(opts.width * 0.5, opts.height * 0.5);
+  await p.mouse.down();
+  await p.mouse.move(opts.width * 0.4, opts.height * 0.42, { steps: 4 });
+  await p.mouse.up();
+  await calm(p);
+  await p.evaluate(() => document.getElementById('zoom-in').click());
+  await calm(p);
+  const moved = await box();
+  check(who + ': it stays put when the map pans and zooms',
+    !!moved && Math.abs(moved.x - before.x) < 1 && Math.abs(moved.y - before.y) < 1 && moved.vis === 'visible', JSON.stringify([before, moved]));
+
+  await choose(p, '^Off$');
+  check(who + ': the theme going takes it too', await p.evaluate(() => !document.getElementById('cen-back')));
+  await p.close();
+}
+
 async function csvOf(p) {
   return p.evaluate(() => new Promise(resolve => {
     const realBlob = window.Blob, realURL = URL.createObjectURL;
@@ -505,6 +574,10 @@ const tableRows = p => p.evaluate(() => [...document.querySelectorAll('#dlg-tabl
   });
   check('  and the name is on it', qLab === true, qLab);
   await q.close();
+
+  console.log('\n— the way back, on the map —');
+  await checkBackButton(b, 'mouse', { width: 1280, height: 800 });
+  await checkBackButton(b, 'finger', { touch: true, width: 390, height: 664 });
 
   console.log('\n— with a finger —');
   const t = await open(b, '?bbox=66,8,98,36', { touch: true, width: 390, height: 664 });

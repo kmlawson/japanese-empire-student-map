@@ -6525,7 +6525,7 @@
     if (uiBoxCache && uiBoxGen === layoutGen) return uiBoxCache.slice();
     var base = container.getBoundingClientRect();
     var boxes = [];
-    ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar'].forEach(function (sel) {
+    ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar', '#cen-back'].forEach(function (sel) {
       var el = $(sel);
       if (!el || el.hidden || el.offsetParent === null) return;
       var r = el.getBoundingClientRect();
@@ -14170,7 +14170,7 @@
 
   var DOCK_SHEETS = ['#info', '#quiz', '#annotate'];
   var DOCK_LIFT = ['#train-bar', '#air-bar', '#ann-clock', '#corner-controls',
-                   '#ann-edit', '#beta-badge', '#legend'];
+                   '#ann-edit', '#beta-badge', '#legend', '#cen-back'];
   var DOCK_YIELD = '#zoom-controls > button, #map-extras > button';
   var DOCK_GAP = 8;               // screen pixels between two docked things
   var dockQueued = false;

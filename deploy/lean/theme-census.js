@@ -402,6 +402,34 @@ window.JMAP_CENSUS = function (host) {
     fillAll();
     host.setLabels(labelList());
     host.rebuildKey();
+    syncBack();
+  }
+
+
+
+
+
+
+
+
+  let backBtn = null;
+  function mountBack() {
+    if (backBtn) return;
+    backBtn = mk('button', '', '← Back to the largest language');
+    backBtn.id = 'cen-back';
+    backBtn.type = 'button';
+    backBtn.hidden = true;
+    backBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
+    backBtn.addEventListener('dblclick', (e) => e.stopPropagation());
+    backBtn.addEventListener('click', setLead);
+    document.getElementById('map-container').appendChild(backBtn);
+  }
+  function unmountBack() {
+    if (backBtn) backBtn.remove();
+    backBtn = null;
+  }
+  function syncBack() {
+    if (backBtn) backBtn.hidden = mode !== 'lang';
   }
 
   function blockWidth(ids) {
@@ -908,6 +936,8 @@ window.JMAP_CENSUS = function (host) {
       fillAll();
       host.setLabels(labelList(), true);
       host.labelsInto(g);
+      mountBack();
+      syncBack();
     },
 
 
@@ -915,6 +945,7 @@ window.JMAP_CENSUS = function (host) {
 
 
     unmount() {
+      unmountBack();
       markSelected(null);
       layer = null;
       units = [];

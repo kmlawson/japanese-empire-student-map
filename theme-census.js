@@ -402,6 +402,34 @@ window.JMAP_CENSUS = function (host) {
     fillAll();
     host.setLabels(labelList());
     host.rebuildKey();
+    syncBack();
+  }
+
+  /* **The way back, on the map itself.** A reader who has pressed a language is
+     looking at the map, not at a line in the card or the foot of a long key, so
+     the button sits over the map for as long as one language is showing.
+     It lives in `#map-container` so that it centres on the map and not on the
+     map plus the side column; `dockPanels` keeps it clear of everything else
+     (`DOCK_LIFT` in map.js). The container starts a drag on any press inside
+     it, so the press stops here. */
+  let backBtn = null;
+  function mountBack() {
+    if (backBtn) return;
+    backBtn = mk('button', '', '← Back to the largest language');
+    backBtn.id = 'cen-back';
+    backBtn.type = 'button';
+    backBtn.hidden = true;
+    backBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
+    backBtn.addEventListener('dblclick', (e) => e.stopPropagation());
+    backBtn.addEventListener('click', setLead);
+    document.getElementById('map-container').appendChild(backBtn);
+  }
+  function unmountBack() {
+    if (backBtn) backBtn.remove();
+    backBtn = null;
+  }
+  function syncBack() {
+    if (backBtn) backBtn.hidden = mode !== 'lang';
   }
 
   function blockWidth(ids) {
@@ -908,6 +936,8 @@ window.JMAP_CENSUS = function (host) {
       fillAll();
       host.setLabels(labelList(), true);
       host.labelsInto(g);
+      mountBack();
+      syncBack();
     },
 
     /* The theme is up: say what it is, in the pane it will answer in. */
@@ -915,6 +945,7 @@ window.JMAP_CENSUS = function (host) {
 
     /* The theme has gone. The card goes with it if it is one of ours. */
     unmount() {
+      unmountBack();
       markSelected(null);
       layer = null;
       units = [];

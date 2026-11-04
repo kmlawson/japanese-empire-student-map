@@ -37,9 +37,9 @@ const CONTROLS = ['#bar button', '#zoom-controls > button', '#map-extras > butto
   '#corner-controls > button', '#legend .legend-head', '#info-close',
   '#info:not(.open) .more', '#train-bar button', '#train-bar input',
   '.air-bar button', '.air-bar input', '#annotate .ann-head button',
-  '#ann-clock button', '#ann-edit'].join(', ');
+  '#ann-clock button', '#ann-edit', '#cen-back'].join(', ');
 const PANELS = ['#legend', '#info', '#train-bar', '#air-bar', '#annotate',
-  '#ann-clock', '#ann-edit', '#beta-badge'];
+  '#ann-clock', '#ann-edit', '#beta-badge', '#cen-back'];
 const COLUMNS = ['#zoom-controls', '#map-extras', '#corner-controls'];
 
 /* Run in the page. Returns one line per fault; none is a pass. */
@@ -189,6 +189,42 @@ const press = (p, sel) => p.evaluate(s => {
     await audit('with the annotation sheet');
     await press(p, '#ann-close');
     await calm(p);
+
+    /* The census theme with one language showing: its way back is on the map.
+       Its own page, because the book only offers the theme over India. */
+    const c = await open(b, '?bbox=66,8,98,36', { touch: true, width: w, height: h });
+    const auditC = async state => {
+      const faults = await c.evaluate(AUDIT, CONTROLS, PANELS, COLUMNS);
+      check(size + ' ' + state, faults.length === 0, faults.slice(0, 4).join(' | '));
+    };
+    await press(c, '#btn-theme');
+    await sleep(700);           // the menu opens, and fetches themes.js the first time
+    await c.evaluate(() => {
+      const i = [...document.querySelectorAll('#theme-menu input')]
+        .find(x => /by Province/.test(x.parentNode.textContent));
+      if (i) i.click();
+    });
+    await c.waitForFunction(() => !!document.querySelector('#thematic .census-area'), { timeout: 30000 });
+    await calm(c);
+    await c.evaluate(() => {
+      const m = document.getElementById('theme-menu');
+      if (m) m.hidden = true;
+      document.querySelector('#legend .cen-fam .cen-chip').click();
+    });
+    await calm(c);
+    check(size + ' a language is showing, with its way back',
+      await c.evaluate(() => { const e = document.getElementById('cen-back'); return !!e && !e.hidden; }));
+    await auditC('with a language mapped');
+    await c.evaluate(() => {
+      const l = document.getElementById('legend');
+      if (l.classList.contains('folded')) l.querySelector('.legend-head').click();
+    });
+    await calm(c);
+    await auditC('with a language mapped and the key open');
+    await press(c, '#info .more');
+    await calm(c);
+    await auditC('with a language mapped and the card opened out');
+    await c.close();
 
     /* Every dialog, whether or not this width has a button for it: About's
        button is gone on a phone but the dialog is still in the page. */
