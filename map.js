@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '378';
+  var JEM_VERSION = '379';
 
   /* Every file this one fetches, with the version on it.
 
@@ -38,7 +38,7 @@
      It is on the page and not in this file so that a change to a relief tile
      does not change this file's own key. The version is kept as a fallback
      for a build that has not been run. */
-  var LEAN = ['admin.js', 'annotate.js', 'trains.js', 'air-play.js', 'theme-census.js'];
+  var LEAN = ['admin.js', 'annotate.js', 'trains.js', 'air-play.js', 'theme-census.js', 'table-link.js'];
   function asset(name) {
     var table = window.JEM_ASSETS || null;
     var key = (table && table[name]) || null;
@@ -1488,6 +1488,8 @@
     }
     initCornerControls();
     initDock();
+    tlinkCheck();
+    window.addEventListener('hashchange', tlinkCheck);
   }
 
   /* admin.js, once, on demand. It is a tool for working on the map and not
@@ -6525,7 +6527,7 @@
     if (uiBoxCache && uiBoxGen === layoutGen) return uiBoxCache.slice();
     var base = container.getBoundingClientRect();
     var boxes = [];
-    ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar', '#cen-back'].forEach(function (sel) {
+    ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar', '#cen-back', '#tbl-bar'].forEach(function (sel) {
       var el = $(sel);
       if (!el || el.hidden || el.offsetParent === null) return;
       var r = el.getBoundingClientRect();
@@ -8678,6 +8680,14 @@
       }
     }
 
+    /* A place in the table from the address answers with its figures, unless a
+       marker is on it. A first tap with a finger gets the same as a click. */
+    if (tlinkOn() && !sticky && hit && hit.rec.kind === 'territory'
+        && tlinkApi.tap(prov && prov.key, hit.rec.id, prov && prov.el)) {
+      setHot(null); setHotProv(null); setSubsAtom(null);
+      return;
+    }
+
     var id = hit ? (hit.rec.rid || hit.rec.id) : null;
     /* A second tap on a station already open closes it. Everything else on
        the map is deselected by tapping the sea, which is fine when the thing
@@ -9510,6 +9520,7 @@
        other skipped the putting back, and the districts stayed on under a
        layer that had not asked for them. */
     if (id && themeShown) setTheme('');
+    if (id) tlinkClose();
     /* A theme that answers in the card takes its card with it. Any other card
        the reader has open is theirs and stays. */
     var modOut = themeShown && themeRec(themeShown).mod ? themeMod() : null;
@@ -9588,12 +9599,97 @@
   function syncThemeFoot() {
     var foot = $('#info-theme-foot');
     if (!foot) return;
-    var more = themeShown && themeRec(themeShown) && themeRec(themeShown).more;
+    var more = (tlinkOn() && tlinkApi.more())
+      || (themeShown && themeRec(themeShown) && themeRec(themeShown).more);
     foot.hidden = !more;
     if (!more) return;
     var a = $('a', foot);
     a.href = more.href;
     a.textContent = more.en;
+  }
+
+  /* **A TABLE IN THE ADDRESS.** `#t=…` is one printed table's figures, from the
+     statistics site; `table-link.js` reads it and says what it means, fetched
+     only when a link carries one. What is here is what it needs from the map:
+     `popFills` takes its colours, so the population layer's own pass paints the
+     prefectures and the islands that belong to them. The fragment goes back out
+     with every `writeUrl`, so the link a reader copies still has the table in it. */
+  var tlinkApi = null;
+  function tlinkOn() { return !!(tlinkApi && tlinkApi.up()); }
+
+  function tlinkCheck() {
+    if (!/(?:^#|&)t=/.test(window.location.hash)) {
+      tlinkClose();
+      return;
+    }
+    loadScript('table-link.js').then(function () {
+      if (!window.JMAP_TABLE) return;
+      if (!tlinkApi) tlinkApi = window.JMAP_TABLE(tlinkHost());
+      return tlinkApi.open(window.location.hash);
+    }).catch(function () { /* the map is still the map without the table */ });
+  }
+
+  /* Off, and the table out of the address, so a reload does not bring it back.
+     A `replaceState` fires no `hashchange`, so this does not come back here. */
+  function tlinkClose() {
+    if (!tlinkOn()) return;
+    var ours = infoBox && !infoBox.hidden && tlinkApi.ownsCard($('.chip', infoBox).textContent);
+    tlinkApi.close();
+    if (ours) select(null);
+    var rest = window.location.hash.replace(/(^#|&)t=[A-Za-z0-9_-]+/, '$1').replace(/^#&?$/, '');
+    if (window.history && history.replaceState) {
+      try {
+        history.replaceState(null, '', window.location.pathname + window.location.search + rest);
+      } catch (err) { /* older browser; nothing here is load-bearing */ }
+    }
+    applyState();
+    buildLegend();
+    syncThemeFoot();
+  }
+
+  function tlinkHost() {
+    return {
+      blank: POP_BLANK,
+      showCard: showBlockCard,
+      tableBox: tableBox,
+      popSortable: popSortable,
+      addCsvButton: addCsvButton,
+      figuresFrom: figuresFrom,
+      groupPartOf: groupPartOf,
+      close: tlinkClose,
+      popRows: function (id) { var d = popSet(id); return d ? d.rows : null; },
+      /* The picture and the key, for another column of the same table. */
+      repaint: function () {
+        applyPop();
+        buildLegend();
+        tipKey = '';
+        bumpLayout();
+      },
+      /* The shapes of one place, to outline. */
+      shapesOf: function (place) {
+        if (place.key) return $$('#land [data-prov="' + cssEsc(place.key) + '"]', svg);
+        return tlinkAtomPaths(place.atom);
+      },
+      /* It has the map to itself: a thematic layer and the population layers both
+         paint the same ground. The date is the one the table asks for. */
+      opened: function (period) {
+        if (themeShown) setTheme('');
+        state.pop = {};
+        syncPopBoxes();
+        if (period) setEpoch('e' + period);
+        state.legend = true;
+        applyState();
+        buildLegend();
+        syncThemeFoot();
+      },
+    };
+  }
+
+  /* A colony's shapes. Kwantung is one path and is its own atom. */
+  function tlinkAtomPaths(atomId) {
+    var el = svg && $('#a-' + cssEsc(atomId), svg);
+    if (!el) return [];
+    return el.tagName === 'path' ? [el] : $$('path', el);
   }
 
   /* **A theme that answers in the card has code of its own**, `theme-census.js`,
@@ -10222,6 +10318,8 @@
               // under a thematic layer, and a stale key would keep the old
               // tooltip until the pointer left and came back
               + '|' + (state.themeId || '')
+              // and which column of a table from the address
+              + '|' + (tlinkOn() ? tlinkApi.tipKey() : '')
               // and which category the *point* is in: one district can be
               // half green and half red, and the key would be the same on
               // both sides of the line
@@ -10395,7 +10493,8 @@
     /* Where a pie is being drawn on this shape, it takes the description's
        place: the reader turned that layer on to ask about the register or the
        trade, and the sentence about the ground is a click away in the card. */
-    var pie = prov ? popTipBlock(prov.key) : null;
+    var pie = tlinkOn() ? tlinkApi.tip(prov && prov.key, base && base.id, prov && prov.el)
+      : (prov ? popTipBlock(prov.key) : null);
     /* A unit the shaded map has nothing for says so, in the place the figures
        would be: grey on the map and told plainly here, rather than left to be
        read as a shape the layer forgot. */
@@ -11109,6 +11208,7 @@
     selected = null;
     trainCardWaiting = -1;
     if (censusApi && themeShown) censusApi.released();
+    if (tlinkOn()) tlinkApi.released();
     // A tap says which cluster it landed on, because on a touch screen there
     // is no hover to have worked it out already. Every other caller means the
     // last thing the pointer was over.
@@ -14170,7 +14270,7 @@
    * thing found under another. */
   var DOCK_SHEETS = ['#info', '#quiz', '#annotate'];
   var DOCK_LIFT = ['#train-bar', '#air-bar', '#ann-clock', '#corner-controls',
-                   '#ann-edit', '#beta-badge', '#legend', '#cen-back'];
+                   '#ann-edit', '#beta-badge', '#legend', '#cen-back', '#tbl-bar'];
   var DOCK_YIELD = '#zoom-controls > button, #map-extras > button';
   var DOCK_GAP = 8;               // screen pixels between two docked things
   var dockQueued = false;
@@ -17362,6 +17462,7 @@
     if (!POP_BITS[id] && !popGroups().some(function (g) { return g.id === id; })) return;
     // `true` is the density map, for the card's button and for an old link
     var mode = on === true ? 'density' : on;
+    if (mode) tlinkClose();
     if (mode && POP_MODES.indexOf(mode) > -1) state.pop[id] = mode;
     else delete state.pop[id];
     /* And open the key. On a phone it is folded to a pill by default, which is
@@ -18128,6 +18229,7 @@
   var POP_BLANK = '#ffffff';
 
   function popFills() {
+    if (tlinkOn()) return tlinkApi.fills();
     var out = {};
     popOn().forEach(function (job) {
       var shade = POP_SHADES[job.mode];
@@ -18378,6 +18480,20 @@
       if (c === POP_BLANK) blanks.push(el);
     });
 
+    /* A colony printed as one row of a table from the address: the whole of it
+       in one colour, there being no prefectures to stand on. */
+    if (tlinkOn()) {
+      var whole = tlinkApi.wholeFills();
+      Object.keys(whole).forEach(function (atomId) {
+        tlinkAtomPaths(atomId).forEach(function (el) {
+          el.style.setProperty('--c', whole[atomId]);
+          el.classList.add('pop-shaded');
+          popPainted.push(el);
+          if (whole[atomId] === POP_BLANK) blanks.push(el);
+        });
+      });
+    }
+
     /* What the group table still cannot place.
      *
      * Two of the eighteen groups are a window on the map rather than a
@@ -18604,7 +18720,8 @@
     popValuesDirty = false;
     clearPopValues();
     var jobs = popOn().filter(function (j) { return POP_SHADES[j.mode]; });
-    if (!jobs.length || !svg || !labelLayer) return;
+    var tableVals = tlinkOn() ? tlinkApi.mapValues() : [];
+    if ((!jobs.length && !tableVals.length) || !svg || !labelLayer) return;
     /* One figure per unit, on the block that carries its label anchor — the
        largest, the same one the pies use, so a province drawn in three pieces
        is numbered once and in the piece there is room to number. */
@@ -18625,14 +18742,24 @@
         if (!(v || v === 0)) return;          // a blank unit has no figure
         var blk = blocks[key];
         if (!blk) return;
+        popValueOn(blk, key, popValText(job.mode, v), popClass(v, breaks));
+      });
+    });
+    tableVals.forEach(function (tv) {
+      if (blocks[tv.key]) popValueOn(blocks[tv.key], tv.key, tv.text, tv.dark ? 3 : 0);
+    });
+    if (popValues.length) sortLabels();
+  }
+
+  /* One figure on the block given to it, if the block can be measured. */
+  function popValueOn(blk, key, txt, cls) {
         var x = parseFloat(blk.el.getAttribute('data-cx'));
         var y = parseFloat(blk.el.getAttribute('data-cy'));
         if (!isFinite(x) || !isFinite(y)) return;
         var bb;
         try { bb = blk.el.getBBox(); } catch (err) { return; }
         if (!bb || !bb.width) return;
-        var txt = popValText(job.mode, v);
-        var ink = popValInk(popClass(v, breaks));
+        var ink = popValInk(cls);
         var el = svgEl('text', { 'class': 'tlabel popval',
                                  'font-size': POPVAL_PX });
         el.style.fill = ink.fill;
@@ -18657,9 +18784,6 @@
         labels.push(entry);
         scalables.push(entry.sc);
         popValues.push(entry);
-      });
-    });
-    if (popValues.length) sortLabels();
   }
 
   /* --------------------------------------------- and in the info card -- */
@@ -19163,6 +19287,11 @@
        key for them has four unexplained washes. Appended rather than
        replacing anything: the countries are still down there and still
        mean what the key above says they mean. */
+    if (tlinkOn()) {
+      var tableKey = document.createElement('div');
+      tlinkApi.legend(tableKey);
+      legend.insertBefore(tableKey, legend.firstChild);
+    }
     if (themeOn()) {
       var trec = themeRec(themeOn());
       if (trec && trec.mod && themeMod()) {

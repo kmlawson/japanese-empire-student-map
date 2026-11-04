@@ -47,6 +47,7 @@ below are what it holds, named relative to it.
 | `jp-stations.js` | 1,058 KB | 215 KB | when **Show Japan Stations** is — 12,800 places |
 | `themes.js` | 112 KB | 35 KB | when a **thematic layer** is opened from the book beside the map |
 | `theme-india-military.js` | 345 KB | 111 KB | when the **1931 military divisions of British India** are chosen from that book |
+| `lean/table-link.js` | 27 KB | 8 KB | when a link carries a **printed table** in its address (`#t=…`) — the shipped copy of `table-link.js` |
 | `lean/theme-census.js` | 41 KB | 12 KB | when either **1931 census language map** is chosen from that book — the shipped copy of `theme-census.js` |
 | `theme-census-langs.js` | 204 KB | 55 KB | with it, either way: the classification, Vol. I's figures and the second languages |
 | `theme-census-province.js` | 246 KB | 82 KB | when the map **by province** is chosen |

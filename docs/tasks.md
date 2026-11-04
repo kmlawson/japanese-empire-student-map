@@ -23475,6 +23475,7 @@ the foot of the pane wherever something is clicked.
   CSVs, filter, off, panning away. `burma`'s count of menu rows updated. Full suite: 2,735 checks across 76 scripts,
   265 s, all passing. Released as update 378.
 
+
 ## 222. The way back from a language is on the map
 
 Reported from a screenshot:
@@ -23491,3 +23492,45 @@ the unit under it, it holds its place through a pan and a zoom, and it leaves wi
 the theme. `overlap` audits it with the key open and the card opened out at all four
 sizes. Looked at in screenshots, wide and phone. `changed`: 1,455 checks across 40
 scripts, 111.5 s, all passing. Released in update 379.
+
+## 223. A printed table in the address: `#t=`, from the statistics site
+
+Implements `build/MAPLINK_SPEC.md` version 1 of playground-stat-tables. New
+`table-link.js` (27 KB, 8 KB gzipped; fetched only when a link carries `#t=`) reads
+the fragment and answers; `map.js` holds a small host (`tlink*`).
+
+* **Colouring** goes through `popFills` and `applyPop`, so islands take their
+  prefecture's colour by the population layer's own rules. Colonies printed as one
+  row colour the whole atom. Five classes by rank, cuts rounded to two figures; `div`
+  uses both ends only if the column has both signs. Figures go on the map through the
+  population layer's labels (`popValueOn`, split out of `ensurePopValues`).
+* **On the map**, `#tbl-bar`: the column dropdown, and the per-capita box where the
+  spec allows it. In `DOCK_LIFT`, `uiBoxes` and `overlap.js`.
+* **In the sidebar**: the key, and a card with the title both ways, volume, date,
+  column as printed, printed total or national rate, the mismatch, the highest ten,
+  the notes, All figures (with CSV and source) and Remove. Pressing a place gives
+  its figures in every column. The source link is `#info-theme-foot`, under every card.
+* **Exclusive**: choosing a theme or a population layer closes the table and takes it
+  out of the address; opening one clears them. Not asked for: a decision, so that two
+  layers never paint the same ground.
+* **`period`** is applied on every load, so a reader who changed the date and reloads
+  goes back to the table's. The map has no way to tell the two apart in `layers`.
+* **Per capita** uses the map's 1930 and 1940 censuses, taken at 1 October: the end of
+  1935 goes to 1940, a bare 1935 to 1930. Japan proper only, so the colonies drop out.
+* **The address is untrusted**: text only, places looked up in a `Map`, source links
+  http or https, a ceiling on the fragment (200,000 characters) and on what it inflates
+  to (2 MB), and cells that a spreadsheet would run as a formula defused.
+
+Bad links open the map with a card saying why. A link for a later `units` gets the
+same, with the source link. Unverified: Firefox and Safari (only Chrome was driven).
+Checked with both real links from the site (`japan-keishicho-1935` p0110_1 and
+`japan-kaji-1939`), on a local server, in screenshots, wide and phone. The link on the
+live site points at froginawell.net, so nothing reaches readers until that copy is
+updated, with `lean/table-link.js` among the files.
+
+Tests: `tools/test/tablelink.js`, mouse and finger, two zooms, with hostile payloads;
+`overlap.js` audits `#tbl-bar` at all four sizes. Whole suite: 2,874 checks across 77
+scripts, 270.1 s, all passing. An earlier run the same hour lost `run8` without a report
+while two other scripts ran beside it in a second checkout; it passed 13 of 13 on three
+runs alone and in the clean rerun, so the load is the likely cause, not proven.
+Released as update 379.

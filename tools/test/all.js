@@ -75,7 +75,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airlines', 'airplay',
              'clipping', 'layerinfo', 'krtrains', 'kftrains', 'mntrains', 'layerfind', 'beta', 'hanlabels',
              'owns', 'jprails', 'indochina', 'citytap', 'ferries', 'arcs',
-             'dei', 'burma', 'overlap', 'picture', 'military', 'census'];
+             'dei', 'burma', 'overlap', 'picture', 'military', 'census', 'tablelink'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -157,7 +157,7 @@ const GROUPS = {
      is what `map.js` changes touch, and `map.js` changes hourly. */
   core: ['labels', 'labelcats', 'legendpick', 'subnames', 'mapstrip', 'keys',
          'theme', 'zoom', 'pin', 'labuan', 'epoch', 'mono', 'colours', 'extent',
-         'names', 'clipping', 'layerfind', 'beta', 'hanlabels', 'overlap', 'picture', 'military', 'census'],
+         'names', 'clipping', 'layerfind', 'beta', 'hanlabels', 'overlap', 'picture', 'military', 'census', 'tablelink'],
 
   /* Everything drawn as a dot or read off one: the markers, the gazetteer,
      the sites table and the menu that hangs off a shape. */
@@ -298,6 +298,9 @@ const TRIGGERS = [
   [/^tools\/cache\/1931-india-military-divisions\./, ['geometry', 'core']],
   /* The 1931 census language maps: the module, its figures and the build, and
      the copy of the source they are built from. tools/test/census.js. */
+  /* A printed table in the address. tools/test/tablelink.js. */
+  [/^table-link\.js$/,                    ['core']],
+  [/^deploy\/lean\/table-link\.js$/,      ['core']],
   [/^theme-census\.js$/,                  ['core']],
   [/^deploy\/lean\/theme-census\.js$/,    ['core']],
   [/^deploy\/theme-census-\w+\.js$/,      ['geometry', 'core']],

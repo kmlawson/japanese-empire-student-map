@@ -29,6 +29,7 @@
  * With a finger, not a mouse: the phone layout is what is being measured, and
  * `open(…, { touch: true })` gives it the viewport and the touch events. */
 'use strict';
+const zlib = require('zlib');
 const { sleep, calm, check, report, launch, open } = require('./suite.js');
 
 const SIZES = [[390, 664], [360, 560], [740, 340], [768, 1000]];
@@ -37,9 +38,9 @@ const CONTROLS = ['#bar button', '#zoom-controls > button', '#map-extras > butto
   '#corner-controls > button', '#legend .legend-head', '#info-close',
   '#info:not(.open) .more', '#train-bar button', '#train-bar input',
   '.air-bar button', '.air-bar input', '#annotate .ann-head button',
-  '#ann-clock button', '#ann-edit', '#cen-back'].join(', ');
+  '#ann-clock button', '#ann-edit', '#cen-back', '#tbl-col', '.tbl-pc'].join(', ');
 const PANELS = ['#legend', '#info', '#train-bar', '#air-bar', '#annotate',
-  '#ann-clock', '#ann-edit', '#beta-badge', '#cen-back'];
+  '#ann-clock', '#ann-edit', '#beta-badge', '#cen-back', '#tbl-bar'];
 const COLUMNS = ['#zoom-controls', '#map-extras', '#corner-controls'];
 
 /* Run in the page. Returns one line per fault; none is a pass. */
@@ -225,6 +226,25 @@ const press = (p, sel) => p.evaluate(s => {
     await calm(c);
     await auditC('with a language mapped and the card opened out');
     await c.close();
+
+    /* A table from the address, with its dropdown over the map. */
+    const payload = zlib.deflateRawSync(Buffer.from(JSON.stringify({
+      v: 1, units: 'prefecture', src: { url: 'https://example.org/' }, title: { en: 'A table' },
+      cols: [{ name: 'A rather long column heading as it was printed — second level', kind: 'count', pc: true }, { name: 'B', kind: 'rate' }],
+      rows: [{ id: '13', v: [1, 2] }, { id: '27', v: [3, 4] }],
+    }))).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const k = await open(b, '?where=125.41,21.53,147.92,48.77&layers=2w#t=' + payload, { touch: true, width: w, height: h });
+    await k.waitForFunction(() => !!document.getElementById('tbl-col'), { timeout: 30000 });
+    await calm(k);
+    const auditK = async state => {
+      const faults = await k.evaluate(AUDIT, CONTROLS, PANELS, COLUMNS);
+      check(size + ' ' + state, faults.length === 0, faults.slice(0, 4).join(' | '));
+    };
+    await auditK('with a table from the address');
+    await press(k, '#info .more');
+    await calm(k);
+    await auditK('with a table and the card opened out');
+    await k.close();
 
     /* Every dialog, whether or not this width has a button for it: About's
        button is gone on a phone but the dialog is still in the page. */
