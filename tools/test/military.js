@@ -23,7 +23,8 @@
  *     map to 66°, and a longitude west of the edge used to be drawn 360° round
  *     at the far east, as a British band across Tibet to Burma;
  *   * the hover and the card name the area and its command, with the
- *     Administrative layer left off — this theme does not switch it on;
+ *     Administrative layer off — this theme switches it off as it opens, the
+ *     reader can have it back, and it returns when the theme goes;
  *   * going Burma → this → Burma → off puts the Administrative layer and the
  *     names back as they were each time;
  *   * the layer note gives the source and the download, the right-click menu
@@ -264,6 +265,46 @@ const switches = p => p.evaluate(() => ({
   check('Burma again has them on', bur2.admin === 'true', JSON.stringify(bur2));
   check('and off leaves them as they started', !off.theme
     && off.admin === start.admin && off.names === start.names, JSON.stringify(off));
+
+  console.log('\n— the Administrative layer goes off, and stays the reader\'s —');
+  {
+    const a = await open(b, '?bbox=66,8,98,36', { width: 1280, height: 800 });
+    await a.waitForFunction(() => document.querySelectorAll('#land .atom').length > 0);
+    await calm(a);
+    const pressAdmin = async () => {
+      await a.evaluate(() => document.querySelector('#layer-seg [data-cat="territory"]').click());
+      await calm(a);
+    };
+    const adminOn = async () => (await switches(a)).admin === 'true';
+    const lines = () => a.evaluate(() => document.getElementById('jmap').classList.contains('admin-on'));
+    if (!(await adminOn())) await pressAdmin();
+    check('with Administrative on to begin with', await adminOn() && await lines());
+    await choose(a, 'Military');
+    check('choosing the divisions turns it off', !(await adminOn()) && !(await lines()), JSON.stringify(await switches(a)));
+    const named = await a.evaluate(() => document.querySelectorAll('#thematic .theme-label').length);
+    check('  and the divisions keep their own names', named > 0, String(named));
+    await choose(a, '^Off$');
+    check('taking them off puts it back', await adminOn() && await lines());
+    await choose(a, 'Military');
+    await pressAdmin();
+    check('under them the reader can turn it back on', await adminOn() && await lines());
+    const still = await a.evaluate(() => !!document.getElementById('thematic'));
+    check('  without the theme going', still);
+    await choose(a, '^Off$');
+    check('  and it stays on when they go', await adminOn());
+    await pressAdmin();
+    check('off to begin with', !(await adminOn()));
+    await choose(a, 'Military');
+    await choose(a, '^Off$');
+    check('  it stays off when they go: it was never the theme’s to put back', !(await adminOn()));
+    await pressAdmin();
+    await choose(a, 'Military');
+    await choose(a, 'Burma');
+    check('on to the Burma map, which wants it on', await adminOn());
+    await choose(a, '^Off$');
+    check('  and off again, it is as it started', await adminOn());
+    await a.close();
+  }
 
   console.log('\n— close in, the frontier districts are all named —');
   {

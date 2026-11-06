@@ -81,6 +81,10 @@ def main():
     fine = read("japan-empire-map-fine.svg") if os.path.exists(
         os.path.join(SITE, "japan-empire-map-fine.svg")) else ""
 
+    # The policy allows the site's own files and one inline script by its hash.
+    # This file is nothing but inline scripts, so it goes without one.
+    html = re.sub(r"<!-- BEGIN csp -->.*?<!-- END csp -->\n?", "", html, count=1, flags=re.S)
+
     # strip the XML declaration; it is only legal at the very top of a document
     svg = re.sub(r"^\s*<\?xml[^>]*\?>\s*", "", svg)
 

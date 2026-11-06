@@ -1472,13 +1472,10 @@ def build_pages():
             with open(vpath, "w", encoding="utf-8", newline="") as fh:
                 fh.write("version\n%s\n" % version)
     stamp = time.strftime("%d %B %Y, %H:%M")
-    # The word after the number on the testing copy, and nothing at all on the
-    # stable one: map.js unhides it, and only for a github.io host. Written
-    # here because this paragraph is generated, so a hand edit to index.html
-    # would be wiped by the next build.
+    # Written here because this paragraph is generated, so a hand edit to
+    # index.html would be wiped by the next build.
     footer = ('  <p class="version">Version 1 update '
               '<span id="jem-version">%s</span>'
-              '<span class="beta-tag" hidden> beta</span>'
               ' · last updated %s</p>\n'
               % (html_escape(version), html_escape(stamp)))
 
@@ -1678,9 +1675,27 @@ def build_pages():
             assets[name] = digest(lpath)
 
     # the table, on the page, ahead of map.js
+    inline = "window.JEM_ASSETS = %s;" % json.dumps(assets, sort_keys=True)
     splice_between(os.path.join(SITE, "index.html"), "assets",
-                   "<script>window.JEM_ASSETS = %s;</script>"
-                   % json.dumps(assets, sort_keys=True))
+                   "<script>%s</script>" % inline)
+
+    # **The second line behind anything a link carries.** `table-link.js` treats
+    # the address as text, and this says that even if it slipped, no script but
+    # the site's own could run and nothing could leave for another host. Written
+    # here because the one inline script above changes on every build, so its
+    # hash does too. A meta tag cannot carry `frame-ancestors`. Styles stay
+    # 'unsafe-inline': the map's own SVG has `style=` attributes and annotate.js
+    # writes a `<style>`. **A new resource from another host goes in here**, or the
+    # browser will refuse it; every page the tests open fails on a violation.
+    import base64
+    inline_hash = base64.b64encode(hashlib.sha256(inline.encode("utf-8")).digest()).decode()
+    splice_between(os.path.join(SITE, "index.html"), "csp",
+                   '<meta http-equiv="Content-Security-Policy" content="'
+                   "default-src 'none'; script-src 'self' 'sha256-%s'; "
+                   "style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; "
+                   "connect-src 'self'; frame-src 'self'; font-src 'self'; "
+                   "base-uri 'none'; form-action 'none'; object-src 'none'"
+                   '">' % inline_hash)
 
     # and now the pages, with map.js hashed as it now stands
     for page in ("index.html", "sources.html"):
@@ -1710,6 +1725,13 @@ def build_pages():
                  encoding="utf-8").read()
     splice_between(os.path.join(SITE, "index.html"), "about",
                    markdown.render(about, indent=2, drop_h1=True) + footer)
+    # the policy above allows one inline script by its hash, and no handlers
+    page_now = open(os.path.join(SITE, "index.html"), encoding="utf-8").read()
+    stray = len(re.findall(r"<script(?![^>]*\bsrc=)[^>]*>", page_now)) - 1
+    if stray:
+        raise Problem("index.html has %d inline script(s) beyond the asset table. "
+                      "The Content-Security-Policy would refuse them: move them "
+                      "into a file." % stray)
     written.append("index.html")
 
     # How to work the map, in a dialog of its own behind the ? button. About is

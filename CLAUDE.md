@@ -146,8 +146,8 @@ free port, so two sessions in one checkout do not fight over it — and runs
 eight scripts at a time on this machine (measured 15 September 2026: the
 scripts are 88–94 per cent asleep, and eight browsers idle together as well
 as four; the whole suite went from 494 s to 264 s with no change of verdict).
-`smoke` is 26 scripts chosen by checks per second with every group
-represented: 657 checks in 36 s. It is a tripwire, not a gate — it leaves out
+`smoke` is 25 scripts chosen by checks per second with every group
+represented: 645 checks in 37 s. It is a tripwire, not a gate — it leaves out
 the relief, the station layers, the air player, the annotation pane and three
 of the four train networks — and the whole suite still runs before a release.
 

@@ -38,9 +38,9 @@ const CONTROLS = ['#bar button', '#zoom-controls > button', '#map-extras > butto
   '#corner-controls > button', '#legend .legend-head', '#info-close',
   '#info:not(.open) .more', '#train-bar button', '#train-bar input',
   '.air-bar button', '.air-bar input', '#annotate .ann-head button',
-  '#ann-clock button', '#ann-edit', '#cen-back', '#tbl-col', '.tbl-pc'].join(', ');
+  '#ann-clock button', '#ann-edit', '#cen-back', '#tbl-col', '.tbl-pc', '#tbl-flag', '#tbl-menu-btn', '.tbl-step'].join(', ');
 const PANELS = ['#legend', '#info', '#train-bar', '#air-bar', '#annotate',
-  '#ann-clock', '#ann-edit', '#beta-badge', '#cen-back', '#tbl-bar'];
+  '#ann-clock', '#ann-edit', '#cen-back', '#tbl-bar', '#tbl-flag'];
 const COLUMNS = ['#zoom-controls', '#map-extras', '#corner-controls'];
 
 /* Run in the page. Returns one line per fault; none is a pass. */
@@ -74,7 +74,7 @@ const AUDIT = (CONTROLS, PANELS, COLUMNS) => {
     const over = new Set();
     for (const [fx, fy] of [[.5, .5], [.2, .2], [.8, .2], [.2, .8], [.8, .8]]) {
       const h = document.elementFromPoint(r.left + r.width * fx, r.top + r.height * fy);
-      if (h && h.closest('.pick-menu, #jmap-menu')) continue;
+      if (h && h.closest('.pick-menu, #jmap-menu, #tbl-menu')) continue;
       if (!h || !(h === el || el.contains(h))) over.add(h ? name(h.closest('[id]') || h) : 'nothing');
     }
     if (over.size) faults.push('under something: ' + name(el) + ' is under ' + [...over].join(', '));
@@ -245,6 +245,30 @@ const press = (p, sel) => p.evaluate(s => {
     await calm(k);
     await auditK('with a table and the card opened out');
     await k.close();
+
+    /* And one with many columns, its menu folded and open. */
+    const many = zlib.deflateRawSync(Buffer.from(JSON.stringify({
+      v: 1, units: 'prefecture', src: { url: 'https://example.org/' }, title: { en: 'Many' },
+      cols: Array.from({ length: 30 }, (x, i) => ({ name: 'Group ' + (i % 3) + ' — Column ' + i, kind: 'count', pc: true })),
+      rows: [{ id: '13', v: Array(30).fill(1) }, { id: '27', v: Array(30).fill(2) }],
+    }))).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const n = await open(b, '?where=125.41,21.53,147.92,48.77&layers=2w#t=' + many, { touch: true, width: w, height: h });
+    await n.waitForFunction(() => !!document.getElementById('tbl-menu-btn'), { timeout: 30000 });
+    await calm(n);
+    const auditN = async state => {
+      const faults = await n.evaluate(AUDIT, CONTROLS, PANELS, COLUMNS);
+      check(size + ' ' + state, faults.length === 0, faults.slice(0, 4).join(' | '));
+    };
+    await auditN('with many columns');
+    await press(n, '#tbl-menu-btn');
+    await calm(n);
+    await auditN('with many columns and the menu open');
+    const menu = await n.evaluate(() => {
+      const r = document.getElementById('tbl-menu').getBoundingClientRect();
+      return { l: r.left, r: r.right, t: r.top, b: r.bottom, w: innerWidth, h: innerHeight };
+    });
+    check(size + ' the open menu is on the screen', menu.l >= 0 && menu.r <= menu.w && menu.t >= 0 && menu.b <= menu.h, JSON.stringify(menu));
+    await n.close();
 
     /* Every dialog, whether or not this width has a button for it: About's
        button is gone on a phone but the dialog is still in the page. */

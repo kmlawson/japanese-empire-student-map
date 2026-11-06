@@ -2324,30 +2324,6 @@ dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
    coarse pointer gets is untouched — the box is smaller, the target is not. */
 #dlg-options input[type="checkbox"],
 #dlg-options input[type="radio"] { width: 15px; height: 15px; }
-/* **BETA, bottom left of the map.** Only the GitHub Pages copy carries it —
-   `betaHost` in map.js decides, and on froginawell.net the element keeps its
-   `hidden` attribute and nothing is drawn. It sits under the tools' strips
-   rather than over them: it is a standing note about which copy this is, not
-   something to read while a timetable is running. */
-#beta-badge {
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  z-index: 6;
-  padding: 3px 8px;
-  border: 1px solid var(--accent);
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--panel) 92%, transparent);
-  color: var(--accent);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  line-height: 1.4;
-  cursor: help;
-  box-shadow: var(--shadow);
-}
-#beta-badge[hidden] { display: none; }
-.beta-tag[hidden] { display: none; }
 
 /* **The Layers filter.** `!important` because a row can carry `display: flex`
    from its own rule, and this has to beat it whatever the row is; the class is
@@ -2598,18 +2574,6 @@ dialog h3 {
   /* the legend and the detail sheet both live at the bottom on a phone;
      the sheet wins whenever one is open */
   body.panel-open #legend { display: none; }
-
-  /* **The legend lives in the badge's corner on a phone.** With the map wide
-     the two are nowhere near each other; at this width the legend is anchored
-     to the bottom-left and the BETA mark was underneath it. Reported.
-     The badge takes the corner and the legend starts above it — and only on
-     the copy that carries one, which is what the `is-beta` class on the root
-     is for: the stable site keeps every pixel it had. */
-  #beta-badge {
-    left: max(10px, var(--safe-l));
-    bottom: calc(10px + var(--safe-b));
-  }
-  html.is-beta #legend { bottom: calc(10px + var(--safe-b) + 28px); }
 
   /* The quiz card is a working surface, not a reading one: on a small screen
      it has to leave the map most of the room, or the answer is under it. */
@@ -5154,6 +5118,97 @@ body.bar-folded #bar {
   box-shadow: var(--shadow);
   cursor: default;
 }
+/* External figures, said in the corner of the map. Amber and not the map's red:
+   it is a caution about the data, and not one more control of the map's own. */
+#tbl-flag {
+  position: absolute;
+  top: 10px;
+  left: max(10px, var(--safe-l));
+  z-index: 9;
+  min-height: 30px;
+  padding: 0 12px;
+  border: 1px solid #fff;
+  border-radius: 15px;
+  background: #9a5b00;
+  color: #fff;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+#tbl-flag:hover { filter: brightness(1.12); }
+#tbl-flag:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+/* A table with many columns: one line, and a list that folds. */
+.tbl-menu { position: relative; flex: 1 1 auto; min-width: 0; width: 300px; max-width: 100%; }
+#tbl-menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 32px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+#tbl-menu-btn .now { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#tbl-menu-btn[aria-expanded="true"] .caret { transform: rotate(180deg); }
+#tbl-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 12;
+  width: min(340px, calc(100vw - 20px));
+  max-height: min(55vh, 420px);
+  overflow: auto;
+  touch-action: pan-y;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+#tbl-menu[hidden] { display: none; }
+.tbl-menu-group summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.tbl-menu-group summary:hover { background: var(--hover-fill); }
+.tbl-menu-group .count { margin-left: auto; color: var(--muted); font-size: 11.5px; font-weight: 400; }
+.tbl-menu-item {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.tbl-menu-group .tbl-menu-item { padding-left: 18px; }
+.tbl-menu-item:hover, .tbl-menu-item:focus-visible { background: var(--hover-fill); }
+.tbl-menu-item.on { background: var(--hover-fill); font-weight: 600; }
+.tbl-menu-item .unit { display: block; color: var(--muted); font-size: 11.5px; font-weight: 400; }
 #tbl-col {
   min-height: 32px;
   max-width: 100%;
@@ -5166,10 +5221,53 @@ body.bar-folded #bar {
   border: 1px solid var(--line);
   border-radius: 6px;
 }
+/* A column either way, a press each, for a long table or a series. */
+.tbl-step {
+  flex: 0 0 auto;
+  width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+.tbl-step:hover:not(:disabled), .tbl-step:focus-visible { border-color: var(--ink); }
+.tbl-step:disabled { opacity: .35; cursor: default; }
+#tbl-bar .tbl-pick { position: relative; display: flex; flex: 1 1 auto; align-items: center; gap: 6px; min-width: 0; }
+/* the open list hangs from the whole line, arrows included, so it starts where the bar does */
+#tbl-bar .tbl-pick .tbl-menu { position: static; width: 260px; }
+.tbl-menu-group summary .unit { color: var(--muted); font-size: 11.5px; font-weight: 400; }
+#info .tbl-group { margin-top: 8px; }
+/* Few places: the key is the list of them, each a press away. */
+#legend .tbl-key-place {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 2px 2px;
+  border: 0;
+  border-radius: 3px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+#legend .tbl-key-place:hover, #legend .tbl-key-place:focus-visible { background: var(--hover-fill); }
+#legend .tbl-key-place .nm { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+#legend .tbl-key-place .val { flex: 0 0 auto; font-variant-numeric: tabular-nums; }
 .tbl-pc { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; white-space: nowrap; cursor: pointer; }
 .tbl-pc[hidden] { display: none; }
 @media (max-width: 600px) {
   #tbl-bar {
+    top: 48px;                 /* under the pill, which has the corner */
     left: max(10px, var(--safe-l));
     transform: none;
     /* to the buttons: two columns of 40 px, with their gaps */
@@ -5200,12 +5298,31 @@ body.bar-folded #bar {
 }
 .tbl-value:hover, .tbl-value:focus-visible { background: var(--hover-fill); }
 .tbl-values li.on .tbl-value { background: var(--hover-fill); font-weight: 600; }
-.tbl-value .val { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tbl-value .val { font-variant-numeric: tabular-nums; text-align: right; overflow-wrap: anywhere; }
 .tbl-value .sub { grid-column: 1 / -1; color: var(--muted); font-size: 12px; font-weight: 400; }
 .tbl-tip { display: flex; flex-direction: column; }
 .tbl-tip-val { font-weight: 600; font-variant-numeric: tabular-nums; }
 .tbl-tip-sub { opacity: .85; }
 #legend .tbl-key-head { margin: 8px 0 4px; font-weight: 600; }
+/* How the classes are cut: a dropdown the size of the chips beside it. */
+#legend .tbl-key-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 0; }
+#legend .tbl-classes {
+  margin: 1px 4px 1px 0;
+  padding: 1px 2px;
+  min-height: 22px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+#legend .tbl-classes:hover, #legend .tbl-classes:focus-visible { border-color: var(--ink); }
+#legend .tbl-key-total { margin: 6px 0 4px; color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+/* Whatever a link carries, an unbroken run of it stays inside its box. */
+#tooltip, #info .primary, #info .alt, #info .prov, #info .tbl-line, #info .tbl-note,
+.tbl-value .nm, #legend .tbl-key-head, #legend .cen-key-title, .pop-src { overflow-wrap: anywhere; }
 /* A colony drawn as one path is its own atom, so it is not the `.atom > path`
    of the shading rule above; and the place the card is about. */
 #jmap path.atom.pop-shaded {

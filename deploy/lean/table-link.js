@@ -25,6 +25,13 @@
 
 
 
+
+
+
+
+
+
+
 'use strict';
 
 window.JMAP_TABLE = function (host) {
@@ -33,6 +40,24 @@ window.JMAP_TABLE = function (host) {
   const MAX_FRAGMENT = 200000;      // characters of base64; payloads are 1–3 KB
   const MAX_JSON = 2000000;         // bytes once inflated
   const PER = 1000;                 // the per-capita view is per this many people
+
+  const SOURCE_ROOTS = ['https://froginawell.net/reference/old-tables/',
+    'https://kmlawson.github.io/playground-stat-tables/'];
+
+  const MAX_FIGURE = 1e15;
+  const MIN_FIGURE = 1e-6;
+
+  const MANY_COLUMNS = 6;
+  const LEVEL = ' — ';              // the spec's separator in a multi-level heading
+
+
+  const FEW = 8;
+
+
+
+  const METHODS = [['quantile', 'Quantiles'], ['jenks', 'Natural Breaks'],
+    ['equal', 'Equal Intervals'], ['log', 'Logarithmic']];
+  const METHOD_IDS = new Set(METHODS.map((m) => m[0]));
 
 
   const PREFECTURES = [
@@ -75,6 +100,16 @@ window.JMAP_TABLE = function (host) {
   });
   COLONIES.forEach((c) => PLACES.set(c[0], { id: c[0], atom: c[1], en: c[2], ja: c[3] }));
 
+
+  PLACES.set('naichi', { id: 'naichi', proper: true, en: 'Japan proper', ja: '内地' });
+
+  const UNITS = new Map([
+    ['prefecture', new Set(PREFECTURES.map((p) => p[0]).concat(COLONIES.map((c) => c[0])))],
+    ['territory', new Set(['naichi'].concat(COLONIES.map((c) => c[0])))],
+  ]);
+
+  const RECORD_PLACE = new Map([['formosa', 'taiwan']]);
+
   const RAMP = ['#dfeaf4', '#c3d6e8', '#8fb4d4', '#5286b4', '#1f5b8f'];
   const RAMP_DIV = ['#b2533f', '#e3a793', '#f2efe9', '#8fb4d4', '#1f5b8f'];
   const NIL = '#efe6cf';
@@ -83,7 +118,10 @@ window.JMAP_TABLE = function (host) {
   let T = null;                     // the table
   let colAt = 0;
   let perCapita = false;
+  let method = 'quantile';          // how the classes are cut: one of METHODS
   let bar = null;
+  let flag = null;
+  let menuOff = null;               // takes the open column menu's listeners away
   let cardNow = null;               // what our card is showing: null, 'table', or a place id
   let marked = [];
 
@@ -100,12 +138,14 @@ window.JMAP_TABLE = function (host) {
     const m = String(fragment).match(/(?:^#|&)t=([A-Za-z0-9_-]+)/);
     if (!m) throw new Error('no payload');
     if (m[1].length > MAX_FRAGMENT) throw new Error('too long');
-    if (typeof DecompressionStream !== 'function') throw new Error('browser');
     let b64 = m[1].replace(/-/g, '+').replace(/_/g, '/');
     b64 += '='.repeat((4 - b64.length % 4) % 4);
     const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
-    const reader = new Blob([bytes]).stream()
-      .pipeThrough(new DecompressionStream('deflate-raw')).getReader();
+    let inflater;
+
+    try { inflater = new DecompressionStream('deflate-raw'); }
+    catch (err) { throw new Error('browser'); }
+    const reader = new Blob([bytes]).stream().pipeThrough(inflater).getReader();
     const parts = [];
     let size = 0;
     for (;;) {
@@ -124,26 +164,43 @@ window.JMAP_TABLE = function (host) {
 
 
 
-  function text(s) {
+
+  function text(s, max = 300) {
     if (typeof s !== 'string' && typeof s !== 'number') return '';
-    const t = String(s).trim();
-    return /^[=+@\t\r]/.test(t) || /^-./.test(t) && !/^-[\d.]/.test(t) ? "'" + t : t;
+    const t = String(s).replace(/[\u0000-\u001f\u007f\u2028\u2029\u202a-\u202e\u2066-\u2069]/g, ' ').trim();
+    return t.length > max ? t.slice(0, max) + '…' : t;
   }
 
+
+
+
+
   function sourceLink(src) {
+    if (!src || typeof src !== 'object') return null;
+    const here = location.hostname.replace(/^www\./, '');
+    const base = SOURCE_ROOTS.find((r) => new URL(r).hostname === here);
+    const want = base && typeof src.path === 'string' ? base + src.path : src.url;
+    if (typeof want !== 'string') return null;
     try {
-      const u = new URL(String(src && src.url));
-      if (u.protocol === 'https:' || u.protocol === 'http:') return { url: u.href, host: u.hostname };
-    } catch (err) { /* not an address; there is simply no link */ }
-    return null;
+      const u = new URL(want);
+      if (u.username || u.password || !SOURCE_ROOTS.some((r) => u.href.startsWith(r))) return null;
+      return { url: u.href, host: u.hostname };
+    } catch (err) { return null; }
+  }
+
+  function isFigure(v) {
+    if (typeof v !== 'number' || !Number.isFinite(v)) return false;
+    const m = Math.abs(v);
+    return m === 0 || (m < MAX_FIGURE && m >= MIN_FIGURE);
   }
 
   function readCell(v) {
-    if (typeof v === 'number' && isFinite(v)) return { n: v, t: fmt(v), as: 'num' };
+    if (isFigure(v)) return { n: v === 0 ? 0 : v, t: fmt(v === 0 ? 0 : v), as: 'num' };
     if (v === '?') return { n: null, t: 'Unreadable in the scan', as: 'unreadable' };
     if (v === '-') return { n: null, t: '— (nil)', as: 'nil' };
-    if (v === '' || v === null || v === undefined) return { n: null, t: 'No data', as: 'none' };
-    return { n: null, t: text(v), as: 'other' };
+    const printed = text(v);
+    if (!printed) return { n: null, t: 'No data', as: 'none' };
+    return { n: null, t: printed, as: 'other' };
   }
 
   function fmt(n) {
@@ -152,22 +209,25 @@ window.JMAP_TABLE = function (host) {
 
 
 
+  const DATE = /^\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?)?$/;
   function normalise(p) {
     if (!p || typeof p !== 'object') throw new Error('shape');
-    if (p.units !== 'prefecture') throw Object.assign(new Error('units'), { src: sourceLink(p.src) });
+    const allowed = UNITS.get(p.units);
+    if (!allowed) throw Object.assign(new Error('units'), { src: sourceLink(p.src) });
     if (!Array.isArray(p.cols) || !p.cols.length || p.cols.length > 200
         || !Array.isArray(p.rows) || p.rows.length > 500) throw new Error('shape');
     const cols = p.cols.map((c) => {
       const o = c && typeof c === 'object' ? c : {};
       return { name: text(o.name), en: text(o.en), unit: text(o.unit), kind: text(o.kind),
-        pc: o.pc === true, div: o.color === 'div' };
+        pc: o.pc === true, div: o.color === 'div', series: text(o.series, 60),
+        date: DATE.test(String(o.date)) ? String(o.date) : '' };
     });
     const rows = new Map();
     let dropped = 0;
     p.rows.forEach((r) => {
-      if (!r || !PLACES.has(r.id) || rows.has(r.id)) { dropped++; return; }
+      if (!r || !allowed.has(r.id) || rows.has(r.id)) { dropped++; return; }
       const v = Array.isArray(r.v) ? r.v : [];
-      rows.set(r.id, { id: r.id, label: text(r.label), cells: cols.map((c, i) => readCell(v[i])) });
+      rows.set(r.id, { id: r.id, label: text(r.label, 120), cells: cols.map((c, i) => readCell(v[i])) });
     });
     if (!rows.size) throw Object.assign(new Error('empty'), { src: sourceLink(p.src) });
     const title = p.title && typeof p.title === 'object' ? p.title : {};
@@ -176,21 +236,21 @@ window.JMAP_TABLE = function (host) {
     if (p.total && typeof p.total === 'object') {
       const v = Array.isArray(p.total.v) ? p.total.v : [];
       const mis = p.total.mismatch && typeof p.total.mismatch === 'object' ? p.total.mismatch : {};
-      total = { label: text(p.total.label), cells: cols.map((c, i) => readCell(v[i])),
+      total = { label: text(p.total.label), en: text(p.total.en, 80), cells: cols.map((c, i) => readCell(v[i])),
         adds: cols.map((c, i) => {
           const m = Object.prototype.hasOwnProperty.call(mis, String(i)) ? mis[String(i)] : null;
-          return typeof m === 'number' ? m : null;
+          return isFigure(m) ? m : null;
         }) };
     }
     const def = Number.isInteger(p.def) && p.def >= 0 && p.def < cols.length ? p.def : 0;
     return {
-      version: p.v, src: sourceLink(p.src),
+      version: p.v, src: sourceLink(p.src), units: p.units,
       ja: text(title.ja), en: text(title.en),
       volume: text(vol.title), year: text(vol.year), volumeEn: text(vol.en),
-      date: /^\d{4}(-\d{2}(-\d{2})?)?$/.test(String(p.date)) ? String(p.date) : '',
+      date: DATE.test(String(p.date)) ? String(p.date) : '',
       period: p.period === '1930' || p.period === '1942' ? p.period : '',
       part: text(p.part), cols, def, rows, total, dropped,
-      notes: (Array.isArray(p.notes) ? p.notes : []).map(text).filter(Boolean).slice(0, 12),
+      notes: (Array.isArray(p.notes) ? p.notes : []).slice(0, 12).map((n) => text(n, 1000)).filter(Boolean),
     };
   }
 
@@ -200,7 +260,7 @@ window.JMAP_TABLE = function (host) {
   function colLabel(c) { return colName(c) + (c.unit ? ' (' + c.unit + ')' : ''); }
   function isSummable(c) { return c.kind === 'count' || c.kind === 'amount'; }
 
-  function allowsPerCapita(c) { return c.pc && (isSummable(c) || !c.kind); }
+  function allowsPerCapita(c) { return T.units === 'prefecture' && c.pc && (isSummable(c) || !c.kind); }
   function perCapitaOn() { return perCapita && allowsPerCapita(T.cols[colAt]); }
 
 
@@ -220,26 +280,53 @@ window.JMAP_TABLE = function (host) {
   }
 
 
-  function shown(id) {
+
+  function shown(id, i = colAt) {
     const row = T.rows.get(id);
     if (!row) return null;
-    const n = row.cells[colAt].n;
+    const n = row.cells[i].n;
     if (n === null) return null;
     if (!perCapitaOn()) return n;
     const people = peopleOf(PLACES.get(id));
     return people ? n / people * PER : null;
   }
-  function allShown() {
+
+
+
+  function scaleCols() {
+    const s = T.cols[colAt].series;
+    if (!s) return [colAt];
     const out = [];
-    T.rows.forEach((r, id) => { const v = shown(id); if (v !== null) out.push(v); });
+    T.cols.forEach((c, i) => { if (c.series === s && c.kind === T.cols[colAt].kind) out.push(i); });
     return out;
   }
+  function allShown() {
+    const out = [];
+    scaleCols().forEach((i) => {
+      T.rows.forEach((r, id) => { const v = shown(id, i); if (v !== null) out.push(v); });
+    });
+    return out;
+  }
+  function few() { return T.rows.size <= FEW; }
   function sig2(x) {
-    if (!x) return 0;
+    if (!x || !Number.isFinite(x)) return 0;
     const p = Math.pow(10, Math.floor(Math.log10(Math.abs(x))) - 1);
-    return Math.round(x / p) * p;
+    const out = Math.round(x / p) * p;
+    return Number.isFinite(out) ? out : x;
   }
   function tidy(x) { return Number(x.toPrecision(6)); }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -248,17 +335,103 @@ window.JMAP_TABLE = function (host) {
     const c = T.cols[colAt];
     if (c.div && vals.length && vals[0] < 0 && vals[vals.length - 1] > 0) {
       const m = sig2(Math.max(-vals[0], vals[vals.length - 1]));
-      return { ramp: RAMP_DIV, breaks: [-0.5 * m, -0.1 * m, 0.1 * m, 0.5 * m].map(tidy) };
+      return { ramp: RAMP_DIV, breaks: [-0.5 * m, -0.1 * m, 0.1 * m, 0.5 * m].map(tidy), method: 'div' };
     }
     const distinct = Array.from(new Set(vals));
-    if (distinct.length < 2) return { ramp: RAMP, breaks: [] };
+    if (distinct.length < 2) return { ramp: RAMP, breaks: [], method };
     const classes = Math.min(RAMP.length, distinct.length);
-    const breaks = [];
-    for (let i = 1; i < classes; i++) {
-      const cut = tidy(sig2(vals[Math.floor(i * vals.length / classes)]));
-      if (cut > vals[0] && !breaks.includes(cut)) breaks.push(cut);
+    let used = method;
+    if (used === 'log' && !(vals[0] > 0)) used = 'quantile';
+    let breaks;
+    if (used === 'jenks') breaks = jenksCuts(vals, classes);
+    else if (used === 'equal') breaks = equalCuts(vals, classes);
+    else if (used === 'log') breaks = logCuts(vals, classes);
+    else breaks = quantileCuts(vals, classes);
+    breaks = Array.from(new Set(breaks.filter((x) => Number.isFinite(x) && x > vals[0])))
+      .sort((a, b) => a - b);
+    return { ramp: RAMP, breaks, method: used };
+  }
+  function quantileCuts(vals, classes) {
+    const out = [];
+    for (let i = 1; i < classes; i++) out.push(tidy(sig2(vals[Math.floor(i * vals.length / classes)])));
+    return out;
+  }
+
+  function roundTo(x, step) {
+    if (!step || !Number.isFinite(step)) return tidy(x);
+    const p = Math.pow(10, Math.floor(Math.log10(Math.abs(step))) - 1);
+    return tidy(Math.round(x / p) * p);
+  }
+  function equalCuts(vals, classes) {
+    const lo = vals[0];
+    const step = (vals[vals.length - 1] - lo) / classes;
+    const out = [];
+    for (let i = 1; i < classes; i++) out.push(roundTo(lo + i * step, step));
+    return out;
+  }
+
+  function niceLog(x) {
+    const e = Math.floor(Math.log10(x));
+    const p = Math.pow(10, e);
+    let best = p;
+    [1, 2, 5, 10].forEach((m) => {
+      if (Math.abs(Math.log10(m * p) - Math.log10(x)) < Math.abs(Math.log10(best) - Math.log10(x))) best = m * p;
+    });
+    return tidy(best);
+  }
+  function logCuts(vals, classes) {
+    const lo = vals[0];
+    const hi = vals[vals.length - 1];
+    const out = [];
+    for (let i = 1; i < classes; i++) out.push(niceLog(lo * Math.pow(hi / lo, i / classes)));
+    return out;
+  }
+
+
+  function roundestBetween(below, atLeast) {
+    const span = atLeast - below;
+    if (!(span > 0)) return atLeast;
+    for (let e = Math.ceil(Math.log10(Math.abs(atLeast) || 1)); e > -8; e--) {
+      const p = Math.pow(10, e);
+      const c = Math.ceil((below + p * 1e-9) / p) * p;
+      if (c > below && c <= atLeast) return tidy(c);
     }
-    return { ramp: RAMP, breaks: breaks.sort((a, b) => a - b) };
+    return atLeast;
+  }
+
+
+
+  function jenksCuts(vals, classes) {
+    const n = vals.length;
+    const pre = [0];
+    const pre2 = [0];
+    vals.forEach((v, i) => { pre.push(pre[i] + v); pre2.push(pre2[i] + v * v); });
+    const cost = (i, j) => {                // figures i..j inclusive
+      const m = j - i + 1;
+      const sum = pre[j + 1] - pre[i];
+      return pre2[j + 1] - pre2[i] - sum * sum / m;
+    };
+
+    const best = [vals.map((v, j) => cost(0, j))];
+    const from = [vals.map(() => 0)];
+    for (let k = 1; k < classes; k++) {
+      best.push(new Array(n).fill(Infinity));
+      from.push(new Array(n).fill(0));
+      for (let j = k; j < n; j++) {
+        for (let i = k; i <= j; i++) {
+          const v = best[k - 1][i - 1] + cost(i, j);
+          if (v < best[k][j]) { best[k][j] = v; from[k][j] = i; }
+        }
+      }
+    }
+    const starts = [];
+    let j = n - 1;
+    for (let k = classes - 1; k > 0; k--) {
+      const i = from[k][j];
+      starts.unshift(i);
+      j = i - 1;
+    }
+    return starts.filter((i) => vals[i] > vals[i - 1]).map((i) => roundestBetween(vals[i - 1], vals[i]));
   }
 
   function swatchOf(cls, count) {
@@ -283,6 +456,11 @@ window.JMAP_TABLE = function (host) {
   function fills() {
     const sc = scale();
     const out = {};
+    if (T.units === 'territory') {
+      const c = T.rows.has('naichi') ? colourFor('naichi', sc) : null;
+      if (c) PREFECTURES.forEach((p) => { out[p[1]] = c; });
+      return out;
+    }
     PLACES.forEach((pl, id) => { if (pl.key) out[pl.key] = colourFor(id, sc); });
     return out;
   }
@@ -317,9 +495,11 @@ window.JMAP_TABLE = function (host) {
   function placeAt(provKey, recId, el) {
     const code = CODE_OF_KEY.get(provKey) || CODE_OF_KEY.get(host.figuresFrom(provKey))
       || CODE_OF_KEY.get(host.groupPartOf(el));
-    if (code) return code;
-    const whole = PLACES.get(recId);
-    return whole && whole.atom && T.rows.has(recId) ? recId : null;
+
+    if (code) return T.units === 'territory' ? (T.rows.has('naichi') ? 'naichi' : null) : code;
+    const id = RECORD_PLACE.get(recId) || recId;
+    const whole = PLACES.get(id);
+    return whole && whole.atom && T.rows.has(id) ? id : null;
   }
   function placeName(id) { const p = PLACES.get(id); return p.en + ' ' + p.ja; }
 
@@ -342,13 +522,159 @@ window.JMAP_TABLE = function (host) {
 
 
 
+
+
+
+  function mountFlag() {
+    flag = mk('button', '', 'External data');
+    flag.id = 'tbl-flag';
+    flag.type = 'button';
+    flag.title = 'These figures came with the link, not from the map’s own data. Press for details.';
+    flag.addEventListener('click', tableCard);
+
+    flag.addEventListener('pointerdown', (e) => e.stopPropagation());
+    flag.addEventListener('dblclick', (e) => e.stopPropagation());
+    document.getElementById('map-container').appendChild(flag);
+  }
+
+
+
+
+
+  function columnGroups() {
+    const groups = [];
+    const byName = new Map();
+    T.cols.forEach((c, i) => {
+      const levels = c.name.split(LEVEL);
+      const key = levels.length > 1 ? levels[0] : '';
+      const en = c.en ? c.en.split(LEVEL) : [];
+      const leveled = key && en.length > 1;
+      if (!byName.has(key)) {
+        byName.set(key, { name: leveled ? en[0] : key, items: [] });
+        groups.push(byName.get(key));
+      }
+      const label = leveled ? en.slice(1).join(LEVEL) : c.en || levels.slice(key ? 1 : 0).join(LEVEL) || c.name;
+      byName.get(key).items.push({ i, label, unit: c.unit });
+    });
+    if (groups.length > 1) return groups;
+
+    return [{ name: '', items: groups[0].items.map((it) => Object.assign(it, { label: T.cols[it.i].en || T.cols[it.i].name })) }];
+  }
+
+
+
+
+  function stepCols() {
+    const s = T.cols[colAt].series;
+    const list = [];
+    if (s) T.cols.forEach((c, i) => { if (c.series === s) list.push(i); });
+    if (list.length > 1) {
+      if (list.every((i) => T.cols[i].date)) {
+        list.sort((a, b) => (T.cols[a].date < T.cols[b].date ? -1 : T.cols[a].date > T.cols[b].date ? 1 : a - b));
+      }
+      return list;
+    }
+    const g = columnGroups().find((x) => x.items.some((it) => it.i === colAt));
+    return g ? g.items.map((it) => it.i) : [colAt];
+  }
+
+
+  function wantsStepper() {
+    return T.cols.length > MANY_COLUMNS || T.cols.some((c) => c.series);
+  }
+  function stepButton(dir) {
+    const b = mk('button', 'tbl-step', dir < 0 ? '‹' : '›');
+    b.type = 'button';
+    b.id = dir < 0 ? 'tbl-prev' : 'tbl-next';
+    b.setAttribute('aria-label', dir < 0 ? 'Previous column' : 'Next column');
+    b.addEventListener('click', () => {
+      const list = stepCols();
+      const at = list.indexOf(colAt) + dir;
+      if (at >= 0 && at < list.length) setColumn(list[at]);
+    });
+    return b;
+  }
+
+
+  function columnMenu() {
+    const wrap = mk('div', 'tbl-menu');
+    const btn = mk('button');
+    btn.id = 'tbl-menu-btn';
+    btn.type = 'button';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.appendChild(mk('span', 'now'));
+    btn.appendChild(mk('span', 'caret', '▾'));
+    wrap.appendChild(btn);
+    const panel = mk('div');
+    panel.id = 'tbl-menu';
+    panel.setAttribute('role', 'group');
+    panel.setAttribute('aria-label', 'Column of the table to map');
+    panel.hidden = true;
+
+    panel.addEventListener('wheel', (e) => e.stopPropagation());
+    const close = () => {
+      panel.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      if (menuOff) menuOff();
+    };
+    const open = () => {
+      panel.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
+      const onPress = (e) => { if (!wrap.contains(e.target)) close(); };
+      const onKey = (e) => { if (e.key === 'Escape') { close(); btn.focus(); } };
+
+      document.addEventListener('pointerdown', onPress, true);
+      document.addEventListener('keydown', onKey);
+      menuOff = () => {
+        document.removeEventListener('pointerdown', onPress, true);
+        document.removeEventListener('keydown', onKey);
+        menuOff = null;
+      };
+    };
+    btn.addEventListener('click', () => { if (panel.hidden) open(); else close(); });
+    const item = (it, unitSaid) => {
+      const b = mk('button', 'tbl-menu-item');
+      b.type = 'button';
+      b.setAttribute('data-col', String(it.i));
+      b.appendChild(document.createTextNode(it.label));
+      if (it.unit && !unitSaid) b.appendChild(mk('span', 'unit', it.unit));
+      b.addEventListener('click', () => { setColumn(it.i); close(); btn.focus(); });
+      return b;
+    };
+    columnGroups().forEach((g) => {
+      if (!g.name) {
+        g.items.forEach((it) => panel.appendChild(item(it)));
+        return;
+      }
+      const d = mk('details', 'tbl-menu-group');
+      const s = mk('summary', '', g.name);
+
+      const one = g.items.every((it) => it.unit === g.items[0].unit) ? g.items[0].unit : '';
+      if (one) s.appendChild(mk('span', 'unit', one));
+      s.appendChild(mk('span', 'count', String(g.items.length)));
+      d.appendChild(s);
+      g.items.forEach((it) => d.appendChild(item(it, !!one)));
+      panel.appendChild(d);
+    });
+    wrap.appendChild(panel);
+    return wrap;
+  }
+
   function mountBar() {
     unmountBar();
+    mountFlag();
     const anyPc = T.cols.some(allowsPerCapita);
     if (T.cols.length < 2 && !anyPc) return;
     bar = mk('div');
     bar.id = 'tbl-bar';
-    if (T.cols.length > 1) {
+
+
+    const pick = mk('div', 'tbl-pick');
+    bar.appendChild(pick);
+    if (wantsStepper()) pick.appendChild(stepButton(-1));
+    if (T.cols.length > MANY_COLUMNS) {
+      pick.appendChild(columnMenu());
+    } else if (T.cols.length > 1) {
       const sel = mk('select');
       sel.id = 'tbl-col';
       sel.setAttribute('aria-label', 'Column of the table to map');
@@ -359,8 +685,10 @@ window.JMAP_TABLE = function (host) {
       });
       sel.value = String(colAt);
       sel.addEventListener('change', () => setColumn(Number(sel.value)));
-      bar.appendChild(sel);
+      pick.appendChild(sel);
     }
+    if (wantsStepper()) pick.appendChild(stepButton(1));
+    if (!pick.firstChild) pick.remove();
     if (anyPc) {
       const lab = mk('label', 'tbl-pc');
       const box = mk('input');
@@ -379,12 +707,39 @@ window.JMAP_TABLE = function (host) {
     syncBar();
   }
   function unmountBar() {
+    if (menuOff) menuOff();
     if (bar) bar.remove();
     bar = null;
+    if (flag) flag.remove();
+    flag = null;
   }
   function syncBar() {
-    const lab = bar && bar.querySelector('.tbl-pc');
+    if (!bar) return;
+    const lab = bar.querySelector('.tbl-pc');
     if (lab) lab.hidden = !allowsPerCapita(T.cols[colAt]);
+    const sel = bar.querySelector('#tbl-col');
+    if (sel) sel.value = String(colAt);
+    const list = stepCols();
+    const at = list.indexOf(colAt);
+    [['#tbl-prev', at - 1], ['#tbl-next', at + 1]].forEach(([q, to]) => {
+      const b = bar.querySelector(q);
+      if (!b) return;
+      b.disabled = to < 0 || to >= list.length;
+      b.title = b.disabled ? '' : colLabel(T.cols[list[to]]);
+    });
+    const now = bar.querySelector('#tbl-menu-btn .now');
+    if (!now) return;
+    now.textContent = colLabel(T.cols[colAt]);
+    bar.querySelectorAll('.tbl-menu-item').forEach((b) => {
+      const on = b.getAttribute('data-col') === String(colAt);
+      b.classList.toggle('on', on);
+      if (on) {
+        b.setAttribute('aria-current', 'true');
+
+        const d = b.closest('details');
+        if (d) d.open = true;
+      } else b.removeAttribute('aria-current');
+    });
   }
 
   function setColumn(i) {
@@ -397,6 +752,41 @@ window.JMAP_TABLE = function (host) {
     host.repaint();
     if (cardNow === 'table') tableCard();
     else if (cardNow) placeCard(cardNow);
+  }
+
+
+
+  function methodFrom(fragment) {
+    const m = /(?:^#|&)tk=([a-z]+)/.exec(String(fragment));
+    return m && METHOD_IDS.has(m[1]) ? m[1] : 'quantile';
+  }
+  function setMethod(m) {
+    method = METHOD_IDS.has(m) ? m : 'quantile';
+    let h = location.hash.replace(/&tk=[a-z]*/g, '');
+    if (method !== 'quantile') h += '&tk=' + method;
+    try { history.replaceState(history.state, '', location.pathname + location.search + h); }
+    catch (err) { /* the map still changes; only the address does not */ }
+    refresh();
+  }
+
+
+  function methodPicker(sc) {
+    const sel = mk('select', 'tbl-classes');
+    sel.id = 'tbl-classes';
+    sel.setAttribute('aria-label', 'How the classes are divided');
+    const positive = allShown().every((v) => v > 0);
+    METHODS.forEach(([id, label]) => {
+      const o = mk('option', '', label);
+      o.value = id;
+      if (id === 'log' && !positive) {
+        o.disabled = true;
+        o.title = 'Needs every figure above nought';
+      }
+      sel.appendChild(o);
+    });
+    sel.value = sc.method === 'div' ? method : sc.method;
+    sel.addEventListener('change', () => setMethod(sel.value));
+    return sel;
   }
 
 
@@ -464,7 +854,7 @@ window.JMAP_TABLE = function (host) {
       });
       list.sort((a, b) => b.n - a.n);
       if (list.length) {
-        h.appendChild(mk('p', 'pop-head', 'Highest'));
+        h.appendChild(mk('p', 'pop-head', list.length <= 10 ? 'Every place' : 'Highest'));
         h.appendChild(bars(list.slice(0, 10), (r) => placeCard(r.id)));
       }
       T.notes.forEach((n) => h.appendChild(mk('p', 'tbl-note', n)));
@@ -479,14 +869,21 @@ window.JMAP_TABLE = function (host) {
     });
   }
 
-  function totalLines(h, i) {
-    if (!T.total) return;
+
+  function totalText(i) {
+    if (!T.total) return '';
     const cell = T.total.cells[i];
-    if (cell.as === 'none') return;
+
+    if (cell.as !== 'num') return '';
     const c = T.cols[i];
-    const what = c.kind === 'rate' ? 'National rate' : 'Printed total';
-    h.appendChild(mk('p', 'tbl-line', what + (T.total.label ? ' (' + T.total.label + ')' : '')
-      + ': ' + cell.t));
+    if (T.total.en) return T.total.en + (T.total.label ? ' ' + T.total.label : '') + ': ' + cell.t;
+    const what = c.kind !== 'rate' ? 'Printed total' : T.units === 'territory' ? 'Overall rate' : 'National rate';
+    return what + (T.total.label ? ' (' + T.total.label + ')' : '') + ': ' + cell.t;
+  }
+  function totalLines(h, i) {
+    const said = totalText(i);
+    if (!said) return;
+    h.appendChild(mk('p', 'tbl-line', said));
     if (T.total.adds[i] !== null) {
       h.appendChild(mk('p', 'tbl-line', 'The places mapped add up to ' + fmt(T.total.adds[i]) + '.'));
     }
@@ -507,26 +904,30 @@ window.JMAP_TABLE = function (host) {
         h.appendChild(mk('p', 'tbl-line', 'This table has no row for this place.'));
       } else {
         if (row.label) h.appendChild(mk('p', 'tbl-line', 'Printed as: ' + row.label));
-        const ul = mk('ul', 'tbl-values');
-        T.cols.forEach((c, i) => {
-          const li = mk('li', i === colAt ? 'on' : '');
-          const b = mk('button', 'tbl-value');
-          b.type = 'button';
-          b.title = 'Map this column';
-          b.appendChild(mk('span', 'nm', colLabel(c)));
-          b.appendChild(mk('span', 'val', row.cells[i].t));
-          const extra = [sharePct(row, i) ? sharePct(row, i) + ' of the printed total' : '',
-            perCapitaText(id, i)].filter(Boolean).join(' · ');
-          if (extra) b.appendChild(mk('span', 'sub', extra));
-          b.addEventListener('click', () => {
-            const sel = bar && bar.querySelector('#tbl-col');
-            if (sel) sel.value = String(i);
-            setColumn(i);
+
+
+
+        columnGroups().forEach((g) => {
+          if (g.name) h.appendChild(mk('p', 'pop-head tbl-group', g.name));
+          const ul = mk('ul', 'tbl-values');
+          g.items.forEach((it) => {
+            const i = it.i;
+            const c = T.cols[i];
+            const li = mk('li', i === colAt ? 'on' : '');
+            const b = mk('button', 'tbl-value');
+            b.type = 'button';
+            b.title = 'Map this column';
+            b.appendChild(mk('span', 'nm', g.name ? it.label + (c.unit ? ' (' + c.unit + ')' : '') : colLabel(c)));
+            b.appendChild(mk('span', 'val', row.cells[i].t));
+            const extra = [sharePct(row, i) ? sharePct(row, i) + ' of the printed total' : '',
+              perCapitaText(id, i)].filter(Boolean).join(' · ');
+            if (extra) b.appendChild(mk('span', 'sub', extra));
+            b.addEventListener('click', () => setColumn(i));
+            li.appendChild(b);
+            ul.appendChild(li);
           });
-          li.appendChild(b);
-          ul.appendChild(li);
+          h.appendChild(ul);
         });
-        h.appendChild(ul);
         if (T.cols.some((c, i) => allowsPerCapita(c) && perCapitaText(id, i))) {
           h.appendChild(mk('p', 'tbl-note', 'Per person figures use the ' + censusYear() + ' census.'));
         }
@@ -541,6 +942,8 @@ window.JMAP_TABLE = function (host) {
   function mark(id) {
     unmark();
     const pl = PLACES.get(id);
+
+    if (pl.proper) return;
     const shapes = host.shapesOf(pl);
     shapes.forEach((el) => el.classList.add('tbl-sel'));
     marked = shapes;
@@ -594,21 +997,29 @@ window.JMAP_TABLE = function (host) {
     }
     T.notes.forEach((n) => notes.push(n));
     notes.forEach((n) => wrap.appendChild(mk('p', 'pop-note', '* ' + n)));
-    const source = [T.volume, T.year, T.ja].filter(Boolean).join(', ')
-      + (T.src ? '. ' + T.src.url : '');
-    const src = mk('p', 'pop-src');
+    const citation = [T.volume, T.year, T.ja].filter(Boolean).join(', ');
+    const source = citation + (T.src ? '. ' + T.src.url : '');
+
+
+    const src = mk('p', 'pop-src', citation + (T.src ? '. ' : ''));
     if (T.src) {
-      const a = mk('a', '', source);
+      const a = mk('a', '', T.src.url);
       a.href = T.src.url;
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
       src.appendChild(a);
-    } else src.textContent = source;
+    }
     wrap.appendChild(src);
     host.addCsvButton(wrap, tableEl, T.en || T.ja, notes, source);
     body.appendChild(wrap);
     if (!dlg.open) dlg.showModal();
     body.scrollTop = 0;
+  }
+
+
+  function closeDialog() {
+    const d = document.getElementById('dlg-table');
+    if (d && d.open) d.close();
   }
 
   function errorCard(reason, src) {
@@ -650,21 +1061,38 @@ window.JMAP_TABLE = function (host) {
         if (raw && raw.v !== 1) console.warn('Table payload version', raw.v, '— reading as v1');
         parsed = normalise(raw);
       } catch (err) {
+
+        if (fragment !== location.hash) return false;
+        closeDialog();
         if (T) host.close();
         errorCard(err && err.message, err && err.src);
         return false;
       }
+      if (fragment !== location.hash) return false;
+      closeDialog();
+      if (T) { unmountBar(); unmark(); cardNow = null; }
       T = parsed;
       colAt = T.def;
       perCapita = false;
-      host.opened(T.period);
-      mountBar();
-      tableCard();
+      method = methodFrom(fragment);
+
+
+      try {
+        host.opened(T.period);
+        mountBar();
+        tableCard();
+      } catch (err) {
+        console.warn('Table could not be shown', err);
+        host.close();
+        errorCard('shape', parsed.src);
+        return false;
+      }
       return true;
     },
 
 
     close() {
+      closeDialog();
       unmountBar();
       unmark();
       T = null;
@@ -697,6 +1125,8 @@ window.JMAP_TABLE = function (host) {
         return wrap;
       }
       const c = T.cols[colAt];
+
+      if (PLACES.get(id).proper) wrap.appendChild(mk('span', 'tbl-tip-label', placeName(id)));
       if (row.label) wrap.appendChild(mk('span', 'tbl-tip-label', row.label));
       wrap.appendChild(mk('span', 'tbl-tip-val', row.cells[colAt].t + (row.cells[colAt].n !== null && c.unit ? ' ' + c.unit : '')));
       if (perCapitaOn()) {
@@ -718,7 +1148,9 @@ window.JMAP_TABLE = function (host) {
       const c = T.cols[colAt];
       el.appendChild(mk('p', 'legend-sub tbl-key-head', T.en || T.ja));
       const body = mk('div', 'cen-key');
-      const what = colLabel(c) + (T.date ? ', ' + T.date : '');
+      const when = c.date || T.date;
+
+      const what = colLabel(c) + (when && !colLabel(c).includes(when.slice(0, 4)) ? ', ' + when : '');
       body.appendChild(mk('p', 'cen-key-title', what));
       if (perCapitaOn()) {
         body.appendChild(mk('p', 'cen-key-note', 'Per ' + fmt(PER) + ' people, using the '
@@ -736,7 +1168,28 @@ window.JMAP_TABLE = function (host) {
       const b = sc.breaks;
       const count = b.length + 1;
       const label = (x) => (perCapitaOn() ? String(x) : fmt(x));
-      if (allShown().length) {
+      const pooled = scaleCols().length;
+      if (pooled > 1) body.appendChild(mk('p', 'cen-key-note', 'On one scale with the other columns of its series.'));
+      if (few()) {
+
+        const list = [];
+        T.rows.forEach((r, id) => list.push({ id, v: shown(id), cell: r.cells[colAt] }));
+        list.sort((x, y) => (y.v === null ? -Infinity : y.v) - (x.v === null ? -Infinity : x.v));
+        list.forEach((it) => {
+          const r = mk('button', 'item pop-key-row tbl-key-place');
+          r.type = 'button';
+          r.setAttribute('data-place', it.id);
+          const sw = mk('span', 'sw');
+          sw.style.background = colourFor(it.id, sc);
+          r.appendChild(sw);
+          r.appendChild(mk('span', 'nm', placeName(it.id)));
+
+          const none = { nil: '— Nil', unreadable: 'Unreadable' }[it.cell.as] || 'No figure';
+          r.appendChild(mk('span', 'val', it.v === null ? none : viewText(it.v)));
+          r.addEventListener('click', () => placeCard(it.id));
+          body.appendChild(r);
+        });
+      } else if (allShown().length) {
         for (let i = 0; i < count; i++) {
           const words = !b.length ? 'All places shown'
             : i === 0 ? 'under ' + label(b[0])
@@ -747,12 +1200,23 @@ window.JMAP_TABLE = function (host) {
       }
 
 
+
+
+      const whole = perCapitaOn() ? '' : totalText(colAt);
+      if (whole) body.appendChild(mk('p', 'cen-key-note tbl-key-total', whole + (c.unit && T.total.cells[colAt].n !== null ? ' ' + c.unit : '')));
       const seen = new Set();
       T.rows.forEach((r) => seen.add(r.cells[colAt].as));
-      if (seen.has('nil')) row(NIL, '— Nil');
-      if (seen.has('unreadable')) row(UNREADABLE, 'Unreadable in the scan');
-      row(host.blank, 'No data');
-      const acts = mk('div');
+      if (!few()) {
+        if (seen.has('nil')) row(NIL, '— Nil');
+        if (seen.has('unreadable')) row(UNREADABLE, 'Unreadable in the scan');
+      }
+
+      if (T.units === 'prefecture') row(host.blank, 'No data');
+      if (method === 'log' && sc.method === 'quantile') {
+        body.appendChild(mk('p', 'cen-key-note', 'Logarithmic needs figures above nought, so quantiles are shown.'));
+      }
+      const acts = mk('div', 'tbl-key-acts');
+      if (sc.method !== 'div' && allShown().length > 1) acts.appendChild(methodPicker(sc));
       const about = mk('button', 'cen-chip', 'About this table');
       about.type = 'button';
       about.addEventListener('click', tableCard);
@@ -768,7 +1232,8 @@ window.JMAP_TABLE = function (host) {
 
     report() {
       return T ? { col: colAt, perCapita: perCapitaOn(), census: censusYear(),
-        rows: T.rows.size, dropped: T.dropped, card: cardNow } : null;
+        rows: T.rows.size, dropped: T.dropped, card: cardNow, units: T.units,
+        scaleCols: scaleCols(), stepCols: stepCols(), few: few(), method, breaks: scale().breaks } : null;
     },
   };
 };

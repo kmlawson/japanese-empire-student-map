@@ -14,12 +14,42 @@
  * It fetches nothing from the statistics site. */
 'use strict';
 const zlib = require('zlib');
-const { sleep, calm, check, report, launch, open } = require('./suite.js');
+const { sleep, calm, check, report, launch, open, BASE } = require('./suite.js');
 
 const encode = o => zlib.deflateRawSync(Buffer.from(JSON.stringify(o), 'utf8'), { level: 9 })
   .toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 const VIEW = '?where=125.41,21.53,147.92,48.77&layers=2w';
 const link = o => VIEW + '#t=' + encode(o);
+const encodeRaw = s => zlib.deflateRawSync(Buffer.from(s, 'utf8'), { level: 9 })
+  .toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+/* A reader that takes a bare CR as a new row, as some spreadsheets do. */
+function csvCells(text) {
+  const cells = [];
+  let cell = '', quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (quoted) {
+      if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (c === '"') quoted = false;
+      else cell += c;
+    } else if (c === '"') quoted = true;
+    else if (c === ',' || c === '\n' || c === '\r') { cells.push(cell); cell = ''; }
+    else cell += c;
+  }
+  cells.push(cell);
+  return cells;
+}
+const runsAsFormula = c => /^[\s\u200b-\u200f\u2060]*[=+\-@＝＋－＠]/.test(c) && !/^[+-]?[\d.,]*%?$/.test(c);
+const csvOf = p => p.evaluate(() => new Promise(res => {
+  const of = URL.createObjectURL;
+  URL.createObjectURL = blob => { URL.createObjectURL = of; blob.text().then(res); return of.call(URL, blob); };
+  document.querySelector('#dlg-table .pop-csv').click();
+}));
+const pressAll = p => p.evaluate(() => [...document.querySelectorAll('#info-trains button')].find(x => /All figures/.test(x.textContent)).click());
+const footOf = p => p.evaluate(() => {
+  const f = document.getElementById('info-theme-foot');
+  return { hidden: f.hidden, href: f.querySelector('a').href };
+});
 const SRC = 'https://kmlawson.github.io/playground-stat-tables/book/test/#p1';
 
 const ALL = [];
@@ -113,7 +143,8 @@ const pickCol = async (p, i) => {
 };
 
 (async () => {
-  const b = await launch();
+  // the file goes to a folder of its own, not to the reader's Downloads
+  const b = await launch({ downloads: true });
   let at;
 
   console.log('\n— no table in the address —');
@@ -275,11 +306,7 @@ const pickCol = async (p, i) => {
   }));
   check('every row is in the table', tbl.rows === COUNT.rows.length, String(tbl.rows));
   check('  which offers its CSV, with the source', tbl.csv && tbl.link === SRC, JSON.stringify(tbl.link));
-  const csv = await p.evaluate(() => new Promise(res => {
-    const of = URL.createObjectURL;
-    URL.createObjectURL = blob => { blob.text().then(res); return of.call(URL, blob); };
-    document.querySelector('#dlg-table .pop-csv').click();
-  }));
+  const csv = await csvOf(p);
   check('  the file has the name in two columns, the numbers bare', /Name,Characters/.test(csv) && /,6349(,|\r?\n)/.test(csv), csv.slice(0, 200));
   check('  and the source at its foot', /Source,/.test(csv) && csv.includes(SRC));
   await p.evaluate(() => document.getElementById('dlg-table').close());
@@ -372,14 +399,379 @@ const pickCol = async (p, i) => {
   check('ids that are not places are dropped, and said so', /2 rows could not be placed/.test(rep), rep);
   await h.evaluate(() => [...document.querySelectorAll('#info-trains button')].find(x => /All figures/.test(x.textContent)).click());
   await calm(h);
-  const bad = await h.evaluate(() => new Promise(res => {
-    const of = URL.createObjectURL;
-    URL.createObjectURL = blob => { blob.text().then(res); return of.call(URL, blob); };
-    document.querySelector('#dlg-table .pop-csv').click();
-  }));
-  const cells = bad.split(/\r?\n/).join(',').split(',').map(x => x.replace(/^"|"$/g, ''));
-  check('a formula cannot reach a spreadsheet', !cells.some(x => /^[=+@]/.test(x)), bad.slice(0, 300));
+  const bad = await csvOf(h);
+  check('a formula cannot reach a spreadsheet', !csvCells(bad).some(runsAsFormula), bad.slice(0, 300));
   await h.close();
+
+  console.log('\n— what the first review got past the file —');
+  const SLIPS = ['-1+1+cmd|\' /C calc\'!A0', '-2+3', '-.5+1', 'safe\r=1+1', 'a;=3+3', '＝5+5', '\u200b=1+1', ' =1+1', '@SUM(A1)', '+10'];
+  const slip = {
+    v: 1, units: 'prefecture', src: { url: SRC },
+    title: { ja: '=TITLE()', en: '-TITLE()+1' }, volume: { title: '=VOLUME()', year: '=1' },
+    cols: [{ name: '=HEAD()', en: '-HEAD()+1', unit: '=UNIT()', kind: 'count' }],
+    rows: SLIPS.map((s, i) => ({ id: ALL[i], label: s, v: [s] })),
+    notes: ['=NOTE()', '-NOTE()+1'],
+  };
+  const f = await open(b, link(slip), { width: 1280, height: 800 });
+  await tableUp(f);
+  await calm(f);
+  await pressAll(f);
+  await calm(f);
+  const out = await csvOf(f);
+  const outCells = csvCells(out);
+  check('none of them reaches a cell as a formula', !outCells.some(runsAsFormula),
+    outCells.filter(runsAsFormula).join(' | ').slice(0, 300));
+  check('  a semicolon is quoted, for locales that split on it', out.includes('"a;=3+3"'), out.slice(0, 300));
+  const shown = await f.evaluate(() => document.querySelector('#dlg-table tbody').innerText);
+  check('the screen keeps the text as printed, with no apostrophe', shown.includes('+10') && !shown.includes("'+10") && !shown.includes("'-2+3"), shown.slice(0, 200));
+  check('a figure in text is left alone in the file', outCells.includes('+10'), '');
+  await f.close();
+
+  console.log('\n— where a source link may go —');
+  for (const [what, src] of [
+    ['another host', { url: 'https://evil.github.io/x' }],
+    ['a look-alike host', { url: 'https://froginawell.net.evil.example/reference/old-tables/x' }],
+    ['the right host, outside the site', { url: 'https://froginawell.net/elsewhere/' }],
+    ['walking out of the site', { url: 'https://froginawell.net/reference/old-tables/../../evil' }],
+    ['walking out, encoded', { url: 'https://froginawell.net/reference/old-tables/%2e%2e/%2e%2e/evil' }],
+    ['plain http', { url: 'http://froginawell.net/reference/old-tables/x' }],
+    ['another port', { url: 'https://froginawell.net:8443/reference/old-tables/x' }],
+    ['credentials', { url: 'https://user:pw@froginawell.net/reference/old-tables/x' }],
+    ['an array', { url: ['https://froginawell.net/reference/old-tables/x'] }],
+    ['a path off a local preview', { path: 'book/x/' }],
+    ['a string for src', 'https://froginawell.net/reference/old-tables/x'],
+  ]) {
+    const g = await open(b, link(Object.assign({}, RATES, { src })), { width: 1280, height: 800 });
+    await tableUp(g);
+    await calm(g);
+    const ft = await footOf(g);
+    check(what + ': the table, with no link', ft.hidden && await g.evaluate(() => !!document.getElementById('tbl-col')), JSON.stringify(ft));
+    await g.close();
+  }
+  const lure = await open(b, VIEW + '#t=' + encode({ v: 2, units: 'city', cols: [{ name: 'x' }], rows: [], src: { url: 'https://evil.example/login' } }), { width: 1280, height: 800 });
+  await lure.waitForFunction(() => !document.getElementById('info').hidden, { timeout: 15000 }).catch(() => {});
+  await calm(lure);
+  check('an error card does not link to a stranger either',
+    await lure.evaluate(() => ![...document.querySelectorAll('#info a')].some(a => /evil/.test(a.href))));
+  await lure.close();
+  const live = await open(b, link(Object.assign({}, RATES, { src: { url: 'https://froginawell.net/reference/old-tables/book/x/#p1' } })), { width: 1280, height: 800 });
+  await tableUp(live);
+  await calm(live);
+  check('the live tables site is linked', (await footOf(live)).href === 'https://froginawell.net/reference/old-tables/book/x/#p1');
+  await live.evaluate(() => [...document.querySelectorAll('#legend .cen-chip')].find(x => /About/.test(x.textContent)).click());
+  await calm(live);
+  await pressAll(live);
+  await calm(live);
+  const anchor = await live.evaluate(() => {
+    const a = document.querySelector('#dlg-table .pop-src a');
+    return { text: a.textContent, href: a.href };
+  });
+  check('in the table the link’s words are the address it goes to', anchor.text === anchor.href, JSON.stringify(anchor));
+  await live.close();
+
+  /* The rule is by the map's own host, so the map has to be on it. */
+  const u = new URL(BASE);
+  const onLive = await launch({ downloads: true, args: ['--host-resolver-rules=MAP froginawell.net 127.0.0.1'] });
+  const host = 'http://froginawell.net:' + u.port + u.pathname;
+  const here = async src => {
+    const w = await open(onLive, host + VIEW + '#t=' + encode(Object.assign({}, RATES, { src })), { width: 1280, height: 800 });
+    await tableUp(w);
+    await calm(w);
+    const ft = await footOf(w);
+    await w.close();
+    return ft;
+  };
+  let ft = await here({ url: 'https://kmlawson.github.io/playground-stat-tables/book/x/#p1', path: 'book/x/#p1' });
+  check('on froginawell.net `src.path` joins to the tables site there',
+    !ft.hidden && ft.href === 'https://froginawell.net/reference/old-tables/book/x/#p1', JSON.stringify(ft));
+  ft = await here({ url: 'https://evil.example/', path: 'book/y/' });
+  check('  whatever `src.url` says', ft.href === 'https://froginawell.net/reference/old-tables/book/y/', JSON.stringify(ft));
+  ft = await here({ path: '../../evil' });
+  check('  and a path cannot walk out of it', ft.hidden, JSON.stringify(ft));
+  ft = await here({ path: 'https://evil.example/' });
+  check('  nor be an address of its own', ft.hidden || ft.href.startsWith('https://froginawell.net/reference/old-tables/'), JSON.stringify(ft));
+  await onLive.close();
+
+  console.log('\n— text with no end to it —');
+  const long = 'x'.repeat(9000);
+  const big = await open(b, link({
+    v: 1, units: 'prefecture', src: { url: SRC }, title: { en: 'y'.repeat(1900000) },
+    cols: [{ name: long, en: 'A\u202Egnp.exe' }], notes: [long],
+    rows: ALL.map(id => ({ id, label: long, v: [long] })),
+  }), { width: 1280, height: 800 });
+  await tableUp(big);
+  await calm(big);
+  const sizes = await big.evaluate(() => ({
+    title: document.querySelector('#info .primary').textContent.length,
+    keyW: document.getElementById('legend').scrollWidth <= document.getElementById('legend').clientWidth + 1,
+    bidi: /[\u202a-\u202e]/.test(document.getElementById('tbl-bar') ? '' : '') || /[\u202a-\u202e]/.test(document.getElementById('legend').textContent),
+  }));
+  check('a title is capped', sizes.title <= 301, String(sizes.title));
+  check('the key stays its width', sizes.keyW, JSON.stringify(sizes));
+  check('characters that reverse text are gone', !sizes.bidi);
+  at = await atProv(big, 'Nagano');
+  await big.mouse.move(at.x - 2, at.y - 2);
+  await big.mouse.move(at.x, at.y, { steps: 3 });
+  await sleep(250);              // the tooltip's delay
+  const tipBox = await big.evaluate(() => {
+    const r = document.getElementById('tooltip').getBoundingClientRect();
+    return { w: r.width, h: r.height, right: r.right, bottom: r.bottom, vw: innerWidth, vh: innerHeight };
+  });
+  check('the tooltip stays on the screen', tipBox.w <= 280 && tipBox.right <= tipBox.vw, JSON.stringify(tipBox));
+  await press(big, at);
+  const reach = await big.evaluate(() => {
+    const c = document.querySelector('#info-close').getBoundingClientRect();
+    return document.elementFromPoint(c.left + c.width / 2, c.top + c.height / 2).id === 'info-close';
+  });
+  check('and the card can still be closed', reach);
+  await big.close();
+
+  console.log('\n— numbers that are not figures —');
+  const odd = await open(b, VIEW + '#t=' + encodeRaw('{"v":1,"units":"prefecture","src":{"url":"' + SRC + '"},"title":{"en":"Odd"},"date":"9999-99-99",'
+    + '"cols":[{"name":"a","kind":"count","pc":true},{"name":"b","kind":"count"}],'
+    + '"rows":[{"id":"01","label":"a","v":[5e-324,1e999]},{"id":"02","label":"b","v":[-5e-324,-1e999]},{"id":"03","label":"c","v":[-0,1.7e308]},'
+    + '{"id":"13","label":"d","v":[12,3]},{"id":"27","label":"e","v":[40,9]}],'
+    + '"total":{"label":"t","v":[1e999,2],"mismatch":{"0":1e999}}}'), { width: 1280, height: 800 });
+  await tableUp(odd);
+  await calm(odd);
+  for (const i of [0, 1]) {
+    await pickCol(odd, i);
+    key = await keyText(odd);
+    check('column ' + i + ': the key has no NaN or ∞', !/NaN|∞|Infinity/.test(key), key.slice(0, 200));
+  }
+  card = await cardText(odd);
+  check('a mismatch of infinity is not reported', !/add up to/.test(card), card.slice(0, 300));
+  check('a date that cannot be one is left out', !/9999/.test(card), card.slice(0, 200));
+  check('a colour for no absurd figure', (await fillOf(odd, 'Hokkaido')) === '#ffffff', await fillOf(odd, 'Hokkaido'));
+  await odd.close();
+
+  console.log('\n— links arriving faster than they can be read —');
+  const fast = await open(b, VIEW, { width: 1280, height: 800 });
+  await calm(fast);
+  const slowly = (first, then) => fast.evaluate(async (a, z) => {
+    const read = ReadableStreamDefaultReader.prototype.read;
+    window.__slow = true;
+    ReadableStreamDefaultReader.prototype.read = async function () {
+      if (window.__slow) { window.__slow = false; await new Promise(r => setTimeout(r, 500)); }
+      return read.call(this);
+    };
+    location.hash = a;
+    await new Promise(r => setTimeout(r, 60));
+    location.hash = z;
+    await new Promise(r => setTimeout(r, 1100));
+    ReadableStreamDefaultReader.prototype.read = read;
+  }, first, then);
+  await slowly('#t=' + encode(COUNT), '#t=' + encode(RATES));
+  await calm(fast);
+  card = await cardText(fast);
+  check('the later link wins, not the slower one', /Births and deaths/.test(card) && !/Geisha/.test(card), card.slice(0, 120));
+  await slowly('#t=' + encode(COUNT), '');
+  await calm(fast);
+  check('a link taken away while it is read does not come up',
+    await fast.evaluate(() => !document.querySelector('.tbl-pc')));
+  check('  and leaves no table without an address', await fast.evaluate(() => !!location.hash || !document.querySelector('.tbl-pc')));
+  await fast.close();
+
+  console.log('\n— a table open when another arrives —');
+  const stale = await open(b, link(RATES), { width: 1280, height: 800 });
+  await tableUp(stale);
+  await calm(stale);
+  await pressAll(stale);
+  await calm(stale);
+  await stale.evaluate(h => { location.hash = h; }, '#t=' + encode(COUNT));
+  await stale.waitForFunction(() => !!document.querySelector('.tbl-pc'), { timeout: 15000 }).catch(() => {});
+  await calm(stale);
+  check('its figures do not stay open over the new one', await stale.evaluate(() => !document.getElementById('dlg-table').open));
+  await stale.evaluate(() => [...document.querySelectorAll('#info-trains button')].find(x => /All figures/.test(x.textContent)).click());
+  await calm(stale);
+  await stale.evaluate(() => { location.hash = '#t=broken'; });
+  await stale.waitForFunction(() => /Table not shown/.test(document.getElementById('info').innerText), { timeout: 15000 }).catch(() => {});
+  await calm(stale);
+  const broke = await stale.evaluate(() => ({ dlg: document.getElementById('dlg-table').open, bar: !!document.getElementById('tbl-bar') }));
+  check('nor over a link that fails', !broke.dlg && !broke.bar, JSON.stringify(broke));
+  await stale.close();
+
+  console.log('\n— the code will not arrive —');
+  const noScript = await b.newPage();
+  await noScript.setViewport({ width: 1280, height: 800 });
+  await noScript.setRequestInterception(true);
+  noScript.on('request', q => (/table-link/.test(q.url()) ? q.abort() : q.continue()));
+  await noScript.goto(BASE + link(RATES), { waitUntil: 'domcontentloaded' });
+  await noScript.waitForFunction(() => /could not be loaded/.test(document.getElementById('info').innerText), { timeout: 30000 }).catch(() => {});
+  card = await cardText(noScript);
+  check('the map opens and says so', /could not be loaded/.test(card), card.slice(0, 160));
+  await noScript.close();
+
+  console.log('\n— saying the figures are not the map’s own —');
+  const flagged = await open(b, link(COUNT), { width: 1280, height: 800 });
+  await tableUp(flagged);
+  await calm(flagged);
+  const flagBox = () => flagged.evaluate(() => {
+    const e = document.getElementById('tbl-flag');
+    if (!e) return null;
+    const r = e.getBoundingClientRect(), m = document.getElementById('map-container').getBoundingClientRect();
+    return { text: e.textContent, x: r.left + r.width / 2, y: r.top + r.height / 2, left: r.left - m.left, top: r.top - m.top,
+      onTop: document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2) === e, vis: getComputedStyle(e).visibility };
+  });
+  let fb = await flagBox();
+  check('a pill in the corner of the map says so', !!fb && /External data/.test(fb.text) && fb.onTop && fb.left < 30 && fb.top < 30, JSON.stringify(fb));
+  const beforeDrag = await flagBox();
+  await flagged.mouse.move(640, 400);
+  await flagged.mouse.down();
+  await flagged.mouse.move(600, 380, { steps: 4 });
+  await flagged.mouse.up();
+  await calm(flagged);
+  await flagged.evaluate(() => document.getElementById('zoom-in').click());
+  await calm(flagged);
+  fb = await flagBox();
+  check('  and stays there when the map pans and zooms', fb.x === beforeDrag.x && fb.y === beforeDrag.y && fb.vis === 'visible', JSON.stringify(fb));
+  at = await atProv(flagged, 'Tokyo');
+  await press(flagged, at);
+  check('  and with another card open', !!(await flagBox()));
+  fb = await flagBox();
+  await press(flagged, fb);
+  card = await cardText(flagged);
+  check('pressing it gives the table’s details', /Geisha by Prefecture/.test(card) && /Printed total/.test(card), card.slice(0, 160));
+  check('  and selects nothing underneath', await flagged.evaluate(() => !document.querySelector('.tbl-sel')));
+  await flagged.evaluate(() => [...document.querySelectorAll('#legend .cen-chip')].find(x => /Remove/.test(x.textContent)).click());
+  await calm(flagged);
+  check('removing the table takes it away', !(await flagBox()));
+  await flagged.close();
+  const unflagged = await open(b, VIEW + '#t=broken', { width: 1280, height: 800 });
+  await unflagged.waitForFunction(() => !document.getElementById('info').hidden, { timeout: 15000 }).catch(() => {});
+  await calm(unflagged);
+  check('a link that shows nothing has no pill', await unflagged.evaluate(() => !document.getElementById('tbl-flag')));
+  await unflagged.close();
+
+  console.log('\n— many columns —');
+  const GROUPED = {
+    v: 1, units: 'prefecture', src: { url: SRC }, title: { en: 'Occupations' },
+    cols: Array.from({ length: 24 }, (x, i) => ({
+      name: ['農業', '工業', '商業'][i % 3] + ' — ' + (i % 2 ? '女' : '男') + ' — ' + i,
+      en: i === 7 ? 'Industry, women' : undefined, kind: 'count', unit: '人',
+    })),
+    def: 7,
+    rows: ALL.map((id, r) => ({ id, label: 'P' + id, v: Array.from({ length: 24 }, (x, i) => (r + 1) * (i % 2 ? 24 - i : i + 1)) })),
+  };
+  const m = await open(b, link(GROUPED), { width: 1280, height: 800 });
+  await tableUp(m);
+  await calm(m);
+  const menuState = () => m.evaluate(() => {
+    const p = document.getElementById('tbl-menu');
+    return { hidden: p.hidden, native: !!document.getElementById('tbl-col'), expanded: document.getElementById('tbl-menu-btn').getAttribute('aria-expanded'),
+      now: document.querySelector('#tbl-menu-btn .now').textContent,
+      open: [...p.querySelectorAll('details')].filter(d => d.open).map(d => d.querySelector('summary').firstChild.textContent),
+      groups: p.querySelectorAll('details').length, items: p.querySelectorAll('.tbl-menu-item').length,
+      on: (p.querySelector('.tbl-menu-item.on') || {}).textContent };
+  });
+  let ms = await menuState();
+  check('past six columns the dropdown folds: one line to begin with', ms.hidden && !ms.native && ms.expanded === 'false' && /Industry, women/.test(ms.now), JSON.stringify(ms));
+  check('  every column is in it, by the first level of its heading', ms.groups === 3 && ms.items === 24, JSON.stringify(ms));
+  check('  and only the group in use is open', ms.open.join() === '工業', JSON.stringify(ms.open));
+  const clickBtn = sel => m.evaluate(s => document.querySelector(s).click(), sel);
+  const btnAt = await m.evaluate(() => { const r = document.getElementById('tbl-menu-btn').getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
+  await press(m, btnAt);
+  ms = await menuState();
+  check('pressing it opens it', !ms.hidden && ms.expanded === 'true', JSON.stringify(ms));
+  await press(m, btnAt);
+  ms = await menuState();
+  check('pressing it again folds it', ms.hidden && ms.expanded === 'false', JSON.stringify(ms));
+  await press(m, btnAt);
+  const fold = await m.evaluate(() => {
+    const ds = [...document.querySelectorAll('#tbl-menu details')];
+    const shut = ds.find(d => !d.open);
+    const before = shut.querySelector('.tbl-menu-item').checkVisibility();
+    shut.querySelector('summary').click();
+    return { before, opened: shut.open, after: shut.querySelector('.tbl-menu-item').checkVisibility() };
+  });
+  check('a group opens on its own', !fold.before && fold.opened && fold.after, JSON.stringify(fold));
+  const whereWas = await m.evaluate(() => { const svg = document.querySelector('#jmap'); return svg.getAttribute('viewBox'); });
+  const panelAt = await m.evaluate(() => { const r = document.getElementById('tbl-menu').getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
+  await m.mouse.move(panelAt.x, panelAt.y);
+  await m.mouse.wheel({ deltaY: 200 });
+  await calm(m);
+  check('scrolling the list does not zoom the map under it', !!whereWas && whereWas === await m.evaluate(() => document.querySelector('#jmap').getAttribute('viewBox')));
+  await m.mouse.move(300, 600);
+  await m.mouse.wheel({ deltaY: -300 });
+  await calm(m);
+  check('  though the same wheel on the map does', whereWas !== await m.evaluate(() => document.querySelector('#jmap').getAttribute('viewBox')));
+  const fillBefore = await fillOf(m, 'Hokkaido');
+  await clickBtn('#tbl-menu .tbl-menu-item[data-col="0"]');
+  await calm(m);
+  ms = await menuState();
+  check('choosing a column folds it and names the column', ms.hidden && /男/.test(ms.now), JSON.stringify(ms));
+  key = await keyText(m);
+  check('  and the key follows', /男/.test(key), key.slice(0, 160));
+  check('  and the map', !!fillBefore && !!(await fillOf(m, 'Hokkaido')));
+  await press(m, btnAt);
+  await m.keyboard.press('Escape');
+  await calm(m);
+  check('Escape folds it', (await menuState()).hidden);
+  await press(m, btnAt);
+  const mapBefore = await m.evaluate(() => document.querySelector('#jmap').getAttribute('viewBox'));
+  await m.mouse.click(300, 600);
+  await sleep(450);              // past the 320 ms double-tap window
+  await calm(m);
+  check('a press on the map folds it', (await menuState()).hidden && !!mapBefore && mapBefore === await m.evaluate(() => document.querySelector('#jmap').getAttribute('viewBox')));
+  at = await atProv(m, 'Nagano');
+  await press(m, at);
+  await m.evaluate(() => document.querySelectorAll('#info-trains .tbl-value')[23].click());
+  await calm(m);
+  ms = await menuState();
+  check('choosing a column in the card moves the menu too', /23/.test(ms.now) && /23/.test(ms.on), JSON.stringify(ms));
+  await m.close();
+  const flat = await open(b, link(Object.assign({}, GROUPED, {
+    cols: Array.from({ length: 9 }, (x, i) => ({ name: 'Column ' + i })),
+    rows: ALL.map((id, r) => ({ id, label: 'P' + id, v: Array(9).fill(r) })), def: 0,
+  })), { width: 1280, height: 800 });
+  await tableUp(flat);
+  await calm(flat);
+  const flatMenu = await flat.evaluate(() => ({ groups: document.querySelectorAll('#tbl-menu details').length, items: document.querySelectorAll('#tbl-menu .tbl-menu-item').length }));
+  check('headings with no levels are a plain list', flatMenu.groups === 0 && flatMenu.items === 9, JSON.stringify(flatMenu));
+  await flat.close();
+  const six = await open(b, link(Object.assign({}, GROUPED, {
+    cols: Array.from({ length: 6 }, (x, i) => ({ name: 'Column ' + i })),
+    rows: ALL.map((id, r) => ({ id, label: 'P' + id, v: Array(6).fill(r) })), def: 0,
+  })), { width: 1280, height: 800 });
+  await tableUp(six);
+  await calm(six);
+  check('six columns keep the native dropdown', await six.evaluate(() => !!document.getElementById('tbl-col') && !document.getElementById('tbl-menu-btn')));
+  await six.close();
+  const mt = await open(b, link(GROUPED), { touch: true, width: 390, height: 664 });
+  await tableUp(mt);
+  await calm(mt);
+  const phone = await mt.evaluate(() => {
+    const f = document.getElementById('tbl-flag').getBoundingClientRect();
+    const r = document.getElementById('tbl-bar').getBoundingClientRect();
+    const b = document.getElementById('tbl-menu-btn').getBoundingClientRect();
+    return { apart: f.bottom <= r.top, x: b.left + b.width / 2, y: b.top + b.height / 2, right: r.right, w: innerWidth };
+  });
+  check('with a finger the pill and the menu do not meet', phone.apart && phone.right <= phone.w, JSON.stringify(phone));
+  await press(mt, phone);
+  const scroller = await mt.evaluate(() => {
+    const p = document.getElementById('tbl-menu');
+    p.querySelectorAll('details').forEach(d => { d.open = true; });
+    return { open: !p.hidden, scrolls: p.scrollHeight > p.clientHeight, action: getComputedStyle(p).touchAction };
+  });
+  check('  a tap opens it, and the long list can scroll', scroller.open && scroller.scrolls && scroller.action === 'pan-y', JSON.stringify(scroller));
+  await mt.close();
+
+  console.log('\n— the second line —');
+  const csp = await open(b, link(RATES), { width: 1280, height: 800 });
+  await tableUp(csp);
+  await calm(csp);
+  const pol = await csp.evaluate(() => {
+    const m = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+    const first = document.querySelector('script');
+    return { content: m && m.content, before: !!m && !!first && !!(m.compareDocumentPosition(first) & Node.DOCUMENT_POSITION_FOLLOWING),
+      ran: !!window.JEM_ASSETS };
+  });
+  const scripts = (/script-src ([^;]+)/.exec(pol.content || '') || [])[1] || '';
+  check('the page has a policy, ahead of its first script', pol.before, JSON.stringify(pol).slice(0, 200));
+  check('  which lets no script run but the site’s', /'self'/.test(scripts) && !/unsafe|\*|https?:|data:/.test(scripts), scripts);
+  check('  and sends nothing elsewhere', /connect-src 'self'/.test(pol.content) && /default-src 'none'/.test(pol.content) && /form-action 'none'/.test(pol.content), pol.content);
+  check('  and the page’s own inline script still runs under it', pol.ran);
+  await csp.close();
 
   for (const [what, frag, re] of [
     ['garbage', '#t=not-a-real-payload', /could not be read/],

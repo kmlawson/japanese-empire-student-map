@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '379';
+  var JEM_VERSION = '380';
 
 
 
@@ -6527,7 +6527,7 @@
     if (uiBoxCache && uiBoxGen === layoutGen) return uiBoxCache.slice();
     var base = container.getBoundingClientRect();
     var boxes = [];
-    ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar', '#cen-back', '#tbl-bar'].forEach(function (sel) {
+    ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar', '#cen-back', '#tbl-bar', '#tbl-flag'].forEach(function (sel) {
       var el = $(sel);
       if (!el || el.hidden || el.offsetParent === null) return;
       var r = el.getBoundingClientRect();
@@ -9191,6 +9191,7 @@
 
 
   var themeRestore = null;
+  var themeTookAdmin = false;     // this theme switched the Administrative layer off
 
 
 
@@ -9550,6 +9551,12 @@
         themeRestore = null;
         applyState();
       }
+
+      if (themeTookAdmin) {
+        themeTookAdmin = false;
+        state.cats.territory = true;
+        applyState();
+      }
       buildLegend();
       syncMapButtons();
       return;
@@ -9566,6 +9573,14 @@
     if (!ownAreas) {
       state.cats.territory = true;
       state.labels = true;
+    }
+
+
+
+
+    if (themeRec(id).adminOff && state.cats.territory) {
+      state.cats.territory = false;
+      themeTookAdmin = true;
     }
     themeShown = id;
     state.themeId = id;
@@ -9626,7 +9641,19 @@
       if (!window.JMAP_TABLE) return;
       if (!tlinkApi) tlinkApi = window.JMAP_TABLE(tlinkHost());
       return tlinkApi.open(window.location.hash);
-    }).catch(function () { /* the map is still the map without the table */ });
+    }).catch(function (err) {
+
+
+      if (window.console && console.warn) console.warn('Table link', err);
+      showBlockCard({ chip: 'Table', colour: '#1f5b8f', primary: 'Table not shown' }, function (h) {
+        h.textContent = '';
+        h.hidden = false;
+        var p = document.createElement('p');
+        p.className = 'tbl-line';
+        p.textContent = 'The table in this link could not be loaded. Try reloading the page.';
+        h.appendChild(p);
+      });
+    });
   }
 
 
@@ -9636,7 +9663,10 @@
     var ours = infoBox && !infoBox.hidden && tlinkApi.ownsCard($('.chip', infoBox).textContent);
     tlinkApi.close();
     if (ours) select(null);
-    var rest = window.location.hash.replace(/(^#|&)t=[A-Za-z0-9_-]+/, '$1').replace(/^#&?$/, '');
+
+    var rest = window.location.hash.replace(/(^#|&)t=[A-Za-z0-9_-]+/, '$1')
+      .replace(/(^#|&)tk=[a-z]*/, '$1').replace(/&&+/g, '&').replace(/^#&/, '#')
+      .replace(/&$/, '').replace(/^#$/, '');
     if (window.history && history.replaceState) {
       try {
         history.replaceState(null, '', window.location.pathname + window.location.search + rest);
@@ -11997,7 +12027,16 @@
 
   function csvCell(v) {
     var t = (v === undefined || v === null) ? '' : String(v);
-    return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+
+
+
+
+
+
+
+    if (typeof v === 'string' && /^[\s\u200b-\u200f\u2060]*[=+\-@＝＋－＠]/.test(t)
+        && !/^[+-]?[\d.,]*%?$/.test(t)) t = "'" + t;
+    return /[",;\t\r\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
   }
 
   function csvFrom(spec, notes, source, title) {
@@ -14270,7 +14309,7 @@
 
   var DOCK_SHEETS = ['#info', '#quiz', '#annotate'];
   var DOCK_LIFT = ['#train-bar', '#air-bar', '#ann-clock', '#corner-controls',
-                   '#ann-edit', '#beta-badge', '#legend', '#cen-back', '#tbl-bar'];
+                   '#ann-edit', '#legend', '#cen-back', '#tbl-bar', '#tbl-flag'];
   var DOCK_YIELD = '#zoom-controls > button, #map-extras > button';
   var DOCK_GAP = 8;               // screen pixels between two docked things
   var dockQueued = false;
@@ -22112,48 +22151,9 @@
     if (!el) return;
     var page = ($('#jem-version') || {}).textContent || '';
     var v = (typeof JEM_VERSION !== 'undefined' ? JEM_VERSION : page).trim();
-    el.textContent = v ? '1.' + v + (isBeta() ? ' beta' : '') : '';
+    el.textContent = v ? '1.' + v : '';
     syncBarExtras();
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  function betaHost(h) {
-    return /(^|\.)github\.io$/i.test(String(h || ''));
-  }
-
-  function isBeta() {
-    try { return betaHost(location.hostname); } catch (e) { return false; }
-  }
-
-
-
-
-
-  function applyBeta() {
-    var on = isBeta();
-    var badge = $('#beta-badge');
-    if (badge) badge.hidden = !on;
-    var tag = document.querySelector('.beta-tag');
-    if (tag) tag.hidden = !on;
-    document.documentElement.classList.toggle('is-beta', on);
-  }
-
-
-
-  JMAP.__betaHost = betaHost;
 
 
 
@@ -22185,7 +22185,6 @@
 
   function annWire() {
     stampVersion();
-    applyBeta();
     barVersion();
 
 

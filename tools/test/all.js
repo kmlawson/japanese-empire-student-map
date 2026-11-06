@@ -28,7 +28,7 @@
  * several interleaved streams do not become one unreadable one. The exit code
  * is the number of scripts that failed.
  */
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
@@ -73,9 +73,9 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'relief', 'mono', 'names', 'labuan', 'pin', 'stations', 'zoom', 'colours',
              'trains', 'korea', 'population', 'poptables', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airlines', 'airplay',
-             'clipping', 'layerinfo', 'krtrains', 'kftrains', 'mntrains', 'layerfind', 'beta', 'hanlabels',
+             'clipping', 'layerinfo', 'krtrains', 'kftrains', 'mntrains', 'layerfind', 'hanlabels',
              'owns', 'jprails', 'indochina', 'citytap', 'ferries', 'arcs',
-             'dei', 'burma', 'overlap', 'picture', 'military', 'census', 'tablelink'];
+             'dei', 'burma', 'overlap', 'picture', 'military', 'census', 'tablelink', 'tableshapes'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -150,14 +150,14 @@ const GROUPS = {
      still gates a release. */
   smoke: ['owns', 'dei', 'layerfind', 'provsource', 'taiwanpop', 'bookmarks',
           'cache-keys', 'zoom', 'mono', 'labuan', 'sugar', 'subnames', 'projclip',
-          'pointsize', 'beta', 'taiwan', 'labels', 'korea', 'backings', 'krtrains',
+          'pointsize', 'taiwan', 'labels', 'korea', 'backings', 'krtrains',
           'twpop1930', 'colours', 'manchupop', 'theme', 'menu', 'run7'],
 
   /* The map's own interaction — what a pointer, a key or a switch does. This
      is what `map.js` changes touch, and `map.js` changes hourly. */
   core: ['labels', 'labelcats', 'legendpick', 'subnames', 'mapstrip', 'keys',
          'theme', 'zoom', 'pin', 'labuan', 'epoch', 'mono', 'colours', 'extent',
-         'names', 'clipping', 'layerfind', 'beta', 'hanlabels', 'overlap', 'picture', 'military', 'census', 'tablelink'],
+         'names', 'clipping', 'layerfind', 'hanlabels', 'overlap', 'picture', 'military', 'census', 'tablelink', 'tableshapes'],
 
   /* Everything drawn as a dot or read off one: the markers, the gazetteer,
      the sites table and the menu that hangs off a shape. */
@@ -184,7 +184,7 @@ const GROUPS = {
                'ferries', 'overlap', 'picture'],
 
   /* What a link carries and what a reload remembers. */
-  links: ['layers-url', 'bookmarks', 'cache-keys', 'layerinfo', 'beta', 'hanlabels'],
+  links: ['layers-url', 'bookmarks', 'cache-keys', 'layerinfo', 'hanlabels'],
 
   ann: ANN,
 };
@@ -298,7 +298,8 @@ const TRIGGERS = [
   [/^tools\/cache\/1931-india-military-divisions\./, ['geometry', 'core']],
   /* The 1931 census language maps: the module, its figures and the build, and
      the copy of the source they are built from. tools/test/census.js. */
-  /* A printed table in the address. tools/test/tablelink.js. */
+  /* A printed table in the address. tools/test/tablelink.js, and tableshapes.js for
+     a table of the empire's parts. Both are in `core`. */
   [/^table-link\.js$/,                    ['core']],
   [/^deploy\/lean\/table-link\.js$/,      ['core']],
   [/^theme-census\.js$/,                  ['core']],
@@ -598,6 +599,23 @@ const results = [];
 const retried = {};
 let next = 0, running = 0;
 
+/* **A script that never exits fails; it does not hold up the run.** This waits on
+   the child process, and nothing else would ever end the wait: `protocolTimeout`
+   covers commands sent to a browser, and a script can be stuck outside them. One
+   was, on 4 November 2026, for eight hours, in `browser.close()`. The slowest
+   script takes under three minutes on this machine with eight running.
+   `TEST_SCRIPT_LIMIT_S` overrides it, to test this or for a slower machine. */
+const SCRIPT_LIMIT_S = Number(process.env.TEST_SCRIPT_LIMIT_S) || 300;
+
+/* Its browser first, which is what a kill of the script would leave behind; and
+   the pipes, since anything left holding them would keep `close` from firing. */
+function stopScript(child) {
+  try { execSync('pkill -KILL -P ' + child.pid, { stdio: 'ignore' }); } catch (e) { /* no children */ }
+  try { child.kill('SIGKILL'); } catch (e) { /* already gone */ }
+  child.stdout.destroy();
+  child.stderr.destroy();
+}
+
 function launch() {
   while (running < JOBS && next < list.length) {
     const name = list[next++];
@@ -607,7 +625,10 @@ function launch() {
     let out = '';
     child.stdout.on('data', d => { out += d; });
     child.stderr.on('data', d => { out += d; });
+    let timedOut = false;
+    const limit = setTimeout(() => { timedOut = true; stopScript(child); }, SCRIPT_LIMIT_S * 1000);
     child.on('close', code => {
+      clearTimeout(limit);
       const secs = Math.round((Date.now() - t0) / 100) / 10;
       const m = out.match(/(\d+) passed, (\d+) failed/);
       /* A script that never reported a count did not fail — it never ran. Two
@@ -621,7 +642,7 @@ function launch() {
          Either way there is no verdict to report, so it goes to the back of
          the queue where the machine is quieter and is tried once more. A real
          failure prints its checks and is never retried. */
-      var stillborn = !m && (secs < 5 || /ProtocolError|Target\.\w+ timed out/.test(out));
+      var stillborn = !timedOut && !m && (secs < 5 || /ProtocolError|Target\.\w+ timed out/.test(out));
       if (stillborn && !retried[name]) {
         retried[name] = true;
         console.log('  ' + name + ' never started (' + secs + 's, no verdict) — retrying once');
@@ -630,11 +651,12 @@ function launch() {
         launch();
         return;
       }
-      results.push({ name: name + (retried[name] ? ' *' : ''), code, secs,
+      results.push({ name: name + (retried[name] ? ' *' : ''), code, secs, timedOut,
                      passed: m ? +m[1] : 0, failed: m ? +m[2] : null });
       console.log('\n' + '─'.repeat(64));
       console.log('  ' + name + '  —  ' + secs + 's'
-        + (m ? '  ' + m[1] + ' passed, ' + m[2] + ' failed'
+        + (timedOut ? '  TIMED OUT after ' + SCRIPT_LIMIT_S + 's: stopped'
+           : m ? '  ' + m[1] + ' passed, ' + m[2] + ' failed'
              : '  DID NOT REPORT (exit ' + code + ')'));
       console.log('─'.repeat(64));
       process.stdout.write(out.replace(/^/gm, '  '));
@@ -647,12 +669,13 @@ function launch() {
 
 function done() {
   const secs = Math.round((Date.now() - started) / 100) / 10;
-  const bad = results.filter(r => r.code !== 0 || r.failed === null || r.failed > 0);
+  const bad = results.filter(r => r.timedOut || r.code !== 0 || r.failed === null || r.failed > 0);
   const checks = results.reduce((n, r) => n + r.passed, 0);
   console.log('\n' + '═'.repeat(64));
   results.sort((a, b) => b.secs - a.secs).forEach(r => {
     console.log('  ' + r.name.padEnd(11) + String(r.secs).padStart(6) + 's  '
-      + (r.failed === null ? 'DID NOT REPORT'
+      + (r.timedOut ? 'TIMED OUT'
+         : r.failed === null ? 'DID NOT REPORT'
          : r.passed + ' passed, ' + r.failed + ' failed'));
   });
   console.log('─'.repeat(64));

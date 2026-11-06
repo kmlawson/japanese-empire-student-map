@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '379';
+  var JEM_VERSION = '380';
 
   /* Every file this one fetches, with the version on it.
 
@@ -6527,7 +6527,7 @@
     if (uiBoxCache && uiBoxGen === layoutGen) return uiBoxCache.slice();
     var base = container.getBoundingClientRect();
     var boxes = [];
-    ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar', '#cen-back', '#tbl-bar'].forEach(function (sel) {
+    ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar', '#cen-back', '#tbl-bar', '#tbl-flag'].forEach(function (sel) {
       var el = $(sel);
       if (!el || el.hidden || el.offsetParent === null) return;
       var r = el.getBoundingClientRect();
@@ -9191,6 +9191,7 @@
   /* What the reader had before the theme borrowed the map, so that turning it
      off is an undo and not a second opinion about how the map should look. */
   var themeRestore = null;
+  var themeTookAdmin = false;     // this theme switched the Administrative layer off
 
   /* **WHICH THEMES BELONG TO WHICH GROUND, AND WHERE THAT GROUND IS.**
    *
@@ -9516,7 +9517,7 @@
     }
     /* **One theme to another goes through off.** Burma's switches the
        Administrative layer and the names on and remembers what they were; the
-       military divisions leave them alone. Going straight from one to the
+       military divisions switch it off. Going straight from one to the
        other skipped the putting back, and the districts stayed on under a
        layer that had not asked for them. */
     if (id && themeShown) setTheme('');
@@ -9550,6 +9551,12 @@
         themeRestore = null;
         applyState();
       }
+      /* And the Administrative layer, if this theme is what put it away. */
+      if (themeTookAdmin) {
+        themeTookAdmin = false;
+        state.cats.territory = true;
+        applyState();
+      }
       buildLegend();
       syncMapButtons();
       return;
@@ -9566,6 +9573,14 @@
     if (!ownAreas) {
       state.cats.territory = true;
       state.labels = true;
+    }
+    /* **Or put away, for a theme whose own lines the provinces would run across**
+       (`adminOff`). Only as it opens: the switch stays the reader's, and turning
+       it back on under the theme is not undone. Themes start from the menu and
+       never from a link, so this cannot overrule an address somebody shared. */
+    if (themeRec(id).adminOff && state.cats.territory) {
+      state.cats.territory = false;
+      themeTookAdmin = true;
     }
     themeShown = id;
     state.themeId = id;
@@ -9626,7 +9641,19 @@
       if (!window.JMAP_TABLE) return;
       if (!tlinkApi) tlinkApi = window.JMAP_TABLE(tlinkHost());
       return tlinkApi.open(window.location.hash);
-    }).catch(function () { /* the map is still the map without the table */ });
+    }).catch(function (err) {
+      /* The map is still the map without the table, and says so: the module may
+         be what failed to load, so this cannot be left to it. */
+      if (window.console && console.warn) console.warn('Table link', err);
+      showBlockCard({ chip: 'Table', colour: '#1f5b8f', primary: 'Table not shown' }, function (h) {
+        h.textContent = '';
+        h.hidden = false;
+        var p = document.createElement('p');
+        p.className = 'tbl-line';
+        p.textContent = 'The table in this link could not be loaded. Try reloading the page.';
+        h.appendChild(p);
+      });
+    });
   }
 
   /* Off, and the table out of the address, so a reload does not bring it back.
@@ -9636,7 +9663,10 @@
     var ours = infoBox && !infoBox.hidden && tlinkApi.ownsCard($('.chip', infoBox).textContent);
     tlinkApi.close();
     if (ours) select(null);
-    var rest = window.location.hash.replace(/(^#|&)t=[A-Za-z0-9_-]+/, '$1').replace(/^#&?$/, '');
+    // the table, and how its classes were cut, which means nothing without it
+    var rest = window.location.hash.replace(/(^#|&)t=[A-Za-z0-9_-]+/, '$1')
+      .replace(/(^#|&)tk=[a-z]*/, '$1').replace(/&&+/g, '&').replace(/^#&/, '#')
+      .replace(/&$/, '').replace(/^#$/, '');
     if (window.history && history.replaceState) {
       try {
         history.replaceState(null, '', window.location.pathname + window.location.search + rest);
@@ -11997,7 +12027,16 @@
      CLAUDE.md. */
   function csvCell(v) {
     var t = (v === undefined || v === null) ? '' : String(v);
-    return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+    /* **A cell a spreadsheet would run.** Some of what reaches a file came in a
+       link written by a stranger, so text opening like a formula gets a leading
+       apostrophe here, at the file, and not on the screen: the full-width forms
+       too, and past any leading space or invisible character. A figure in text,
+       `+10` or `-3.5%`, is left alone, and real numbers never come this way. The
+       separators quoted are the ones a reader in any locale might split on,
+       including a bare CR, which starts a new row in some readers. */
+    if (typeof v === 'string' && /^[\s\u200b-\u200f\u2060]*[=+\-@＝＋－＠]/.test(t)
+        && !/^[+-]?[\d.,]*%?$/.test(t)) t = "'" + t;
+    return /[",;\t\r\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
   }
 
   function csvFrom(spec, notes, source, title) {
@@ -14238,8 +14277,8 @@
    *
    * **Nothing floating over the map may sit on anything else floating over
    * it.** On a phone every panel wants the foot of the screen — the key, the
-   * card, the annotation sheet, the train and plane strips, the ⓘ button, the
-   * BETA mark — and each was placed by its own rule, written on its own day,
+   * card, the annotation sheet, the train and plane strips, the ⓘ button —
+   * and each was placed by its own rule, written on its own day,
    * with no idea the others were there. Measured on 23 September 2026 at five
    * phone and tablet sizes: the card's × under the railway button, the plane
    * strip over the ⓘ and the key's own fold, the annotation sheet's close
@@ -14270,7 +14309,7 @@
    * thing found under another. */
   var DOCK_SHEETS = ['#info', '#quiz', '#annotate'];
   var DOCK_LIFT = ['#train-bar', '#air-bar', '#ann-clock', '#corner-controls',
-                   '#ann-edit', '#beta-badge', '#legend', '#cen-back', '#tbl-bar'];
+                   '#ann-edit', '#legend', '#cen-back', '#tbl-bar', '#tbl-flag'];
   var DOCK_YIELD = '#zoom-controls > button, #map-extras > button';
   var DOCK_GAP = 8;               // screen pixels between two docked things
   var dockQueued = false;
@@ -22112,48 +22151,9 @@
     if (!el) return;
     var page = ($('#jem-version') || {}).textContent || '';
     var v = (typeof JEM_VERSION !== 'undefined' ? JEM_VERSION : page).trim();
-    el.textContent = v ? '1.' + v + (isBeta() ? ' beta' : '') : '';
+    el.textContent = v ? '1.' + v : '';
     syncBarExtras();
   }
-
-  /* **Which copy of the map this is.**
-   *
-   * There are two: the GitHub Pages one, where a change lands first and where
-   * a reader may be looking at something half an hour old, and froginawell.net,
-   * which is the one to point a class at. They are built from the same files,
-   * so nothing in the page can tell them apart except the address it was
-   * served from.
-   *
-   * Only a `github.io` host is marked. That is narrower than "not
-   * froginawell.net" on purpose: a copy served off a local server or from a
-   * file is somebody working on it, and a badge over the map is the last thing
-   * that reader needs. The rule is a function of the hostname and nothing
-   * else, so a check can put a hostname to it without a browser.
-   */
-  function betaHost(h) {
-    return /(^|\.)github\.io$/i.test(String(h || ''));
-  }
-
-  function isBeta() {
-    try { return betaHost(location.hostname); } catch (e) { return false; }
-  }
-
-  /* The badge in the corner and the word after the version. Both go up
-     together or not at all, and on the stable site neither exists — the badge
-     keeps its `hidden` attribute and the tag beside the update number keeps
-     its own. */
-  function applyBeta() {
-    var on = isBeta();
-    var badge = $('#beta-badge');
-    if (badge) badge.hidden = !on;
-    var tag = document.querySelector('.beta-tag');
-    if (tag) tag.hidden = !on;
-    document.documentElement.classList.toggle('is-beta', on);
-  }
-
-  // the rule itself, so a check can put a hostname to it rather than having to
-  // serve the page from one
-  JMAP.__betaHost = betaHost;
 
   /* The projection, for anything outside this file that needs it.
    *
@@ -22185,7 +22185,6 @@
 
   function annWire() {
     stampVersion();
-    applyBeta();
     barVersion();
     /* The drawing tools need a panel with room for four tools, eight style
        controls, four fields and a list, and a map big enough to draw on beside

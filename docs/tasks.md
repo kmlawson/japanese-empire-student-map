@@ -23534,3 +23534,177 @@ scripts, 270.1 s, all passing. An earlier run the same hour lost `run8` without 
 while two other scripts ran beside it in a second checkout; it passed 13 of 13 on three
 runs alone and in the clean rerun, so the load is the likely cause, not proven.
 Released as update 379.
+
+## 224. Table links: what a security review found, fixed
+
+A review of `#t=` found no way to run code: hostile markup stayed text in every field,
+and nothing left for another host. Fixed from its report, each with a test in
+`tablelink.js`:
+
+* **Source links** must land under `froginawell.net/reference/old-tables/` or
+  `kmlawson.github.io/playground-stat-tables/` once parsed; `src.path` is joined to the
+  one on the map's own host, as the spec now says. Anything else is a table with no link.
+  In the All figures table only the address is the link.
+* **CSV**: `-2+3`, a bare CR, `;` and full-width forms got past the first version.
+  `csvCell` in `map.js` now defuses at the file, for every CSV on the map, so the screen
+  shows `+10` as printed. Not checked in a real spreadsheet.
+* **Text** is capped and stripped of control and bidirectional characters. Numbers past
+  1e15 or under 1e-6, and impossible dates, are not figures or dates.
+* **Failures**: a later link beats a slower one; a throw while opening closes the table
+  and says so; a module that will not load says so; a new link closes the open dialog.
+* **Content-Security-Policy** in `index.html`, written by `build_texts.py` because the
+  inline script's hash changes each build. The build refuses a second inline script.
+  `suite.js` fails any page where the policy refuses something, so the whole suite is now
+  a test of it. `tools/bundle.py` strips it, but that script already failed before this
+  on its own script-tag match, and that was left alone.
+
+Not done: a line saying figures in a link are not checked against the source. Forged
+figures remain possible and now can carry a real source link. Proposed; the wording is
+the author's. Unverified: Firefox, Safari. Whole suite: 2,939 checks across 77 scripts,
+293.2 s, all passing.
+
+`tablelink.js` was pressing Download CSV with no sandbox, so the suite was leaving files
+in the reader's Downloads; it now launches with `{ downloads: true }`. The review's
+8-hour hang was `browser.close()` after such a download in its own script, never a page.
+
+## 225. A pill for external data, and a column menu that folds
+
+Asked for: a small, prominent sign that external data is loaded, and a collapsible
+dropdown for tables with many columns.
+
+* `#tbl-flag`, amber, "External data", top left of the map for as long as a table is up.
+  Pressing it opens the table's card. Not shown when a link fails. On phones `#tbl-bar`
+  sits under it. The wording and colour are a first offer.
+* Past `MANY_COLUMNS` (6), `columnMenu` replaces the native dropdown: one line, opening a
+  scrolling list, closed by choosing, pressing again, Escape or a press elsewhere. Columns
+  group by the first level of a ` — ` heading, with only the group in use open; headings
+  with no levels are a plain list. No real table has more than 4 columns yet, so this was
+  tested on made-up ones.
+
+`DOCK_LIFT`, `uiBoxes` and `overlap.js` have both. Mouse and finger, with screenshots wide
+and phone.
+
+## 226. The 1931 military divisions switch the Administrative layer off
+
+Asked for: off by default under this map, which the reader can turn back on. The
+provinces' lines ran across the commands. `adminOff` on the theme's record, read in
+`setTheme`: if Administrative is on when the theme opens it goes off, and it comes back
+when the theme closes. Turned back on under the theme it stays on. If it was off to
+begin with, the theme does not touch it. Themes start only from the menu, never from a
+link, so this cannot overrule a shared address. `military.js` covers all of these, with
+Burma after it.
+
+## 227. `all.js` stops a script that never exits
+
+It waited on each child process with no limit, so one hung script would have held a run
+forever with nothing said. A script still running after 300 s (`SCRIPT_LIMIT_S`,
+`TEST_SCRIPT_LIMIT_S` to override) now has its browser and itself killed, is reported as
+TIMED OUT, counts as failed and is not retried. The slowest script took 162.5 s in the
+last run with its figures recorded. Proved with a limit of 3 s on `zoom` and `labuan`: both
+reported TIMED OUT, the run ended with exit 2, and no test browser was left running. The
+two runs of that proof were taken out of `runs.jsonl`, not being measurements.
+
+## 228. The beta designation is gone
+
+Asked for: remove the button and the mention in About. Also removed, being the same mark:
+the word after the version in the bar, the `is-beta` class and the phone rule that moved
+the key up for the badge, `betaHost`, and `tools/test/beta.js`, which only tested this. The
+copies now cannot tell which host they are on, as nothing needs them to. Checked on
+`kmlawson.github.io` through the resolver, wide and phone: no badge, no tag, no class, and
+the word appears nowhere on the page.
+
+`dei` hit the new time limit once during `changed` for 226 and 227 (300 s, normally 3 s),
+in a run that took 448.7 s against 146 s for much the same scripts. It then passed three
+times alone and in the next run, 2,243 checks across 64 scripts, 201.5 s. The machine's load
+average was 38 soon after. The output of the failing run was filtered away, so the cause
+is not known. It is one more intermittent stall under load, after `run8`'s on 4 November.
+
+## 229. A list of tables in the Japan volumes that could go on the map
+
+Moved 2026-11-06 to the tables site (user): `support/candidates.html` there, served at
+https://kmlawson.github.io/playground-stat-tables/support/, written by its
+`build/build_candidates.py`, which reads this repository's place names. Originally written here
+as `support/candidates.html` by `support/build_candidates.py`, from the tables
+site's `data/japan-*.json` (66 volumes, 35,166 tables). Nothing in the tables site is
+written. The prefecture matcher is the site's own `build/maplinks.py`. Cities, provinces,
+countries and stations are matched against this repository's `texts/` and `data/` name
+tables.
+
+* **Counts**: 897 prefecture tables (431 good, 240 fair, 226 to check), 786 city tables,
+  and 350 others (131 countries, 76 colonies as whole rows, 62 Manchukuo, 39 South Seas,
+  34 regional schemes, 4 China, 4 Korea). "Other" lists good and fair only.
+* **No station tables**: a table counts only if it says it is of stations, because the same
+  names belong to police districts and towns. The station names are kanji only, so English
+  romanised tables could not match anyway.
+* **Regions** are labelled by scheme: NHK 支部 (靜岡, 岡山, 鳥取 split), the Statistics
+  Bureau's ten regions, the 五畿七道 circuits, or "scheme not stated".
+* **The page** keeps hand-written sections: the script writes only between its two marker
+  comments, and the contents list at the top is built from every `section[data-section]`.
+* **Checked**: samples of each kind read by eye after two rounds of fixing false matches.
+  Those were ranked labels (`1 大阪市`), city lists taken for colonies, radio and police
+  tables taken for stations, Taiwanese cities taken for prefectures, and the circuits taken
+  for the ten regions. Rendered in Chrome at 1200 and 390 px, with no page errors and no
+  horizontal scroll, and the filter works. The thresholds are judgements, named at the top
+  of the script. The rest of the 2,033 entries have not been checked one by one.
+* Nothing of it remains in this repository, so the test runner is unaffected.
+
+## 230. Tables of the empire's parts on the map, and how each shape should arrive
+
+Asked for: a method for showing tables like 日本都市年鑑 1941 p0041_1 (the empire's
+parts across the top; population, increase and rate as three parts), with 1936 p0032_1,
+p0097_3, p0136_2 and 1931 p0368_1, p0368_2 as further examples. The method, and what the
+statistics site should send, is `docs/table-links.md`. The site's spec is not changed;
+its additions are a request.
+
+`table-link.js`:
+
+* `units: "territory"`, with `naichi` for Japan proper: every prefecture one colour,
+  answering as Japan proper in the hover and on a tap, not outlined. Taiwan now answers
+  a tap and a hover by its record id (`formosa`), which no prefecture table had tested.
+  Each kind of table accepts only its own ids. No per-capita view for it.
+* Up to 8 places, the key lists them with their figures, each a press away, and
+  names the kind of gap for a place with no figure.
+* The printed whole (`total`) is in the key too, named by a new `total.en`.
+* `cols[].series` shares one scale across its columns; `cols[].date` orders it.
+  Arrows `‹ ›` step through the series, or the heading group for a series of one or
+  none. They appear past six columns or with any series. The arrows and the column
+  picker stay on one line on a phone, and the open menu hangs from the start of the bar.
+* The menu and the place card group columns by the heading's first level, named from
+  `en` when it has the same levels. A unit shared by a whole group is shown once on the group.
+
+Tests: new `tools/test/tableshapes.js` (core group, in `MAP`), 55 checks, 11.6 s, with
+p0041_1 and p0368_1 sent the way the doc says, the figures from the site's JSON, mouse
+and finger, two zooms. `overlap.js` audits `.tbl-step` too. Core group run: 1,027 checks
+across 24 scripts, 135.5 s. It failed in `tablelink` (the new key printed "Infinity"
+for a figure past the ceiling) and in `overlap` (the menu ran off a 390 px screen).
+Both are fixed, along with a total past the ceiling, which is now never stated. Core
+group rerun: 1,039 checks across 24 scripts, 135.8 s, all passing. These runs used the system Chrome (`PUPPETEER_EXECUTABLE_PATH`),
+because `~/.cache/puppeteer` no longer exists. Not checked: Firefox, Safari. The other
+three 1936 and 1931 tables were checked against the doc by reading them, not driven.
+
+## 231. Four ways to cut the classes of a table from the address
+
+Asked for: a dropdown under the key, left of "About this table", offering Quantiles,
+Natural Breaks, Equal Intervals and Logarithmic. Quantiles were the only method, and stay
+the default.
+
+* `scale()` in `table-link.js` cuts by `method`. Natural breaks are exact Fisher–Jenks by
+  dynamic programming, and each cut is the roundest number between the two classes it
+  divides, so rounding moves no place. Equal intervals are rounded to two figures of the
+  step. Logarithmic cuts are 1, 2 or 5 times a power of ten. It is greyed out where a
+  figure is at or below nought, and if a link asks for it there anyway the key says
+  quantiles are shown. A diverging column with both signs keeps its split round nought
+  and shows no dropdown.
+* The choice is `tk=` in the fragment beside `t=`, written with `replaceState` so the
+  table is not read again. A reload or a shared link keeps it. `tlinkClose` in `map.js`
+  strips it with the table.
+* On a phone the key gives way to the card's sheet, as before, so the dropdown is reached
+  by closing the card.
+
+Tests: `tableshapes.js` uses a skewed made-up count (Tōkyō 6,349, the rest 4 to 735). It
+checks that a larger figure is never in a lower class under each method, and the shape
+of each method's classes. It also checks the address, a reload, the log option with a
+nought, the diverging case, Remove, and the phone.
+
+Whole suite before release: 3,049 checks across 77 scripts, 334.6 s, all passing, with
+the system Chrome. 225–231 released together as update 380.

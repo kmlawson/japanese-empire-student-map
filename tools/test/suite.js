@@ -129,6 +129,10 @@ async function open(browser, url, opts) {
   if (!o.touch && o.shim !== false) await p.evaluateOnNewDocument(SHIM);
   p.__errs = [];
   p.on('pageerror', e => p.__errs.push(String(e)));
+  // something the page's Content-Security-Policy refused is a thing that broke
+  p.on('console', m => {
+    if (m.type() === 'error' && /Content Security Policy/i.test(m.text())) p.__errs.push('CSP: ' + m.text());
+  });
   pages.push(p);
   p.on('dialog', async d => {
     if (d.type() === 'beforeunload') { await d.accept(); return; }

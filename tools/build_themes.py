@@ -131,6 +131,9 @@ MIL_THEME = {
     # drawn over the country as it is: its own boundaries and names, not
     # the provinces', and not clipped to one atom — it covers two
     "admin": False,
+    # and the provinces' lines are put away while it opens, since they cross its
+    # commands and say something the plate does not. The reader can have them back.
+    "adminOff": True,
     "clip": False,
     "download": "gis/source/india-1931-military-divisions.geojson",
     # what the two kinds of name on the map are, for the key
