@@ -5,7 +5,8 @@
  * base64url(raw DEFLATE(UTF-8 JSON)). The contract is that site's
  * `build/MAPLINK_SPEC.md`, version 1: prefectures by JIS code, plus five colonies
  * as single rows; or, as `units: "territory"`, the empire's parts as wholes, Japan
- * proper (`naichi`) among them. `docs/table-links.md` is how a printed table of each
+ * proper (`naichi`) among them; or, as `units: "city"`, cities by the map's own city
+ * ids, drawn as points (`drawPoints`). `docs/table-links.md` is how a printed table of each
  * shape is meant to arrive and be shown, and is the place to add the next shape.
  *
  * **What the reader does.** The map opens shaded by the table's first column, with
@@ -56,7 +57,7 @@ window.JMAP_TABLE = function (host) {
      goes into the address as `tk=`, beside `t=`, so a shared link draws the same
      map; quantiles, the default, are left out of it. */
   const METHODS = [['quantile', 'Quantiles'], ['jenks', 'Natural Breaks'],
-    ['equal', 'Equal Intervals'], ['log', 'Logarithmic']];
+    ['equal', 'Equal Intervals'], ['log', 'Logarithmic'], ['prop', 'Proportional']];
   const METHOD_IDS = new Set(METHODS.map((m) => m[0]));
 
   /* The contract's ids, against this map's own province keys. */
@@ -107,6 +108,17 @@ window.JMAP_TABLE = function (host) {
     ['prefecture', new Set(PREFECTURES.map((p) => p[0]).concat(COLONIES.map((c) => c[0])))],
     ['territory', new Set(['naichi'].concat(COLONIES.map((c) => c[0])))],
   ]);
+  /* A table of cities is points, not ground. A count or an amount is a circle
+     whose *area* is the figure, up to `R_MAX` screen pixels across the radius;
+     anything else (a rate, an index, a temperature) is a dot of one size on the
+     ramp, because a circle's area would claim a quantity the figure is not. */
+  const R_MAX = 22;
+  const R_DOT = 6;
+  /* Five classes as five sizes, for a city table shown by size: radii in screen
+     pixels, each step a little more than the last so the classes read apart. */
+  const SIZE_R = [3.5, 6, 9, 12.5, 17];
+  const CIRCLE = '#1f5b8f';
+  const CENSUSES = [1920, 1930, 1940];
   /* The map's territory records that are not the contract's id for the same place. */
   const RECORD_PLACE = new Map([['formosa', 'taiwan']]);
 
@@ -119,6 +131,7 @@ window.JMAP_TABLE = function (host) {
   let colAt = 0;
   let perCapita = false;
   let method = 'quantile';          // how the classes are cut: one of METHODS
+  let style = '';                   // a table of cities: 'size', 'colour', or '' for its default
   let bar = null;
   let flag = null;
   let menuOff = null;               // takes the open column menu's listeners away
@@ -212,7 +225,21 @@ window.JMAP_TABLE = function (host) {
   const DATE = /^\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?)?$/;
   function normalise(p) {
     if (!p || typeof p !== 'object') throw new Error('shape');
-    const allowed = UNITS.get(p.units);
+    /* A table of cities takes the map's own city ids: the gazetteer of the
+       period the table asks for, and failing that the other one's, so a city
+       drawn on only one date's map still has a place. */
+    let cities = null;
+    if (p.units === 'city') {
+      const want = p.period === '1942' ? ['e1942', 'e1930'] : ['e1930', 'e1942'];
+      cities = new Map();
+      want.forEach((ep) => host.cities(ep).forEach((c) => {
+        if (typeof c.id === 'string' && !cities.has(c.id)) {
+          cities.set(c.id, { id: c.id, city: true, en: text(c.n, 120), ja: '', lon: c.lon, lat: c.lat,
+            cen: Array.isArray(c.cen) ? c.cen : null });
+        }
+      }));
+    }
+    const allowed = cities || UNITS.get(p.units);
     if (!allowed) throw Object.assign(new Error('units'), { src: sourceLink(p.src) });
     if (!Array.isArray(p.cols) || !p.cols.length || p.cols.length > 200
         || !Array.isArray(p.rows) || p.rows.length > 500) throw new Error('shape');
@@ -224,8 +251,13 @@ window.JMAP_TABLE = function (host) {
     });
     const rows = new Map();
     let dropped = 0;
+    const lost = [];                  // printed names of rows with an id the map has not
     p.rows.forEach((r) => {
-      if (!r || !allowed.has(r.id) || rows.has(r.id)) { dropped++; return; }
+      if (!r || !allowed.has(r.id) || rows.has(r.id)) {
+        dropped++;
+        if (r && r.label) lost.push(text(r.label, 80));
+        return;
+      }
       const v = Array.isArray(r.v) ? r.v : [];
       rows.set(r.id, { id: r.id, label: text(r.label, 120), cells: cols.map((c, i) => readCell(v[i])) });
     });
@@ -249,30 +281,47 @@ window.JMAP_TABLE = function (host) {
       volume: text(vol.title), year: text(vol.year), volumeEn: text(vol.en),
       date: DATE.test(String(p.date)) ? String(p.date) : '',
       period: p.period === '1930' || p.period === '1942' ? p.period : '',
-      part: text(p.part), cols, def, rows, total, dropped,
+      part: text(p.part), cols, def, rows, total, dropped, cities,
+      /* What the site could not match to a city on the map, by its printed name,
+         and what it matched to an id this map does not have. */
+      unplaced: (Array.isArray(p.unplaced) ? p.unplaced : []).slice(0, 500)
+        .map((u) => text(u && typeof u === 'object' ? u.label : u, 80)).filter(Boolean).concat(lost),
       notes: (Array.isArray(p.notes) ? p.notes : []).slice(0, 12).map((n) => text(n, 1000)).filter(Boolean),
     };
   }
 
   /* ------------------------------------------------- what the map is saying */
 
+  function isCity() { return T.units === 'city'; }
+  /* A place of this table: a prefecture or colony from the contract, or a city
+     from the gazetteer. */
+  function placeOf(id) { return (T && T.cities && T.cities.get(id)) || PLACES.get(id); }
+
   function colName(c) { return c.en || c.name; }
   function colLabel(c) { return colName(c) + (c.unit ? ' (' + c.unit + ')' : ''); }
   function isSummable(c) { return c.kind === 'count' || c.kind === 'amount'; }
   /* `rate`, `index` and `other` never, whatever `pc` says; a missing `pc` never. */
-  function allowsPerCapita(c) { return T.units === 'prefecture' && c.pc && (isSummable(c) || !c.kind); }
+  function allowsPerCapita(c) {
+    return (T.units === 'prefecture' || isCity()) && c.pc && (isSummable(c) || !c.kind);
+  }
   function perCapitaOn() { return perCapita && allowsPerCapita(T.cols[colAt]); }
 
   /* The nearest census the map holds to the figures' date, each taken at its own
-     1 October, so that the end of 1935 falls to 1940 and the bare year to 1930. */
-  function censusYear() {
-    const m = /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec(T.date || T.year || '');
+     1 October, so that the end of 1935 falls to 1940 and the bare year to 1930.
+     The column's own date first, in a series. Cities have 1920 as well. */
+  function censusYear(i = colAt) {
+    const years = isCity() ? CENSUSES : [1930, 1940];
+    const m = /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec((T.cols[i] && T.cols[i].date) || T.date || T.year || '');
     if (!m) return 1930;
     const when = Number(m[1]) + (m[2]
       ? (Number(m[2]) - 1 + (m[3] ? Number(m[3]) / 31 : 0.5)) / 12 : 0.5);
-    return Math.abs(when - 1930.75) <= Math.abs(when - 1940.75) ? 1930 : 1940;
+    return years.reduce((a, y) => (Math.abs(when - (y + 0.75)) < Math.abs(when - (a + 0.75)) ? y : a), years[0]);
   }
-  function peopleOf(place) {
+  function peopleOf(place, i = colAt) {
+    if (place && place.city) {
+      const n = place.cen ? place.cen[CENSUSES.indexOf(censusYear(i))] : null;
+      return typeof n === 'number' && n > 0 ? n : null;
+    }
     if (!place.key) return null;      // colonies: no matching figure, so left out
     const row = host.popRows('japan-' + censusYear());
     const r = row && row[place.key];
@@ -287,7 +336,7 @@ window.JMAP_TABLE = function (host) {
     const n = row.cells[i].n;
     if (n === null) return null;
     if (!perCapitaOn()) return n;
-    const people = peopleOf(PLACES.get(id));
+    const people = peopleOf(placeOf(id), i);
     return people ? n / people * PER : null;
   }
   /* The columns cut on one scale with the one in use: its series, which the
@@ -340,7 +389,7 @@ window.JMAP_TABLE = function (host) {
     const distinct = Array.from(new Set(vals));
     if (distinct.length < 2) return { ramp: RAMP, breaks: [], method };
     const classes = Math.min(RAMP.length, distinct.length);
-    let used = method;
+    let used = method === 'prop' ? 'quantile' : method;   // proportional: see `propNow`
     if (used === 'log' && !(vals[0] > 0)) used = 'quantile';
     let breaks;
     if (used === 'jenks') breaks = jenksCuts(vals, classes);
@@ -454,6 +503,7 @@ window.JMAP_TABLE = function (host) {
   }
 
   function fills() {
+    if (isCity()) return {};
     const sc = scale();
     const out = {};
     if (T.units === 'territory') {
@@ -465,6 +515,7 @@ window.JMAP_TABLE = function (host) {
     return out;
   }
   function wholeFills() {
+    if (isCity()) return {};
     const sc = scale();
     const out = {};
     PLACES.forEach((pl, id) => { if (pl.atom && T.rows.has(id)) out[pl.atom] = colourFor(id, sc); });
@@ -479,7 +530,7 @@ window.JMAP_TABLE = function (host) {
     const sc = scale();
     const out = [];
     T.rows.forEach((r, id) => {
-      const pl = PLACES.get(id);
+      const pl = placeOf(id);
       const v = shown(id);
       if (pl.key && v !== null) {
         const s = swatchOf(classOf(v, sc.breaks), sc.breaks.length + 1);
@@ -493,15 +544,22 @@ window.JMAP_TABLE = function (host) {
   /* A shape on the map, as a place in the contract: the prefecture, the prefecture
      an island belongs to, or the colony whose record the pointer is on. */
   function placeAt(provKey, recId, el) {
+    if (isCity()) return null;        // the ground does not answer for a city
     const code = CODE_OF_KEY.get(provKey) || CODE_OF_KEY.get(host.figuresFrom(provKey))
-      || CODE_OF_KEY.get(host.groupPartOf(el));
+      || CODE_OF_KEY.get(host.groupPartOf(el)) || CODE_OF_KEY.get(host.atomPartOf(recId));
     // in a table of the empire's parts, every prefecture is Japan proper
     if (code) return T.units === 'territory' ? (T.rows.has('naichi') ? 'naichi' : null) : code;
     const id = RECORD_PLACE.get(recId) || recId;
     const whole = PLACES.get(id);
     return whole && whole.atom && T.rows.has(id) ? id : null;
   }
-  function placeName(id) { const p = PLACES.get(id); return p.en + ' ' + p.ja; }
+  function placeName(id) {
+    const p = placeOf(id);
+    const row = T.rows.get(id);
+    // a city's characters are the table's, as printed
+    const ja = p.city ? (row && row.label) || '' : p.ja;
+    return ja && ja !== p.en ? p.en + ' ' + ja : p.en;
+  }
 
   function sharePct(row, i) {
     const c = T.cols[i];
@@ -513,11 +571,115 @@ window.JMAP_TABLE = function (host) {
   function perCapitaText(id, i) {
     const row = T.rows.get(id);
     if (!row || row.cells[i].n === null || !allowsPerCapita(T.cols[i])) return '';
-    const people = peopleOf(PLACES.get(id));
+    const people = peopleOf(placeOf(id), i);
     if (!people) return '';
     const v = row.cells[i].n / people * PER;
     const s = v >= 10 ? fmt(Math.round(v * 10) / 10) : v >= 1 ? v.toFixed(2) : v.toPrecision(2);
     return s + ' per ' + fmt(PER) + ' people';
+  }
+
+  /* ------------------------------------------------------------- the points */
+
+  /* **Size or colour.** A table of cities can show its classes as five sizes of
+     circle in one colour, or as one size of dot in five colours; the reader picks
+     (`#tbl-style`), and the class dropdown cuts either. Sizes need no figure
+     below nought: a smaller circle cannot say "less than none". Proportional
+     circles, whose area is the figure, are a sixth way under Sizes, for a count
+     or an amount and not per head, a figure per head being a rate.
+
+     The default is sizes for what Proportional would suit, colours otherwise. */
+  function canSize() {
+    if (!isCity()) return false;
+    const vals = allShown();
+    return vals.length > 0 && vals.every((v) => v >= 0) && vals.some((v) => v > 0);
+  }
+  function canProp() { return canSize() && isSummable(T.cols[colAt]) && !perCapitaOn(); }
+  function styleNow() {
+    if (!isCity()) return 'colour';
+    if (style === 'size') return canSize() ? 'size' : 'colour';
+    if (style === 'colour') return 'colour';
+    return canProp() ? 'size' : 'colour';
+  }
+  function circles() { return styleNow() === 'size'; }
+  function propNow() { return circles() && method === 'prop' && canProp(); }
+  /* The largest figure of the column, or of its series, so a step from one year
+     to the next keeps the circles to one measure. */
+  function circleMax() { return allShown().reduce((m, v) => Math.max(m, v), 0); }
+  function radiusOf(v, max) { return max > 0 ? R_MAX * Math.sqrt(Math.max(0, v) / max) : 0; }
+
+  function svgNode(tag, attrs) {
+    const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.keys(attrs).forEach((k) => e.setAttribute(k, String(attrs[k])));
+    return e;
+  }
+  /* Every city of the table at its place, the largest drawn first so a small one
+     is never under a large one. Sizes are screen pixels: the map scales each
+     mark by the zoom (`setPoints` in map.js). A city the table has no figure
+     for is a small ring, so it can still be found and pressed. */
+  function drawPoints() {
+    if (!T || !isCity()) { host.setPoints([]); return; }
+    const sc = scale();
+    const round = circles();
+    const prop = propNow();
+    const max = prop ? circleMax() : 0;
+    const count = sc.breaks.length + 1;
+    const sizeOf = (v) => (prop ? radiusOf(v, max)
+      : SIZE_R[swatchOf(classOf(v, sc.breaks), count)]);
+    const list = [];
+    T.rows.forEach((r, id) => {
+      const pl = placeOf(id);
+      if (!pl || !Number.isFinite(pl.lon) || !Number.isFinite(pl.lat)) return;
+      const v = shown(id);
+      list.push({ id, pl, v, r: v === null ? 0 : round ? sizeOf(v) : R_DOT });
+    });
+    list.sort((a, b) => b.r - a.r);
+    host.setPoints(list.map((it) => {
+      const g = svgNode('g', { class: 'tbl-pt' + (it.id === cardNow ? ' tbl-sel' : ''), 'data-id': it.id });
+      g.appendChild(svgNode('circle', { class: 'hit', r: Math.max(it.r, 9) }));
+      if (it.v === null) {
+        g.appendChild(svgNode('circle', { class: 'mk none', r: 3.5, fill: colourFor(it.id, sc) }));
+      } else if (prop && it.v === 0) {
+        g.appendChild(svgNode('circle', { class: 'mk zero', r: 2.5 }));
+      } else {
+        g.appendChild(svgNode('circle', { class: 'mk' + (round ? ' round' : ''), r: Math.max(it.r, 1.5),
+          fill: round ? CIRCLE : colourFor(it.id, sc) }));
+      }
+      return { el: g, lon: it.pl.lon, lat: it.pl.lat };
+    }));
+  }
+  function pointId(target) {
+    const g = target && target.closest ? target.closest('#tbl-points .tbl-pt') : null;
+    const id = g ? g.getAttribute('data-id') : null;
+    return id && T && T.rows.has(id) ? id : null;
+  }
+  /* The tip for a place: its name where the map's own tip will not give it, the
+     label as printed, and the figure as printed. */
+  function tipFor(id, named) {
+    const wrap = mk('span', 'sub tbl-tip');
+    const row = T.rows.get(id);
+    if (!row) {
+      wrap.textContent = 'No row in this table';
+      return wrap;
+    }
+    const c = T.cols[colAt];
+    if (named) wrap.appendChild(mk('span', 'tbl-tip-name', placeOf(id).en));
+    else if (placeOf(id).proper) wrap.appendChild(mk('span', 'tbl-tip-label', placeName(id)));
+    // the label as printed, unless it is the name just given
+    if (row.label && !(named && row.label === placeOf(id).en)) wrap.appendChild(mk('span', 'tbl-tip-label', row.label));
+    wrap.appendChild(mk('span', 'tbl-tip-val', row.cells[colAt].t + (row.cells[colAt].n !== null && c.unit ? ' ' + c.unit : '')));
+    if (perCapitaOn()) {
+      const pc = perCapitaText(id, colAt);
+      wrap.appendChild(mk('span', 'tbl-tip-sub', pc ? pc + ', ' + censusYear() + ' census' : 'No population figure'));
+    }
+    const share = sharePct(row, colAt);
+    if (share) wrap.appendChild(mk('span', 'tbl-tip-sub', share + ' of the printed total'));
+    return wrap;
+  }
+  /* The cities in the table that are not on the map, said once. */
+  function unplacedCount() { return T.unplaced ? T.unplaced.length : 0; }
+  function unplacedLine() {
+    const n = unplacedCount();
+    return n ? n + (n === 1 ? ' city' : ' cities') + ' in the table ' + (n === 1 ? 'is' : 'are') + ' not on the map.' : '';
   }
 
   /* ----------------------------------------------------- the dropdown, on the map */
@@ -750,6 +912,7 @@ window.JMAP_TABLE = function (host) {
   /* The picture, the key, and the card if the card is ours. */
   function refresh() {
     host.repaint();
+    drawPoints();
     if (cardNow === 'table') tableCard();
     else if (cardNow) placeCard(cardNow);
   }
@@ -760,13 +923,46 @@ window.JMAP_TABLE = function (host) {
     const m = /(?:^#|&)tk=([a-z]+)/.exec(String(fragment));
     return m && METHOD_IDS.has(m[1]) ? m[1] : 'quantile';
   }
-  function setMethod(m) {
-    method = METHOD_IDS.has(m) ? m : 'quantile';
-    let h = location.hash.replace(/&tk=[a-z]*/g, '');
-    if (method !== 'quantile') h += '&tk=' + method;
+
+  function styleFrom(fragment) {
+    const m = /(?:^#|&)ts=([a-z]+)/.exec(String(fragment));
+    return m && (m[1] === 'size' || m[1] === 'colour') ? m[1] : '';
+  }
+  /* One setting beside the table in the address, or none where it is the default. */
+  function writeParam(name, value) {
+    let h = location.hash.replace(new RegExp('&' + name + '=[a-z]*', 'g'), '');
+    if (value) h += '&' + name + '=' + value;
     try { history.replaceState(history.state, '', location.pathname + location.search + h); }
     catch (err) { /* the map still changes; only the address does not */ }
+  }
+  function setMethod(m) {
+    method = METHOD_IDS.has(m) ? m : 'quantile';
+    writeParam('tk', method === 'quantile' ? '' : method);
     refresh();
+  }
+  function setStyle(v) {
+    style = v === 'size' || v === 'colour' ? v : '';
+    writeParam('ts', style);
+    refresh();
+  }
+  /* Sizes or colours, for a table of cities. Sizes are not offered for a column
+     with a figure below nought. */
+  function stylePicker() {
+    const sel = mk('select', 'tbl-classes');
+    sel.id = 'tbl-style';
+    sel.setAttribute('aria-label', 'Show the classes by size or by colour');
+    [['size', 'Sizes'], ['colour', 'Colours']].forEach(([id, label]) => {
+      const o = mk('option', '', label);
+      o.value = id;
+      if (id === 'size' && !canSize()) {
+        o.disabled = true;
+        o.title = 'Needs every figure at or above nought';
+      }
+      sel.appendChild(o);
+    });
+    sel.value = styleNow();
+    sel.addEventListener('change', () => setStyle(sel.value));
+    return sel;
   }
   /* The dropdown under the key. Hidden where nought splits the column, and
      Logarithmic not offered where a figure is at or below nought. */
@@ -776,15 +972,21 @@ window.JMAP_TABLE = function (host) {
     sel.setAttribute('aria-label', 'How the classes are divided');
     const positive = allShown().every((v) => v > 0);
     METHODS.forEach(([id, label]) => {
+      // proportional is a way of drawing circles, not of cutting classes
+      if (id === 'prop' && !circles()) return;
       const o = mk('option', '', label);
       o.value = id;
       if (id === 'log' && !positive) {
         o.disabled = true;
         o.title = 'Needs every figure above nought';
       }
+      if (id === 'prop' && !canProp()) {
+        o.disabled = true;
+        o.title = 'For a count or an amount, not per head';
+      }
       sel.appendChild(o);
     });
-    sel.value = sc.method === 'div' ? method : sc.method;
+    sel.value = propNow() ? 'prop' : sc.method === 'div' ? method : sc.method;
     sel.addEventListener('change', () => setMethod(sel.value));
     return sel;
   }
@@ -858,7 +1060,12 @@ window.JMAP_TABLE = function (host) {
         h.appendChild(bars(list.slice(0, 10), (r) => placeCard(r.id)));
       }
       T.notes.forEach((n) => h.appendChild(mk('p', 'tbl-note', n)));
-      if (T.dropped) {
+      if (isCity()) {
+        if (unplacedCount()) {
+          const names = T.unplaced.slice(0, 40).join(', ') + (unplacedCount() > 40 ? ', …' : '');
+          h.appendChild(mk('p', 'tbl-note tbl-unplaced', unplacedLine().replace(/\.$/, ': ') + names + '.'));
+        }
+      } else if (T.dropped) {
         h.appendChild(mk('p', 'tbl-note', T.dropped + (T.dropped === 1 ? ' row' : ' rows')
           + ' could not be placed on this map.'));
       }
@@ -890,14 +1097,14 @@ window.JMAP_TABLE = function (host) {
   }
 
   function placeCard(id) {
-    const pl = PLACES.get(id);
+    const pl = placeOf(id);
     const row = T.rows.get(id);
     cardNow = id;
     mark(id);
     /* The figure in the head: on a phone the head is all a first tap shows. */
     const c = T.cols[colAt];
     const now = row ? row.cells[colAt] : null;
-    const head = (row && row.label) || pl.ja;
+    const head = (row && row.label) || pl.ja || '';
     const alt = now ? head + ' · ' + now.t + (now.n !== null && c.unit ? ' ' + c.unit : '') : head;
     showCard({ primary: pl.en, alt: alt, prov: T.en || T.ja }, (h) => {
       if (!row) {
@@ -929,7 +1136,8 @@ window.JMAP_TABLE = function (host) {
           h.appendChild(ul);
         });
         if (T.cols.some((c, i) => allowsPerCapita(c) && perCapitaText(id, i))) {
-          h.appendChild(mk('p', 'tbl-note', 'Per person figures use the ' + censusYear() + ' census.'));
+          h.appendChild(mk('p', 'tbl-note', 'Per person figures use the ' + censusYear() + ' census'
+            + (isCity() ? ' of the city.' : '.')));
         }
       }
       const acts = mk('p', 'cen-now');
@@ -941,9 +1149,14 @@ window.JMAP_TABLE = function (host) {
   /* The outline of the place the card is about. */
   function mark(id) {
     unmark();
-    const pl = PLACES.get(id);
+    const pl = placeOf(id);
     // Japan proper is forty-seven prefectures: outlining each is a grid, not a place
     if (pl.proper) return;
+    if (pl.city) {
+      const g = document.querySelector('#tbl-points .tbl-pt[data-id="' + CSS.escape(id) + '"]');
+      if (g) { g.classList.add('tbl-sel'); marked = [g]; }
+      return;
+    }
     const shapes = host.shapesOf(pl);
     shapes.forEach((el) => el.classList.add('tbl-sel'));
     marked = shapes;
@@ -968,17 +1181,17 @@ window.JMAP_TABLE = function (host) {
     const cols = [{ head: 'Place', text: true }];
     T.cols.forEach((c) => {
       cols.push({ head: colLabel(c) });
-      if (allowsPerCapita(c)) cols.push({ head: colName(c) + ' per ' + fmt(PER) + ' people (' + censusYear() + ' census)' });
+      if (allowsPerCapita(c)) cols.push({ head: colName(c) + ' per ' + fmt(PER) + ' people (' + censusYear(T.cols.indexOf(c)) + ' census)' });
     });
     const rows = [];
     T.rows.forEach((r, id) => {
-      const pl = PLACES.get(id);
+      const pl = placeOf(id);
       const cells = [{ t: pl.en + ' ' + (r.label || pl.ja), name: pl.en, kanji: r.label || pl.ja }];
       T.cols.forEach((c, i) => {
         const cell = r.cells[i];
         cells.push({ t: cell.as === 'num' ? cell.t : cell.as === 'none' ? '—' : cell.t, n: cell.n });
         if (allowsPerCapita(c)) {
-          const people = peopleOf(pl);
+          const people = peopleOf(pl, i);
           const v = people && cell.n !== null ? cell.n / people * PER : null;
           cells.push({ t: v === null ? '—' : v.toFixed(3), n: v === null ? null : Number(v.toFixed(3)) });
         }
@@ -996,6 +1209,7 @@ window.JMAP_TABLE = function (host) {
       });
     }
     T.notes.forEach((n) => notes.push(n));
+    if (isCity() && unplacedCount()) notes.push(unplacedLine().replace(/\.$/, ': ') + T.unplaced.join(', ') + '.');
     notes.forEach((n) => wrap.appendChild(mk('p', 'pop-note', '* ' + n)));
     const citation = [T.volume, T.year, T.ja].filter(Boolean).join(', ');
     const source = citation + (T.src ? '. ' + T.src.url : '');
@@ -1075,10 +1289,12 @@ window.JMAP_TABLE = function (host) {
       colAt = T.def;
       perCapita = false;
       method = methodFrom(fragment);
+      style = styleFrom(fragment);
       /* All of it or none of it: a map shaded with no card and no dropdown cannot
          be read or closed. */
       try {
         host.opened(T.period);
+        drawPoints();
         mountBar();
         tableCard();
       } catch (err) {
@@ -1095,6 +1311,7 @@ window.JMAP_TABLE = function (host) {
       closeDialog();
       unmountBar();
       unmark();
+      host.setPoints([]);
       T = null;
       cardNow = null;
     },
@@ -1117,25 +1334,24 @@ window.JMAP_TABLE = function (host) {
     /* The hover: the place as printed, and the figure as printed. */
     tip(provKey, recId, el) {
       const id = placeAt(provKey, recId, el);
-      if (!id) return null;
-      const wrap = mk('span', 'sub tbl-tip');
-      const row = T.rows.get(id);
-      if (!row) {
-        wrap.textContent = 'No row in this table';
-        return wrap;
-      }
-      const c = T.cols[colAt];
-      // the name over the tip is the prefecture's; the figure is not
-      if (PLACES.get(id).proper) wrap.appendChild(mk('span', 'tbl-tip-label', placeName(id)));
-      if (row.label) wrap.appendChild(mk('span', 'tbl-tip-label', row.label));
-      wrap.appendChild(mk('span', 'tbl-tip-val', row.cells[colAt].t + (row.cells[colAt].n !== null && c.unit ? ' ' + c.unit : '')));
-      if (perCapitaOn()) {
-        const pc = perCapitaText(id, colAt);
-        wrap.appendChild(mk('span', 'tbl-tip-sub', pc || 'No population figure'));
-      }
-      const share = sharePct(row, colAt);
-      if (share) wrap.appendChild(mk('span', 'tbl-tip-sub', share + ' of the printed total'));
-      return wrap;
+      // the name over the tip is the prefecture's; for Japan proper the figure is not
+      return id ? tipFor(id, false) : null;
+    },
+
+    /* A city of the table under the pointer: its tip, which carries its own name,
+       there being no shape of the map's under it to name it. True if it answered. */
+    hoverPoint(target, x, y) {
+      const id = T ? pointId(target) : null;
+      if (!id) return false;
+      host.pointTip('tbl|' + id + '|' + colAt + '|' + perCapita, (box) => box.appendChild(tipFor(id, true)), x, y);
+      return true;
+    },
+    /* Pressed on a city of the table: its card. */
+    tapPoint(target) {
+      const id = T ? pointId(target) : null;
+      if (!id) return false;
+      placeCard(id);
+      return true;
     },
 
     /* The foot of every card. */
@@ -1154,7 +1370,7 @@ window.JMAP_TABLE = function (host) {
       body.appendChild(mk('p', 'cen-key-title', what));
       if (perCapitaOn()) {
         body.appendChild(mk('p', 'cen-key-note', 'Per ' + fmt(PER) + ' people, using the '
-          + censusYear() + ' census. Colonies are left out.'));
+          + censusYear() + ' census' + (isCity() ? ' of each city.' : '. Colonies are left out.')));
       }
       const row = (colour, label) => {
         const r = mk('div', 'item pop-key-row');
@@ -1164,12 +1380,44 @@ window.JMAP_TABLE = function (host) {
         r.appendChild(document.createTextNode(label));
         body.appendChild(r);
       };
+      /* A class as the circle the map draws for it, beside its range. */
+      const sizeRow = (r, words) => {
+        const it = mk('div', 'item pop-key-row tbl-size-row');
+        const w = Math.ceil(SIZE_R[SIZE_R.length - 1] * 2 + 2);
+        const svg = svgNode('svg', { width: w, height: Math.ceil(r * 2 + 2), 'aria-hidden': 'true' });
+        svg.appendChild(svgNode('circle', { cx: w / 2, cy: r + 1, r, class: 'ref' }));
+        it.appendChild(svg);
+        it.appendChild(document.createTextNode(words));
+        body.appendChild(it);
+      };
       const sc = scale();
       const b = sc.breaks;
       const count = b.length + 1;
       const label = (x) => (perCapitaOn() ? String(x) : fmt(x));
       const pooled = scaleCols().length;
       if (pooled > 1) body.appendChild(mk('p', 'cen-key-note', 'On one scale with the other columns of its series.'));
+      const round = circles();
+      if (propNow()) {
+        /* Three circles the size the map draws them, at round figures under the
+           largest: the area is the figure. */
+        const max = circleMax();
+        const top = sig2(max) > max ? sig2(max / 1.5) : sig2(max);
+        const refs = Array.from(new Set([top, sig2(top / 4), sig2(top / 20)])).filter((x) => x > 0);
+        const box = mk('div', 'tbl-circles');
+        const big = radiusOf(refs[0], max);
+        const w = Math.ceil(big * 2 + 2);
+        const svg = svgNode('svg', { width: w, height: w, viewBox: '0 0 ' + w + ' ' + w, 'aria-hidden': 'true' });
+        refs.forEach((x) => {
+          const r = radiusOf(x, max);
+          svg.appendChild(svgNode('circle', { cx: w / 2, cy: w - 1 - r, r, class: 'ref' }));
+        });
+        box.appendChild(svg);
+        const words = mk('div', 'tbl-circle-words');
+        refs.forEach((x) => words.appendChild(mk('span', '', fmt(x) + (c.unit ? ' ' + c.unit : ''))));
+        box.appendChild(words);
+        body.appendChild(box);
+        body.appendChild(mk('p', 'cen-key-note', 'Circle area is the figure.'));
+      }
       if (few()) {
         /* Few places: each one, with its figure, highest first, and a press away. */
         const list = [];
@@ -1180,7 +1428,7 @@ window.JMAP_TABLE = function (host) {
           r.type = 'button';
           r.setAttribute('data-place', it.id);
           const sw = mk('span', 'sw');
-          sw.style.background = colourFor(it.id, sc);
+          sw.style.background = round && it.v !== null ? CIRCLE : colourFor(it.id, sc);
           r.appendChild(sw);
           r.appendChild(mk('span', 'nm', placeName(it.id)));
           // no figure: which kind of none, not the cell's text, which can be anything
@@ -1189,13 +1437,14 @@ window.JMAP_TABLE = function (host) {
           r.addEventListener('click', () => placeCard(it.id));
           body.appendChild(r);
         });
-      } else if (allShown().length) {
+      } else if (allShown().length && !propNow()) {
         for (let i = 0; i < count; i++) {
           const words = !b.length ? 'All places shown'
             : i === 0 ? 'under ' + label(b[0])
               : i === b.length ? label(b[i - 1]) + ' and over'
                 : label(b[i - 1]) + '–' + label(b[i]);
-          row(sc.ramp[swatchOf(i, count)], words);
+          if (round) sizeRow(SIZE_R[swatchOf(i, count)], words);
+          else row(sc.ramp[swatchOf(i, count)], words);
         }
       }
       /* The three ways of having no figure are not the same, and each swatch is
@@ -1212,10 +1461,12 @@ window.JMAP_TABLE = function (host) {
       }
       // in a table of the empire's parts, nothing it has no row for is painted
       if (T.units === 'prefecture') row(host.blank, 'No data');
+      if (isCity() && unplacedCount()) body.appendChild(mk('p', 'cen-key-note tbl-key-unplaced', unplacedLine()));
       if (method === 'log' && sc.method === 'quantile') {
         body.appendChild(mk('p', 'cen-key-note', 'Logarithmic needs figures above nought, so quantiles are shown.'));
       }
       const acts = mk('div', 'tbl-key-acts');
+      if (isCity() && allShown().length > 1) acts.appendChild(stylePicker());
       if (sc.method !== 'div' && allShown().length > 1) acts.appendChild(methodPicker(sc));
       const about = mk('button', 'cen-chip', 'About this table');
       about.type = 'button';
@@ -1233,7 +1484,9 @@ window.JMAP_TABLE = function (host) {
     report() {
       return T ? { col: colAt, perCapita: perCapitaOn(), census: censusYear(),
         rows: T.rows.size, dropped: T.dropped, card: cardNow, units: T.units,
-        scaleCols: scaleCols(), stepCols: stepCols(), few: few(), method, breaks: scale().breaks } : null;
+        scaleCols: scaleCols(), stepCols: stepCols(), few: few(), method, breaks: scale().breaks,
+        circles: circles(), proportional: propNow(), style: styleNow(), unplaced: unplacedCount(),
+        points: document.querySelectorAll('#tbl-points .tbl-pt').length } : null;
     },
   };
 };

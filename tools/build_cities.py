@@ -109,6 +109,17 @@ def read(path):
             pol = (r.get("polity") or "").strip()
             if pol:
                 rec["p"] = pol
+            # The censuses of 1920, 1930 and 1940, for a table from the address
+            # that asks for a city's figure per head (table-link.js). Only where
+            # the CSV has one, and as printed: no estimate stands in for a count.
+            cen = []
+            for col in ("pop_c1920", "pop_c1930", "pop_c1940"):
+                try:
+                    cen.append(int(float((r.get(col) or "").replace(",", ""))))
+                except ValueError:
+                    cen.append(None)
+            if any(v is not None for v in cen):
+                rec["cen"] = cen
             out.append(rec)
     # largest first, so that where two dots overlap the bigger one is drawn
     # first and the smaller sits on top of it rather than being swallowed —
@@ -143,6 +154,7 @@ def main():
                  "   Do not edit: change the CSVs and run the tool again.\n\n"
                  "   t: 0 small, 1 medium, 2 large, 3 largest\n"
                  "   a: drawn at this weight at every zoom (see ALWAYS)\n"
+                 "   cen: the 1920, 1930 and 1940 censuses, null where there is none\n"
                  "   c: 0 not a capital, 1 provincial, 2 of a country or territory */\n"
                  "window.JMAP = window.JMAP || {};\n"
                  "JMAP.GAZ = {\n" + body + "\n};\n")

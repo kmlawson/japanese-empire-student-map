@@ -23,6 +23,12 @@
  *     their own, so the area must be Hokkaidō without them.
  */
 const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+/* The map's keys for the 47 prefectures. */
+const PREFS = ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi',
+  'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano',
+  'Gifu', 'Shizuoka', 'Aichi', 'Mie', 'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara', 'Wakayama', 'Tottori', 'Shimane',
+  'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki',
+  'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa'];
 
 const JAPAN = HOST+'/index.html?where=126,29,148,47';
 
@@ -95,7 +101,7 @@ const open = async (b, url) => {
   console.log('\n— on the map —');
   await p.evaluate(() => document.querySelector('#opt-pop-japan-density-density').click());
   await sleep(3000);
-  const drawn = await p.evaluate(() => {
+  const drawn = await p.evaluate((PREFS) => {
     const keys = {};
     document.querySelectorAll('#land [data-prov]').forEach(e => {
       if (e.classList.contains('pop-shaded')) {
@@ -104,7 +110,10 @@ const open = async (b, url) => {
       }
     });
     const v = [...document.querySelectorAll('#labels text.popval')];
+    const fill = q => [...new Set([...document.querySelectorAll(q)].map(e => e.style.getPropertyValue('--c')))];
     return { keys: Object.keys(keys).length,
+             prefs: PREFS.filter(k => keys[k]).length,
+             kuriles: fill('#a-chishima path:not(.fine)'), hokkaido: fill('#land [data-prov="Hokkaido"]'),
              okinawa: keys.Okinawa || 0,
              figures: v.length,
              shown: v.filter(t => t.style.display !== 'none').length,
@@ -112,8 +121,11 @@ const open = async (b, url) => {
              key: (document.querySelector('#legend').textContent || '')
                     .replace(/\s+/g, ' '),
              code: (/[?&]layers=([^&#]+)/.exec(location.search) || [])[1] };
-  });
-  check('every prefecture is shaded', drawn.keys === 47, String(drawn.keys));
+  }, PREFS);
+  check('every prefecture is shaded', drawn.prefs === 47, drawn.prefs + ' of 47, ' + drawn.keys + ' names shaded in all');
+  /* The census counted Chishima in 北海道, so the islands it governed take its colour. */
+  check('  and the Kuriles take Hokkaidō’s', drawn.kuriles.length === 1 && drawn.kuriles[0] === drawn.hokkaido[0] && !!drawn.hokkaido[0],
+    JSON.stringify([drawn.kuriles, drawn.hokkaido]));
   /* Okinawa's polygon lives in the Ryūkyū atom rather than the administrative
      sheet, and is drawn in two pieces. Both have to take the colour or the
      island group comes out half shaded. */

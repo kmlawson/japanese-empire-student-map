@@ -91,3 +91,33 @@ yet", with the source link. **Publish territory links only once the live map has
 9. **`def`**: the column most worth seeing first. Where the places differ a hundredfold
    in size, a rate or a share, not a raw count: for p0041_1 the 1920–1935 rate of increase.
 10. **`date`** is the latest date in the table; `period` as before.
+
+## Tables of cities (`units: "city"`, the site's spec section 4b)
+
+Each row is one of the map's own city ids (`data/cities-1930.csv`, `cities-1942.csv`),
+looked up in the gazetteer of the table's `period` and then the other date's. The
+ground is not painted; the land goes pale while the table is up so the points are
+what is read.
+
+* **Sizes or Colours**, the reader's choice in a dropdown under the key, left of the
+  class dropdown (`ts=` in the address). Sizes are five classes as five sizes of circle
+  in one colour; Colours are one 6 px dot on the five-colour ramp. The class dropdown
+  cuts either. A count or an amount opens as Sizes, anything else (a rate, an index, a
+  temperature, a figure per head) as Colours. Sizes are greyed out where a figure is
+  below nought.
+* **Proportional** is a fifth choice in the class dropdown under Sizes: a circle whose
+  area is the figure, up to 22 px across the radius for the largest of the column or of
+  its series. It is offered for a count or an amount, not per head. The key draws three
+  circles at round figures under the largest. Circles are drawn largest first, so a
+  small city in a large one's circle can still be pressed.
+* **Every city in the table is drawn at every zoom**, whatever the city layer would show.
+  Marks are scalables, so their size is screen pixels; their place is kept in Mercator
+  as every scalable's is, so a projection change carries them.
+* **Hover and press** answer with the city's name, the label as printed and the figure,
+  before the ground under it.
+* **Per head** where `pc` is true: divided by the city's own census (1920, 1930 or 1940)
+  nearest the column's date or the table's, named in the key, the tip and the card. A
+  city with no census figure is left out of that view.
+* **`unplaced`** (printed names the site could not match), with any row whose id the map
+  does not have: "N cities in the table are not on the map." in the key, with the names
+  in the card and the CSV.

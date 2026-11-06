@@ -23708,3 +23708,91 @@ nought, the diverging case, Remove, and the phone.
 
 Whole suite before release: 3,049 checks across 77 scripts, 334.6 s, all passing, with
 the system Chrome. 225–231 released together as update 380.
+
+## 232. The Kuriles, Ogasawara and the outer Ryūkyūs take their prefecture's colour
+
+Asked for: the Kuril Islands shaded with Hokkaidō when a table or population layer
+shades the prefectures, as they were Hokkaidō's before 1945. Measured at the opening view
+before the fix: none of the 18 Kurile shapes and none of the 24 Ryūkyū shapes were
+shaded, and Ogasawara was not either. The base drawing's islands carry a name and no
+archipelago, and the archipelago is written only on the fine coastlines, which load on
+a deep zoom. The Kuriles and Ogasawara had no group at all.
+
+* `texts/territories/island-groups.csv`: Kuril Islands → Hokkaido, Bonin Islands and
+  Volcano Islands → Tokyo, and a new `atom` column naming the atom every island of which
+  is that group (`chishima`, `ogasawara`).
+* New `texts/territories/island-names.csv` (key: atom, name, in `COMPOUND_KEYS` in both
+  places): the four base-drawing rings named otherwise than on the fine sheet (Iejima,
+  the Kerama, Daitō and Senkaku Islands).
+* `build_texts.py` writes `JMAP.ISLAND_NAMES` (by atom and name, from the fine sheet and
+  that table, 5.5 KB) and `JMAP.ATOM_GROUP`. `groupPartOf` in `map.js` falls back to
+  them, so the population layers, table links, island cards and taps all get the same
+  answer. Ogasawara's base shape has no name, so the paint pass shades it by its atom.
+  `table-link.js` asks `atomPartOf` for it.
+* After: 18 of 18, 1 of 1 and 24 of 24 shaded, each in its own prefecture's colour
+  (checked by giving four prefectures classes of their own). A press on Etorofu answers
+  with Hokkaidō. Up close, the fine Amami rings match Kagoshima.
+
+Not changed: Hokkaidō's area in `data/population/japan-1930.csv` leaves Chishima out
+(78,290 km²) and its note says the Kuriles are drawn as a territory of their own. The
+census figure includes Chishima's people, so the shading is consistent with the count.
+Density is now painted on islands whose area is not in it.
+
+Tests: `tableshapes.js` +9 checks; `japanpop.js` now counts the 47 prefectures by name
+(it counted every shaded name, which is now 87) and checks the Kuriles match Hokkaidō.
+`changed` (core, data, geometry, links, points): 1,947 checks across 50 scripts, 163.8 s,
+with only that `japanpop` count failing. After the fix, `japanpop`, `islands`,
+`poptables` and `population`: 208 checks, 21.8 s, all passing. Not released.
+
+## 233. Tables of cities from the address: points, not ground
+
+Asked for: `units: "city"` from the statistics site's brief (spec 4b, still `v: 1`).
+The spec on GitHub does not have 4b yet, so this is built from the brief. Its fields:
+the map's city ids, `label`, `v`, `kind`/`unit`/`pc`/`series`/`date` as before,
+`total`, and `unplaced` (strings, or objects with `label`).
+
+* `table-link.js`: city places come from the gazetteer, the table's period first.
+  `drawPoints` draws circles (area = figure, 22 px at the largest) for a count or an
+  amount, and 6 px dots on the ramp for anything else, per head included. It draws them
+  largest first, and redraws them on every refresh. The land and the polygon taps stay
+  out of it. Hover and press go through `hoverPoint` and `tapPoint`, which `map.js` asks
+  before the ground. Per head uses the city's 1920, 1930 or 1940 census, nearest the
+  column's date and then the table's. The key and the card say what is not on the map.
+  `placeOf` replaces the fixed `PLACES` lookups.
+* `map.js`: `tlinkSetPoints` keeps a `#tbl-points` layer under the names. Its marks
+  are scalables with a Mercator `x0`/`y0`, so `replaceInProjection` moves them, and the
+  layer turns on `#jmap.tbl-cities`, which pales `#land` to 0.38. The host also has
+  `cities`, `pointTip`, and the two hooks in `handleTap` and `onHover`.
+* `tools/build_cities.py` writes each city's `cen` (1920/1930/1940 census) into
+  `cities-gaz.js`: 105 KB / 26 KB gzipped became 126 KB / 30 KB, which loads with the
+  page.
+* The table tooltip's lines had been run together everywhere (`#tooltip .sub` is a
+  block). `#tooltip .tbl-tip` now stacks them, prefecture tables included.
+
+Checked on two real tables built here as the site would send them. 都市年鑑 1931
+p0100_1 placed 63 cities and left 14 unplaced. The big Japanese cities have no
+Japanese name in `texts/city-names.csv` or the cities CSVs, so they were matched by
+hand for the test. The Japan Year Book 1930 p0058_1 temperatures placed 11 and left 2
+(Ishinomaki and Nemuro are not cities on this map). Its transcription looks to have lost minus signs:
+Hakodate's January reads 3.0 °C and Nemuro's 5.0 °C. Reported to the author, not
+changed. Screenshots wide.
+
+Asked for while it was being built: cities shown as classes of size or classes of
+colour, swapped like the class dropdown. `#tbl-style` (Sizes / Colours) sits in the key
+left of `#tbl-classes`, and `ts=` holds it in the address. Sizes are five radii
+(3.5–17 px) in one colour; Colours are 6 px dots on the ramp. Proportional (area = figure)
+is a fifth option in the class dropdown under Sizes, for a count or an amount not per
+head. A count opens as Sizes in quantiles, everything else as Colours. Sizes are greyed
+out where a figure is below nought. `tlinkClose` strips `tk=` and `ts=` with the table.
+
+Tests: new `tools/test/tablecity.js` (core, in `MAP`), 56 checks. They cover the
+defaults, the swap and its address, five sizes per class, Proportional's area ratio, the size on screen at two zooms, staying on the city through a zoom, Albers,
+and a table opened in Albers then shown in Mercator, cities the city layer hides, hover,
+press, per head, the classes, the months, hostile ids and names, Remove, and a finger.
+`cities-gaz.js` and `build_cities.py` now also reach `core`.
+`tablelink.js`'s "another kind of unit" case sent `units: 'city'`, which is now drawn;
+it sends `district`. `changed` (core, data, geometry, links, points): 2,737 checks
+across 63 scripts, 248.7 s, all passing. Not released.
+
+Whole suite before release: 3,115 checks across 78 scripts, 311.8 s, all passing.
+232 and 233 released together as update 381.

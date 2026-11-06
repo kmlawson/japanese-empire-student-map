@@ -409,6 +409,54 @@ const TAIWAN = '#a-taiwan path';
   check('  and changes the map', /&tk=equal/.test(await kt.evaluate(() => location.hash)));
   await kt.close();
 
+  console.log('\n— the islands take the prefecture that governed them —');
+  /* Each prefecture its own class, so that a colour names one prefecture. */
+  const ISLES = Object.assign({}, SKEW, { cols: [{ name: 'a', en: 'Count', kind: 'count' }],
+    rows: PREFS.map((key, i) => ({ id: String(i + 1).padStart(2, '0'), label: key,
+      v: [{ Hokkaido: 1, Tokyo: 1000, Kagoshima: 30, Okinawa: 300 }[key] || 10] })) });
+  const il = await open(b, link(ISLES) + '&tk=equal', { width: 1280, height: 800 });
+  await tableUp(il);
+  await calm(il);
+  const isleFills = () => il.evaluate(() => {
+    const f = q => [...new Set([...document.querySelectorAll(q)].map(e => e.style.getPropertyValue('--c')))];
+    const prov = k => f('#land [data-prov="' + k + '"]');
+    return {
+      hokkaido: prov('Hokkaido'), kuriles: f('#a-chishima path:not(.fine)'),
+      tokyo: prov('Tokyo'), ogasawara: f('path#a-ogasawara, #a-ogasawara path:not(.fine)'),
+      kagoshima: prov('Kagoshima'), amami: prov('Amami Ōshima'), tokara: prov('Nakanoshima'),
+      okinawa: prov('Okinawa'), kerama: prov('the Kerama Islands'), senkaku: prov('the Senkaku / Diaoyu Islands'),
+      yaeyama: prov('Iriomotejima'), daito: prov('the Daitō Islands'),
+    };
+  });
+  let fl = await isleFills();
+  const one = (a, b) => a.length === 1 && b.length === 1 && a[0] === b[0] && !!a[0];
+  check('at the opening view, every Kurile island is Hokkaidō', one(fl.kuriles, fl.hokkaido), JSON.stringify(fl));
+  check('  Ogasawara is Tōkyō', one(fl.ogasawara, fl.tokyo), JSON.stringify([fl.ogasawara, fl.tokyo]));
+  check('  Amami and the Tokara islands are Kagoshima', one(fl.amami, fl.kagoshima) && one(fl.tokara, fl.kagoshima), JSON.stringify(fl));
+  check('  the Kerama, Yaeyama, Daitō and Senkaku islands are Okinawa', one(fl.kerama, fl.okinawa) && one(fl.yaeyama, fl.okinawa)
+    && one(fl.daito, fl.okinawa) && one(fl.senkaku, fl.okinawa), JSON.stringify(fl));
+  await il.close();
+  /* Up close, where an island is big enough to press, and where the fine
+     coastlines draw them. */
+  const kv = await open(b, '?where=145.2,43.3,148.9,45.7&layers=2w#t=' + encode(ISLES), { width: 1280, height: 800 });
+  await kv.waitForFunction(() => !!document.querySelector('#a-chishima path.pop-shaded'), { timeout: 30000 }).catch(() => {});
+  await calm(kv);
+  const kur = await pointOn(kv, '#a-chishima path[data-prov^="Etorofu"]');
+  if (kur) await press(kv, kur);
+  card = await cardText(kv);
+  check('a press on Etorofu answers with Hokkaidō', !!kur && /Hokkaid/.test(card), card.slice(0, 160));
+  await kv.close();
+  const av = await open(b, '?where=128.9,27.9,129.9,28.6&layers=2w#t=' + encode(ISLES), { width: 1280, height: 800 });
+  await av.waitForFunction(() => document.querySelectorAll('path.fine.pop-shaded').length > 0, { timeout: 30000 }).catch(() => {});
+  await calm(av);
+  const fine = await av.evaluate(() => {
+    const k = [...document.querySelectorAll('#land [data-prov="Kagoshima"]')].map(e => e.style.getPropertyValue('--c'))[0];
+    const amami = [...document.querySelectorAll('path.fine[data-group="Amami Islands"]')];
+    return { k, n: amami.length, same: amami.filter(e => e.style.getPropertyValue('--c') === k).length };
+  });
+  check('  up close, the fine Amami islands are Kagoshima too', fine.n > 0 && fine.same === fine.n, JSON.stringify(fine));
+  await av.close();
+
   console.log('\n— what a kind of table may hold —');
   const mixed = Object.assign({}, EMPIRE, { rows: EMPIRE.rows.concat([{ id: '13', label: '東京', v: EMPIRE.cols.map(() => 1) }]) });
   const x = await open(b, link(mixed), { width: 1280, height: 800 });

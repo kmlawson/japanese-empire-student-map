@@ -75,7 +75,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airlines', 'airplay',
              'clipping', 'layerinfo', 'krtrains', 'kftrains', 'mntrains', 'layerfind', 'hanlabels',
              'owns', 'jprails', 'indochina', 'citytap', 'ferries', 'arcs',
-             'dei', 'burma', 'overlap', 'picture', 'military', 'census', 'tablelink', 'tableshapes'];
+             'dei', 'burma', 'overlap', 'picture', 'military', 'census', 'tablelink', 'tableshapes', 'tablecity'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -157,7 +157,7 @@ const GROUPS = {
      is what `map.js` changes touch, and `map.js` changes hourly. */
   core: ['labels', 'labelcats', 'legendpick', 'subnames', 'mapstrip', 'keys',
          'theme', 'zoom', 'pin', 'labuan', 'epoch', 'mono', 'colours', 'extent',
-         'names', 'clipping', 'layerfind', 'hanlabels', 'overlap', 'picture', 'military', 'census', 'tablelink', 'tableshapes'],
+         'names', 'clipping', 'layerfind', 'hanlabels', 'overlap', 'picture', 'military', 'census', 'tablelink', 'tableshapes', 'tablecity'],
 
   /* Everything drawn as a dot or read off one: the markers, the gazetteer,
      the sites table and the menu that hangs off a shape. */
@@ -233,7 +233,7 @@ const TRIGGERS = [
   [/^texts\/layer-info\.(csv|md)$/, ['links', 'transport']],
   [/^texts\/.*\.csv$/,             ['data', 'core']],
 
-  [/^deploy\/cities-gaz\.js$/,      ['points']],
+  [/^deploy\/cities-gaz\.js$/,      ['points', 'core']],   // core: tablecity reads its censuses
   [/^data\/cities/,                 ['points']],
   [/^data\/air\//,                  ['transport', 'points']],
   [/^deploy\/(tw|kr|kf|mn)-(stations|trains|times)\.js$/, ['transport']],
@@ -298,8 +298,8 @@ const TRIGGERS = [
   [/^tools\/cache\/1931-india-military-divisions\./, ['geometry', 'core']],
   /* The 1931 census language maps: the module, its figures and the build, and
      the copy of the source they are built from. tools/test/census.js. */
-  /* A printed table in the address. tools/test/tablelink.js, and tableshapes.js for
-     a table of the empire's parts. Both are in `core`. */
+  /* A printed table in the address. tools/test/tablelink.js, tableshapes.js for
+     a table of the empire's parts, tablecity.js for a table of cities. All in `core`. */
   [/^table-link\.js$/,                    ['core']],
   [/^deploy\/lean\/table-link\.js$/,      ['core']],
   [/^theme-census\.js$/,                  ['core']],
@@ -336,7 +336,7 @@ const TRIGGERS = [
   [/^tools\/build_map\.py$/,       ['geometry', 'core']],
   [/^tools\/build_texts\.py$/,     ['data', 'core', 'points']],
   [/^tools\/texts_lib\.py$/,       ['data', 'core', 'points']],
-  [/^tools\/build_cities\.py$/,    ['points']],
+  [/^tools\/build_cities\.py$/,    ['points', 'core']],
 
   /* `map.js` is the map. It cannot be narrowed to one group and it is not
      pretended otherwise — but it does not touch the relief raster, the railway

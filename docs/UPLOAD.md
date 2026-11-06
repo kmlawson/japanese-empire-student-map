@@ -17,7 +17,7 @@ below are what it holds, named relative to it.
 | `styles.css` | 186 KB | 58 KB | first |
 | `lean/map.js` | 455 KB | 117 KB | first — the shipped copy of `map.js`, comments stripped; the source stays at the repository root |
 | `data.js` | 1,223 KB | 288 KB | first |
-| `cities-gaz.js` | 105 KB | 26 KB | first |
+| `cities-gaz.js` | 126 KB | 30 KB | first — with each city's 1920, 1930 and 1940 censuses since update 381, for a table of cities per head |
 | `japan-empire-map.svg` | 4,139 KB | 1,133 KB | first |
 | `lean/annotate.js` | 152 KB | 39 KB | when **Create** or **Load annotations** is pressed — the shipped copy of `annotate.js` |
 | `lean/trains.js` | 45 KB | 13 KB | when the train tools are asked for — the shipped copy of `trains.js` |
@@ -47,7 +47,7 @@ below are what it holds, named relative to it.
 | `jp-stations.js` | 1,058 KB | 215 KB | when **Show Japan Stations** is — 12,800 places |
 | `themes.js` | 112 KB | 35 KB | when a **thematic layer** is opened from the book beside the map |
 | `theme-india-military.js` | 345 KB | 111 KB | when the **1931 military divisions of British India** are chosen from that book |
-| `lean/table-link.js` | 28 KB | 9 KB | when a link carries a **printed table** in its address (`#t=…`) — the shipped copy of `table-link.js` |
+| `lean/table-link.js` | 48 KB | 14 KB | when a link carries a **printed table** in its address (`#t=…`) — the shipped copy of `table-link.js` |
 | `lean/theme-census.js` | 41 KB | 12 KB | when either **1931 census language map** is chosen from that book — the shipped copy of `theme-census.js` |
 | `theme-census-langs.js` | 204 KB | 55 KB | with it, either way: the classification, Vol. I's figures and the second languages |
 | `theme-census-province.js` | 246 KB | 82 KB | when the map **by province** is chosen |

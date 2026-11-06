@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '380';
+  var JEM_VERSION = '381';
 
 
 
@@ -8548,6 +8548,11 @@
   function handleTap(target, cx, cy, sticky) {
     if (planeTap(target)) return;
     if (airTap(target, cx, cy)) return;
+
+    if (tlinkOn() && tlinkApi.tapPoint(target)) {
+      setHot(null); setHotProv(null); setSubsAtom(null);
+      return;
+    }
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
 
@@ -9665,7 +9670,7 @@
     if (ours) select(null);
 
     var rest = window.location.hash.replace(/(^#|&)t=[A-Za-z0-9_-]+/, '$1')
-      .replace(/(^#|&)tk=[a-z]*/, '$1').replace(/&&+/g, '&').replace(/^#&/, '#')
+      .replace(/(^#|&)t[ks]=[a-z]*/g, '$1').replace(/&&+/g, '&').replace(/^#&/, '#')
       .replace(/&$/, '').replace(/^#$/, '');
     if (window.history && history.replaceState) {
       try {
@@ -9677,15 +9682,64 @@
     syncThemeFoot();
   }
 
+
+
+
+
+
+  var tlinkPts = null;
+
+  function tlinkSetPoints(list) {
+    if (tlinkPts && tlinkPts.parentNode) tlinkPts.parentNode.removeChild(tlinkPts);
+    tlinkPts = null;
+    scalables = scalables.filter(function (s) { return !s.tbl; });
+    if (svg) svg.classList.toggle('tbl-cities', !!(list && list.length));
+    if (!list || !list.length || !svg) return;
+    tlinkPts = svgEl('g', { id: 'tbl-points' });
+    if (labelLayer && labelLayer.parentNode === svg) svg.insertBefore(tlinkPts, labelLayer);
+    else svg.appendChild(tlinkPts);
+    var k = view.w / containerSize().w;          // map units per screen pixel
+    list.forEach(function (it) {
+      var m = mercFwd(it.lon, it.lat);
+      var p = project(it.lon, it.lat);
+      tlinkPts.appendChild(it.el);
+      var sc = { el: it.el, x: p.x, y: p.y, x0: m.x, y0: m.y, tbl: true };
+      scalables.push(sc);
+      placeScalable(sc, k);
+    });
+  }
+
   function tlinkHost() {
     return {
       blank: POP_BLANK,
+
+      cities: function (epoch) { return (JMAP.GAZ && JMAP.GAZ[epoch]) || []; },
+      setPoints: tlinkSetPoints,
+
+      pointTip: function (key, fill, cx, cy) {
+        tipAt = { x: cx, y: cy };
+        if (key === tipKey && !tooltip.hidden) {
+          if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
+          return;
+        }
+        tipKey = key;
+        tooltip.innerHTML = '';
+        fill(tooltip);
+        tooltip.hidden = false;
+        if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
+      },
       showCard: showBlockCard,
       tableBox: tableBox,
       popSortable: popSortable,
       addCsvButton: addCsvButton,
       figuresFrom: figuresFrom,
       groupPartOf: groupPartOf,
+
+      atomPartOf: function (aid) {
+        var g = aid && JMAP.ATOM_GROUP && Object.prototype.hasOwnProperty.call(JMAP.ATOM_GROUP, aid)
+          ? JMAP.ATOM_GROUP[aid] : null;
+        return (g && JMAP.ISLAND_GROUPS[g]) || null;
+      },
       close: tlinkClose,
       popRows: function (id) { var d = popSet(id); return d ? d.rows : null; },
 
@@ -10224,6 +10278,11 @@
     }
     if (state.mode === 'quiz' || dragStart || marquee) {
       setHot(null); setHotProv(null); setSubsAtom(null); setThemeHot(null); return;
+    }
+
+    if (tlinkOn() && tlinkApi.hoverPoint(e.target, e.clientX, e.clientY)) {
+      setHot(null); setHotProv(null); setSubsAtom(null);
+      return;
     }
     var got = pick(e.target, e.clientX, e.clientY);
     var hit = got && got.hit;
@@ -18521,6 +18580,21 @@
 
 
 
+    Object.keys(JMAP.ATOM_GROUP || {}).forEach(function (aid) {
+      var c = want[JMAP.ISLAND_GROUPS[JMAP.ATOM_GROUP[aid]]];
+      var atom = c && svg ? $('#a-' + cssEsc(aid), svg) : null;
+      if (!atom) return;
+      (atom.tagName === 'path' ? [atom] : $$('path:not([data-prov]):not(.fine)', atom)).forEach(function (el) {
+        el.style.setProperty('--c', c);
+        el.classList.add('pop-shaded');
+        popPainted.push(el);
+        litAtom[atom.id] = true;
+        if (c === POP_BLANK) blanks.push(el);
+      });
+    });
+
+
+
     if (tlinkOn()) {
       var whole = tlinkApi.wholeFills();
       Object.keys(whole).forEach(function (atomId) {
@@ -18622,7 +18696,21 @@
 
 
   function groupPartOf(el) {
-    var g = el && el.getAttribute ? el.getAttribute('data-group') : null;
+    if (!el || !el.getAttribute) return null;
+    var g = el.getAttribute('data-group');
+
+
+
+
+    if (!g) {
+      var atom = el.closest ? el.closest('.atom') : null;
+      var aid = atom ? atom.getAttribute('data-id') : null;
+      var names = aid && JMAP.ISLAND_NAMES ? JMAP.ISLAND_NAMES[aid] : null;
+      var k = el.getAttribute('data-prov');
+      g = (names && k && Object.prototype.hasOwnProperty.call(names, k) ? names[k] : null)
+        || (aid && JMAP.ATOM_GROUP && Object.prototype.hasOwnProperty.call(JMAP.ATOM_GROUP, aid)
+          ? JMAP.ATOM_GROUP[aid] : null);
+    }
     return (g && JMAP.ISLAND_GROUPS && JMAP.ISLAND_GROUPS[g]) || null;
   }
 

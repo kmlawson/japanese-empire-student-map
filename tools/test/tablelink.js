@@ -448,7 +448,7 @@ const pickCol = async (p, i) => {
     check(what + ': the table, with no link', ft.hidden && await g.evaluate(() => !!document.getElementById('tbl-col')), JSON.stringify(ft));
     await g.close();
   }
-  const lure = await open(b, VIEW + '#t=' + encode({ v: 2, units: 'city', cols: [{ name: 'x' }], rows: [], src: { url: 'https://evil.example/login' } }), { width: 1280, height: 800 });
+  const lure = await open(b, VIEW + '#t=' + encode({ v: 2, units: 'district', cols: [{ name: 'x' }], rows: [], src: { url: 'https://evil.example/login' } }), { width: 1280, height: 800 });
   await lure.waitForFunction(() => !document.getElementById('info').hidden, { timeout: 15000 }).catch(() => {});
   await calm(lure);
   check('an error card does not link to a stranger either',
@@ -775,7 +775,7 @@ const pickCol = async (p, i) => {
 
   for (const [what, frag, re] of [
     ['garbage', '#t=not-a-real-payload', /could not be read/],
-    ['another kind of unit', '#t=' + encode({ v: 2, units: 'city', cols: [{ name: 'x' }], rows: [], src: { url: SRC } }), /cannot draw yet/],
+    ['another kind of unit', '#t=' + encode({ v: 2, units: 'district', cols: [{ name: 'x' }], rows: [], src: { url: SRC } }), /cannot draw yet/],
     ['no row on the map', '#t=' + encode({ v: 1, units: 'prefecture', cols: [{ name: 'x' }], rows: [{ id: 'nowhere', v: [1] }], src: { url: SRC } }), /could be placed/],
   ]) {
     const e = await open(b, VIEW + frag, { width: 1280, height: 800 });

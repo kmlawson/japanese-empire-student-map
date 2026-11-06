@@ -148,6 +148,7 @@ COMPOUND_KEYS = {
     "version.csv": ("version",),
     "territories/sub-units/clusters.csv": ("epoch", "cluster"),
     "sites/overrides-1930.csv": ("site", "en"),
+    "territories/island-names.csv": ("atom", "name"),
 }
 
 
@@ -1322,6 +1323,45 @@ def build_data_js():
                  % "\n".join("  %s: %s," % (T.js_key(r["key"]),
                                             T.js_string(r["part_of"]))
                               for r in igroups))
+
+    # The same answer for the islands of the *base* drawing, which is what a
+    # reader sees until the fine coastlines load on a deep zoom. Its rings carry
+    # a name and no group, so the Amami and Yaeyama islands, drawn there in the
+    # Ryūkyū atom, took no prefecture's colour at the opening view. The fine
+    # sheet knows each ring's group by name; the index is by atom as well as
+    # name because a name is not unique (Nakanoshima is in the Tokara and the Oki
+    # Islands). And an atom every island of which is one group, the `atom`
+    # column, answers for rings no sheet names: the Kuriles exist only in the
+    # base drawing, and they were Hokkaidō's.
+    by_atom = {}
+    fine_svg = os.path.join(SITE, "japan-empire-map-fine.svg")
+    if os.path.exists(fine_svg):
+        known = {r["key"] for r in igroups}
+        atom = None
+        for m in re.finditer(r'<g data-for="([^"]+)"|<path ([^>]*)>', open(fine_svg, encoding="utf-8").read()):
+            if m.group(1):
+                atom = m.group(1)
+                continue
+            a = dict(re.findall(r'(data-prov|data-group)="([^"]*)"', m.group(2)))
+            name, grp = a.get("data-prov"), a.get("data-group")
+            if atom and name and grp in known:
+                by_atom.setdefault(atom, {}).setdefault(name, set()).add(grp)
+    # The base drawing names a few rings otherwise than the fine sheet does
+    # ("the Kerama Islands", "Iejima"); island-names.csv says which group each is.
+    inames = load("territories", "island-names.csv")
+    for r in inames:
+        if r["group"] not in {g["key"] for g in igroups}:
+            sys.exit("texts/territories/island-names.csv: %s names a group that "
+                     "island-groups.csv does not have: %s" % (r["name"], r["group"]))
+        by_atom.setdefault(r["atom"], {})[r["name"]] = {r["group"]}
+    parts.append("JMAP.ISLAND_NAMES = {\n%s\n};" % "\n".join(
+        "  %s: { %s }," % (T.js_key(atom), ", ".join(
+            "%s: %s" % (T.js_string(n), T.js_string(next(iter(g))))
+            for n, g in sorted(names.items()) if len(g) == 1))
+        for atom, names in sorted(by_atom.items())))
+    parts.append("JMAP.ATOM_GROUP = {\n%s\n};" % "\n".join(
+        "  %s: %s," % (T.js_key(r["atom"]), T.js_string(r["key"]))
+        for r in igroups if r.get("atom")))
     sub_keys = set(seen)
 
     inner = []
