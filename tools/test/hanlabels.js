@@ -301,8 +301,11 @@ console.log('\n— one label to a place —');
      Samarinda, Myitkyina and Luang Prabang are each a town and the district
      governed from it. They are listed one by one rather than waved through by
      rule, because a *silent* allowance is how a real double would get in. */
+  /* 若松 joined on 7 November 2026: two different cities were both 若松市
+     until 1955, one on the Dōkai inlet in Fukuoka and one in Aizu. The
+     English label tells them apart; in characters they really were one name. */
   const allowed=['吉林','寧夏','Chiengmai','Palembang',
-                 'Pontianak','Samarinda','Myitkyina','Luang Prabang'];
+                 'Pontianak','Samarinda','Myitkyina','Luang Prabang','若松'];
   const unexpected=[...new Set(twins)].filter(t=>allowed.indexOf(t)<0);
   check('and no other place is written twice', unexpected.length===0,
     JSON.stringify(unexpected.slice(0,6)));

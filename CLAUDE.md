@@ -391,6 +391,17 @@ This is narrower than the "one or two sentences, not a paragraph" rule above
 and stricter: there, the job is to compress the prose you are writing. Here the
 prose is not yours to write. Length is not the test — authorship is.
 
+## Read docs/wikipedia.md before fetching many things from Wikipedia
+
+Wikipedia rate-limits scripts that go too fast. A loop of calls 0.2 s apart
+was refused with HTTP 429 after eleven pages. **Before any batch of Wikipedia
+lookups, read `docs/wikipedia.md` and follow it:**
+* go slowly, one request at a time, at least a second apart;
+* batch titles, fifty to a request;
+* back off on 429;
+* cache to disk;
+* use a descriptive User-Agent that carries nothing personal.
+
 ## Grep before naming a function in map.js
 
 `map.js` is one twenty-thousand-line function body, and a function

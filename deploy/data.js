@@ -4325,6 +4325,481 @@ JMAP.CITY_NAMES = [
     wiki: 'https://en.wikipedia.org/wiki/Namtu',
     note: 'The smelting headquarters of the Burma Corporation’s silver and lead mines.'
   },
+  {
+    id: 'wakamatsu', en: 'Wakamatsu', ja: '若松', zh: '若松', ko: '와카마쓰', lat: 33.9056,
+    lon: 130.8111, wiki: 'https://en.wikipedia.org/wiki/Wakamatsu-ku',
+    note: 'The coal-shipping port of the Chikuhō field on the Dōkai inlet, opposite Tobata; now part of Kitakyūshū.'
+  },
+  {
+    id: 'aizuwakamatsu', en: 'Wakamatsu (Aizu)', ja: '若松', zh: '若松', ko: '아이즈와카마쓰',
+    lat: 37.4948, lon: 139.9298, wiki: 'https://en.wikipedia.org/wiki/Aizuwakamatsu',
+    note: 'The castle town of Aizu, besieged in the Boshin War of 1868; the city was called Wakamatsu until 1955.'
+  },
+  {
+    id: 'matsumoto', en: 'Matsumoto', ja: '松本', zh: '松本', ko: '마쓰모토', lat: 36.238, lon: 137.972,
+    wiki: 'https://en.wikipedia.org/wiki/Matsumoto,_Nagano',
+    note: 'The castle town of central Shinano and a silk-reeling centre.'
+  },
+  {
+    id: 'yokkaichi', en: 'Yokkaichi', ja: '四日市', zh: '四日市', ko: '욧카이치', lat: 34.965,
+    lon: 136.6244, wiki: 'https://en.wikipedia.org/wiki/Yokkaichi',
+    note: 'A port on Ise Bay and a cotton-spinning town.'
+  },
+  {
+    id: 'himeji', en: 'Himeji', ja: '姫路', zh: '姬路', ko: '히메지', lat: 34.8167, lon: 134.6833,
+    wiki: 'https://en.wikipedia.org/wiki/Himeji', ja_kyu: '姬路',
+    note: 'The castle town of western Hyōgo and the seat of the 10th Division.'
+  },
+  {
+    id: 'takaoka', en: 'Takaoka', ja: '高岡', zh: '高岡', ko: '다카오카', lat: 36.7541, lon: 137.0257,
+    wiki: 'https://en.wikipedia.org/wiki/Takaoka,_Toyama',
+    note: 'The commercial city of Toyama, known for its cast bronze and copperware.'
+  },
+  {
+    id: 'marugame', en: 'Marugame', ja: '丸亀', zh: '丸龜', ko: '마루가메', lat: 34.2833, lon: 133.8,
+    wiki: 'https://en.wikipedia.org/wiki/Marugame,_Kagawa', ja_kyu: '丸龜',
+    note: 'A castle town and Inland Sea port in Kagawa, known for its paper fans.'
+  },
+  {
+    id: 'yonezawa', en: 'Yonezawa', ja: '米沢', zh: '米澤', ko: '요네자와', lat: 37.9222, lon: 140.1168,
+    wiki: 'https://en.wikipedia.org/wiki/Yonezawa,_Yamagata', ja_kyu: '米澤',
+    note: 'The castle town of the Uesugi and a silk-weaving centre.'
+  },
+  {
+    id: 'okazaki', en: 'Okazaki', ja: '岡崎', zh: '岡崎', ko: '오카자키', lat: 34.9543, lon: 137.1744,
+    wiki: 'https://en.wikipedia.org/wiki/Okazaki,_Aichi',
+    note: 'A castle town on the Tōkaidō and the birthplace of Tokugawa Ieyasu.'
+  },
+  {
+    id: 'kurume', en: 'Kurume', ja: '久留米', zh: '久留米', ko: '구루메', lat: 33.3192, lon: 130.5083,
+    wiki: 'https://en.wikipedia.org/wiki/Kurume',
+    note: 'A castle town on the Chikugo River and the centre of Japan\'s rubber-footwear industry.'
+  },
+  {
+    id: 'nagaoka', en: 'Nagaoka', ja: '長岡', zh: '長岡', ko: '나가오카', lat: 37.4462, lon: 138.8512,
+    wiki: 'https://en.wikipedia.org/wiki/Nagaoka,_Niigata',
+    note: 'A castle town on the Shinano River, beside the Echigo oilfields.'
+  },
+  {
+    id: 'shimizu', en: 'Shimizu', ja: '清水', zh: '清水', ko: '시미즈', lat: 35.0158, lon: 138.4897,
+    wiki: 'https://en.wikipedia.org/wiki/Shimizu-ku,_Shizuoka',
+    note: 'The port of Shizuoka and its tea-export harbour; now part of Shizuoka.'
+  },
+  {
+    id: 'takasaki', en: 'Takasaki', ja: '高崎', zh: '高崎', ko: '다카사키', lat: 36.3219, lon: 139.0033,
+    wiki: 'https://en.wikipedia.org/wiki/Takasaki',
+    note: 'A castle town and rail junction in the silk country of Gunma.'
+  },
+  {
+    id: 'hirosaki', en: 'Hirosaki', ja: '弘前', zh: '弘前', ko: '히로사키', lat: 40.6031, lon: 140.4639,
+    wiki: 'https://en.wikipedia.org/wiki/Hirosaki',
+    note: 'The castle town of the Tsugaru and the seat of the 8th Division.'
+  },
+  {
+    id: 'onomichi', en: 'Onomichi', ja: '尾道', zh: '尾道', ko: '오노미치', lat: 34.4167, lon: 133.2,
+    wiki: 'https://en.wikipedia.org/wiki/Onomichi',
+    note: 'An Inland Sea port and temple town in eastern Hiroshima.'
+  },
+  {
+    id: 'nishinomiya', en: 'Nishinomiya', ja: '西宮', zh: '西宮', ko: '니시노미야', lat: 34.7376,
+    lon: 135.3416, wiki: 'https://en.wikipedia.org/wiki/Nishinomiya',
+    note: 'A sake-brewing town on the coast between Osaka and Kobe.'
+  },
+  {
+    id: 'ichinomiya', en: 'Ichinomiya', ja: '一宮', zh: '一宮', ko: '이치노미야', lat: 35.3039,
+    lon: 136.8031, wiki: 'https://en.wikipedia.org/wiki/Ichinomiya,_Aichi',
+    note: 'The textile town of the Owari plain north of Nagoya.'
+  },
+  {
+    id: 'koriyama', en: 'Kōriyama', ja: '郡山', zh: '郡山', ko: '고리야마', lat: 37.4004, lon: 140.3597,
+    wiki: 'https://en.wikipedia.org/wiki/K%C5%8Driyama',
+    note: 'A rail junction and textile town in Fukushima, watered by the Asaka canal.'
+  },
+  {
+    id: 'takada', en: 'Takada', ja: '高田', zh: '高田', ko: '다카다', lat: 37.115, lon: 138.2422,
+    wiki: 'https://en.wikipedia.org/wiki/J%C5%8Detsu,_Niigata',
+    note: 'A castle town in Echigo, where an Austrian officer taught the army to ski in 1911; now part of Jōetsu.'
+  },
+  {
+    id: 'tsuruoka', en: 'Tsuruoka', ja: '鶴岡', zh: '鶴岡', ko: '쓰루오카', lat: 38.7272, lon: 139.8267,
+    wiki: 'https://en.wikipedia.org/wiki/Tsuruoka',
+    note: 'The castle town of the Shōnai plain in Yamagata.'
+  },
+  {
+    id: 'ogaki', en: 'Ōgaki', ja: '大垣', zh: '大垣', ko: '오가키', lat: 35.3594, lon: 136.6129,
+    wiki: 'https://en.wikipedia.org/wiki/%C5%8Cgaki',
+    note: 'A castle town of the Mino plain, with textile mills.'
+  },
+  {
+    id: 'yonago', en: 'Yonago', ja: '米子', zh: '米子', ko: '요나고', lat: 35.4333, lon: 133.3333,
+    wiki: 'https://en.wikipedia.org/wiki/Yonago',
+    note: 'The commercial town of western Tottori.'
+  },
+  {
+    id: 'tobata', en: 'Tobata', ja: '戸畑', zh: '戶畑', ko: '도바타', lat: 33.8947, lon: 130.8294,
+    wiki: 'https://en.wikipedia.org/wiki/Tobata-ku', ja_kyu: '戶畑',
+    note: 'A port and industrial town beside Yawata on the Dōkai inlet; now part of Kitakyūshū.'
+  },
+  {
+    id: 'uwajima', en: 'Uwajima', ja: '宇和島', zh: '宇和島', ko: '우와지마', lat: 33.2167, lon: 132.5667,
+    wiki: 'https://en.wikipedia.org/wiki/Uwajima,_Ehime',
+    note: 'The castle town and fishing port of southern Ehime.'
+  },
+  {
+    id: 'imabari', en: 'Imabari', ja: '今治', zh: '今治', ko: '이마바리', lat: 34.0667, lon: 133,
+    wiki: 'https://en.wikipedia.org/wiki/Imabari,_Ehime',
+    note: 'An Inland Sea port in Ehime, known for its cotton towels.'
+  },
+  {
+    id: 'akashi', en: 'Akashi', ja: '明石', zh: '明石', ko: '아카시', lat: 34.65, lon: 135,
+    wiki: 'https://en.wikipedia.org/wiki/Akashi,_Hy%C5%8Dgo',
+    note: 'A port on the Akashi Strait, through which Japan\'s standard meridian, 135° east, passes.'
+  },
+  {
+    id: 'kiryu', en: 'Kiryū', ja: '桐生', zh: '桐生', ko: '기류', lat: 36.4, lon: 139.3333,
+    wiki: 'https://en.wikipedia.org/wiki/Kiry%C5%AB,_Gunma',
+    note: 'The silk-weaving town of Gunma.'
+  },
+  {
+    id: 'ueda', en: 'Ueda', ja: '上田', zh: '上田', ko: '우에다', lat: 36.4019, lon: 138.2491,
+    wiki: 'https://en.wikipedia.org/wiki/Ueda,_Nagano',
+    note: 'A castle town of Shinano and a centre of silkworm-egg production.'
+  },
+  {
+    id: 'hachinohe', en: 'Hachinohe', ja: '八戸', zh: '八戶', ko: '하치노헤', lat: 40.5122,
+    lon: 141.4883, wiki: 'https://en.wikipedia.org/wiki/Hachinohe', ja_kyu: '八戶',
+    note: 'The fishing port of eastern Aomori.'
+  },
+  {
+    id: 'hachioji', en: 'Hachiōji', ja: '八王子', zh: '八王子', ko: '하치오지', lat: 35.6664,
+    lon: 139.316, wiki: 'https://en.wikipedia.org/wiki/Hachi%C5%8Dji',
+    note: 'The silk-weaving town on the Kōshū road west of Tokyo.'
+  },
+  {
+    id: 'ashikaga', en: 'Ashikaga', ja: '足利', zh: '足利', ko: '아시카가', lat: 36.3402, lon: 139.4497,
+    wiki: 'https://en.wikipedia.org/wiki/Ashikaga,_Tochigi',
+    note: 'A silk-weaving town in Tochigi, with the medieval Ashikaga school.'
+  },
+  {
+    id: 'miyakonojo', en: 'Miyakonojō', ja: '都城', zh: '都城', ko: '미야코노조', lat: 31.7194,
+    lon: 131.0617, wiki: 'https://en.wikipedia.org/wiki/Miyakonoj%C5%8D',
+    note: 'The market town of southern Miyazaki.'
+  },
+  {
+    id: 'numazu', en: 'Numazu', ja: '沼津', zh: '沼津', ko: '누마즈', lat: 35.0956, lon: 138.8634,
+    wiki: 'https://en.wikipedia.org/wiki/Numazu',
+    note: 'A Tōkaidō town at the head of Suruga Bay.'
+  },
+  {
+    id: 'kishiwada', en: 'Kishiwada', ja: '岸和田', zh: '岸和田', ko: '기시와다', lat: 34.4667,
+    lon: 135.3667, wiki: 'https://en.wikipedia.org/wiki/Kishiwada,_Osaka',
+    note: 'A castle town and cotton-spinning centre south of Osaka.'
+  },
+  {
+    id: 'fukuyama', en: 'Fukuyama', ja: '福山', zh: '福山', ko: '후쿠야마', lat: 34.4858, lon: 133.3622,
+    wiki: 'https://en.wikipedia.org/wiki/Fukuyama,_Hiroshima',
+    note: 'The castle town of eastern Hiroshima.'
+  },
+  {
+    id: 'shuri', en: 'Shuri', ja: '首里', zh: '首里', ko: '슈리', lat: 26.217, lon: 127.7194,
+    wiki: 'https://en.wikipedia.org/wiki/Shuri,_Okinawa',
+    note: 'The royal capital of the Ryūkyū kingdom, under whose castle the 32nd Army had its headquarters in 1945.'
+  },
+  {
+    id: 'nakatsu', en: 'Nakatsu', ja: '中津', zh: '中津', ko: '나카쓰', lat: 33.5983, lon: 131.1883,
+    wiki: 'https://en.wikipedia.org/wiki/Nakatsu,_%C5%8Cita',
+    note: 'The castle town of northern Ōita, where Fukuzawa Yukichi grew up.'
+  },
+  {
+    id: 'tsuyama', en: 'Tsuyama', ja: '津山', zh: '津山', ko: '쓰야마', lat: 35.0692, lon: 134.0044,
+    wiki: 'https://en.wikipedia.org/wiki/Tsuyama', note: 'The castle town of northern Okayama.'
+  },
+  {
+    id: 'kawagoe', en: 'Kawagoe', ja: '川越', zh: '川越', ko: '가와고에', lat: 35.9251, lon: 139.4858,
+    wiki: 'https://en.wikipedia.org/wiki/Kawagoe,_Saitama',
+    note: 'A castle town north-west of Tokyo, called Little Edo for its merchant houses.'
+  },
+  {
+    id: 'kurashiki', en: 'Kurashiki', ja: '倉敷', zh: '倉敷', ko: '구라시키', lat: 34.585,
+    lon: 133.7722, wiki: 'https://en.wikipedia.org/wiki/Kurashiki',
+    note: 'A merchant town in Okayama and the home of the Kurashiki cotton mills.'
+  },
+  {
+    id: 'seto', en: 'Seto', ja: '瀬戸', zh: '瀨戶', ko: '세토', lat: 35.2236, lon: 137.0842,
+    wiki: 'https://en.wikipedia.org/wiki/Seto,_Aichi', ja_kyu: '瀨戶',
+    note: 'The pottery town that gave Japanese its word for ceramics, setomono.'
+  },
+  {
+    id: 'ishinomaki', en: 'Ishinomaki', ja: '石巻', zh: '石卷', ko: '이시노마키', lat: 38.4176,
+    lon: 141.3027, wiki: 'https://en.wikipedia.org/wiki/Ishinomaki', ja_kyu: '石卷',
+    note: 'A fishing port at the mouth of the Kitakami River.'
+  },
+  {
+    id: 'karatsu', en: 'Karatsu', ja: '唐津', zh: '唐津', ko: '가라쓰', lat: 33.45, lon: 129.9683,
+    wiki: 'https://en.wikipedia.org/wiki/Karatsu,_Saga',
+    note: 'A castle town and coal port in Saga, known for its pottery.'
+  },
+  {
+    id: 'iizuka', en: 'Iizuka', ja: '飯塚', zh: '飯塚', ko: '이즈카', lat: 33.6467, lon: 130.6911,
+    wiki: 'https://en.wikipedia.org/wiki/Iizuka',
+    note: 'The coal town at the centre of the Chikuhō field.'
+  },
+  {
+    id: 'hiratsuka', en: 'Hiratsuka', ja: '平塚', zh: '平塚', ko: '히라쓰카', lat: 35.3167, lon: 139.35,
+    wiki: 'https://en.wikipedia.org/wiki/Hiratsuka',
+    note: 'A Tōkaidō town with the navy\'s powder works.'
+  },
+  {
+    id: 'sakata', en: 'Sakata', ja: '酒田', zh: '酒田', ko: '사카타', lat: 38.9145, lon: 139.8364,
+    wiki: 'https://en.wikipedia.org/wiki/Sakata,_Yamagata',
+    note: 'The rice port at the mouth of the Mogami River.'
+  },
+  {
+    id: 'nogata', en: 'Nōgata', ja: '直方', zh: '直方', ko: '노가타', lat: 33.7442, lon: 130.7297,
+    wiki: 'https://en.wikipedia.org/wiki/N%C5%8Dgata,_Fukuoka',
+    note: 'A coal town of the Chikuhō field.'
+  },
+  {
+    id: 'matsusaka', en: 'Matsusaka', ja: '松阪', zh: '松阪', ko: '마쓰사카', lat: 34.5779,
+    lon: 136.5276, wiki: 'https://en.wikipedia.org/wiki/Matsusaka',
+    note: 'A castle town in Ise and the home of the Mitsui merchant house.'
+  },
+  {
+    id: 'obihiro', en: 'Obihiro', ja: '帯広', zh: '帶廣', ko: '오비히로', lat: 42.9239, lon: 143.1961,
+    wiki: 'https://en.wikipedia.org/wiki/Obihiro', ja_kyu: '帶廣',
+    note: 'The farming town of the Tokachi plain in Hokkaidō.'
+  },
+  {
+    id: 'nobeoka', en: 'Nobeoka', ja: '延岡', zh: '延岡', ko: '노베오카', lat: 32.5822, lon: 131.665,
+    wiki: 'https://en.wikipedia.org/wiki/Nobeoka',
+    note: 'A castle town in northern Miyazaki, with Nitchitsu\'s chemical and rayon works.'
+  },
+  {
+    id: 'choshi', en: 'Chōshi', ja: '銚子', zh: '銚子', ko: '조시', lat: 35.7346, lon: 140.8268,
+    wiki: 'https://en.wikipedia.org/wiki/Ch%C5%8Dshi',
+    note: 'A fishing port and soy-sauce town at the mouth of the Tone River.'
+  },
+  {
+    id: 'kumagaya', en: 'Kumagaya', ja: '熊谷', zh: '熊谷', ko: '구마가야', lat: 36.1474, lon: 139.3886,
+    wiki: 'https://en.wikipedia.org/wiki/Kumagaya', note: 'The market town of northern Saitama.'
+  },
+  {
+    id: 'tokuyama', en: 'Tokuyama', ja: '徳山', zh: '德山', ko: '도쿠야마', lat: 34.0551, lon: 131.8063,
+    wiki: 'https://en.wikipedia.org/wiki/Tokuyama,_Yamaguchi', ja_kyu: '德山',
+    note: 'An Inland Sea port with the navy\'s fuel depot; now part of Shūnan.'
+  },
+  {
+    id: 'shingu', en: 'Shingū', ja: '新宮', zh: '新宮', ko: '신구', lat: 33.7167, lon: 136,
+    wiki: 'https://en.wikipedia.org/wiki/Shing%C5%AB,_Wakayama',
+    note: 'The timber port at the mouth of the Kumano River.'
+  },
+  {
+    id: 'yawatahama', en: 'Yawatahama', ja: '八幡浜', zh: '八幡濱', ko: '야와타하마', lat: 33.4667,
+    lon: 132.4167, wiki: 'https://en.wikipedia.org/wiki/Yawatahama', ja_kyu: '八幡濱',
+    note: 'A fishing port on the west coast of Ehime.'
+  },
+  {
+    id: 'kawaguchi', en: 'Kawaguchi', ja: '川口', zh: '川口', ko: '가와구치', lat: 35.8077,
+    lon: 139.7241, wiki: 'https://en.wikipedia.org/wiki/Kawaguchi,_Saitama',
+    note: 'The iron-casting town across the Arakawa from Tokyo.'
+  },
+  {
+    id: 'sanjo', en: 'Sanjō', ja: '三条', zh: '三條', ko: '산조', lat: 37.6368, lon: 138.9617,
+    wiki: 'https://en.wikipedia.org/wiki/Sanj%C5%8D,_Niigata', ja_kyu: '三條',
+    note: 'A metalworking town in Niigata.'
+  },
+  {
+    id: 'kainan', en: 'Kainan', ja: '海南', zh: '海南', ko: '가이난', lat: 34.15, lon: 135.2167,
+    wiki: 'https://en.wikipedia.org/wiki/Kainan,_Wakayama',
+    note: 'A lacquerware town south of Wakayama.'
+  },
+  {
+    id: 'tsuruga', en: 'Tsuruga', ja: '敦賀', zh: '敦賀', ko: '쓰루가', lat: 35.6452, lon: 136.0555,
+    wiki: 'https://en.wikipedia.org/wiki/Tsuruga,_Fukui',
+    note: 'The Japan Sea port of the boat train to Vladivostok.'
+  },
+  {
+    id: 'ichikawa', en: 'Ichikawa', ja: '市川', zh: '市川', ko: '이치카와', lat: 35.7219, lon: 139.9311,
+    wiki: 'https://en.wikipedia.org/wiki/Ichikawa,_Chiba',
+    note: 'A town across the Edo River from Tokyo.'
+  },
+  {
+    id: 'hikone', en: 'Hikone', ja: '彦根', zh: '彦根', ko: '히코네', lat: 35.2667, lon: 136.2667,
+    wiki: 'https://en.wikipedia.org/wiki/Hikone,_Shiga',
+    note: 'The castle town on the eastern shore of Lake Biwa.'
+  },
+  {
+    id: 'kamaishi', en: 'Kamaishi', ja: '釜石', zh: '釜石', ko: '가마이시', lat: 39.2758, lon: 141.8857,
+    wiki: 'https://en.wikipedia.org/wiki/Kamaishi,_Iwate',
+    note: 'The iron-mining and steel town of Iwate, shelled by Allied warships in 1945.'
+  },
+  {
+    id: 'sumoto', en: 'Sumoto', ja: '洲本', zh: '洲本', ko: '스모토', lat: 34.35, lon: 134.9,
+    wiki: 'https://en.wikipedia.org/wiki/Sumoto', note: 'The castle town of Awaji island.'
+  },
+  {
+    id: 'tochigi', en: 'Tochigi', ja: '栃木', zh: '栃木', ko: '도치기', lat: 36.3813, lon: 139.7303,
+    wiki: 'https://en.wikipedia.org/wiki/Tochigi_(city)',
+    note: 'A canal town, and the seat of Tochigi prefecture until 1884.'
+  },
+  {
+    id: 'iida', en: 'Iida', ja: '飯田', zh: '飯田', ko: '이다', lat: 35.515, lon: 137.8214,
+    wiki: 'https://en.wikipedia.org/wiki/Iida,_Nagano',
+    note: 'The castle town of southern Shinano.'
+  },
+  {
+    id: 'kamakura', en: 'Kamakura', ja: '鎌倉', zh: '鎌倉', ko: '가마쿠라', lat: 35.3197, lon: 139.5525,
+    wiki: 'https://en.wikipedia.org/wiki/Kamakura',
+    note: 'The medieval shogunal capital, a seaside resort by the 1930s.'
+  },
+  {
+    id: 'nemuro', en: 'Nemuro', ja: '根室', zh: '根室', ko: '네무로', lat: 43.33, lon: 145.5828,
+    wiki: 'https://en.wikipedia.org/wiki/Nemuro,_Hokkaido',
+    note: 'The fishing port at the eastern tip of Hokkaidō, facing the Kuriles.'
+  },
+  {
+    id: 'fuse', en: 'Fuse', ja: '布施', zh: '布施', ko: '후세', lat: 34.6641, lon: 135.5632,
+    wiki: 'https://en.wikipedia.org/wiki/Higashi%C5%8Dsaka',
+    note: 'An industrial suburb east of Osaka; now part of Higashiōsaka.'
+  },
+  {
+    id: 'higashimaizuru', en: 'Higashi-Maizuru', ja: '東舞鶴', zh: '東舞鶴', ko: '히가시마이즈루',
+    lat: 35.4686, lon: 135.3949, wiki: 'https://en.wikipedia.org/wiki/Maizuru',
+    note: 'The naval-base side of Maizuru, a city of its own from 1938 to 1943.'
+  },
+  {
+    id: 'fushimi', en: 'Fushimi', ja: '伏見', zh: '伏見', ko: '후시미', lat: 34.9361, lon: 135.7614,
+    wiki: 'https://en.wikipedia.org/wiki/Fushimi-ku,_Kyoto',
+    note: 'The sake-brewing town south of Kyoto, a city from 1929 until it joined Kyoto in 1931.'
+  },
+  {
+    id: 'handa', en: 'Handa', ja: '半田', zh: '半田', ko: '한다', lat: 34.8919, lon: 136.9381,
+    wiki: 'https://en.wikipedia.org/wiki/Handa,_Aichi',
+    note: 'A port on the Chita peninsula, known for vinegar and sake brewing.'
+  },
+  {
+    id: 'fukuchiyama', en: 'Fukuchiyama', ja: '福知山', zh: '福知山', ko: '후쿠치야마', lat: 35.3,
+    lon: 135.1333, wiki: 'https://en.wikipedia.org/wiki/Fukuchiyama,_Kyoto',
+    note: 'A castle town and rail junction in northern Kyoto prefecture.'
+  },
+  {
+    id: 'okaya', en: 'Okaya', ja: '岡谷', zh: '岡谷', ko: '오카야', lat: 36.0671, lon: 138.0493,
+    wiki: 'https://en.wikipedia.org/wiki/Okaya,_Nagano',
+    note: 'The silk-reeling town on Lake Suwa.'
+  },
+  {
+    id: 'sendaisatsuma', en: 'Sendai (Satsuma)', ja: '川内', zh: '川内', ko: '센다이', lat: 31.8133,
+    lon: 130.3039, wiki: 'https://en.wikipedia.org/wiki/Satsumasendai,_Kagoshima',
+    note: 'The market town of northern Satsuma on the Sendai River; now Satsumasendai.'
+  },
+  {
+    id: 'takayama', en: 'Takayama', ja: '高山', zh: '高山', ko: '다카야마', lat: 36.146, lon: 137.2522,
+    wiki: 'https://en.wikipedia.org/wiki/Takayama,_Gifu',
+    note: 'The old merchant town of the Hida mountains.'
+  },
+  {
+    id: 'kuwana', en: 'Kuwana', ja: '桑名', zh: '桑名', ko: '구와나', lat: 35.0667, lon: 136.6833,
+    wiki: 'https://en.wikipedia.org/wiki/Kuwana,_Mie',
+    note: 'A castle town and Tōkaidō post station at the mouth of the Kiso rivers.'
+  },
+  {
+    id: 'toyonaka', en: 'Toyonaka', ja: '豊中', zh: '豐中', ko: '도요나카', lat: 34.7833, lon: 135.4667,
+    wiki: 'https://en.wikipedia.org/wiki/Toyonaka', ja_kyu: '豐中',
+    note: 'A residential suburb north of Osaka.'
+  },
+  {
+    id: 'ikeda', en: 'Ikeda', ja: '池田', zh: '池田', ko: '이케다', lat: 34.8217, lon: 135.4286,
+    wiki: 'https://en.wikipedia.org/wiki/Ikeda,_Osaka',
+    note: 'A suburb north of Osaka, where the Minoo-Arima railway built its first housing estate in 1910.'
+  },
+  {
+    id: 'atami', en: 'Atami', ja: '熱海', zh: '熱海', ko: '아타미', lat: 35.096, lon: 139.0716,
+    wiki: 'https://en.wikipedia.org/wiki/Atami', note: 'The hot-spring resort on Sagami Bay.'
+  },
+  {
+    id: 'shashi', en: 'Shāshì (Shasi)', ja: '沙市', zh: '沙市', ko: '사스', lat: 30.3161,
+    lon: 112.2519, wiki: 'https://en.wikipedia.org/wiki/Shashi,_Jingzhou',
+    note: 'A treaty port on the Yangtze in Hubei, opened under the Treaty of Shimonoseki; held by Japan from 1940.'
+  },
+  {
+    id: 'jiangmen', en: 'Jiāngmén (Kongmoon)', ja: '江門', zh: '江門', ko: '장먼', lat: 22.5789,
+    lon: 113.0815, wiki: 'https://en.wikipedia.org/wiki/Jiangmen',
+    note: 'A treaty port in the Pearl River delta, opened in 1904; held by Japan from 1939.'
+  },
+  {
+    id: 'sanduao', en: 'Sāndū\'ào (Santuao)', ja: '三都澳', zh: '三都澳', lat: 26.6389, lon: 119.669,
+    note: 'A treaty port on a sheltered bay in north-eastern Fujian, opened in 1899.'
+  },
+  {
+    id: 'sanshui', en: 'Sānshuǐ (Samshui)', ja: '三水', zh: '三水', ko: '싼수이', lat: 23.1558,
+    lon: 112.8967, wiki: 'https://en.wikipedia.org/wiki/Sanshui,_Foshan',
+    note: 'A treaty port on the West River above Canton, opened in 1897; held by Japan from 1938.'
+  },
+  {
+    id: 'qinhuangdao', en: 'Qínhuángdǎo (Chinwangtao)', ja: '秦皇島', zh: '秦皇島', ko: '친황다오',
+    lat: 39.941, lon: 119.5894, wiki: 'https://en.wikipedia.org/wiki/Qinhuangdao',
+    note: 'The ice-free coal port of the Kailan mines on the Bohai.'
+  },
+  {
+    id: 'tengyue', en: 'Téngyuè (Tengyueh)', ja: '騰越', zh: '騰越', lat: 24.9949, lon: 98.5128,
+    wiki: 'https://en.wikipedia.org/wiki/Tengchong',
+    note: 'A trade mart near the Burma border, opened in 1902; held by Japan from May 1942 until 1944.'
+  },
+  {
+    id: 'mengzi', en: 'Méngzì (Mengtsz)', ja: '蒙自', zh: '蒙自', ko: '멍쯔', lat: 23.3961,
+    lon: 103.3649, wiki: 'https://en.wikipedia.org/wiki/Mengzi_City',
+    note: 'A treaty port in southern Yunnan, opened to French trade in 1889.'
+  },
+  {
+    id: 'longkou', en: 'Lóngkǒu (Lungkow)', ja: '龍口', zh: '龍口', ko: '룽커우', lat: 37.6518,
+    lon: 120.3306, wiki: 'https://en.wikipedia.org/wiki/Longkou',
+    note: 'A port on the north coast of Shandong, trading across the Bohai to Dairen.'
+  },
+  {
+    id: 'simao', en: 'Sīmáo (Szemao)', ja: '思茅', zh: '思茅', ko: '쓰마오', lat: 22.7808,
+    lon: 100.975, wiki: 'https://en.wikipedia.org/wiki/Simao,_Pu\'er',
+    note: 'A trade mart in southern Yunnan towards the Indochina border, opened in 1897.'
+  },
+  {
+    id: 'longzhou', en: 'Lóngzhōu (Lungchow)', ja: '龍州', zh: '龍州', ko: '룽저우', lat: 22.345,
+    lon: 106.8542, wiki: 'https://en.wikipedia.org/wiki/Longzhou_County',
+    note: 'A trade mart in Guangxi on the road to Tonkin, opened in 1889.'
+  },
+  {
+    id: 'longjing', en: 'Lóngjǐng (Lungchingtsun)', ja: '龍井', zh: '龍井', ko: '룽징', lat: 42.7667,
+    lon: 129.4333, wiki: 'https://en.wikipedia.org/wiki/Longjing,_Jilin',
+    note: 'The chief town of the Korean settlers in Jiandao, and a centre of Korean independence activity.'
+  },
+  {
+    id: 'hunchun', en: 'Húnchūn', ja: '琿春', zh: '琿春', ko: '훈춘', lat: 42.863, lon: 130.366,
+    wiki: 'https://en.wikipedia.org/wiki/Hunchun',
+    note: 'A border town on the Tumen, close to where China, Korea and Russia meet.'
+  },
+  {
+    id: 'sanxing', en: 'Sānxìng (Sansing)', ja: '三姓', zh: '三姓', lat: 46.317, lon: 129.562,
+    wiki: 'https://en.wikipedia.org/wiki/Yilan_County,_Heilongjiang',
+    note: 'An old Manchu garrison town where the Mudan joins the Sungari; now Yilan.'
+  },
+  {
+    id: 'dadonggou', en: 'Dàdōnggōu (Tatungkow)', ja: '大東溝', zh: '大東溝', lat: 39.8667,
+    lon: 124.15, wiki: 'https://en.wikipedia.org/wiki/Donggang,_Liaoning',
+    note: 'A timber port at the mouth of the Yalu; now Donggang.'
+  },
+  {
+    id: 'tieling', en: 'Tiělǐng (Tiehling)', ja: '鉄嶺', zh: '鐵嶺', ko: '톄링', lat: 42.2931,
+    lon: 123.8414, wiki: 'https://en.wikipedia.org/wiki/Tieling',
+    note: 'A railway town on the South Manchuria line north of Mukden.'
+  },
+  {
+    id: 'taonan', en: 'Táonán', ja: '洮南', zh: '洮南', ko: '타오난', lat: 45.3333, lon: 122.7833,
+    wiki: 'https://en.wikipedia.org/wiki/Taonan',
+    note: 'A rail junction in western Manchuria at the edge of the Mongol lands.'
+  },
+  {
+    id: 'gongzhuling', en: 'Gōngzhǔlǐng (Kungchuling)', ja: '公主嶺', zh: '公主嶺', ko: '궁주링',
+    lat: 43.5053, lon: 124.8224, wiki: 'https://en.wikipedia.org/wiki/Gongzhuling',
+    note: 'A town on the South Manchuria Railway, with the company\'s agricultural experiment station.'
+  },
 ];
 
 JMAP.FEATURES = [

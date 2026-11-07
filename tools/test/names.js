@@ -345,6 +345,54 @@ console.log('\n— Karafuto\u2019s small towns —');
   await p.close();
 }
 
+/* The first batch from the statistics tables (7 November 2026): 79 Japanese
+ * cities, ten Chinese treaty ports and seven Manchurian towns, each sized
+ * from the figures the tables print. No new city reached 100,000 at the 1930
+ * census (the census lists every one that did), so all are small in 1930.
+ * The 1942 map sizes them from 日本都市年鑑 1941's 1940 estimate, at the
+ * thresholds the existing Japanese dots already follow: 75,000 and 250,000.
+ * Fushimi joined Kyoto in 1931 and is on the 1930 map only. */
+console.log('\n— the first batch of cities from the tables —');
+{
+  const MEDIUM42 = ['wakamatsu', 'himeji', 'okazaki', 'kurume', 'nishinomiya',
+    'tobata', 'kiryu', 'hachinohe', 'nobeoka', 'kawaguchi', 'fuse', 'shashi'];
+  const SOME = ['matsumoto', 'yokkaichi', 'shuri', 'nemuro', 'sendaisatsuma',
+    'tengyue', 'longjing', 'gongzhuling', 'aizuwakamatsu', 'fushimi'];
+  const p = await b.newPage();
+  await p.evaluateOnNewDocument(SHIM);
+  await p.setViewport({ width: 1200, height: 860 });
+  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
+  await ready(p);
+  const got = await p.evaluate((ids) => {
+    const find = (ep, id) => (JMAP.GAZ[ep] || []).find(x => x.id === id) || null;
+    const name = id => (JMAP.CITY_NAMES || []).find(x => x.id === id) || null;
+    return ids.map(id => ({ id, a: find('e1930', id), b: find('e1942', id), n: name(id) }));
+  }, MEDIUM42.concat(SOME));
+  const by = Object.fromEntries(got.map(g => [g.id, g]));
+  check('on the 1930 map, every one as a small town',
+    got.every(g => g.a && g.a.t === 0),
+    JSON.stringify(got.filter(g => !(g.a && g.a.t === 0)).map(g => g.id)));
+  check('on the 1942 map, all but Fushimi',
+    got.every(g => (g.id === 'fushimi') === !g.b),
+    JSON.stringify(got.filter(g => (g.id === 'fushimi') !== !g.b).map(g => g.id)));
+  check('  and the twelve over 75,000 by 1940 drawn medium there',
+    MEDIUM42.every(id => by[id].b && by[id].b.t === 1)
+      && SOME.every(id => !by[id].b || by[id].b.t === 0),
+    JSON.stringify(got.map(g => g.id + ':' + (g.b ? g.b.t : '-'))));
+  /* Two different cities were both 若松市: the Dōkai inlet one in Fukuoka
+     (Kyūshū, about 34° N) and Aizu's in Fukushima (about 37.5° N). */
+  check('the two Wakamatsus are two places, in Kyūshū and in Aizu',
+    by.wakamatsu.a.lat < 34.2 && by.aizuwakamatsu.a.lat > 37,
+    by.wakamatsu.a.lat + ' / ' + by.aizuwakamatsu.a.lat);
+  check('Tengyue is Japanese-held on the 1942 map, Longjing is in Manchukuo',
+    by.tengyue.b.p === 'Occupied China' && by.longjing.b.p === 'Manchukuo',
+    by.tengyue.b.p + ' / ' + by.longjing.b.p);
+  check('every one named, with characters and a note',
+    got.every(g => g.n && g.n.ja && (g.n.note || '').trim()),
+    JSON.stringify(got.filter(g => !(g.n && g.n.ja && (g.n.note || '').trim())).map(g => g.id)));
+  await p.close();
+}
+
 await b.close();
 process.exit(report());
 })();

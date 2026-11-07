@@ -42,6 +42,9 @@ SAFE = {
     "来": "來", "頼": "賴", "乱": "亂", "隣": "鄰", "涙": "淚", "歴": "歷",
     "恋": "戀", "炉": "爐", "郎": "郞", "渓": "溪", "営": "營", "峡": "峽",
     "巌": "巖", "駆": "驅", "顔": "顏", "様": "樣", "旧": "舊", "寛": "寬",
+    # Added November 2026 with the first batch of cities from the tables
+    # site: 瀨戶, 石卷, 帶廣 and 三條 are how 日本都市年鑑 1941 prints them.
+    "瀬": "瀨", "巻": "卷", "帯": "帶", "条": "條",
 }
 
 # **Never automatically.** The reverse mapping is one-to-many, or both forms

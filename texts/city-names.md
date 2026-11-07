@@ -1819,3 +1819,391 @@ One of the two chief centres of the oilfields, and not a town at all at the cens
 ## namtupanghai
 
 The smelting headquarters of the Burma Corporation’s silver and lead mines.
+
+> Japanese cities, Chinese treaty ports and Manchurian towns added in November
+> 2026 because the statistics tables name them. Sized from the figures those
+> tables print.
+
+## wakamatsu
+
+The coal-shipping port of the Chikuhō field on the Dōkai inlet, opposite Tobata; now part of Kitakyūshū.
+
+## aizuwakamatsu
+
+The castle town of Aizu, besieged in the Boshin War of 1868; the city was called Wakamatsu until 1955.
+
+## matsumoto
+
+The castle town of central Shinano and a silk-reeling centre.
+
+## yokkaichi
+
+A port on Ise Bay and a cotton-spinning town.
+
+## himeji
+
+The castle town of western Hyōgo and the seat of the 10th Division.
+
+## takaoka
+
+The commercial city of Toyama, known for its cast bronze and copperware.
+
+## marugame
+
+A castle town and Inland Sea port in Kagawa, known for its paper fans.
+
+## yonezawa
+
+The castle town of the Uesugi and a silk-weaving centre.
+
+## okazaki
+
+A castle town on the Tōkaidō and the birthplace of Tokugawa Ieyasu.
+
+## kurume
+
+A castle town on the Chikugo River and the centre of Japan's rubber-footwear industry.
+
+## nagaoka
+
+A castle town on the Shinano River, beside the Echigo oilfields.
+
+## shimizu
+
+The port of Shizuoka and its tea-export harbour; now part of Shizuoka.
+
+## takasaki
+
+A castle town and rail junction in the silk country of Gunma.
+
+## hirosaki
+
+The castle town of the Tsugaru and the seat of the 8th Division.
+
+## onomichi
+
+An Inland Sea port and temple town in eastern Hiroshima.
+
+## nishinomiya
+
+A sake-brewing town on the coast between Osaka and Kobe.
+
+## ichinomiya
+
+The textile town of the Owari plain north of Nagoya.
+
+## koriyama
+
+A rail junction and textile town in Fukushima, watered by the Asaka canal.
+
+## takada
+
+A castle town in Echigo, where an Austrian officer taught the army to ski in 1911; now part of Jōetsu.
+
+## tsuruoka
+
+The castle town of the Shōnai plain in Yamagata.
+
+## ogaki
+
+A castle town of the Mino plain, with textile mills.
+
+## yonago
+
+The commercial town of western Tottori.
+
+## tobata
+
+A port and industrial town beside Yawata on the Dōkai inlet; now part of Kitakyūshū.
+
+## uwajima
+
+The castle town and fishing port of southern Ehime.
+
+## imabari
+
+An Inland Sea port in Ehime, known for its cotton towels.
+
+## akashi
+
+A port on the Akashi Strait, through which Japan's standard meridian, 135° east, passes.
+
+## kiryu
+
+The silk-weaving town of Gunma.
+
+## ueda
+
+A castle town of Shinano and a centre of silkworm-egg production.
+
+## hachinohe
+
+The fishing port of eastern Aomori.
+
+## hachioji
+
+The silk-weaving town on the Kōshū road west of Tokyo.
+
+## ashikaga
+
+A silk-weaving town in Tochigi, with the medieval Ashikaga school.
+
+## miyakonojo
+
+The market town of southern Miyazaki.
+
+## numazu
+
+A Tōkaidō town at the head of Suruga Bay.
+
+## kishiwada
+
+A castle town and cotton-spinning centre south of Osaka.
+
+## fukuyama
+
+The castle town of eastern Hiroshima.
+
+## shuri
+
+The royal capital of the Ryūkyū kingdom, under whose castle the 32nd Army had its headquarters in 1945.
+
+## nakatsu
+
+The castle town of northern Ōita, where Fukuzawa Yukichi grew up.
+
+## tsuyama
+
+The castle town of northern Okayama.
+
+## kawagoe
+
+A castle town north-west of Tokyo, called Little Edo for its merchant houses.
+
+## kurashiki
+
+A merchant town in Okayama and the home of the Kurashiki cotton mills.
+
+## seto
+
+The pottery town that gave Japanese its word for ceramics, setomono.
+
+## ishinomaki
+
+A fishing port at the mouth of the Kitakami River.
+
+## karatsu
+
+A castle town and coal port in Saga, known for its pottery.
+
+## iizuka
+
+The coal town at the centre of the Chikuhō field.
+
+## hiratsuka
+
+A Tōkaidō town with the navy's powder works.
+
+## sakata
+
+The rice port at the mouth of the Mogami River.
+
+## nogata
+
+A coal town of the Chikuhō field.
+
+## matsusaka
+
+A castle town in Ise and the home of the Mitsui merchant house.
+
+## obihiro
+
+The farming town of the Tokachi plain in Hokkaidō.
+
+## nobeoka
+
+A castle town in northern Miyazaki, with Nitchitsu's chemical and rayon works.
+
+## choshi
+
+A fishing port and soy-sauce town at the mouth of the Tone River.
+
+## kumagaya
+
+The market town of northern Saitama.
+
+## tokuyama
+
+An Inland Sea port with the navy's fuel depot; now part of Shūnan.
+
+## shingu
+
+The timber port at the mouth of the Kumano River.
+
+## yawatahama
+
+A fishing port on the west coast of Ehime.
+
+## kawaguchi
+
+The iron-casting town across the Arakawa from Tokyo.
+
+## sanjo
+
+A metalworking town in Niigata.
+
+## kainan
+
+A lacquerware town south of Wakayama.
+
+## tsuruga
+
+The Japan Sea port of the boat train to Vladivostok.
+
+## ichikawa
+
+A town across the Edo River from Tokyo.
+
+## hikone
+
+The castle town on the eastern shore of Lake Biwa.
+
+## kamaishi
+
+The iron-mining and steel town of Iwate, shelled by Allied warships in 1945.
+
+## sumoto
+
+The castle town of Awaji island.
+
+## tochigi
+
+A canal town, and the seat of Tochigi prefecture until 1884.
+
+## iida
+
+The castle town of southern Shinano.
+
+## kamakura
+
+The medieval shogunal capital, a seaside resort by the 1930s.
+
+## nemuro
+
+The fishing port at the eastern tip of Hokkaidō, facing the Kuriles.
+
+## fuse
+
+An industrial suburb east of Osaka; now part of Higashiōsaka.
+
+## higashimaizuru
+
+The naval-base side of Maizuru, a city of its own from 1938 to 1943.
+
+## fushimi
+
+The sake-brewing town south of Kyoto, a city from 1929 until it joined Kyoto in 1931.
+
+## handa
+
+A port on the Chita peninsula, known for vinegar and sake brewing.
+
+## fukuchiyama
+
+A castle town and rail junction in northern Kyoto prefecture.
+
+## okaya
+
+The silk-reeling town on Lake Suwa.
+
+## sendaisatsuma
+
+The market town of northern Satsuma on the Sendai River; now Satsumasendai.
+
+## takayama
+
+The old merchant town of the Hida mountains.
+
+## kuwana
+
+A castle town and Tōkaidō post station at the mouth of the Kiso rivers.
+
+## toyonaka
+
+A residential suburb north of Osaka.
+
+## ikeda
+
+A suburb north of Osaka, where the Minoo-Arima railway built its first housing estate in 1910.
+
+## atami
+
+The hot-spring resort on Sagami Bay.
+
+## shashi
+
+A treaty port on the Yangtze in Hubei, opened under the Treaty of Shimonoseki; held by Japan from 1940.
+
+## jiangmen
+
+A treaty port in the Pearl River delta, opened in 1904; held by Japan from 1939.
+
+## sanduao
+
+A treaty port on a sheltered bay in north-eastern Fujian, opened in 1899.
+
+## sanshui
+
+A treaty port on the West River above Canton, opened in 1897; held by Japan from 1938.
+
+## qinhuangdao
+
+The ice-free coal port of the Kailan mines on the Bohai.
+
+## tengyue
+
+A trade mart near the Burma border, opened in 1902; held by Japan from May 1942 until 1944.
+
+## mengzi
+
+A treaty port in southern Yunnan, opened to French trade in 1889.
+
+## longkou
+
+A port on the north coast of Shandong, trading across the Bohai to Dairen.
+
+## simao
+
+A trade mart in southern Yunnan towards the Indochina border, opened in 1897.
+
+## longzhou
+
+A trade mart in Guangxi on the road to Tonkin, opened in 1889.
+
+## longjing
+
+The chief town of the Korean settlers in Jiandao, and a centre of Korean independence activity.
+
+## hunchun
+
+A border town on the Tumen, close to where China, Korea and Russia meet.
+
+## sanxing
+
+An old Manchu garrison town where the Mudan joins the Sungari; now Yilan.
+
+## dadonggou
+
+A timber port at the mouth of the Yalu; now Donggang.
+
+## tieling
+
+A railway town on the South Manchuria line north of Mukden.
+
+## taonan
+
+A rail junction in western Manchuria at the edge of the Mongol lands.
+
+## gongzhuling
+
+A town on the South Manchuria Railway, with the company's agricultural experiment station.

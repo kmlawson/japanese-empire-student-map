@@ -23897,3 +23897,99 @@ minutes) and was rerun.
 `tablelink`), load average 29, all passing.
 
 236 and 237 released as update 384, after `quick` and `tables` (above).
+
+## 238. Ninety-six cities from the statistics tables, sized from what they print
+
+Asked for: the cities the tables site's city tables name most often and the map
+lacked, sized by population. The Old Tables session read 1,580 city tables and
+listed 444 places missing from the map (`exports/city-candidates.csv`, with
+`city-candidates-dropped.csv` for the labels set aside). This first batch is:
+* 79 Japanese cities: the 78 in fifty or more tables, with Wakamatsu split in
+  two. Kyūshū's 若松市 and Aizu's 若松市 were different cities that shared one
+  name.
+* The ten most-cited Chinese treaty ports.
+* Seven Manchurian trade towns.
+
+The ids are in `exports/city-batch-1.csv`.
+
+* **The population figures came from the tables, not from knowledge.** The Old
+  Tables session sent 915 printed figures with book and table
+  (`city-batch-1-populations.csv` in its scratchpad). Each row's `rationale`
+  names the tables used, and `data/sources.csv` gains the nine volumes as `ot_*`.
+  * Japan:
+    - `pop_c1920` and `pop_c1930` are the census for the city as it stood
+      (日本都市年鑑 1941 p0052_1).
+    - No volume prints a 1940 census figure for a Japanese city, so `pop_c1940`
+      is the yearbook's own 1940 estimate (p0048_1), labelled `estimate`.
+  * China and Manchuria: the figure nearest each date, taken from the China Year
+    Book treaty-port tables, or the Manchukuo city tables (all nationalities)
+    where those exist.
+* **Sizes follow the thresholds the existing Japanese dots already follow.**
+  * 1930: medium from 100,000. p16 of the 1930 census lists every city that
+    size, and none of these is on it, so all 96 are small.
+  * 1942: medium from 75,000, large from 250,000. Twelve are medium: Wakamatsu,
+    Himeji, Okazaki, Kurume, Nishinomiya, Tobata, Kiryū, Hachinohe, Nobeoka,
+    Kawaguchi, Fuse and Shashi.
+* **Left blank on purpose:**
+  * Sanxing's 1,400: printed unchanged from 1922 to 1938, so a stale figure.
+  * Mengzi's 1938 figure, 193,004, against 38,562 seven years before: a
+    district total.
+  * Hunchun's 1930 figure: 39,000 and 5,303 in different volumes.
+  * Okaya's 1940 estimate, 27,900, against 41,333 at the 1935 census: the 1942
+    size uses the 1935 census instead.
+  * Nemuro: still a 町, so it carries the town census.
+  * Fushimi: a city only from 1929 to 1931, so it is on the 1930 map and not
+    on the 1942 one. Its 1930 figure is the census 速報.
+* **Where the coordinates come from:**
+  * Mostly from each place's English Wikipedia article.
+  * For places since merged, from the station or castle article: Takada, Fuse,
+    Higashi-Maizuru.
+  * GeoNames (`data/ignored/cities500.txt`) where Wikipedia gives a modern seat
+    rather than the old town. That is Kiryū (Wikipedia was 15 km off),
+    Tieling, Qinhuangdao, Tengyue and Longkou.
+  * Every place was checked against GeoNames where it has one. The larger
+    distances were all homonyms.
+* **Polity in 1942:**
+  * Chinese places follow `occupied-zone-1942.geojson`.
+  * The exception is Tengyue, which the zone does not reach. It was held from
+    May 1942 to September 1944, so it is `Occupied China` on the 1942 map and
+    `Free China` in `polity_1940`.
+* **Names.**
+  * `ja` is shinjitai for Japan.
+  * The twelve with a pre-war form in print carry `ja_kyu`, with source `print`.
+  * `瀬→瀨 巻→卷 帯→帶 条→條` were added to `SAFE` in `tools/kyujitai.py`,
+    because 日本都市年鑑 prints Seto, Ishinomaki, Obihiro and Sanjō that way.
+  * Chinese places keep 龍 in `ja`, as 九龍 does, because 竜 is in `NEVER`.
+  * `ko` comes from the Korean Wikipedia title with 시/구/현 dropped. It is
+    left blank for the four places renamed since (Tengyue, Sanxing, Dadonggou,
+    Sanduao).
+  * Sanduao has no English article, so no link.
+* **Card notes:** one sentence each in `city-names.md`, in a new group at the
+  foot. **These are mine, not the author's, and are for the author to review.**
+* **Wikipedia:** the first pass, at 0.2 s between calls, got HTTP 429 after
+  eleven pages. `docs/wikipedia.md` is the guidance now, and CLAUDE.md points
+  to it.
+* **Line endings:** the four CSVs are CRLF. The first write turned them into
+  LF and rewrote every line. They were rebuilt as HEAD plus the new rows, so
+  the diff is only additions.
+
+Tests:
+* `names.js` has a section for the batch:
+  - every one small in 1930;
+  - Fushimi only in 1930;
+  - the twelve medium in 1942;
+  - two Wakamatsus in Kyūshū and in Aizu;
+  - Tengyue occupied and Longjing in Manchukuo;
+  - names, characters and notes.
+  
+  40 passing.
+* `hanlabels.js` lists 若松 among the names that are rightly written twice.
+* `quick` and `points`: 909 checks across 28 scripts, 47.1 s, all passing.
+* `names`: 217 checks across 7 scripts. The one failure was the 若松 pair, fixed
+  as above, and `hanlabels` then passed 43 of 43.
+
+Screenshots of the 1942 map over central Japan and over Kyūshū show the dots in
+place.
+
+`quick` before release: 845 checks across 25 scripts, 35.8 s, all passing.
+Released as update 385.
