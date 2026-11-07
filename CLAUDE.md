@@ -127,46 +127,58 @@ Two details that are easy to get wrong:
   to hand the same spec over, or it will be exported by scraping the DOM —
   which gives whatever the reader last sorted it into.
 
-## Run the tests the change can reach, not all of them
+## Run the set the change can reach, from the menu, not the whole suite
 
-Six minutes is too long to spend on every edit, and running everything every
-time is a way of *not deciding* rather than a way of being careful. The scripts
-are grouped by what they guard, and the runner picks from what git says moved:
+The whole suite is five minutes on a quiet machine and ten on a busy one, and
+it was being run after almost every step. **That is over.** The scripts are in
+a menu of sets, one per part of the map; choose the one or two a change can
+reach, and run `quick` before a push.
 
 ```
-node tools/test/all.js smoke           # the sixty-second tripwire, before any push
-node tools/test/all.js changed --dry   # what it would run, and why
-node tools/test/all.js changed         # run that
-node tools/test/all.js core            # one group by name
-node tools/test/all.js                 # everything: before a release
+node tools/test/all.js menu            # the sets, what each guards, what each costs
+node tools/test/all.js quick           # under a minute: after any change, before a push
+node tools/test/all.js tables names    # one or more sets by name
+node tools/test/all.js changed --dry   # what git says moved, and the groups it reaches
+node tools/test/all.js all             # every script: only when the author asks
 ```
 
-The runner starts the static server itself if nothing answers on 8123 — on a
-free port, so two sessions in one checkout do not fight over it — and runs
-eight scripts at a time on this machine (measured 15 September 2026: the
-scripts are 88–94 per cent asleep, and eight browsers idle together as well
-as four; the whole suite went from 494 s to 264 s with no change of verdict).
-`smoke` is 25 scripts chosen by checks per second with every group
-represented: 645 checks in 37 s. It is a tripwire, not a gate — it leaves out
-the relief, the station layers, the air player, the annotation pane and three
-of the four train networks — and the whole suite still runs before a release.
+The menu (7 November 2026; `menu` prints the current costs, from what they took):
 
-`changed` prints its reasoning — one line per file, naming the groups it
-implicates — because a decision nobody can see is a decision nobody will trust.
+| set | guards | about |
+|---|---|---|
+| `quick` | a bit of everything | 36 s |
+| `tables` | printed tables from the address, every kind | 108 s (`tablelink` alone 103) |
+| `names` | the label placer, categories, sub-unit and local names, the finder | 43 s |
+| `panels` | what floats over the map, phone and wide: panels, keys, menus, strip, zoom | 83 s (`overlap` 78) |
+| `population` | population layers, cards, tables, island colours | 53 s |
+| `themes` | Burma, the military divisions, the census languages | 141 s (`military` 136) |
+| `shapes` | ownership of shapes, clipping, projections, backings, islands | 89 s (`relief` 84) |
+| `points` | city and site dots, the menu off a shape, routes | 32 s |
+| `railways` | the four networks, Japan's lines, stations, sugar, ferries | 165 s (`trains` 160) |
+| `air` | air routes, airlines, the plane player | 136 s (`airplay` 131) |
+| `address` | the address, bookmarks, cache keys, the date, layer notes | 66 s |
+| `annotations` | the reader's drawing tools | 55 s |
 
-**Anything unrecognised runs everything.** A new file, a rename, a tool nobody
-thought about: the tree does not get to shrug. It narrows only on paths it has
-been taught, and the teaching is `TRIGGERS` in `tools/test/all.js`, where it
-can be read and argued with. When you add a file that tests care about, add the
-rule.
+**How to choose.** `quick` always. Add the set for the part of the map the
+change is in: a table-link change is `tables`, a label change `names`, a new
+floating panel `panels`. Two sets are fine; four means the change is too big or
+the choice is not being made. The whole suite (`all`) runs **only when the
+author asks for it**, not before every release.
 
-The two most expensive scripts guard the two least-changed things — `stations`
-takes 147 seconds and `relief` 140, and between them they are a fifth of the
-suite. Neither is reached by an edit to `map.js`, which is what changes hourly.
-That is the whole saving, and it is why the groups are drawn where they are.
+**Every script is in at least one set.** `menuCheck` in `tools/test/all.js`
+refuses to run if one is not, so a new script must be added to `MENU` there,
+and to `MAP` or `ANN` as before. `smoke` is the old name of `quick` and still
+works.
 
-**Still run the whole suite before a release**, and whenever the tree's answer
-surprises you.
+**Read the times as medians.** One run at a load average of 62 made every
+script five to twenty times slower. The runner's estimates are now the median
+of each script's last five runs; quote what the set took, and say when the
+machine was busy.
+
+The runner starts the static server itself if nothing answers on 8123, on a
+free port, and runs eight scripts at a time. `changed` still prints its
+reasoning per file, and anything it does not recognise reaches everything; it
+is a guide to which sets to choose, not a command to run all it names.
 
 ### Wait for the map, not for a number of seconds
 

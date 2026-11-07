@@ -56,6 +56,8 @@ window.JMAP_TABLE = function (host) {
   /* Up to this many places the key lists each one with its figure, because five
      classes cut from six figures say less than the six figures do. */
   const FEW = 8;
+  /* How long a province table waits for the sheet its provinces are in. */
+  const ADMIN_WAIT_MS = 20000;
   /* How the five classes are cut, as the key's dropdown offers them. The choice
      goes into the address as `tk=`, beside `t=`, so a shared link draws the same
      map; quantiles, the default, are left out of it. */
@@ -1455,6 +1457,12 @@ window.JMAP_TABLE = function (host) {
       try {
         const raw = await inflate(fragment);
         if (raw && raw.v !== 1) console.warn('Table payload version', raw.v, '— reading as v1');
+        /* Provinces are placed by asking the document which shape each is drawn
+           in, so the sheet that holds them has to be there first. Not forever:
+           past the limit the table is read with what has arrived. */
+        if (raw && SUB_KINDS.has(raw.units)) {
+          await Promise.race([host.whenAdmin(), new Promise((r) => setTimeout(r, ADMIN_WAIT_MS))]);
+        }
         parsed = normalise(raw);
       } catch (err) {
         // the address has moved on while this was inflating: it is not the reader's now

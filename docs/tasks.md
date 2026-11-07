@@ -23850,3 +23850,50 @@ under a load average of 62, all passing.
 
 Released as update 383 without the whole suite, at the author's request. The last
 whole-suite run was before update 382.
+
+## 236. A menu of test sets, and `quick` under a minute
+
+Asked for: a curated set under 60 s, and a menu of sets to choose from by what a change
+reaches, with the whole suite kept for when it is asked for.
+
+* Measured first. The per-script times the runner kept were from the latest run, and
+  the latest run (00:35, load average 62) had made every script 5–20× slower:
+  `twpop1930` 13 s → 242 s. As medians of each script's last runs the whole suite is
+  about 2,440 script-seconds, 5 minutes on 8 workers.
+* `quick`: 25 scripts chosen by checks per second, with every area covered and the
+  new table scripts in. Two runs: 842 checks, 36.2 s and 35.2 s, all passing.
+  `smoke` is now another name for it. The old `smoke` held `twpop1930` and nothing for
+  the table links.
+* `MENU` in `tools/test/all.js`: twelve sets (quick, tables, names, panels,
+  population, themes, shapes, points, railways, air, address, annotations), runnable
+  by name, singly or several, and `all`. `node tools/test/all.js menu` prints each
+  set, what it guards and its cost on 8 workers, naming the one slow script where
+  there is one. `menuCheck` refuses to run if a script is in no set; it caught `beta`,
+  removed in 228.
+* The runner's estimates are the median of each script's last five runs, not the last.
+* CLAUDE.md: the testing section is now the menu. Run `quick` and the set or sets a
+  change reaches; the whole suite only when the author asks. The release note in
+  memory says the same.
+
+## 237. A province table read before its provinces had arrived
+
+Reported: 統監府 1908 p0089_3 (Korea, barley by province) said "None of this table's
+rows could be placed" on froginawell.net. The payload was sound: 13 provinces, keys
+the map has. Reproduced there in a headless browser, but not locally. The provinces of
+China, Korea and Manchukuo are in the administrative sheet (1.7 MB), fetched on its
+own. `table-link.js` asked the document which atom each province is drawn in, to
+choose the date, before that sheet had landed: every row looked undrawn. A local
+server delivers it first; froginawell did not. My probe for 235 had found the keys
+"with Administrative off" only because the sheet had already been fetched by then.
+
+`map.js` has `whenAdmin()`, settled when the sheet is grafted or the fetch fails, and
+the host passes it on. A province table now waits for it, for 20 s at most
+(`ADMIN_WAIT_MS`). `tableprov.js` delays the sheet 3 s for this link. It failed with
+the wait taken out (2 checks) and passes with it (50 checks).
+
+The Pages deploy of update 383 timed out on GitHub's side again (syncing_files, 10
+minutes) and was rerun.
+`quick` and `tables` together: 1,027 checks across 26 scripts, 107.1 s (bound by
+`tablelink`), load average 29, all passing.
+
+236 and 237 released as update 384, after `quick` and `tables` (above).

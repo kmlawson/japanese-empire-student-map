@@ -16,7 +16,7 @@
  * It fetches nothing from the statistics site. */
 'use strict';
 const zlib = require('zlib');
-const { sleep, calm, check, report, launch, open } = require('./suite.js');
+const { sleep, calm, check, report, launch, open, ready, BASE } = require('./suite.js');
 
 const encode = o => zlib.deflateRawSync(Buffer.from(JSON.stringify(o), 'utf8'), { level: 9 })
   .toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -45,6 +45,10 @@ const TW_SHU = {"v":1,"src":{"url":"https://kmlawson.github.io/playground-stat-t
 
 /* From the map's own data/population/taiwan-1930.csv, as the spec says a table of this kind is sent. */
 const TW_GUN = {"v":1,"src":{"url":"https://kmlawson.github.io/playground-stat-tables/book/test/#tw","path":"book/test/#tw"},"title":{"en":"Taiwan, resident population, end of 1930 (taiwan-district)"},"volume":{"title":"test","year":"1931"},"date":"1930-12-31","period":"1930","units":"taiwan-district","cols":[{"name":"人口","en":"Population","unit":"人","kind":"count","pc":true},{"name":"男100に對する女","en":"Males per 100 females","kind":"rate"}],"def":0,"rows":[{"id":"TwTaito","label":"臺東廳","v":[47542,107.82]},{"id":"TwKarenko","label":"花蓮港廳","v":[75300,116.01]},{"id":"TwHoko","label":"澎湖廳","v":[62721,94.47]},{"id":"TwTaihoku","label":"臺北市","v":[240435,108.5]},{"id":"TwKirunShi","label":"基隆市","v":[78214,108.55]},{"id":"TwShichisei","label":"七星郡","v":[99969,105.77]},{"id":"TwTansui","label":"淡水郡","v":[48459,110.31]},{"id":"TwKirun","label":"基隆郡","v":[87726,114.39]},{"id":"TwGiran","label":"宜蘭郡","v":[93047,111.59]},{"id":"TwRato","label":"羅東郡","v":[63753,107.5]},{"id":"TwSuo","label":"蘇澳郡","v":[15359,113.14]},{"id":"TwBunzan","label":"文山郡","v":[58529,110.65]},{"id":"TwKaizan","label":"海山郡","v":[92116,105.98]},{"id":"TwShinsho","label":"新莊郡","v":[55876,106.99]},{"id":"TwShinchikuShi","label":"新竹市","v":[45867,100.27]},{"id":"TwShinchiku","label":"新竹郡","v":[106331,103.76]},{"id":"TwChureki","label":"中壢郡","v":[96005,109.49]},{"id":"TwToen","label":"桃園郡","v":[80711,106.27]},{"id":"TwDaikei","label":"大溪郡","v":[50228,103.69]},{"id":"TwChikuto","label":"竹東郡","v":[65704,102.22]},{"id":"TwChikunan","label":"竹南郡","v":[82683,100.53]},{"id":"TwByoritsu","label":"苗栗郡","v":[114234,98.6]},{"id":"TwTaiko","label":"大湖郡","v":[27619,108.4]},{"id":"TwTaichu","label":"臺中市","v":[55347,115.17]},{"id":"TwDaiton","label":"大屯郡","v":[89742,104.43]},{"id":"TwToyohara","label":"豐原郡","v":[81823,100.7]},{"id":"TwTosei","label":"東勢郡","v":[39606,102.94]},{"id":"TwTaikou","label":"大甲郡","v":[126455,101.29]},{"id":"TwShoka","label":"彰化郡","v":[172889,101.2]},{"id":"TwInrin","label":"員林郡","v":[155136,105.56]},{"id":"TwHokuto","label":"北斗郡","v":[114824,101.54]},{"id":"TwNanto","label":"南投郡","v":[80130,104.59]},{"id":"TwNiitaka","label":"新高郡","v":[25343,112.75]},{"id":"TwNoko","label":"能高郡","v":[37113,110.52]},{"id":"TwTakeyama","label":"竹山郡","v":[37606,105.97]},{"id":"TwTainan","label":"臺南市","v":[98114,109.25]},{"id":"TwKagiShi","label":"嘉義市","v":[58276,107.59]},{"id":"TwNiitoyo","label":"新豐郡","v":[92476,101.42]},{"id":"TwShinka","label":"新化郡","v":[79424,101.68]},{"id":"TwSobun","label":"曾文郡","v":[68267,101.5]},{"id":"TwHokumon","label":"北門郡","v":[115931,101.56]},{"id":"TwShinei","label":"新營郡","v":[97718,102.65]},{"id":"TwKagi","label":"嘉義郡","v":[136131,107.33]},{"id":"TwToroku","label":"斗六郡","v":[91429,103.87]},{"id":"TwKobi","label":"虎尾郡","v":[116077,101.44]},{"id":"TwHokuko","label":"北港郡","v":[91418,106.06]},{"id":"TwToseki","label":"東石郡","v":[134744,104.76]},{"id":"TwTakaoShi","label":"高雄市","v":[62633,112.52]},{"id":"TwOkayama","label":"岡山郡","v":[121825,104.55]},{"id":"TwHozan","label":"鳳山郡","v":[87355,104.79]},{"id":"TwKizan","label":"旗山郡","v":[66402,101.51]},{"id":"TwHeito","label":"屏東郡","v":[92190,104.93]},{"id":"TwChoshu","label":"潮州郡","v":[71695,100.13]},{"id":"TwToko","label":"東港郡","v":[79727,104.61]},{"id":"TwKoshun","label":"恆春郡","v":[26638,103.5]}],"total":null,"unplaced":["蕃地"]};
+
+/* From the tables site's korea-tokanfu-1908 p0089_3: the link that was refused on
+   froginawell.net, where the province sheet arrived after the table was read. */
+const KOREA_1908 = {"v":1,"src":{"url":"https://froginawell.net/reference/old-tables/book/korea-tokanfu-1908/#p0089_3","path":"book/korea-tokanfu-1908/#p0089_3","book":"korea-tokanfu-1908","table":"p0089_3"},"title":{"ja":"韓國大麥推定產額","en":"Estimated Barley Production in Korea"},"volume":{"title":"第一次統監府統計年報 1908","year":"1908","en":"Tōkanfu tōkei nenpō (Statistical Annual of the Residency-General of Korea), first annual, mainly 明治39年 (1906)"},"date":"1908","period":"1930","part":null,"units":"korea-province","cols":[{"name":"耕作段別 (町)","unit":"","kind":"other","pc":false,"color":"seq"},{"name":"產額 (石)","unit":"","kind":"count","pc":true,"color":"seq"},{"name":"價額 (圓)","unit":"","kind":"amount","pc":false,"color":"seq"},{"name":"產額百分比例","unit":"","kind":"rate","pc":false,"color":"seq"},{"name":"平均一石ニ付價格 (圓)","unit":"","kind":"rate","pc":false,"color":"seq"},{"name":"平均一段步ニ付收量 (石)","unit":"","kind":"rate","pc":false,"color":"seq"}],"def":0,"rows":[{"id":"Keiki","label":"京畿道","row":0,"v":[19336.0,348048,1392192,11.69,4.0,1.8]},{"id":"Chuseinan","label":"忠淸南道","row":1,"v":[22548.0,541152,1948147,18.17,3.6,2.4]},{"id":"Chuseihoku","label":"忠淸北道","row":2,"v":[8914.0,196108,705989,6.58,3.6,2.2]},{"id":"Zenranan","label":"全羅南道","row":3,"v":[19305.0,308880,1142856,10.37,3.7,1.6]},{"id":"Zenrahoku","label":"全羅北道","row":4,"v":[15344.0,260848,965138,8.76,3.7,1.7]},{"id":"Keishonan","label":"慶尙南道","row":5,"v":[14900.0,208600,834400,7.0,4.0,1.4]},{"id":"Keishohoku","label":"慶尙北道","row":6,"v":[20293.0,263809,1002474,8.86,3.8,1.3]},{"id":"Kokai","label":"黃海道","row":7,"v":[10392.0,145488,538306,4.89,3.7,1.4]},{"id":"Kogen","label":"江原道","row":8,"v":[5009.0,45081,171308,1.51,3.8,0.9]},{"id":"Heiannan","label":"平安南道","row":9,"v":[17206.0,172060,653828,5.78,3.8,1.0]},{"id":"Heianhoku","label":"平安北道","row":10,"v":[7733.0,85063,323239,2.86,3.8,1.1]},{"id":"Kankyonan","label":"咸鏡南道","row":11,"v":[20702.0,227722,910888,7.65,4.0,1.1]},{"id":"Kankyohoku","label":"咸鏡北道","row":12,"v":[14590.0,175080,700320,5.88,4.0,1.2]}],"total":{"label":"總計","row":13,"v":[196272.0,2977939,11289085,100.0,3.791,1.517]},"unplaced":[],"notes":[]};
 
 const up = p => p.waitForFunction(() => !!document.getElementById('tbl-flag') || /Table not shown/.test(document.getElementById('info').innerText),
   { timeout: 30000 }).catch(() => {});
@@ -126,6 +130,28 @@ const RAMP = ['#dfeaf4', '#c3d6e8', '#8fb4d4', '#5286b4', '#1f5b8f'];
   tip = at ? await hover(c, at) : '';
   check('  and still answers', /陝西|Shensi/.test(tip), tip);
   await c.close();
+
+  console.log('\n— a province sheet that arrives late —');
+  /* As froginawell.net served it: the administrative sheet, which is where the
+     provinces are, landing seconds after the table is read. */
+  const late = await b.newPage();
+  await late.setViewport({ width: 1280, height: 800 });
+  late.__errs = [];
+  late.on('pageerror', e => late.__errs.push(String(e)));
+  await late.setRequestInterception(true);
+  late.on('request', req => {
+    if (/japan-empire-map-admin\.svg/.test(req.url())) setTimeout(() => req.continue(), 3000);   // a slow server
+    else req.continue();
+  });
+  await late.goto(BASE + link(KOREA_1908, '123.8,33.0,131.2,43.2'), { waitUntil: 'domcontentloaded' });
+  await ready(late);
+  await up(late);
+  await calm(late);
+  card = await cardText(late);
+  check('a province table waits for the sheet its provinces are in', !/Table not shown/.test(card) && /Barley/.test(card), card.slice(0, 200));
+  check('  and then shades all thirteen', await late.evaluate(() => document.querySelectorAll('#land path.pop-shaded').length) >= 13);
+  check('  with no page errors', late.__errs.length === 0, late.__errs.join(' | '));
+  await late.close();
 
   console.log('\n— Korea, by province —');
   const k = await open(b, link(KOREA, '124,33,131,43.5'), { width: 1280, height: 800 });

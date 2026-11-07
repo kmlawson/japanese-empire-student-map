@@ -2,7 +2,7 @@
 /* Run every test the project has, several at a time.
  *
  *     node tools/test/all.js                 # all of them
- *     node tools/test/all.js smoke           # the sixty-second tripwire
+ *     node tools/test/all.js quick           # under sixty seconds: after a change, before a push
  *     node tools/test/all.js changed         # what the working tree's edits reach
  *     node tools/test/all.js taiwan labels   # only these
  *     node tools/test/all.js map             # only the map suites
@@ -141,17 +141,33 @@ const fileFor = n => /^run/.test(n)
  */
 
 const GROUPS = {
-  /* **The tripwire, not the gate.** Twenty-six scripts chosen by checks per
-     second with every group represented and nothing over eighteen seconds:
-     657 checks, a quarter of the suite's, for an eighth of its time — measured
-     at 58 s with four jobs and 36 s with eight. Run before any push. What it
-     deliberately leaves out: the relief raster, the station layers, the air
-     player, the annotation pane and three of the four train networks. `full`
-     still gates a release. */
-  smoke: ['owns', 'dei', 'layerfind', 'provsource', 'taiwanpop', 'bookmarks',
-          'cache-keys', 'zoom', 'mono', 'labuan', 'sugar', 'subnames', 'projclip',
-          'pointsize', 'taiwan', 'labels', 'korea', 'backings', 'krtrains',
-          'twpop1930', 'colours', 'manchupop', 'theme', 'menu', 'run7'],
+  /* **The everyday set: under sixty seconds, run after a change and before a
+     push.** Chosen on 7 November 2026 from each script's median time over its
+     recent runs (one run under a load average of 62 had made every script five
+     to twenty times slower, and a table of those figures is a table of the
+     machine, not of the tests). Twenty-five scripts, about 272 script-seconds,
+     none over 32: on eight workers it is bound by the sum, not by one script.
+
+     By what it guards: the table links (prefectures and territories, cities,
+     provinces and countries); the map's own interaction (the owner of every
+     shape, names, the zoom, Labuan's two taps, the single-colour map, the
+     label placer, sub-unit names, a thematic layer); points; population
+     figures and tables; the address and the cache keys; two train networks;
+     Taiwan's geometry; one annotation script.
+
+     What it leaves out, deliberately, being slow: `tablelink` (103 s; the
+     table bar, menu, classes and islands are in `tableshapes`), `overlap`,
+     `census`, `military`, the relief, the stations, the air player and
+     airlines, three train networks, and all but one annotation script. The
+     whole suite has them; it is run when the author asks for it.
+
+     `smoke` is the old name, kept so that old notes still work. */
+  quick: ['tableshapes', 'tablecity', 'tableprov',
+          'owns', 'layerfind', 'zoom', 'labuan', 'mono', 'labels', 'subnames', 'theme',
+          'menu', 'pointsize',
+          'poptables', 'population', 'taiwanpop', 'twpop1930', 'dei',
+          'bookmarks', 'cache-keys', 'provsource',
+          'sugar', 'krtrains', 'taiwan', 'run7'],
 
   /* The map's own interaction — what a pointer, a key or a switch does. This
      is what `map.js` changes touch, and `map.js` changes hourly. */
@@ -188,6 +204,59 @@ const GROUPS = {
 
   ann: ANN,
 };
+GROUPS.smoke = GROUPS.quick;      // the old name for the same set
+
+/* **The menu: choose the set the change can reach.** One set per part of the
+   map, each named for what it guards, so that a change to the train tools runs
+   the train tests and not the census of India's languages. `node tools/test/
+   all.js menu` lists them with what each costs, from what they took; run one by
+   name, or several (`tables names`), or `all`. `quick` is the default for any
+   change; the whole suite is for when the author asks for it.
+
+   Every script is in at least one set: `menuCheck` below refuses to run if one
+   is not, so a new script cannot go unreachable from the menu. Where a set is
+   slow, it is because one of its scripts is, and the menu says which. */
+const MENU = [
+  { name: 'quick', what: 'everyday: a bit of everything, after any change and before a push',
+    scripts: GROUPS.quick },
+  { name: 'tables', what: 'printed tables from the address: prefectures, territories, cities, provinces, countries',
+    scripts: ['tablelink', 'tableshapes', 'tablecity', 'tableprov', 'poptables'] },
+  { name: 'names', what: 'names on the map: the label placer, categories, sub-unit and local names, the finder',
+    scripts: ['labels', 'labelcats', 'subnames', 'names', 'hanlabels', 'layerfind', 'legendpick'] },
+  { name: 'panels', what: 'what floats over the map, on a phone and wide: panels, keys, menus, the strip, the zoom',
+    scripts: ['overlap', 'menu', 'keys', 'mapstrip', 'picture', 'zoom', 'pin', 'colours', 'mono'] },
+  { name: 'population', what: 'population layers, their cards and tables, and the islands that take their colour',
+    scripts: ['population', 'poptables', 'japanpop', 'taiwanpop', 'twpop1930', 'manchupop', 'demography', 'korea'] },
+  { name: 'themes', what: 'thematic layers from the book: Burma, the military divisions, the census languages',
+    scripts: ['theme', 'burma', 'military', 'census'] },
+  { name: 'shapes', what: 'territories, provinces and islands: who owns a shape, clipping, projections, backings',
+    scripts: ['owns', 'provsource', 'taiwan', 'indochina', 'dei', 'islands', 'backings', 'projclip', 'clipping',
+      'extent', 'labuan', 'subnames', 'relief'] },
+  { name: 'points', what: 'cities and sites: dot sizes, the menu off a shape, routes, pressing a city',
+    scripts: ['pointsize', 'islands', 'menu', 'routes', 'citytap'] },
+  { name: 'railways', what: 'the railways and train tools: four networks, Japan’s lines, stations, sugar, ferries',
+    scripts: ['trains', 'krtrains', 'kftrains', 'mntrains', 'jprails', 'stations', 'sugar', 'ferries', 'citytap'] },
+  { name: 'air', what: 'air routes, airlines and the plane player',
+    scripts: ['air', 'airlines', 'airplay', 'arcs'] },
+  { name: 'address', what: 'the address and what it keeps: layers, bookmarks, cache keys, the date, layer notes',
+    scripts: ['layers-url', 'bookmarks', 'cache-keys', 'epoch', 'layerinfo'] },
+  { name: 'annotations', what: 'the reader’s own drawing tools: Create and Load',
+    scripts: ANN },
+];
+const MENU_BY = {};
+MENU.forEach(m => { MENU_BY[m.name] = m; });
+
+(function menuCheck() {
+  const inMenu = {};
+  MENU.forEach(m => m.scripts.forEach(n => { inMenu[n] = true; }));
+  const missing = MAP.concat(ANN).filter(n => !inMenu[n]);
+  const unknown = MENU.reduce((a, m) => a.concat(m.scripts.filter(n => MAP.indexOf(n) < 0 && ANN.indexOf(n) < 0)), []);
+  if (missing.length || unknown.length) {
+    if (missing.length) console.error('\n  In no set of the menu: ' + missing.join(' ') + '\n  Add each to MENU in all.js.');
+    if (unknown.length) console.error('\n  In the menu but not a script: ' + unknown.join(' '));
+    process.exit(2);
+  }
+})();
 
 /* Path → groups. First match wins; `null` means "this cannot break a test"
    and anything not matched at all means "run everything". Ordered most
@@ -533,6 +602,14 @@ else if (pick.length === 1 && pick[0] === 'changed') {
     process.exit(0);
   }
   list = got.list;
+} else if (pick.length === 1 && (pick[0] === 'all' || pick[0] === 'full')) {
+  list = MAP.concat(ANN);
+} else if (pick.length === 1 && pick[0] === 'menu') {
+  list = null;                    // printed below, once the times are read
+} else if (pick.every(a => MENU_BY[a])) {
+  // one set of the menu, or several: their scripts, each once
+  list = [];
+  pick.forEach(a => MENU_BY[a].scripts.forEach(n => { if (list.indexOf(n) < 0) list.push(n); }));
 } else if (pick.length === 1 && GROUPS[pick[0]]) list = GROUPS[pick[0]];
 else list = pick.map(a => (/^\d+$/.test(a) ? 'run' + (a === '1' ? '' : a) : a));
 
@@ -558,10 +635,40 @@ const SECS = {};
       .map(l => { try { return JSON.parse(l); } catch (e) { return null; } })
       .filter(r => r && Array.isArray(r.per));
   } catch (e) { return; }
+  /* The median of a script's last five runs, not its last: one run on a
+     machine at a load average of 62 made every script five to twenty times
+     slower, and the next estimate believed it. */
+  const seen = {};
   recs.forEach(r => r.per.forEach(p => {
-    if (p.f !== null && p.s > 0) SECS[p.n] = p.s;   // file order: the last run wins
+    if (p.f !== null && p.s > 0) (seen[p.n] = seen[p.n] || []).push(p.s);
   }));
+  Object.keys(seen).forEach(n => {
+    const h = seen[n].slice(-5).sort((a, b) => a - b);
+    SECS[n] = h[Math.floor(h.length / 2)];
+  });
 })();
+
+/* The menu: each set, what it guards, and what it should take on eight
+   workers, from the times above: the longer of its longest script and its
+   total shared out. */
+if (list === null) {
+  const jobs = Math.max(2, Math.min(8, parseInt(process.env.JOBS, 10) || ((os.cpus().length || 4) - 2)));
+  const est = l => {
+    const sum = l.reduce((a, n) => a + (SECS[n] || 0), 0);
+    const top = l.reduce((a, n) => ((SECS[n] || 0) > (SECS[a] || 0) ? n : a), l[0]);
+    return { secs: Math.round(Math.max(SECS[top] || 0, sum / jobs) + 5), top };
+  };
+  console.log('\n  node tools/test/all.js <set> [<set> …]   — or `all` for every script, '
+    + Math.round(est(MAP.concat(ANN)).secs) + 's\n');
+  MENU.forEach(m => {
+    const e = est(m.scripts);
+    const slow = (SECS[e.top] || 0) > 45 ? '  (' + e.top + ' alone ' + Math.round(SECS[e.top]) + 's)' : '';
+    console.log('  ' + (m.name + '            ').slice(0, 12) + ('~' + e.secs + 's     ').slice(0, 7)
+      + (m.scripts.length + ' scripts  ').padStart(12) + m.what + slow);
+  });
+  console.log('');
+  process.exit(0);
+}
 list = list.slice().sort((a, b) => (SECS[b] || 0) - (SECS[a] || 0));
 
 const KEY = runKey(list);

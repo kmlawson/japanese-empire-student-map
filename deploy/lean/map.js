@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '383';
+  var JEM_VERSION = '384';
 
 
 
@@ -9711,6 +9711,9 @@
   function tlinkHost() {
     return {
       blank: POP_BLANK,
+
+
+      whenAdmin: whenAdmin,
 
       cities: function (epoch) { return (JMAP.GAZ && JMAP.GAZ[epoch]) || []; },
 
@@ -20566,6 +20569,27 @@
       .catch(function () { koreaFineState = 'failed'; });
   }
 
+
+
+
+
+
+
+
+  var adminWaiters = [];
+  function whenAdmin() {
+    if (adminState === 'ready') return Promise.resolve(true);
+    return new Promise(function (resolve) {
+      adminWaiters.push(resolve);
+      loadAdmin();
+    });
+  }
+  function adminSettled(ok) {
+    var waiting = adminWaiters;
+    adminWaiters = [];
+    waiting.forEach(function (resolve) { resolve(ok); });
+  }
+
   function loadAdmin() {
 
     if (adminState === 'loading' || adminState === 'ready') return;
@@ -20624,6 +20648,7 @@
 
       liftThemeSubs();
       if (selected) select(selected);
+      adminSettled(true);
     };
     if (window.JMAP_INLINE_ADMIN) { graft(window.JMAP_INLINE_ADMIN); return; }
     fetchText('japan-empire-map-admin.svg')
@@ -20633,6 +20658,7 @@
 
         adminState = 'failed';
         setAdminBusy();
+        adminSettled(false);
       });
   }
 

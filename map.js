@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '383';
+  var JEM_VERSION = '384';
 
   /* Every file this one fetches, with the version on it.
 
@@ -9711,6 +9711,9 @@
   function tlinkHost() {
     return {
       blank: POP_BLANK,
+      /* Resolves once the administrative sheet, and so every province, is in
+         the document. */
+      whenAdmin: whenAdmin,
       /* The gazetteer of one date: where each city is, and its censuses. */
       cities: function (epoch) { return (JMAP.GAZ && JMAP.GAZ[epoch]) || []; },
       /* The keys a province table of one kind may name, and one key's record. */
@@ -20566,6 +20569,27 @@
       .catch(function () { koreaFineState = 'failed'; });
   }
 
+  /* **Something that needs the provinces can wait for them.** A table from the
+     address names provinces of China, Korea or Manchukuo, which are in this
+     sheet and nowhere else; read before it lands, every one of them looked
+     undrawn and the table was refused. It was not seen here because a local
+     server delivers the sheet before the table is read, and froginawell.net
+     did not (7 November 2026). Settled with `false` if the fetch fails, so
+     nothing waits on a sheet that is not coming. */
+  var adminWaiters = [];
+  function whenAdmin() {
+    if (adminState === 'ready') return Promise.resolve(true);
+    return new Promise(function (resolve) {
+      adminWaiters.push(resolve);
+      loadAdmin();
+    });
+  }
+  function adminSettled(ok) {
+    var waiting = adminWaiters;
+    adminWaiters = [];
+    waiting.forEach(function (resolve) { resolve(ok); });
+  }
+
   function loadAdmin() {
     // 'failed' is retried, 'loading' and 'ready' are left alone
     if (adminState === 'loading' || adminState === 'ready') return;
@@ -20624,6 +20648,7 @@
       // after applyState, which lifts for whatever the pointer has
       liftThemeSubs();
       if (selected) select(selected);
+      adminSettled(true);
     };
     if (window.JMAP_INLINE_ADMIN) { graft(window.JMAP_INLINE_ADMIN); return; }
     fetchText('japan-empire-map-admin.svg')
@@ -20633,6 +20658,7 @@
         // next press retries
         adminState = 'failed';
         setAdminBusy();
+        adminSettled(false);
       });
   }
 

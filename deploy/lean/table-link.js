@@ -57,6 +57,8 @@ window.JMAP_TABLE = function (host) {
 
   const FEW = 8;
 
+  const ADMIN_WAIT_MS = 20000;
+
 
 
   const METHODS = [['quantile', 'Quantiles'], ['jenks', 'Natural Breaks'],
@@ -1455,6 +1457,12 @@ window.JMAP_TABLE = function (host) {
       try {
         const raw = await inflate(fragment);
         if (raw && raw.v !== 1) console.warn('Table payload version', raw.v, '— reading as v1');
+
+
+
+        if (raw && SUB_KINDS.has(raw.units)) {
+          await Promise.race([host.whenAdmin(), new Promise((r) => setTimeout(r, ADMIN_WAIT_MS))]);
+        }
         parsed = normalise(raw);
       } catch (err) {
 
