@@ -96,8 +96,7 @@ yet", with the source link. **Publish territory links only once the live map has
 
 Each row is one of the map's own city ids (`data/cities-1930.csv`, `cities-1942.csv`),
 looked up in the gazetteer of the table's `period` and then the other date's. The
-ground is not painted; the land goes pale while the table is up so the points are
-what is read.
+ground is not painted, and the map keeps its own colours under the points.
 
 * **Sizes or Colours**, the reader's choice in a dropdown under the key, left of the
   class dropdown (`ts=` in the address). Sizes are five classes as five sizes of circle

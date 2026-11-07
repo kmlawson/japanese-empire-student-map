@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '381';
+  var JEM_VERSION = '382';
 
 
 
@@ -9693,7 +9693,6 @@
     if (tlinkPts && tlinkPts.parentNode) tlinkPts.parentNode.removeChild(tlinkPts);
     tlinkPts = null;
     scalables = scalables.filter(function (s) { return !s.tbl; });
-    if (svg) svg.classList.toggle('tbl-cities', !!(list && list.length));
     if (!list || !list.length || !svg) return;
     tlinkPts = svgEl('g', { id: 'tbl-points' });
     if (labelLayer && labelLayer.parentNode === svg) svg.insertBefore(tlinkPts, labelLayer);

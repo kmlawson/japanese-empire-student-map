@@ -5331,14 +5331,11 @@ body.bar-folded #bar {
   stroke: rgba(18, 15, 10, .5);
   stroke-width: .8;
 }
-/* Under a table of cities the ground is pale, so the points are what is read:
-   a dark circle on Japan proper's red is lost. */
-#jmap.tbl-cities #land { opacity: .38; }
 /* A table of cities: points, sized in screen pixels by the map. A circle's area
    is the figure, so it is see-through enough to show the ones it overlaps. */
 #tbl-points .tbl-pt { cursor: pointer; pointer-events: all; }
 #tbl-points .hit { fill: transparent; stroke: none; }
-/* a dot's pale end of the ramp needs a dark edge to be seen on pale ground */
+/* a dot's pale end of the ramp needs a dark edge to be seen on a pale country */
 #tbl-points .mk { stroke: rgba(18, 15, 10, .6); stroke-width: 1; }
 #tbl-points .mk.round { fill-opacity: .72; stroke: #fff; stroke-width: .8; }
 #tbl-points .mk.none, #tbl-points .mk.zero { fill: #fff; stroke: #1f5b8f; stroke-width: 1.2; }

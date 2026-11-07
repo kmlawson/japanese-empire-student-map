@@ -23796,3 +23796,16 @@ across 63 scripts, 248.7 s, all passing. Not released.
 
 Whole suite before release: 3,115 checks across 78 scripts, 311.8 s, all passing.
 232 and 233 released together as update 381.
+
+## 234. A table of cities no longer dims the map
+
+Asked for: the land not paled under a table of cities. Removed `#jmap.tbl-cities #land
+{ opacity: .38 }` and the class that switched it on in `tlinkSetPoints`. `tablecity.js`
+now checks that `#land` is at full opacity with the table up and after Remove.
+`tablecity` 56 and `tableshapes` 83 passing. `tablelink` gave no report in the run of
+all three (189.4 s, normally about 100 s), then passed alone: 182 checks, 122.3 s. It is
+the stall seen under load before, not a failing check.
+
+Whole suite before release: 3,049 checks across 78 scripts, 570.5 s, with load average
+94 over five minutes. All passed but `stations`, which hit the 300 s limit (normally
+about 147 s); alone it passed, 66 checks, 128.4 s. Released as update 382.

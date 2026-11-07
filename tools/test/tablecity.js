@@ -248,8 +248,8 @@ async function setProjection(p, proj) {
   check('the table opens, not the card saying it cannot', !/Table not shown|cannot draw/.test(card) && /Special Account Expenditure/.test(card), card.slice(0, 200));
   const n = await m.evaluate(() => document.querySelectorAll('#tbl-points .tbl-pt').length);
   check('a point for every city placed', n === YEN.rows.length, n + ' of ' + YEN.rows.length);
-  check('no ground is painted, and the ground is pale', await m.evaluate(() =>
-    !document.querySelector('#land path.pop-shaded') && document.getElementById('jmap').classList.contains('tbl-cities')));
+  check('no ground is painted, and the map is not dimmed', await m.evaluate(() =>
+    !document.querySelector('#land path.pop-shaded') && getComputedStyle(document.getElementById('land')).opacity === '1'));
   const pickers = () => m.evaluate(() => ({
     style: document.getElementById('tbl-style') && document.getElementById('tbl-style').value,
     method: document.getElementById('tbl-classes') && document.getElementById('tbl-classes').value,
@@ -367,7 +367,7 @@ async function setProjection(p, proj) {
   await h.evaluate(() => [...document.querySelectorAll('#legend .cen-chip')].find(x => /Remove/.test(x.textContent)).click());
   await calm(h);
   check('Remove takes the points away, and the ground is itself again', await h.evaluate(() =>
-    !document.getElementById('tbl-points') && !document.getElementById('jmap').classList.contains('tbl-cities')));
+    !document.getElementById('tbl-points') && getComputedStyle(document.getElementById('land')).opacity === '1'));
   check('  and the address with them, the settings too', !/t=|tk=|ts=/.test(await h.evaluate(() => location.hash)), await h.evaluate(() => location.hash));
   await h.close();
 
