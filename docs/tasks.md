@@ -93,6 +93,37 @@ has to be measured twice.
 
 ## Done
 
+### 187. The place card links to the statistics site's Population page
+
+The tables site (Old Tables of East Asia) gained a Population page on 7 November
+2026 (`figures/population.html`), which gathers every population figure its
+tables print for a place, year by year, with links to the tables. Its place ids
+were frozen from this map's gazetteer, so the card can point at the same place.
+
+Changed: `map.js` gets `fillFiguresLink`, called beside `fillPopCard` when a card
+opens. It fetches the page's index once (`data/population/index.json`) from the
+tables site on the map's own host — `/playground-stat-tables/` on github.io,
+`/reference/old-tables/` on froginawell.net, same-origin either way — and adds one line under the census figures — *Every population figure
+for Keiki-dō in Old Tables of East Asia (153)* — only when that place has
+figures there. Ids: `c-` + city id, `kr-`/`tw-`/`mk-` (spaces dropped)/`cn-`/
+`ss-`/`si-` + sub-unit key, territories by id (colonies mapped to the page's
+`korea`, `taiwan` …), prefectures by name to `jp` + JIS code. A request made
+for a card that has since been replaced is ignored (`data-for`).
+
+Measured: the id matching was run in node against the real index for fifteen
+places (Keiki, Aomori, Hokkaidō, Tōkyō prefecture and city, Taihoku-shū,
+Fengtien, Anhui, the Marianas, Saipan, Seoul, Taipei, Chōsen, Formosa, Hong
+Kong) and each found its page.
+
+Fixed before release: the first version fetched `https://froginawell.net/…` by
+full URL, which the page's `connect-src 'self'` blocked — on every host, live
+included — and ten checks across five scripts (census, tablelink, military,
+overlap, run3) failed on the violation. The fetch is now a same-origin path,
+and on any host but those two (a local preview, the tests) nothing is fetched,
+so the policy is unchanged and the tests make no request off the machine.
+Full suite after the fix: 3171 checks across 79 scripts, all passing (301 s). **Unverified:** the line in
+the browser and with a finger, since it can only show on the deployed host.
+
 ### 186. The release run, and the one failure that was the harness
 
 Recorded because a green claim needs its caveat attached. The whole suite

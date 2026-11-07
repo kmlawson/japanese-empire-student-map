@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '385';
+  var JEM_VERSION = '386';
 
 
 
@@ -11579,6 +11579,8 @@
 
     fillPopCard(sub ? (lastProv && lastProv.key) : id, primary);
 
+    fillFiguresLink(sub ? (lastProv && lastProv.key) : id, !!sub, primary);
+
     fillTrainCard(byId[id]);
     collapseInfo();
 
@@ -18974,6 +18976,85 @@
     row.appendChild(k);
     row.appendChild(v);
     host.appendChild(row);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const FIGS_ROOT = /(^|\.)github\.io$/.test(location.hostname) ? '/playground-stat-tables/'
+    : /(^|\.)froginawell\.net$/.test(location.hostname) ? '/reference/old-tables/'
+    : null;
+  const FIGS_TOP = { japan: 'japan', chosen: 'korea', formosa: 'taiwan', karafuto: 'karafuto',
+    kwantung: 'kwantung', nanyo: 'nanyo', mandate_jp: 'nanyo', china: 'china', manchuria: 'manchuria' };
+  let figsIndex = null;
+
+  function figsFold(s) {
+    return String(s || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().replace(/[^a-z0-9\u3400-\u9fff]+/g, '');
+  }
+
+  function figsPlace(places, key, sub) {
+    if (!key) return null;
+    const k = String(key);
+    const tries = sub
+      ? ['kr-' + k, 'tw-' + k, 'mk-' + k.replace(/\s+/g, ''), 'cn-' + k, 'ss-' + k, 'si-' + k]
+
+
+      : [FIGS_TOP[k], 'w-' + k, 'c-' + k, 'si-' + k];
+    const hit = tries.find((t) => t && places[t] && places[t][10] > 0);
+    if (hit) return hit;
+    if (!sub) return null;
+
+    const f = figsFold(k);
+    return Object.keys(places).find((id) => /^jp\d\d$/.test(id)
+      && figsFold(places[id][0]) === f && places[id][10] > 0) || null;
+  }
+
+  function fillFiguresLink(key, sub, name) {
+    const pop = $('#info-pop');
+    if (!pop || !pop.parentNode) return;
+    let line = $('#info-figs');
+    if (!line) {
+      line = document.createElement('p');
+      line.id = 'info-figs';
+      line.className = 'note-src';
+      pop.parentNode.insertBefore(line, pop.nextSibling);
+    }
+    line.hidden = true;
+    line.textContent = '';
+    const ask = (sub ? 'sub:' : 'id:') + (key || '');
+    line.setAttribute('data-for', ask);
+    if (!key || !FIGS_ROOT) return;
+    if (!figsIndex) {
+      figsIndex = fetch(FIGS_ROOT + 'data/population/index.json')
+        .then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    }
+    figsIndex.then((d) => {
+      if (!d || !d.places) return;
+      const pid = figsPlace(d.places, key, sub);
+
+      if (!pid || line.getAttribute('data-for') !== ask || line.textContent) return;
+      const a = document.createElement('a');
+      a.href = FIGS_ROOT + 'figures/population.html#p=' + encodeURIComponent(pid);
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = 'Every population figure for ' + (name || d.places[pid][0])
+        + ' in Old Tables of East Asia (' + d.places[pid][10].toLocaleString('en-US') + ')';
+      line.appendChild(a);
+      line.hidden = false;
+    });
   }
 
 
