@@ -23809,3 +23809,44 @@ the stall seen under load before, not a failing check.
 Whole suite before release: 3,049 checks across 78 scripts, 570.5 s, with load average
 94 over five minutes. All passed but `stations`, which hit the 300 s limit (normally
 about 147 s); alone it passed, 66 checks, 128.4 s. Released as update 382.
+
+## 235. Every kind of table the statistics site links: provinces, districts, island groups, countries
+
+Asked for: support for every kind of table the site sends, leaving off the map whatever
+it does not have. The site's `maplinks.json` holds 2,171 links: `city` 693,
+`china-province` 573, `prefecture` 292, `nanyo-group` 285, `korea-province` 204,
+`manchukuo-province` 103, `territory` 17, `country` 4. About 1,170 had opened on "cannot
+draw yet". The spec also defines `taiwan-prefecture` and `taiwan-district`, which no
+link uses yet; both are supported.
+
+* Every id in the real payloads decoded from the site's published links is a key the
+  map already draws, in both dates, Administrative on or off (measured). China, Korea,
+  Manchukuo and the South Seas groups are shaded by key through `popFills`. Taiwan's
+  eight 州・廳 are not drawn, so each 郡/市 takes its 州's colour.
+* `texts/territories/sub-units/taiwan.csv` has a new `shu` column for each of its 55
+  districts and cities. 44 come from the opening line of each note ("In Taihoku-shū
+  (臺北州).") and 15 were filled by key. The counts are Taihoku 11, Shinchiku 9,
+  Taichū 12, Tainan 12, Takao 8 and one each for the three 廳.
+* `build_texts.py` writes `JMAP.SUB_SETS`, the keys each kind may name.
+* `table-link.js` has the kinds, the choice of date, the South Seas dots, per head from
+  the map's own population sets, country atoms by date with Siam/Thailand, and
+  "N rows … not on the map".
+* `map.js`: the host gains `subSet`, `subUnit`, `records`, `epochAtoms`, `epoch`,
+  `atomOfKey`, `keyLonLat` and `popCaption`. `applyPop` now runs for a table of whole
+  territories, which gave no keyed fills and so had painted nothing.
+* The site's data is wrong in one link: The Far East Year Book 1941 IMG_5332_1 sends a
+  "Year" column whose every figure is 1,937, so the year went out as a figure. Not
+  changed here.
+
+Checked by eye on real tables of each kind, wide: China (Peking 1921), Korea (年鑑 1940),
+Manchukuo (1936), the South Seas (行政年報 1929), two country tables, and Taiwan at both
+levels from the map's own end-1930 figures.
+
+Tests: new `tools/test/tableprov.js` (core, in `MAP`), 47 checks across all the kinds,
+including the date chosen, white for no row, the unplaced line and names, a hover and
+a press, a zoom, per head, Siam for Thailand, and a finger.
+`changed` (core, data, geometry, links, points): 2,052 checks across 52 scripts, 391.3 s
+under a load average of 62, all passing.
+
+Released as update 383 without the whole suite, at the author's request. The last
+whole-suite run was before update 382.

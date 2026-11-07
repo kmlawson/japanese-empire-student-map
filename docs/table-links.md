@@ -120,3 +120,32 @@ ground is not painted, and the map keeps its own colours under the points.
 * **`unplaced`** (printed names the site could not match), with any row whose id the map
   does not have: "N cities in the table are not on the map." in the key, with the names
   in the card and the CSV.
+
+## Provinces, districts, island groups and countries (the site's spec section 4c)
+
+`china-province`, `korea-province`, `manchukuo-province`, `nanyo-group`,
+`taiwan-prefecture` and `taiwan-district` name the map's own sub-unit keys, from
+`texts/territories/sub-units/` (`JMAP.SUB_SETS`, built by `build_texts.py`).
+`country` names the map's territory records (`texts/territories/<date>.csv`).
+
+* **Shaded through the population layer's pass**, by key, so islands take their
+  province's colour. Every shape of the set is drawn, and a province without a row
+  is white, as an absent prefecture is. Figures go on the provinces where they fit.
+* **Taiwan's prefectures** are not shapes of their own: each 郡 and 市 takes its
+  州's colour, by the `shu` column of `taiwan.csv`. The demarcated 蕃地 is in none
+  and stays white. A prefecture is outlined as its districts.
+* **The South Seas groups** are islands too small to show a colour, so each is also a
+  dot at its label point, coloured, to hover and press.
+* **A country is its atoms on the date's map**: `britishindia` is India, the Andamans
+  and Burma in 1930 and India alone in 1942. Siam answers for Thailand and the other
+  way round. It needs no province sheet.
+* **The date**: the table's `period`, unless the other date's map places more of its
+  rows. Manchukuo's provinces exist only on the 1942 map, and a 1941 table naming
+  "China" and "Manchuria" names the 1930 map's records. What the date cannot place is
+  added to `unplaced`.
+* **What is not on the map** is "N rows in the table are not on the map." These lists
+  hold "Peking", "Grand total" and "Dependencies" as often as provinces.
+* **Per head** where the map has figures of its own: Korea (1930 census, 1942
+  estimate), Taiwan (resident population at the ends of 1930 and 1941, prefectures and
+  districts), Manchukuo (the count of May 1943). China, the South Seas groups and
+  countries have none and get no per-head view.

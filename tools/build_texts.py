@@ -1030,6 +1030,29 @@ def build_data_js():
         ns.update(notes("territories", "sub-units", name[:-4] + ".md"))
     parts.append("JMAP.PROVINCES = {\n%s\n};" % keyed(rows, ns, snippets))
 
+    # **Which keys a table from the address may name**, by its `units` (the
+    # statistics site's MAPLINK_SPEC section 4c): the keys of one sub-unit file.
+    # Taiwan's file holds both levels; the `shu` column says which 州 or 廳 a
+    # 市 or 郡 was in, so a prefecture is any key a row names there and a
+    # district any key that names one.
+    by_file = {name: [r["key"] for r in load("territories", "sub-units", name)]
+               for name in groups}
+    tw = load("territories", "sub-units", "taiwan.csv")
+    sets = {
+        "china-province": by_file["china.csv"],
+        "korea-province": by_file["korea.csv"],
+        "manchukuo-province": by_file["manchukuo.csv"],
+        "nanyo-group": by_file["mandate-groups.csv"],
+        "taiwan-prefecture": sorted({r["shu"] for r in tw if r.get("shu")}),
+        "taiwan-district": [r["key"] for r in tw if r.get("shu")],
+    }
+    for name, keys in sets.items():
+        if not keys:
+            raise Problem("JMAP.SUB_SETS: %s has no keys; its file has moved" % name)
+    parts.append("JMAP.SUB_SETS = {\n%s\n};" % "\n".join(
+        "  %s: [%s]," % (T.js_string(n), ", ".join(T.js_string(k) for k in ks))
+        for n, ks in sets.items()))
+
     # ------------------------------------------------- the air routes
     # Two files because a route and its stops are two shapes of thing: one row
     # per service, and one row per place it called at, in order. `id` on a stop

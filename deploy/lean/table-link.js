@@ -33,6 +33,9 @@
 
 
 
+
+
+
 'use strict';
 
 window.JMAP_TABLE = function (host) {
@@ -119,6 +122,28 @@ window.JMAP_TABLE = function (host) {
   const SIZE_R = [3.5, 6, 9, 12.5, 17];
   const CIRCLE = '#1f5b8f';
   const CENSUSES = [1920, 1930, 1940];
+
+
+
+
+  const SUB_KINDS = new Set(['china-province', 'korea-province', 'manchukuo-province',
+    'nanyo-group', 'taiwan-prefecture', 'taiwan-district']);
+
+  const NOUNS = {
+    city: ['city', 'cities'],
+  };
+
+
+
+
+  const POP_FOR = {
+    'korea-province': [['korea-1930', 1930.75], ['korea-1942', 1942.75]],
+    'taiwan-prefecture': [['taiwan-1930', 1930.99], ['taiwan-1941', 1941.99]],
+    'taiwan-district': [['taiwan-1930', 1930.99], ['taiwan-1941', 1941.99]],
+    'manchukuo-province': [['manchukuo-1943', 1943.37]],
+  };
+
+  const COUNTRY_ALIAS = new Map([['thailand', 'siam'], ['siam', 'thailand']]);
 
   const RECORD_PLACE = new Map([['formosa', 'taiwan']]);
 
@@ -221,6 +246,30 @@ window.JMAP_TABLE = function (host) {
   }
 
 
+  function shortJa(ja) { return text(String(ja || '').replace(/\s*\(.*$/, ''), 60); }
+
+
+  function countryAtoms(pl, ep) {
+    if (!pl || !pl.atoms) return [];
+    if (pl.atoms[ep] && pl.atoms[ep].length) return pl.atoms[ep];
+    const alias = COUNTRY_ALIAS.get(pl.id);
+    const other = alias && T && T.cities ? T.cities.get(alias) : null;
+    return (other && other.atoms[ep]) || [];
+  }
+
+  function placedOn(units, pl, ep) {
+    if (!pl) return false;
+    if (units === 'country') {
+      if (pl.atoms[ep] && pl.atoms[ep].length) return true;
+      const alias = COUNTRY_ALIAS.get(pl.id);
+      return !!(alias && host.records(ep).some((r) => r.id === alias));
+    }
+    if (units === 'taiwan-prefecture') return true;
+    const atom = host.atomOfKey(pl.id);
+    return !!atom && host.epochAtoms(ep).has(atom);
+  }
+
+
 
   const DATE = /^\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?)?$/;
   function normalise(p) {
@@ -237,6 +286,29 @@ window.JMAP_TABLE = function (host) {
           cities.set(c.id, { id: c.id, city: true, en: text(c.n, 120), ja: '', lon: c.lon, lat: c.lat,
             cen: Array.isArray(c.cen) ? c.cen : null });
         }
+      }));
+    }
+
+    if (SUB_KINDS.has(p.units)) {
+      cities = new Map();
+      host.subSet(p.units).forEach((k) => {
+        const rec = host.subUnit(k) || {};
+        const pl = { id: k, sub: true, en: text(rec.en, 120) || k, ja: shortJa(rec.ja) };
+        if (p.units === 'taiwan-prefecture') pl.shu = true;
+        else pl.key = k;
+        cities.set(k, pl);
+      });
+    }
+
+
+    if (p.units === 'country') {
+      cities = new Map();
+      ['e1930', 'e1942'].forEach((ep) => host.records(ep).forEach((r) => {
+        if (typeof r.id !== 'string') return;
+        const pl = cities.get(r.id) || { id: r.id, country: true, en: text(r.en, 120) || r.id, ja: '', atoms: {}, names: {} };
+        pl.atoms[ep] = Array.isArray(r.atoms) ? r.atoms.slice() : [];
+        pl.names[ep] = text(r.en, 120);
+        cities.set(r.id, pl);
       }));
     }
     const allowed = cities || UNITS.get(p.units);
@@ -261,6 +333,25 @@ window.JMAP_TABLE = function (host) {
       const v = Array.isArray(r.v) ? r.v : [];
       rows.set(r.id, { id: r.id, label: text(r.label, 120), cells: cols.map((c, i) => readCell(v[i])) });
     });
+
+
+
+
+    let period = p.period === '1930' || p.period === '1942' ? p.period : '';
+    if (cities && p.units !== 'city') {
+      const first = period || '1930';
+      const other = first === '1930' ? '1942' : '1930';
+      const placed = (ep) => Array.from(rows.keys()).filter((id) => placedOn(p.units, cities.get(id), 'e' + ep)).length;
+      period = placed(other) > placed(first) ? other : first;
+      if (p.units === 'country') {
+        cities.forEach((pl) => { if (pl.names && pl.names['e' + period]) pl.en = pl.names['e' + period]; });
+      }
+      Array.from(rows.keys()).forEach((id) => {
+        if (placedOn(p.units, cities.get(id), 'e' + period)) return;
+        lost.push(rows.get(id).label || cities.get(id).en);
+        rows.delete(id);
+      });
+    }
     if (!rows.size) throw Object.assign(new Error('empty'), { src: sourceLink(p.src) });
     const title = p.title && typeof p.title === 'object' ? p.title : {};
     const vol = p.volume && typeof p.volume === 'object' ? p.volume : {};
@@ -280,7 +371,7 @@ window.JMAP_TABLE = function (host) {
       ja: text(title.ja), en: text(title.en),
       volume: text(vol.title), year: text(vol.year), volumeEn: text(vol.en),
       date: DATE.test(String(p.date)) ? String(p.date) : '',
-      period: p.period === '1930' || p.period === '1942' ? p.period : '',
+      period,
       part: text(p.part), cols, def, rows, total, dropped, cities,
 
 
@@ -301,8 +392,32 @@ window.JMAP_TABLE = function (host) {
   function colLabel(c) { return colName(c) + (c.unit ? ' (' + c.unit + ')' : ''); }
   function isSummable(c) { return c.kind === 'count' || c.kind === 'amount'; }
 
+  function isSub() { return SUB_KINDS.has(T.units); }
+  function isCountry() { return T.units === 'country'; }
+
+  function listsMisses() { return isCity() || isSub() || isCountry(); }
   function allowsPerCapita(c) {
-    return (T.units === 'prefecture' || isCity()) && c.pc && (isSummable(c) || !c.kind);
+    const here = T.units === 'prefecture' || isCity() || !!POP_FOR[T.units];
+    return here && c.pc && (isSummable(c) || !c.kind);
+  }
+
+  function whenOf(i) {
+    const m = /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec((T.cols[i] && T.cols[i].date) || T.date || T.year || '');
+    if (!m) return null;
+    return Number(m[1]) + (m[2] ? (Number(m[2]) - 1 + (m[3] ? Number(m[3]) / 31 : 0.5)) / 12 : 0.5);
+  }
+
+  function popSetFor(i = colAt) {
+    const sets = POP_FOR[T.units];
+    if (!sets) return null;
+    const w = whenOf(i);
+    if (w === null) return sets[0][0];
+    return sets.reduce((a, b) => (Math.abs(w - b[1]) < Math.abs(w - a[1]) ? b : a))[0];
+  }
+
+  function censusLabel(i = colAt) {
+    if (POP_FOR[T.units]) return host.popCaption(popSetFor(i)) || 'population';
+    return censusYear(i) + ' census';
   }
   function perCapitaOn() { return perCapita && allowsPerCapita(T.cols[colAt]); }
 
@@ -318,6 +433,11 @@ window.JMAP_TABLE = function (host) {
     return years.reduce((a, y) => (Math.abs(when - (y + 0.75)) < Math.abs(when - (a + 0.75)) ? y : a), years[0]);
   }
   function peopleOf(place, i = colAt) {
+    if (place && (place.sub || place.shu)) {
+      const rows = host.popRows(popSetFor(i));
+      const r = rows && rows[place.id];
+      return r && r.pop ? r.pop : null;
+    }
     if (place && place.city) {
       const n = place.cen ? place.cen[CENSUSES.indexOf(censusYear(i))] : null;
       return typeof n === 'number' && n > 0 ? n : null;
@@ -503,9 +623,23 @@ window.JMAP_TABLE = function (host) {
   }
 
   function fills() {
-    if (isCity()) return {};
+    if (isCity() || isCountry()) return {};
     const sc = scale();
     const out = {};
+
+
+    if (T.units === 'taiwan-prefecture') {
+      host.subSet('taiwan-district').forEach((k) => {
+        const rec = host.subUnit(k);
+        out[k] = rec && rec.shu ? colourFor(rec.shu, sc) : host.blank;
+      });
+      out.TwBanchi = host.blank;
+      return out;
+    }
+    if (isSub()) {
+      T.cities.forEach((pl, id) => { out[id] = colourFor(id, sc); });
+      return out;
+    }
     if (T.units === 'territory') {
       const c = T.rows.has('naichi') ? colourFor('naichi', sc) : null;
       if (c) PREFECTURES.forEach((p) => { out[p[1]] = c; });
@@ -515,9 +649,16 @@ window.JMAP_TABLE = function (host) {
     return out;
   }
   function wholeFills() {
-    if (isCity()) return {};
+    if (isCity() || isSub()) return {};
     const sc = scale();
     const out = {};
+    if (isCountry()) {
+      T.rows.forEach((r, id) => {
+        const c = colourFor(id, sc);
+        countryAtoms(placeOf(id), host.epoch()).forEach((a) => { out[a] = c; });
+      });
+      return out;
+    }
     PLACES.forEach((pl, id) => { if (pl.atom && T.rows.has(id)) out[pl.atom] = colourFor(id, sc); });
     return out;
   }
@@ -545,6 +686,23 @@ window.JMAP_TABLE = function (host) {
 
   function placeAt(provKey, recId, el) {
     if (isCity()) return null;        // the ground does not answer for a city
+    if (isCountry()) {
+      if (T.rows.has(recId)) return recId;
+      const alias = COUNTRY_ALIAS.get(recId);
+      return alias && T.rows.has(alias) ? alias : null;
+    }
+    if (isSub()) {
+
+      const keys = [provKey, host.figuresFrom(provKey), host.groupPartOf(el)];
+      for (const k of keys) {
+        if (!k) continue;
+        if (T.units === 'taiwan-prefecture') {
+          const rec = host.subUnit(k);
+          if (rec && rec.shu && T.cities.has(rec.shu)) return rec.shu;
+        } else if (T.cities.has(k)) return k;
+      }
+      return null;
+    }
     const code = CODE_OF_KEY.get(provKey) || CODE_OF_KEY.get(host.figuresFrom(provKey))
       || CODE_OF_KEY.get(host.groupPartOf(el)) || CODE_OF_KEY.get(host.atomPartOf(recId));
 
@@ -557,8 +715,9 @@ window.JMAP_TABLE = function (host) {
     const p = placeOf(id);
     const row = T.rows.get(id);
 
-    const ja = p.city ? (row && row.label) || '' : p.ja;
-    return ja && ja !== p.en ? p.en + ' ' + ja : p.en;
+    const ja = p.city ? (row && row.label) || '' : p.ja || (p.country ? (row && row.label) || '' : '');
+
+    return ja && !p.en.includes(ja) ? p.en + ' ' + ja : p.en;
   }
 
   function sharePct(row, i) {
@@ -616,8 +775,11 @@ window.JMAP_TABLE = function (host) {
 
 
 
+
+
+  function pointsToo() { return T.units === 'nanyo-group'; }
   function drawPoints() {
-    if (!T || !isCity()) { host.setPoints([]); return; }
+    if (!T || !(isCity() || pointsToo())) { host.setPoints([]); return; }
     const sc = scale();
     const round = circles();
     const prop = propNow();
@@ -628,6 +790,10 @@ window.JMAP_TABLE = function (host) {
     const list = [];
     T.rows.forEach((r, id) => {
       const pl = placeOf(id);
+      if (pl && pl.sub && !Number.isFinite(pl.lon)) {
+        const ll = host.keyLonLat(id);
+        if (ll) { pl.lon = ll.lon; pl.lat = ll.lat; }
+      }
       if (!pl || !Number.isFinite(pl.lon) || !Number.isFinite(pl.lat)) return;
       const v = shown(id);
       list.push({ id, pl, v, r: v === null ? 0 : round ? sizeOf(v) : R_DOT });
@@ -663,13 +829,13 @@ window.JMAP_TABLE = function (host) {
     }
     const c = T.cols[colAt];
     if (named) wrap.appendChild(mk('span', 'tbl-tip-name', placeOf(id).en));
-    else if (placeOf(id).proper) wrap.appendChild(mk('span', 'tbl-tip-label', placeName(id)));
+    else if (placeOf(id).proper || placeOf(id).shu || placeOf(id).country) wrap.appendChild(mk('span', 'tbl-tip-label', placeName(id)));
 
     if (row.label && !(named && row.label === placeOf(id).en)) wrap.appendChild(mk('span', 'tbl-tip-label', row.label));
     wrap.appendChild(mk('span', 'tbl-tip-val', row.cells[colAt].t + (row.cells[colAt].n !== null && c.unit ? ' ' + c.unit : '')));
     if (perCapitaOn()) {
       const pc = perCapitaText(id, colAt);
-      wrap.appendChild(mk('span', 'tbl-tip-sub', pc ? pc + ', ' + censusYear() + ' census' : 'No population figure'));
+      wrap.appendChild(mk('span', 'tbl-tip-sub', pc ? pc + ', ' + censusLabel() : 'No population figure'));
     }
     const share = sharePct(row, colAt);
     if (share) wrap.appendChild(mk('span', 'tbl-tip-sub', share + ' of the printed total'));
@@ -679,7 +845,8 @@ window.JMAP_TABLE = function (host) {
   function unplacedCount() { return T.unplaced ? T.unplaced.length : 0; }
   function unplacedLine() {
     const n = unplacedCount();
-    return n ? n + (n === 1 ? ' city' : ' cities') + ' in the table ' + (n === 1 ? 'is' : 'are') + ' not on the map.' : '';
+    const noun = NOUNS[T.units] || ['row', 'rows'];
+    return n ? n + ' ' + noun[n === 1 ? 0 : 1] + ' in the table ' + (n === 1 ? 'is' : 'are') + ' not on the map.' : '';
   }
 
 
@@ -1060,7 +1227,7 @@ window.JMAP_TABLE = function (host) {
         h.appendChild(bars(list.slice(0, 10), (r) => placeCard(r.id)));
       }
       T.notes.forEach((n) => h.appendChild(mk('p', 'tbl-note', n)));
-      if (isCity()) {
+      if (listsMisses()) {
         if (unplacedCount()) {
           const names = T.unplaced.slice(0, 40).join(', ') + (unplacedCount() > 40 ? ', …' : '');
           h.appendChild(mk('p', 'tbl-note tbl-unplaced', unplacedLine().replace(/\.$/, ': ') + names + '.'));
@@ -1136,7 +1303,7 @@ window.JMAP_TABLE = function (host) {
           h.appendChild(ul);
         });
         if (T.cols.some((c, i) => allowsPerCapita(c) && perCapitaText(id, i))) {
-          h.appendChild(mk('p', 'tbl-note', 'Per person figures use the ' + censusYear() + ' census'
+          h.appendChild(mk('p', 'tbl-note', 'Per person figures use the ' + censusLabel()
             + (isCity() ? ' of the city.' : '.')));
         }
       }
@@ -1155,6 +1322,21 @@ window.JMAP_TABLE = function (host) {
     if (pl.city) {
       const g = document.querySelector('#tbl-points .tbl-pt[data-id="' + CSS.escape(id) + '"]');
       if (g) { g.classList.add('tbl-sel'); marked = [g]; }
+      return;
+    }
+
+    if (pl.shu || pl.country) {
+      const shapes = [];
+      if (pl.shu) {
+        host.subSet('taiwan-district').forEach((k) => {
+          const rec = host.subUnit(k);
+          if (rec && rec.shu === id) host.shapesOf({ key: k }).forEach((el) => shapes.push(el));
+        });
+      } else {
+        countryAtoms(pl, host.epoch()).forEach((a) => host.shapesOf({ atom: a }).forEach((el) => shapes.push(el)));
+      }
+      shapes.forEach((el) => el.classList.add('tbl-sel'));
+      marked = shapes;
       return;
     }
     const shapes = host.shapesOf(pl);
@@ -1181,7 +1363,7 @@ window.JMAP_TABLE = function (host) {
     const cols = [{ head: 'Place', text: true }];
     T.cols.forEach((c) => {
       cols.push({ head: colLabel(c) });
-      if (allowsPerCapita(c)) cols.push({ head: colName(c) + ' per ' + fmt(PER) + ' people (' + censusYear(T.cols.indexOf(c)) + ' census)' });
+      if (allowsPerCapita(c)) cols.push({ head: colName(c) + ' per ' + fmt(PER) + ' people (' + censusLabel(T.cols.indexOf(c)) + ')' });
     });
     const rows = [];
     T.rows.forEach((r, id) => {
@@ -1209,7 +1391,7 @@ window.JMAP_TABLE = function (host) {
       });
     }
     T.notes.forEach((n) => notes.push(n));
-    if (isCity() && unplacedCount()) notes.push(unplacedLine().replace(/\.$/, ': ') + T.unplaced.join(', ') + '.');
+    if (listsMisses() && unplacedCount()) notes.push(unplacedLine().replace(/\.$/, ': ') + T.unplaced.join(', ') + '.');
     notes.forEach((n) => wrap.appendChild(mk('p', 'pop-note', '* ' + n)));
     const citation = [T.volume, T.year, T.ja].filter(Boolean).join(', ');
     const source = citation + (T.src ? '. ' + T.src.url : '');
@@ -1370,7 +1552,7 @@ window.JMAP_TABLE = function (host) {
       body.appendChild(mk('p', 'cen-key-title', what));
       if (perCapitaOn()) {
         body.appendChild(mk('p', 'cen-key-note', 'Per ' + fmt(PER) + ' people, using the '
-          + censusYear() + ' census' + (isCity() ? ' of each city.' : '. Colonies are left out.')));
+          + censusLabel() + (isCity() ? ' of each city.' : T.units === 'prefecture' ? '. Colonies are left out.' : '.')));
       }
       const row = (colour, label) => {
         const r = mk('div', 'item pop-key-row');
@@ -1460,8 +1642,9 @@ window.JMAP_TABLE = function (host) {
         if (seen.has('unreadable')) row(UNREADABLE, 'Unreadable in the scan');
       }
 
-      if (T.units === 'prefecture') row(host.blank, 'No data');
-      if (isCity() && unplacedCount()) body.appendChild(mk('p', 'cen-key-note tbl-key-unplaced', unplacedLine()));
+      if (T.units === 'prefecture' || (isSub() && (T.units === 'taiwan-prefecture'
+        || T.cities.size > T.rows.size))) row(host.blank, 'No data');
+      if (listsMisses() && unplacedCount()) body.appendChild(mk('p', 'cen-key-note tbl-key-unplaced', unplacedLine()));
       if (method === 'log' && sc.method === 'quantile') {
         body.appendChild(mk('p', 'cen-key-note', 'Logarithmic needs figures above nought, so quantiles are shown.'));
       }
@@ -1485,7 +1668,7 @@ window.JMAP_TABLE = function (host) {
       return T ? { col: colAt, perCapita: perCapitaOn(), census: censusYear(),
         rows: T.rows.size, dropped: T.dropped, card: cardNow, units: T.units,
         scaleCols: scaleCols(), stepCols: stepCols(), few: few(), method, breaks: scale().breaks,
-        circles: circles(), proportional: propNow(), style: styleNow(), unplaced: unplacedCount(),
+        circles: circles(), proportional: propNow(), style: styleNow(), unplaced: unplacedCount(), period: T.period,
         points: document.querySelectorAll('#tbl-points .tbl-pt').length } : null;
     },
   };

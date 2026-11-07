@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '382';
+  var JEM_VERSION = '383';
 
   /* Every file this one fetches, with the version on it.
 
@@ -9713,6 +9713,43 @@
       blank: POP_BLANK,
       /* The gazetteer of one date: where each city is, and its censuses. */
       cities: function (epoch) { return (JMAP.GAZ && JMAP.GAZ[epoch]) || []; },
+      /* The keys a province table of one kind may name, and one key's record. */
+      subSet: function (units) { return (JMAP.SUB_SETS && JMAP.SUB_SETS[units]) || []; },
+      subUnit: function (key) {
+        return key && JMAP.PROVINCES && Object.prototype.hasOwnProperty.call(JMAP.PROVINCES, key)
+          ? JMAP.PROVINCES[key] : null;
+      },
+      /* A date's territory records, and every atom they are drawn as. */
+      records: function (epoch) { return (JMAP.TERRITORIES && JMAP.TERRITORIES[epoch]) || []; },
+      epochAtoms: function (epoch) {
+        var out = new Set();
+        ((JMAP.TERRITORIES && JMAP.TERRITORIES[epoch]) || []).forEach(function (r) {
+          (r.atoms || []).forEach(function (a) { out.add(a); });
+        });
+        return out;
+      },
+      epoch: function () { return state.epoch; },
+      /* Where a sub-unit's figure would hang, as a longitude and latitude: the
+         label anchor of its largest piece. For the South Seas groups, whose
+         islands are too small to see a colour on, as a point to draw. */
+      keyLonLat: function (key) {
+        var best = null, area = -1;
+        $$('#land [data-prov="' + cssEsc(key) + '"]', svg).forEach(function (el) {
+          var a = parseFloat(el.getAttribute('data-area') || '0');
+          if (a > area && el.hasAttribute('data-cx')) { area = a; best = el; }
+        });
+        if (!best) return null;
+        var ll = unproject(parseFloat(best.getAttribute('data-cx')), parseFloat(best.getAttribute('data-cy')));
+        return ll && isFinite(ll.lon) && isFinite(ll.lat) ? ll : null;
+      },
+      /* The atom a sub-unit is drawn in, or null if it is not drawn. */
+      atomOfKey: function (key) {
+        var el = svg ? $('#land [data-prov="' + cssEsc(key) + '"]', svg) : null;
+        var atom = el && el.closest ? el.closest('.atom') : null;
+        return atom && atom.id ? atom.id.replace(/^a-/, '') : null;
+      },
+      /* How a population set names its count: "census of 1 October 1930". */
+      popCaption: function (id) { var d = popSet(id); return d ? d.caption : ''; },
       setPoints: tlinkSetPoints,
       /* The tooltip, filled by the table, for a city of its own. */
       pointTip: function (key, fill, cx, cy) {
@@ -18523,6 +18560,14 @@
     var want = popFills();
     var any = false;
     for (var k in want) { if (want.hasOwnProperty(k)) { any = true; break; } }
+    /* A table of whole territories (countries, colonies as rows) paints atoms
+       and not provinces: it is something to draw, and no reason to fetch the
+       administrative sheet. */
+    var anyWhole = false;
+    if (tlinkOn()) {
+      var wf = tlinkApi.wholeFills();
+      for (var w in wf) { if (wf.hasOwnProperty(w)) { anyWhole = true; break; } }
+    }
     /* The provinces are in the administrative sheet, which is fetched only
        when something asks for it. This asks — for the shading and for the pies
        alike, since a pie is hung off the province's own label anchor: a reader
@@ -18562,7 +18607,7 @@
     drawPies();
     // the figures are rebuilt from whatever is shaded now, on the next gate
     popValuesDirty = true;
-    if (!any || !svg) { drawPopVoid([]); return; }
+    if ((!any && !anyWhole) || !svg) { drawPopVoid([]); return; }
     var blanks = [];
     var litAtom = {};
     $$('#land [data-prov]', svg).forEach(function (el) {

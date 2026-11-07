@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '382';
+  var JEM_VERSION = '383';
 
 
 
@@ -9713,6 +9713,43 @@
       blank: POP_BLANK,
 
       cities: function (epoch) { return (JMAP.GAZ && JMAP.GAZ[epoch]) || []; },
+
+      subSet: function (units) { return (JMAP.SUB_SETS && JMAP.SUB_SETS[units]) || []; },
+      subUnit: function (key) {
+        return key && JMAP.PROVINCES && Object.prototype.hasOwnProperty.call(JMAP.PROVINCES, key)
+          ? JMAP.PROVINCES[key] : null;
+      },
+
+      records: function (epoch) { return (JMAP.TERRITORIES && JMAP.TERRITORIES[epoch]) || []; },
+      epochAtoms: function (epoch) {
+        var out = new Set();
+        ((JMAP.TERRITORIES && JMAP.TERRITORIES[epoch]) || []).forEach(function (r) {
+          (r.atoms || []).forEach(function (a) { out.add(a); });
+        });
+        return out;
+      },
+      epoch: function () { return state.epoch; },
+
+
+
+      keyLonLat: function (key) {
+        var best = null, area = -1;
+        $$('#land [data-prov="' + cssEsc(key) + '"]', svg).forEach(function (el) {
+          var a = parseFloat(el.getAttribute('data-area') || '0');
+          if (a > area && el.hasAttribute('data-cx')) { area = a; best = el; }
+        });
+        if (!best) return null;
+        var ll = unproject(parseFloat(best.getAttribute('data-cx')), parseFloat(best.getAttribute('data-cy')));
+        return ll && isFinite(ll.lon) && isFinite(ll.lat) ? ll : null;
+      },
+
+      atomOfKey: function (key) {
+        var el = svg ? $('#land [data-prov="' + cssEsc(key) + '"]', svg) : null;
+        var atom = el && el.closest ? el.closest('.atom') : null;
+        return atom && atom.id ? atom.id.replace(/^a-/, '') : null;
+      },
+
+      popCaption: function (id) { var d = popSet(id); return d ? d.caption : ''; },
       setPoints: tlinkSetPoints,
 
       pointTip: function (key, fill, cx, cy) {
@@ -18526,6 +18563,14 @@
 
 
 
+    var anyWhole = false;
+    if (tlinkOn()) {
+      var wf = tlinkApi.wholeFills();
+      for (var w in wf) { if (wf.hasOwnProperty(w)) { anyWhole = true; break; } }
+    }
+
+
+
 
 
     if ((any || popPieOn().length) && adminState !== 'ready') loadAdmin();
@@ -18562,7 +18607,7 @@
     drawPies();
 
     popValuesDirty = true;
-    if (!any || !svg) { drawPopVoid([]); return; }
+    if ((!any && !anyWhole) || !svg) { drawPopVoid([]); return; }
     var blanks = [];
     var litAtom = {};
     $$('#land [data-prov]', svg).forEach(function (el) {
